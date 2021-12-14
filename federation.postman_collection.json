@@ -1,0 +1,300 @@
+{
+	"info": {
+		"_postman_id": "dc182659-1da4-40e5-9003-85e987d6c88d",
+		"name": "Fuseki",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "SPARQL Complete Federated Hub",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/sparql-query",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "SELECT ?subject ?predicate ?object\r\nWHERE {\r\n    ?subject ?predicate ?object .\r\n}",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2121/:dataset/sparql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2121",
+					"path": [
+						":dataset",
+						"sparql"
+					],
+					"variable": [
+						{
+							"key": "dataset",
+							"value": "hub"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SPARQL Complete Aspects",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/sparql-query",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\nPREFIX bamm: <urn:bamm:io.openmanufacturing:meta-model:1.0.0#>\r\n\r\nSELECT ?aspect\r\nWHERE {\r\n    {\r\n        SERVICE <http://localhost:2122/hub/query> { \r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n    UNION\r\n    {\r\n        SERVICE <http://localhost:2123/hub/query> { \r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2121/:dataset/query",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2121",
+					"path": [
+						":dataset",
+						"query"
+					],
+					"variable": [
+						{
+							"key": "dataset",
+							"value": "hub"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SPARQL Complete Domain1 Hub",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/sparql-query",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "SELECT ?subject ?predicate ?object\r\nWHERE {\r\n    ?subject ?predicate ?object .\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:2122/:dataset/sparql?default",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2122",
+					"path": [
+						":dataset",
+						"sparql"
+					],
+					"query": [
+						{
+							"key": "default",
+							"value": null
+						}
+					],
+					"variable": [
+						{
+							"key": "dataset",
+							"value": "hub"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SPARQL Upload Domain1 Hub",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/sparql-query",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"description": "Material Model",
+							"type": "file",
+							"src": "/C:/Users/cjung7/Projekte/catenax/BAMMmodels/Material/0.1.1/Material.ttl"
+						},
+						{
+							"key": "graph",
+							"value": "default",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:2122/:dataset/upload",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2122",
+					"path": [
+						":dataset",
+						"upload"
+					],
+					"variable": [
+						{
+							"key": "dataset",
+							"value": "hub"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SPARQL Complete Domain2 Hub",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/sparql-query",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "SELECT ?subject ?predicate ?object\r\nWHERE {\r\n        ?subject ?predicate ?object .\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:2123/:dataset/sparql?default",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2123",
+					"path": [
+						":dataset",
+						"sparql"
+					],
+					"query": [
+						{
+							"key": "default",
+							"value": null
+						}
+					],
+					"variable": [
+						{
+							"key": "dataset",
+							"value": "hub"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SPARQL Upload Domain2 Hub",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/sparql-query",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"description": "Material Model",
+							"type": "file",
+							"src": "/C:/Users/cjung7/Projekte/catenax/BAMMmodels/ProductUsage/0.1.1/ProductUsage.ttl"
+						},
+						{
+							"key": "graph",
+							"value": "default",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:2123/:dataset/upload",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2123",
+					"path": [
+						":dataset",
+						"upload"
+					],
+					"variable": [
+						{
+							"key": "dataset",
+							"value": "hub"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
