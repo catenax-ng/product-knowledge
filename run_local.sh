@@ -27,8 +27,8 @@ DEBUG_OPTIONS=
 DB_FILE=./target
 CLEAN_DB=n
 FUSEKI_CONFIG="config-connector.ttl"
-FUSEKI_PORT=2121
-USE_FUSEKI=true
+FUSEKI_PORT=8181
+USE_FUSEKI=false
 
 for var in "$@"
 do
@@ -39,7 +39,15 @@ do
     ;;
 
   "-build")
-    mvn install -DskipTests -Dmaven.javadoc.skip=true
+    cd jena
+    cd jena-fuseki2
+    mvn install -DskipTests
+    cd ..
+    cd ..
+    cd DataSpaceConnector
+    ./gradlew -Dhttps.proxyHost=${HTTP_PROXYHOST} -Dhttps.proxyPort=${HTTP_PROXYPORT} publishToMavenLocal -x test
+    cd ..
+    ./gradlew -Dhttps.proxyHost=${HTTP_PROXYHOST} -Dhttps.proxyPort=${HTTP_PROXYPORT} build
     ;;
 
   "-suspend")
@@ -54,21 +62,25 @@ do
     "-central")
      FUSEKI_CONFIG="config-federation.ttl"
      FUSEKI_PORT=2121
+     USE_FUSEKI=true
      ;;
 
     "-domain1")
      FUSEKI_CONFIG="config-federated1.ttl"
      FUSEKI_PORT=2122
+     USE_FUSEKI=true
      ;;
 
     "-domain2")
      FUSEKI_CONFIG="config-federated2.ttl"
      FUSEKI_PORT=2123
+     USE_FUSEKI=true
      ;;
 
     "-connector")
      FUSEKI_CONFIG="config-connector.ttl"
      FUSEKI_PORT=2121
+     USE_FUSEKI=true
      ;;
 
     "-edc")
@@ -86,11 +98,11 @@ if [ "$CLEAN_DB" == "y" ]; then
 fi
 
 if [ "$USE_FUSEKI" == "true" ]; then
-  CALL_ARGS="-classpath ../jena/jena-fuseki2/jena-fuseki-server/target/jena-fuseki-server-4.4.0-SNAPSHOT.jar \
+  CALL_ARGS="-classpath jena/jena-fuseki2/jena-fuseki-server/target/jena-fuseki-server-4.4.0-SNAPSHOT.jar \
            $DEBUG_OPTIONS org.apache.jena.fuseki.main.cmds.FusekiMainCmd \
            --config ${FUSEKI_CONFIG} --port ${FUSEKI_PORT} --auth=basic" 
 else
-  CALL_ARGS="$DEBUG_OPTIONS -Dweb.http.port=${FUSEKI_PORT} -jar build/libs/basic-connector.jar" 
+  CALL_ARGS="$DEBUG_OPTIONS -Dweb.http.port=${FUSEKI_PORT} -jar build/libs/sparql-federation.jar" 
 fi
 
 java ${CALL_ARGS}
