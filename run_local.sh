@@ -16,7 +16,7 @@
 #   Windows, (git)-bash shell, java 11 (java) and maven (mvn) in the $PATH.
 #
 # Synposis: 
-#   ./run_local.sh (-build)? (-clean)? (-suspend)? (-debug)? (-central|-domain1|-domain2|-connector|-edc)
+#   ./run_local.sh (-all)? (-build)? (-clean)? (-suspend)? (-debug)? (-central|-domain1|-domain2|-connector|-edc)
 #
 # Comments: 
 #
@@ -27,8 +27,10 @@ DEBUG_OPTIONS=
 DB_FILE=./target
 CLEAN_DB=n
 FUSEKI_CONFIG="config-connector.ttl"
-FUSEKI_PORT=8181
+FUSEKI_PORT=2121
+EDC_PORT=8181
 USE_FUSEKI=false
+BUILD_ALL=false
 
 for var in "$@"
 do
@@ -38,15 +40,21 @@ do
     DEBUG_OPTIONS="-agentlib:jdwp=transport=dt_socket,address=${DEBUG_PORT},server=y,suspend=${DEBUG_SUSPEND}"
     ;;
 
+  "-all")
+    BUILD_ALL=true
+    ;;
+
   "-build")
-    cd jena
-    cd jena-fuseki2
-    mvn install -DskipTests
-    cd ..
-    cd ..
-    cd DataSpaceConnector
-    ./gradlew -Dhttps.proxyHost=${HTTP_PROXYHOST} -Dhttps.proxyPort=${HTTP_PROXYPORT} publishToMavenLocal -x test
-    cd ..
+    if [ "${BUILD_ALL}" == "true" ]; then 
+      cd jena
+      cd jena-fuseki2
+      mvn install -DskipTests
+      cd ..
+      cd ..
+      cd DataSpaceConnector
+      ./gradlew -Dhttps.proxyHost=${HTTP_PROXYHOST} -Dhttps.proxyPort=${HTTP_PROXYPORT} publishToMavenLocal -x test
+      cd ..
+    fi
     ./gradlew -Dhttps.proxyHost=${HTTP_PROXYHOST} -Dhttps.proxyPort=${HTTP_PROXYPORT} build
     ;;
 
@@ -84,8 +92,8 @@ do
      ;;
 
     "-edc")
-     FUSEKI_CONFIG="config-connector.ttl"
-     FUSEKI_PORT=8181
+     EDC_PORT=8181
+     FUSEKI_PORT=2121
      USE_FUSEKI=false
      ;;
 
@@ -102,7 +110,7 @@ if [ "$USE_FUSEKI" == "true" ]; then
            $DEBUG_OPTIONS org.apache.jena.fuseki.main.cmds.FusekiMainCmd \
            --config ${FUSEKI_CONFIG} --port ${FUSEKI_PORT} --auth=basic" 
 else
-  CALL_ARGS="$DEBUG_OPTIONS -Dweb.http.port=${FUSEKI_PORT} -jar build/libs/sparql-federation.jar" 
+  CALL_ARGS="$DEBUG_OPTIONS -Dweb.http.port=${EDC_PORT} -Dcatenax.sparql.endpoint=http://localhost:${FUSEKI_PORT}/%s/query -jar build/libs/sparql-federation.jar"
 fi
 
 java ${CALL_ARGS}

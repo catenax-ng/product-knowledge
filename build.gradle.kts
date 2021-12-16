@@ -20,6 +20,14 @@ plugins {
 
 val jerseyVersion: String by project
 val rsApi: String by project
+val okHttpVersion: String by project
+val javaVersion: String by project
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(javaVersion))
+    }
+}
 
 dependencies {
     implementation("org.eclipse.dataspaceconnector:core:0.0.1-SNAPSHOT")
@@ -31,6 +39,7 @@ dependencies {
     implementation("org.eclipse.dataspaceconnector:iam-mock:0.0.1-SNAPSHOT")
     implementation("org.glassfish.jersey.media:jersey-media-multipart:${jerseyVersion}")
     implementation("jakarta.ws.rs:jakarta.ws.rs-api:${rsApi}")
+    implementation("com.squareup.okhttp3:okhttp:${okHttpVersion}")
 }
 
 application {
