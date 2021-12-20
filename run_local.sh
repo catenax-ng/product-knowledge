@@ -1,4 +1,3 @@
-
 #
 # Copyright (c) 2021 T-Systems International GmbH (Catena-X Consortium)
 #
@@ -16,7 +15,7 @@
 #   Windows, (git)-bash shell, java 11 (java) and maven (mvn) in the $PATH.
 #
 # Synposis: 
-#   ./run_local.sh (-all)? (-build)? (-clean)? (-suspend)? (-debug)? (-central|-domain1|-domain2|-connector|-edc)
+#   ./run_local.sh (-all)? (-build)? (-clean)? (-suspend)? (-debug)? (-central|-tenant1|-tenant2|-complete) (-external|-internal)?
 #
 # Comments: 
 #
@@ -26,11 +25,13 @@ DEBUG_SUSPEND=n
 DEBUG_OPTIONS=
 DB_FILE=./target
 CLEAN_DB=n
-FUSEKI_CONFIG="config-connector.ttl"
+FUSEKI_CONFIG="config-internal.ttl"
 FUSEKI_PORT=2121
 EDC_PORT=8181
 USE_FUSEKI=false
 BUILD_ALL=false
+EDC_CONFIG=central.config
+EDC_ID=urn:connector:central:semantics:catenax:net
 
 for var in "$@"
 do
@@ -47,12 +48,14 @@ do
   "-build")
     if [ "${BUILD_ALL}" == "true" ]; then 
       cd jena
+      git apply ../src/patch/jena.patch
       cd jena-fuseki2
       mvn install -DskipTests
       cd ..
+      git restore .
       cd ..
       cd DataSpaceConnector
-      ./gradlew -Dhttps.proxyHost=${HTTP_PROXYHOST} -Dhttps.proxyPort=${HTTP_PROXYPORT} publishToMavenLocal -x test
+./      ./gradlew -Dhttps.proxyHost=${HTTP_PROXYHOST} -Dhttps.proxyPort=${HTTP_PROXYPORT} publishToMavenLocal -x test
       cd ..
     fi
     ./gradlew -Dhttps.proxyHost=${HTTP_PROXYHOST} -Dhttps.proxyPort=${HTTP_PROXYPORT} build
@@ -70,31 +73,46 @@ do
     "-central")
      FUSEKI_CONFIG="config-federation.ttl"
      FUSEKI_PORT=2121
-     USE_FUSEKI=true
-     ;;
-
-    "-domain1")
-     FUSEKI_CONFIG="config-federated1.ttl"
-     FUSEKI_PORT=2122
-     USE_FUSEKI=true
-     ;;
-
-    "-domain2")
-     FUSEKI_CONFIG="config-federated2.ttl"
-     FUSEKI_PORT=2123
-     USE_FUSEKI=true
-     ;;
-
-    "-connector")
-     FUSEKI_CONFIG="config-connector.ttl"
-     FUSEKI_PORT=2121
-     USE_FUSEKI=true
-     ;;
-
-    "-edc")
+     DEBUG_PORT=8888
      EDC_PORT=8181
+     EDC_CONFIG=central.config
+     EDC_ID=urn:connector:central:semantics:catenax:net
+     ASSETS=-Dnet.catenax.semantics.connector.assets=hub@http://localhost:2121/central-hub/query
+     ;;
+
+    "-tenant1")
+     FUSEKI_CONFIG="config-tenant1.ttl"
+     FUSEKI_PORT=2122
+     DEBUG_PORT=8889
+     EDC_PORT=8182
+     EDC_CONFIG=tenant1.config
+     EDC_ID=urn:connector:tenant1:semantics:catenax:net
+     ASSETS=-Dnet.catenax.semantics.connector.assets=hub@http://localhost:2121/tenant1-hub/query
+     ;;
+
+    "-tenant2")
+     FUSEKI_CONFIG="config-tenant2.ttl"
+     FUSEKI_PORT=2123
+     DEBUG_PORT=8887
+     EDC_PORT=8183
+     EDC_CONFIG=tenant2.config
+     EDC_ID=urn:connector:tenant2:semantics:catenax:net
+     ASSETS=-Dnet.catenax.semantics.connector.assets=hub@http://localhost:2121/tenant2-hub/query
+     ;;
+
+    "-complete")
+     FUSEKI_CONFIG="config-internal.ttl"
      FUSEKI_PORT=2121
+     DEBUG_PORT=8886
+     ;;
+
+    "-external")
      USE_FUSEKI=false
+     ;;
+
+    "-internal")
+     USE_FUSEKI=true
+     DEBUG_PORT=8886
      ;;
 
    esac
@@ -110,7 +128,7 @@ if [ "$USE_FUSEKI" == "true" ]; then
            $DEBUG_OPTIONS org.apache.jena.fuseki.main.cmds.FusekiMainCmd \
            --config ${FUSEKI_CONFIG} --port ${FUSEKI_PORT} --auth=basic" 
 else
-  CALL_ARGS="$DEBUG_OPTIONS -Dweb.http.port=${EDC_PORT} -Dcatenax.sparql.endpoint=http://localhost:${FUSEKI_PORT}/%s/query -jar build/libs/sparql-federation.jar"
+  CALL_ARGS="$DEBUG_OPTIONS -Dedc.fs.config=${EDC_CONFIG} -Dweb.http.port=${EDC_PORT} -Dedc.ids.id=${EDC_ID} ${ASSETS} -jar build/libs/sparql-federation.jar"
 fi
 
 java ${CALL_ARGS}

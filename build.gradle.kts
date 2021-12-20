@@ -31,12 +31,15 @@ java {
 
 dependencies {
     implementation("org.eclipse.dataspaceconnector:core:0.0.1-SNAPSHOT")
-    implementation("org.eclipse.dataspaceconnector:transfer-process-store-memory:0.0.1-SNAPSHOT")
     implementation("org.eclipse.dataspaceconnector:assetindex-memory:0.0.1-SNAPSHOT")
+    implementation("org.eclipse.dataspaceconnector:transfer-process-store-memory:0.0.1-SNAPSHOT")
+    implementation("org.eclipse.dataspaceconnector:policy-registry-memory:0.0.1-SNAPSHOT")
     implementation("org.eclipse.dataspaceconnector:contractnegotiation-store-memory:0.0.1-SNAPSHOT")
     implementation("org.eclipse.dataspaceconnector:contractdefinition-store-memory:0.0.1-SNAPSHOT")
-    implementation("org.eclipse.dataspaceconnector:ids-api-multipart-endpoint-v1:0.0.1-SNAPSHOT")
     implementation("org.eclipse.dataspaceconnector:iam-mock:0.0.1-SNAPSHOT")
+    implementation("org.eclipse.dataspaceconnector:ids:0.0.1-SNAPSHOT")
+    implementation("org.eclipse.dataspaceconnector:filesystem-configuration:0.0.1-SNAPSHOT")
+
     implementation("org.glassfish.jersey.media:jersey-media-multipart:${jerseyVersion}")
     implementation("jakarta.ws.rs:jakarta.ws.rs-api:${rsApi}")
     implementation("com.squareup.okhttp3:okhttp:${okHttpVersion}")

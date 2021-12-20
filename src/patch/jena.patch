@@ -1,0 +1,51 @@
+diff --git a/jena-fuseki2/jena-fuseki-core/src/main/java/org/apache/jena/fuseki/servlets/SPARQLQueryProcessor.java b/jena-fuseki2/jena-fuseki-core/src/main/java/org/apache/jena/fuseki/servlets/SPARQLQueryProcessor.java
+index 63d5c3456c..9193bd9c84 100644
+--- a/jena-fuseki2/jena-fuseki-core/src/main/java/org/apache/jena/fuseki/servlets/SPARQLQueryProcessor.java
++++ b/jena-fuseki2/jena-fuseki-core/src/main/java/org/apache/jena/fuseki/servlets/SPARQLQueryProcessor.java
+@@ -49,6 +49,7 @@ import org.apache.jena.sparql.engine.Timeouts;
+ import org.apache.jena.sparql.exec.QueryExec;
+ import org.apache.jena.sparql.exec.QueryExecDatasetBuilder;
+ import org.apache.jena.sparql.exec.QueryExecutionAdapter;
++import org.apache.jena.sparql.exec.http.Params;
+ import org.apache.jena.sparql.resultset.SPARQLResult;
+ import org.apache.jena.web.HttpSC;
+ 
+@@ -141,7 +142,7 @@ public abstract class SPARQLQueryProcessor extends ActionService
+ 
+     /**
+      * Helper method for validating request.
+-     * @param request HTTP request
++     * @param action HTTP request
+      * @param params parameters in a collection of Strings
+      */
+     protected void validateParams(HttpAction action, Collection<String> params) {
+@@ -192,6 +193,21 @@ public abstract class SPARQLQueryProcessor extends ActionService
+ 
+     @Override
+     public final void execute(HttpAction action) {
++
++        action.getContext().put(ARQ.httpRequestModifer, new org.apache.jena.http.sys.HttpRequestModifier() {
++
++            @Override
++            public void modify(Params params, Map<String, String> map) {
++                var headerNames = action.getRequest().getHeaderNames();
++                while (headerNames.hasMoreElements()) {
++                    String header = headerNames.nextElement();
++                    if (header.startsWith("catenax")) {
++                        map.put(header, action.getRequest().getHeader(header));
++                    }
++                }
++            }
++        });
++
+         // GET
+         if ( action.getRequestMethod().equals(HttpNames.METHOD_GET) ) {
+             executeWithParameter(action);
+@@ -455,7 +471,6 @@ public abstract class SPARQLQueryProcessor extends ActionService
+     /**
+      * Create the set of all parameters passed by validation.
+      * This is called once only.
+-     * Override {@link acceptedParams} for a full dynamic choice.
+      */
+     protected Set<String> generateAcceptedParams() {
+         Set<String> x  = new HashSet<>();

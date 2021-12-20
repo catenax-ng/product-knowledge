@@ -1,10 +1,72 @@
 {
 	"info": {
 		"_postman_id": "dc182659-1da4-40e5-9003-85e987d6c88d",
-		"name": "Fuseki",
+		"name": "Federated (Triple) Data Component",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "SPARQL List Federated Aspects",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/sparql-query",
+						"type": "text"
+					},
+					{
+						"key": "catenax-caller-connector",
+						"value": "urn:connector:app:semantics:catenax:net",
+						"type": "text"
+					},
+					{
+						"key": "catenax-security-token",
+						"value": "mock-eu",
+						"type": "text"
+					},
+					{
+						"key": "catenax-correlation-id",
+						"value": "4242",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\nPREFIX bamm: <urn:bamm:io.openmanufacturing:meta-model:1.0.0#>\r\n\r\nSELECT ?aspect\r\nWHERE {\r\n    {\r\n        SERVICE <http://localhost:8182/api/sparql/hub> { \r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n    UNION\r\n    {\r\n        SERVICE <http://localhost:8183/api/sparql/hub> { \r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8181/api/sparql/:dataset",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"sparql",
+						":dataset"
+					],
+					"variable": [
+						{
+							"key": "dataset",
+							"value": "hub"
+						}
+					]
+				}
+			},
+			"response": []
+		},
 		{
 			"name": "SPARQL Complete Federated Hub",
 			"protocolProfileBehavior": {
@@ -31,7 +93,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:2121/:dataset/sparql",
+					"raw": "http://localhost:2121/:dataset/query",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -39,12 +101,12 @@
 					"port": "2121",
 					"path": [
 						":dataset",
-						"sparql"
+						"query"
 					],
 					"variable": [
 						{
 							"key": "dataset",
-							"value": "hub"
+							"value": "central-hub"
 						}
 					]
 				}
@@ -90,7 +152,53 @@
 					"variable": [
 						{
 							"key": "dataset",
-							"value": "hub"
+							"value": "central-hub"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SPARQL Complete Aspects Copy",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/sparql-query",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\nPREFIX bamm: <urn:bamm:io.openmanufacturing:meta-model:1.0.0#>\r\n\r\nSELECT ?aspect\r\nWHERE {\r\n    {\r\n        SERVICE <http://localhost:8181/api/sparql/domain1-hub> { \r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n    UNION\r\n    {\r\n        SERVICE <http://localhost:8181/api/sparql/domain2-hub> { \r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2121/:dataset/query",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2121",
+					"path": [
+						":dataset",
+						"query"
+					],
+					"variable": [
+						{
+							"key": "dataset",
+							"value": "central-hub"
 						}
 					]
 				}
@@ -147,9 +255,7 @@
 		{
 			"name": "SPARQL Upload Domain1 Hub",
 			"protocolProfileBehavior": {
-				"disabledSystemHeaders": {
-					"content-type": true
-				}
+				"disabledSystemHeaders": {}
 			},
 			"request": {
 				"method": "POST",
@@ -157,7 +263,8 @@
 					{
 						"key": "Content-Type",
 						"value": "application/sparql-query",
-						"type": "text"
+						"type": "text",
+						"disabled": true
 					}
 				],
 				"body": {
