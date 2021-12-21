@@ -67,12 +67,12 @@ public class TripleDataPlaneExtension implements ServiceExtension {
         var connectorId= context.getSetting("edc.ids.id",context.getConnectorId());
         var loader = context.getService(AssetLoader.class);
 
-        var flowController = new SparqlDataflowController(monitor, identityService, connectorId, dataResolver);
+        var flowController = new SparqlSynchronousDataflow(monitor, identityService, connectorId, dataResolver);
 
         monitor.info(String.format("Registering Synchronous SparQL Query Dataflow %s",flowController));
         dataFlowMgr.register(flowController);
 
-        var apiController = new SparqlApiController(dapsService,
+        var apiController = new SparqlSynchronousApi(dapsService,
                 assetIndex,
                 processManager,
                 policyService,

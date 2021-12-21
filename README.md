@@ -6,30 +6,68 @@
 <> See the LICENSE file(s) distributed with this work for
 <> additional information regarding license terms.
 
-# Federated Catena-X Data Component Spike 
+# Federated Catena-X Data Components Spike 
 
-This repository documents an experiment to implement federated Catena-X data components.
+This repository documents an experiment to describe and implement federated Catena-X data components.
 
 ## Introduction
 
-### Catena-X (Dataspace) Component
+### Catena-X (Dataspace) Components
 
-A Catena-X Component implements
+![Catena-X Component](catenax_component.PNG)
+
+A Catena-X (Dataspace) Component implements
 - a service API on a data plane (=network)
 - the IDS/GAIA-X connector API on a possibly separated control plane
 
-A Catena-X Component may uses/delegate to
+A Catena-X (Dataspace) Component may use/delegate to
 - a set of internal modules/services on an internal plane.
+
+The inner workings (secrets, tokens, states, failures) of the internal plane is largely hidden 
+from the data plane.
+
+The data plane is described largely independent of the connector plane (except maybe additional transport 
+headers). 
+
+The connector plane interacts with the data plane and the internal plane via API and dataflow controllers.
 
 ### Catena-X Data Component
 
-A Catena-X Data Component implements at least one
+![Catena-X Data Component](catenax_data_component.PNG)
+
+A Catena-X Data Component is a Catena-X Component which implements at least one
 - standardized synchronous query API (aka "pull API" although that is misleading the way that data actually flows), such as GraphQL, SparQL or REST/CRUD, or
 - standardized asynchronous and batched event API (aka "push API", such as file-based HTTP/POST on top of csv, ttl, xml or json
 
+The internal data is organized in assets (like database views or graphs) which obey to specific data policies. We expect each asset to
+contain a coherent and possibly large set of documents/entities/trees/rows which can be addressed individually as well as searched and 
+aggregated as a collection.
+
+Data Policies comprise:
+- The permission/restriction to read and query (partial) data from the asset.
+- The permission/restriction to union/join/aggregate (partial) data with other assets.
+- The permission/restriction to store (partial) data from the asset.
+- The permission/restriction to redistribute (partial) data from the asset.
+- The permission/restriction to write (partial) data into the asset.
+
+Data assets may federate (i.e. join, union, aggregate) data from other assets. Data policies are required to be consistent, i.e.,
+a permission/restriction from a subordinate asset can never be relaxed at the union level. In that respect we strongly discourage 
+building arbitrary or even recursive asset relationships.
+
 ### Catena-X Federated Component
 
-A Catena-X Federated Component is a component whose service API will not change when building/deploying a merged/delegating instance.
+![Catena-X Federated Component](catenax_federated_component.PNG)
+
+A Catena-X Federated Component is a type of component whose service API will not 
+change when building/deploying a merged/delegating instance. 
+
+Since the connector API is supposed to be fixed that means that it is possible without changing the surrounding 
+architecture/depending code to either 
+- build a central component out of disparate components for reasons of simplicity and better sharing of resources
+- split an existing component into separate components for reasons of data sovereignity and scaling of resources.
+
+The step of federating is often accompanied/motivated by a change of connector assets/policies. However, we require a federated
+component to apply only policies which may be uphold during the federation/split process.
 
 ### Catena-X Federated Data Component based on SparQL/Turtle
 
@@ -80,7 +118,7 @@ For uploading an aspect model to tenant1:
 
 ```
 curl --location --request POST 'http://localhost:2121/tenant1-hub/upload' \
---form 'file=@"/C:/Users/cjung7/Projekte/catenax/BAMMmodels/Material/0.1.1/Material.ttl"' \
+--form 'file=@BAMMmodels/com.catenax/0.0.1/Material.ttl' \
 --form 'graph="default"'
 ```
 
@@ -88,14 +126,14 @@ For uploading a second aspect model to tenant2:
 
 ```
 curl --location --request POST 'http://localhost:2121/tenant2-hub/upload' \
---form 'file=@"/C:/Users/cjung7/Projekte/catenax/BAMMmodels/ProductUsage/0.1.1/ProductUsage.ttl"' \
+--form 'file=@BAMMmodels/com.catenax/0.1.1/ProductUsage.ttl' \
 --form 'graph="default"'
 ```
 
 Querying all relations from the endpoints (delivers no results for central):
 
 ```
-curl --location --request POST 'http://localhost:2121/central-hub/sparql' \
+curl --location --request POST 'http://localhost:2121/central-hub/query' \
 --header 'Content-Type: application/sparql-query' \
 --data-raw 'SELECT ?subject ?predicate ?object
 WHERE {
@@ -104,7 +142,7 @@ WHERE {
 ```
 
 ```
-curl --location --request POST 'http://localhost:2121/tenant1-hub/sparql' \
+curl --location --request POST 'http://localhost:2121/tenant1-hub/query' \
 --header 'Content-Type: application/sparql-query' \
 --data-raw 'SELECT ?subject ?predicate ?object
 WHERE {
@@ -113,7 +151,7 @@ WHERE {
 ```
 
 ```
-curl --location --request POST 'http://localhost:2121/tenant2-hub/sparql' \
+curl --location --request POST 'http://localhost:2121/tenant2-hub/query' \
 --header 'Content-Type: application/sparql-query' \
 --data-raw 'SELECT ?subject ?predicate ?object
 WHERE {
@@ -124,7 +162,7 @@ WHERE {
 Federated union of aspect models from central:
 
 ```
-curl --location --request POST 'http://localhost:2121/central-hub/sparql' \
+curl --location --request POST 'http://localhost:2121/central-hub/query' \
 --header 'Content-Type: application/sparql-query' \
 --data-raw 'PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX bamm: <urn:bamm:io.openmanufacturing:meta-model:1.0.0#>
@@ -174,7 +212,7 @@ WHERE {
 Federated & sovereign union of aspect models:
 
 ```
-curl -X POST http://localhost:8181/api/sparql/hub -H "Content-Type: application/sparql-query"  -H "catenax-security-token: mock-eu" -H "catenax-caller-connector: urn:connector:app:semantics:catenax:net" -d 'PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+curl -X POST http://localhost:8181/api/sparql/hub -H "Content-Type: application/sparql-query"  -H "catenax-security-token: mock-eu" -H "catenax-connector-context: urn:connector:app:semantics:catenax:net" -d 'PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX bamm: <urn:bamm:io.openmanufacturing:meta-model:1.0.0#>
 
 SELECT ?aspect
