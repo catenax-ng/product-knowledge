@@ -10,26 +10,23 @@
 
 package net.catenax.semantics.connector;
 
+import org.eclipse.dataspaceconnector.dataloading.AssetLoader;
 import org.eclipse.dataspaceconnector.ids.spi.daps.DapsService;
 import org.eclipse.dataspaceconnector.ids.spi.policy.IdsPolicyService;
+import org.eclipse.dataspaceconnector.spi.asset.AssetIndex;
+import org.eclipse.dataspaceconnector.spi.asset.DataAddressResolver;
 import org.eclipse.dataspaceconnector.spi.iam.IdentityService;
+import org.eclipse.dataspaceconnector.spi.policy.PolicyRegistry;
 import org.eclipse.dataspaceconnector.spi.protocol.web.WebService;
 import org.eclipse.dataspaceconnector.spi.security.Vault;
 import org.eclipse.dataspaceconnector.spi.system.ServiceExtension;
 import org.eclipse.dataspaceconnector.spi.system.ServiceExtensionContext;
-import org.eclipse.dataspaceconnector.dataloading.AssetLoader;
-import org.eclipse.dataspaceconnector.spi.asset.AssetIndex;
-import org.eclipse.dataspaceconnector.spi.asset.DataAddressResolver;
-import org.eclipse.dataspaceconnector.spi.policy.PolicyRegistry;
-import static org.eclipse.dataspaceconnector.policy.model.Operator.IN;
-import org.eclipse.dataspaceconnector.spi.types.domain.transfer.DataAddress;
-import org.eclipse.dataspaceconnector.spi.types.domain.asset.Asset;
-import org.eclipse.dataspaceconnector.spi.transfer.flow.DataFlowManager;
 import org.eclipse.dataspaceconnector.spi.transfer.TransferProcessManager;
+import org.eclipse.dataspaceconnector.spi.transfer.flow.DataFlowManager;
+import org.eclipse.dataspaceconnector.spi.types.domain.asset.Asset;
+import org.eclipse.dataspaceconnector.spi.types.domain.transfer.DataAddress;
 
 import java.util.Set;
-
-import org.eclipse.dataspaceconnector.policy.model.*;
 
 /**
  * API and dataflow extensions for synchronous querying triple data via SPARQL and
@@ -55,7 +52,6 @@ public class TripleDataPlaneExtension implements ServiceExtension {
 
         var webService = context.getService(WebService.class);
         var dapsService = context.getService(DapsService.class);
-        var transferManager = context.getService(TransferProcessManager.class);
         var assetIndex = context.getService(AssetIndex.class);
         var dataResolver = context.getService(DataAddressResolver.class);
         var policyService = context.getService(IdsPolicyService.class);
@@ -82,17 +78,9 @@ public class TripleDataPlaneExtension implements ServiceExtension {
         monitor.info(String.format("Registering Synchronous SparQL Query Controller %s",apiController));
         webService.registerController(apiController);
 
-        policyService.registerRequestPermissionFunction("ids:origin", (operator, rightValue, permission, policyContext) -> {
-            return rightValue != null && java.util.regex.Pattern.matches(rightValue,policyContext.getConsumerConnectorId());
-        });
+        policyService.registerRequestPermissionFunction(ConnectorOriginMatchRequestPermission.PERMISSION_NAME,new ConnectorOriginMatchRequestPermission());
 
-        LiteralExpression crossConnectorExpression = new LiteralExpression("ids:origin");
-        var crossConnectorDomainConstraint =
-                    AtomicConstraint.Builder.newInstance().leftExpression(crossConnectorExpression).
-                        operator(IN).rightExpression(new LiteralExpression("urn:connector:([a-z0.9A-Z\\-].*):semantics:catenax:net")).build();
-        var usePermission = Permission.Builder.newInstance().action(Action.Builder.newInstance().type("idsc:USE").build()).
-                constraint(crossConnectorDomainConstraint).build();
-        var crossPolicy = Policy.Builder.newInstance().id(CROSS_CONNECTOR_POLICY).permission(usePermission).build();
+        var crossPolicy = CrossConnectorPolicy.createCrossConnectorPolicy(CROSS_CONNECTOR_POLICY,"idsc:USE","urn:connector:([a-z0.9A-Z\\-].*):semantics:catenax:net");
 
         monitor.info(String.format("Registering Delegation Policy %s",crossPolicy));
         policyRegistry.registerPolicy(crossPolicy);
