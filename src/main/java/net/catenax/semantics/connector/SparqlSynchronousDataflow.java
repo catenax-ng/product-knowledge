@@ -96,27 +96,27 @@ public class SparqlSynchronousDataflow implements DataFlowController {
     public @NotNull DataFlowInitiateResponse initiateFlow(DataRequest dataRequest) {
         var assetName = dataRequest.getAssetId();
         var address= resolver.resolveForAsset(assetName);
-        var assetEndpoint = address.getProperty(TripleDataPlaneExtension.ASSET_ENDPOINT_PROPERTY).toString();
+        var assetEndpoint = address.getProperty(TripleDataPlaneExtension.ASSET_ENDPOINT_PROPERTY).toString()+"query";
 
         monitor.debug(String.format("Initiating Synchronous SparQL Query delegation to backend %s for request %s", assetEndpoint, dataRequest));
 
         String query = dataRequest.getDataDestination().getProperty(DESTINATION_PROPERTY_QUERY);
-        String correlationId = dataRequest.getDataDestination().getProperty(SparqlSynchronousApi.CORRELATION_HEADER);
+        String correlationId = dataRequest.getDataDestination().getProperty(TripleDataPlaneExtension.CORRELATION_HEADER);
         String accepts = dataRequest.getDataDestination().getProperty(HttpHeaders.ACCEPT);
 
         // TODO implement different agreement delegation strategies
         String agreementToken = identityService.obtainClientCredentials(connectorId).getToken();
         //properties.get(SparqlApiController.AGREEMENT_HEADER,agreementToken);
 
-        String issuerConnectors=connectorId+","+dataRequest.getDataDestination().getProperty(SparqlSynchronousApi.CONNECTOR_HEADER);
+        String issuerConnectors=connectorId+","+dataRequest.getDataDestination().getProperty(TripleDataPlaneExtension.CONNECTOR_HEADER);
 
         RequestBody formBody = RequestBody.create(query,SPARQL_QUERY_MEDIATYPE);
 
         Request request = new Request.Builder()
                 .url(assetEndpoint)
-                .addHeader(SparqlSynchronousApi.CORRELATION_HEADER,correlationId)
-                .addHeader(SparqlSynchronousApi.CONNECTOR_HEADER,issuerConnectors)
-                .addHeader(SparqlSynchronousApi.AGREEMENT_HEADER,agreementToken)
+                .addHeader(TripleDataPlaneExtension.CORRELATION_HEADER,correlationId)
+                .addHeader(TripleDataPlaneExtension.CONNECTOR_HEADER,issuerConnectors)
+                .addHeader(TripleDataPlaneExtension.AGREEMENT_HEADER,agreementToken)
                 .addHeader(HttpHeaders.ACCEPT,accepts)
                 .post(formBody)
                 .build();
@@ -132,7 +132,7 @@ public class SparqlSynchronousDataflow implements DataFlowController {
 
             var updatedDestination= DataAddress.Builder.newInstance()
                     .type("sparql")
-                    .property(SparqlSynchronousApi.CORRELATION_HEADER,correlationId)
+                    .property(TripleDataPlaneExtension.CORRELATION_HEADER,correlationId)
                     .property(DESTINATION_PROPERTY_RESPONSE,responseBody).build();
 
             dataRequest.updateDestination(updatedDestination);

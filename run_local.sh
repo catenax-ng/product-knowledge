@@ -77,7 +77,7 @@ do
      EDC_PORT=8181
      EDC_CONFIG=central.config
      EDC_ID=urn:connector:central:semantics:catenax:net
-     ASSETS=-Dnet.catenax.semantics.connector.assets=hub@http://localhost:2121/central-hub/query
+     ASSETS=-Dnet.catenax.semantics.connector.assets=hub@http://localhost:2121/central-hub/
      ;;
 
     "-tenant1")
@@ -87,7 +87,7 @@ do
      EDC_PORT=8182
      EDC_CONFIG=tenant1.config
      EDC_ID=urn:connector:tenant1:semantics:catenax:net
-     ASSETS=-Dnet.catenax.semantics.connector.assets=hub@http://localhost:2121/tenant1-hub/query
+     ASSETS=-Dnet.catenax.semantics.connector.assets=hub@http://localhost:2121/tenant1-hub/
      ;;
 
     "-tenant2")
@@ -97,7 +97,7 @@ do
      EDC_PORT=8183
      EDC_CONFIG=tenant2.config
      EDC_ID=urn:connector:tenant2:semantics:catenax:net
-     ASSETS=-Dnet.catenax.semantics.connector.assets=hub@http://localhost:2121/tenant2-hub/query
+     ASSETS=-Dnet.catenax.semantics.connector.assets=hub@http://localhost:2121/tenant2-hub/
      ;;
 
     "-complete")

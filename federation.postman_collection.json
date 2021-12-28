@@ -21,7 +21,7 @@
 						"type": "text"
 					},
 					{
-						"key": "catenax-caller-connector",
+						"key": "catenax-connector-context",
 						"value": "urn:connector:app:semantics:catenax:net",
 						"type": "text"
 					},
@@ -68,7 +68,7 @@
 			"response": []
 		},
 		{
-			"name": "SPARQL Complete Federated Hub",
+			"name": "SPARQL (Intern) Access Graphs",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {
 					"content-type": true
@@ -85,7 +85,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "SELECT ?subject ?predicate ?object\r\nWHERE {\r\n    ?subject ?predicate ?object .\r\n}",
+					"raw": "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\nPREFIX bamm: <urn:bamm:io.openmanufacturing:meta-model:1.0.0#>\r\n\r\nSELECT ?aspect\r\nWHERE {\r\n    {\r\n        GRAPH <urn:x-arq:DefaultGraph> {\r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n    UNION\r\n    {\r\n        GRAPH <urn:tenant1:PrivateGraph> { \r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n    UNION\r\n    {\r\n        GRAPH <urn:tenant1:PropagateGraph> { \r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "text"
@@ -106,7 +106,7 @@
 					"variable": [
 						{
 							"key": "dataset",
-							"value": "central-hub"
+							"value": "tenant1-hub"
 						}
 					]
 				}
@@ -253,7 +253,7 @@
 			"response": []
 		},
 		{
-			"name": "SPARQL Upload Domain1 Hub",
+			"name": "SPARQL Upload Tenant1 Hub",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {}
 			},

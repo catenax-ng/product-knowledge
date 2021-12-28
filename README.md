@@ -114,20 +114,44 @@ Exposed endpoints/tenants:
     - query
     - upload
 
-For uploading an aspect model to tenant1:
+For uploading aspect models to different graphs in tenant1:
 
 ```
 curl --location --request POST 'http://localhost:2121/tenant1-hub/upload' \
 --form 'file=@BAMMmodels/com.catenax/0.0.1/Material.ttl' \
---form 'graph="default"'
+--form 'graph="urn:x-arq:DefaultGraph"'
 ```
 
-For uploading a second aspect model to tenant2:
+```
+curl --location --request POST 'http://localhost:2121/tenant1-hub/upload' \
+--form 'file=@BAMMmodels/com.catenax/0.0.1/EolStory.ttl' \
+--form 'graph="urn:tenant1:PrivateGraph"'
+```
+
+```
+curl --location --request POST 'http://localhost:2121/tenant1-hub/upload' \
+--form 'file=@BAMMmodels/com.catenax/0.0.1/TechnicalData.ttl' \
+--form 'graph="urn:tenant1:PropagateGraph"'
+```
+
+For uploading aspect models to different graphs of tenant2:
 
 ```
 curl --location --request POST 'http://localhost:2121/tenant2-hub/upload' \
 --form 'file=@BAMMmodels/com.catenax/0.1.1/ProductUsage.ttl' \
---form 'graph="default"'
+--form 'graph="urn:x-arq:DefaultGraph"'
+```
+
+```
+curl --location --request POST 'http://localhost:2121/tenant2-hub/upload' \
+--form 'file=@BAMMmodels/com.catenax/0.1.1/ReturnRequest.ttl' \
+--form 'graph="urn:tenant2:PrivateGraph"'
+```
+
+```
+curl --location --request POST 'http://localhost:2121/tenant2-hub/upload' \
+--form 'file=@BAMMmodels/com.catenax/0.1.1/QualityAlert.ttl' \
+--form 'graph="urn:tenant2:PropagateGraph"'
 ```
 
 Querying all relations from the endpoints (delivers no results for central):

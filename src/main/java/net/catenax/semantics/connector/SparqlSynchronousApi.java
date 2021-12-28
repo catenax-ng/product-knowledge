@@ -62,14 +62,6 @@ public class SparqlSynchronousApi implements TransferProcessListener {
     protected static final TransferProcess DUMMY_PROCESS=TransferProcess.Builder.newInstance().id("DUMMY_PROCESS").build();
 
     /**
-     * connector related headers in the data plane
-     */
-    public static final String CONNECTOR_HEADER="catenax-connector-context";
-    public static final String AGREEMENT_HEADER="catenax-security-token";
-    public static final String CONNECTOR_CHAIN_DELIMITER=",";
-    public static final String CORRELATION_HEADER="catenax-correlation-id";
-
-    /**
      * logging service
      */
     protected final Monitor monitor;
@@ -171,9 +163,9 @@ public class SparqlSynchronousApi implements TransferProcessListener {
     protected Response process(String asset, String query, HttpHeaders headers) {
 
         // first do some header lookups
-        String agreementToken=headers.getHeaderString(AGREEMENT_HEADER);
-        String issuerConnectors=headers.getHeaderString(CONNECTOR_HEADER);
-        String correlationId=headers.getHeaderString(CORRELATION_HEADER);
+        String agreementToken=headers.getHeaderString(TripleDataPlaneExtension.AGREEMENT_HEADER);
+        String issuerConnectors=headers.getHeaderString(TripleDataPlaneExtension.CONNECTOR_HEADER);
+        String correlationId=headers.getHeaderString(TripleDataPlaneExtension.CORRELATION_HEADER);
         String accepts=headers.getHeaderString(HttpHeaders.ACCEPT);
         if(accepts!=null && accepts.equals(MediaType.APPLICATION_JSON)) {
             accepts=MediaType.APPLICATION_JSON;
@@ -195,7 +187,7 @@ public class SparqlSynchronousApi implements TransferProcessListener {
         try {
             requestBuilder._requestedArtifact_(new URI(asset));
 
-            String[] connectors=issuerConnectors.split(CONNECTOR_CHAIN_DELIMITER);
+            String[] connectors=issuerConnectors.split(TripleDataPlaneExtension.CONNECTOR_CHAIN_DELIMITER);
 
             //
             // TODO extended policy check: analyse the SparQL query for
@@ -213,15 +205,15 @@ public class SparqlSynchronousApi implements TransferProcessListener {
             request.setProperty("dataspaceconnector-data-destination",destinationMap);
 
             Map<String, String> properties = new java.util.HashMap<>();
-            properties.put(CORRELATION_HEADER,correlationId);
-            properties.put(AGREEMENT_HEADER,agreementToken);
-            properties.put(CONNECTOR_HEADER,issuerConnectors);
+            properties.put(TripleDataPlaneExtension.CORRELATION_HEADER,correlationId);
+            properties.put(TripleDataPlaneExtension.AGREEMENT_HEADER,agreementToken);
+            properties.put(TripleDataPlaneExtension.CONNECTOR_HEADER,issuerConnectors);
             properties.put(HttpHeaders.ACCEPT,accepts);
             properties.put(SparqlSynchronousDataflow.DESTINATION_PROPERTY_QUERY,query);
             destinationMap.put("properties",properties);
 
             destinationMap.put("type",SparqlSynchronousDataflow.SPARQL_DATAFLOW_TYPE);
-            destinationMap.put("keyName",CORRELATION_HEADER);
+            destinationMap.put("keyName",TripleDataPlaneExtension.CORRELATION_HEADER);
 
             // put dummy entry into the request table
             synchronized(openRequests) {
@@ -291,7 +283,7 @@ public class SparqlSynchronousApi implements TransferProcessListener {
         if (dr != null) {
             var ds = dr.getDataDestination();
             if (ds != null) {
-                String correlationId = ds.getProperty(CORRELATION_HEADER);
+                String correlationId = ds.getProperty(TripleDataPlaneExtension.CORRELATION_HEADER);
                 synchronized (openRequests) {
                     if (openRequests.containsKey(correlationId)) {
                         openRequests.put(correlationId, process);
@@ -314,7 +306,7 @@ public class SparqlSynchronousApi implements TransferProcessListener {
         if (dr != null) {
             var ds = dr.getDataDestination();
             if (ds != null) {
-                String correlationId = ds.getProperty(CORRELATION_HEADER);
+                String correlationId = ds.getProperty(TripleDataPlaneExtension.CORRELATION_HEADER);
                 synchronized (openRequests) {
                     if (openRequests.containsKey(correlationId)) {
                         openRequests.put(correlationId, process);
@@ -337,7 +329,7 @@ public class SparqlSynchronousApi implements TransferProcessListener {
         if (dr != null) {
             var ds = dr.getDataDestination();
             if (ds != null) {
-                String correlationId = ds.getProperty(CORRELATION_HEADER);
+                String correlationId = ds.getProperty(TripleDataPlaneExtension.CORRELATION_HEADER);
                 synchronized (openRequests) {
                     if (openRequests.containsKey(correlationId)) {
                         openRequests.put(correlationId, process);
@@ -359,7 +351,7 @@ public class SparqlSynchronousApi implements TransferProcessListener {
         if (dr != null) {
             var ds = dr.getDataDestination();
             if (ds != null) {
-                String correlationId = ds.getProperty(CORRELATION_HEADER);
+                String correlationId = ds.getProperty(TripleDataPlaneExtension.CORRELATION_HEADER);
                 synchronized (openRequests) {
                     openRequests.put(correlationId, process);
                     openRequests.notifyAll();

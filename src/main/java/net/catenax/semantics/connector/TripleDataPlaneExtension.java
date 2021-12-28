@@ -39,6 +39,14 @@ public class TripleDataPlaneExtension implements ServiceExtension {
     public static final String TYPE_PROPERTY = "type";
     public static final String LOCATION_PROPERTY = "location";
 
+    /**
+     * connector related headers in the data plane
+     */
+    public static final String CONNECTOR_HEADER="catenax-connector-context";
+    public static final String AGREEMENT_HEADER="catenax-security-token";
+    public static final String CONNECTOR_CHAIN_DELIMITER=",";
+    public static final String CORRELATION_HEADER="catenax-correlation-id";
+
     @Override
     public Set<String> requires() {
         return Set.of("edc:webservice", "edc:ids:core", PolicyRegistry.FEATURE, DataAddressResolver.FEATURE, AssetIndex.FEATURE);
@@ -77,6 +85,19 @@ public class TripleDataPlaneExtension implements ServiceExtension {
                 monitor);
         monitor.info(String.format("Registering Synchronous SparQL Query Controller %s",apiController));
         webService.registerController(apiController);
+
+        var eventController = new TurtleAsynchronousApi(
+                dataResolver,
+                dapsService,
+                assetIndex,
+                processManager,
+                policyService,
+                policyRegistry,
+                vault,
+                monitor,
+                connectorId);
+        monitor.info(String.format("Registering Asynchronous Turtle Event Controller %s",eventController));
+        webService.registerController(eventController);
 
         policyService.registerRequestPermissionFunction(ConnectorOriginMatchRequestPermission.PERMISSION_NAME,new ConnectorOriginMatchRequestPermission());
 
