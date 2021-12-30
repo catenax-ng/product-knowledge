@@ -50,12 +50,12 @@ do
       cd jena
       git apply ../src/patch/jena.patch
       cd jena-fuseki2
-      mvn install -DskipTests
+      mvn install -DskipTests -Denforcer.skip=true -Dmaven.javadoc.skip=true
       cd ..
       git restore .
       cd ..
       cd DataSpaceConnector
-./      ./gradlew -Dhttps.proxyHost=${HTTP_PROXYHOST} -Dhttps.proxyPort=${HTTP_PROXYPORT} publishToMavenLocal -x test
+      ./gradlew -Dhttps.proxyHost=${HTTP_PROXYHOST} -Dhttps.proxyPort=${HTTP_PROXYPORT} publishToMavenLocal -x test
       cd ..
     fi
     ./gradlew -Dhttps.proxyHost=${HTTP_PROXYHOST} -Dhttps.proxyPort=${HTTP_PROXYPORT} build

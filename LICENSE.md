@@ -1,10 +1,9 @@
-<> Copyright (c) 2021 T-Systems International GmbH (Catena-X Consortium)
-<>
-<> See the AUTHORS file(s) distributed with this work for additional
-<> information regarding authorship.
-<>
-<> See the LICENSE file(s) distributed with this work for
-<> additional information regarding license terms.
+
+[Copyright (c) 2021 T-Systems International GmbH (Catena-X Consortium)]: # () 
+
+[See the AUTHORS file(s) distributed with this work for additional information regarding authorship.]: # ()
+
+[See the LICENSE file(s) distributed with this work for additional information regarding license terms.]: # ()
 
 SPDX-License-Identifier: Apache-2.0
 

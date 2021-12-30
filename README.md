@@ -1,14 +1,23 @@
-<> Copyright (c) 2021 Copyright Holder (Catena-X Consortium)
-<>
-<> See the AUTHORS file(s) distributed with this work for additional
-<> information regarding authorship.
-<>
-<> See the LICENSE file(s) distributed with this work for
-<> additional information regarding license terms.
+
+
+[Copyright (c) 2021 T-Systems International GmbH (Catena-X Consortium)]: # () 
+
+[See the AUTHORS file(s) distributed with this work for additional information regarding authorship.]: # ()
+
+[See the LICENSE file(s) distributed with this work for additional information regarding license terms.]: # ()
 
 # Federated Catena-X Data Components Spike 
 
 This repository documents an experiment to describe and implement federated Catena-X data components.
+
+After clone, please remember to also initially pull the submodules by invoking
+
+```
+git submodule update --init --recursive
+```
+
+You will need a JDK>=11 installed in the JAVA_HOME environment variable.
+You will need Apache Maven installed in the PATH environment variable.
 
 ## Introduction
 
