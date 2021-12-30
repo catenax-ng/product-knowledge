@@ -124,10 +124,11 @@ public class SparqlSynchronousApi implements TransferProcessListener {
     @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public Response get(
             @PathParam("asset") String asset,
+            @QueryParam("graph") String graph,
             @QueryParam("query") String query,
             @Context HttpHeaders httpHeaders
     ) {
-        return process(asset, query, httpHeaders);
+        return process(asset, graph, query, httpHeaders);
     }
 
     /**
@@ -145,10 +146,11 @@ public class SparqlSynchronousApi implements TransferProcessListener {
     @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public Response post(
             @PathParam("asset") String asset,
+            @QueryParam("graph") String graph,
             String query,
             @Context HttpHeaders httpHeaders
     ) {
-        return process(asset, query, httpHeaders);
+        return process(asset, graph, query, httpHeaders);
     }
 
     /**
@@ -156,12 +158,15 @@ public class SparqlSynchronousApi implements TransferProcessListener {
      * request initiation and synchronisation
      * (no matter the HTTP method used)
      * @param asset The asset usually points to a database (and a graph therein that is associated to an access policy)
+     * @param graph The graph/schema in the asset
      * @param query A valid SparQL query encoded as a url parameter
      * @param headers the headers of the request
      * @return the response object contains the result binding (in case of success) or an encoded string with error details (in case of failure).
      */
-    protected Response process(String asset, String query, HttpHeaders headers) {
-
+    protected Response process(String asset, String graph, String query, HttpHeaders headers) {
+        if(graph==null) {
+            graph="urn:x-arq:DefaultGraph";
+        }
         // first do some header lookups
         String agreementToken=headers.getHeaderString(TripleDataPlaneExtension.AGREEMENT_HEADER);
         String issuerConnectors=headers.getHeaderString(TripleDataPlaneExtension.CONNECTOR_HEADER);
@@ -179,13 +184,13 @@ public class SparqlSynchronousApi implements TransferProcessListener {
         }
 
         // logging
-        monitor.debug(String.format("Received API query %s accepting %s to asset %s from calling connector(s) %s",correlationId,accepts,asset,issuerConnectors));
+        monitor.debug(String.format("Received API query %s accepting %s to asset %s graph %s from calling connector(s) %s",correlationId,accepts,asset,graph,issuerConnectors));
 
         // next we prepare the IDS artifact request
         ArtifactRequestMessageBuilder requestBuilder=new ArtifactRequestMessageBuilder();
         requestBuilder._securityToken_( new DynamicAttributeTokenBuilder()._tokenFormat_(TokenFormat.JWT)._tokenValue_(agreementToken).build());
         try {
-            requestBuilder._requestedArtifact_(new URI(asset));
+            requestBuilder._requestedArtifact_(new URI(asset+"#"+graph));
 
             String[] connectors=issuerConnectors.split(TripleDataPlaneExtension.CONNECTOR_CHAIN_DELIMITER);
 

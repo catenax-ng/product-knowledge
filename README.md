@@ -223,6 +223,52 @@ WHERE {
 ./run_local.sh -tenant2 -external &
 ```
 
+Accessing the query API using Catena-X Headers 
+
+```
+curl -X POST http://localhost:8182/api/sparql/hub -H "Content-Type: application/sparql-query"  -H "catenax-security-token: mock-eu" -H "catenax-connector-context: urn:connector:central:semantics:catenax:net" -d 'PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX bamm: <urn:bamm:io.openmanufacturing:meta-model:1.0.0#>
+
+SELECT ?aspect
+WHERE {
+    {
+      ?aspect rdf:type bamm:Aspect .
+    } 
+    UNION
+    {
+        GRAPH <urn:tenant1:PrivateGraph> {
+          ?aspect rdf:type bamm:Aspect .
+        }
+    }
+    UNION
+    {
+        GRAPH <urn:tenant1:PropagatedGraph> {
+          ?aspect rdf:type bamm:Aspect .
+        }
+    }
+}
+'
+```
+
+### Run the (sovereign) federated triple data component
+
+```
+./run_local.sh -central -external &
+```
+
+Accessing the query API using Catena-X Headers (still delivering no internal aspect)
+
+```
+curl -X POST http://localhost:8181/api/sparql/hub -H "Content-Type: application/sparql-query"  -H "catenax-security-token: mock-eu" -H "catenax-caller-connector: urn:connector:app:semantics:catenax:net" -d 'PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX bamm: <urn:bamm:io.openmanufacturing:meta-model:1.0.0#>
+
+SELECT ?aspect
+WHERE {
+    ?aspect rdf:type bamm:Aspect .
+}
+'
+```
+
 Federated & sovereign union of aspect models:
 
 ```
@@ -242,26 +288,6 @@ WHERE {
             ?aspect rdf:type bamm:Aspect .
         }
     }
-}
-'
-```
-
-
-### Run the (sovereign) federated triple data component
-
-```
-./run_local.sh -central -external &
-```
-
-Accessing the query API using Catena-X Headers (still delivering no internal aspect)
-
-```
-curl -X POST http://localhost:8181/api/sparql/hub -H "Content-Type: application/sparql-query"  -H "catenax-security-token: mock-eu" -H "catenax-caller-connector: urn:connector:app:semantics:catenax:net" -d 'PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX bamm: <urn:bamm:io.openmanufacturing:meta-model:1.0.0#>
-
-SELECT ?aspect
-WHERE {
-    ?aspect rdf:type bamm:Aspect .
 }
 '
 ```
