@@ -242,7 +242,7 @@ WHERE {
     }
     UNION
     {
-        GRAPH <urn:tenant1:PropagatedGraph> {
+        GRAPH <urn:tenant1:PropagateGraph> {
           ?aspect rdf:type bamm:Aspect .
         }
     }

@@ -32,6 +32,8 @@ USE_FUSEKI=false
 BUILD_ALL=false
 EDC_CONFIG=central.config
 EDC_ID=urn:connector:central:semantics:catenax:net
+ASSETS=
+REMOTE_ASSETS=
 
 for var in "$@"
 do
@@ -78,6 +80,7 @@ do
      EDC_CONFIG=central.config
      EDC_ID=urn:connector:central:semantics:catenax:net
      ASSETS=-Dnet.catenax.semantics.connector.assets=hub#urn:x-arq:DefaultGraph@http://localhost:2121/central-hub/
+     REMOTE_ASSETS=-Dnet.catenax.semantics.connector.remote.assets=hub#urn:tenant1:PropagateGraph@http://localhost:8182/\;hub#urn:tenant2:PropagateGraph@http://localhost:8183/
      ;;
 
     "-tenant1")
@@ -87,7 +90,7 @@ do
      EDC_PORT=8182
      EDC_CONFIG=tenant1.config
      EDC_ID=urn:connector:tenant1:semantics:catenax:net
-     ASSETS=-Dnet.catenax.semantics.connector.assets=hub#urn:x-arq:DefaultGraph@http://localhost:2121/tenant1-hub/
+     ASSETS=-Dnet.catenax.semantics.connector.assets=hub#urn:x-arq:DefaultGraph@http://localhost:2121/tenant1-hub/\;hub#urn:tenant1:PropagateGraph@http://localhost:2121/tenant1-hub/
      ;;
 
     "-tenant2")
@@ -97,7 +100,7 @@ do
      EDC_PORT=8183
      EDC_CONFIG=tenant2.config
      EDC_ID=urn:connector:tenant2:semantics:catenax:net
-     ASSETS=-Dnet.catenax.semantics.connector.assets=hub#urn:x-arq:DefaultGraph@http://localhost:2121/tenant2-hub/
+     ASSETS=-Dnet.catenax.semantics.connector.assets=hub#urn:x-arq:DefaultGraph@http://localhost:2121/tenant2-hub/\;hub#urn:tenant2:PropagateGraph@http://localhost:2121/tenant2-hub/
      ;;
 
     "-complete")
@@ -128,7 +131,7 @@ if [ "$USE_FUSEKI" == "true" ]; then
            $DEBUG_OPTIONS org.apache.jena.fuseki.main.cmds.FusekiMainCmd \
            --config ${FUSEKI_CONFIG} --port ${FUSEKI_PORT} --auth=basic" 
 else
-  CALL_ARGS="$DEBUG_OPTIONS -Dedc.fs.config=${EDC_CONFIG} -Dweb.http.port=${EDC_PORT} -Dedc.ids.id=${EDC_ID} ${ASSETS} -jar build/libs/sparql-federation.jar"
+  CALL_ARGS="$DEBUG_OPTIONS -Dedc.fs.config=${EDC_CONFIG} -Dweb.http.port=${EDC_PORT} -Dedc.ids.id=${EDC_ID} -Dedc.connector.name=${EDC_ID} ${ASSETS} ${REMOTE_ASSETS} -jar build/libs/sparql-federation.jar"
 fi
 
 java ${CALL_ARGS}
