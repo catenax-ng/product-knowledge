@@ -79,7 +79,7 @@ do
      EDC_PORT=8181
      EDC_CONFIG=central.config
      EDC_ID=urn:connector:central:semantics:catenax:net
-     ASSETS=-Dnet.catenax.semantics.connector.assets=hub#urn:x-arq:DefaultGraph@http://localhost:2121/central-hub/
+     ASSETS=-Dnet.catenax.semantics.connector.assets=hub#urn:x-arq:DefaultGraph@http://localhost:2121/central-hub/\;hub#urn:tenant1:PropagateGraph@http://localhost:2121/central-hub/\;hub#urn:tenant2:PropagateGraph@http://localhost:2121/central-hub/
      REMOTE_ASSETS=-Dnet.catenax.semantics.connector.remote.assets=hub#urn:tenant1:PropagateGraph@http://localhost:8182/\;hub#urn:tenant2:PropagateGraph@http://localhost:8183/
      ;;
 

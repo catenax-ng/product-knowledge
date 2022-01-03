@@ -66,6 +66,7 @@ public class TurtleAsynchronousApi implements TransferProcessListener {
     protected final Monitor monitor;
     protected final DataAddressResolver resolver;
     protected final String connectorId;
+    protected final TurtleAsynchronousDataflow turtleFlow;
 
     /**
      * we got an http client to call out
@@ -83,7 +84,8 @@ public class TurtleAsynchronousApi implements TransferProcessListener {
      * @param vault link to the secret vault in case that long-term credentials need be safely hidden
      * @param monitor link to the logging facility
      */
-    public TurtleAsynchronousApi(DataAddressResolver resolver,
+    public TurtleAsynchronousApi(TurtleAsynchronousDataflow turtleflow,
+                                 DataAddressResolver resolver,
                                  DapsService dapsService,
                                  AssetIndex assetIndex,
                                  TransferProcessManager processManager,
@@ -92,6 +94,7 @@ public class TurtleAsynchronousApi implements TransferProcessListener {
                                  Vault vault,
                                  Monitor monitor,
                                  String connectorId) {
+        this.turtleFlow=turtleflow;
         this.monitor = monitor;
         this.resolver=resolver;
         this.connectorId=connectorId;
@@ -132,15 +135,17 @@ public class TurtleAsynchronousApi implements TransferProcessListener {
      */
     protected Response process(String asset, File turtle, String graph, HttpHeaders headers) {
 
+        var assetName=asset+"#"+graph;
+
         String agreementToken=headers.getHeaderString(TripleDataPlaneExtension.AGREEMENT_HEADER);
         String issuerConnectors=headers.getHeaderString(TripleDataPlaneExtension.CONNECTOR_HEADER);
         String correlationId=headers.getHeaderString(TripleDataPlaneExtension.CORRELATION_HEADER);
 
-        var address= resolver.resolveForAsset(asset);
+        var address= resolver.resolveForAsset(assetName);
         var assetEndpoint = address.getProperty(TripleDataPlaneExtension.ASSET_ENDPOINT_PROPERTY).toString()+"upload";
 
         // logging
-        monitor.debug(String.format("Received API query %s to asset %s and graph %s from calling connector(s) %s",correlationId,asset,graph,issuerConnectors));
+        monitor.debug(String.format("Received API query %s to asset %s from calling connector(s) %s",correlationId,assetName,issuerConnectors));
 
         String extendedIssuerConnectors=connectorId+","+issuerConnectors;
         RequestBody formBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
@@ -165,6 +170,12 @@ public class TurtleAsynchronousApi implements TransferProcessListener {
             // Get response body
             String responseBody = response.body().string();
 
+            monitor.debug(String.format("Performed a successful integration to asset %s graph %s",assetEndpoint,graph);
+
+            // trigger events
+            turtleFlow.triggerEvent(assetName,turtle,issuerConnectors,correlationId);
+
+            // and return the result
             return Response.ok(responseBody,MediaType.TEXT_HTML_TYPE).build();
         } catch (Exception e) {
             return fail(MediaType.TEXT_HTML,Response.Status.INTERNAL_SERVER_ERROR,e.getMessage());

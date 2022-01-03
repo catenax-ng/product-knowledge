@@ -137,12 +137,6 @@ curl --location --request POST 'http://localhost:2121/tenant1-hub/upload' \
 --form 'graph="urn:tenant1:PrivateGraph"'
 ```
 
-```
-curl --location --request POST 'http://localhost:2121/tenant1-hub/upload' \
---form 'file=@BAMMmodels/com.catenax/0.0.1/TechnicalData.ttl' \
---form 'graph="urn:tenant1:PropagateGraph"'
-```
-
 For uploading aspect models to different graphs of tenant2:
 
 ```
@@ -157,11 +151,6 @@ curl --location --request POST 'http://localhost:2121/tenant2-hub/upload' \
 --form 'graph="urn:tenant2:PrivateGraph"'
 ```
 
-```
-curl --location --request POST 'http://localhost:2121/tenant2-hub/upload' \
---form 'file=@BAMMmodels/com.catenax/0.1.1/QualityAlert.ttl' \
---form 'graph="urn:tenant2:PropagateGraph"'
-```
 
 Querying all relations from the endpoints (delivers no results for central):
 
@@ -204,12 +193,52 @@ SELECT ?aspect
 WHERE {
     {
         SERVICE <http://localhost:2121/tenant1-hub/query> { 
-            ?aspect rdf:type bamm:Aspect .
+            {
+              ?aspect rdf:type bamm:Aspect .
+            }
+            UNION
+            {
+              GRAPH <urn:tenant1:PropagateGraph> {
+                ?aspect rdf:type bamm:Aspect .
+              }
+            }
+            UNION
+            {
+              GRAPH <urn:tenant1:PrivateGraph> {
+                ?aspect rdf:type bamm:Aspect .
+              }
+            }
         }
     }
     UNION
     {
         SERVICE <http://localhost:2121/tenant2-hub/query> { 
+            {
+              ?aspect rdf:type bamm:Aspect .
+            }
+            UNION
+            {
+              GRAPH <urn:tenant2:PropagateGraph> {
+                ?aspect rdf:type bamm:Aspect .
+              }
+            }
+            UNION
+            {
+              GRAPH <urn:tenant2:PrivateGraph> {
+                ?aspect rdf:type bamm:Aspect .
+              }
+            }
+        }
+    }
+    UNION
+    {
+        GRAPH <urn:tenant2:PropagateGraph> { 
+            ?aspect rdf:type bamm:Aspect .
+        }
+    }
+    UNION
+    {
+        GRAPH <urn:tenant2:PropagateGraph> { 
             ?aspect rdf:type bamm:Aspect .
         }
     }
@@ -290,4 +319,18 @@ WHERE {
     }
 }
 '
+```
+
+Perform an update to tenant1 which propagates to central (and which you can check by rerunning the previous query)
+
+```
+curl --location --request POST 'http://localhost:8182/api/turtle/hub' -H "catenax-security-token: mock-eu" -H "catenax-connector-context: urn:connector:app:semantics:catenax:net"\
+--form 'file=@BAMMmodels/com.catenax/0.0.1/TechnicalData.ttl' \
+--form 'graph="urn:tenant1:PropagateGraph"'
+```
+
+```
+curl --location --request POST 'http://localhost:8183/api/turtle/hub' -H "catenax-security-token: mock-eu" -H "catenax-connector-context: urn:connector:app:semantics:catenax:net"\
+--form 'file=@BAMMmodels/com.catenax/0.1.1/QualityAlert.ttl' \
+--form 'graph="urn:tenant2:PropagateGraph"'
 ```

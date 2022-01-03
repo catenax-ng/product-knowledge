@@ -26,7 +26,9 @@ import org.eclipse.dataspaceconnector.spi.transfer.flow.DataFlowManager;
 import org.eclipse.dataspaceconnector.spi.types.domain.asset.Asset;
 import org.eclipse.dataspaceconnector.spi.types.domain.transfer.DataAddress;
 import org.eclipse.dataspaceconnector.spi.types.domain.transfer.DataRequest;
+import org.eclipse.dataspaceconnector.spi.types.domain.transfer.TransferType;
 
+import java.lang.reflect.Method;
 import java.util.Set;
 
 /**
@@ -34,6 +36,9 @@ import java.util.Set;
  * (planned) triple data eventing through asynchronous file transfer
  */
 public class TripleDataPlaneExtension implements ServiceExtension {
+
+    public static final TransferType TURTLE_TRANSFER=TransferType.Builder.transferType().isFinite(false).contentType(TurtleAsynchronousApi.TURTLE.toString()).build();
+
     public static final String CROSS_CONNECTOR_POLICY = "co-policy-central";
     public static final String EDC_ASSET_PATH = "net.catenax.semantics.connector.assets";
     public static final String EDC_REMOTE_ASSET_PATH = "net.catenax.semantics.connector.remote.assets";
@@ -41,6 +46,7 @@ public class TripleDataPlaneExtension implements ServiceExtension {
     public static final String TYPE_PROPERTY = "type";
     public static final String LOCATION_PROPERTY = "location";
     public static final String GRAPH_PROPERTY = "graph";
+    public static final String AGREEMENT_PROPERTY = "agreement";
 
     /**
      * connector related headers in the data plane
@@ -56,6 +62,8 @@ public class TripleDataPlaneExtension implements ServiceExtension {
     }
 
     protected ServiceExtensionContext context;
+    protected TurtleAsynchronousDataflow asynchronousFlowController;
+    protected Method transferType;
 
     /**
      * initialize the triple plane extension
@@ -86,7 +94,7 @@ public class TripleDataPlaneExtension implements ServiceExtension {
         monitor.info(String.format("Registering Synchronous SparQL Query Dataflow %s",synchronousFlowController));
         dataFlowMgr.register(synchronousFlowController);
 
-        var asynchronousFlowController = new TurtleAsynchronousDataflow(monitor,identityService, connectorId, dataResolver);
+        asynchronousFlowController = new TurtleAsynchronousDataflow(monitor,identityService, connectorId, dataResolver);
         monitor.info(String.format("Registering Asynchronous Turtle Event Dataflow %s",asynchronousFlowController));
         dataFlowMgr.register(asynchronousFlowController);
 
@@ -101,6 +109,7 @@ public class TripleDataPlaneExtension implements ServiceExtension {
         webService.registerController(apiController);
 
         var eventController = new TurtleAsynchronousApi(
+                asynchronousFlowController,
                 dataResolver,
                 dapsService,
                 assetIndex,
@@ -143,6 +152,12 @@ public class TripleDataPlaneExtension implements ServiceExtension {
             }
         }
 
+        try {
+            transferType = DataRequest.Builder.class.getDeclaredMethod("transferType", new Class[]{TransferType.class});
+            transferType.setAccessible(true);
+        } catch(Exception e) {
+            throw new RuntimeException("Could not initialize TripleDataPlaneExtension",e);
+        }
     }
 
     /**
@@ -166,16 +181,26 @@ public class TripleDataPlaneExtension implements ServiceExtension {
                 registrationKey[0]=registrationComponents[0].substring(0,registrationComponents[0].indexOf("#"));
                 registrationKey[1]=registrationComponents[0].substring(registrationComponents[0].indexOf("#")+1);
                 
-                var dataRequest = DataRequest.Builder.newInstance()
+                var dataRequestBuilder = DataRequest.Builder.newInstance()
                     .id(java.util.UUID.randomUUID().toString()) //this is not relevant, thus can be random
                     .connectorAddress(registrationComponents[1]) //the address of the provider connector
                     .protocol("ids-rest") //must be ids-rest
                     .connectorId(connectorId)
-                    .assetId(Asset.Builder.newInstance().id(registrationComponents[0]).policyId(CROSS_CONNECTOR_POLICY).build().getId())
+                    .assetId(Asset.Builder.newInstance().id(registrationComponents[0]).policyId(CROSS_CONNECTOR_POLICY).build().getId());
+
+                // TODO let this setter be made public
+                try {
+                    dataRequestBuilder = (DataRequest.Builder) transferType.invoke(dataRequestBuilder, new Object[]{TURTLE_TRANSFER});
+                } catch(Exception e) {
+                    throw new RuntimeException("Could not start TripleDataPlaneExtension.",e);
+                }
+
+                var dataRequest=dataRequestBuilder
                     .dataDestination(DataAddress.Builder.newInstance()
                         .type(TurtleAsynchronousDataflow.TURTLE_DATAFLOW_TYPE) //the provider uses this to select the correct DataFlowController
                         .property(LOCATION_PROPERTY, String.format("http://localhost:%s/api/turtle/%s", port, registrationKey[0])) //where we want the turtle event to be pushed
                         .property(GRAPH_PROPERTY,registrationKey[1])
+                        .property(AGREEMENT_PROPERTY,"mock-eu")
                         .build())
                     .managedResources(false) //we do not need any provisioning
                     .build();
@@ -189,5 +214,6 @@ public class TripleDataPlaneExtension implements ServiceExtension {
 
     @Override
     public void shutdown() {
+        asynchronousFlowController.shutdown();
     }
 }

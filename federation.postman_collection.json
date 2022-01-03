@@ -6,6 +6,263 @@
 	},
 	"item": [
 		{
+			"name": "SPARQL (Intern) Upload Tenant1 Hub",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"description": "Eol Model",
+							"type": "file",
+							"src": "/C:/Users/cjung7/Projekte/catenax/BAMMmodels/com.catenax/0.0.1/TechnicalData.ttl"
+						},
+						{
+							"key": "graph",
+							"value": "urn:tenant1:PropagateGraph",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:2121/:dataset/upload",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2121",
+					"path": [
+						":dataset",
+						"upload"
+					],
+					"variable": [
+						{
+							"key": "dataset",
+							"value": "hub"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SPARQL (Intern) Access Raw Graphs",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/sparql-query",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "SELECT ?subject ?predicate ?object\r\nWHERE {\r\n    ?subject ?predicate ?object .\r\n}",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2121/:dataset/query?graph=urn:tenant2:PropagateGraph",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2121",
+					"path": [
+						":dataset",
+						"query"
+					],
+					"query": [
+						{
+							"key": "graph",
+							"value": "urn:tenant2:PropagateGraph"
+						}
+					],
+					"variable": [
+						{
+							"key": "dataset",
+							"value": "tenant2-hub"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SPARQL (Intern) Access Graphs",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/sparql-query",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\nPREFIX bamm: <urn:bamm:io.openmanufacturing:meta-model:1.0.0#>\r\n\r\nSELECT ?aspect\r\nWHERE {\r\n    {\r\n        SERVICE <http://localhost:2121/tenant1-hub/query> { \r\n            {\r\n              ?aspect rdf:type bamm:Aspect .\r\n            }\r\n            UNION\r\n            {\r\n              GRAPH <urn:tenant1:PropagateGraph> {\r\n                ?aspect rdf:type bamm:Aspect .\r\n              }\r\n            }\r\n            UNION\r\n            {\r\n              GRAPH <urn:tenant1:PrivateGraph> {\r\n                ?aspect rdf:type bamm:Aspect .\r\n              }\r\n            }\r\n        }\r\n    }\r\n    UNION\r\n    {\r\n        SERVICE <http://localhost:2121/tenant2-hub/query> { \r\n            {\r\n              ?aspect rdf:type bamm:Aspect .\r\n            }\r\n            UNION\r\n            {\r\n              GRAPH <urn:tenant2:PropagateGraph> {\r\n                ?aspect rdf:type bamm:Aspect .\r\n              }\r\n            }\r\n            UNION\r\n            {\r\n              GRAPH <urn:tenant2:PrivateGraph> {\r\n                ?aspect rdf:type bamm:Aspect .\r\n              }\r\n            }\r\n        }\r\n    }\r\n    UNION\r\n    {\r\n        GRAPH <urn:tenant2:PropagateGraph> { \r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n    UNION\r\n    {\r\n        GRAPH <urn:tenant2:PropagateGraph> { \r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2121/:dataset/query",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2121",
+					"path": [
+						":dataset",
+						"query"
+					],
+					"variable": [
+						{
+							"key": "dataset",
+							"value": "central-hub"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SPARQL Tenant1 Hub Query",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/sparql-query",
+						"type": "text"
+					},
+					{
+						"key": "catenax-connector-context",
+						"value": "urn:connector:app:semantics:catenax:net",
+						"type": "default"
+					},
+					{
+						"key": "catenax-security-token",
+						"value": "mock-eu",
+						"type": "default"
+					},
+					{
+						"key": "catenax-correlation-id",
+						"value": "4242",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\nPREFIX bamm: <urn:bamm:io.openmanufacturing:meta-model:1.0.0#>\r\n\r\nSELECT ?aspect\r\nWHERE {\r\n    {\r\n      ?aspect rdf:type bamm:Aspect .\r\n    } \r\n    UNION\r\n    {\r\n        GRAPH <urn:tenant1:PrivateGraph> {\r\n          ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n    UNION\r\n    {\r\n        GRAPH <urn:tenant1:PropagateGraph> {\r\n          ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8182/api/sparql/:dataset",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8182",
+					"path": [
+						"api",
+						"sparql",
+						":dataset"
+					],
+					"variable": [
+						{
+							"key": "dataset",
+							"value": "hub"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SPARQL Tenant2 Hub Query",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/sparql-query",
+						"type": "text"
+					},
+					{
+						"key": "catenax-connector-context",
+						"value": "urn:connector:app:semantics:catenax:net",
+						"type": "default"
+					},
+					{
+						"key": "catenax-security-token",
+						"value": "mock-eu",
+						"type": "default"
+					},
+					{
+						"key": "catenax-correlation-id",
+						"value": "4242",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\nPREFIX bamm: <urn:bamm:io.openmanufacturing:meta-model:1.0.0#>\r\n\r\nSELECT ?aspect\r\nWHERE {\r\n    {\r\n      ?aspect rdf:type bamm:Aspect .\r\n    } \r\n    UNION\r\n    {\r\n        GRAPH <urn:tenant2:PrivateGraph> {\r\n          ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n    UNION\r\n    {\r\n        GRAPH <urn:tenant2:PropagateGraph> {\r\n          ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8183/api/sparql/:dataset",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8183",
+					"path": [
+						"api",
+						"sparql",
+						":dataset"
+					],
+					"variable": [
+						{
+							"key": "dataset",
+							"value": "hub"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "SPARQL List Federated Aspects",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {
@@ -38,7 +295,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\nPREFIX bamm: <urn:bamm:io.openmanufacturing:meta-model:1.0.0#>\r\n\r\nSELECT ?aspect\r\nWHERE {\r\n    {\r\n        SERVICE <http://localhost:8182/api/sparql/hub> { \r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n    UNION\r\n    {\r\n        SERVICE <http://localhost:8183/api/sparql/hub> { \r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n}\r\n\r\n",
+					"raw": "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\nPREFIX bamm: <urn:bamm:io.openmanufacturing:meta-model:1.0.0#>\r\n\r\nSELECT ?aspect\r\nWHERE {\r\n    {\r\n        SERVICE <http://localhost:8182/api/sparql/hub> { \r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n    UNION\r\n    {\r\n        SERVICE <http://localhost:8183/api/sparql/hub> { \r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n    UNION\r\n    {\r\n        GRAPH <urn:tenant1:PropagateGraph> { \r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n    UNION\r\n    {\r\n        GRAPH <urn:tenant2:PropagateGraph> { \r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n}\r\n\r\n",
 					"options": {
 						"raw": {
 							"language": "text"
@@ -68,192 +325,7 @@
 			"response": []
 		},
 		{
-			"name": "SPARQL (Intern) Access Graphs",
-			"protocolProfileBehavior": {
-				"disabledSystemHeaders": {
-					"content-type": true
-				}
-			},
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/sparql-query",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\nPREFIX bamm: <urn:bamm:io.openmanufacturing:meta-model:1.0.0#>\r\n\r\nSELECT ?aspect\r\nWHERE {\r\n    {\r\n        GRAPH <urn:x-arq:DefaultGraph> {\r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n    UNION\r\n    {\r\n        GRAPH <urn:tenant1:PrivateGraph> { \r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n    UNION\r\n    {\r\n        GRAPH <urn:tenant1:PropagateGraph> { \r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n}\r\n",
-					"options": {
-						"raw": {
-							"language": "text"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:2121/:dataset/query",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "2121",
-					"path": [
-						":dataset",
-						"query"
-					],
-					"variable": [
-						{
-							"key": "dataset",
-							"value": "tenant1-hub"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "SPARQL Complete Aspects",
-			"protocolProfileBehavior": {
-				"disabledSystemHeaders": {
-					"content-type": true
-				}
-			},
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/sparql-query",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\nPREFIX bamm: <urn:bamm:io.openmanufacturing:meta-model:1.0.0#>\r\n\r\nSELECT ?aspect\r\nWHERE {\r\n    {\r\n        SERVICE <http://localhost:2122/hub/query> { \r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n    UNION\r\n    {\r\n        SERVICE <http://localhost:2123/hub/query> { \r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n}\r\n",
-					"options": {
-						"raw": {
-							"language": "text"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:2121/:dataset/query",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "2121",
-					"path": [
-						":dataset",
-						"query"
-					],
-					"variable": [
-						{
-							"key": "dataset",
-							"value": "central-hub"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "SPARQL Complete Aspects Copy",
-			"protocolProfileBehavior": {
-				"disabledSystemHeaders": {
-					"content-type": true
-				}
-			},
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/sparql-query",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\nPREFIX bamm: <urn:bamm:io.openmanufacturing:meta-model:1.0.0#>\r\n\r\nSELECT ?aspect\r\nWHERE {\r\n    {\r\n        SERVICE <http://localhost:8181/api/sparql/domain1-hub> { \r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n    UNION\r\n    {\r\n        SERVICE <http://localhost:8181/api/sparql/domain2-hub> { \r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n}\r\n",
-					"options": {
-						"raw": {
-							"language": "text"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:2121/:dataset/query",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "2121",
-					"path": [
-						":dataset",
-						"query"
-					],
-					"variable": [
-						{
-							"key": "dataset",
-							"value": "central-hub"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "SPARQL Complete Domain1 Hub",
-			"protocolProfileBehavior": {
-				"disabledSystemHeaders": {
-					"content-type": true
-				}
-			},
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/sparql-query",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "SELECT ?subject ?predicate ?object\r\nWHERE {\r\n    ?subject ?predicate ?object .\r\n}"
-				},
-				"url": {
-					"raw": "http://localhost:2122/:dataset/sparql?default",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "2122",
-					"path": [
-						":dataset",
-						"sparql"
-					],
-					"query": [
-						{
-							"key": "default",
-							"value": null
-						}
-					],
-					"variable": [
-						{
-							"key": "dataset",
-							"value": "hub"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "SPARQL Upload Tenant1 Hub",
+			"name": "SPARQL Upload/Trigger Tenant1 Hub",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {}
 			},
@@ -261,10 +333,19 @@
 				"method": "POST",
 				"header": [
 					{
-						"key": "Content-Type",
-						"value": "application/sparql-query",
-						"type": "text",
-						"disabled": true
+						"key": "catenax-connector-context",
+						"value": "urn:connector:app:semantics:catenax:net",
+						"type": "text"
+					},
+					{
+						"key": "catenax-security-token",
+						"value": "mock-eu",
+						"type": "default"
+					},
+					{
+						"key": "catenax-correlation-id",
+						"value": "2121",
+						"type": "default"
 					}
 				],
 				"body": {
@@ -274,25 +355,26 @@
 							"key": "file",
 							"description": "Material Model",
 							"type": "file",
-							"src": "/C:/Users/cjung7/Projekte/catenax/BAMMmodels/Material/0.1.1/Material.ttl"
+							"src": "/C:/Users/cjung7/Projekte/catenax/BAMMmodels/com.catenax/0.0.1/TechnicalData.ttl"
 						},
 						{
 							"key": "graph",
-							"value": "default",
+							"value": "urn:tenant1:PropagateGraph",
 							"type": "text"
 						}
 					]
 				},
 				"url": {
-					"raw": "http://localhost:2122/:dataset/upload",
+					"raw": "http://localhost:8182/api/turtle/:dataset",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "2122",
+					"port": "8182",
 					"path": [
-						":dataset",
-						"upload"
+						"api",
+						"turtle",
+						":dataset"
 					],
 					"variable": [
 						{
@@ -305,54 +387,7 @@
 			"response": []
 		},
 		{
-			"name": "SPARQL Complete Domain2 Hub",
-			"protocolProfileBehavior": {
-				"disabledSystemHeaders": {
-					"content-type": true
-				}
-			},
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/sparql-query",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "SELECT ?subject ?predicate ?object\r\nWHERE {\r\n        ?subject ?predicate ?object .\r\n}"
-				},
-				"url": {
-					"raw": "http://localhost:2123/:dataset/sparql?default",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "2123",
-					"path": [
-						":dataset",
-						"sparql"
-					],
-					"query": [
-						{
-							"key": "default",
-							"value": null
-						}
-					],
-					"variable": [
-						{
-							"key": "dataset",
-							"value": "hub"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "SPARQL Upload Domain2 Hub",
+			"name": "SPARQL Upload/Trigger Tenant2 Hub",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {}
 			},
@@ -360,10 +395,19 @@
 				"method": "POST",
 				"header": [
 					{
-						"key": "Content-Type",
-						"value": "application/sparql-query",
-						"type": "text",
-						"disabled": true
+						"key": "catenax-connector-context",
+						"value": "urn:connector:app:semantics:catenax:net",
+						"type": "text"
+					},
+					{
+						"key": "catenax-security-token",
+						"value": "mock-eu",
+						"type": "default"
+					},
+					{
+						"key": "catenax-correlation-id",
+						"value": "2121",
+						"type": "default"
 					}
 				],
 				"body": {
@@ -373,25 +417,26 @@
 							"key": "file",
 							"description": "Material Model",
 							"type": "file",
-							"src": "/C:/Users/cjung7/Projekte/catenax/BAMMmodels/ProductUsage/0.1.1/ProductUsage.ttl"
+							"src": "/C:/Users/cjung7/Projekte/catenax/BAMMmodels/com.catenax/0.0.1/TechnicalData.ttl"
 						},
 						{
 							"key": "graph",
-							"value": "default",
+							"value": "urn:tenant1:PropagateGraph",
 							"type": "text"
 						}
 					]
 				},
 				"url": {
-					"raw": "http://localhost:2123/:dataset/upload",
+					"raw": "http://localhost:8182/api/turtle/:dataset",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "2123",
+					"port": "8182",
 					"path": [
-						":dataset",
-						"upload"
+						"api",
+						"turtle",
+						":dataset"
 					],
 					"variable": [
 						{

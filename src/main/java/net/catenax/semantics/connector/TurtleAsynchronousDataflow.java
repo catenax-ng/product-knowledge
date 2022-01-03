@@ -10,6 +10,9 @@
 package net.catenax.semantics.connector;
 
 import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -22,7 +25,10 @@ import org.eclipse.dataspaceconnector.spi.transfer.response.ResponseStatus;
 import org.eclipse.dataspaceconnector.spi.types.domain.transfer.DataAddress;
 import org.eclipse.dataspaceconnector.spi.types.domain.transfer.DataRequest;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 import java.util.Map;
+
 /**
  * Implements an (asynchronous, ever-running) data flow that
  * forwards turtle events against an API plane.
@@ -33,7 +39,7 @@ public class TurtleAsynchronousDataflow implements DataFlowController {
      *  some constants where to hide request specific information in the request
      */
     public final static String TURTLE_DATAFLOW_TYPE="turtle";
-    protected final Map<String,DataRequest> dataflows;
+    protected final Map<String, List<DataRequest>> dataflows;
     
     /**
      * we got an http client to call out
@@ -60,7 +66,7 @@ public class TurtleAsynchronousDataflow implements DataFlowController {
         this.identityService=identityService;
         this.connectorId=connectorId;
         this.resolver=resolver;
-        this.dataflows=new java.util.HashMap<String,DataRequest>();
+        this.dataflows=new java.util.HashMap<>();
         //  TODO do we need to manipulate the call timeout?
         this.httpClient= new OkHttpClient.Builder().build();
     }
@@ -95,10 +101,70 @@ public class TurtleAsynchronousDataflow implements DataFlowController {
     public @NotNull DataFlowInitiateResponse initiateFlow(DataRequest dataRequest) {
         var assetName = dataRequest.getAssetId();
         monitor.debug(String.format("Initiating Asynchronous Turtle Event delegation for backend %s for request %s", assetName, dataRequest));
-        dataflows.put(assetName,dataRequest);
+        List<DataRequest> pending = dataflows.get(assetName);
+        if(pending==null) {
+            pending=new java.util.ArrayList<DataRequest>();
+            dataflows.put(assetName,pending);
+        }
+        pending.add(dataRequest);
         return DataFlowInitiateResponse.OK;
     }
-    
+
+    /**
+     * delegates a change event in a given asset to the registered subscribers
+     * @param asset
+     * @param turtle
+     * @param issuerConnectors
+     * @param correlationId
+     */
+    public void triggerEvent(String asset, java.io.File turtle, String issuerConnectors, String correlationId) {
+
+        // logging
+        monitor.debug(String.format("Performing a trigger event %s to asset %s from calling connector(s) %s",correlationId,asset,issuerConnectors));
+
+        String extendedIssuerConnectors=connectorId+","+issuerConnectors;
+
+        List<DataRequest> flows=dataflows.get(asset);
+
+        if(flows!=null && !flows.isEmpty()) {
+            for(DataRequest subscriber : flows) {
+
+                // logging
+                monitor.debug(String.format("Found subscriber %s for trigger event %s",subscriber.getDataDestination(),correlationId));
+
+                RequestBody formBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                        .addFormDataPart("file", turtle.getName(),
+                                RequestBody.create(TurtleAsynchronousApi.TURTLE, turtle))
+                        .addFormDataPart("graph",subscriber.getDataDestination().getProperty(TripleDataPlaneExtension.GRAPH_PROPERTY))
+                        .build();
+
+                Request request = new Request.Builder()
+                        .url(subscriber.getDataDestination().getProperty(TripleDataPlaneExtension.LOCATION_PROPERTY))
+                        .addHeader(TripleDataPlaneExtension.CORRELATION_HEADER,correlationId)
+                        .addHeader(TripleDataPlaneExtension.CONNECTOR_HEADER,extendedIssuerConnectors)
+                        .addHeader(TripleDataPlaneExtension.AGREEMENT_HEADER,subscriber.getDataDestination().getProperty(TripleDataPlaneExtension.AGREEMENT_PROPERTY))
+                        .post(formBody)
+                        .build();
+
+                try (okhttp3.Response response = httpClient.newCall(request).execute()) {
+
+                    if(!response.isSuccessful())
+                        monitor.warning("Event triggering was not successful.");
+                    else
+                        monitor.debug("Event triggering was successful");
+                } catch (Exception e) {
+                    monitor.warning("Event triggering was not successful.",e);
+                }
+            }
+        }
+    }
+
+    /**
+     * TODO terminate all pending requests
+     */
+    public void shutdown() {
+       dataflows.clear();
+    }
 }
 
 
