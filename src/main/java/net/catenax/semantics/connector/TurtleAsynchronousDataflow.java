@@ -122,7 +122,10 @@ public class TurtleAsynchronousDataflow implements DataFlowController {
         // logging
         monitor.debug(String.format("Performing a trigger event %s to asset %s from calling connector(s) %s",correlationId,asset,issuerConnectors));
 
-        String extendedIssuerConnectors=connectorId+","+issuerConnectors;
+        String extendedIssuerConnectors=issuerConnectors;
+        if(!extendedIssuerConnectors.startsWith(connectorId)) {
+            extendedIssuerConnectors = connectorId + ";" + extendedIssuerConnectors;
+        }
 
         List<DataRequest> flows=dataflows.get(asset);
 

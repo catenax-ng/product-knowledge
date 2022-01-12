@@ -373,7 +373,7 @@ central (and whose effect which you can check by rerunning the previous query af
 ```
 curl -X POST 'http://localhost:8182/api/turtle/hub' \
 -H "catenax-security-token: mock-eu" \
--H "catenax-connector-context: urn:connector:app:semantics:catenax:net" \
+-H "catenax-connector-context: urn:connector:tenant1:semantics:catenax:net" \
 --form 'file=@BAMMmodels/com.catenax/0.0.1/TechnicalData.ttl' \
 --form 'graph="urn:tenant1:PropagateGraph"'
 ```
@@ -381,7 +381,7 @@ curl -X POST 'http://localhost:8182/api/turtle/hub' \
 ```
 curl -X POST 'http://localhost:8183/api/turtle/hub' \
 -H "catenax-security-token: mock-eu" \
--H "catenax-connector-context: urn:connector:app:semantics:catenax:net" \
+-H "catenax-connector-context: urn:connector:tenant2:semantics:catenax:net" \
 --form 'file=@BAMMmodels/com.catenax/0.1.1/QualityAlert.ttl' \
 --form 'graph="urn:tenant2:PropagateGraph"'
 ```

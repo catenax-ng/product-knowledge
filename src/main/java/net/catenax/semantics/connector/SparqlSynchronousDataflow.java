@@ -108,14 +108,17 @@ public class SparqlSynchronousDataflow implements DataFlowController {
         String agreementToken = identityService.obtainClientCredentials(connectorId).getToken();
         //properties.get(SparqlApiController.AGREEMENT_HEADER,agreementToken);
 
-        String issuerConnectors=connectorId+","+dataRequest.getDataDestination().getProperty(TripleDataPlaneExtension.CONNECTOR_HEADER);
-
+        String issuerConnectors=dataRequest.getDataDestination().getProperty(TripleDataPlaneExtension.CONNECTOR_HEADER);
+        String extendedIssuerConnectors = issuerConnectors;
+        if(!extendedIssuerConnectors.startsWith(connectorId)) {
+            extendedIssuerConnectors=connectorId+";"+extendedIssuerConnectors;
+        }
         RequestBody formBody = RequestBody.create(query,SPARQL_QUERY_MEDIATYPE);
 
         Request request = new Request.Builder()
                 .url(assetEndpoint)
                 .addHeader(TripleDataPlaneExtension.CORRELATION_HEADER,correlationId)
-                .addHeader(TripleDataPlaneExtension.CONNECTOR_HEADER,issuerConnectors)
+                .addHeader(TripleDataPlaneExtension.CONNECTOR_HEADER,extendedIssuerConnectors)
                 .addHeader(TripleDataPlaneExtension.AGREEMENT_HEADER,agreementToken)
                 .addHeader(HttpHeaders.ACCEPT,accepts)
                 .post(formBody)

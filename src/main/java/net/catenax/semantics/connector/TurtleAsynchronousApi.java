@@ -22,6 +22,7 @@ import okhttp3.*;
 import org.eclipse.dataspaceconnector.ids.api.transfer.ArtifactRequestController;
 import org.eclipse.dataspaceconnector.ids.spi.daps.DapsService;
 import org.eclipse.dataspaceconnector.ids.spi.policy.IdsPolicyService;
+import org.eclipse.dataspaceconnector.policy.engine.PolicyEvaluationResult;
 import org.eclipse.dataspaceconnector.spi.asset.AssetIndex;
 import org.eclipse.dataspaceconnector.spi.asset.DataAddressResolver;
 import org.eclipse.dataspaceconnector.spi.contract.negotiation.response.NegotiationResponse;
@@ -65,6 +66,10 @@ public class TurtleAsynchronousApi implements TransferProcessListener {
      */
     protected final Monitor monitor;
     protected final DataAddressResolver resolver;
+    protected final AssetIndex assetIndex;
+    protected final IdsPolicyService policyService;
+    protected final PolicyRegistry policyRegistry;
+    protected final DapsService dapsService;
     protected final String connectorId;
     protected final TurtleAsynchronousDataflow turtleFlow;
 
@@ -98,6 +103,10 @@ public class TurtleAsynchronousApi implements TransferProcessListener {
         this.monitor = monitor;
         this.resolver=resolver;
         this.connectorId=connectorId;
+        this.assetIndex=assetIndex;
+        this.policyService=policyService;
+        this.dapsService=dapsService;
+        this.policyRegistry=policyRegistry;
         //  TODO do we need to manipulate the call timeout?
         this.httpClient= new OkHttpClient.Builder().build();
     }
@@ -134,20 +143,44 @@ public class TurtleAsynchronousApi implements TransferProcessListener {
      * @return the response object contains the result binding (in case of success) or an encoded string with error details (in case of failure).
      */
     protected Response process(String asset, File turtle, String graph, HttpHeaders headers) {
-
         var assetName=asset+"#"+graph;
 
         String agreementToken=headers.getHeaderString(TripleDataPlaneExtension.AGREEMENT_HEADER);
         String issuerConnectors=headers.getHeaderString(TripleDataPlaneExtension.CONNECTOR_HEADER);
         String correlationId=headers.getHeaderString(TripleDataPlaneExtension.CORRELATION_HEADER);
 
-        var address= resolver.resolveForAsset(assetName);
-        var assetEndpoint = address.getProperty(TripleDataPlaneExtension.ASSET_ENDPOINT_PROPERTY).toString()+"upload";
+        String type = "INSERT";
 
         // logging
         monitor.debug(String.format("Received API query %s to asset %s from calling connector(s) %s",correlationId,assetName,issuerConnectors));
 
-        String extendedIssuerConnectors=connectorId+","+issuerConnectors;
+        var verificationResult = dapsService.verifyAndConvertToken(agreementToken);
+        if(!verificationResult.valid()) {
+            return fail(MediaType.TEXT_HTML,Response.Status.UNAUTHORIZED,String.format("Access must be authenticated.",assetName));
+        }
+        var assetObject = assetIndex.findById(assetName);
+        if(assetObject==null) {
+            return fail(MediaType.TEXT_HTML,Response.Status.NOT_FOUND,String.format("Asset %s does not exist.",assetName));
+        }
+        var policy = policyRegistry.resolvePolicy(assetObject.getPolicyId());
+        if(policy==null) {
+            return fail(MediaType.TEXT_HTML,Response.Status.NOT_ACCEPTABLE,String.format("Policy %s for asset %s is not active.",assetObject.getPolicyId(),assetName));
+        }
+
+        PolicyEvaluationResult result = CrossConnectorPolicy.evaluatePolicy(policyService,assetName,
+                Map.of(TripleDataPlaneExtension.REQUEST_TYPE,"INSERT"),policy,issuerConnectors, correlationId, verificationResult);
+
+        if(!result.valid()) {
+            return fail(MediaType.TEXT_HTML,Response.Status.FORBIDDEN,String.format("Policy %s of asset %s not verified",policy.getUid(),assetName));
+        }
+
+        var address= resolver.resolveForAsset(assetName);
+        var assetEndpoint = address.getProperty(TripleDataPlaneExtension.ASSET_ENDPOINT_PROPERTY).toString()+"upload";
+
+        String extendedIssuerConnectors=issuerConnectors;
+        if(!extendedIssuerConnectors.startsWith(connectorId)) {
+            extendedIssuerConnectors=connectorId+";"+extendedIssuerConnectors;
+        }
         RequestBody formBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("file", turtle.getName(),
                         RequestBody.create(TURTLE, turtle))
@@ -170,7 +203,7 @@ public class TurtleAsynchronousApi implements TransferProcessListener {
             // Get response body
             String responseBody = response.body().string();
 
-            monitor.debug(String.format("Performed a successful integration to asset %s graph %s",assetEndpoint,graph);
+            monitor.debug(String.format("Performed a successful integration to asset %s graph %s",assetEndpoint,graph));
 
             // trigger events
             turtleFlow.triggerEvent(assetName,turtle,issuerConnectors,correlationId);

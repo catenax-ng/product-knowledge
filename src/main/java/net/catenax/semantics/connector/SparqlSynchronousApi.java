@@ -20,6 +20,7 @@ import jakarta.ws.rs.core.Response;
 import de.fraunhofer.iais.eis.ArtifactRequestMessage;
 import de.fraunhofer.iais.eis.ArtifactRequestMessageBuilder;
 
+import net.catenax.semantics.triples.SparqlHelper;
 import org.eclipse.dataspaceconnector.ids.api.transfer.ArtifactRequestController;
 import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
 import org.eclipse.dataspaceconnector.ids.spi.daps.DapsService;
@@ -35,6 +36,7 @@ import org.eclipse.dataspaceconnector.spi.types.domain.transfer.TransferProcessS
 
 import java.net.URI;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -55,7 +57,6 @@ import java.util.UUID;
 @Path("/sparql")
 public class SparqlSynchronousApi implements TransferProcessListener {
 
-
     /**
      * some dummy process used for state handling
      */
@@ -65,6 +66,11 @@ public class SparqlSynchronousApi implements TransferProcessListener {
      * logging service
      */
     protected final Monitor monitor;
+
+    /**
+     * sparql helper
+     */
+    protected final SparqlHelper sparqlHelper;
 
     /**
      * the connector plane is entered with the "ordinary"
@@ -95,18 +101,13 @@ public class SparqlSynchronousApi implements TransferProcessListener {
                                 IdsPolicyService policyService,
                                 PolicyRegistry policyRegistry,
                                 Vault vault,
-                                Monitor monitor) {
+                                Monitor monitor,
+                                ArtifactRequestController idsController) {
         this.monitor = monitor;
-        this.idsController=new ArtifactRequestController(
-                dapsService,
-                assetIndex,
-                processManager,
-                policyService,
-                policyRegistry,
-                vault,
-                monitor);
+        this.idsController=idsController;
         monitor.info(String.format("Registering %s as listener for transfer process manager %s for synchronous requests.",this,processManager));
         ((TransferProcessObservable) processManager).registerListener(this);
+        this.sparqlHelper=new SparqlHelper(monitor);
     }
 
     /**
@@ -164,6 +165,7 @@ public class SparqlSynchronousApi implements TransferProcessListener {
      * @return the response object contains the result binding (in case of success) or an encoded string with error details (in case of failure).
      */
     protected Response process(String asset, String graph, String query, HttpHeaders headers) {
+        // the "target" sub-asset
         if(graph==null) {
             graph="urn:x-arq:DefaultGraph";
         }
@@ -171,6 +173,11 @@ public class SparqlSynchronousApi implements TransferProcessListener {
         String agreementToken=headers.getHeaderString(TripleDataPlaneExtension.AGREEMENT_HEADER);
         String issuerConnectors=headers.getHeaderString(TripleDataPlaneExtension.CONNECTOR_HEADER);
         String correlationId=headers.getHeaderString(TripleDataPlaneExtension.CORRELATION_HEADER);
+        if(correlationId==null) {
+            correlationId= UUID.randomUUID().toString();
+        }
+
+        // check what the requestor expects as a target format (JSON - typically used externally - or XML - used for federated requests in Fuseki)
         String accepts=headers.getHeaderString(HttpHeaders.ACCEPT);
         if(accepts!=null && accepts.equals(MediaType.APPLICATION_JSON)) {
             accepts=MediaType.APPLICATION_JSON;
@@ -179,30 +186,21 @@ public class SparqlSynchronousApi implements TransferProcessListener {
         } else {
             return fail(accepts,Response.Status.UNSUPPORTED_MEDIA_TYPE,"Only %s and %s are allowed as media types",MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON);
         }
-        if(correlationId==null) {
-            correlationId= UUID.randomUUID().toString();
-        }
 
         // logging
-        monitor.debug(String.format("Received API query %s accepting %s to asset %s graph %s from calling connector(s) %s",correlationId,accepts,asset,graph,issuerConnectors));
+        monitor.debug(String.format("Received API query %s accepting %s to asset's %s target graph %s from calling connector(s) %s",correlationId,accepts,asset,graph,issuerConnectors));
+
+        // analyse the "joined" sub-assets
+        SparqlHelper.SparqlCommand command=sparqlHelper.analyseCommand(query);
+        Set<String> context=sparqlHelper.analyseContext(graph,query);
+
+        monitor.debug(String.format("Analysing the query context in asset %s starting with target graph %s resulted in a command %s to the following joined graphs: %s",asset,graph,command,String.join(";",context)));
 
         // next we prepare the IDS artifact request
         ArtifactRequestMessageBuilder requestBuilder=new ArtifactRequestMessageBuilder();
         requestBuilder._securityToken_( new DynamicAttributeTokenBuilder()._tokenFormat_(TokenFormat.JWT)._tokenValue_(agreementToken).build());
         try {
-            requestBuilder._requestedArtifact_(new URI(asset+"#"+graph));
-
-            String[] connectors=issuerConnectors.split(TripleDataPlaneExtension.CONNECTOR_CHAIN_DELIMITER);
-
-            //
-            // TODO extended policy check: analyse the SparQL query for
-            // graphs, lookup sub-assets and policy and check
-            // whether they are allowed to be unioned ...
-            // Policy checking for services+graphs will need to be delegated
-            // so it could be that we need to send the unioned graphs/services
-            // as well
-            //
-
+            requestBuilder._requestedArtifact_(new URI(asset+"#"+String.join(";",context)));
             requestBuilder._issuerConnector_(new URI(issuerConnectors));
             requestBuilder._correlationMessage_(new URI(correlationId));
             ArtifactRequestMessage request = requestBuilder.build();
@@ -213,6 +211,7 @@ public class SparqlSynchronousApi implements TransferProcessListener {
             properties.put(TripleDataPlaneExtension.CORRELATION_HEADER,correlationId);
             properties.put(TripleDataPlaneExtension.AGREEMENT_HEADER,agreementToken);
             properties.put(TripleDataPlaneExtension.CONNECTOR_HEADER,issuerConnectors);
+            properties.put(TripleDataPlaneExtension.REQUEST_TYPE,command.toString());
             properties.put(HttpHeaders.ACCEPT,accepts);
             properties.put(SparqlSynchronousDataflow.DESTINATION_PROPERTY_QUERY,query);
             destinationMap.put("properties",properties);
@@ -233,6 +232,9 @@ public class SparqlSynchronousApi implements TransferProcessListener {
             var idsResponse=idsController.request(request);
 
             if(idsResponse.getStatus()!=200) {
+                synchronized(openRequests) {
+                    openRequests.remove(correlationId);
+                }
                 return fail(accepts,Response.Status.fromStatusCode(idsResponse.getStatus()),"Artifact request %s could not be successfully registered.",correlationId);
             }
 
@@ -256,6 +258,9 @@ public class SparqlSynchronousApi implements TransferProcessListener {
             }
         } catch(Exception e) {
             monitor.warning("An error condition occured while trying to process request "+correlationId,e);
+            synchronized(openRequests) {
+                openRequests.remove(correlationId);
+            }
             return fail(accepts,Response.Status.INTERNAL_SERVER_ERROR,"An error condition occured: %s",e.getMessage());
         }
     }

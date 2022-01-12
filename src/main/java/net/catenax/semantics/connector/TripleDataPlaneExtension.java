@@ -12,6 +12,8 @@ package net.catenax.semantics.connector;
 
 import org.eclipse.dataspaceconnector.dataloading.AssetLoader;
 import org.eclipse.dataspaceconnector.ids.spi.daps.DapsService;
+import org.eclipse.dataspaceconnector.ids.spi.policy.IdsPolicyActions;
+import org.eclipse.dataspaceconnector.ids.spi.policy.IdsPolicyExpressions;
 import org.eclipse.dataspaceconnector.ids.spi.policy.IdsPolicyService;
 import org.eclipse.dataspaceconnector.spi.asset.AssetIndex;
 import org.eclipse.dataspaceconnector.spi.asset.DataAddressResolver;
@@ -29,6 +31,7 @@ import org.eclipse.dataspaceconnector.spi.types.domain.transfer.DataRequest;
 import org.eclipse.dataspaceconnector.spi.types.domain.transfer.TransferType;
 
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -40,6 +43,8 @@ public class TripleDataPlaneExtension implements ServiceExtension {
     public static final TransferType TURTLE_TRANSFER=TransferType.Builder.transferType().isFinite(false).contentType(TurtleAsynchronousApi.TURTLE.toString()).build();
 
     public static final String CROSS_CONNECTOR_POLICY = "co-policy-central";
+    public static final String SINGLE_CONNECTOR_POLICY = "co-policy-local";
+
     public static final String EDC_ASSET_PATH = "net.catenax.semantics.connector.assets";
     public static final String EDC_REMOTE_ASSET_PATH = "net.catenax.semantics.connector.remote.assets";
     public static final String ASSET_ENDPOINT_PROPERTY = "net.catenax.semantics.connector.asset-endpoint";
@@ -52,9 +57,11 @@ public class TripleDataPlaneExtension implements ServiceExtension {
      * connector related headers in the data plane
      */
     public static final String CONNECTOR_HEADER="catenax-connector-context";
+    public static final String GRAPH_HEADER="catenax-asset-context";
     public static final String AGREEMENT_HEADER="catenax-security-token";
     public static final String CONNECTOR_CHAIN_DELIMITER=",";
     public static final String CORRELATION_HEADER="catenax-correlation-id";
+    public static final String REQUEST_TYPE="catenax-request-type";
 
     @Override
     public Set<String> requires() {
@@ -98,13 +105,25 @@ public class TripleDataPlaneExtension implements ServiceExtension {
         monitor.info(String.format("Registering Asynchronous Turtle Event Dataflow %s",asynchronousFlowController));
         dataFlowMgr.register(asynchronousFlowController);
 
-        var apiController = new SparqlSynchronousApi(dapsService,
+        var idsController=new FederatedArtifactRequestController(
+                dapsService,
                 assetIndex,
                 processManager,
                 policyService,
                 policyRegistry,
                 vault,
                 monitor);
+        monitor.info(String.format("Registering IDS Request Controller %s",idsController));
+        webService.registerController(idsController);
+
+        var apiController = new SparqlSynchronousApi(dapsService,
+                assetIndex,
+                processManager,
+                policyService,
+                policyRegistry,
+                vault,
+                monitor,
+                idsController);
         monitor.info(String.format("Registering Synchronous SparQL Query Controller %s",apiController));
         webService.registerController(apiController);
 
@@ -122,15 +141,54 @@ public class TripleDataPlaneExtension implements ServiceExtension {
         monitor.info(String.format("Registering Asynchronous Turtle Event Controller %s",eventController));
         webService.registerController(eventController);
 
-        policyService.registerRequestPermissionFunction(ConnectorOriginMatchRequestPermission.PERMISSION_NAME,new ConnectorOriginMatchRequestPermission());
+        var comf = new ConnectorOriginMatchFunction();
+        comf.register(policyService);
 
-        var crossConnectorConstraint=CrossConnectorPolicy.createCrossConnectorConstraint("urn:connector:([a-z0.9A-Z\\-].*):semantics:catenax:net");
+        var uamf = new UnionAssetMatchFunction();
+        uamf.register(policyService);
+
+        // match all connector chains
+        var crossConnectorConstraint=CrossConnectorPolicy.
+                createCrossConnectorConstraint("(urn:connector:([a-z0.9A-Z\\-].*):semantics:catenax:net)(;(urn:connector:([a-z0.9A-Z\\-].*):semantics:catenax:net))*",true);
+        // match single local connector call
+        var singleConnectorConstraint = CrossConnectorPolicy.
+                createCrossConnectorConstraint(connectorId,true);
+        // match single remote connector call
+        var consumerConnectorConstraint=  CrossConnectorPolicy.createCrossConnectorConstraint("(urn:connector:([a-z0.9A-Z\\-].*):semantics:catenax:net)",true);
+
+        // match all public assets
+        var crossAssetConstraintCentral = CrossConnectorPolicy.createUnionAssetConstraint("urn:(x-arq|tenant1|tenant2):(Default|Propagate)Graph",false);
+        // match all local assets
+        var crossAssetConstraintLocal = CrossConnectorPolicy.
+                createUnionAssetConstraint("urn:(x-arq|tenant1|tenant2):(Default|Propagate|Private)Graph",false);
+        // match a single local asset
+        var targetAssetConstraint = CrossConnectorPolicy.
+                createUnionAssetConstraint("urn:(x-arq|tenant1|tenant2):(Default|Propagate|Private)Graph",true);
+
+        // central read permission
+        var readPermissionCentral = CrossConnectorPolicy.createPermission(IdsPolicyActions.READ_ACTION, List.of(),crossConnectorConstraint,crossAssetConstraintCentral);
+        // local read permission
+        var readPermissionLocal = CrossConnectorPolicy.createPermission(IdsPolicyActions.READ_ACTION, List.of(),singleConnectorConstraint,crossAssetConstraintLocal);
+
+        // local insert and delete permissions
+        var insertPermissionCentral =  CrossConnectorPolicy.createPermission(CrossConnectorPolicy.INSERT_ACTION,List.of(),crossConnectorConstraint);
+        var insertPermission =  CrossConnectorPolicy.createPermission(CrossConnectorPolicy.INSERT_ACTION,List.of(),singleConnectorConstraint);
+        var deletePermission =  CrossConnectorPolicy.createPermission(IdsPolicyActions.DELETE_ACTION,List.of(),singleConnectorConstraint);
+
+        // a read permission duty for distribution
+        var distributeReadObligation= CrossConnectorPolicy.createDuty(IdsPolicyActions.READ_ACTION, crossConnectorConstraint,crossAssetConstraintCentral);
+        var distributePermission = CrossConnectorPolicy.createPermission(IdsPolicyActions.DISTRIBUTE_ACTION,List.of(distributeReadObligation),consumerConnectorConstraint);
+
         var crossPolicy = CrossConnectorPolicy.createPolicy(CROSS_CONNECTOR_POLICY,
-            CrossConnectorPolicy.createPermission(CrossConnectorPolicy.USE_PERMISSION,crossConnectorConstraint),
-            CrossConnectorPolicy.createPermission(CrossConnectorPolicy.DISTRIBUTE_PERMISSION,crossConnectorConstraint));
+            List.of(readPermissionCentral,readPermissionLocal,insertPermission,insertPermissionCentral,deletePermission,distributePermission),List.of(),List.of());
+        var singlePolicy = CrossConnectorPolicy.createPolicy(SINGLE_CONNECTOR_POLICY,
+                List.of(readPermissionLocal,insertPermission,deletePermission),List.of(),List.of());
 
         monitor.info(String.format("Registering Delegation Policy %s",crossPolicy));
         policyRegistry.registerPolicy(crossPolicy);
+
+        monitor.info(String.format("Registering Delegation Policy %s",singlePolicy));
+        policyRegistry.registerPolicy(singlePolicy);
 
         String[] assets = context.getSetting(EDC_ASSET_PATH,"").split(";");
         if(assets.length>1 || !assets[0].isEmpty()) {
@@ -145,6 +203,9 @@ public class TripleDataPlaneExtension implements ServiceExtension {
                    .build();
                 String assetId = assetComponents[0];
                 String policy=CROSS_CONNECTOR_POLICY;
+                if(assetId.contains("Private")) {
+                    policy=SINGLE_CONNECTOR_POLICY;
+                }
                 Asset asset = Asset.Builder.newInstance().id(assetId).policyId(policy).build();
 
                 monitor.info(String.format("Registering Asset %s under policy %s", assetId,policy));
@@ -162,7 +223,7 @@ public class TripleDataPlaneExtension implements ServiceExtension {
 
     /**
      * start the triple plane extension
-     * @arg context
+     * register remote assets (subscriptions)
      */
     @Override
     public void start() {
@@ -201,6 +262,7 @@ public class TripleDataPlaneExtension implements ServiceExtension {
                         .property(LOCATION_PROPERTY, String.format("http://localhost:%s/api/turtle/%s", port, registrationKey[0])) //where we want the turtle event to be pushed
                         .property(GRAPH_PROPERTY,registrationKey[1])
                         .property(AGREEMENT_PROPERTY,"mock-eu")
+                        .property(REQUEST_TYPE,"SUBSCRIBE")
                         .build())
                     .managedResources(false) //we do not need any provisioning
                     .build();
