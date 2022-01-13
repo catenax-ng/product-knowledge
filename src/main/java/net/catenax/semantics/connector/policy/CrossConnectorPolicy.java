@@ -1,6 +1,15 @@
-package net.catenax.semantics.connector;
+/*
+ * Copyright (c) 2021-2022 T-Systems International GmbH (Catena-X Consortium)
+ *
+ * See the AUTHORS file(s) distributed with this work for additional
+ * information regarding authorship.
+ *
+ * See the LICENSE file(s) distributed with this work for
+ * additional information regarding license terms.
+ */
+package net.catenax.semantics.connector.policy;
 
-import de.fraunhofer.iais.eis.ArtifactRequestMessage;
+import net.catenax.semantics.connector.TripleDataPlaneExtension;
 import org.eclipse.dataspaceconnector.ids.spi.policy.IdsPolicyActions;
 import org.eclipse.dataspaceconnector.ids.spi.policy.IdsPolicyService;
 import org.eclipse.dataspaceconnector.policy.engine.PolicyEvaluationResult;
@@ -9,12 +18,9 @@ import org.eclipse.dataspaceconnector.policy.model.*;
 import org.eclipse.dataspaceconnector.spi.iam.ClaimToken;
 import org.eclipse.dataspaceconnector.spi.iam.VerificationResult;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import static org.eclipse.dataspaceconnector.policy.model.Operator.IN;
 
 /**
  * builds a policy 

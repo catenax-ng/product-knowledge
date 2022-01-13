@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 T-Systems International Gmbh (Catena-X Consortium)
+ * Copyright (c) 2021-2022 T-Systems International Gmbh (Catena-X Consortium)
  *
  * See the AUTHORS file(s) distributed with this work for additional
  * information regarding authorship.
@@ -7,11 +7,13 @@
  * See the LICENSE file(s) distributed with this work for
  * additional information regarding license terms.
  */
-package net.catenax.semantics.connector;
+package net.catenax.semantics.connector.turtle;
 
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import net.catenax.semantics.connector.TripleDataPlaneExtension;
+import net.catenax.semantics.triples.SparqlHelper;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -26,6 +28,7 @@ import org.eclipse.dataspaceconnector.spi.types.domain.transfer.DataAddress;
 import org.eclipse.dataspaceconnector.spi.types.domain.transfer.DataRequest;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -40,11 +43,6 @@ public class TurtleAsynchronousDataflow implements DataFlowController {
      */
     public final static String TURTLE_DATAFLOW_TYPE="turtle";
     protected final Map<String, List<DataRequest>> dataflows;
-    
-    /**
-     * we got an http client to call out
-     */
-    protected final OkHttpClient httpClient;
 
     /**
      * links to the connector services
@@ -53,6 +51,7 @@ public class TurtleAsynchronousDataflow implements DataFlowController {
     protected final IdentityService identityService;
     protected final String connectorId;
     protected final DataAddressResolver resolver;
+    protected final SparqlHelper sparqlHelper;
 
     /**
      * Creates a new SparQL Dataflow controller
@@ -67,8 +66,7 @@ public class TurtleAsynchronousDataflow implements DataFlowController {
         this.connectorId=connectorId;
         this.resolver=resolver;
         this.dataflows=new java.util.HashMap<>();
-        //  TODO do we need to manipulate the call timeout?
-        this.httpClient= new OkHttpClient.Builder().build();
+        this.sparqlHelper=new SparqlHelper(monitor);
     }
 
     /**
@@ -135,29 +133,20 @@ public class TurtleAsynchronousDataflow implements DataFlowController {
                 // logging
                 monitor.debug(String.format("Found subscriber %s for trigger event %s",subscriber.getDataDestination(),correlationId));
 
-                RequestBody formBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                        .addFormDataPart("file", turtle.getName(),
-                                RequestBody.create(TurtleAsynchronousApi.TURTLE, turtle))
-                        .addFormDataPart("graph",subscriber.getDataDestination().getProperty(TripleDataPlaneExtension.GRAPH_PROPERTY))
-                        .build();
-
-                Request request = new Request.Builder()
-                        .url(subscriber.getDataDestination().getProperty(TripleDataPlaneExtension.LOCATION_PROPERTY))
-                        .addHeader(TripleDataPlaneExtension.CORRELATION_HEADER,correlationId)
-                        .addHeader(TripleDataPlaneExtension.CONNECTOR_HEADER,extendedIssuerConnectors)
-                        .addHeader(TripleDataPlaneExtension.AGREEMENT_HEADER,subscriber.getDataDestination().getProperty(TripleDataPlaneExtension.AGREEMENT_PROPERTY))
-                        .post(formBody)
-                        .build();
-
-                try (okhttp3.Response response = httpClient.newCall(request).execute()) {
-
-                    if(!response.isSuccessful())
-                        monitor.warning("Event triggering was not successful.");
-                    else
-                        monitor.debug("Event triggering was successful");
-                } catch (Exception e) {
+                try {
+                    String response = sparqlHelper.uploadTurtle(
+                            subscriber.getDataDestination().getProperty(TripleDataPlaneExtension.LOCATION_PROPERTY),
+                            subscriber.getDataDestination().getProperty(TripleDataPlaneExtension.GRAPH_PROPERTY),
+                            turtle,
+                            correlationId,
+                            extendedIssuerConnectors,
+                            subscriber.getDataDestination().getProperty(TripleDataPlaneExtension.AGREEMENT_PROPERTY)
+                    );
+                    monitor.debug("Event triggering was successful");
+                } catch(IOException e) {
                     monitor.warning("Event triggering was not successful.",e);
                 }
+
             }
         }
     }

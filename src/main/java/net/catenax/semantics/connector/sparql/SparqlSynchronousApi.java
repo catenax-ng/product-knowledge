@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 T-Systems International GmbH (Catena-X Consortium)
+ * Copyright (c) 2021-2022 T-Systems International GmbH (Catena-X Consortium)
  *
  * See the AUTHORS file(s) distributed with this work for additional
  * information regarding authorship.
@@ -7,7 +7,7 @@
  * See the LICENSE file(s) distributed with this work for
  * additional information regarding license terms.
  */
-package net.catenax.semantics.connector;
+package net.catenax.semantics.connector.sparql;
 
 import de.fraunhofer.iais.eis.DynamicAttributeTokenBuilder;
 import de.fraunhofer.iais.eis.TokenFormat;
@@ -20,6 +20,7 @@ import jakarta.ws.rs.core.Response;
 import de.fraunhofer.iais.eis.ArtifactRequestMessage;
 import de.fraunhofer.iais.eis.ArtifactRequestMessageBuilder;
 
+import net.catenax.semantics.connector.TripleDataPlaneExtension;
 import net.catenax.semantics.triples.SparqlHelper;
 import org.eclipse.dataspaceconnector.ids.api.transfer.ArtifactRequestController;
 import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
@@ -70,7 +71,7 @@ public class SparqlSynchronousApi implements TransferProcessListener {
     /**
      * sparql helper
      */
-    protected final SparqlHelper sparqlHelper;
+    protected final SparqlHelper internalService;
 
     /**
      * the connector plane is entered with the "ordinary"
@@ -102,12 +103,13 @@ public class SparqlSynchronousApi implements TransferProcessListener {
                                 PolicyRegistry policyRegistry,
                                 Vault vault,
                                 Monitor monitor,
-                                ArtifactRequestController idsController) {
+                                ArtifactRequestController idsController,
+                                SparqlHelper internalService) {
         this.monitor = monitor;
         this.idsController=idsController;
         monitor.info(String.format("Registering %s as listener for transfer process manager %s for synchronous requests.",this,processManager));
         ((TransferProcessObservable) processManager).registerListener(this);
-        this.sparqlHelper=new SparqlHelper(monitor);
+        this.internalService=internalService;
     }
 
     /**
@@ -191,8 +193,8 @@ public class SparqlSynchronousApi implements TransferProcessListener {
         monitor.debug(String.format("Received API query %s accepting %s to asset's %s target graph %s from calling connector(s) %s",correlationId,accepts,asset,graph,issuerConnectors));
 
         // analyse the "joined" sub-assets
-        SparqlHelper.SparqlCommand command=sparqlHelper.analyseCommand(query);
-        Set<String> context=sparqlHelper.analyseContext(graph,query);
+        SparqlHelper.SparqlCommand command=internalService.analyseCommand(query);
+        Set<String> context=internalService.analyseContext(graph,query);
 
         monitor.debug(String.format("Analysing the query context in asset %s starting with target graph %s resulted in a command %s to the following joined graphs: %s",asset,graph,command,String.join(";",context)));
 

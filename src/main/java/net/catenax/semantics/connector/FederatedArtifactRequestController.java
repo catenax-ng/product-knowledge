@@ -1,37 +1,34 @@
+/*
+ * Copyright (c) 2021-2022 T-Systems International GmbH (Catena-X Consortium)
+ *
+ * See the AUTHORS file(s) distributed with this work for additional
+ * information regarding authorship.
+ *
+ * See the LICENSE file(s) distributed with this work for
+ * additional information regarding license terms.
+ */
 package net.catenax.semantics.connector;
 
 import de.fraunhofer.iais.eis.ArtifactRequestMessage;
 import de.fraunhofer.iais.eis.RejectionMessageBuilder;
 import de.fraunhofer.iais.eis.RejectionReason;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import net.catenax.semantics.connector.policy.CrossConnectorPolicy;
 import org.eclipse.dataspaceconnector.ids.api.transfer.ArtifactRequestController;
 import org.eclipse.dataspaceconnector.ids.spi.daps.DapsService;
-import org.eclipse.dataspaceconnector.ids.spi.policy.IdsPolicyActions;
 import org.eclipse.dataspaceconnector.ids.spi.policy.IdsPolicyService;
 import org.eclipse.dataspaceconnector.policy.engine.PolicyEvaluationResult;
-import org.eclipse.dataspaceconnector.policy.engine.RuleProblem;
-import org.eclipse.dataspaceconnector.policy.model.Permission;
 import org.eclipse.dataspaceconnector.policy.model.Policy;
-import org.eclipse.dataspaceconnector.policy.model.Rule;
 import org.eclipse.dataspaceconnector.spi.asset.AssetIndex;
-import org.eclipse.dataspaceconnector.spi.iam.ClaimToken;
 import org.eclipse.dataspaceconnector.spi.iam.VerificationResult;
 import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
 import org.eclipse.dataspaceconnector.spi.policy.PolicyRegistry;
 import org.eclipse.dataspaceconnector.spi.security.Vault;
 import org.eclipse.dataspaceconnector.spi.transfer.TransferProcessManager;
-import org.eclipse.dataspaceconnector.spi.types.domain.Polymorphic;
 import org.eclipse.dataspaceconnector.spi.types.domain.asset.Asset;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * An extended artifact request controller which allows/checks queries against

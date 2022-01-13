@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 T-Systems International GmbH (Catena-X Consortium)
+ * Copyright (c) 2021-2022 T-Systems International GmbH (Catena-X Consortium)
  *
  * See the AUTHORS file(s) distributed with this work for additional
  * information regarding authorship.
@@ -10,10 +10,17 @@
 
 package net.catenax.semantics.connector;
 
+import net.catenax.semantics.connector.policy.ConnectorOriginMatchFunction;
+import net.catenax.semantics.connector.policy.CrossConnectorPolicy;
+import net.catenax.semantics.connector.policy.UnionAssetMatchFunction;
+import net.catenax.semantics.connector.sparql.SparqlSynchronousApi;
+import net.catenax.semantics.connector.sparql.SparqlSynchronousDataflow;
+import net.catenax.semantics.connector.turtle.TurtleAsynchronousApi;
+import net.catenax.semantics.connector.turtle.TurtleAsynchronousDataflow;
+import net.catenax.semantics.triples.SparqlHelper;
 import org.eclipse.dataspaceconnector.dataloading.AssetLoader;
 import org.eclipse.dataspaceconnector.ids.spi.daps.DapsService;
 import org.eclipse.dataspaceconnector.ids.spi.policy.IdsPolicyActions;
-import org.eclipse.dataspaceconnector.ids.spi.policy.IdsPolicyExpressions;
 import org.eclipse.dataspaceconnector.ids.spi.policy.IdsPolicyService;
 import org.eclipse.dataspaceconnector.spi.asset.AssetIndex;
 import org.eclipse.dataspaceconnector.spi.asset.DataAddressResolver;
@@ -40,7 +47,7 @@ import java.util.Set;
  */
 public class TripleDataPlaneExtension implements ServiceExtension {
 
-    public static final TransferType TURTLE_TRANSFER=TransferType.Builder.transferType().isFinite(false).contentType(TurtleAsynchronousApi.TURTLE.toString()).build();
+    public static final TransferType TURTLE_TRANSFER=TransferType.Builder.transferType().isFinite(false).contentType(SparqlHelper.TURTLE_MEDIATYPE.toString()).build();
 
     public static final String CROSS_CONNECTOR_POLICY = "co-policy-central";
     public static final String SINGLE_CONNECTOR_POLICY = "co-policy-local";
@@ -48,20 +55,22 @@ public class TripleDataPlaneExtension implements ServiceExtension {
     public static final String EDC_ASSET_PATH = "net.catenax.semantics.connector.assets";
     public static final String EDC_REMOTE_ASSET_PATH = "net.catenax.semantics.connector.remote.assets";
     public static final String ASSET_ENDPOINT_PROPERTY = "net.catenax.semantics.connector.asset-endpoint";
-    public static final String TYPE_PROPERTY = "type";
-    public static final String LOCATION_PROPERTY = "location";
-    public static final String GRAPH_PROPERTY = "graph";
-    public static final String AGREEMENT_PROPERTY = "agreement";
 
     /**
      * connector related headers in the data plane
      */
     public static final String CONNECTOR_HEADER="catenax-connector-context";
-    public static final String GRAPH_HEADER="catenax-asset-context";
     public static final String AGREEMENT_HEADER="catenax-security-token";
-    public static final String CONNECTOR_CHAIN_DELIMITER=",";
     public static final String CORRELATION_HEADER="catenax-correlation-id";
+
+    /**
+     * data related properties in the connector plane
+     */
     public static final String REQUEST_TYPE="catenax-request-type";
+    public static final String TYPE_PROPERTY = "type";
+    public static final String LOCATION_PROPERTY = "catenax-request-location";
+    public static final String GRAPH_PROPERTY = "catenax-request-graph";
+    public static final String AGREEMENT_PROPERTY = "catenax-request-token";
 
     @Override
     public Set<String> requires() {
@@ -96,7 +105,8 @@ public class TripleDataPlaneExtension implements ServiceExtension {
         var loader = context.getService(AssetLoader.class);
         String port=context.getSetting("web.http.port","80");
 
-        var synchronousFlowController = new SparqlSynchronousDataflow(monitor, identityService, connectorId, dataResolver);
+        var internalService=new SparqlHelper(monitor);
+        var synchronousFlowController = new SparqlSynchronousDataflow(monitor, identityService, connectorId, dataResolver, internalService);
 
         monitor.info(String.format("Registering Synchronous SparQL Query Dataflow %s",synchronousFlowController));
         dataFlowMgr.register(synchronousFlowController);
@@ -116,6 +126,7 @@ public class TripleDataPlaneExtension implements ServiceExtension {
         monitor.info(String.format("Registering IDS Request Controller %s",idsController));
         webService.registerController(idsController);
 
+
         var apiController = new SparqlSynchronousApi(dapsService,
                 assetIndex,
                 processManager,
@@ -123,7 +134,8 @@ public class TripleDataPlaneExtension implements ServiceExtension {
                 policyRegistry,
                 vault,
                 monitor,
-                idsController);
+                idsController,
+                internalService);
         monitor.info(String.format("Registering Synchronous SparQL Query Controller %s",apiController));
         webService.registerController(apiController);
 
@@ -137,6 +149,7 @@ public class TripleDataPlaneExtension implements ServiceExtension {
                 policyRegistry,
                 vault,
                 monitor,
+                internalService,
                 connectorId);
         monitor.info(String.format("Registering Asynchronous Turtle Event Controller %s",eventController));
         webService.registerController(eventController);
@@ -148,7 +161,7 @@ public class TripleDataPlaneExtension implements ServiceExtension {
         uamf.register(policyService);
 
         // match all connector chains
-        var crossConnectorConstraint=CrossConnectorPolicy.
+        var crossConnectorConstraint= CrossConnectorPolicy.
                 createCrossConnectorConstraint("(urn:connector:([a-z0.9A-Z\\-].*):semantics:catenax:net)(;(urn:connector:([a-z0.9A-Z\\-].*):semantics:catenax:net))*",true);
         // match single local connector call
         var singleConnectorConstraint = CrossConnectorPolicy.

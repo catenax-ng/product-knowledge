@@ -1,16 +1,37 @@
+/*
+ * Copyright (c) 2021-2022 T-Systems International GmbH (Catena-X Consortium)
+ *
+ * See the AUTHORS file(s) distributed with this work for additional
+ * information regarding authorship.
+ *
+ * See the LICENSE file(s) distributed with this work for
+ * additional information regarding license terms.
+ */
 package net.catenax.semantics.triples;
 
-import net.catenax.semantics.connector.LoggerMonitor;
+import jakarta.ws.rs.core.HttpHeaders;
+import net.catenax.semantics.LoggerMonitor;
+import net.catenax.semantics.connector.TripleDataPlaneExtension;
+import okhttp3.*;
 import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * A helper class to deal with parsing/evaluating Sparql Queries
+ * A helper class to deal with parsing/evaluating/delegating Sparql and Turtle Queries to
+ * internal services.
  */
 public class SparqlHelper {
+
+    /**
+     * Media Types
+     */
+    public final static okhttp3.MediaType SPARQL_QUERY_MEDIATYPE = okhttp3.MediaType.parse("application/sparql-query");
+    public final static okhttp3.MediaType TURTLE_MEDIATYPE = okhttp3.MediaType.parse("text/turtle");
 
     /**
      * three different sparql commands
@@ -37,12 +58,21 @@ public class SparqlHelper {
      */
     protected final Monitor monitor;
 
+
+    /**
+     * we got an http client to call out
+     */
+    protected final OkHttpClient httpClient;
+
+
     /**
      * create a new SparQL Helper in the runtime
      * @param monitor the actual runtime monitor interface
      */
     public SparqlHelper(Monitor monitor) {
         this.monitor=monitor;
+        //  TODO do we need to manipulate the call timeout?
+        this.httpClient= new OkHttpClient.Builder().build();
     }
 
     /**
@@ -126,6 +156,77 @@ public class SparqlHelper {
             throw new RuntimeException("Too much opening parentheses.");
         }
         return context;
+    }
+
+    /**
+     * perform a (synchronous) query against a given endpoint
+     * @param endpoint uri of the internal service (may contain a graph as a parameter)
+     * @param query a valid sparql query (TODO should be checked to avoid injection attacks)
+     * @param correlationId associated message/request id of the calling context to be forwarded by the engine in case of federation
+     * @param issuer calling connector context that is to be forwarded by the engine in case of federation
+     * @param agreementToken token that is to be forwarded by the engine in case of federation
+     * @param accepts response media type (_/xml or _/json)
+     * @return response body as a (xml|json) string if successful
+     * @throws IOException if unsuccessful
+     */
+    public String performQuery(String endpoint, String query, String correlationId, String issuer, String agreementToken, String accepts) throws IOException {
+        RequestBody formBody = RequestBody.create(query,SPARQL_QUERY_MEDIATYPE);
+
+        Request request = new Request.Builder()
+                .url(endpoint)
+                .addHeader(TripleDataPlaneExtension.CORRELATION_HEADER,correlationId)
+                .addHeader(TripleDataPlaneExtension.CONNECTOR_HEADER,issuer)
+                .addHeader(TripleDataPlaneExtension.AGREEMENT_HEADER,agreementToken)
+                .addHeader(HttpHeaders.ACCEPT,accepts)
+                .post(formBody)
+                .build();
+
+        try(Response response = httpClient.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                throw new IOException(String.format("Sparql query failed. Got an unsuccessful response status %d", response.code()));
+            }
+            // Get response body
+            String responseBody = response.body().string();
+            return responseBody;
+        } finally {
+        }
+    }
+
+    /**
+     * perform a (synchronous) upload against a given endpoint
+     * @param endpoint uri of the internal service
+     * @param graph name of the target graph
+     * @param turtle the turtle file (TODO should be checked to avoid injection attacks)
+     * @param correlationId  associated message/request id of the calling context to be forwarded by the engine in case of federation
+     * @param issuer calling connector context that is to be forwarded by the engine in case of federation
+     * @param agreementToken token that is to be forwarded by the engine in case of federation
+     * @return response body as (html) string if successful
+     * @throws IOException if unsuccessful
+     */
+    public String uploadTurtle(String endpoint, String graph, File turtle, String correlationId, String issuer, String agreementToken) throws IOException {
+        RequestBody formBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("file", turtle.getName(), RequestBody.create(TURTLE_MEDIATYPE, turtle))
+                .addFormDataPart("graph",graph)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(endpoint)
+                .addHeader(TripleDataPlaneExtension.CORRELATION_HEADER,correlationId)
+                .addHeader(TripleDataPlaneExtension.CONNECTOR_HEADER,issuer)
+                .addHeader(TripleDataPlaneExtension.AGREEMENT_HEADER,agreementToken)
+                .post(formBody)
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+
+            if (!response.isSuccessful())
+                throw new IOException(String.format("Turtle upload failed. Got an unsuccessful response status %d", response.code()));
+
+            // Get response body
+            String responseBody = response.body().string();
+            return responseBody;
+        } finally {
+        }
     }
 
     /**

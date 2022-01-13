@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 T-Systems International GmbH (Catena-X Consortium)
+ * Copyright (c) 2021-2022 T-Systems International GmbH (Catena-X Consortium)
  *
  * See the AUTHORS file(s) distributed with this work for additional
  * information regarding authorship.
@@ -7,43 +7,31 @@
  * See the LICENSE file(s) distributed with this work for
  * additional information regarding license terms.
  */
-package net.catenax.semantics.connector;
+package net.catenax.semantics.connector.turtle;
 
-import de.fraunhofer.iais.eis.ArtifactRequestMessage;
-import de.fraunhofer.iais.eis.ArtifactRequestMessageBuilder;
-import de.fraunhofer.iais.eis.DynamicAttributeTokenBuilder;
-import de.fraunhofer.iais.eis.TokenFormat;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import okhttp3.*;
-import org.eclipse.dataspaceconnector.ids.api.transfer.ArtifactRequestController;
+import net.catenax.semantics.connector.policy.CrossConnectorPolicy;
+import net.catenax.semantics.connector.TripleDataPlaneExtension;
+import net.catenax.semantics.triples.SparqlHelper;
 import org.eclipse.dataspaceconnector.ids.spi.daps.DapsService;
 import org.eclipse.dataspaceconnector.ids.spi.policy.IdsPolicyService;
 import org.eclipse.dataspaceconnector.policy.engine.PolicyEvaluationResult;
 import org.eclipse.dataspaceconnector.spi.asset.AssetIndex;
 import org.eclipse.dataspaceconnector.spi.asset.DataAddressResolver;
-import org.eclipse.dataspaceconnector.spi.contract.negotiation.response.NegotiationResponse;
 import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
 import org.eclipse.dataspaceconnector.spi.policy.PolicyRegistry;
 import org.eclipse.dataspaceconnector.spi.security.Vault;
 import org.eclipse.dataspaceconnector.spi.transfer.TransferProcessListener;
 import org.eclipse.dataspaceconnector.spi.transfer.TransferProcessManager;
-import org.eclipse.dataspaceconnector.spi.transfer.TransferProcessObservable;
-import org.eclipse.dataspaceconnector.spi.transfer.flow.DataFlowInitiateResponse;
-import org.eclipse.dataspaceconnector.spi.transfer.response.ResponseStatus;
-import org.eclipse.dataspaceconnector.spi.types.domain.transfer.DataAddress;
-import org.eclipse.dataspaceconnector.spi.types.domain.transfer.TransferProcess;
-import org.eclipse.dataspaceconnector.spi.types.domain.transfer.TransferProcessStates;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import java.io.File;
-import java.io.InputStream;
-import java.net.URI;
+import java.io.IOException;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * Asynchronous turtle upload API data plane controller
@@ -59,8 +47,6 @@ import java.util.UUID;
 @Path("/turtle")
 public class TurtleAsynchronousApi implements TransferProcessListener {
 
-    public final static okhttp3.MediaType TURTLE = okhttp3.MediaType.parse("text/turtle");
-
     /**
      * logging service
      */
@@ -72,11 +58,7 @@ public class TurtleAsynchronousApi implements TransferProcessListener {
     protected final DapsService dapsService;
     protected final String connectorId;
     protected final TurtleAsynchronousDataflow turtleFlow;
-
-    /**
-     * we got an http client to call out
-     */
-    protected final OkHttpClient httpClient;
+    protected final SparqlHelper internalService;
 
     /**
      * create a new SPARQL API controller (and an embedded artifact request controller)
@@ -98,6 +80,7 @@ public class TurtleAsynchronousApi implements TransferProcessListener {
                                  PolicyRegistry policyRegistry,
                                  Vault vault,
                                  Monitor monitor,
+                                 SparqlHelper internalService,
                                  String connectorId) {
         this.turtleFlow=turtleflow;
         this.monitor = monitor;
@@ -107,8 +90,7 @@ public class TurtleAsynchronousApi implements TransferProcessListener {
         this.policyService=policyService;
         this.dapsService=dapsService;
         this.policyRegistry=policyRegistry;
-        //  TODO do we need to manipulate the call timeout?
-        this.httpClient= new OkHttpClient.Builder().build();
+        this.internalService=internalService;
     }
 
     /**
@@ -181,27 +163,9 @@ public class TurtleAsynchronousApi implements TransferProcessListener {
         if(!extendedIssuerConnectors.startsWith(connectorId)) {
             extendedIssuerConnectors=connectorId+";"+extendedIssuerConnectors;
         }
-        RequestBody formBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("file", turtle.getName(),
-                        RequestBody.create(TURTLE, turtle))
-                .addFormDataPart("graph",graph)
-                .build();
 
-        Request request = new Request.Builder()
-                .url(assetEndpoint)
-                .addHeader(TripleDataPlaneExtension.CORRELATION_HEADER,correlationId)
-                .addHeader(TripleDataPlaneExtension.CONNECTOR_HEADER,extendedIssuerConnectors)
-                .addHeader(TripleDataPlaneExtension.AGREEMENT_HEADER,agreementToken)
-                .post(formBody)
-                .build();
-
-        try (okhttp3.Response response = httpClient.newCall(request).execute()) {
-
-            if (!response.isSuccessful())
-                return fail(MediaType.TEXT_HTML,Response.Status.INTERNAL_SERVER_ERROR,"Call to Triple Store was not successful");
-
-            // Get response body
-            String responseBody = response.body().string();
+        try {
+            String response=internalService.uploadTurtle(assetEndpoint,graph,turtle,correlationId,extendedIssuerConnectors,agreementToken);
 
             monitor.debug(String.format("Performed a successful integration to asset %s graph %s",assetEndpoint,graph));
 
@@ -209,8 +173,8 @@ public class TurtleAsynchronousApi implements TransferProcessListener {
             turtleFlow.triggerEvent(assetName,turtle,issuerConnectors,correlationId);
 
             // and return the result
-            return Response.ok(responseBody,MediaType.TEXT_HTML_TYPE).build();
-        } catch (Exception e) {
+            return Response.ok(response,MediaType.TEXT_HTML_TYPE).build();
+        } catch (IOException e) {
             return fail(MediaType.TEXT_HTML,Response.Status.INTERNAL_SERVER_ERROR,e.getMessage());
         }
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 T-Systems International Gmbh (Catena-X Consortium)
+ * Copyright (c) 2021-2022 T-Systems International Gmbh (Catena-X Consortium)
  *
  * See the AUTHORS file(s) distributed with this work for additional
  * information regarding authorship.
@@ -7,9 +7,11 @@
  * See the LICENSE file(s) distributed with this work for
  * additional information regarding license terms.
  */
-package net.catenax.semantics.connector;
+package net.catenax.semantics.connector.sparql;
 
 import jakarta.ws.rs.core.HttpHeaders;
+import net.catenax.semantics.connector.TripleDataPlaneExtension;
+import net.catenax.semantics.triples.SparqlHelper;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -22,6 +24,8 @@ import org.eclipse.dataspaceconnector.spi.transfer.response.ResponseStatus;
 import org.eclipse.dataspaceconnector.spi.types.domain.transfer.DataAddress;
 import org.eclipse.dataspaceconnector.spi.types.domain.transfer.DataRequest;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 
 /**
  * Implements a (synchronous) data flow that
@@ -36,12 +40,11 @@ public class SparqlSynchronousDataflow implements DataFlowController {
     public final static String SPARQL_DATAFLOW_TYPE="sparql";
     public final static String DESTINATION_PROPERTY_QUERY="net.catenax.semantics.connector.sparql.query";
     public final static String DESTINATION_PROPERTY_RESPONSE="net.catenax.semantics.connector.sparql.response";
-    public final static okhttp3.MediaType SPARQL_QUERY_MEDIATYPE = okhttp3.MediaType.parse("application/sparql-query");
 
     /**
      * we got an http client to call out
      */
-    protected final OkHttpClient httpClient;
+    protected final SparqlHelper internalService;
 
     /**
      * links to the connector services
@@ -58,13 +61,12 @@ public class SparqlSynchronousDataflow implements DataFlowController {
      * @param connectorId we need our own identity
      * @param resolver a service that helps us to find our endpoint published as an asset
      */
-    public SparqlSynchronousDataflow(Monitor monitor, IdentityService identityService, String connectorId, DataAddressResolver resolver) {
+    public SparqlSynchronousDataflow(Monitor monitor, IdentityService identityService, String connectorId, DataAddressResolver resolver, SparqlHelper internalService) {
         this.monitor = monitor;
         this.identityService=identityService;
         this.connectorId=connectorId;
         this.resolver=resolver;
-        //  TODO do we need to manipulate the call timeout?
-        this.httpClient= new OkHttpClient.Builder().build();
+        this.internalService=internalService;
     }
 
     /**
@@ -113,35 +115,18 @@ public class SparqlSynchronousDataflow implements DataFlowController {
         if(!extendedIssuerConnectors.startsWith(connectorId)) {
             extendedIssuerConnectors=connectorId+";"+extendedIssuerConnectors;
         }
-        RequestBody formBody = RequestBody.create(query,SPARQL_QUERY_MEDIATYPE);
 
-        Request request = new Request.Builder()
-                .url(assetEndpoint)
-                .addHeader(TripleDataPlaneExtension.CORRELATION_HEADER,correlationId)
-                .addHeader(TripleDataPlaneExtension.CONNECTOR_HEADER,extendedIssuerConnectors)
-                .addHeader(TripleDataPlaneExtension.AGREEMENT_HEADER,agreementToken)
-                .addHeader(HttpHeaders.ACCEPT,accepts)
-                .post(formBody)
-                .build();
-
-        try (okhttp3.Response response = httpClient.newCall(request).execute()) {
-
-            if (!response.isSuccessful())
-                return new DataFlowInitiateResponse(ResponseStatus.FATAL_ERROR,
-                        String.format("Synchronous dataflow initiation failed. Got an unsuccessful response status %d",response.code()));
-
-            // Get response body
-            String responseBody = response.body().string();
-
+        try {
+            String response = internalService.performQuery(assetEndpoint,query,correlationId,extendedIssuerConnectors,agreementToken,accepts);
             var updatedDestination= DataAddress.Builder.newInstance()
                     .type("sparql")
                     .property(TripleDataPlaneExtension.CORRELATION_HEADER,correlationId)
-                    .property(DESTINATION_PROPERTY_RESPONSE,responseBody).build();
+                    .property(DESTINATION_PROPERTY_RESPONSE,response).build();
 
             dataRequest.updateDestination(updatedDestination);
 
             return DataFlowInitiateResponse.OK;
-        } catch (Exception e) {
+        } catch (IOException e) {
             return new DataFlowInitiateResponse(ResponseStatus.FATAL_ERROR,
                     String.format("Synchronous dataflow initiation failed. Got an exception %s",e.getMessage()));
         }

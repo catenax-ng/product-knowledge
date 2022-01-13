@@ -8,7 +8,6 @@
  * additional information regarding license terms.
  */
 /**
- * This package hosts all connector extensions, such
- * as sovereign embeddings of a triple-data related data plane API.
+ * This package hosts all spike code
  */
-package net.catenax.semantics.connector;
+package net.catenax.semantics;

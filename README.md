@@ -1,6 +1,5 @@
 
-
-[Copyright (c) 2021 T-Systems International GmbH (Catena-X Consortium)]: # () 
+[Copyright (c) 2021-2022 T-Systems International GmbH (Catena-X Consortium)]: # () 
 
 [See the AUTHORS file(s) distributed with this work for additional information regarding authorship.]: # ()
 
@@ -17,8 +16,9 @@ git submodule update --init --recursive
 ```
 
 You will need a JDK>=11 installed in the JAVA_HOME environment variable.
-
 You will need Apache Maven installed in the PATH environment variable.
+You will need internet access and (optionally) a proxy installed in the HTTP_PROXY_HOST and HTTP_PROXY_PORT environment variables.
+The build process will install a (local) gradle build tool during the run.
 
 ## Introduction
 
@@ -51,24 +51,25 @@ A *Catena-X Data Component* is a Catena-X Component which implements at least on
 - standardized **synchronous query API** (aka "pull API", although that name is misleading regarding the actual bidirectional way that data may be transmitted through that API), such as *GraphQL*-, *SparQL*- or *REST/CRUD*-based, or
 - standardized **asynchronous and batched event API** (aka "push API"), such as file-based *HTTP/POST* on top of *CSV*, *TTL*, *XML* or *json*
 
-The internal data is organized in **assets** (like database schemas or graphs) which obey to specific **data policies**. 
+The (internally organised, stored or served) data is organized in **assets** (like database schemas or graphs) which obey to specific **data policies**. 
 We expect each asset to contain a coherent and possibly large set of documents/entities/trees/rows 
 which can be addressed individually as well as searched and aggregated as a (sub-)collection.
 
 Data Policies comprise:
 - The permission/restriction to *read and query* (partial) data from the asset.
-- The permission/restriction to *union/join/aggregate* (partial) data with other assets.
-- The permission/restriction to *store* (partial) data from the asset.
-- The permission/restriction to *redistribute* (partial) data from the asset.
 - The permission/restriction to *write or update* (partial) data in the asset.
+- The permission/restriction to *delete* (partial) data in the asset.
+- The permission/restriction to *store and redistribute* (partial) data from the asset.
+- The permission/restriction to *subscribe/listen* to (partial) data changes from the asset.
 
 Data Policies in combination with the Connector API allow each Catena-X Data Component for *multi-tenancy*. 
-That means that it is a safe and soverign way to host data on behalf of different (mutually competitive or unknown) 
+That means that there is a safe and sovereign way to serve data on behalf of different (mutually competitive or unknown) 
 stakeholders.
 
 Data assets may **federate** (i.e. *join, union, aggregate*) data from other assets. 
 In this case, data policies are required to be consistent, i.e., a permission/restriction to a particular 
 federated data asset should never be relaxed at the federating level. 
+
 In that respect we strongly discourage building arbitrary or even recursive asset relationships. Instead, we 
 propose data processing methods which allow lineage analysis that is the traceability of each data point to 
 its original assets (and hence: policies).
@@ -102,17 +103,16 @@ As the data service API, we chose
 - as the asynchronous event API: *[TTL file](https://www.w3.org/TR/turtle/) over http/s*
 
 The rationale for choosing this triple data approach is 
-* a graph is the most general concept behind any tree, schema- or table-based approach
-* a graph bridges the gap between data and meta-data representations
-  * it can be immediately applied to semantic services
-* a graph is a good basis for lineage analysis
-* SPARQL already has builtin concepts of separation/federation (GRAPHS and SERVICES)
+* a (TTL) graph is the most general concept behind any tree, schema- or table-based data representation
+* a (TTL) graph bridges the gap between data and meta-data representations. It is the natural representation of semantic-enabled services.
+* a (TTL) graph is a useful tool for lineage analysis
 * SPARQL allows to express all kinds of CRUD operations
-* there are SPARQL bindings for all kind of performant storage engines (SQL databases, graph databases, ...)
+* SPARQL already has builtin concepts of separation/federation (GRAPHS and SERVICES)
+* SPARQL has bindings for all kind of performant storage engines (SQL databases, graph databases, ...)
 
 In the spike, we demonstrate how
-* a SPARQL query posted to a central federating service (with some additional http headers) will be 
-  1. first converted and validated into an ordinary connector-plane artifact request of type "sparql"
+* a SPARQL query posted to a federating service named *central* (with some extended http headers) will be 
+  1. first converted and validated into a connector-plane artifact request of type "sparql"
   2. forwarded (with some extended-context http headers) to the internal Fuseki database
   3. delegated and joined from the Fuseki database to the federated services (which recursively behave like the federating service)
   4. Any cross-graph/cross-asset policies are checked at the level of the federating service. 
@@ -125,9 +125,53 @@ In the spike, we demonstrate how
   5. the turtle endpoint needs to just check the headers for validity before forwarding the file to the central Fuseki database
   6. this event processing is implemented recursively, i.e., the central service now also checks for any pending subscribers
   
+#### Additional Data-Plane Headers
+
+* **catenax-connector-context** the sequence of connector-ids which have (recursively) initiated this request (in reverse order, e.g. "urn:connector:central:semantics:catenax:net;urn:connector:app:semantics:catenax:net") 
+* **catenax-security-token** the security token which is first validated against the **catenax-connector-context** in order to obtain request claims which maybe validated against the requested assets` policies in a second step
+* **catenax-correlation-id** a traceable (and sufficiently unique) identifier that will annotate all correlated requests. Correlated requests should not recurse.
+
+#### Additional Connector-Plane (Data Destination/Claim/Policy-Function) Properties
+
+* **catenax-request-type** the concrete type of triple request issued (SELECT, INSERT, DELETE, SUBSCRIBE)
+* **catenax-request-location** the internal address/URN of the targetted asset
+* **catenax-request-graph** the schema/graph of the targetted asset
+* **catenax-request-token** a security token that is to be forwarded to the targetted asset
+* **ids:origin** extends the "single-connector-id" claim/policy function to represent and match above sequence
+* **cx:union-asset** represent and match a set of graph (=sub-asset) names which are to be aggregated, e.g. ("urn:tenant1:PrivateGraph;urn:x-arq:Default-Graph")
+
+The latter two policy functions/claim properties are used in conjunction with a regular expression string and the following
+two operators: 
+* with the EQ Operator, the regular expression needs to match the complete sequence/set 
+* with the IN Operator, the regular expression needs to match ALL components of the sequence/set 
+
+#### Important Packages and Classes 
+
+* [net.catenax.semantics.triples.SparqlHelper](src/main/java/net/catenax/semantics/triples/SparqlHelper.java) A REST client for an internal plane (Fuseki) triple engine/store which implements the actual SparQL und TTL endpoints. At this level, all calls are synchronous. The Fuseki engine has been extended to forward all headers with "catenax" prefix to any outgoing federation calls.
+* [net.catenax.semantics.connector.TripleDataPlaneExtension](src/main/java/net/catenax/semantics/connector/TripleDataPlaneExtension.java) The Eclipse Dataspace Connector extension which 
+  * exposes all data and connector plane controllers
+  * registers policy extensions
+  * registers all synchronous and asynchronous data flows
+  * creates two federated policies
+    * co-policy-local: Used for all assets having "Private" in their id. Will only allow "single-level" (non-federated) calls.
+    * co-policy-central: Used for all other assets. Federation and level-one distribution is allowed under the duty of duplicating the federated read permissions.  
+  * registers all assets 
+  * initiates all asynchronous subscriptions to remote assets 
+* [net.catenax.semantics.connector.FederatedArtifactRequestController](src/main/java/net/catenax/semantics/connector/FederatedArtifactRequestController.java) An extension/replacement to the standard (but slightly refactored) standard IDS request controller. Firstly, it copes with requests which target/join multiple assets at once. Secondly, it evaluates the policies/permissions in the presence of an adhoc or derived request type. For example, if a policy has several READ and UPDATE permissions under the SELECT command, it is enough to find a single READ rule without problems to validate the policy.
+* [net.catenax.semantics.connector.sparql](src/main/java/net/catenax/semantics/connector/sparql) This package hosts all extensions related to synchronous SparQL API
+  * [net.catenax.semantics.connector.sparql.SparqlSynchronousApi](src/main/java/net/catenax/semantics/connector/sparql/SparqlSynchronousApi.java) This data plane controller translates/delegates incoming SparQL requests into the connector plane and waits for the transfer process to finish. Therefore, it registers also as a listener to the TransferProcessManager.
+  * [net.catenax.semantics.connector.sparql.SparqlSynchronousDataflow](src/main/java/net/catenax/semantics/connector/sparql/SparqlSynchronousDataflow.java) The data flow controller is invoked by the connector to issue a synchronous SparQL request to an internal service (which by itself may again invoke a data plane API) and writes the result back into the transfer process.
+* [net.catenax.semantics.connector.turtle](src/main/java/net/catenax/semantics/connector/turtle) This package hosts all extensions related to the asynchronous Turtle API
+  * [net.catenax.semantics.connector.turtle.TurtleAsynchronousDataflow](src/main/java/net/catenax/semantics/connector/turtle/TurtleAsynchronousDataflow.java) This data flow controller is invoked by the connector to initiate a streaming subscription. Each time an internal TURTLE file event is triggered, it will publish that file to the given data destination.
+  * [net.catenax.semantics.connector.turtle.TurtleAsynchronousApi](src/main/java/net/catenax/semantics/connector/turtle/TurtleAsynchronousApi.java) This data plane controller is invoked as the result of the publish action. It delegates to an internal triple database and may itself initiate a propagation event.
+* [net.catenax.semantics.connector.policy](src/main/java/net/catenax/semantics/connector/policy) This package hosts all extensions related to IDS policies
+  * [net.catenax.semantics.connector.policy.ConnectorOriginMatchFunction](src/main/java/net/catenax/semantics/connector/policy/ConnectorOriginMatchFunction.java) The "ids:origin" function to regex-match the sequence of calling connector ids
+  * [net.catenax.semantics.connector.policy.UnionAssetMatchFunction](src/main/java/net/catenax/semantics/connector/policy/UnionAssetMatchFunction.java) The "cx:union-asset" function to regex-match the set of unioned assets
+  * [net.catenax.semantics.connector.policy.CrossConnectorPolicy](src/main/java/net/catenax/semantics/connector/policy/CrossConnectorPolicy.java) Builds and evaluates federation policies where permission is given if a single rule matching the current request type has no problems associated.
+
 ## How to build and run
 
-### Build repo and run a (non-sovereign) internal triple store with separate endpoints for different tenants
+### Build complete repo with sub-modules EDC and Fuseki and run a (non-sovereign) internal triple store with separate endpoints for different tenants
 
 ```
 ./run_local.sh -all -build -complete -internal &
