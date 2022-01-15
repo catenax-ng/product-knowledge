@@ -1,0 +1,17 @@
+@startuml
+TurtleDataflowController -> TripleStoreClient: register event listener
+
+TripleDataServiceExtension -> TransferProcessManagerServer: Initiate asynchronous "turtle" Data Flow
+TransferProcessManagerServer -> FederatedArtifactRequestControllerClient: SingleAsset Data Request Remote
+
+FederatedArtifactRequestControllerClient -> TransferProcessManagerClient: SingleAsset Data Request Local
+create DataFlow
+TransferProcessManagerClient -> DataFlow: instantiate with DataAddress, Destination
+TransferProcessManagerClient -> TurtleDataflowController: initiate "submission" flow
+
+TripleStoreClient -> TurtleDataFlowController: raise change event in asset
+TurtleDataflowController -> DataFlow: Check submissions
+TurtleDataflowController -> TurtleApiControllerServer: Upload Turtle File to asset
+TurtleApiControllerServer -> FederatedArtifactRequestControllerServer: Check Runtime Policy
+TurtleApiControllerServer -> TripleStoreServer: Insert/Update graph
+@enduml
