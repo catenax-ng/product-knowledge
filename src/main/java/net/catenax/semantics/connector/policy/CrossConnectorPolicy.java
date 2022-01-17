@@ -130,13 +130,13 @@ public class CrossConnectorPolicy {
      * @param verificationResult
      * @return policy evaluation result (success and failure)
      */
-    public static PolicyEvaluationResult evaluatePolicy(IdsPolicyService policyService, String urn, Map<String,String> destination, Policy policy, String consumerConnectorId, String correlationId, VerificationResult verificationResult) {
+    public static PolicyEvaluationResult evaluatePolicy(IdsPolicyService policyService, String urn, Map<String,Object> destination, Policy policy, String consumerConnectorId, String correlationId, VerificationResult verificationResult) {
         var assetName = urn.substring(0, urn.indexOf("#"));
         var graphNames = urn.substring(urn.indexOf("#") + 1);
         var ctb = ClaimToken.Builder.newInstance();
         ctb.claims(verificationResult.token().getClaims());
         ctb.claim(UnionAssetMatchFunction.FUNCTION_NAME, graphNames);
-        String type = destination.getOrDefault(TripleDataPlaneExtension.REQUEST_TYPE,"");
+        String type = ((Map<String,String>) destination.getOrDefault("properties",Map.of())).getOrDefault(TripleDataPlaneExtension.REQUEST_TYPE,"");
         PolicyEvaluationResult result = policyService.evaluateRequest(consumerConnectorId, correlationId, ctb.build(), policy);
         Map<Rule,List<RuleProblem>> remaining = result.getProblems().stream().filter(
                 problem -> {

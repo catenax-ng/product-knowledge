@@ -1,0 +1,22 @@
+@startuml
+FederatedArtifactRequestController -> TransferProcessManager: Register as listener
+
+App -> SparQLApiController: SparQl Query
+SparQLApiController -> FederatedArtifactRequestController: MultiAsset Data Request
+FederatedArtifactRequestController -> TransferProcessManager: Initiate synchronous "sparql" Data Flow
+
+create DataFlow
+TransferProcessManager -> DataFlow: instantiate with DataAddress, Destination
+TransferProcessManager -> SparQlDataflowController: initiate "on-shot" flow
+SparQlDataflowController -> TripleStore: delegate
+TripleStore --> SparqlDataflowController: SparQl Response
+SparqlDataflowController -> DataFlow: register Response
+SparqlDataflowController -> TransferProcessManager: flow initiated
+
+TransferProcessManager -> FederatedArtifactRequestController: Dataflow Event
+FederatedArtifactRequestController -> DataFlow: Extract response
+destroy DataFlow
+
+FederatedArtifactRequestController --> SparqlApiController: Notify Response
+SparqlApiController --> App: SparQL Response
+@enduml

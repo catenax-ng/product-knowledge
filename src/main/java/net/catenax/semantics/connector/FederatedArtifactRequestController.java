@@ -125,7 +125,7 @@ public class FederatedArtifactRequestController extends ArtifactRequestControlle
      */
     @Override
     protected PolicyEvaluationResult evaluatePolicy(ArtifactRequestMessage message, Policy policy, String consumerConnectorId, String correlationId, VerificationResult verificationResult) {
-        return CrossConnectorPolicy.evaluatePolicy(policyService,message.getRequestedArtifact().toString(),(Map<String,String>)message.getProperties().getOrDefault("dataspaceconnector-data-destination", Map.of()),policy,consumerConnectorId,correlationId,verificationResult);
+        return CrossConnectorPolicy.evaluatePolicy(policyService,message.getRequestedArtifact().toString(),(Map<String,Object>)message.getProperties().getOrDefault("dataspaceconnector-data-destination", Map.of()),policy,consumerConnectorId,correlationId,verificationResult);
     }
 
 }
