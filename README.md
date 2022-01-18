@@ -411,12 +411,57 @@ WHERE {
 '
 ```
 
+Here is an example, where federated access is restricted by policies:
+
+```
+curl -X POST http://localhost:8181/api/sparql/hub \
+-H "Content-Type: application/sparql-query"  \
+-H "catenax-security-token: mock-eu" \
+-H "catenax-connector-context: urn:connector:app:semantics:catenax:net" \
+-d 'PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX bamm: <urn:bamm:io.openmanufacturing:meta-model:1.0.0#>
+
+SELECT ?aspect
+WHERE {
+    {
+        SERVICE <http://localhost:8182/api/sparql/hub> { 
+            {
+                ?aspect rdf:type bamm:Aspect .
+            }
+            UNION
+            {
+                GRAPH <urn:tenant1:PrivateGraph> { 
+                    ?aspect rdf:type bamm:Aspect .
+                }
+            }
+        }
+    }
+    UNION
+    {
+        SERVICE <http://localhost:8183/api/sparql/hub> { 
+            {
+                ?aspect rdf:type bamm:Aspect .
+            }
+            UNION
+            {
+                GRAPH <urn:tenant2:PrivateGraph> { 
+                    ?aspect rdf:type bamm:Aspect .
+                }
+            }
+        }
+    }
+}
+'
+```
+
+
 For performing an update to tenant1 and tenant2 assets with the TTL API which then propagate to 
 central (and whose effect which you can check by rerunning the previous query afterwards):
 
 ```
 curl -X POST 'http://localhost:8182/api/turtle/hub' \
 -H "catenax-security-token: mock-eu" \
+-H "catenax-correlation-id: 42" \
 -H "catenax-connector-context: urn:connector:tenant1:semantics:catenax:net" \
 --form 'file=@BAMMmodels/com.catenax/0.0.1/TechnicalData.ttl' \
 --form 'graph="urn:tenant1:PropagateGraph"'
@@ -425,6 +470,7 @@ curl -X POST 'http://localhost:8182/api/turtle/hub' \
 ```
 curl -X POST 'http://localhost:8183/api/turtle/hub' \
 -H "catenax-security-token: mock-eu" \
+-H "catenax-correlation-id: 43" \
 -H "catenax-connector-context: urn:connector:tenant2:semantics:catenax:net" \
 --form 'file=@BAMMmodels/com.catenax/0.1.1/QualityAlert.ttl' \
 --form 'graph="urn:tenant2:PropagateGraph"'
