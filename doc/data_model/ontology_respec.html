@@ -1,0 +1,418 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <script src='https://www.w3.org/Tools/respec/respec-w3c' async class='remove'></script>
+    <script class='remove'>
+      // All config options at https://respec.org/docs/
+      var respecConfig = {
+        specStatus: "unofficial",
+        editors: [],
+        otherLinks: [{
+          key: "Contributors",
+          data: []
+        }],
+        github: {
+          branch: "",
+          repoURL: "", 
+        },
+        
+      };
+    </script>
+  </head>
+<body>
+
+<body> 
+    <h1 id="title">Example Ontology Parts and Relations</h1>
+    <section id='abstract'>
+      <p align="justify">
+        
+      </p>
+    </section>
+    <section id='sotd'>
+      
+    </section>
+    
+
+<section id="namespaces">
+
+    <h2>Namespaces</h2>
+
+    <p> 
+        <section>
+          <h3>Normative namespaces</h3>
+          <p>Namespaces and prefixes used in normative parts of this recommendation are shown in the following table.</p>
+
+          <table id="table-namespaces" class="simple">
+            <thead><tr><th>Prefix</th><th>Namespace IRI</th><th>Source</th></tr></thead>
+            <tbody>
+            <tr><td>xml</td><td>http://www.w3.org/XML/1998/namespace</td><td></td></tr>
+<tr><td>rdf</td><td>http://www.w3.org/1999/02/22-rdf-syntax-ns#</td><td></td></tr>
+<tr><td>rdfs</td><td>http://www.w3.org/2000/01/rdf-schema#</td><td></td></tr>
+<tr><td>xsd</td><td>http://www.w3.org/2001/XMLSchema#</td><td></td></tr>
+<tr><td>cxbpdm</td><td>http://catena-x.net/bpdm#</td><td></td></tr>
+<tr><td>owl</td><td>http://www.w3.org/2002/07/owl#</td><td></td></tr>
+<tr><td>tractusx</td><td>https://github.com/eclipse/tractusx#</td><td></td></tr>
+<tr><td>dcterms</td><td>http://purl.org/dc/terms/</td><td></td></tr>
+
+            </tbody>
+           </table>
+        </section>
+    </p>
+</section>
+
+<section id="vocabulary-specification">
+    
+    <h2>Vocabulary specification</h2>
+    
+        <figure id="figure-ontology-overview">
+            <img src="ontology_overview.svg" alt="Ontology Structure" />
+            <figcaption>Structure and components of the ontology</figcaption>
+        </figure> 
+    
+    <section id="vocabulary-specification">
+        <h3>OWL Classes</h3>        
+        
+    <section id="IDProvider">
+        <h4>IDProvider</h4>
+        <table class="def">
+            <tr><th>Owl Class:</th><td><a href="#IDProvider"><code>tractusx:IDProvider</code></a></td></tr>
+            <tr><th class="prop">Definition:</th><td><p>ToDo</p></td></tr>
+            
+            
+            
+            
+        </table>
+    </section>
+    
+    <section id="Identifier">
+        <h4>Identifier</h4>
+        <table class="def">
+            <tr><th>Owl Class:</th><td><a href="#Identifier"><code>tractusx:Identifier</code></a></td></tr>
+            <tr><th class="prop">Definition:</th><td><p>ToDo</p></td></tr>
+            
+            
+            
+            
+        </table>
+    </section>
+    
+    <section id="Material">
+        <h4>Material</h4>
+        <table class="def">
+            <tr><th>Owl Class:</th><td><a href="#Material"><code>tractusx:Material</code></a></td></tr>
+            <tr><th class="prop">Definition:</th><td><p>ToDo</p></td></tr>
+            
+            
+            
+            
+        </table>
+    </section>
+    
+    <section id="PartType">
+        <h4>PartType</h4>
+        <table class="def">
+            <tr><th>Owl Class:</th><td><a href="#PartType"><code>tractusx:PartType</code></a></td></tr>
+            <tr><th class="prop">Definition:</th><td><p>ToDo</p></td></tr>
+            
+            
+            
+            
+        </table>
+    </section>
+    
+    <section id="SerializedPart">
+        <h4>SerializedPart</h4>
+        <table class="def">
+            <tr><th>Owl Class:</th><td><a href="#SerializedPart"><code>tractusx:SerializedPart</code></a></td></tr>
+            <tr><th class="prop">Definition:</th><td><p>ToDo</p></td></tr>
+            
+            
+            
+            
+        </table>
+    </section>
+    
+    </section>
+        
+        <section id="vocabulary-specification">
+            <h3>OWL Properties</h3>
+        <section id="belongsTo">
+            <h4>belongsTo</h4>
+            <table class="def">
+                <tr><th>OWL Object Property:</th><td><a href="#belongsTo"><code>tractusx:belongsTo</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#SerializedPart">SerializedPart</td></tr>
+                <tr><th class="prop">Range:</th><td><a href="#PartType">PartType</td></tr>
+                
+            </table>
+        </section>
+        
+        <section id="consistsOf">
+            <h4>consistsOf</h4>
+            <table class="def">
+                <tr><th>OWL Object Property:</th><td><a href="#consistsOf"><code>tractusx:consistsOf</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#SerializedPart">SerializedPart</td></tr>
+                <tr><th class="prop">Range:</th><td><a href="#SerializedPart">SerializedPart</td></tr>
+                
+            </table>
+        </section>
+        
+        <section id="hasHazardousMaterials">
+            <h4>hasHazardousMaterials</h4>
+            <table class="def">
+                <tr><th>OWL Object Property:</th><td><a href="#hasHazardousMaterials"><code>tractusx:hasHazardousMaterials</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#PartType">PartType</td></tr>
+                <tr><th class="prop">Range:</th><td><a href="#Material">Material</td></tr>
+                
+            </table>
+        </section>
+        
+        <section id="isComposedOf">
+            <h4>isComposedOf</h4>
+            <table class="def">
+                <tr><th>OWL Object Property:</th><td><a href="#isComposedOf"><code>tractusx:isComposedOf</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#PartType">PartType</td></tr>
+                <tr><th class="prop">Range:</th><td><a href="#Material">Material</td></tr>
+                
+            </table>
+        </section>
+        
+        <section id="isDefinedBy">
+            <h4>isDefinedBy</h4>
+            <table class="def">
+                <tr><th>OWL Object Property:</th><td><a href="#isDefinedBy"><code>tractusx:isDefinedBy</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#PartType">PartType</td></tr>
+                <tr><th class="prop">Range:</th><td><a href="http://catena-x.net/bpdm#BusinessPartner">http://catena-x.net/bpdm#BusinessPartner</td></tr>
+                
+            </table>
+        </section>
+        
+        <section id="isIssuedBy">
+            <h4>isIssuedBy</h4>
+            <table class="def">
+                <tr><th>OWL Object Property:</th><td><a href="#isIssuedBy"><code>tractusx:isIssuedBy</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#Identifier">Identifier</td></tr>
+                <tr><th class="prop">Range:</th><td><a href="#IDProvider">IDProvider</td></tr>
+                
+            </table>
+        </section>
+        
+        <section id="producedByContractor">
+            <h4>producedByContractor</h4>
+            <table class="def">
+                <tr><th>OWL Object Property:</th><td><a href="#producedByContractor"><code>tractusx:producedByContractor</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#SerializedPart">SerializedPart</td></tr>
+                <tr><th class="prop">Range:</th><td><a href="http://catena-x.net/bpdm#BusinessPartner">http://catena-x.net/bpdm#BusinessPartner</td></tr>
+                
+            </table>
+        </section>
+        
+        <section id="producedByManufacturer">
+            <h4>producedByManufacturer</h4>
+            <table class="def">
+                <tr><th>OWL Object Property:</th><td><a href="#producedByManufacturer"><code>tractusx:producedByManufacturer</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#SerializedPart">SerializedPart</td></tr>
+                <tr><th class="prop">Range:</th><td><a href="http://catena-x.net/bpdm#BusinessPartner">http://catena-x.net/bpdm#BusinessPartner</td></tr>
+                
+            </table>
+        </section>
+        
+        <section id="suppliedToContractor">
+            <h4>suppliedToContractor</h4>
+            <table class="def">
+                <tr><th>OWL Object Property:</th><td><a href="#suppliedToContractor"><code>tractusx:suppliedToContractor</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#SerializedPart">SerializedPart</td></tr>
+                <tr><th class="prop">Range:</th><td><a href="http://catena-x.net/bpdm#BusinessPartner">http://catena-x.net/bpdm#BusinessPartner</td></tr>
+                
+            </table>
+        </section>
+        
+        <section id="suppliedToCustomer">
+            <h4>suppliedToCustomer</h4>
+            <table class="def">
+                <tr><th>OWL Object Property:</th><td><a href="#suppliedToCustomer"><code>tractusx:suppliedToCustomer</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#SerializedPart">SerializedPart</td></tr>
+                <tr><th class="prop">Range:</th><td><a href="http://catena-x.net/bpdm#BusinessPartner">http://catena-x.net/bpdm#BusinessPartner</td></tr>
+                
+            </table>
+        </section>
+        
+        <section id="constructionWeight">
+            <h4>constructionWeight</h4>
+            <table class="def">
+                <tr><th>OWL Datatype Property:</th><td><a href="#constructionWeight"><code>tractusx:constructionWeight</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#SerializedPart">SerializedPart</td></tr>
+                
+                
+            </table>
+        </section>
+        
+        <section id="hasDisassemblyInstructions">
+            <h4>hasDisassemblyInstructions</h4>
+            <table class="def">
+                <tr><th>OWL Datatype Property:</th><td><a href="#hasDisassemblyInstructions"><code>tractusx:hasDisassemblyInstructions</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#PartType">PartType</td></tr>
+                
+                
+            </table>
+        </section>
+        
+        <section id="hasLegalDismantlingDuties">
+            <h4>hasLegalDismantlingDuties</h4>
+            <table class="def">
+                <tr><th>OWL Datatype Property:</th><td><a href="#hasLegalDismantlingDuties"><code>tractusx:hasLegalDismantlingDuties</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#PartType">PartType</td></tr>
+                
+                
+            </table>
+        </section>
+        
+        <section id="hasMaterialName">
+            <h4>hasMaterialName</h4>
+            <table class="def">
+                <tr><th>OWL Datatype Property:</th><td><a href="#hasMaterialName"><code>tractusx:hasMaterialName</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#Material">Material</td></tr>
+                
+                
+            </table>
+        </section>
+        
+        <section id="hasMaterialWeight">
+            <h4>hasMaterialWeight</h4>
+            <table class="def">
+                <tr><th>OWL Datatype Property:</th><td><a href="#hasMaterialWeight"><code>tractusx:hasMaterialWeight</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#Material">Material</td></tr>
+                
+                
+            </table>
+        </section>
+        
+        <section id="hasOriginDimension">
+            <h4>hasOriginDimension</h4>
+            <table class="def">
+                <tr><th>OWL Datatype Property:</th><td><a href="#hasOriginDimension"><code>tractusx:hasOriginDimension</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#PartType">PartType</td></tr>
+                
+                
+            </table>
+        </section>
+        
+        <section id="hasPartTypeName">
+            <h4>hasPartTypeName</h4>
+            <table class="def">
+                <tr><th>OWL Datatype Property:</th><td><a href="#hasPartTypeName"><code>tractusx:hasPartTypeName</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#PartType">PartType</td></tr>
+                
+                
+            </table>
+        </section>
+        
+        <section id="hasPartTypeNumber">
+            <h4>hasPartTypeNumber</h4>
+            <table class="def">
+                <tr><th>OWL Datatype Property:</th><td><a href="#hasPartTypeNumber"><code>tractusx:hasPartTypeNumber</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#PartType">PartType</td></tr>
+                
+                
+            </table>
+        </section>
+        
+        <section id="hasQualityIssue">
+            <h4>hasQualityIssue</h4>
+            <table class="def">
+                <tr><th>OWL Datatype Property:</th><td><a href="#hasQualityIssue"><code>tractusx:hasQualityIssue</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#SerializedPart">SerializedPart</td></tr>
+                
+                
+            </table>
+        </section>
+        
+        <section id="hasSafetyInstructions">
+            <h4>hasSafetyInstructions</h4>
+            <table class="def">
+                <tr><th>OWL Datatype Property:</th><td><a href="#hasSafetyInstructions"><code>tractusx:hasSafetyInstructions</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#PartType">PartType</td></tr>
+                
+                
+            </table>
+        </section>
+        
+        <section id="hasUniqeId">
+            <h4>hasUniqeId</h4>
+            <table class="def">
+                <tr><th>OWL Datatype Property:</th><td><a href="#hasUniqeId"><code>tractusx:hasUniqeId</code></a></td></tr>
+                
+                
+                
+                
+            </table>
+        </section>
+        
+        <section id="isProducedAtDate">
+            <h4>isProducedAtDate</h4>
+            <table class="def">
+                <tr><th>OWL Datatype Property:</th><td><a href="#isProducedAtDate"><code>tractusx:isProducedAtDate</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#SerializedPart">SerializedPart</td></tr>
+                
+                
+            </table>
+        </section>
+        
+        <section id="isProducedInCountry">
+            <h4>isProducedInCountry</h4>
+            <table class="def">
+                <tr><th>OWL Datatype Property:</th><td><a href="#isProducedInCountry"><code>tractusx:isProducedInCountry</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#SerializedPart">SerializedPart</td></tr>
+                
+                
+            </table>
+        </section>
+        
+        <section id="percentualAmountOfRecycledMaterial">
+            <h4>percentualAmountOfRecycledMaterial</h4>
+            <table class="def">
+                <tr><th>OWL Datatype Property:</th><td><a href="#percentualAmountOfRecycledMaterial"><code>tractusx:percentualAmountOfRecycledMaterial</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#SerializedPart">SerializedPart</td></tr>
+                
+                
+            </table>
+        </section>
+        
+        <section id="residualCurrentHazard">
+            <h4>residualCurrentHazard</h4>
+            <table class="def">
+                <tr><th>OWL Datatype Property:</th><td><a href="#residualCurrentHazard"><code>tractusx:residualCurrentHazard</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#SerializedPart">SerializedPart</td></tr>
+                
+                
+            </table>
+        </section>
+        </section>
+</section>
+</body> 

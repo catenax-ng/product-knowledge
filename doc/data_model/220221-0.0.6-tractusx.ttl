@@ -1,0 +1,137 @@
+@prefix cxbpdm: <http://catena-x.net/bpdm#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix tractusx: <https://github.com/eclipse/tractusx#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+tractusx: a owl:Ontology ;
+    dcterms:description "Example ontology for common use cases around the BOM in Catena-X"@en ;
+    owl:versionInfo "0.0.6" ;
+    dcterms:title "Example Ontology Parts and Relations" .
+
+
+
+tractusx:belongsTo a owl:ObjectProperty ;
+    rdfs:label "belongsTo"@en ;
+    rdfs:domain tractusx:SerializedPart ;
+    rdfs:range tractusx:PartType .
+
+tractusx:consistsOf a owl:ObjectProperty ;
+    rdfs:label "consistsOf"@en ;
+    rdfs:domain tractusx:SerializedPart ;
+    rdfs:range tractusx:SerializedPart .
+
+tractusx:constructionWeight a owl:DatatypeProperty ;
+    rdfs:label "constructionWeight"@en ;
+    rdfs:domain tractusx:SerializedPart .
+
+tractusx:hasDisassemblyInstructions a owl:DatatypeProperty ;
+    rdfs:label "hasDisassemblyInstructions"@en ;
+    rdfs:domain tractusx:PartType .
+
+tractusx:hasHazardousMaterials a owl:ObjectProperty ;
+    rdfs:label "hasHazardousMaterials"@en ;
+    rdfs:domain tractusx:PartType ;
+    rdfs:range tractusx:Material .
+
+tractusx:hasLegalDismantlingDuties a owl:DatatypeProperty ;
+    rdfs:label "hasLegalDismantlingDuties"@en ;
+    rdfs:domain tractusx:PartType .
+
+tractusx:hasMaterialName a owl:DatatypeProperty ;
+    rdfs:label "hasMaterialName"@en ;
+    rdfs:domain tractusx:Material .
+
+tractusx:hasMaterialWeight a owl:DatatypeProperty ;
+    rdfs:label "hasMaterialWeight"@en ;
+    rdfs:domain tractusx:Material .
+
+tractusx:hasOriginDimension a owl:DatatypeProperty ;
+    rdfs:label "hasOriginDimension"@en ;
+    rdfs:domain tractusx:PartType .
+
+tractusx:hasPartTypeName a owl:DatatypeProperty ;
+    rdfs:label "hasPartTypeName"@en ;
+    rdfs:domain tractusx:PartType .
+
+tractusx:hasPartTypeNumber a owl:DatatypeProperty ;
+    rdfs:label "hasPartTypeNumber"@en ;
+    rdfs:domain tractusx:PartType .
+
+tractusx:hasQualityIssue a owl:DatatypeProperty ;
+    rdfs:label "hasQualityIssue"@en ;
+    rdfs:domain tractusx:SerializedPart .
+
+tractusx:hasSafetyInstructions a owl:DatatypeProperty ;
+    rdfs:label "hasSafetyInstructions"@en ;
+    rdfs:domain tractusx:PartType .
+
+tractusx:hasUniqeId a owl:DatatypeProperty ;
+    rdfs:label "hasUniqeId"@en .
+
+tractusx:isComposedOf a owl:ObjectProperty ;
+    rdfs:label "isComposedOf"@en ;
+    rdfs:domain tractusx:PartType ;
+    rdfs:range tractusx:Material .
+
+tractusx:isDefinedBy a owl:ObjectProperty ;
+    rdfs:label "isDefinedBy"@en ;
+    rdfs:domain tractusx:PartType ;
+    rdfs:range cxbpdm:BusinessPartner .
+
+tractusx:isIssuedBy a owl:ObjectProperty ;
+    rdfs:label "isIssuedBy"@en ;
+    rdfs:domain tractusx:Identifier ;
+    rdfs:range tractusx:IDProvider .
+
+tractusx:isProducedAtDate a owl:DatatypeProperty ;
+    rdfs:label "isProducedAtDate"@en ;
+    rdfs:domain tractusx:SerializedPart .
+
+tractusx:isProducedInCountry a owl:DatatypeProperty ;
+    rdfs:label "isProducedInCountry"@en ;
+    rdfs:domain tractusx:SerializedPart .
+
+tractusx:percentualAmountOfRecycledMaterial a owl:DatatypeProperty ;
+    rdfs:label "percentualAmountOfRecycledMaterial"@en ;
+    rdfs:domain tractusx:SerializedPart .
+
+tractusx:producedByContractor a owl:ObjectProperty ;
+    rdfs:label "producedByContractor"@en ;
+    rdfs:domain tractusx:SerializedPart ;
+    rdfs:range cxbpdm:BusinessPartner .
+
+tractusx:producedByManufacturer a owl:ObjectProperty ;
+    rdfs:label "producedByManufacturer"@en ;
+    rdfs:domain tractusx:SerializedPart ;
+    rdfs:range cxbpdm:BusinessPartner .
+
+tractusx:residualCurrentHazard a owl:DatatypeProperty ;
+    rdfs:label "residualCurrentHazard"@en ;
+    rdfs:domain tractusx:SerializedPart .
+
+tractusx:suppliedToContractor a owl:ObjectProperty ;
+    rdfs:label "suppliedToContractor"@en ;
+    rdfs:domain tractusx:SerializedPart ;
+    rdfs:range cxbpdm:BusinessPartner .
+
+tractusx:suppliedToCustomer a owl:ObjectProperty ;
+    rdfs:label "suppliedToCustomer"@en ;
+    rdfs:domain tractusx:SerializedPart ;
+    rdfs:range cxbpdm:BusinessPartner .
+
+tractusx:IDProvider a owl:Class ;
+    rdfs:label "IDProvider"@en .
+
+tractusx:Identifier a owl:Class ;
+    rdfs:label "Identifier"@en .
+
+tractusx:Material a owl:Class ;
+    rdfs:label "Material"@en .
+
+tractusx:PartType a owl:Class ;
+    rdfs:label "PartType"@en .
+
+tractusx:SerializedPart a owl:Class ;
+    rdfs:label "SerializedPart"@en .
+

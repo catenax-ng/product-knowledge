@@ -1,0 +1,776 @@
+<!DOCTYPE html><html lang="en" dir="ltr"><head>
+<meta charset="utf-8">
+<meta name="generator" content="ReSpec 28.2.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<style>
+dfn{cursor:pointer}
+.dfn-panel{position:absolute;z-index:35;min-width:300px;max-width:500px;padding:.5em .75em;margin-top:.6em;font:small Helvetica Neue,sans-serif,Droid Sans Fallback;background:#fff;color:#000;box-shadow:0 1em 3em -.4em rgba(0,0,0,.3),0 0 1px 1px rgba(0,0,0,.05);border-radius:2px}
+.dfn-panel:not(.docked)>.caret{position:absolute;top:-9px}
+.dfn-panel:not(.docked)>.caret::after,.dfn-panel:not(.docked)>.caret::before{content:"";position:absolute;border:10px solid transparent;border-top:0;border-bottom:10px solid #fff;top:0}
+.dfn-panel:not(.docked)>.caret::before{border-bottom:9px solid #a2a9b1}
+.dfn-panel *{margin:0}
+.dfn-panel b{display:block;color:#000;margin-top:.25em}
+.dfn-panel ul a[href]{color:#333}
+.dfn-panel>div{display:flex}
+.dfn-panel a.self-link{font-weight:700;margin-right:auto}
+.dfn-panel .marker{padding:.1em;margin-left:.5em;border-radius:.2em;text-align:center;white-space:nowrap;font-size:90%;color:#040b1c}
+.dfn-panel .marker.dfn-exported{background:#d1edfd;box-shadow:0 0 0 .125em #1ca5f940}
+.dfn-panel .marker.idl-block{background:#8ccbf2;box-shadow:0 0 0 .125em #0670b161}
+.dfn-panel a:not(:hover){text-decoration:none!important;border-bottom:none!important}
+.dfn-panel a[href]:hover{border-bottom-width:1px}
+.dfn-panel ul{padding:0}
+.dfn-panel li{margin-left:1em}
+.dfn-panel.docked{position:fixed;left:.5em;top:unset;bottom:2em;margin:0 auto;max-width:calc(100vw - .75em * 2 - .5em - .2em * 2);max-height:30vh;overflow:auto}
+</style>
+    
+    
+    
+  
+<style id="respec-mainstyle">
+@keyframes pop{
+0%{transform:scale(1,1)}
+25%{transform:scale(1.25,1.25);opacity:.75}
+100%{transform:scale(1,1)}
+}
+:is(h1,h2,h3,h4,h5,h6,a) abbr{border:none}
+dfn{font-weight:700}
+a.internalDFN{color:inherit;border-bottom:1px solid #99c;text-decoration:none}
+a.externalDFN{color:inherit;border-bottom:1px dotted #ccc;text-decoration:none}
+a.bibref{text-decoration:none}
+.respec-offending-element:target{animation:pop .25s ease-in-out 0s 1}
+.respec-offending-element,a[href].respec-offending-element{text-decoration:red wavy underline}
+@supports not (text-decoration:red wavy underline){
+.respec-offending-element:not(pre){display:inline-block}
+.respec-offending-element{background:url(data:image/gif;base64,R0lGODdhBAADAPEAANv///8AAP///wAAACwAAAAABAADAEACBZQjmIAFADs=) bottom repeat-x}
+}
+#references :target{background:#eaf3ff;animation:pop .4s ease-in-out 0s 1}
+cite .bibref{font-style:normal}
+code{color:#c63501}
+th code{color:inherit}
+a[href].orcid{padding-left:4px;padding-right:4px}
+a[href].orcid>svg{margin-bottom:-2px}
+.toc a,.tof a{text-decoration:none}
+a .figno,a .secno{color:#000}
+ol.tof,ul.tof{list-style:none outside none}
+.caption{margin-top:.5em;font-style:italic}
+table.simple{border-spacing:0;border-collapse:collapse;border-bottom:3px solid #005a9c}
+.simple th{background:#005a9c;color:#fff;padding:3px 5px;text-align:left}
+.simple th a{color:#fff;padding:3px 5px;text-align:left}
+.simple th[scope=row]{background:inherit;color:inherit;border-top:1px solid #ddd}
+.simple td{padding:3px 10px;border-top:1px solid #ddd}
+.simple tr:nth-child(even){background:#f0f6ff}
+.section dd>p:first-child{margin-top:0}
+.section dd>p:last-child{margin-bottom:0}
+.section dd{margin-bottom:1em}
+.section dl.attrs dd,.section dl.eldef dd{margin-bottom:0}
+#issue-summary>ul{column-count:2}
+#issue-summary li{list-style:none;display:inline-block}
+details.respec-tests-details{margin-left:1em;display:inline-block;vertical-align:top}
+details.respec-tests-details>*{padding-right:2em}
+details.respec-tests-details[open]{z-index:999999;position:absolute;border:thin solid #cad3e2;border-radius:.3em;background-color:#fff;padding-bottom:.5em}
+details.respec-tests-details[open]>summary{border-bottom:thin solid #cad3e2;padding-left:1em;margin-bottom:1em;line-height:2em}
+details.respec-tests-details>ul{width:100%;margin-top:-.3em}
+details.respec-tests-details>li{padding-left:1em}
+a[href].self-link:hover{opacity:1;text-decoration:none;background-color:transparent}
+h2,h3,h4,h5,h6{position:relative}
+aside.example .marker>a.self-link{color:inherit}
+:is(h2,h3,h4,h5,h6)>a.self-link{border:none;color:inherit;font-size:83%;height:2em;left:-1.6em;opacity:.5;position:absolute;text-align:center;text-decoration:none;top:0;transition:opacity .2s;width:2em}
+:is(h2,h3,h4,h5,h6)>a.self-link::before{content:"§";display:block}
+@media (max-width:767px){
+dd{margin-left:0}
+:is(h2,h3,h4,h5,h6)>a.self-link{left:auto;top:auto}
+}
+@media print{
+.removeOnSave{display:none}
+}
+</style>
+<title>Example Ontology Parts and Relations</title>
+<meta name="description" content="">
+<style>
+var{position:relative;cursor:pointer}
+var[data-type]::after,var[data-type]::before{position:absolute;left:50%;top:-6px;opacity:0;transition:opacity .4s;pointer-events:none}
+var[data-type]::before{content:"";transform:translateX(-50%);border-width:4px 6px 0 6px;border-style:solid;border-color:transparent;border-top-color:#000}
+var[data-type]::after{content:attr(data-type);transform:translateX(-50%) translateY(-100%);background:#000;text-align:center;font-family:"Dank Mono","Fira Code",monospace;font-style:normal;padding:6px;border-radius:3px;color:#daca88;text-indent:0;font-weight:400}
+var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
+</style>
+<script id="initialUserConfig" type="application/json">{
+  "specStatus": "unofficial",
+  "editors": [],
+  "otherLinks": [
+    {
+      "key": "Contributors",
+      "data": []
+    }
+  ],
+  "github": {
+    "branch": "",
+    "repoURL": ""
+  },
+  "publishISODate": "2022-02-21T00:00:00.000Z",
+  "generatedSubtitle": "Unofficial Draft 21 February 2022"
+}</script>
+<link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-UD"></head>
+<body class="h-entry informative"><div class="head">
+     <h1 id="title" class="title">Example Ontology Parts and Relations</h1>
+    
+    <p id="w3c-state">Unofficial Draft <time class="dt-published" datetime="2022-02-21">21 February 2022</time></p>
+    <details open="">
+      <summary>More details about this document</summary>
+      <dl>
+        
+        
+        <dt>History:</dt><dd>
+        <a class="respec-offending-element" title="No matching definition found." id="respec-offender-no-matching-definition-found">Commit history</a>
+      </dd>
+        
+        
+        
+        
+        
+        <dt>Editor:</dt>
+        
+        
+        
+        <dt>Feedback:</dt><dd>
+        <a href="">GitHub </a>
+        (<a class="respec-offending-element" title="No matching definition found." id="respec-offender-no-matching-definition-found-0">pull requests</a>,
+        <a class="respec-offending-element" title="No matching definition found." id="respec-offender-no-matching-definition-found-1">new issue</a>,
+        <a class="respec-offending-element" title="No matching definition found." id="respec-offender-no-matching-definition-found-2">open issues</a>)
+      </dd>
+        
+        <dt>Contributors</dt>
+      </dl>
+    </details>
+    
+    
+    <p class="copyright">
+      Copyright ©
+      2022
+      the document editors/authors.
+      Text is available under the
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/legalcode">Creative Commons Attribution 4.0 International Public License</a>; additional terms may apply.
+    </p>
+    <hr title="Separator for header">
+  </div>
+
+ 
+    
+    <section id="abstract" class="introductory"><h2 id="abstract-0">Abstract<a class="self-link" href="#abstract" aria-label="Permalink for Section"></a></h2>
+      <p align="justify">
+        
+      </p>
+    </section>
+    <section id="sotd" class="introductory"><h2 id="status-of-this-document">Status of This Document<a class="self-link" href="#sotd" aria-label="Permalink for Section"></a></h2><p>
+      This document is a draft of a potential specification. It has no official
+      standing of any kind and does not represent the support or consensus of
+      any standards organization.
+    </p>
+      
+    </section><nav id="toc"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ol class="toc"><li class="tocline"><a class="tocxref" href="#abstract">Abstract</a></li><li class="tocline"><a class="tocxref" href="#sotd">Status of This Document</a></li><li class="tocline"><a class="tocxref" href="#namespaces"><bdi class="secno">1. </bdi>Namespaces</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#normative-namespaces"><bdi class="secno">1.1 </bdi>Normative namespaces</a></li></ol></li><li class="tocline"><a class="tocxref" href="#vocabulary-specification"><bdi class="secno">2. </bdi>Vocabulary specification</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#vocabulary-specification"><bdi class="secno">2.1 </bdi>OWL Classes</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#IDProvider"><bdi class="secno">2.1.1 </bdi>IDProvider</a></li><li class="tocline"><a class="tocxref" href="#Identifier"><bdi class="secno">2.1.2 </bdi>Identifier</a></li><li class="tocline"><a class="tocxref" href="#Material"><bdi class="secno">2.1.3 </bdi>Material</a></li><li class="tocline"><a class="tocxref" href="#PartType"><bdi class="secno">2.1.4 </bdi>PartType</a></li><li class="tocline"><a class="tocxref" href="#SerializedPart"><bdi class="secno">2.1.5 </bdi>SerializedPart</a></li></ol></li><li class="tocline"><a class="tocxref" href="#vocabulary-specification"><bdi class="secno">2.2 </bdi>OWL Properties</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#belongsTo"><bdi class="secno">2.2.1 </bdi>belongsTo</a></li><li class="tocline"><a class="tocxref" href="#consistsOf"><bdi class="secno">2.2.2 </bdi>consistsOf</a></li><li class="tocline"><a class="tocxref" href="#hasHazardousMaterials"><bdi class="secno">2.2.3 </bdi>hasHazardousMaterials</a></li><li class="tocline"><a class="tocxref" href="#isComposedOf"><bdi class="secno">2.2.4 </bdi>isComposedOf</a></li><li class="tocline"><a class="tocxref" href="#isDefinedBy"><bdi class="secno">2.2.5 </bdi>isDefinedBy</a></li><li class="tocline"><a class="tocxref" href="#isIssuedBy"><bdi class="secno">2.2.6 </bdi>isIssuedBy</a></li><li class="tocline"><a class="tocxref" href="#producedByContractor"><bdi class="secno">2.2.7 </bdi>producedByContractor</a></li><li class="tocline"><a class="tocxref" href="#producedByManufacturer"><bdi class="secno">2.2.8 </bdi>producedByManufacturer</a></li><li class="tocline"><a class="tocxref" href="#suppliedToContractor"><bdi class="secno">2.2.9 </bdi>suppliedToContractor</a></li><li class="tocline"><a class="tocxref" href="#suppliedToCustomer"><bdi class="secno">2.2.10 </bdi>suppliedToCustomer</a></li><li class="tocline"><a class="tocxref" href="#constructionWeight"><bdi class="secno">2.2.11 </bdi>constructionWeight</a></li><li class="tocline"><a class="tocxref" href="#hasDisassemblyInstructions"><bdi class="secno">2.2.12 </bdi>hasDisassemblyInstructions</a></li><li class="tocline"><a class="tocxref" href="#hasLegalDismantlingDuties"><bdi class="secno">2.2.13 </bdi>hasLegalDismantlingDuties</a></li><li class="tocline"><a class="tocxref" href="#hasMaterialName"><bdi class="secno">2.2.14 </bdi>hasMaterialName</a></li><li class="tocline"><a class="tocxref" href="#hasMaterialWeight"><bdi class="secno">2.2.15 </bdi>hasMaterialWeight</a></li><li class="tocline"><a class="tocxref" href="#hasOriginDimension"><bdi class="secno">2.2.16 </bdi>hasOriginDimension</a></li><li class="tocline"><a class="tocxref" href="#hasPartTypeName"><bdi class="secno">2.2.17 </bdi>hasPartTypeName</a></li><li class="tocline"><a class="tocxref" href="#hasPartTypeNumber"><bdi class="secno">2.2.18 </bdi>hasPartTypeNumber</a></li><li class="tocline"><a class="tocxref" href="#hasQualityIssue"><bdi class="secno">2.2.19 </bdi>hasQualityIssue</a></li><li class="tocline"><a class="tocxref" href="#hasSafetyInstructions"><bdi class="secno">2.2.20 </bdi>hasSafetyInstructions</a></li><li class="tocline"><a class="tocxref" href="#hasUniqeId"><bdi class="secno">2.2.21 </bdi>hasUniqeId</a></li><li class="tocline"><a class="tocxref" href="#isProducedAtDate"><bdi class="secno">2.2.22 </bdi>isProducedAtDate</a></li><li class="tocline"><a class="tocxref" href="#isProducedInCountry"><bdi class="secno">2.2.23 </bdi>isProducedInCountry</a></li><li class="tocline"><a class="tocxref" href="#percentualAmountOfRecycledMaterial"><bdi class="secno">2.2.24 </bdi>percentualAmountOfRecycledMaterial</a></li><li class="tocline"><a class="tocxref" href="#residualCurrentHazard"><bdi class="secno">2.2.25 </bdi>residualCurrentHazard</a></li></ol></li></ol></li></ol></nav>
+    
+
+<section id="namespaces">
+
+    <h2 id="x1-namespaces"><bdi class="secno">1. </bdi>Namespaces<a class="self-link" href="#namespaces" aria-label="Permalink for Section 1."></a></h2>
+
+    <p> 
+        </p><section id="normative-namespaces">
+          <h3 id="x1-1-normative-namespaces"><bdi class="secno">1.1 </bdi>Normative namespaces<a class="self-link" href="#normative-namespaces" aria-label="Permalink for Section 1.1"></a></h3>
+          <p>Namespaces and prefixes used in normative parts of this recommendation are shown in the following table.</p>
+
+          <table id="table-namespaces" class="simple">
+            <thead><tr><th>Prefix</th><th>Namespace IRI</th><th>Source</th></tr></thead>
+            <tbody>
+            <tr><td>xml</td><td>http://www.w3.org/XML/1998/namespace</td><td></td></tr>
+<tr><td>rdf</td><td>http://www.w3.org/1999/02/22-rdf-syntax-ns#</td><td></td></tr>
+<tr><td>rdfs</td><td>http://www.w3.org/2000/01/rdf-schema#</td><td></td></tr>
+<tr><td>xsd</td><td>http://www.w3.org/2001/XMLSchema#</td><td></td></tr>
+<tr><td>cxbpdm</td><td>http://catena-x.net/bpdm#</td><td></td></tr>
+<tr><td>owl</td><td>http://www.w3.org/2002/07/owl#</td><td></td></tr>
+<tr><td>tractusx</td><td>https://github.com/eclipse/tractusx#</td><td></td></tr>
+<tr><td>dcterms</td><td>http://purl.org/dc/terms/</td><td></td></tr>
+
+            </tbody>
+           </table>
+        </section>
+    <p></p>
+</section>
+
+<section id="vocabulary-specification">
+    
+    <h2 id="x2-vocabulary-specification"><bdi class="secno">2. </bdi>Vocabulary specification<a class="self-link" href="#vocabulary-specification" aria-label="Permalink for Section 2."></a></h2>
+    
+        <figure id="figure-ontology-overview">
+            <img src="ontology_overview.svg" alt="Ontology Structure" height="824" width="1138">
+            <figcaption>Figure <bdi class="figno">1</bdi> <span class="fig-title">Structure and components of the ontology</span></figcaption>
+        </figure> 
+    
+    <section id="vocabulary-specification">
+        <h3 id="x2-1-owl-classes"><bdi class="secno">2.1 </bdi>OWL Classes<a class="self-link" href="#vocabulary-specification" aria-label="Permalink for Section 2.1"></a></h3>        
+        
+    <section id="IDProvider">
+        <h4 id="x2-1-1-idprovider"><bdi class="secno">2.1.1 </bdi>IDProvider<a class="self-link" href="#IDProvider" aria-label="Permalink for Section 2.1.1"></a></h4>
+        <table class="def">
+            <tbody><tr><th>Owl Class:</th><td><a href="#IDProvider"><code>tractusx:IDProvider</code></a></td></tr>
+            <tr><th class="prop">Definition:</th><td><p>ToDo</p></td></tr>
+            
+            
+            
+            
+        </tbody></table>
+    </section>
+    
+    <section id="Identifier">
+        <h4 id="x2-1-2-identifier"><bdi class="secno">2.1.2 </bdi>Identifier<a class="self-link" href="#Identifier" aria-label="Permalink for Section 2.1.2"></a></h4>
+        <table class="def">
+            <tbody><tr><th>Owl Class:</th><td><a href="#Identifier"><code>tractusx:Identifier</code></a></td></tr>
+            <tr><th class="prop">Definition:</th><td><p>ToDo</p></td></tr>
+            
+            
+            
+            
+        </tbody></table>
+    </section>
+    
+    <section id="Material">
+        <h4 id="x2-1-3-material"><bdi class="secno">2.1.3 </bdi>Material<a class="self-link" href="#Material" aria-label="Permalink for Section 2.1.3"></a></h4>
+        <table class="def">
+            <tbody><tr><th>Owl Class:</th><td><a href="#Material"><code>tractusx:Material</code></a></td></tr>
+            <tr><th class="prop">Definition:</th><td><p>ToDo</p></td></tr>
+            
+            
+            
+            
+        </tbody></table>
+    </section>
+    
+    <section id="PartType">
+        <h4 id="x2-1-4-parttype"><bdi class="secno">2.1.4 </bdi>PartType<a class="self-link" href="#PartType" aria-label="Permalink for Section 2.1.4"></a></h4>
+        <table class="def">
+            <tbody><tr><th>Owl Class:</th><td><a href="#PartType"><code>tractusx:PartType</code></a></td></tr>
+            <tr><th class="prop">Definition:</th><td><p>ToDo</p></td></tr>
+            
+            
+            
+            
+        </tbody></table>
+    </section>
+    
+    <section id="SerializedPart">
+        <h4 id="x2-1-5-serializedpart"><bdi class="secno">2.1.5 </bdi>SerializedPart<a class="self-link" href="#SerializedPart" aria-label="Permalink for Section 2.1.5"></a></h4>
+        <table class="def">
+            <tbody><tr><th>Owl Class:</th><td><a href="#SerializedPart"><code>tractusx:SerializedPart</code></a></td></tr>
+            <tr><th class="prop">Definition:</th><td><p>ToDo</p></td></tr>
+            
+            
+            
+            
+        </tbody></table>
+    </section>
+    
+    </section>
+        
+        <section id="vocabulary-specification">
+            <h3 id="x2-2-owl-properties"><bdi class="secno">2.2 </bdi>OWL Properties<a class="self-link" href="#vocabulary-specification" aria-label="Permalink for Section 2.2"></a></h3>
+        <section id="belongsTo">
+            <h4 id="x2-2-1-belongsto"><bdi class="secno">2.2.1 </bdi>belongsTo<a class="self-link" href="#belongsTo" aria-label="Permalink for Section 2.2.1"></a></h4>
+            <table class="def">
+                <tbody><tr><th>OWL Object Property:</th><td><a href="#belongsTo"><code>tractusx:belongsTo</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#SerializedPart">SerializedPart</a></td></tr>
+                <tr><th class="prop">Range:</th><td><a href="#PartType">PartType</a></td></tr>
+                
+            </tbody></table>
+        </section>
+        
+        <section id="consistsOf">
+            <h4 id="x2-2-2-consistsof"><bdi class="secno">2.2.2 </bdi>consistsOf<a class="self-link" href="#consistsOf" aria-label="Permalink for Section 2.2.2"></a></h4>
+            <table class="def">
+                <tbody><tr><th>OWL Object Property:</th><td><a href="#consistsOf"><code>tractusx:consistsOf</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#SerializedPart">SerializedPart</a></td></tr>
+                <tr><th class="prop">Range:</th><td><a href="#SerializedPart">SerializedPart</a></td></tr>
+                
+            </tbody></table>
+        </section>
+        
+        <section id="hasHazardousMaterials">
+            <h4 id="x2-2-3-hashazardousmaterials"><bdi class="secno">2.2.3 </bdi>hasHazardousMaterials<a class="self-link" href="#hasHazardousMaterials" aria-label="Permalink for Section 2.2.3"></a></h4>
+            <table class="def">
+                <tbody><tr><th>OWL Object Property:</th><td><a href="#hasHazardousMaterials"><code>tractusx:hasHazardousMaterials</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#PartType">PartType</a></td></tr>
+                <tr><th class="prop">Range:</th><td><a href="#Material">Material</a></td></tr>
+                
+            </tbody></table>
+        </section>
+        
+        <section id="isComposedOf">
+            <h4 id="x2-2-4-iscomposedof"><bdi class="secno">2.2.4 </bdi>isComposedOf<a class="self-link" href="#isComposedOf" aria-label="Permalink for Section 2.2.4"></a></h4>
+            <table class="def">
+                <tbody><tr><th>OWL Object Property:</th><td><a href="#isComposedOf"><code>tractusx:isComposedOf</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#PartType">PartType</a></td></tr>
+                <tr><th class="prop">Range:</th><td><a href="#Material">Material</a></td></tr>
+                
+            </tbody></table>
+        </section>
+        
+        <section id="isDefinedBy">
+            <h4 id="x2-2-5-isdefinedby"><bdi class="secno">2.2.5 </bdi>isDefinedBy<a class="self-link" href="#isDefinedBy" aria-label="Permalink for Section 2.2.5"></a></h4>
+            <table class="def">
+                <tbody><tr><th>OWL Object Property:</th><td><a href="#isDefinedBy"><code>tractusx:isDefinedBy</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#PartType">PartType</a></td></tr>
+                <tr><th class="prop">Range:</th><td><a href="http://catena-x.net/bpdm#BusinessPartner">http://catena-x.net/bpdm#BusinessPartner</a></td></tr>
+                
+            </tbody></table>
+        </section>
+        
+        <section id="isIssuedBy">
+            <h4 id="x2-2-6-isissuedby"><bdi class="secno">2.2.6 </bdi>isIssuedBy<a class="self-link" href="#isIssuedBy" aria-label="Permalink for Section 2.2.6"></a></h4>
+            <table class="def">
+                <tbody><tr><th>OWL Object Property:</th><td><a href="#isIssuedBy"><code>tractusx:isIssuedBy</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#Identifier">Identifier</a></td></tr>
+                <tr><th class="prop">Range:</th><td><a href="#IDProvider">IDProvider</a></td></tr>
+                
+            </tbody></table>
+        </section>
+        
+        <section id="producedByContractor">
+            <h4 id="x2-2-7-producedbycontractor"><bdi class="secno">2.2.7 </bdi>producedByContractor<a class="self-link" href="#producedByContractor" aria-label="Permalink for Section 2.2.7"></a></h4>
+            <table class="def">
+                <tbody><tr><th>OWL Object Property:</th><td><a href="#producedByContractor"><code>tractusx:producedByContractor</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#SerializedPart">SerializedPart</a></td></tr>
+                <tr><th class="prop">Range:</th><td><a href="http://catena-x.net/bpdm#BusinessPartner">http://catena-x.net/bpdm#BusinessPartner</a></td></tr>
+                
+            </tbody></table>
+        </section>
+        
+        <section id="producedByManufacturer">
+            <h4 id="x2-2-8-producedbymanufacturer"><bdi class="secno">2.2.8 </bdi>producedByManufacturer<a class="self-link" href="#producedByManufacturer" aria-label="Permalink for Section 2.2.8"></a></h4>
+            <table class="def">
+                <tbody><tr><th>OWL Object Property:</th><td><a href="#producedByManufacturer"><code>tractusx:producedByManufacturer</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#SerializedPart">SerializedPart</a></td></tr>
+                <tr><th class="prop">Range:</th><td><a href="http://catena-x.net/bpdm#BusinessPartner">http://catena-x.net/bpdm#BusinessPartner</a></td></tr>
+                
+            </tbody></table>
+        </section>
+        
+        <section id="suppliedToContractor">
+            <h4 id="x2-2-9-suppliedtocontractor"><bdi class="secno">2.2.9 </bdi>suppliedToContractor<a class="self-link" href="#suppliedToContractor" aria-label="Permalink for Section 2.2.9"></a></h4>
+            <table class="def">
+                <tbody><tr><th>OWL Object Property:</th><td><a href="#suppliedToContractor"><code>tractusx:suppliedToContractor</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#SerializedPart">SerializedPart</a></td></tr>
+                <tr><th class="prop">Range:</th><td><a href="http://catena-x.net/bpdm#BusinessPartner">http://catena-x.net/bpdm#BusinessPartner</a></td></tr>
+                
+            </tbody></table>
+        </section>
+        
+        <section id="suppliedToCustomer">
+            <h4 id="x2-2-10-suppliedtocustomer"><bdi class="secno">2.2.10 </bdi>suppliedToCustomer<a class="self-link" href="#suppliedToCustomer" aria-label="Permalink for Section 2.2.10"></a></h4>
+            <table class="def">
+                <tbody><tr><th>OWL Object Property:</th><td><a href="#suppliedToCustomer"><code>tractusx:suppliedToCustomer</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#SerializedPart">SerializedPart</a></td></tr>
+                <tr><th class="prop">Range:</th><td><a href="http://catena-x.net/bpdm#BusinessPartner">http://catena-x.net/bpdm#BusinessPartner</a></td></tr>
+                
+            </tbody></table>
+        </section>
+        
+        <section id="constructionWeight">
+            <h4 id="x2-2-11-constructionweight"><bdi class="secno">2.2.11 </bdi>constructionWeight<a class="self-link" href="#constructionWeight" aria-label="Permalink for Section 2.2.11"></a></h4>
+            <table class="def">
+                <tbody><tr><th>OWL Datatype Property:</th><td><a href="#constructionWeight"><code>tractusx:constructionWeight</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#SerializedPart">SerializedPart</a></td></tr>
+                
+                
+            </tbody></table>
+        </section>
+        
+        <section id="hasDisassemblyInstructions">
+            <h4 id="x2-2-12-hasdisassemblyinstructions"><bdi class="secno">2.2.12 </bdi>hasDisassemblyInstructions<a class="self-link" href="#hasDisassemblyInstructions" aria-label="Permalink for Section 2.2.12"></a></h4>
+            <table class="def">
+                <tbody><tr><th>OWL Datatype Property:</th><td><a href="#hasDisassemblyInstructions"><code>tractusx:hasDisassemblyInstructions</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#PartType">PartType</a></td></tr>
+                
+                
+            </tbody></table>
+        </section>
+        
+        <section id="hasLegalDismantlingDuties">
+            <h4 id="x2-2-13-haslegaldismantlingduties"><bdi class="secno">2.2.13 </bdi>hasLegalDismantlingDuties<a class="self-link" href="#hasLegalDismantlingDuties" aria-label="Permalink for Section 2.2.13"></a></h4>
+            <table class="def">
+                <tbody><tr><th>OWL Datatype Property:</th><td><a href="#hasLegalDismantlingDuties"><code>tractusx:hasLegalDismantlingDuties</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#PartType">PartType</a></td></tr>
+                
+                
+            </tbody></table>
+        </section>
+        
+        <section id="hasMaterialName">
+            <h4 id="x2-2-14-hasmaterialname"><bdi class="secno">2.2.14 </bdi>hasMaterialName<a class="self-link" href="#hasMaterialName" aria-label="Permalink for Section 2.2.14"></a></h4>
+            <table class="def">
+                <tbody><tr><th>OWL Datatype Property:</th><td><a href="#hasMaterialName"><code>tractusx:hasMaterialName</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#Material">Material</a></td></tr>
+                
+                
+            </tbody></table>
+        </section>
+        
+        <section id="hasMaterialWeight">
+            <h4 id="x2-2-15-hasmaterialweight"><bdi class="secno">2.2.15 </bdi>hasMaterialWeight<a class="self-link" href="#hasMaterialWeight" aria-label="Permalink for Section 2.2.15"></a></h4>
+            <table class="def">
+                <tbody><tr><th>OWL Datatype Property:</th><td><a href="#hasMaterialWeight"><code>tractusx:hasMaterialWeight</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#Material">Material</a></td></tr>
+                
+                
+            </tbody></table>
+        </section>
+        
+        <section id="hasOriginDimension">
+            <h4 id="x2-2-16-hasorigindimension"><bdi class="secno">2.2.16 </bdi>hasOriginDimension<a class="self-link" href="#hasOriginDimension" aria-label="Permalink for Section 2.2.16"></a></h4>
+            <table class="def">
+                <tbody><tr><th>OWL Datatype Property:</th><td><a href="#hasOriginDimension"><code>tractusx:hasOriginDimension</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#PartType">PartType</a></td></tr>
+                
+                
+            </tbody></table>
+        </section>
+        
+        <section id="hasPartTypeName">
+            <h4 id="x2-2-17-hasparttypename"><bdi class="secno">2.2.17 </bdi>hasPartTypeName<a class="self-link" href="#hasPartTypeName" aria-label="Permalink for Section 2.2.17"></a></h4>
+            <table class="def">
+                <tbody><tr><th>OWL Datatype Property:</th><td><a href="#hasPartTypeName"><code>tractusx:hasPartTypeName</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#PartType">PartType</a></td></tr>
+                
+                
+            </tbody></table>
+        </section>
+        
+        <section id="hasPartTypeNumber">
+            <h4 id="x2-2-18-hasparttypenumber"><bdi class="secno">2.2.18 </bdi>hasPartTypeNumber<a class="self-link" href="#hasPartTypeNumber" aria-label="Permalink for Section 2.2.18"></a></h4>
+            <table class="def">
+                <tbody><tr><th>OWL Datatype Property:</th><td><a href="#hasPartTypeNumber"><code>tractusx:hasPartTypeNumber</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#PartType">PartType</a></td></tr>
+                
+                
+            </tbody></table>
+        </section>
+        
+        <section id="hasQualityIssue">
+            <h4 id="x2-2-19-hasqualityissue"><bdi class="secno">2.2.19 </bdi>hasQualityIssue<a class="self-link" href="#hasQualityIssue" aria-label="Permalink for Section 2.2.19"></a></h4>
+            <table class="def">
+                <tbody><tr><th>OWL Datatype Property:</th><td><a href="#hasQualityIssue"><code>tractusx:hasQualityIssue</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#SerializedPart">SerializedPart</a></td></tr>
+                
+                
+            </tbody></table>
+        </section>
+        
+        <section id="hasSafetyInstructions">
+            <h4 id="x2-2-20-hassafetyinstructions"><bdi class="secno">2.2.20 </bdi>hasSafetyInstructions<a class="self-link" href="#hasSafetyInstructions" aria-label="Permalink for Section 2.2.20"></a></h4>
+            <table class="def">
+                <tbody><tr><th>OWL Datatype Property:</th><td><a href="#hasSafetyInstructions"><code>tractusx:hasSafetyInstructions</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#PartType">PartType</a></td></tr>
+                
+                
+            </tbody></table>
+        </section>
+        
+        <section id="hasUniqeId">
+            <h4 id="x2-2-21-hasuniqeid"><bdi class="secno">2.2.21 </bdi>hasUniqeId<a class="self-link" href="#hasUniqeId" aria-label="Permalink for Section 2.2.21"></a></h4>
+            <table class="def">
+                <tbody><tr><th>OWL Datatype Property:</th><td><a href="#hasUniqeId"><code>tractusx:hasUniqeId</code></a></td></tr>
+                
+                
+                
+                
+            </tbody></table>
+        </section>
+        
+        <section id="isProducedAtDate">
+            <h4 id="x2-2-22-isproducedatdate"><bdi class="secno">2.2.22 </bdi>isProducedAtDate<a class="self-link" href="#isProducedAtDate" aria-label="Permalink for Section 2.2.22"></a></h4>
+            <table class="def">
+                <tbody><tr><th>OWL Datatype Property:</th><td><a href="#isProducedAtDate"><code>tractusx:isProducedAtDate</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#SerializedPart">SerializedPart</a></td></tr>
+                
+                
+            </tbody></table>
+        </section>
+        
+        <section id="isProducedInCountry">
+            <h4 id="x2-2-23-isproducedincountry"><bdi class="secno">2.2.23 </bdi>isProducedInCountry<a class="self-link" href="#isProducedInCountry" aria-label="Permalink for Section 2.2.23"></a></h4>
+            <table class="def">
+                <tbody><tr><th>OWL Datatype Property:</th><td><a href="#isProducedInCountry"><code>tractusx:isProducedInCountry</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#SerializedPart">SerializedPart</a></td></tr>
+                
+                
+            </tbody></table>
+        </section>
+        
+        <section id="percentualAmountOfRecycledMaterial">
+            <h4 id="x2-2-24-percentualamountofrecycledmaterial"><bdi class="secno">2.2.24 </bdi>percentualAmountOfRecycledMaterial<a class="self-link" href="#percentualAmountOfRecycledMaterial" aria-label="Permalink for Section 2.2.24"></a></h4>
+            <table class="def">
+                <tbody><tr><th>OWL Datatype Property:</th><td><a href="#percentualAmountOfRecycledMaterial"><code>tractusx:percentualAmountOfRecycledMaterial</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#SerializedPart">SerializedPart</a></td></tr>
+                
+                
+            </tbody></table>
+        </section>
+        
+        <section id="residualCurrentHazard">
+            <h4 id="x2-2-25-residualcurrenthazard"><bdi class="secno">2.2.25 </bdi>residualCurrentHazard<a class="self-link" href="#residualCurrentHazard" aria-label="Permalink for Section 2.2.25"></a></h4>
+            <table class="def">
+                <tbody><tr><th>OWL Datatype Property:</th><td><a href="#residualCurrentHazard"><code>tractusx:residualCurrentHazard</code></a></td></tr>
+                
+                <tr><th class="prop">Domain:</th><td><a href="#SerializedPart">SerializedPart</a></td></tr>
+                
+                
+            </tbody></table>
+        </section>
+        </section>
+</section>
+ 
+<p role="navigation" id="back-to-top">
+    <a href="#title"><abbr title="Back to Top">↑</abbr></a>
+  </p><script id="respec-dfn-panel">(() => {
+// @ts-check
+if (document.respec) {
+  document.respec.ready.then(setupPanel);
+} else {
+  setupPanel();
+}
+
+function setupPanel() {
+  const listener = panelListener();
+  document.body.addEventListener("keydown", listener);
+  document.body.addEventListener("click", listener);
+}
+
+function panelListener() {
+  /** @type {HTMLElement} */
+  let panel = null;
+  return event => {
+    const { target, type } = event;
+
+    if (!(target instanceof HTMLElement)) return;
+
+    // For keys, we only care about Enter key to activate the panel
+    // otherwise it's activated via a click.
+    if (type === "keydown" && event.key !== "Enter") return;
+
+    const action = deriveAction(event);
+
+    switch (action) {
+      case "show": {
+        hidePanel(panel);
+        /** @type {HTMLElement} */
+        const dfn = target.closest("dfn, .index-term");
+        panel = document.getElementById(`dfn-panel-for-${dfn.id}`);
+        const coords = deriveCoordinates(event);
+        displayPanel(dfn, panel, coords);
+        break;
+      }
+      case "dock": {
+        panel.style.left = null;
+        panel.style.top = null;
+        panel.classList.add("docked");
+        break;
+      }
+      case "hide": {
+        hidePanel(panel);
+        panel = null;
+        break;
+      }
+    }
+  };
+}
+
+/**
+ * @param {MouseEvent|KeyboardEvent} event
+ */
+function deriveCoordinates(event) {
+  const target = /** @type HTMLElement */ (event.target);
+
+  // We prevent synthetic AT clicks from putting
+  // the dialog in a weird place. The AT events sometimes
+  // lack coordinates, so they have clientX/Y = 0
+  const rect = target.getBoundingClientRect();
+  if (
+    event instanceof MouseEvent &&
+    event.clientX >= rect.left &&
+    event.clientY >= rect.top
+  ) {
+    // The event probably happened inside the bounding rect...
+    return { x: event.clientX, y: event.clientY };
+  }
+
+  // Offset to the middle of the element
+  const x = rect.x + rect.width / 2;
+  // Placed at the bottom of the element
+  const y = rect.y + rect.height;
+  return { x, y };
+}
+
+/**
+ * @param {Event} event
+ */
+function deriveAction(event) {
+  const target = /** @type {HTMLElement} */ (event.target);
+  const hitALink = !!target.closest("a");
+  if (target.closest("dfn:not([data-cite]), .index-term")) {
+    return hitALink ? "none" : "show";
+  }
+  if (target.closest(".dfn-panel")) {
+    if (hitALink) {
+      return target.classList.contains("self-link") ? "hide" : "dock";
+    }
+    const panel = target.closest(".dfn-panel");
+    return panel.classList.contains("docked") ? "hide" : "none";
+  }
+  if (document.querySelector(".dfn-panel:not([hidden])")) {
+    return "hide";
+  }
+  return "none";
+}
+
+/**
+ * @param {HTMLElement} dfn
+ * @param {HTMLElement} panel
+ * @param {{ x: number, y: number }} clickPosition
+ */
+function displayPanel(dfn, panel, { x, y }) {
+  panel.hidden = false;
+  // distance (px) between edge of panel and the pointing triangle (caret)
+  const MARGIN = 20;
+
+  const dfnRects = dfn.getClientRects();
+  // Find the `top` offset when the `dfn` can be spread across multiple lines
+  let closestTop = 0;
+  let minDiff = Infinity;
+  for (const rect of dfnRects) {
+    const { top, bottom } = rect;
+    const diffFromClickY = Math.abs((top + bottom) / 2 - y);
+    if (diffFromClickY < minDiff) {
+      minDiff = diffFromClickY;
+      closestTop = top;
+    }
+  }
+
+  const top = window.scrollY + closestTop + dfnRects[0].height;
+  const left = x - MARGIN;
+  panel.style.left = `${left}px`;
+  panel.style.top = `${top}px`;
+
+  // Find if the panel is flowing out of the window
+  const panelRect = panel.getBoundingClientRect();
+  const SCREEN_WIDTH = Math.min(window.innerWidth, window.screen.width);
+  if (panelRect.right > SCREEN_WIDTH) {
+    const newLeft = Math.max(MARGIN, x + MARGIN - panelRect.width);
+    const newCaretOffset = left - newLeft;
+    panel.style.left = `${newLeft}px`;
+    /** @type {HTMLElement} */
+    const caret = panel.querySelector(".caret");
+    caret.style.left = `${newCaretOffset}px`;
+  }
+
+  // As it's a dialog, we trap focus.
+  // TODO: when <dialog> becomes a implemented, we should really
+  // use that.
+  trapFocus(panel, dfn);
+}
+
+/**
+ * @param {HTMLElement} panel
+ * @param {HTMLElement} dfn
+ * @returns
+ */
+function trapFocus(panel, dfn) {
+  /** @type NodeListOf<HTMLAnchorElement> elements */
+  const anchors = panel.querySelectorAll("a[href]");
+  // No need to trap focus
+  if (!anchors.length) return;
+
+  // Move focus to first anchor element
+  const first = anchors.item(0);
+  first.focus();
+
+  const trapListener = createTrapListener(anchors, panel, dfn);
+  panel.addEventListener("keydown", trapListener);
+
+  // Hiding the panel releases the trap
+  const mo = new MutationObserver(records => {
+    const [record] = records;
+    const target = /** @type HTMLElement */ (record.target);
+    if (target.hidden) {
+      panel.removeEventListener("keydown", trapListener);
+      mo.disconnect();
+    }
+  });
+  mo.observe(panel, { attributes: true, attributeFilter: ["hidden"] });
+}
+
+/**
+ *
+ * @param {NodeListOf<HTMLAnchorElement>} anchors
+ * @param {HTMLElement} panel
+ * @param {HTMLElement} dfn
+ * @returns
+ */
+function createTrapListener(anchors, panel, dfn) {
+  const lastIndex = anchors.length - 1;
+  let currentIndex = 0;
+  return event => {
+    switch (event.key) {
+      // Hitting "Tab" traps us in a nice loop around elements.
+      case "Tab": {
+        event.preventDefault();
+        currentIndex += event.shiftKey ? -1 : +1;
+        if (currentIndex < 0) {
+          currentIndex = lastIndex;
+        } else if (currentIndex > lastIndex) {
+          currentIndex = 0;
+        }
+        anchors.item(currentIndex).focus();
+        break;
+      }
+
+      // Hitting "Enter" on an anchor releases the trap.
+      case "Enter":
+        hidePanel(panel);
+        break;
+
+      // Hitting "Escape" returns focus to dfn.
+      case "Escape":
+        hidePanel(panel);
+        dfn.focus();
+        return;
+    }
+  };
+}
+
+/** @param {HTMLElement} panel */
+function hidePanel(panel) {
+  if (!panel) return;
+  panel.hidden = true;
+  panel.classList.remove("docked");
+}
+})()</script><script src="https://www.w3.org/scripts/TR/2021/fixup.js"></script></body></html>
