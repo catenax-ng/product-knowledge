@@ -40,6 +40,7 @@ public class SparqlSynchronousDataflow implements DataFlowController {
     public final static String SPARQL_DATAFLOW_TYPE="sparql";
     public final static String DESTINATION_PROPERTY_QUERY="net.catenax.semantics.connector.sparql.query";
     public final static String DESTINATION_PROPERTY_RESPONSE="net.catenax.semantics.connector.sparql.response";
+    public final static String SPARQL_ENDPOINT = System.getProperty("sparqlEndpoint", "query");
 
     /**
      * we got an http client to call out
@@ -98,7 +99,7 @@ public class SparqlSynchronousDataflow implements DataFlowController {
     public @NotNull DataFlowInitiateResponse initiateFlow(DataRequest dataRequest) {
         var assetName = dataRequest.getAssetId();
         var address= resolver.resolveForAsset(assetName);
-        var assetEndpoint = address.getProperty(TripleDataPlaneExtension.ASSET_ENDPOINT_PROPERTY).toString()+"query";
+        var assetEndpoint = address.getProperty(TripleDataPlaneExtension.ASSET_ENDPOINT_PROPERTY).toString()+SPARQL_ENDPOINT;
 
         monitor.debug(String.format("Initiating Synchronous SparQL Query delegation to backend %s for request %s", assetEndpoint, dataRequest));
 
