@@ -45,7 +45,7 @@ public class SparqlHelper {
     /**
      * a regular expression to extract the command of the query
      */
-    protected final static Pattern COMMAND_PATTERN=Pattern.compile("(?<Command>SELECT|INSERT|DELETE)[^;]*WHERE\\s*\\{[^;]*\\}");
+    protected final static Pattern COMMAND_PATTERN=Pattern.compile("(?<Command>SELECT|INSERT|DELETE)[^;]*WHERE\\s*\\{[\\s\\S]*\\}");
 
     /**
      * a regular expression to extract the (graph, service, logic) contexts
