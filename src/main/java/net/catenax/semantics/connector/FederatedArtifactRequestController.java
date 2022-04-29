@@ -76,6 +76,7 @@ public class FederatedArtifactRequestController extends ArtifactRequestControlle
         var graphNames = List.of(urn.substring(urn.indexOf("#") + 1).split(";"));
         Asset nextAsset = null;
         for (String assetGraph : graphNames) {
+            assetGraph=assetGraph.replace("%23","#");
             String dataUrn = assetName + "#" + assetGraph;
             nextAsset = resolveAsset(dataUrn);
             monitor.debug(() -> "Received artifact request for: " + dataUrn);

@@ -202,7 +202,7 @@ public class SparqlSynchronousApi implements TransferProcessListener {
         ArtifactRequestMessageBuilder requestBuilder=new ArtifactRequestMessageBuilder();
         requestBuilder._securityToken_( new DynamicAttributeTokenBuilder()._tokenFormat_(TokenFormat.JWT)._tokenValue_(agreementToken).build());
         try {
-            requestBuilder._requestedArtifact_(new URI(asset+"#"+String.join(";",context)));
+            requestBuilder._requestedArtifact_(new URI(asset+"#"+String.join(";",context).replace("#","%23")));
             requestBuilder._issuerConnector_(new URI(issuerConnectors));
             requestBuilder._correlationMessage_(new URI(correlationId));
             ArtifactRequestMessage request = requestBuilder.build();

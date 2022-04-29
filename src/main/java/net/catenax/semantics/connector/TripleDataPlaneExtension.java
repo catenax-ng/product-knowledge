@@ -170,13 +170,13 @@ public class TripleDataPlaneExtension implements ServiceExtension {
         var consumerConnectorConstraint=  CrossConnectorPolicy.createCrossConnectorConstraint("(urn:connector:([a-z0.9A-Z\\-].*):semantics:catenax:net)",true);
 
         // match all public assets
-        var crossAssetConstraintCentral = CrossConnectorPolicy.createUnionAssetConstraint("urn:(x-arq|tenant1|tenant2):(Default|Propagate)Graph",false);
+        var crossAssetConstraintCentral = CrossConnectorPolicy.createUnionAssetConstraint("urn:(x-arq|tenant1|tenant2|cx):(Default|Propagate|)[Gg]raph.*",false);
         // match all local assets
         var crossAssetConstraintLocal = CrossConnectorPolicy.
-                createUnionAssetConstraint("urn:(x-arq|tenant1|tenant2):(Default|Propagate|Private)Graph",false);
+                createUnionAssetConstraint("urn:(x-arq|tenant1|tenant2|cx):(Default|Propagate|Private|)[Gg]raph.*",false);
         // match a single local asset
         var targetAssetConstraint = CrossConnectorPolicy.
-                createUnionAssetConstraint("urn:(x-arq|tenant1|tenant2):(Default|Propagate|Private)Graph",true);
+                createUnionAssetConstraint("urn:(x-arq|tenant1|tenant2|cx):(Default|Propagate|Private|)[Gg]raph",true);
 
         // central read permission
         var readPermissionCentral = CrossConnectorPolicy.createPermission(IdsPolicyActions.READ_ACTION, List.of(),crossConnectorConstraint,crossAssetConstraintCentral);

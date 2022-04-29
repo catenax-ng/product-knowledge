@@ -57,10 +57,10 @@ do
       git restore .
       cd ..
       cd DataSpaceConnector
-      ./gradlew -Dhttps.proxyHost=${HTTP_PROXY_HOST} -Dhttps.proxyPort=${HTTP_PROXY_PORT} publishToMavenLocal -x test
+      ./gradlew $GRADLE_PROPS -Dhttps.proxyHost=${HTTP_PROXY_HOST} -Dhttps.proxyPort=${HTTP_PROXY_PORT} publishToMavenLocal -x test
       cd ..
     fi
-    ./gradlew -Dhttps.proxyHost=${HTTP_PROXY_HOST} -Dhttps.proxyPort=${HTTP_PROXY_PORT} build
+    ./gradlew $GRADLE_PROPS -Dhttps.proxyHost=${HTTP_PROXY_HOST} -Dhttps.proxyPort=${HTTP_PROXY_PORT} build
     ;;
 
   "-suspend")
@@ -90,7 +90,7 @@ do
      EDC_PORT=8182
      EDC_CONFIG=tenant1.config
      EDC_ID=urn:connector:tenant1:semantics:catenax:net
-     ASSETS=-Dnet.catenax.semantics.connector.assets=hub#urn:x-arq:DefaultGraph@http://localhost:2121/tenant1-hub/\;hub#urn:tenant1:PropagateGraph@http://localhost:2121/tenant1-hub/\;hub#urn:tenant1:PrivateGraph@http://localhost:2121/tenant1-hub/
+     ASSETS=-Dnet.catenax.semantics.connector.assets=hub#urn:x-arq:DefaultGraph@http://localhost:2121/tenant1-hub/\;hub#urn:tenant1:PropagateGraph@http://localhost:2121/tenant1-hub/\;hub#urn:tenant1:PrivateGraph@http://localhost:2121/tenant1-hub/\;hub#urn:cx:graph#assemblyPartRelation@http://localhost:2121/tenant1-hub/
      ;;
 
     "-tenant2")
@@ -100,7 +100,7 @@ do
      EDC_PORT=8183
      EDC_CONFIG=tenant2.config
      EDC_ID=urn:connector:tenant2:semantics:catenax:net
-     ASSETS=-Dnet.catenax.semantics.connector.assets=hub#urn:x-arq:DefaultGraph@http://localhost:2121/tenant2-hub/\;hub#urn:tenant2:PropagateGraph@http://localhost:2121/tenant2-hub/\;hub#urn:tenant2:PrivateGraph@http://localhost:2121/tenant2-hub/
+     ASSETS=-Dnet.catenax.semantics.connector.assets=hub#urn:x-arq:DefaultGraph@http://localhost:2121/tenant2-hub/\;hub#urn:tenant2:PropagateGraph@http://localhost:2121/tenant2-hub/\;hub#urn:tenant2:PrivateGraph@http://localhost:2121/tenant2-hub/\;hub#urn:cx:graph#serializedPart@http://localhost:2121/tenant2-hub/
      ;;
 
     "-complete")
@@ -127,7 +127,7 @@ if [ "$CLEAN_DB" == "y" ]; then
 fi
 
 if [ "$USE_FUSEKI" == "true" ]; then
-  CALL_ARGS="-classpath jena/jena-fuseki2/jena-fuseki-server/target/jena-fuseki-server-4.4.0-SNAPSHOT.jar \
+  CALL_ARGS="-classpath jena/jena-fuseki2/jena-fuseki-server/target/jena-fuseki-server-4.4.0.jar \
            $DEBUG_OPTIONS org.apache.jena.fuseki.main.cmds.FusekiMainCmd \
            --config ${FUSEKI_CONFIG} --port ${FUSEKI_PORT} --auth=basic" 
 else
