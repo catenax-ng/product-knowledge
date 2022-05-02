@@ -51,6 +51,96 @@
 			"response": []
 		},
 		{
+			"name": "SPARQL (Intern) Upload Tenant1 BOM",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"description": "Eol Model",
+							"type": "file",
+							"src": "/Users/A29078924/Projects/catenax/sparql-federation-spike/assemblyPartRelatio.jsonld"
+						},
+						{
+							"key": "graph",
+							"value": "urn:cx:graph#assemblyPartRelation",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:2121/:dataset/upload",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2121",
+					"path": [
+						":dataset",
+						"upload"
+					],
+					"variable": [
+						{
+							"key": "dataset",
+							"value": "tenant1-hub"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SPARQL (Intern) Upload Tenant2 Material",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"description": "Eol Model",
+							"type": "file",
+							"src": "/Users/A29078924/Projects/catenax/sparql-federation-spike/serializedPart.jsonld"
+						},
+						{
+							"key": "graph",
+							"value": "urn:cx:graph#serializedPart",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:2121/:dataset/upload",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2121",
+					"path": [
+						":dataset",
+						"upload"
+					],
+					"variable": [
+						{
+							"key": "dataset",
+							"value": "tenant2-hub"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "SPARQL (Intern) Access Raw Graphs",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {
@@ -103,7 +193,7 @@
 			"response": []
 		},
 		{
-			"name": "SPARQL (Intern) Access Graphs",
+			"name": "SPARQL (Intern) Access Graphs Copy",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {
 					"content-type": true
@@ -149,7 +239,60 @@
 			"response": []
 		},
 		{
-			"name": "SPARQL Tenant1 Hub Query",
+			"name": "SPARQL (Intern) Access Graphs",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/sparql-query",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "PREFIX cx: <https://github.com/eclipse/tractusx/>\r\nPREFIX qudt: <http://qudt.org/schema/qudt/>\r\nSELECT ?vehicle ?vehicleType ?material (SUM(?component_weight) as ?total_weight_of_material)\r\nWHERE {\r\n\r\n    BIND(\"Vehicle Model A\" as ?vehicleType).\r\n    BIND(\"Cathode Material\" as ?material).\r\n    #?vehicle_component_type cx:hasPartTypeName \"Glue\" .\r\n    #?vehicle_component_type cx:hasPartTypeName \"Polyamid\" .\r\n\r\n    # We're looking for a vehicle, which is a Serialized Part of Tenant2\r\n    SERVICE <http://localhost:2121/tenant2-hub/query> {\r\n        GRAPH <urn:cx:graph#serializedPart> {\r\n            ?vehicle a cx:SerializedPart.\r\n            ?vehicle cx:belongsTo ?specific_vehicle_type.\r\n            ?specific_vehicle_type cx:hasPartTypeName ?vehicleType .\r\n        }\r\n    }\r\n\r\n\r\n    # We need the BOM of the vehicles which are provided by Tenant1\r\n    SERVICE <http://localhost:2121/tenant1-hub/query> {\r\n        GRAPH <urn:cx:graph#assemblyPartRelation> {\r\n            ?vehicle cx:consistsOf* ?vehicle_component .\r\n        }\r\n    }   \r\n\r\n\r\n    # From the BOM we filter a specific Material\r\n    SERVICE <http://localhost:2121/tenant2-hub/query> {\r\n        GRAPH <urn:cx:graph#serializedPart> {\r\n            ?vehicle_component cx:belongsTo ?vehicle_component_type.\r\n            ?vehicle_component_type cx:hasPartTypeName ?material . \r\n        }\r\n    }   \r\n\r\n    # Now we need to check, how it is assembled\r\n    SERVICE <http://localhost:2121/tenant1-hub/query> {\r\n        GRAPH <urn:cx:graph#assemblyPartRelation> {\r\n            ?vehicle_component cx:isAssembledThrough ?assemble_event .\r\n            ?assemble_event qudt:NumericValue ?component_weight .\r\n        }\r\n    }   \r\n\r\n}  GROUP BY ?vehicle ?vehicleType ?material",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2121/:dataset/query",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2121",
+					"path": [
+						":dataset",
+						"query"
+					],
+					"query": [
+						{
+							"key": "material",
+							"value": "Cathode%20Material",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "dataset",
+							"value": "central-hub"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SPARQL Tenant1 Hub Select Query",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {
 					"content-type": true
@@ -165,7 +308,7 @@
 					},
 					{
 						"key": "catenax-connector-context",
-						"value": "urn:connector:app:semantics:catenax:net",
+						"value": "urn:connector:tenant1:semantics:catenax:net",
 						"type": "default"
 					},
 					{
@@ -206,7 +349,64 @@
 			"response": []
 		},
 		{
-			"name": "SPARQL Tenant2 Hub Query",
+			"name": "SPARQL Tenant1 Hub Select Query Copy",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/sparql-query",
+						"type": "text"
+					},
+					{
+						"key": "catenax-connector-context",
+						"value": "urn:connector:central:semantics:catenax:net;urn:connector:app:semantics:catenax:net",
+						"type": "default"
+					},
+					{
+						"key": "catenax-security-token",
+						"value": "mock-eu",
+						"type": "default"
+					},
+					{
+						"key": "catenax-correlation-id",
+						"value": "4242",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\nPREFIX bamm: <urn:bamm:io.openmanufacturing:meta-model:1.0.0#>\r\n\r\nSELECT ?aspect\r\nWHERE {\r\n    {\r\n      ?aspect rdf:type bamm:Aspect .\r\n    } \r\n    UNION\r\n    {\r\n        GRAPH <urn:tenant1:PrivateGraph> {\r\n          ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8182/api/sparql/:dataset",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8182",
+					"path": [
+						"api",
+						"sparql",
+						":dataset"
+					],
+					"variable": [
+						{
+							"key": "dataset",
+							"value": "hub"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SPARQL Tenant1 Hub Insert Query",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {
 					"content-type": true
@@ -223,6 +423,63 @@
 					{
 						"key": "catenax-connector-context",
 						"value": "urn:connector:app:semantics:catenax:net",
+						"type": "default"
+					},
+					{
+						"key": "catenax-security-token",
+						"value": "mock-eu",
+						"type": "default"
+					},
+					{
+						"key": "catenax-correlation-id",
+						"value": "4242",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\nPREFIX bamm: <urn:bamm:io.openmanufacturing:meta-model:1.0.0#>\r\nPREFIX demo: <urn:bamm:net.catenax.sample:0.0.1#>\r\n\r\nINSERT DATA {\r\n    <demo:Sample> rdf:type bamm:Aspect.\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8182/api/sparql/:dataset",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8182",
+					"path": [
+						"api",
+						"sparql",
+						":dataset"
+					],
+					"variable": [
+						{
+							"key": "dataset",
+							"value": "hub"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SPARQL Tenant2 Hub Select Query",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/sparql-query",
+						"type": "text"
+					},
+					{
+						"key": "catenax-connector-context",
+						"value": "urn:connector:tenant2:semantics:catenax:net",
 						"type": "default"
 					},
 					{
@@ -266,7 +523,8 @@
 			"name": "SPARQL List Federated Aspects",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {
-					"content-type": true
+					"content-type": true,
+					"accept": true
 				}
 			},
 			"request": {
@@ -291,11 +549,220 @@
 						"key": "catenax-correlation-id",
 						"value": "4242",
 						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\nPREFIX bamm: <urn:bamm:io.openmanufacturing:meta-model:1.0.0#>\r\n\r\nSELECT ?aspect\r\nWHERE {\r\n    {\r\n        SERVICE <http://localhost:8182/api/sparql/hub> { \r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n    UNION\r\n    {\r\n        SERVICE <http://localhost:8183/api/sparql/hub> { \r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n    UNION\r\n    {\r\n        GRAPH <urn:tenant1:PropagateGraph> { \r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n    UNION\r\n    {\r\n        GRAPH <urn:tenant2:PropagateGraph> { \r\n            ?aspect rdf:type bamm:Aspect .\r\n        }\r\n    }\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8181/api/sparql/:dataset",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"sparql",
+						":dataset"
+					],
+					"variable": [
+						{
+							"key": "dataset",
+							"value": "hub"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SPARQL Federated Query",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/sparql-query",
+						"type": "text"
+					},
+					{
+						"key": "catenax-connector-context",
+						"value": "urn:connector:app:semantics:catenax:net",
+						"type": "text"
+					},
+					{
+						"key": "catenax-security-token",
+						"value": "mock-eu",
+						"type": "text"
+					},
+					{
+						"key": "catenax-correlation-id",
+						"value": "4242",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    PREFIX cx: <https://github.com/eclipse/tractusx/>\r\n    PREFIX qudt: <http://qudt.org/schema/qudt/>\r\n\r\n    SELECT ?vehicle ?vehicleType ?material (SUM(?component_weight) as ?total_weight)\r\n    WHERE\r\n    {\r\n       BIND(\"Vehicle Model A\" as ?vehicleType).\r\n       BIND(\"Glue\" as ?material). #BIND(\"Cathode Material\" as ?material). #BIND(\"Polyamid\" as ?material).\r\n        \r\n        # We're looking for a vehicle, which is a Serialized Part of Tenant2\r\n        SERVICE <http://localhost:8183/api/sparql/hub> {                        # Connector Data Plane of Tenant2\r\n            GRAPH <urn:cx:graph#serializedPart> {                               # Graph asset of Tenant2\r\n                ?vehicle a cx:SerializedPart.\r\n                ?vehicle cx:belongsTo ?specific_vehicle_type.\r\n                ?specific_vehicle_type cx:hasPartTypeName ?vehicleType .\r\n            }\r\n        }\r\n\r\n        # We need the BOM of the vehicles which are provided by Tenant1\r\n        SERVICE <http://localhost:8182/api/sparql/hub> {                        # Connector Data Plane of Tenant1\r\n            GRAPH <urn:cx:graph#assemblyPartRelation> {                         # Graph asset of Tenant2\r\n                ?vehicle cx:consistsOf* ?vehicle_component .\r\n            }\r\n        }   \r\n\r\n\r\n        # From the BOM we filter a specific Material\r\n        SERVICE <http://localhost:8183/api/sparql/hub> {\r\n            GRAPH <urn:cx:graph#serializedPart> {\r\n                ?vehicle_component cx:belongsTo ?vehicle_component_type.\r\n                ?vehicle_component_type cx:hasPartTypeName ?material . \r\n            }\r\n        }   \r\n\r\n        # Now we need to check, how it is assembled\r\n        SERVICE <http://localhost:8182/api/sparql/hub> {\r\n            GRAPH <urn:cx:graph#assemblyPartRelation> {\r\n                ?vehicle_component cx:isAssembledThrough ?assemble_event .\r\n                ?assemble_event qudt:NumericValue ?component_weight .\r\n            }\r\n        }   \r\n}  GROUP BY ?vehicle ?vehicleType ?material \r\n",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8181/api/sparql/:dataset",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"sparql",
+						":dataset"
+					],
+					"variable": [
+						{
+							"key": "dataset",
+							"value": "hub"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SPARQL Federated Query Copy",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/sparql-query",
+						"type": "text"
+					},
+					{
+						"key": "catenax-connector-context",
+						"value": "urn:connector:app:semantics:catenax:net",
+						"type": "text"
+					},
+					{
+						"key": "catenax-security-token",
+						"value": "mock-eu",
+						"type": "text"
+					},
+					{
+						"key": "catenax-correlation-id",
+						"value": "4242",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    PREFIX cx: <https://github.com/eclipse/tractusx/>\r\n    PREFIX qudt: <http://qudt.org/schema/qudt/>\r\n\r\n    SELECT ?vehicle ?vehicleType ?material (SUM(?component_weight) as ?total_weight)\r\n    WHERE\r\n    {\r\n       BIND(\"Vehicle Model A\" as ?vehicleType).\r\n       BIND(\"Glue\" as ?material). #BIND(\"Cathode Material\" as ?material). #BIND(\"Polyamid\" as ?material).\r\n        \r\n        # We're looking for a vehicle, which is a Serialized Part of Tenant2\r\n        SERVICE <http://localhost:8183/api/sparql/hub> {                        # Connector Data Plane of Tenant2\r\n            GRAPH <urn:cx:graph#serializedPart> {                               # Graph asset of Tenant2\r\n                ?vehicle a cx:SerializedPart.\r\n                ?vehicle cx:belongsTo ?specific_vehicle_type.\r\n                ?specific_vehicle_type cx:hasPartTypeName ?vehicleType .\r\n            }\r\n        }\r\n\r\n        # We need the BOM of the vehicles which are provided by Tenant1\r\n        SERVICE <http://localhost:8182/api/sparql/hub> {                        # Connector Data Plane of Tenant1\r\n            GRAPH <urn:cx:graph#assemblyPartRelation> {                         # Graph asset of Tenant2\r\n                ?vehicle cx:consistsOf* ?vehicle_component .\r\n            }\r\n        }   \r\n\r\n\r\n        # From the BOM we filter a specific Material\r\n        SERVICE <http://localhost:8183/api/sparql/hub> {\r\n            GRAPH <urn:cx:graph#serializedPart> {\r\n                ?vehicle_component cx:belongsTo ?vehicle_component_type.\r\n                ?vehicle_component_type cx:hasPartTypeName ?material . \r\n            }\r\n        }   \r\n\r\n        # Now we need to check, how it is assembled\r\n        SERVICE <http://localhost:8182/api/sparql/hub> {\r\n            GRAPH <urn:cx:graph#assemblyPartRelation> {\r\n                ?vehicle_component cx:isAssembledThrough ?assemble_event .\r\n                ?assemble_event qudt:NumericValue ?component_weight .\r\n            }\r\n        }   \r\n}  GROUP BY ?vehicle ?vehicleType ?material \r\n",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8181/api/sparql/:dataset",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"sparql",
+						":dataset"
+					],
+					"variable": [
+						{
+							"key": "dataset",
+							"value": "hub"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SPARQL List Federated Aspects Partially Prohibited",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/sparql-query",
+						"type": "text"
+					},
+					{
+						"key": "catenax-connector-context",
+						"value": "urn:connector:app:semantics:catenax:net",
+						"type": "text"
+					},
+					{
+						"key": "catenax-security-token",
+						"value": "mock-eu",
+						"type": "text"
+					},
+					{
+						"key": "catenax-correlation-id",
+						"value": "4242",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\nPREFIX bamm: <urn:bamm:io.openmanufacturing:meta-model:1.0.0#>\r\n\r\nSELECT ?aspect\r\nWHERE {\r\n    {\r\n        SERVICE <http://localhost:8182/api/sparql/hub> { \r\n            {\r\n                ?aspect rdf:type bamm:Aspect .\r\n            }\r\n            UNION\r\n            {\r\n                GRAPH <urn:tenant1:PrivateGraph> { \r\n                    ?aspect rdf:type bamm:Aspect .\r\n                }\r\n            }\r\n        }\r\n    }\r\n    UNION\r\n    {\r\n        SERVICE <http://localhost:8183/api/sparql/hub> { \r\n            {\r\n                ?aspect rdf:type bamm:Aspect .\r\n            }\r\n            UNION\r\n            {\r\n                GRAPH <urn:tenant2:PrivateGraph> { \r\n                    ?aspect rdf:type bamm:Aspect .\r\n                }\r\n            }\r\n        }\r\n    }\r\n}\r\n\r\n",
 					"options": {
 						"raw": {
 							"language": "text"
