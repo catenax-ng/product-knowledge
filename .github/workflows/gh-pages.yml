@@ -2,9 +2,6 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    paths:
-      # This is where the documentation related sources reside
-      - './**'
     branches:
       - feature/ART3-382-documentation
   workflow_dispatch:
