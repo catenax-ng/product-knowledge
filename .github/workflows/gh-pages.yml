@@ -4,11 +4,9 @@ on:
   push:
     paths:
       # This is where the documentation related sources reside
-      - 'gitbook/**'
-      # this workflow file
-      - '.github/workflows/tdg-docu.yml'
+      - './**'
     branches:
-      - main
+      - feature/ART3-382-documentation
   workflow_dispatch:
 
 jobs:
