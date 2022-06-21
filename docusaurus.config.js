@@ -114,7 +114,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Catena-X Test Data Generator - funded by BMWK, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Catena-X Knowledge Agents - funded by BMWK, Inc. Built with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,
