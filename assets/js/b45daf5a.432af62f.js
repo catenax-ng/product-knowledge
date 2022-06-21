@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkcatenax_ng=self.webpackChunkcatenax_ng||[]).push([[524],{8121:function(e){e.exports=JSON.parse('{"allTagsPath":"/product-knowledge/blog/tags","name":"product","count":1,"permalink":"/product-knowledge/blog/tags/product"}')}}]);
