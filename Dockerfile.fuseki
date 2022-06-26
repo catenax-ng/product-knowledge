@@ -1,0 +1,16 @@
+FROM openjdk:11-jre-slim-buster
+
+ENV JAVA_TOOL_OPTIONS -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090
+ENV FUSEKI_CONFIG config.ttl
+ENV FUSEKI_PORT 2122
+
+WORKDIR /app
+COPY jena/jena-fuseki2/jena-fuseki-server/target/jena-fuseki-server-4.4.0.jar fuseki.jar
+
+EXPOSE 2122
+EXPOSE 8090
+
+ENTRYPOINT java \
+    -classpath fuseki.jar \
+    ${JAVA_TOOL_OPTIONS} org.apache.jena.fuseki.main.cmds.FusekiMainCmd \
+    --config ${FUSEKI_CONFIG} --port ${FUSEKI_PORT} --auth=basic
