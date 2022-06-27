@@ -37,7 +37,7 @@ spec:
               value: "urn:connector:central:semantics:catenax:net"
             - name: ASSETS
               value: "-Dnet.catenax.semantics.connector.assets=agent#urn:x-arq:DefaultGraph@http://data-plane-agent:2122/central/;agent#urn:tenant1:PropagateGraph@http://data-plane-agent:2122/central/;agent#urn:tenant2:PropagateGraph@http://data-plane-agent:2122/central/"
-            - name: °REMOTE_ASSETS
+            - name: REMOTE_ASSETS
               value: "-Dnet.catenax.semantics.connector.remote.assets=agent#urn:tenant1:PropagateGraph@http://control-plane-tenant1:8181/;agent#urn:tenant2:PropagateGraph@http://control-plane-tenant2:8181/"
           volumeMounts:
             - name: control-plane-central-config
