@@ -1,0 +1,83 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: control-plane-tenant1-config
+data:
+  config.ttl: |-
+{{- .Files.Get "config/tenant1.config" | nindent 4 }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: control-plane-tenant1
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: control-plane-tenant1
+  template:
+    metadata:
+      labels:
+        app: control-plane-tenant1
+    spec:
+      containers:
+        - name: control-plane-tenant1
+          image: ghcr.io/catenax-ng/product-knowledge/control-plane:0.0.1
+          imagePullPolicy: Always
+          ports:
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090"
+            - name: EDC_CONFIG
+              value: "/config/tenant1.config"
+            - name: EDC_PORT
+              value: "8181"
+            - name: EDC_ID
+              value: "urn:connector:tenant1:semantics:catenax:net"
+            - name: ASSETS
+              value: "-Dnet.catenax.semantics.connector.assets=agent#urn:x-arq:DefaultGraph@http://data-plane-agent:2122/tenant1/\;agent#urn:tenant1:PropagateGraph@http://data-plane-agent:2122/tenant1/\;agent#urn:tenant1:PrivateGraph@http://data-plane-agent:2122/tenant1/\;agent#urn:cx:graph#assemblyPartRelation@http://data-plane-agent:2122/tenant1/"
+              #REMOTE_ASSETS:
+          volumeMounts:
+            - name: control-plane-tenant1-config
+              mountPath: /config
+      volumes:
+        - name: control-plane-tenant1-config
+          configMap:
+            name: control-plane-tenant1-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: control-plane-tenant1
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8181
+      targetPort: 8181
+  selector:
+    app: control-plane-tenant1
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: control-plane-tenant1-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+    nginx.ingress.kubernetes.io/x-forwarded-prefix: "/control-plane-tenant1"
+    nginx.org/mergeable-ingress-type: minion
+spec:
+  rules:
+    - host: hey.int.demo.catena-x.net
+      http:
+        paths:
+          - path: /control-plane-tenant1(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: control-plane-tenant1
+                port:
+                  number: 8181
