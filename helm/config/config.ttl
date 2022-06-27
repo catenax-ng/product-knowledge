@@ -21,16 +21,16 @@ PREFIX tdb2:    <http://jena.apache.org/2016/tdb#>
 
 [] rdf:type fuseki:Server ;
    fuseki:services (
-     :central-agent
-     :tenant1-agent
-     :tenant2-agent
+     :central
+     :tenant1
+     :tenant2
    ) .
 
-## Service description for "/central-agent"
+## Service description for "/central"
 ## with a TDB2 dataset
 
-:central-agent rdf:type fuseki:Service ;
-    fuseki:name "central-agent" ;
+:central rdf:type fuseki:Service ;
+    fuseki:name "central" ;
     fuseki:endpoint [ 
         fuseki:operation fuseki:query ;
         fuseki:name "sparql" ;
@@ -57,21 +57,21 @@ PREFIX tdb2:    <http://jena.apache.org/2016/tdb#>
         fuseki:operation fuseki:upload ;
         fuseki:name "upload"
     ] ; 
-    fuseki:dataset :central-agent_tdb2 ;
+    fuseki:dataset :central_tdb2 ;
     .
 
-:central-agent_tdb2 rdf:type  tdb2:DatasetTDB2 ;
+:central_tdb2 rdf:type  tdb2:DatasetTDB2 ;
     tdb2:location "target/central/agent" ;
     ## Optional - with union default for query and update WHERE matching.
     ## tdb2:unionDefaultGraph true ;
     .
 
 
-## Service description for "/tenant1-agent"
+## Service description for "/tenant1"
 ## with a TDB2 dataset
 
 :tenant1-agent rdf:type fuseki:Service ;
-    fuseki:name "tenant1-agent" ;
+    fuseki:name "tenant1" ;
     fuseki:endpoint [ 
         fuseki:operation fuseki:query ;
         fuseki:name "sparql" ;
@@ -98,20 +98,20 @@ PREFIX tdb2:    <http://jena.apache.org/2016/tdb#>
         fuseki:operation fuseki:upload ;
         fuseki:name "upload"
     ] ; 
-    fuseki:dataset :tenant1-agent_tdb2 ;
+    fuseki:dataset :tenant1_tdb2 ;
     .
 
-:tenant1-agent_tdb2 rdf:type  tdb2:DatasetTDB2 ;
+:tenant1_tdb2 rdf:type  tdb2:DatasetTDB2 ;
     tdb2:location "target/tenant1/agent" ;
     ## Optional - with union default for query and update WHERE matching.
     ## tdb2:unionDefaultGraph true ;
     .
 
-## Service description for "/tenant2-agent"
+## Service description for "/tenant2"
 ## with a TDB2 dataset
 
 :tenant2-agent rdf:type fuseki:Service ;
-    fuseki:name "tenant2-agent" ;
+    fuseki:name "tenant2" ;
     fuseki:endpoint [ 
         fuseki:operation fuseki:query ;
         fuseki:name "sparql" ;
@@ -138,10 +138,10 @@ PREFIX tdb2:    <http://jena.apache.org/2016/tdb#>
         fuseki:operation fuseki:upload ;
         fuseki:name "upload"
     ] ; 
-    fuseki:dataset :tenant2-agent_tdb2 ;
+    fuseki:dataset :tenant2_tdb2 ;
     .
 
-:tenant2-agent_tdb2 rdf:type  tdb2:DatasetTDB2 ;
+:tenant2_tdb2 rdf:type  tdb2:DatasetTDB2 ;
     tdb2:location "target/tenant2/agent" ;
     ## Optional - with union default for query and update WHERE matching.
     ## tdb2:unionDefaultGraph true ;
