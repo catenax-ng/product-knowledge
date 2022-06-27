@@ -1,0 +1,18 @@
+FROM openjdk:11-jre-slim-buster
+
+ENV JAVA_TOOL_OPTIONS -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090
+ENV EDC_CONFIG edc.config
+ENV EDC_PORT 8181
+ENV EDC_ID urn:connector:central:semantics:catenax:net
+ENV ASSETS ""
+ENV REMOTE_ASSETS ""
+
+WORKDIR /app
+COPY build/libs/sparql-federation.jar edc.jar
+
+EXPOSE 8181
+EXPOSE 8090
+
+ENTRYPOINT java \
+    -Dedc.fs.config=${EDC_CONFIG} -Dweb.http.port=${EDC_PORT} -Dedc.ids.id=${EDC_ID} -Dedc.connector.name=${EDC_ID} ${ASSETS} ${REMOTE_ASSETS} \
+    -jar edc.jar
