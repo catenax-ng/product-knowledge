@@ -36,8 +36,7 @@ spec:
             - name: EDC_ID
               value: "urn:connector:tenant1:semantics:catenax:net"
             - name: ASSETS
-              value: "-Dnet.catenax.semantics.connector.assets=agent#urn:x-arq:DefaultGraph@http://data-plane-agent:2122/tenant1/\;agent#urn:tenant1:PropagateGraph@http://data-plane-agent:2122/tenant1/\;agent#urn:tenant1:PrivateGraph@http://data-plane-agent:2122/tenant1/\;agent#urn:cx:graph#assemblyPartRelation@http://data-plane-agent:2122/tenant1/"
-              #REMOTE_ASSETS:
+              value: "-Dnet.catenax.semantics.connector.assets=agent#urn:x-arq:DefaultGraph@http://data-plane-agent:2122/tenant1/;agent#urn:tenant1:PropagateGraph@http://data-plane-agent:2122/tenant1/;agent#urn:tenant1:PrivateGraph@http://data-plane-agent:2122/tenant1/;agent#urn:cx:graph#assemblyPartRelation@http://data-plane-agent:2122/tenant1/"
           volumeMounts:
             - name: control-plane-tenant1-config
               mountPath: /config
