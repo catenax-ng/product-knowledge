@@ -70,7 +70,7 @@ PREFIX tdb2:    <http://jena.apache.org/2016/tdb#>
 ## Service description for "/tenant1"
 ## with a TDB2 dataset
 
-:tenant1-agent rdf:type fuseki:Service ;
+:tenant1 rdf:type fuseki:Service ;
     fuseki:name "tenant1" ;
     fuseki:endpoint [ 
         fuseki:operation fuseki:query ;
@@ -110,7 +110,7 @@ PREFIX tdb2:    <http://jena.apache.org/2016/tdb#>
 ## Service description for "/tenant2"
 ## with a TDB2 dataset
 
-:tenant2-agent rdf:type fuseki:Service ;
+:tenant2 rdf:type fuseki:Service ;
     fuseki:name "tenant2" ;
     fuseki:endpoint [ 
         fuseki:operation fuseki:query ;
