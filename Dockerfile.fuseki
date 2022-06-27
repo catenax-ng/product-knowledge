@@ -12,5 +12,5 @@ EXPOSE 8090
 
 ENTRYPOINT java \
     -classpath fuseki.jar \
-    ${JAVA_TOOL_OPTIONS} org.apache.jena.fuseki.main.cmds.FusekiMainCmd \
+    org.apache.jena.fuseki.main.cmds.FusekiMainCmd \
     --config ${FUSEKI_CONFIG} --port ${FUSEKI_PORT} --auth=basic

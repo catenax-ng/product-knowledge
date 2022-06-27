@@ -30,7 +30,7 @@ spec:
             - name: JAVA_TOOL_OPTIONS
               value: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090"
             - name: FUSEKI_CONFIG
-              value: "config.ttl"
+              value: "config/config.ttl"
             - name: FUSEKI_PORT
               value: "2122"
           volumeMounts:
