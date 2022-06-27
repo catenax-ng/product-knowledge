@@ -4,7 +4,7 @@ metadata:
   name: data-plane-config
 data:
   config.ttl: |-
-  {{- .Files.Get "config/config.ttl" }}
+{{- .Files.Get "config/config.ttl" | nindent 4 }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -58,16 +58,20 @@ kind: Ingress
 metadata:
   name: data-planeagent-ingress
   annotations:
-    cert-manager.io/cluster-issuer:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/rewrite-target: /$2
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
-    nginx.ingress.kubernetes.io/x-forwarded-prefix: "/data-plae-agent"
-    nginx.org/mergeable-ingress-type: minion
+    nginx.ingress.kubernetes.io/x-forwarded-prefix: "/data-plane-agent"
+    nginx.org/mergeable-ingress-type: master
 spec:
+  tls:
+    - hosts:
+        - hey.int.demo.catena-x.net
+      secretName: tls-secret
   rules:
-    - host:
+    - host: hey.int.demo.catena-x.net
       http:
         paths:
           - path: /data-plane-agent(/|$)(.*)
