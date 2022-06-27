@@ -25,8 +25,8 @@ DEBUG_SUSPEND=n
 DEBUG_OPTIONS=
 DB_FILE=./target
 CLEAN_DB=n
-FUSEKI_CONFIG="config-internal.ttl"
-FUSEKI_PORT=2121
+FUSEKI_CONFIG="helm/config/config.ttl"
+FUSEKI_PORT=2122
 EDC_PORT=8181
 USE_FUSEKI=false
 BUILD_ALL=false
@@ -73,39 +73,33 @@ do
     ;;
 
     "-central")
-     FUSEKI_CONFIG="config-federation.ttl"
-     FUSEKI_PORT=2121
      DEBUG_PORT=8888
      EDC_PORT=8181
-     EDC_CONFIG=central.config
+     EDC_CONFIG=helm/config/central.config
      EDC_ID=urn:connector:central:semantics:catenax:net
-     ASSETS=-Dnet.catenax.semantics.connector.assets=hub#urn:x-arq:DefaultGraph@http://localhost:2121/central-hub/\;hub#urn:tenant1:PropagateGraph@http://localhost:2121/central-hub/\;hub#urn:tenant2:PropagateGraph@http://localhost:2121/central-hub/
-     REMOTE_ASSETS=-Dnet.catenax.semantics.connector.remote.assets=hub#urn:tenant1:PropagateGraph@http://localhost:8182/\;hub#urn:tenant2:PropagateGraph@http://localhost:8183/
+     ASSETS=-Dnet.catenax.semantics.connector.assets=agent#urn:x-arq:DefaultGraph@http://localhost:2122/central/\;agent#urn:tenant1:PropagateGraph@http://localhost:2122/central/\;agent#urn:tenant2:PropagateGraph@http://localhost:2122/central/
+     REMOTE_ASSETS=-Dnet.catenax.semantics.connector.remote.assets=agent#urn:tenant1:PropagateGraph@http://localhost:8182/\;agent#urn:tenant2:PropagateGraph@http://localhost:8183/
      ;;
 
     "-tenant1")
-     FUSEKI_CONFIG="config-tenant1.ttl"
-     FUSEKI_PORT=2122
      DEBUG_PORT=8889
      EDC_PORT=8182
-     EDC_CONFIG=tenant1.config
+     EDC_CONFIG=helm/config/tenant1.config
      EDC_ID=urn:connector:tenant1:semantics:catenax:net
-     ASSETS=-Dnet.catenax.semantics.connector.assets=hub#urn:x-arq:DefaultGraph@http://localhost:2121/tenant1-hub/\;hub#urn:tenant1:PropagateGraph@http://localhost:2121/tenant1-hub/\;hub#urn:tenant1:PrivateGraph@http://localhost:2121/tenant1-hub/\;hub#urn:cx:graph#assemblyPartRelation@http://localhost:2121/tenant1-hub/
+     ASSETS=-Dnet.catenax.semantics.connector.assets=agent#urn:x-arq:DefaultGraph@http://localhost:2122/tenant1/\;agent#urn:tenant1:PropagateGraph@http://localhost:2122/tenant1/\;agent#urn:tenant1:PrivateGraph@http://localhost:2122/tenant1/\;agent#urn:cx:graph#assemblyPartRelation@http://localhost:2122/tenant1/
      ;;
 
     "-tenant2")
-     FUSEKI_CONFIG="config-tenant2.ttl"
-     FUSEKI_PORT=2123
      DEBUG_PORT=8887
      EDC_PORT=8183
-     EDC_CONFIG=tenant2.config
+     EDC_CONFIG=helm/config/tenant2.config
      EDC_ID=urn:connector:tenant2:semantics:catenax:net
-     ASSETS=-Dnet.catenax.semantics.connector.assets=hub#urn:x-arq:DefaultGraph@http://localhost:2121/tenant2-hub/\;hub#urn:tenant2:PropagateGraph@http://localhost:2121/tenant2-hub/\;hub#urn:tenant2:PrivateGraph@http://localhost:2121/tenant2-hub/\;hub#urn:cx:graph#serializedPart@http://localhost:2121/tenant2-hub/
+     ASSETS=-Dnet.catenax.semantics.connector.assets=agent#urn:x-arq:DefaultGraph@http://localhost:2122/tenant2/\;agent#urn:tenant2:PropagateGraph@http://localhost:2122/tenant2/\;agent#urn:tenant2:PrivateGraph@http://localhost:2122/tenant2/\;agent#urn:cx:graph#serializedPart@http://localhost:2122/tenant2/
      ;;
 
     "-complete")
-     FUSEKI_CONFIG="config-internal.ttl"
-     FUSEKI_PORT=2121
+     FUSEKI_CONFIG="helm/config/config.ttl"
+     FUSEKI_PORT=2122
      DEBUG_PORT=8886
      ;;
 
