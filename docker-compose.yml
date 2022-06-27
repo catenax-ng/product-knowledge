@@ -1,0 +1,71 @@
+version: "3.9"
+
+services:
+  data-plane-agent:
+    build:
+      dockerfile: Dockerfile.fuseki
+    image: ghcr.io/catenax-ng/product-knowledge/data-plane-agent:0.0.1
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
+    ports:
+      - "8090:8090" # debugging
+      - "2122:2122" # data
+    environment:
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090
+      FUSEKI_CONFIG: config.ttl
+      FUSEKI_PORT: 2122
+    volumes:
+      - ./helm/config/config-internal.ttl:/config.ttl
+
+  tenant1-edc:
+    build:
+      dockerfile: Dockerfile.edc
+    image: ghcr.io/catenax-ng/product-knowledge/control-plane:0.0.1
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
+    ports:
+      - "8090:8090" # debugging
+      - "8181:8181" # data
+    environment:
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090
+      EDC_CONFIG: tenant1.config
+      EDC_PORT: 8181
+      EDC_ID: urn:connector:tenant1:semantics:catenax:net
+      ASSETS: -Dnet.catenax.semantics.connector.assets=agent#urn:x-arq:DefaultGraph@http://data-plane-agent:2122/tenant1/\;agent#urn:tenant1:PropagateGraph@http://data-plane-agent:2122/tenant1/\;agent#urn:tenant1:PrivateGraph@http://data-plane-agent:2122/tenant1/\;agent#urn:cx:graph#assemblyPartRelation@http://data-plane-agent:2122/tenant1/
+      #REMOTE_ASSETS:
+    volumes:
+      - ./helm/config/tenant1.config:/tenant1.config
+
+  tenant2-edc:
+    build:
+      dockerfile: Dockerfile.edc
+    image: ghcr.io/catenax-ng/product-knowledge/control-plane:0.0.1
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
+    ports:
+      - "8090:8090" # debugging
+      - "8181:8181" # data
+    environment:
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090
+      EDC_CONFIG: tenant2.config
+      EDC_PORT: 8181
+      EDC_ID: urn:connector:tenant2:semantics:catenax:net
+      ASSETS: -Dnet.catenax.semantics.connector.assets=agent#urn:x-arq:DefaultGraph@http://data-plane-agent:2122/tenant2/\;agent#urn:tenant2:PropagateGraph@http://data-plane-agent:2122/tenant2/\;agent#urn:tenant2:PrivateGraph@http://data-plane-agent:2122/tenant2/\;agent#urn:cx:graph#serializedPart@http://data-plane-agent:2122/tenant2/
+      #REMOTE_ASSETS:
+    volumes:
+      - ./helm/config/tenant2.config:/tenant2.config
+
+  central-edc:
+    build:
+      dockerfile: Dockerfile.edc
+    image: ghcr.io/catenax-ng/product-knowledge/control-plane:0.0.1
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
+    ports:
+      - "8090:8090" # debugging
+      - "8181:8181" # data
+    environment:
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090
+      EDC_CONFIG: central.config
+      EDC_PORT: 8181
+      EDC_ID: urn:connector:central:semantics:catenax:net
+      ASSETS: -Dnet.catenax.semantics.connector.assets=agent#urn:x-arq:DefaultGraph@http://data-plane-agent:2122/central/\;agent#urn:tenant1:PropagateGraph@http://data-plane-agent:2122/central/\;agent#urn:tenant2:PropagateGraph@http://data-plane-agent:2122/central/
+      REMOTE_ASSETS: -Dnet.catenax.semantics.connector.remote.assets=agent#urn:tenant1:PropagateGraph@http://tenant1-edc:8181/\;agent#urn:tenant2:PropagateGraph@http://tenant2-edc:8181/
+    volumes:
+      - ./helm/config/central.config:/central.config
