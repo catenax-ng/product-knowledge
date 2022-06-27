@@ -33,9 +33,9 @@ spec:
               value: config.ttl
             - name: FUSEKI_PORT
               value: 2122
-      volumeMounts:
-        - name: data-plane-config
-          mountPath: /config
+          volumeMounts:
+            - name: data-plane-config
+              mountPath: /config
       volumes:
         - name: data-plane-config
           configMap:
