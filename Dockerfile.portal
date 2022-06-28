@@ -1,0 +1,28 @@
+#
+# Copyright (c) 2021-2022 T-Systems International GmbH (Catena-X Consortium)
+#
+# See the AUTHORS file(s) distributed with this work for additional
+# information regarding authorship.
+#
+# See the LICENSE file(s) distributed with this work for
+# additional information regarding license terms.
+#
+
+# the development docker file is just using a 
+# single-step, dynamic npm-served host
+FROM node:16-alpine as build-step
+
+RUN mkdir /app
+WORKDIR /app
+
+COPY ["tractusx/portal/code/tractus-x-portal/package.json", "tractusx/portal/code/tractus-x-portal/package-lock.json", "tractusx/portal/code/tractus-x-portal/"]
+
+RUN npm install npm@latest
+# should be --production
+
+#COPY tractusx/portal/code/tractus-x-portal/ .
+
+ENV PORT 80
+EXPOSE 80
+
+CMD ["npm", "start"]
