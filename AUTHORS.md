@@ -11,3 +11,6 @@
 
 - [Dr. Christoph "Schorsch" Jung](https://github.com/drcgjung)
 
+## [BMW AG](http://www.bmw.com)
+
+- [Dr. Daniel Wilms](https://github.com/danielwilms)

@@ -69,3 +69,13 @@ services:
       REMOTE_ASSETS: -Dnet.catenax.semantics.connector.remote.assets=agent#urn:tenant1:PropagateGraph@http://tenant1-edc:8181/\;agent#urn:tenant2:PropagateGraph@http://tenant2-edc:8181/
     volumes:
       - ./helm/config/central.config:/central.config
+
+  portal:
+    build:
+      dockerfile: Dockerfile.portal
+    image: ghcr.io/catenax-ng/product-knowledge/portal:0.0.1
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
+    ports:
+        - "80:80" # data
+    volumes:
+      - ./helm/config/local.env:/app/.env
