@@ -22,7 +22,7 @@ services:
     image: ghcr.io/catenax-ng/product-knowledge/control-plane:0.0.1
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
-      - "8090:8090" # debugging
+      - "8091:8090" # debugging
       - "8181:8181" # data
     environment:
       JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090
@@ -40,8 +40,8 @@ services:
     image: ghcr.io/catenax-ng/product-knowledge/control-plane:0.0.1
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
-      - "8090:8090" # debugging
-      - "8181:8181" # data
+      - "8092:8090" # debugging
+      - "8182:8181" # data
     environment:
       JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090
       EDC_CONFIG: tenant2.config
@@ -58,8 +58,8 @@ services:
     image: ghcr.io/catenax-ng/product-knowledge/control-plane:0.0.1
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
-      - "8090:8090" # debugging
-      - "8181:8181" # data
+      - "8093:8090" # debugging
+      - "8183:8181" # data
     environment:
       JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090
       EDC_CONFIG: central.config
@@ -72,10 +72,11 @@ services:
 
   portal:
     build:
+      context: tractusx/portal/code/tractus-x-portal
       dockerfile: Dockerfile.portal
     image: ghcr.io/catenax-ng/product-knowledge/portal:0.0.1
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
-        - "80:80" # data
+        - "8184:80" # data
     volumes:
       - ./helm/config/local.env:/app/.env
