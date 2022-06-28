@@ -26,6 +26,7 @@ spec:
           image: ghcr.io/catenax-ng/product-knowledge/portal:0.0.1
           imagePullPolicy: Always
           ports:
+            - containerPort: 80 # FRONTEND
           env:
           volumeMounts:
             - name: portal-config

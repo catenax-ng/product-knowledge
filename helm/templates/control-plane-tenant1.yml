@@ -26,6 +26,7 @@ spec:
           image: ghcr.io/catenax-ng/product-knowledge/control-plane:0.0.1
           imagePullPolicy: Always
           ports:
+            - containerPort: 8181 # API
           env:
             - name: JAVA_TOOL_OPTIONS
               value: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090"
