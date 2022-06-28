@@ -23,13 +23,13 @@ services:
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8091:8090" # debugging
-      - "8181:8181" # data
+      - "8182:8181" # data
     environment:
       JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090
       EDC_CONFIG: tenant1.config
       EDC_PORT: 8181
       EDC_ID: urn:connector:tenant1:semantics:catenax:net
-      ASSETS: -Dnet.catenax.semantics.connector.assets=agent#urn:x-arq:DefaultGraph@http://data-plane-agent:2122/tenant1/\;agent#urn:tenant1:PropagateGraph@http://data-plane-agent:2122/tenant1/\;agent#urn:tenant1:PrivateGraph@http://data-plane-agent:2122/tenant1/\;agent#urn:cx:graph#assemblyPartRelation@http://data-plane-agent:2122/tenant1/
+      ASSETS: -Dnet.catenax.semantics.connector.assets=agent#urn:x-arq:DefaultGraph@http://data-plane-agent:2122/tenant1/;agent#urn:tenant1:PropagateGraph@http://data-plane-agent:2122/tenant1/;agent#urn:tenant1:PrivateGraph@http://data-plane-agent:2122/tenant1/;agent#urn:cx:graph#assemblyPartRelation@http://data-plane-agent:2122/tenant1/
       #REMOTE_ASSETS:
     volumes:
       - ./helm/config/tenant1.config:/tenant1.config
@@ -41,13 +41,13 @@ services:
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8092:8090" # debugging
-      - "8182:8181" # data
+      - "8183:8181" # data
     environment:
       JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090
       EDC_CONFIG: tenant2.config
       EDC_PORT: 8181
       EDC_ID: urn:connector:tenant2:semantics:catenax:net
-      ASSETS: -Dnet.catenax.semantics.connector.assets=agent#urn:x-arq:DefaultGraph@http://data-plane-agent:2122/tenant2/\;agent#urn:tenant2:PropagateGraph@http://data-plane-agent:2122/tenant2/\;agent#urn:tenant2:PrivateGraph@http://data-plane-agent:2122/tenant2/\;agent#urn:cx:graph#serializedPart@http://data-plane-agent:2122/tenant2/
+      ASSETS: -Dnet.catenax.semantics.connector.assets=agent#urn:x-arq:DefaultGraph@http://data-plane-agent:2122/tenant2/;agent#urn:tenant2:PropagateGraph@http://data-plane-agent:2122/tenant2/;agent#urn:tenant2:PrivateGraph@http://data-plane-agent:2122/tenant2/;agent#urn:cx:graph#serializedPart@http://data-plane-agent:2122/tenant2/
       #REMOTE_ASSETS:
     volumes:
       - ./helm/config/tenant2.config:/tenant2.config
@@ -59,13 +59,13 @@ services:
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8093:8090" # debugging
-      - "8183:8181" # data
+      - "8181:8181" # data
     environment:
       JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090
       EDC_CONFIG: central.config
       EDC_PORT: 8181
       EDC_ID: urn:connector:central:semantics:catenax:net
-      ASSETS: -Dnet.catenax.semantics.connector.assets=agent#urn:x-arq:DefaultGraph@http://data-plane-agent:2122/central/\;agent#urn:tenant1:PropagateGraph@http://data-plane-agent:2122/central/\;agent#urn:tenant2:PropagateGraph@http://data-plane-agent:2122/central/
+      ASSETS: -Dnet.catenax.semantics.connector.assets=agent#urn:x-arq:DefaultGraph@http://data-plane-agent:2122/central/;agent#urn:tenant1:PropagateGraph@http://data-plane-agent:2122/central/;agent#urn:tenant2:PropagateGraph@http://data-plane-agent:2122/central/
       REMOTE_ASSETS: -Dnet.catenax.semantics.connector.remote.assets=agent#urn:tenant1:PropagateGraph@http://tenant1-edc:8181/\;agent#urn:tenant2:PropagateGraph@http://tenant2-edc:8181/
     volumes:
       - ./helm/config/central.config:/central.config
@@ -77,6 +77,6 @@ services:
     image: ghcr.io/catenax-ng/product-knowledge/portal:0.0.1
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
-        - "8184:80" # data
+        - "3000:80" # data
     volumes:
       - ./helm/config/local.env:/app/.env
