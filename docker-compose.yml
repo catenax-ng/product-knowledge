@@ -14,7 +14,7 @@ services:
       FUSEKI_CONFIG: config.ttl
       FUSEKI_PORT: 2122
     volumes:
-      - ./helm/config/config-internal.ttl:/config.ttl
+      - ./helm/config/config.ttl:/app/config.ttl
 
   tenant1-edc:
     build:
