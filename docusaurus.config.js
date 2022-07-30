@@ -7,7 +7,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Catena-X - Knowledge Agents',
-  tagline: 'Providing Catena-X With Skills and Federated Inference Services',
+  tagline: 'Hey Catena! Show me Your Skills (and Federated Inference Services)',
   url: 'https://catena-x.net/',
   baseUrl: '/product-knowledge/',
   onBrokenLinks: 'log',
@@ -80,6 +80,10 @@ const config = {
               {
                 label: 'Architecture',
                 to: '/docs/architecture',
+              },
+              {
+                label: 'Spike',
+                to: '/docs/spike',
               },
               {
                 label: 'How To',
