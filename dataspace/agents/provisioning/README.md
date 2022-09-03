@@ -1,11 +1,11 @@
 # Catena-X Knowledge Agents (Hey Catena!) Provisioning Agent
 
-This is a folder providing the FOSS implementation of a Hey Catena! Agent (=SparQL Endpoint) for provider-side deployment.
-
-This Provisioning Agent will bind typical (relational) backend data sources such as SQL-based data bases and data lakes in a secure manner 
+The Provisioning Agent will bind typical (relational/structued) backend data sources such as Databases and Datalakes in a secure manner 
 to the dataspace.
 
-Highly-scaleable replacements for (not only) the role of the Provisioning Agent are:
+This is a folder providing the FOSS implementation of a Hey Catena! Agent (=SparQL Endpoint) for provider-side deployment.
+
+Highly-scaleable replacements for (not only) the role of the FOSS Provisioning Agent are:
 * [GraphDB](https://www.ontotext.com/products/graphdb/)
 * [Neptune](https://aws.amazon.com/de/neptune/)
 

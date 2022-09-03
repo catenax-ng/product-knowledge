@@ -28,7 +28,27 @@ For initialisation, you will need to run
 
 ```
 npm install -g jest
-npm install typescript
-npm install
+npm run init:dev
 ```
 
+## Developer Workflow for the UI
+
+At the moment the skill_gym is calling the skill_modules locally and the skill_modules implements the skill_framework. Normally the skill_modules would be built and published as a package and implemented as external npm package inside the skill_gym. To make the development progress more easy, we are linking the skill_framework and the skill_modules via npm link commands, so that those packages can be used locally. This is automatically happening when using the command:
+
+```
+npm run init:dev
+```
+
+After this happends, you can start the React app with:
+
+```
+npm run start:skillgym
+```
+
+If you want to make changes inside the skill_gym, the server will notice those changes automatically. But if you will make changes insider the skill_modules you need to build the library again with:
+
+```
+npm run build:skillm
+```
+
+The server now automatically notices this change and will show your changes.

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.catenax.knowledge</groupId>
+    <artifactId>agents.remoting</artifactId>
+    <version>0.5.2-SNAPSHOT</version>
+    <description>Catena-X Remoting Knowledge Agent</description>
+    <url>http://catena-x.net/</url>
+
+    <organization>
+        <name>Catena-X Automotive Network</name>
+        <url>http://catena-x.net/</url>
+    </organization>
+
+    <properties>
+        <symbolic.name>io.catenax.knowledge.agents.remoting</symbolic.name>
+        <finalName>${symbolic.name}-${project.version}</finalName>
+        <filter.main.resources>true</filter.main.resources>
+        <skipTests>false</skipTests>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+
+      <dependency>
+        <groupId>org.eclipse.rdf4j</groupId>
+        <artifactId>rdf4j-storage</artifactId>
+        <type>pom</type>
+      </dependency>
+
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-simple</artifactId>
+        <version>1.7.22</version>
+      </dependency>
+
+       <dependency>
+         <groupId>org.junit.jupiter</groupId>
+         <artifactId>junit-jupiter-engine</artifactId>
+         <scope>test</scope>
+       </dependency>
+
+		  <dependency>
+			  <groupId>org.apache.httpcomponents</groupId>
+		  	<artifactId>httpclient</artifactId>
+        <version>4.5.13</version>
+        <exclusions>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+					<exclusion>
+						<!-- httpclient includes older codec -->
+						<groupId>commons-codec</groupId>
+						<artifactId>commons-codec</artifactId>
+					</exclusion>
+				</exclusions>
+		  </dependency>
+
+		  <dependency>
+			  <groupId>com.fasterxml.jackson.core</groupId>
+		  	<artifactId>jackson-databind</artifactId>
+        <version>2.12.6.1</version>
+		  </dependency>
+
+    </dependencies>
+
+    <dependencyManagement>
+      <dependencies>
+        <dependency>
+          <groupId>org.eclipse.rdf4j</groupId>
+          <artifactId>rdf4j-bom</artifactId>
+          <version>4.1.0</version>
+          <type>pom</type>
+          <scope>import</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit</groupId>
+            <artifactId>junit-bom</artifactId>
+            <version>5.9.0</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M3</version>
+            </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>2.4.3</version>
+            <executions>
+              <execution>
+               <phase>package</phase>
+               <goals>
+                <goal>shade</goal>
+               </goals>
+               <configuration>
+                <transformers>
+                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <manifestEntries>
+                    <Main-Class>io.catenax.knowledge.agents.remoting.Application</Main-Class>
+                    <Build-Number>0.5.1</Build-Number>
+                  </manifestEntries>
+                  </transformer>
+                  <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+               </transformers>
+              </configuration>
+            </execution>
+          </executions>
+         </plugin>
+        </plugins>
+    </build>
+
+</project>

@@ -6,6 +6,9 @@
 //
 
 import fetch from 'node-fetch';
+import { RequestInit } from 'node-fetch';
+import createHttpsProxyAgent from 'https-proxy-agent'; 
+import { HttpsProxyAgent } from 'https-proxy-agent'; 
 
 // issue a module loading message
 console.log("Debug: Loading skill_framework/index");
@@ -314,7 +317,7 @@ export class EnvironmentConnectorFactory implements IConnectorFactory {
     
     constructor() {
         if (process.env.SKILL_CONNECTOR != undefined && process.env.SKILL_CONNECTOR != "" ) {
-            this.environmentConnector = new RemoteConnector(process.env.SKILL_CONNECTOR);
+            this.environmentConnector = new RemoteConnector(process.env.SKILL_CONNECTOR,undefined,process.env.SKILL_PROXY);
         } else {
             this.environmentConnector = new MockConnector();
         }
@@ -383,10 +386,14 @@ class EnvironmentRealmMapping implements IRealmMapping {
 class RemoteConnector implements IConnector {
     private url:string;
     private realmMapping:IRealmMapping;
+    private proxy?:HttpsProxyAgent;
 
-    constructor(url:string, realmMapping?:IRealmMapping) {
+    constructor(url:string, realmMapping?:IRealmMapping, proxy?:string) {
         this.url=url;
         this.realmMapping=realmMapping ?? getRealmMappingFactory().create();
+        if(proxy) {
+            this.proxy=createHttpsProxyAgent(proxy);
+        } 
     }
     
     public async listAssets(providerUrl?: string) : Promise<Catalogue> {
@@ -397,12 +404,16 @@ class RemoteConnector implements IConnector {
        console.log(`Listing Assets from Remote Connector ${finalproviderUrl} starts at ${start}.`);
 
        const finalUrl = `${this.url}/data/catalog?providerUrl=${idsUrl}`;
-       // 👇️ const response: Response
-       const response = await fetch(finalUrl, {
+       
+       const fetchOpts:RequestInit= {
         method: 'GET',
-        headers: this.realmMapping.getHeaderAnnotation(this.url)
-       });
+        headers: this.realmMapping.getHeaderAnnotation(this.url),
+        agent: this.proxy
+       };
 
+       // 👇️ const response: Response
+       const response = await fetch(finalUrl,fetchOpts);
+       
        let elapsed = new Date().getTime() - start;
 
        console.log(`Listing Assets from Remote Connector finished after ${elapsed} milliseconds.`);

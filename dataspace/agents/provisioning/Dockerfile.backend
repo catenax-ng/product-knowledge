@@ -54,4 +54,8 @@ ENV DREMIO_PID_DIR /var/run/dremio
 ENV DREMIO_GC_LOGS_ENABLED="no"
 ENV DREMIO_LOG_DIR="/var/log/dremio"
 ENV SERVER_GC_OPTS="-XX:+PrintGCDetails -XX:+PrintGCDateStamps"
+
+# TODO Should have a healthcheck
+HEALTHCHECK NONE
+
 ENTRYPOINT ["bin/dremio", "start-fg"]

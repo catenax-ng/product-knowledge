@@ -1,0 +1,96 @@
+#
+# Rdf4j configuration for a function repository
+#
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix rep: <http://www.openrdf.org/config/repository#>.
+@prefix sr: <http://www.openrdf.org/config/repository/sail#>.
+@prefix sail: <http://www.openrdf.org/config/sail#>.
+@prefix sp: <http://spinrdf.org/sp#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix cx-fx: <https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl#>.
+@prefix cx-prognosis: <https://github.com/catenax-ng/product-knowledge/ontology/prognosis.ttl#>.
+@prefix cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>.
+@prefix cx-rt: <urn:io.catenax.knowledge.agents.remoting#>.
+
+[] rdf:type rep:Repository ;
+   rep:repositoryID "prognosis" ;
+   rdfs:label "Prognosis Function" ;
+   rep:repositoryImpl [
+      rep:repositoryType "openrdf:SailRepository" ;
+      sr:sailImpl [
+         sail:sailType "io.catenax.knowledge:Remoting" ;
+         cx-fx:supportsInvocation cx-rt:Test;
+         cx-fx:supportsInvocation cx-prognosis:Prognosis;
+         cx-fx:supportsInvocation cx-lifetime:LifetimePrognosis;
+      ]
+   ].
+
+cx-rt:Test rdf:type cx-fx:Function;
+  cx-fx:targetUri "class:io.catenax.knowledge.agents.remoting.TestFunction#test";
+  cx-fx:input cx-rt:input-1;
+  cx-fx:input cx-rt:input-2;
+  cx-fx:output cx-rt:output.
+
+cx-rt:input-1 rdf:type cx-fx:Argument;
+   cx-fx:argumentName "arg0".
+
+cx-rt:input-2 rdf:type cx-fx:Argument;
+   cx-fx:argumentName "arg1".
+
+cx-rt:output rdf:type cx-fx:ReturnValue;
+   cx-fx:valuePath "";
+   cx-fx:dataType xsd:int.
+
+cx-prognosis:Prognosis rdf:type cx-fx:Function;
+  dcterms:description "Prognosis is a sample simulation function with input and output bindings."@en ;
+  dcterms:title "Prognosis" ;
+  cx-fx:targetUri "https://api.agify.io";
+  cx-fx:input cx-prognosis:name;
+  cx-fx:output cx-prognosis:prediction;
+  cx-fx:output cx-prognosis:support.
+
+cx-prognosis:name rdf:type cx-fx:Argument;
+  dcterms:description "Name is an argument to the Prognosis function."@en ;
+  dcterms:title "Name";
+  cx-fx:argumentName "name".
+
+cx-prognosis:prediction rdf:type cx-fx:ReturnValue;
+   dcterms:description "Prediction (Value) is an integer-based output of the Prognosis function."@en ;
+   dcterms:title "Prediction" ;
+   cx-fx:valuePath "age";
+   cx-fx:dataType xsd:int.
+
+cx-prognosis:support rdf:type cx-fx:ReturnValue;
+   dcterms:description "Support (Value) is another integer-based output of the Prognosis function."@en ;
+   dcterms:title "Support" ;
+   cx-fx:valuePath "count";
+   cx-fx:dataType xsd:int.
+
+cx-lifetime:LifetimePrognosis rdf:type cx-fx:Function;
+  dcterms:description "Lifetime Prognosis is a simulation function operating on load collectives."@en ;
+  dcterms:title "Lifetime Prognosis" ;
+  cx-fx:targetUri "http://tiera-backend:5005/api/rul";
+  cx-fx:invocationMethod "POST-JSON-MF";
+  cx-fx:input cx-lifetime:loadCollective;
+  cx-fx:output cx-lifetime:remainingDistance;
+  cx-fx:output cx-lifetime:remainingTime.
+
+cx-lifetime:loadCollective rdf:type cx-fx:Argument;
+  dcterms:description "LoadCollective is an argument to the LifeTime Prognosis function."@en ;
+  dcterms:title "Load Collective";
+  cx-fx:argumentName "load_collective_file".
+
+cx-lifetime:remainingDistance rdf:type cx-fx:ReturnValue;
+   dcterms:description "Remaining Distance is an integer-based prediction of kilometers."@en ;
+   dcterms:title "Remaining Distance" ;
+   cx-fx:valuePath "RUL.RUL.remainingDistance.Value";
+   cx-fx:dataType xsd:int.
+
+cx-lifetime:remainingTime rdf:type cx-fx:ReturnValue;
+   dcterms:description "Remaining Time is an integer-based prediction of years."@en ;
+   dcterms:title "Remaining Time" ;
+   cx-fx:valuePath "RUL.RUL.remainingTime.Value";
+   cx-fx:dataType xsd:int.
+

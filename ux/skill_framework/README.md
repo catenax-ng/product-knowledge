@@ -69,9 +69,16 @@ import {getConnectorFactory, Catalogue} from '@knowledge-agents-ux/skill_framewo
 var catalogue:Catalogue = await getConnectorFactory().create().listAssets();
 ```
 
-The default connector factory will inspect the `SKILL_CONNECTOR` environment variable. If it is unset or empty, it will use a mock connector implementation. Otherwise, it will
-use a connector implementation that uses the given string as the connector URL.
+The default connector factory will inspect the `SKILL_CONNECTOR`,`SKILL_CONNECTOR_AUTH_HEADER_KEY`, `SKILL_CONNECTOR_AUTH_HEADER_VALUE` and `SKILL_PROXY` environment variables. 
+If they are unset or empty, it will use a mock connector implementation. 
 
+Otherwise, it will use a connector implementation that uses the given string as the connector URL.
+
+```console
+export SKILL_CONNECTOR=https://knowledge.int.demo.catena-x.net/oem-edc-control/BPNL00000003COJN
+export SKILL_CONNECTOR_AUTH_HEADER_KEY=X-Api-Key
+export SKILL_CONNECTOR_AUTH_HEADER_VALUE=YOURAPIKEY
+export SKILL_PROXY=YOURPROXY
 ## Notice
 
 * see copyright notice in the top folder
