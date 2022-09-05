@@ -73,14 +73,44 @@ cx-lifetime:LifetimePrognosis rdf:type cx-fx:Function;
   dcterms:title "Lifetime Prognosis" ;
   cx-fx:targetUri "http://tiera-backend:5005/api/rul";
   cx-fx:invocationMethod "POST-JSON-MF";
-  cx-fx:input cx-lifetime:loadCollective;
+  cx-fx:input cx-lifetime:loadCollectiveFile;
+  cx-fx:input cx-lifetime:loadCollectiveHeader;
+  cx-fx:input cx-lifetime:loadCollectiveBody;
+  cx-fx:input cx-lifetime:loadCollectiveComponent;
+  cx-fx:input cx-lifetime:loadCollectiveMileage;
+  cx-fx:input cx-lifetime:loadCollectiveRegistrationDate;
   cx-fx:output cx-lifetime:remainingDistance;
   cx-fx:output cx-lifetime:remainingTime.
 
-cx-lifetime:loadCollective rdf:type cx-fx:Argument;
-  dcterms:description "LoadCollective is an argument to the LifeTime Prognosis function."@en ;
-  dcterms:title "Load Collective";
-  cx-fx:argumentName "load_collective_file".
+cx-lifetime:loadCollectiveFile rdf:type cx-fx:Argument;
+  dcterms:description "A Load Collective has a file description."@en ;
+  dcterms:title "Load Collective File";
+  cx-fx:argumentName "load_collective_file.File".
+
+cx-lifetime:loadCollectiveHeader rdf:type cx-fx:Argument;
+  dcterms:description "A Load Collective has a header which describes the gathered data and dimensions."@en ;
+  dcterms:title "Load Collective Header";
+  cx-fx:argumentName "load_collective_file.Header".
+
+cx-lifetime:loadCollectiveBody rdf:type cx-fx:Argument;
+  dcterms:description "A Load Collective has a body with the raw measurements."@en ;
+  dcterms:title "Load Collective Body";
+  cx-fx:argumentName "load_collective_file.Body".
+
+cx-lifetime:loadCollectiveComponent rdf:type cx-fx:Argument;
+  dcterms:description "A Load Collective needs metadata about the forecasted component."@en ;
+  dcterms:title "Load Collective Component Metadata";
+  cx-fx:argumentName "load_collective_file.Metadata.Component".
+
+cx-lifetime:loadCollectiveMileage rdf:type cx-fx:Argument;
+  dcterms:description "A Load Collective needs metadata about the mileage of the embedding vehicle."@en ;
+  dcterms:title "Load Collective Mileage Metadata";
+  cx-fx:argumentName "load_collective_file.Metadata.Mileage".
+
+cx-lifetime:loadCollectiveRegistrationDate rdf:type cx-fx:Argument;
+  dcterms:description "A Load Collective needs metadata about the registration date of the vehicle."@en ;
+  dcterms:title "Load Collective Registration Date Metadata";
+  cx-fx:argumentName "load_collective_file.Metadata.RegistrationDate".
 
 cx-lifetime:remainingDistance rdf:type cx-fx:ReturnValue;
    dcterms:description "Remaining Distance is an integer-based prediction of kilometers."@en ;

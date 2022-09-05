@@ -1,20 +1,20 @@
 import AssetList from './AssetList';
 import React from "react"
 import "./styles.sass"
-import { Box, Grid } from '@mui/material';
-import { SharedThemeProvider, PageHeader } from 'cx-portal-shared-components';
+import { Box, Grid, Paper } from '@mui/material';
+import Typography from '@mui/material/Typography';
 
 export const AssetView = () => {
   return (
-    <SharedThemeProvider>
-      <PageHeader background='LinearGradient3' title='Asset List' />
-      <Box sx={{mb: 8}} maxWidth='2000px' p={8}>
-        <Grid container spacing={4}>
-          <Grid item xs={12}>
+    <Box p={4}>
+      <Grid container spacing={4}>
+        <Grid item xs={12}>
+          <Paper>
+            <Typography p={2} variant='h4'>Asset List</Typography>
             <AssetList />
-          </Grid>
+          </Paper>
         </Grid>
-      </Box>
-    </SharedThemeProvider>
+      </Grid>
+    </Box>
   );
 };

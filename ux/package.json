@@ -9,12 +9,16 @@
         "compile": "tsc -b",
         "watch": "tsc -w",
         "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+        "init:dev": "npm install && npm run build:dev && npm run link:all",
         "start:skillgym": "npm start --workspace=skill_gym",
+        "build:all": "npm run build:skillg && npm run build:skillm && npm run build:skillfw",
+        "build:dev": "npm run build:skillm && npm run build:skillfw",
         "build:skillg": "npm run build --workspace=skill_gym",
         "build:skillm": "npm run build --workspace=skill_modules",
         "build:skillfw": "npm run compile --workspace=skill_framework",
-        "link:skillfw": "npm link --workspace skill_framework && npm link @knowledge-agents-ux/skill_framework",
-        "link:skillm": "npm link --workspace skill_modules && npm link @catenax-ng/skill-modules"
+        "link:all": "npm run link:skillfw && npm run link:skillm",
+        "link:skillfw": "npm link --workspace=skill_framework && npm link @knowledge-agents-ux/skill_framework",
+        "link:skillm": "npm link --workspace=skill_modules && npm link @catenax-ng/skill-modules"
     },
     "devDependencies": {
         "@types/jest": "^28.1.6",

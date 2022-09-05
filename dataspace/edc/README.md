@@ -2,6 +2,10 @@
 
 This folder hosts extensions to the [Eclipse Dataspace Connector (EDC)](https://projects.eclipse.org/projects/technology.dataspaceconnector).
 
+It consists of
+
+- [Agent Data Plane (Azure Vault)](agentplane-azurevault)
+
 ## Notice
 
 * see copyright notice in the top folder

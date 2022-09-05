@@ -13,25 +13,25 @@ services:
   #
   # Configures the oem backend 
   #
-  oem-backend:
-    build:
-      dockerfile: Dockerfile.backend
-      context: ../dataspace/agents/provisioning
-    image: ghcr.io/catenax-ng/product-knowledge/dataspace/dremio-oss:22.0
-    platform: ${DOCKER_PLATFORM:-linux/amd64}
-    ports:
-      - "9047:9047" # Web-UI
-      - "31010:31010" # Zookeper
-      - "45678:45678" # Executor Protocol
+  # oem-backend:
+  #   build:
+  #     dockerfile: src/main/docker/Dockerfile.backend
+  #     context: ../dataspace/agents/provisioning
+  #   image: ghcr.io/catenax-ng/product-knowledge/backend/sql-virtualize-dremio-oss:22.0
+  #   platform: ${DOCKER_PLATFORM:-linux/amd64}
+  #   ports:
+  #     - "9047:9047" # Web-UI
+  #     - "31010:31010" # Zookeper
+  #     - "45678:45678" # Executor Protocol
 
   #
   # Configures the oem agent 
   #
   oem-agent:
     build:
-      dockerfile: Dockerfile.agent
+      dockerfile: src/main/docker/Dockerfile.agent
       context: ../dataspace/agents/provisioning
-    image: ghcr.io/catenax-ng/product-knowledge/dataspace/provisioning-agent:0.5.2
+    image: ghcr.io/catenax-ng/product-knowledge/dataspace/provisioning-agent:0.5.3-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8080:8080" # sparql endpoint
@@ -57,13 +57,14 @@ services:
       - ./oem/resources/settings.properties:/input/settings.properties
       - ./oem/resources/settings.dremio.properties:/input/settings.dremio.properties
       - ./oem/resources/portal.toml:/input/portal.toml
+      - ./oem/resources/logback.xml:/opt/ontop/log/logback.xml
 
   #
   # Configures the tiera backend 
   #
   tiera-backend:
     image: ghcr.io/catenax-ng/product-knowledge/backend/lifetime-prognosis-mock:latest
-    platform: ${DOCKER_PLATFORM:-linux/amd64}
+    platform: linux/amd64
     ports:
       - "5005:5005" # API
 
@@ -72,9 +73,9 @@ services:
   #
   tiera-agent:
     build:
-      dockerfile: Dockerfile
+      dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/agents/remoting
-    image: ghcr.io/catenax-ng/product-knowledge/dataspace/remoting-agent:0.5.2
+    image: ghcr.io/catenax-ng/product-knowledge/dataspace/remoting-agent:0.5.3-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8081:8081" # sparql endpoint
@@ -82,4 +83,34 @@ services:
     environment:
       JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090
     volumes:
-      - ./tiera/resources/rdf4j:/var/rdf4j/server
+      - ./tiera/resources/rdf4j/conf:/var/rdf4j/server/conf
+      - ./tiera/resources/rdf4j/repositories:/var/rdf4j/server/repositories
+
+  #
+  # Configures the consumer data plane
+  #
+  consumer-data-plane:
+    build:
+      dockerfile: src/main/docker/Dockerfile
+      context: ../dataspace/edc/agentplane-azurevault
+      #dockerfile: ../product-knowledge/dataspace/edc/agentplane-azurevault/src/main/docker/Dockerfile.fuseki
+      #context: ../../spike/
+      args:
+        JAR: target/agentplane-azure-vault.jar
+        LIB: target/lib
+    image: ghcr.io/catenax-ng/product-knowledge/dataspace/agentplane-azure-vault:0.5.3-SNAPSHOT
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
+    ports:
+      - "8082:8082" # API/sparql endpoint
+      - "8185:8185" # PUBLIC
+      - "8186:8186" # AGREEMENT CALLBACK
+      - "9999:9999" # CONTROL
+    environment:
+      # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
+      EDC_FS_CONFIG: /app/configuration.properties      
+      # Uncomment to enable for debugging, please choose a different port for each endpoint
+      #JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090
+    volumes:
+      - ./oem/resources/dataplane.properties:/app/configuration.properties
+      - ./oem/resources/opentelemetry.properties:/app/opentelemetry.properties
+      - ./oem/resources/logging.properties:/app/logging.properties

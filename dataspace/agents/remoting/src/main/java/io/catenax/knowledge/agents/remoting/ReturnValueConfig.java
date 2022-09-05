@@ -1,3 +1,9 @@
+//
+// Application to provide REST APIs as SPARQL services
+// See copyright notice in the top folder
+// See authors file in the top folder
+// See license file in the top folder
+//
 package io.catenax.knowledge.agents.remoting;
 
 import org.eclipse.rdf4j.sail.config.SailConfigException;
@@ -12,6 +18,12 @@ public class ReturnValueConfig {
       * default data type is string
       */
      protected String dataType="http://www.w3.org/2001/XMLSchema#string";
+
+
+     @Override
+     public String toString() {
+         return super.toString()+"/return";
+     }
 
      public void validate(String context) throws SailConfigException {
         switch(dataType) {

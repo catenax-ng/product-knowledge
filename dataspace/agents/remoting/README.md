@@ -38,7 +38,7 @@ java -jar target/agents.remoting-0.5.2-SNAPSHOT.jar -Dorg.slf4j.simpleLogger.def
 ### Containerizing
 
 ```console
-docker build -t ghcr.io/catenax-ng/product-knowledge/dataspace/remoting-agent:0.5.2 .
+docker build -t ghcr.io/catenax-ng/product-knowledge/dataspace/remoting-agent:0.5.3 -f src/main/docker/Dockerfile .
 ```
 
 will create a docker image including an extended rdf4j-server aw well as an interactive rdf4j-workbench.

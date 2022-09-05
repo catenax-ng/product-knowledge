@@ -12,37 +12,36 @@
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix dcterms: <http://purl.org/dc/terms/> .
 @base <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .
 
 cx: rdf:type owl:Ontology ;
-    dcterms:description "The Catena-X Common Domain lists all domain-independent concepts, attributes and relations.‚"@en ;
-    dcterms:title "Catena-X Common Domain" ;
+    rdfs:comment "The Catena-X Common Domain lists all domain-independent concepts, attributes and relations.‚"@en ;
+    rdfs:label "Catena-X Common Domain" ;
     owl:versionInfo "0.5.1" .
 
 cx:BusinessPartner rdf:type owl:Class ;
-    dcterms:description "A Business Partner is a legal entity that is part of the Catena-X network or that stands in a relevant relation to a Catena-X Business Partner."@en ;
-    dcterms:title "Business Partner" .
+    rdfs:comment "A Business Partner is a legal entity that is part of the Catena-X network or that stands in a relevant relation to a Catena-X Business Partner."@en ;
+    rdfs:label "Business Partner" .
 
 cx:BPNLType rdf:type rdfs:Datatype ;
-    dcterms:description "The (long) Business Partner Number Type describes strings following the pattern 'BPNL[0-9]{8}[A-Z]{4}'."@en ;
-    dcterms:title "Business Partner Number Long Type" ;
+    rdfs:comment "The (long) Business Partner Number Type describes strings following the pattern 'BPNL[0-9]{8}[A-Z]{4}'."@en ;
+    rdfs:label "Business Partner Number Long Type" ;
     owl:onDatatype xsd:string ;
     owl:withRestrictions ([ xsd:pattern "BPNL[0-9]{8}[A-Z]{4}" ]) .
 
 cx:BPNL rdf:type owl:DatatypeProperty ;
-    dcterms:description "The (long) Business Partner Number is a unique identifier following the pattern 'BPNL[0-9]{8}[A-Z]{4}'."@en ;
-    dcterms:title "Business Partner Number Long" ;
+    rdfs:comment "The (long) Business Partner Number is a unique identifier following the pattern 'BPNL[0-9]{8}[A-Z]{4}'."@en ;
+    rdfs:label "Business Partner Number Long" ;
     rdfs:domain cx:BusinessPartner ;
     rdfs:range cx:BPNLType .
 
 cx:Asset rdf:type owl:Class ;
-    dcterms:description "An Asset is any artifact that is provisioned/owned/attributed to some Catena-X Business Partner."@en ;
-    dcterms:title "Asset" .
+    rdfs:comment "An Asset is any artifact that is provisioned/owned/attributed to some Catena-X Business Partner."@en ;
+    rdfs:label "Asset" .
 
 cx:provisionedBy rdf:type owl:ObjectProperty;
-    dcterms:description "The provisioned by predicate connects assets to their providing Catena-X Business Partner."@en ;
-    dcterms:title "Provisioned By" ;
+    rdfs:comment "The provisioned by predicate connects assets to their providing Catena-X Business Partner."@en ;
+    rdfs:label "Provisioned By" ;
     rdfs:domain cx:Asset ;
     rdfs:range cx:BusinessPartner .
 

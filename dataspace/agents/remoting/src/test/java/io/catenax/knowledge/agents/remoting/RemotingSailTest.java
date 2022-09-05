@@ -8,16 +8,13 @@ package io.catenax.knowledge.agents.remoting;
 
 import org.eclipse.rdf4j.model.*;
 import org.eclipse.rdf4j.model.util.*;
-import org.eclipse.rdf4j.model.vocabulary.*;
 
 import org.eclipse.rdf4j.query.*;
 
 import org.eclipse.rdf4j.repository.Repository;
 import org.eclipse.rdf4j.repository.RepositoryConnection;
-import org.eclipse.rdf4j.repository.RepositoryResult;
 import org.eclipse.rdf4j.repository.config.RepositoryConfigSchema;
 import org.eclipse.rdf4j.repository.sail.SailRepository;
-import org.eclipse.rdf4j.sail.memory.MemoryStore;
 import org.eclipse.rdf4j.common.iteration.Iterations;
 
 import org.eclipse.rdf4j.rio.*;
@@ -25,7 +22,6 @@ import org.eclipse.rdf4j.rio.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.apache.jute.RecordReader;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -38,7 +34,7 @@ public class RemotingSailTest {
      */
     @Test    
     public void testConfig() throws Exception {
-        Model graph = Rio.parse(this.getClass().getResourceAsStream("/config.ttl"), RepositoryConfigSchema.NAMESPACE,
+        Model graph = Rio.parse(RemotingSailTest.class.getResourceAsStream("/config.ttl"), RepositoryConfigSchema.NAMESPACE,
 				RDFFormat.TURTLE);
         RemotingSailConfig rsc=new RemotingSailConfig(RemotingSailFactory.SAIL_TYPE);
         rsc.parse(graph,Models.subjectBNode(graph.filter(null,rsc.vf.createIRI("http://www.openrdf.org/config/sail#","sailType"),rsc.vf.createLiteral("io.catenax.knowledge:Remoting"))).get());

@@ -56,7 +56,7 @@ Practical deployments will
 To build the docker image of the Agent, please invoke this command
 
 ```console
-docker build -t ghcr.io/catenax-ng/product-knowledge/dataspace/provisioning-agent:0.5.2 -f Dockerfile.agent .
+docker build -t ghcr.io/catenax-ng/product-knowledge/dataspace/provisioning-agent:latest -f src/main/docker/Dockerfile.agent .
 ```
 
 The image contains
@@ -72,7 +72,7 @@ docker run -p 8080:8080 \
   -v $(pwd)/resources/university-role1.obda:/input/mapping.obda \
   -v $(pwd)/resources/university-role1.properties:/input/settings.properties \
   -v $(pwd)/resources/university.sql:/tmp/university.sql \
-  ghcr.io/catenax-ng/product-knowledge/dataspace/provisioning-agent:0.5.2
+  ghcr.io/catenax-ng/product-knowledge/dataspace/provisioning-agent:0.5.3
 ````
 
 Afterwards, you should be able to access the [local SparQL endpoint](http://localhost:8080/) via
@@ -120,7 +120,7 @@ docker run -p 8080:8080 -p 8082:8082 \
   -e ONTOP_MAPPING_FILE="/input/role1.obda /input/role2.obda" \
   -e ONTOP_PROPERTIES_FILE="/input/role1.properties /input/role2.properties" \
   -e ONTOP_DEV_MODE="false false" \
-  ghcr.io/catenax-ng/product-knowledge/dataspace/provisioning-agent:0.5.2
+  ghcr.io/catenax-ng/product-knowledge/dataspace/provisioning-agent:latest
 ````
 
 Accessing entities spanning two schemas using the first role/endpoint delivers a greater count
@@ -198,7 +198,7 @@ WHERE {
 To build the docker image of the Database Virtualization Layer, please invoke this command
 
 ```console
-docker build -t ghcr.io/catenax-ng/product-knowledge/dataspace/dremio:22.0 -f Dockerfile.backend .
+docker build -t ghcr.io/catenax-ng/product-knowledge/backend/sql-virtualize-dremio-oss:latest -f src/main/docker/Dockerfile.backend .
 ```
 
 The image contains
@@ -209,7 +209,7 @@ To run the docker image, you could invoke this command
 
 ```console
 docker run -p 9047:9047 -p 31010:31010 -p 45678:45678 \
-  ghcr.io/catenax-ng/product-knowledge/dataspace/dremio:22.0
+  ghcr.io/catenax-ng/product-knowledge/backend/sql-virtualize-dremio-oss:latest
 ````
 
 When the image is run for the first time you need to setup an admin user:

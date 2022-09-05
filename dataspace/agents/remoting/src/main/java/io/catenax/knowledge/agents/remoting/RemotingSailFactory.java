@@ -1,5 +1,5 @@
 //
-// Remoting interface to the Storage and Inference Layer (SAIL)
+// Application to provide REST APIs as SPARQL services
 // See copyright notice in the top folder
 // See authors file in the top folder
 // See license file in the top folder
@@ -36,6 +36,11 @@ public class RemotingSailFactory implements SailFactory {
         if(logger.isDebugEnabled()) {
             logger.debug(String.format("Creating a Remoting SAIL factory for SAIL type %s. Usually OSGI configuration has been successful at this point.",SAIL_TYPE));
         }
+    }
+
+    @Override
+    public String toString() {
+        return super.toString()+"/factory";
     }
 
     /**

@@ -12,10 +12,26 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  pre_job:
+      # continue-on-error: true # Uncomment once integration is finished
+      runs-on: ubuntu-latest
+      # Map a step output to a job output
+      outputs:
+        should_skip: ${{ steps.skip_check.outputs.should_skip }}
+      steps:
+        - id: skip_check
+          uses: fkirc/skip-duplicate-actions@v4
+          with:
+            # All of these options are optional, so you can remove them if you are happy with the defaults
+            concurrent_skipping: 'same_content'
+            skip_after_successful_duplicate: 'true'
+            do_not_skip: '["pull_request", "workflow_dispatch", "schedule"]'
+
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
-
+    needs: pre_job
+    if: ${{ needs.pre_job.outputs.should_skip != 'true' }}
     strategy:
       fail-fast: false
       matrix:
@@ -46,9 +62,19 @@ jobs:
           java-version: '17'
           cache: 'maven'
 
-      # Autobuild compiled languages  
-      - name: Autbuild
+      # Autobuild other compiled languages  
+      - if: matrix.language != 'java'  
+        name: Autobuild
         uses: github/codeql-action/autobuild@v2
+
+      # We need to manually instruct maven
+      - if: matrix.language == 'java' 
+        name: Build Java via Maven
+        run: |
+          mvn -s settings.xml install -DskipTests
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Scan Compiled and Iterpreted Languages
       - name: Perform CodeQL Analysis

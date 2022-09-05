@@ -1,0 +1,306 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: consumer-data-plane-config
+  namespace: {{ .Values.namespace }}
+data:
+  configuration.properties: |-
+    ids.webhook.address=http://consumer-data-plane:8080
+    
+    web.http.default.port=8082
+    web.http.default.path=/api
+    web.http.public.port=8185
+    web.http.public.path=/api/public
+    web.http.callback.port=8186
+    web.http.callback.path=/callback
+    web.http.control.port=9999
+    web.http.control.path=/api/dataplane/control
+    
+    edc.api.auth.key={{ .Values.security.xApiKey }}
+    edc.api.control.auth.apikey.key=X-Api-Key
+    edc.api.control.auth.apikey.value={{ .Values.security.xApiKey }}
+
+        # edc.api.control.auth.apikey.key=
+        # edc.api.control.auth.apikey.value=
+        # edc.assetindex.cosmos.account-name=
+        # edc.assetindex.cosmos.container-name=
+        # edc.assetindex.cosmos.database-name=
+        # edc.assetindex.cosmos.preferred-region=
+        # edc.atomikos.checkpoint.interval=
+        # edc.atomikos.directory=
+        # edc.atomikos.logging=
+        # edc.atomikos.threaded2pc=
+        # edc.atomikos.timeout=
+        # edc.aws.access.key=
+        # edc.aws.provision.retry.retries.max=
+        # edc.aws.provision.role.duration.session.max=
+        # edc.aws.secret.access.key=
+        # edc.blobstore.endpoint=
+        # edc.contractdefinitionstore.cosmos.account-name=
+        # edc.contractdefinitionstore.cosmos.container-name=
+        # edc.contractdefinitionstore.cosmos.database-name=
+        # edc.contractdefinitionstore.cosmos.preferred-region=
+        # edc.contractnegotiationstore.cosmos.account-name=
+        # edc.contractnegotiationstore.cosmos.container-name=
+        # edc.contractnegotiationstore.cosmos.database-name=
+        # edc.contractnegotiationstore.cosmos.preferred-region=
+    edc.controlplane.validation-endpoint=http://consumer-control-plane:8182/validation/token
+        # edc.core.retry.backoff.max=
+        # edc.core.retry.backoff.min=
+        # edc.core.retry.retries.max=
+        # edc.core.system.health.check.liveness-period=
+        # edc.core.system.health.check.readiness-period=
+        # edc.core.system.health.check.startup-period=
+        # edc.core.system.health.check.threadpool-size=
+        # edc.cosmos.partition-key=
+        # edc.cosmos.query-metrics-enabled=
+        # edc.dataplane.queue.capacity=
+        # edc.dataplane.wait=
+        # edc.dataplane.workers=
+        # edc.datasource.asset.name="default"
+        # edc.datasource.contractdefinition.name="default"
+        # edc.datasource.contractnegotiation.name="default"
+        # edc.datasource.policy.name="default"
+        # edc.datasource.transferprocess.name="default"
+        # edc.datasource.default.pool.maxIdleConnections=
+        # edc.datasource.default.pool.maxTotalConnections=
+        # edc.datasource.default.pool.minIdleConnections=
+        # edc.datasource.default.pool.testConnectionOnBorrow=
+        # edc.datasource.default.pool.testConnectionOnCreate=
+        # edc.datasource.default.pool.testConnectionOnReturn=
+        # edc.datasource.default.pool.testConnectionWhileIdle=
+        # edc.datasource.default.pool.testQuery=
+        # edc.datasource.default.url=
+        # edc.datasource.default.user=
+        # edc.datasource.default.password=
+        # edc.dpf.selector.url=
+        # edc.events.topic.endpoint=
+        # edc.events.topic.name=
+        # edc.fs.config=
+        # edc.hostname=
+        # edc.identity.did.url=
+        # edc.ids.catalog.id=
+        # edc.ids.curator=
+        # edc.ids.description=
+        # edc.ids.endpoint=
+        # edc.ids.id=
+        # edc.ids.maintainer=
+        # edc.ids.security.profile=
+        # edc.ids.title=
+        # edc.ids.validation.referringconnector=
+        # edc.ion.crawler.did-type=
+        # edc.ion.crawler.interval-minutes=
+        # edc.ion.crawler.ion.url=
+        # edc.metrics.enabled=
+        # edc.metrics.executor.enabled=
+        # edc.metrics.jersey.enabled=
+        # edc.metrics.jetty.enabled=
+        # edc.metrics.okhttp.enabled=
+        # edc.metrics.system.enabled=
+        # edc.negotiation.consumer.state-machine.batch-size=
+        # edc.negotiation.provider.state-machine.batch-size=
+        # edc.node.directory.cosmos.account.name=
+        # edc.node.directory.cosmos.container.name=
+        # edc.node.directory.cosmos.database.name=
+        # edc.node.directory.cosmos.preferred.region=
+        # edc.oauth.client.id=
+        # edc.oauth.private.key.alias=
+        # edc.oauth.provider.audience=
+        # edc.oauth.provider.jwks.refresh=
+        # edc.oauth.provider.jwks.url=
+        # edc.oauth.public.key.alias=
+        # edc.oauth.token.url=
+        # edc.oauth.validation.nbf.leeway=
+        # edc.receiver.http.auth-code=
+        # edc.receiver.http.auth-key=
+        # edc.receiver.http.endpoint=
+        # edc.transfer.proxy.endpoint=
+        # edc.transfer.dataplane.sync.token.validity=
+        # edc.transfer.proxy.token.signer.privatekey.alias=
+        # edc.transfer.functions.check.endpoint=
+        # edc.transfer.functions.enabled.protocols=
+        # edc.transfer.functions.transfer.endpoint=
+        # edc.transfer-process-store.cosmos.account.name=
+        # edc.transfer-process-store.cosmos.container-name=
+        # edc.transfer-process-store.cosmos.preferred-region=
+        # edc.transfer-process-store.database.name=
+        # edc.transfer.state-machine.batch-size=
+    
+    # edc.vault=
+    # edc.vault.certificate=
+    edc.vault.clientid={{ .Values.security.vaultClientId }} 
+    edc.vault.clientsecret={{ .Values.security.vaultClientSecret }}
+    edc.vault.name={{ .Values.security.vaultName }}
+    edc.vault.tenantid={{ .Values.security.vaultTenant }}
+    # edc.vault.url=
+    # edc.vault.token=
+    # edc.vault.timeout.seconds=
+    
+        # edc.webdid.doh.url=
+        # edc.web.rest.cors.enabled=
+        # edc.web.rest.cors.headers=
+        # edc.web.rest.cors.methods=
+        # edc.web.rest.cors.origins=
+  opentelemetry.properties: |-
+    otel.javaagent.enabled=false
+    otel.javaagent.debug=false
+  logging.properties: |-
+    .level=FINE
+    org.eclipse.dataspaceconnector.level=ALL
+    handlers=java.util.logging.ConsoleHandler
+    java.util.logging.ConsoleHandler.formatter=java.util.logging.SimpleFormatter
+    java.util.logging.ConsoleHandler.level=ALL
+    java.util.logging.SimpleFormatter.format=[%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS] [%4$-7s] %5$s%6$s%n
+  agent.ttl: |-
+{{- .Files.Get "consumer/resources/agent.ttl" | nindent 4 }}
+  dataspace.ttl: |-
+{{- .Files.Get "consumer/resources/dataspace.ttl" | nindent 4 }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consumer-data-plane
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: consumer-data-plane
+  template:
+    metadata:
+      labels:
+        app: consumer-data-plane
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsUser: 10000
+        runAsGroup: 30000
+        fsGroup: 30000
+        seccompProfile:
+            type: RuntimeDefault
+      containers:
+        - image: ghcr.io/catenax-ng/product-knowledge/dataspace/agentplane-azure-vault:0.5.3-SNAPSHOT
+          imagePullPolicy: Always
+          name: consumer-data-plane
+          securityContext:
+            capabilities:
+              drop:
+                - all
+              add: ['NET_BIND_SERVICE']
+            allowPrivilegeEscalation: false   
+          ports:
+            - containerPort: 8082 # API
+            - containerPort: 8185 # PUBLIC
+            - containerPort: 8186 # AGREEMENT CALLBACK
+            - containerPort: 9999 # CONTROL
+          env:
+            - name:  EDC_FS_CONFIG
+              value: /connector-config/configuration.properties
+            # - name: FUSEKI_CONFIG
+            #   value: agent.ttl
+          resources:
+           requests:
+            cpu: 0.5
+            memory: "512Mi"
+           limits:
+            cpu: 0.5
+            memory: "512Mi"
+          startupProbe:
+            failureThreshold: 17
+            httpGet:
+              path: /api/check/startup
+              port: 8082
+              scheme: HTTP
+            initialDelaySeconds: 90
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 5
+          livenessProbe:
+            failureThreshold: 4
+            httpGet:
+              path: /api/check/liveness
+              port: 8082
+              scheme: HTTP
+            periodSeconds: 60
+            successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            failureThreshold: 2
+            httpGet:
+              path: /api/check/readiness
+              port: 8082
+              scheme: HTTP
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 5          
+          volumeMounts:
+            - name: consumer-data-plane-config
+              mountPath: /connector-config
+            - name: consumer-data-plane-config
+              mountPath: /app/configuration.properties
+              subPath: configuration.properties
+            - name: consumer-data-plane-config
+              mountPath: /app/opentelemetry.properties
+              subPath: opentelemetry.properties
+            - name: consumer-data-plane-config
+              mountPath: /app/logging.properties
+              subPath: logging.properties
+            - name: consumer-data-plane-config
+              mountPath: /app/agent.ttl
+              subPath: agent.ttl
+            - name: consumer-data-plane-config
+              mountPath: /app/dataspace.ttl
+              subPath: dataspace.ttl
+      volumes:
+        - name: consumer-data-plane-config
+          configMap:
+            name: consumer-data-plane-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: consumer-data-plane
+  namespace: {{ .Values.namespace }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8082
+      name: api
+      targetPort: 8082
+    - port: 8185
+      name: public
+      targetPort: 8185
+    - port: 8186
+      name: callback
+      targetPort: 8186
+    - port: 9999
+      name: control
+      targetPort: 9999
+  selector:
+    app: consumer-data-plane
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: consumer-data-plane-ingress
+  namespace: {{ .Values.namespace }}
+  annotations:
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.issuer }}
+    nginx.ingress.kubernetes.io/rewrite-target: /$1$2$3
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+    nginx.ingress.kubernetes.io/x-forwarded-prefix: "/consumer-data-plane"
+    nginx.org/mergeable-ingress-type: minion
+spec:
+  rules:
+    - host: {{ .Values.ingress.host }}
+      http:
+        paths:
+          - path: /consumer-edc-data/{{ .Values.dataspace.bpnCustomer }}/(api)(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: consumer-data-plane
+                port:
+                  number: 8082
+

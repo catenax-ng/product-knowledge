@@ -8,6 +8,9 @@ package io.catenax.knowledge.tools;
 
 import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -28,7 +31,11 @@ public class OntologyMergerTest {
     @Test
     public void testMerger() throws Exception {
         ByteArrayOutputStream out=new ByteArrayOutputStream();
-        merger.run(new String[] {"../cx.ttl","../dcterms.ttl" },out);
+        String[] fileList=Files.list(Path.of("../"))
+            .filter( path -> path.toFile().getName().endsWith(".ttl"))
+            .map( path -> path.toFile().getAbsolutePath())
+            .collect(Collectors.toList()).toArray(new String[0]);
+        merger.run(fileList,out);
         String result=new String(out.toByteArray());
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();

@@ -11,7 +11,7 @@
 			"name": "Dataspace",
 			"item": [
 				{
-					"name": "OEM (Providing)",
+					"name": "OEM (Data Providing Agent)",
 					"item": [
 						{
 							"name": "Provisioning Agent (Intern)",
@@ -272,7 +272,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"accessPolicyId\": \"231802-bb34-11ec-8422-0242ac120002\",\n  \"contractPolicyId\": \"231802-bb34-11ec-8422-0242ac120002\",\n  \"criteria\": []\n}",
+											"raw": "{\n  \"id\":\"catenax\",\n  \"accessPolicyId\": \"231802-bb34-11ec-8422-0242ac120002\",\n  \"contractPolicyId\": \"231802-bb34-11ec-8422-0242ac120002\",\n  \"criteria\": []\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -456,6 +456,7 @@
 									"response": []
 								}
 							],
+							"description": "A Collection of Calls against the EDC control and data planes sitting on top of a data provisioner.",
 							"event": [
 								{
 									"listen": "prerequest",
@@ -478,7 +479,7 @@
 							]
 						}
 					],
-					"description": "A Collection of API Calls Against the Provisioning Components of the Dataspace.",
+					"description": "A Collection of API Calls Against the Data Provisioning Components of the Dataspace.",
 					"auth": {
 						"type": "basic",
 						"basic": [
@@ -516,7 +517,7 @@
 					]
 				},
 				{
-					"name": "TierA (Remoting)",
+					"name": "TierA (Function Remoting Agent)",
 					"item": [
 						{
 							"name": "Remoting Agent (Intern)",
@@ -550,7 +551,33 @@
 									"response": []
 								},
 								{
-									"name": "Test the Backend Service",
+									"name": "Check the Backend Service",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true,
+										"disabledSystemHeaders": {}
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": []
+										},
+										"url": {
+											"raw": "{{tierABackend}}/docs",
+											"host": [
+												"{{tierABackend}}"
+											],
+											"path": [
+												"docs"
+											]
+										},
+										"description": "Invocation of the actual Lifetime Prognosis Service"
+									},
+									"response": []
+								},
+								{
+									"name": "Test the Backend Service Copy",
 									"protocolProfileBehavior": {
 										"disabledSystemHeaders": {}
 									},
@@ -562,7 +589,6 @@
 											"formdata": [
 												{
 													"key": "load_collective_file",
-													"description": "Input is given as a binary json file",
 													"type": "file",
 													"src": "/Users/A29078924/Downloads/Fzg1_LCollective.json"
 												}
@@ -678,7 +704,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> \nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \nPREFIX cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\n\nSELECT ?invocation ?distance ?time\nWHERE { \n  ?invocation a cx-lifetime:LifetimePrognosis;         \n              cx-lifetime:loadCollective \"{  \\\"File\\\": {  \\\"Type\\\": \\\"ZF_load_collective\\\", \\\"Version\\\": \\\"1.7\\\"  }, \\\"Header\\\": {    \\\"CountingMethod\\\": \\\"ZF_TimeAtLevel\\\",    \\\"CountingUnit\\\": \\\"s\\\",    \\\"Channels\\\": [      {        \\\"Name\\\": \\\"Temp_Oil\\\",        \\\"Type\\\": \\\"Load\\\",        \\\"Unit\\\": \\\"degC\\\",        \\\"LowerLimit\\\": -40,        \\\"UpperLimit\\\": 220,        \\\"NumberOfBins\\\": 52      }  ]  },  \\\"Body\\\": {     \\\"Temp_Oil-class\\\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \\\"Counts\\\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }\\n,  \\\"Metadata\\\": { \\\"OEM\\\": \\\"BMW\\\", \\\"VIN\\\": 8976543761,  \\\"Component\\\": \\\"GearOil\\\",    \\\"Mileage\\\": { \\\"Value\\\": 82563, \\\"Unit\\\": \\\"km\\\" },    \\\"RegistrationDate\\\": { \\\"Value\\\": 20171206,  \\\"Unit\\\": \\\"yyyymmdd\\\" } } }\"^^xsd:string; \n              cx-lifetime:remainingDistance ?distance; \n              cx-lifetime:remainingTime ?time.\n}"
+											"raw": "PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> \nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \nPREFIX cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\n\nSELECT ?invocation ?distance ?time\nWHERE { \n  ?invocation a cx-lifetime:LifetimePrognosis;\n              cx-lifetime:loadCollectiveFile \"{  \\\"Type\\\": \\\"ZF_load_collective\\\", \\\"Version\\\": \\\"1.7\\\"  }\"^^xsd:string; \n              cx-lifetime:loadCollectiveHeader \"{  \\\"CountingMethod\\\": \\\"ZF_TimeAtLevel\\\",    \\\"CountingUnit\\\": \\\"s\\\",    \\\"Channels\\\": [      {        \\\"Name\\\": \\\"Temp_Oil\\\",        \\\"Type\\\": \\\"Load\\\",        \\\"Unit\\\": \\\"degC\\\",        \\\"LowerLimit\\\": -40,        \\\"UpperLimit\\\": 220,        \\\"NumberOfBins\\\": 52      }  ]  }\"^^xsd:string; \n              cx-lifetime:loadCollectiveBody \"{     \\\"Temp_Oil-class\\\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \\\"Counts\\\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }\"^^xsd:string; \n              cx-lifetime:loadCollectiveComponent \"\\\"GearOil\\\"\"^^xsd:string; \n              cx-lifetime:loadCollectiveMileage \"{ \\\"Value\\\": 82563, \\\"Unit\\\": \\\"km\\\" }\"^^xsd:string; \n              cx-lifetime:loadCollectiveRegistrationDate \"{ \\\"Value\\\": 20171206,  \\\"Unit\\\": \\\"yyyymmdd\\\" }\"^^xsd:string; \n              cx-lifetime:remainingDistance ?distance; \n              cx-lifetime:remainingTime ?time.\n}"
 										},
 										"url": {
 											"raw": "{{remotingAgent}}/repositories/prognosis",
@@ -695,7 +721,7 @@
 									"response": []
 								}
 							],
-							"description": "A Collection of API Calls Against the Data Provisioning Agents Directly Which Sits upon some Data Source.",
+							"description": "A Collection of API Calls Against the Function Remoting Agents Directly Which Sits upon some REST Service.",
 							"auth": {
 								"type": "noauth"
 							},
@@ -771,7 +797,8 @@
 													"description": "You may choose startup, readiness or liveness"
 												}
 											]
-										}
+										},
+										"description": "Health Check Interface of EDC planes"
 									},
 									"response": []
 								},
@@ -901,7 +928,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"accessPolicyId\": \"231802-aa34-11ec-8422-0242ac120002\",\n  \"contractPolicyId\": \"231802-aa34-11ec-8422-0242ac120002\",\n  \"criteria\": []\n}",
+											"raw": "{\n  \"id\":\"catenax\",\n  \"accessPolicyId\": \"231802-aa34-11ec-8422-0242ac120002\",\n  \"contractPolicyId\": \"231802-aa34-11ec-8422-0242ac120002\",\n  \"criteria\": []\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1084,9 +1111,11 @@
 									},
 									"response": []
 								}
-							]
+							],
+							"description": "A Collection of Calls Against the EDC control and dataplane sitting on top of the remoting backend."
 						}
 					],
+					"description": "A Collection of API Calls Against the Function Remoting Components of the Dataspace.",
 					"auth": {
 						"type": "basic",
 						"basic": [
@@ -1124,7 +1153,7 @@
 					]
 				},
 				{
-					"name": "Consumer (Federating)",
+					"name": "Consumer (Federating Agent)",
 					"item": [
 						{
 							"name": "EDC (intern)",
@@ -1226,7 +1255,7 @@
 												"assets"
 											]
 										},
-										"description": "Calls the datamanagement API in order to create a graph asset."
+										"description": "Calls the datamanagement API in order to create a skill asset."
 									},
 									"response": []
 								},
@@ -1275,7 +1304,7 @@
 												"policies"
 											]
 										},
-										"description": "Calls the datamanagement API in order to create a graph policy."
+										"description": "Calls the datamanagement API in order to create a skill policy."
 									},
 									"response": []
 								},
@@ -1307,7 +1336,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"accessPolicyId\": \"231802-cc34-11ec-8422-0242ac120002\",\n  \"contractPolicyId\": \"231802-cc34-11ec-8422-0242ac120002\",\n  \"criteria\": []\n}",
+											"raw": "{\n  \"id\":\"catenax\",\n  \"accessPolicyId\": \"231802-cc34-11ec-8422-0242ac120002\",\n  \"contractPolicyId\": \"231802-cc34-11ec-8422-0242ac120002\",\n  \"criteria\": []\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1324,7 +1353,7 @@
 												"contractdefinitions"
 											]
 										},
-										"description": "Calls the datamanagement API in order to create a contract."
+										"description": "Calls the datamanagement API in order to create a skill contract."
 									},
 									"response": []
 								},
@@ -1489,13 +1518,234 @@
 										"description": "Use the public IDS api to retrieve the business partner view on the catalogue."
 									},
 									"response": []
+								},
+								{
+									"name": "Get Local SparQL",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{consumerAgentPlane}}/api/agent?asset=urn:graph:cx:Dataspace&query=SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.}",
+											"host": [
+												"{{consumerAgentPlane}}"
+											],
+											"path": [
+												"api",
+												"agent"
+											],
+											"query": [
+												{
+													"key": "asset",
+													"value": "urn:graph:cx:Dataspace"
+												},
+												{
+													"key": "query",
+													"value": "SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.}"
+												}
+											]
+										},
+										"description": "Uses the Agent Extension of the Dataplane to Perform Some Dynamic Query on a Local Graph (here: the federated data catalogue)."
+									},
+									"response": []
+								},
+								{
+									"name": "Post Federated SparQL",
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {
+											"content-type": true
+										}
+									},
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/sparql-query",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\nPREFIX cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\nPREFIX cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\n#\n# Sample for a Federated Skill (No Matchmaking) Which\n#  - Uses an OEM connector/agent to infer diagnosis data \n#  - Feeds this data into a Tier A connector/agent to perform a prognosis \n\nSELECT ?vin ?troubleCode ?description ?partProg ?distance ?time WHERE {\n\n    # Actual input parameters, when used as a predefined skill, \n    # these would be the named URL (or body multi-form) parameters\n    # Since you could use them multiple times, there is a combinatorial difference in \n    # defining them as single variables or as combined tuples\n    VALUES (?vin ?troubleCode) { (\"WVA8984323420333\"^^xsd:string \"P0745\"^^xsd:string) }\n\n    # In this place, there would be a to-be-implemented catalogue logic \n    # (so the default \"asset\" would be the catalogue including the CX ontology)\n    # which maps the VIN via regular expressions to the right \n    # business partner and connector\n    # Currently, we chose even not the connector, but the backend directly\n    VALUES (?oemBpn ?oemConnector) { (\"BPNL00000003COJN\"^^xsd:string <http://{{oemProviderAgent}}:8080/sparql>) }\n\n    # Now we are jumping into the OEM\n    SERVICE ?oemConnector { \n        # Select Business Partner Node\n        ?Oem cx:BPNL ?oemBpn.\n\n        # Unless we have vehicle master data, we directly bind the variables\n        VALUES (?mileage ?registrationDate) { (\n            \"{ \\\"Value\\\": 82563, \\\"Unit\\\": \\\"km\\\" }\"^^xsd:string\n            \"{ \\\"Value\\\": 20171206,  \\\"Unit\\\": \\\"yyyymmdd\\\" }\"^^xsd:string\n        )}\n\n        # Search for troubled parts to forecast\n        ?Dtc rdf:type cx-diag:DTC;\n            cx:provisionedBy ?Oem;\n            cx-diag:PossibleCauses ?reason;\n            cx-diag:Code ?troubleCode;\n            cx-diag:Description ?description.\n        \n        # Unless we have a mapping of diagnosed parts to the prognosed parts\n        VALUES ?partProg { \"\\\"GearOil\\\"\"^^xsd:string }        \n\n        # Next we need to find the appropriate load spectrum associated to the prognosed part\n        VALUES ?loadCollective { \n         \"{ \\\"Temp_Oil-class\\\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \\\"Counts\\\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }\"^^xsd:string\n        }\n\n        # we need to find the right supplier for the trouble part\n        VALUES (?tieraBpn ?tieraConnector) {\n           (\"BPNL00000003CPIY\"^^xsd:string <http://{{tierARemotingAgent}}:8081/rdf4j-server/repositories/prognosis>) \n        }       \n    }\n\n    # Now we are jumping into the tiera\n    # Notice that ideally, the OEM agent would perform this\n    # as the consumer will have most likely no agreement/contract\n    # for this purpose this SERVICE section would be nested\n    # into the former section\n    SERVICE ?tieraConnector { \n        ?invocation a cx-lifetime:LifetimePrognosis;\n            # Input from the OEM\n            cx-lifetime:loadCollectiveBody ?loadCollective;\n            cx-lifetime:loadCollectiveComponent ?partProg;\n            cx-lifetime:loadCollectiveMileage ?mileage;\n            cx-lifetime:loadCollectiveRegistrationDate ?registrationDate;\n            # Additional info from the Tiera about its measurements\n            cx-lifetime:loadCollectiveFile \"{  \\\"Type\\\": \\\"ZF_load_collective\\\", \\\"Version\\\": \\\"1.7\\\"  }\"^^xsd:string; \n            cx-lifetime:loadCollectiveHeader \"{  \\\"CountingMethod\\\": \\\"ZF_TimeAtLevel\\\",    \\\"CountingUnit\\\": \\\"s\\\",    \\\"Channels\\\": [      {        \\\"Name\\\": \\\"Temp_Oil\\\",        \\\"Type\\\": \\\"Load\\\",        \\\"Unit\\\": \\\"degC\\\",        \\\"LowerLimit\\\": -40,        \\\"UpperLimit\\\": 220,        \\\"NumberOfBins\\\": 52      }  ]  }\"^^xsd:string; \n            # the actual prognosis output\n            cx-lifetime:remainingDistance ?distance; \n            cx-lifetime:remainingTime ?time.\n    }\n}\n\n",
+											"options": {
+												"raw": {
+													"language": "text"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{consumerAgentPlane}}/api/agent",
+											"host": [
+												"{{consumerAgentPlane}}"
+											],
+											"path": [
+												"api",
+												"agent"
+											]
+										},
+										"description": "Uses the Agent Extension of the Dataplane to Perform Some Dynamic Query on Remote Graphs."
+									},
+									"response": []
+								},
+								{
+									"name": "Register Skill",
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {
+											"content-type": true
+										}
+									},
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/sparql-query",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\nPREFIX cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\nPREFIX cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\n#\n# Sample for a Federated Skill (No Matchmaking) Which\n#  - Uses an OEM connector/agent to infer diagnosis data \n#  - Feeds this data into a Tier A connector/agent to perform a prognosis \n\nSELECT ?vin ?troubleCode ?description ?partProg ?distance ?time WHERE {\n\n    # Actual input parameters, when used as a predefined skill, \n    # these would be the named URL (or body multi-form) parameters\n    # Since you could use them multiple times, there is a combinatorial difference in \n    # defining them as single variables or as combined tuples\n    VALUES (?vin ?troubleCode) { (\":vin\"^^xsd:string \":troubleCode\"^^xsd:string) }\n\n    # In this place, there would be a to-be-implemented catalogue logic \n    # (so the default \"asset\" would be the catalogue including the CX ontology)\n    # which maps the VIN via regular expressions to the right \n    # business partner and connector\n    # Currently, we chose even not the connector, but the backend directly\n    VALUES (?oemBpn ?oemConnector) { (\"BPNL00000003COJN\"^^xsd:string <http://{{oemProviderAgent}}:8080/sparql>) }\n\n    # Now we are jumping into the OEM\n    SERVICE ?oemConnector { \n        # Select Business Partner Node\n        ?Oem cx:BPNL ?oemBpn.\n\n        # Unless we have vehicle master data, we directly bind the variables\n        VALUES (?mileage ?registrationDate) { (\n            \"{ \\\"Value\\\": 82563, \\\"Unit\\\": \\\"km\\\" }\"^^xsd:string\n            \"{ \\\"Value\\\": 20171206,  \\\"Unit\\\": \\\"yyyymmdd\\\" }\"^^xsd:string\n        )}\n\n        # Search for troubled parts to forecast\n        ?Dtc rdf:type cx-diag:DTC;\n            cx:provisionedBy ?Oem;\n            cx-diag:PossibleCauses ?reason;\n            cx-diag:Code ?troubleCode;\n            cx-diag:Description ?description.\n        \n        # Unless we have a mapping of diagnosed parts to the prognosed parts\n        VALUES ?partProg { \"\\\"GearOil\\\"\"^^xsd:string }        \n\n        # Next we need to find the appropriate load spectrum associated to the prognosed part\n        VALUES ?loadCollective { \n         \"{ \\\"Temp_Oil-class\\\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \\\"Counts\\\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }\"^^xsd:string\n        }\n\n        # we need to find the right supplier for the trouble part\n        VALUES (?tieraBpn ?tieraConnector) {\n           (\"BPNL00000003CPIY\"^^xsd:string <http://{{tierARemotingAgent}}:8081/rdf4j-server/repositories/prognosis>) \n        }       \n    }\n\n    # Now we are jumping into the tiera\n    # Notice that ideally, the OEM agent would perform this\n    # as the consumer will have most likely no agreement/contract\n    # for this purpose this SERVICE section would be nested\n    # into the former section\n    SERVICE ?tieraConnector { \n        ?invocation a cx-lifetime:LifetimePrognosis;\n            # Input from the OEM\n            cx-lifetime:loadCollectiveBody ?loadCollective;\n            cx-lifetime:loadCollectiveComponent ?partProg;\n            cx-lifetime:loadCollectiveMileage ?mileage;\n            cx-lifetime:loadCollectiveRegistrationDate ?registrationDate;\n            # Additional info from the Tiera about its measurements\n            cx-lifetime:loadCollectiveFile \"{  \\\"Type\\\": \\\"ZF_load_collective\\\", \\\"Version\\\": \\\"1.7\\\"  }\"^^xsd:string; \n            cx-lifetime:loadCollectiveHeader \"{  \\\"CountingMethod\\\": \\\"ZF_TimeAtLevel\\\",    \\\"CountingUnit\\\": \\\"s\\\",    \\\"Channels\\\": [      {        \\\"Name\\\": \\\"Temp_Oil\\\",        \\\"Type\\\": \\\"Load\\\",        \\\"Unit\\\": \\\"degC\\\",        \\\"LowerLimit\\\": -40,        \\\"UpperLimit\\\": 220,        \\\"NumberOfBins\\\": 52      }  ]  }\"^^xsd:string; \n            # the actual prognosis output\n            cx-lifetime:remainingDistance ?distance; \n            cx-lifetime:remainingTime ?time.\n    }\n}\n\n",
+											"options": {
+												"raw": {
+													"language": "text"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{consumerAgentPlane}}/api/agent/skill?asset=urn:skill:consumer:Lifetime",
+											"host": [
+												"{{consumerAgentPlane}}"
+											],
+											"path": [
+												"api",
+												"agent",
+												"skill"
+											],
+											"query": [
+												{
+													"key": "asset",
+													"value": "urn:skill:consumer:Lifetime"
+												}
+											]
+										},
+										"description": "Uses the Agent Extension of the Dataplane to Perform Some Dynamic Query on Remote Graphs."
+									},
+									"response": []
+								},
+								{
+									"name": "Show Skill",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true,
+										"disabledSystemHeaders": {
+											"content-type": true
+										}
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/sparql-query",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\nPREFIX cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\nPREFIX cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\n#\n# Sample for a Federated Skill (No Matchmaking) Which\n#  - Uses an OEM connector/agent to infer diagnosis data \n#  - Feeds this data into a Tier A connector/agent to perform a prognosis \n\nSELECT ?vin ?troubleCode ?description ?partProg ?distance ?time WHERE {\n\n    # Actual input parameters, when used as a predefined skill, \n    # these would be the named URL (or body multi-form) parameters\n    # Since you could use them multiple times, there is a combinatorial difference in \n    # defining them as single variables or as combined tuples\n    VALUES (?vin ?troubleCode) { (\"WVA8984323420333\"^^xsd:string \"P0745\"^^xsd:string) }\n\n    # In this place, there would be a to-be-implemented catalogue logic \n    # (so the default \"asset\" would be the catalogue including the CX ontology)\n    # which maps the VIN via regular expressions to the right \n    # business partner and connector\n    # Currently, we chose even not the connector, but the backend directly\n    VALUES (?oemBpn ?oemConnector) { (\"BPNL00000003COJN\"^^xsd:string <http://{{oemProviderAgent}}:8080/sparql>) }\n\n    # Now we are jumping into the OEM\n    SERVICE ?oemConnector { \n        # Select Business Partner Node\n        ?Oem cx:BPNL ?oemBpn.\n\n        # Unless we have vehicle master data, we directly bind the variables\n        VALUES (?mileage ?registrationDate) { (\n            \"{ \\\"Value\\\": 82563, \\\"Unit\\\": \\\"km\\\" }\"^^xsd:string\n            \"{ \\\"Value\\\": 20171206,  \\\"Unit\\\": \\\"yyyymmdd\\\" }\"^^xsd:string\n        )}\n\n        # Search for troubled parts to forecast\n        ?Dtc rdf:type cx-diag:DTC;\n            cx:provisionedBy ?Oem;\n            cx-diag:PossibleCauses ?reason;\n            cx-diag:Code ?troubleCode;\n            cx-diag:Description ?description.\n        \n        # Unless we have a mapping of diagnosed parts to the prognosed parts\n        VALUES ?partProg { \"\\\"GearOil\\\"\"^^xsd:string }        \n\n        # Next we need to find the appropriate load spectrum associated to the prognosed part\n        VALUES ?loadCollective { \n         \"{ \\\"Temp_Oil-class\\\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \\\"Counts\\\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }\"^^xsd:string\n        }\n\n        # we need to find the right supplier for the trouble part\n        VALUES (?tieraBpn ?tieraConnector) {\n           (\"BPNL00000003CPIY\"^^xsd:string <http://{{tierARemotingAgent}}:8081/rdf4j-server/repositories/prognosis>) \n        }       \n    }\n\n    # Now we are jumping into the tiera\n    # Notice that ideally, the OEM agent would perform this\n    # as the consumer will have most likely no agreement/contract\n    # for this purpose this SERVICE section would be nested\n    # into the former section\n    SERVICE ?tieraConnector { \n        ?invocation a cx-lifetime:LifetimePrognosis;\n            # Input from the OEM\n            cx-lifetime:loadCollectiveBody ?loadCollective;\n            cx-lifetime:loadCollectiveComponent ?partProg;\n            cx-lifetime:loadCollectiveMileage ?mileage;\n            cx-lifetime:loadCollectiveRegistrationDate ?registrationDate;\n            # Additional info from the Tiera about its measurements\n            cx-lifetime:loadCollectiveFile \"{  \\\"Type\\\": \\\"ZF_load_collective\\\", \\\"Version\\\": \\\"1.7\\\"  }\"^^xsd:string; \n            cx-lifetime:loadCollectiveHeader \"{  \\\"CountingMethod\\\": \\\"ZF_TimeAtLevel\\\",    \\\"CountingUnit\\\": \\\"s\\\",    \\\"Channels\\\": [      {        \\\"Name\\\": \\\"Temp_Oil\\\",        \\\"Type\\\": \\\"Load\\\",        \\\"Unit\\\": \\\"degC\\\",        \\\"LowerLimit\\\": -40,        \\\"UpperLimit\\\": 220,        \\\"NumberOfBins\\\": 52      }  ]  }\"^^xsd:string; \n            # the actual prognosis output\n            cx-lifetime:remainingDistance ?distance; \n            cx-lifetime:remainingTime ?time.\n    }\n}\n\n",
+											"options": {
+												"raw": {
+													"language": "text"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{consumerAgentPlane}}/api/agent/skill?asset=urn:skill:consumer:Lifetime",
+											"host": [
+												"{{consumerAgentPlane}}"
+											],
+											"path": [
+												"api",
+												"agent",
+												"skill"
+											],
+											"query": [
+												{
+													"key": "asset",
+													"value": "urn:skill:consumer:Lifetime"
+												}
+											]
+										},
+										"description": "Uses the Agent Extension of the Dataplane to Invoke a Stored Skill."
+									},
+									"response": []
+								},
+								{
+									"name": "Execute Skill",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true,
+										"disabledSystemHeaders": {
+											"content-type": true
+										}
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/sparql-query",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\nPREFIX cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\nPREFIX cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\n#\n# Sample for a Federated Skill (No Matchmaking) Which\n#  - Uses an OEM connector/agent to infer diagnosis data \n#  - Feeds this data into a Tier A connector/agent to perform a prognosis \n\nSELECT ?vin ?troubleCode ?description ?partProg ?distance ?time WHERE {\n\n    # Actual input parameters, when used as a predefined skill, \n    # these would be the named URL (or body multi-form) parameters\n    # Since you could use them multiple times, there is a combinatorial difference in \n    # defining them as single variables or as combined tuples\n    VALUES (?vin ?troubleCode) { (\"WVA8984323420333\"^^xsd:string \"P0745\"^^xsd:string) }\n\n    # In this place, there would be a to-be-implemented catalogue logic \n    # (so the default \"asset\" would be the catalogue including the CX ontology)\n    # which maps the VIN via regular expressions to the right \n    # business partner and connector\n    # Currently, we chose even not the connector, but the backend directly\n    VALUES (?oemBpn ?oemConnector) { (\"BPNL00000003COJN\"^^xsd:string <http://{{oemProviderAgent}}:8080/sparql>) }\n\n    # Now we are jumping into the OEM\n    SERVICE ?oemConnector { \n        # Select Business Partner Node\n        ?Oem cx:BPNL ?oemBpn.\n\n        # Unless we have vehicle master data, we directly bind the variables\n        VALUES (?mileage ?registrationDate) { (\n            \"{ \\\"Value\\\": 82563, \\\"Unit\\\": \\\"km\\\" }\"^^xsd:string\n            \"{ \\\"Value\\\": 20171206,  \\\"Unit\\\": \\\"yyyymmdd\\\" }\"^^xsd:string\n        )}\n\n        # Search for troubled parts to forecast\n        ?Dtc rdf:type cx-diag:DTC;\n            cx:provisionedBy ?Oem;\n            cx-diag:PossibleCauses ?reason;\n            cx-diag:Code ?troubleCode;\n            cx-diag:Description ?description.\n        \n        # Unless we have a mapping of diagnosed parts to the prognosed parts\n        VALUES ?partProg { \"\\\"GearOil\\\"\"^^xsd:string }        \n\n        # Next we need to find the appropriate load spectrum associated to the prognosed part\n        VALUES ?loadCollective { \n         \"{ \\\"Temp_Oil-class\\\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \\\"Counts\\\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }\"^^xsd:string\n        }\n\n        # we need to find the right supplier for the trouble part\n        VALUES (?tieraBpn ?tieraConnector) {\n           (\"BPNL00000003CPIY\"^^xsd:string <http://{{tierARemotingAgent}}:8081/rdf4j-server/repositories/prognosis>) \n        }       \n    }\n\n    # Now we are jumping into the tiera\n    # Notice that ideally, the OEM agent would perform this\n    # as the consumer will have most likely no agreement/contract\n    # for this purpose this SERVICE section would be nested\n    # into the former section\n    SERVICE ?tieraConnector { \n        ?invocation a cx-lifetime:LifetimePrognosis;\n            # Input from the OEM\n            cx-lifetime:loadCollectiveBody ?loadCollective;\n            cx-lifetime:loadCollectiveComponent ?partProg;\n            cx-lifetime:loadCollectiveMileage ?mileage;\n            cx-lifetime:loadCollectiveRegistrationDate ?registrationDate;\n            # Additional info from the Tiera about its measurements\n            cx-lifetime:loadCollectiveFile \"{  \\\"Type\\\": \\\"ZF_load_collective\\\", \\\"Version\\\": \\\"1.7\\\"  }\"^^xsd:string; \n            cx-lifetime:loadCollectiveHeader \"{  \\\"CountingMethod\\\": \\\"ZF_TimeAtLevel\\\",    \\\"CountingUnit\\\": \\\"s\\\",    \\\"Channels\\\": [      {        \\\"Name\\\": \\\"Temp_Oil\\\",        \\\"Type\\\": \\\"Load\\\",        \\\"Unit\\\": \\\"degC\\\",        \\\"LowerLimit\\\": -40,        \\\"UpperLimit\\\": 220,        \\\"NumberOfBins\\\": 52      }  ]  }\"^^xsd:string; \n            # the actual prognosis output\n            cx-lifetime:remainingDistance ?distance; \n            cx-lifetime:remainingTime ?time.\n    }\n}\n\n",
+											"options": {
+												"raw": {
+													"language": "text"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{consumerAgentPlane}}/api/agent?asset=urn:skill:consumer:Lifetime&vin=WVA8984323420333&troubleCode=P0745",
+											"host": [
+												"{{consumerAgentPlane}}"
+											],
+											"path": [
+												"api",
+												"agent"
+											],
+											"query": [
+												{
+													"key": "asset",
+													"value": "urn:skill:consumer:Lifetime"
+												},
+												{
+													"key": "vin",
+													"value": "WVA8984323420333"
+												},
+												{
+													"key": "troubleCode",
+													"value": "P0745"
+												}
+											]
+										},
+										"description": "Uses the Agent Extension of the Dataplane to Invoke a Stored Skill."
+									},
+									"response": []
 								}
-							]
+							],
+							"description": "A collection of calls agains the (agent-enabled) EDC control and data plane of the consumer tenant."
 						}
-					]
+					],
+					"description": "A Collection of API Calls Against the Consuming and Federation Components of the Dataspace."
 				}
 			],
-			"description": "A Collection of API Calls Against the Dataspace Components."
+			"description": "A Collection of API Calls Against the Dataspace Components of KA."
+		},
+		{
+			"name": "Integration Tests",
+			"item": []
 		}
 	]
 }

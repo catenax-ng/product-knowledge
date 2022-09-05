@@ -1,10 +1,9 @@
 //
-// Remoting interface to the Storage and Inference Layer (SAIL)
+// Application to provide REST APIs as SPARQL services
 // See copyright notice in the top folder
 // See authors file in the top folder
 // See license file in the top folder
 //
-
 package io.catenax.knowledge.agents.remoting;
 
 import java.io.ByteArrayInputStream;
@@ -34,7 +33,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -54,7 +52,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
@@ -88,13 +85,29 @@ public class Invocation {
         if (target.isAssignableFrom(String.class)) {
             return (Target) binding.stringValue();
         } else if (target.isAssignableFrom(int.class)) {
-            return (Target) Integer.valueOf(Integer.parseInt(binding.stringValue()));
+            try {
+                return (Target) Integer.valueOf(Integer.parseInt(binding.stringValue()));
+            } catch(NumberFormatException nfe) {
+                throw new SailException(String.format("Conversion from %s to %s failed.", binding, target), nfe);
+            }
         } else if (target.isAssignableFrom(long.class)) {
-            return (Target) Long.valueOf(Long.parseLong(binding.stringValue()));
+            try {
+                return (Target) Long.valueOf(Long.parseLong(binding.stringValue()));
+            } catch(NumberFormatException nfe) {
+                throw new SailException(String.format("Conversion from %s to %s failed.", binding, target), nfe);
+            }
         } else if (target.isAssignableFrom(double.class)) {
-            return (Target) Double.valueOf(Double.parseDouble(binding.stringValue()));
+            try {
+                return (Target) Double.valueOf(Double.parseDouble(binding.stringValue()));
+            } catch(NumberFormatException nfe) {
+                throw new SailException(String.format("Conversion from %s to %s failed.", binding, target), nfe);
+            }
         } else if (target.isAssignableFrom(float.class)) {
-            return (Target) Float.valueOf(Float.parseFloat(binding.stringValue()));
+            try {
+                return (Target) Float.valueOf(Float.parseFloat(binding.stringValue()));
+            } catch(NumberFormatException nfe) {
+                throw new SailException(String.format("Conversion from %s to %s failed.", binding, target), nfe);
+            }
         } else if (target.isAssignableFrom(JsonNode.class)) {
             try {
                 return (Target) new ObjectMapper().readTree(binding.stringValue());
@@ -105,6 +118,11 @@ public class Invocation {
             }
         }
         throw new SailException(String.format("No conversion from %s to %s possible.", binding, target));
+    }
+
+    @Override
+    public String toString() {
+        return super.toString()+"/invocation";
     }
 
     /**
@@ -181,12 +199,24 @@ public class Invocation {
                 }
                 return vf.createLiteral(String.valueOf(pathObj));
             case "http://www.w3.org/2001/XMLSchema#int":
-                return vf.createLiteral(Integer.parseInt(String.valueOf(pathObj)));
+                try {
+                    return vf.createLiteral(Integer.parseInt(String.valueOf(pathObj)));
+                } catch(NumberFormatException nfwe) {
+                    throw new SailException(String.format("Could not convert %s to integer.", String.valueOf(pathObj)));
+                }
             case "http://www.w3.org/2001/XMLSchema#long":
-                return vf.createLiteral(Long.parseLong(String.valueOf(pathObj)));
-            case "http://www.w3.org/2001/XMLSchema#double":
+                try {
+                    return vf.createLiteral(Long.parseLong(String.valueOf(pathObj)));
+                } catch(NumberFormatException nfwe) {
+                    throw new SailException(String.format("Could not convert %s to integer.", String.valueOf(pathObj)));
+                }
+        case "http://www.w3.org/2001/XMLSchema#double":
+            try {
                 return vf.createLiteral(Double.parseDouble(String.valueOf(pathObj)));
-            default:
+            } catch(NumberFormatException nfwe) {
+                throw new SailException(String.format("Could not convert %s to integer.", String.valueOf(pathObj)));
+            }
+        default:
                 throw new SailException(String.format("Data Type %s is not supported.", cf.dataType));
         }
     }

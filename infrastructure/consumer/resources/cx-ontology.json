@@ -1,0 +1,28 @@
+
+{ 
+    "nodes":[
+      { "data": { "id": "http://www.w3.org/2000/01/rdf-schema#Argument", "category": "http://www.w3.org/2000/01/rdf-schema", "label": "" } },
+      { "data": { "id": "http://www.w3.org/2000/01/rdf-schema#Datatype", "category": "http://www.w3.org/2000/01/rdf-schema", "label": "" } },
+      { "data": { "id": "http://www.w3.org/2000/01/rdf-schema#ReturnValue", "category": "http://www.w3.org/2000/01/rdf-schema", "label": "" } },
+      { "data": { "id": "https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#Asset", "category": "https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl", "label": "Asset" } },
+      { "data": { "id": "https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner", "category": "https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl", "label": "Business Partner" } },
+      { "data": { "id": "https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#DTC", "category": "https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl", "label": "Diagnostic Trouble Code" } },
+      { "data": { "id": "https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#DiagnosedPart", "category": "https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl", "label": "Diagnosed Part" } },
+      { "data": { "id": "https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl#Argument", "category": "https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl", "label": "" } },
+      { "data": { "id": "https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl#Function", "category": "https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl", "label": "" } },
+      { "data": { "id": "https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl#ReturnValue", "category": "https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl", "label": "" } }],
+    "edges":[
+      { "data": { "source": "https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#Asset", "type":"relation", "target": "https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner", "category": "https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl", "label": "Provisioned By" } } ,
+    
+      { "data": { "source": "https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#DTC", "type":"relation", "target": "https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#DiagnosedPart", "category": "https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl", "label": "Affects" } } ,
+    
+      { "data": { "source": "https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl#ReturnValue", "type":"relation", "target": "http://www.w3.org/2000/01/rdf-schema#Datatype", "category": "https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl", "label": "" } } ,
+    
+      { "data": { "source": "https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl#Function", "type":"relation", "target": "http://www.w3.org/2000/01/rdf-schema#Argument", "category": "https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl", "label": "" } } ,
+    
+      { "data": { "source": "https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl#Function", "type":"relation", "target": "http://www.w3.org/2000/01/rdf-schema#ReturnValue", "category": "https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl", "label": "" } } ,
+    
+      { "data": { "source": "https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#DTC", "type":"subclass", "target": "https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#Asset", "category": "https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl", "label": "subclass" } } ,
+      { "data": { "source": "https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#DiagnosedPart", "type":"subclass", "target": "https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#Asset", "category": "https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl", "label": "subclass" } } ]
+}
+  

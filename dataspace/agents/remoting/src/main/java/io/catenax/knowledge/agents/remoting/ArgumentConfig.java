@@ -1,3 +1,9 @@
+//
+// Application to provide REST APIs as SPARQL services
+// See copyright notice in the top folder
+// See authors file in the top folder
+// See license file in the top folder
+//
 package io.catenax.knowledge.agents.remoting;
 
 import org.eclipse.rdf4j.sail.config.SailConfigException;
@@ -14,4 +20,10 @@ public class ArgumentConfig {
             throw new SailConfigException(String.format("Only support named arguments %s.",context));
          }    
      }
+
+     @Override
+     public String toString() {
+         return super.toString()+"/argument";
+     }
+ 
 }
