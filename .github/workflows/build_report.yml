@@ -37,6 +37,7 @@ jobs:
       uses: actions/setup-node@v3
     - name: Build with NPM
       run: |
+        cd ux
         npm install -g jest
         npm run init:dev
         npm test
