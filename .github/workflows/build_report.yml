@@ -37,10 +37,11 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: 18
-    - run: cd ux
-    - run: npm install -g jest
-    - run: npm run init:dev
-    - run: npm test
+    - run: |
+        cd ux
+        npm install -g jest
+        npm run init:dev
+        npm test
     - name: TypeScript Test Report
       uses: dorny/test-reporter@v1
       if: success() || failure()
