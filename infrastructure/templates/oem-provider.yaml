@@ -27,6 +27,8 @@ kind: Deployment
 metadata:
   name: oem-provider-agent
   namespace: {{ .Values.namespace }}
+  annotations:
+    container.apparmor.security.beta.kubernetes.io/oem-provider-agent: default
 spec:
   replicas: 1
   revisionHistoryLimit: 1
@@ -55,6 +57,7 @@ spec:
                 - all
               add: ['NET_BIND_SERVICE']
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
           ports:
             - containerPort: 8080 # API
           resources:

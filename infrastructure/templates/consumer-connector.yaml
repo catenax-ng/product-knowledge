@@ -161,6 +161,8 @@ kind: Deployment
 metadata:
   name: consumer-data-plane
   namespace: {{ .Values.namespace }}
+  annotations:
+    container.apparmor.security.beta.kubernetes.io/consumer-data-plane: default
 spec:
   selector:
     matchLabels:
@@ -187,6 +189,7 @@ spec:
                 - all
               add: ['NET_BIND_SERVICE']
             allowPrivilegeEscalation: false   
+            readOnlyRootFilesystem: true
           ports:
             - containerPort: 8082 # API
             - containerPort: 8185 # PUBLIC
@@ -235,21 +238,27 @@ spec:
           volumeMounts:
             - name: consumer-data-plane-config
               mountPath: /connector-config
+              readOnly: true
             - name: consumer-data-plane-config
               mountPath: /app/configuration.properties
               subPath: configuration.properties
+              readOnly: true
             - name: consumer-data-plane-config
               mountPath: /app/opentelemetry.properties
               subPath: opentelemetry.properties
+              readOnly: true
             - name: consumer-data-plane-config
               mountPath: /app/logging.properties
               subPath: logging.properties
+              readOnly: true
             - name: consumer-data-plane-config
               mountPath: /app/agent.ttl
               subPath: agent.ttl
+              readOnly: true
             - name: consumer-data-plane-config
               mountPath: /app/dataspace.ttl
               subPath: dataspace.ttl
+              readOnly: true
       volumes:
         - name: consumer-data-plane-config
           configMap:

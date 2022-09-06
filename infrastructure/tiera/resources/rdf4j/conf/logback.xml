@@ -18,7 +18,6 @@
 	</appender>
 	<root>
 		<level value="FINEST"/>
-		<appender-ref ref="MainLog"/>
 		<appender-ref ref="STDOUT" />
 	</root>
 </configuration>
