@@ -90,7 +90,7 @@
         <dependency>
             <groupId>net.catenax.edc</groupId>
             <artifactId>edc-dataplane-base</artifactId>
-            <version>0.0.6-KA</version>
+            <version>${edc.version}</version>
         </dependency>
 
         <dependency>
@@ -192,7 +192,7 @@
                     <artifactId>azure-identity</artifactId>
                 </exclusion>
             </exclusions>
-            <version>0.0.6-KA</version>
+            <version>${edc.version}</version>
         </dependency>
 
         <!-- Other -->

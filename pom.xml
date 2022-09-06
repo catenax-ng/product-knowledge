@@ -22,6 +22,7 @@
        <com.azure.sdk.bom.version>1.2.2</com.azure.sdk.bom.version>
        <junit.version>5.9.0</junit.version>
        <mockito.version>4.6.1</mockito.version>
+       <edc.version>0.0.6-KA-SNAPSHOT</edc.version>
 
         <!-- REPO -->
         <repo>ghcr.io/catenax-ng/product-knowledge/dataspace/</repo>
@@ -66,22 +67,10 @@
         </repository>
         <repository> <!-- To be able to use edc patch "releases" -->
             <id>ka-edc-patches</id>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
             <url>https://maven.pkg.github.com/catenax/ka-product-edc</url>
         </repository>
         <repository> <!-- To be able to use edc patch "releases" -->
             <id>ka-dsc-patches</id>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
             <url>https://maven.pkg.github.com/catenax/ka-DataspaceConnector</url>
         </repository>
     </repositories>
