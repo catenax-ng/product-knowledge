@@ -28,7 +28,6 @@ jobs:
         name: Test Report Java
         path: '**/surefire-reports/TEST-*.xml'
         reporter: java-junit
-        java-version: 11
   typescript:
     name: Build and Collect TypeScript
     runs-on: ubuntu-latest
