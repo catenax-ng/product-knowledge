@@ -8,7 +8,7 @@
     "scripts": {
         "compile": "tsc -b",
         "watch": "tsc -w",
-        "test": "jest --ci --reporters=default --reporters=jest-Junit",
+        "test": "jest --ci --reporters=default --reporters=jest-junit",
         "init:dev": "npm install && npm run build:dev && npm run link:all",
         "start:skillgym": "npm start --workspace=skill_gym",
         "build:all": "npm run build:skillg && npm run build:skillm && npm run build:skillfw",
