@@ -45,7 +45,7 @@ COPY resources/web/web.xml /usr/local/tomcat/conf/web.xml
 
 USER tomcat
 
-COPY target/original-agents.remoting-0.5.3-SNAPSHOT.jar /usr/local/tomcat/webapps/rdf4j-server/WEB-INF/lib/agents.remoting-0.5.3-SNAPSHOT.jar
+COPY target/original-agents.remoting-*-SNAPSHOT.jar /usr/local/tomcat/webapps/rdf4j-server/WEB-INF/lib/.
 
 WORKDIR /usr/local/tomcat/
 

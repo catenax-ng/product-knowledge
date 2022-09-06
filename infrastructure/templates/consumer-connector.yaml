@@ -180,7 +180,7 @@ spec:
         seccompProfile:
             type: RuntimeDefault
       containers:
-        - image: ghcr.io/catenax-ng/product-knowledge/dataspace/agentplane-azure-vault:0.5.3-SNAPSHOT
+        - image: ghcr.io/catenax-ng/product-knowledge/dataspace/agentplane-azure-vault:{{.Values.version}}
           imagePullPolicy: Always
           name: consumer-data-plane
           securityContext:

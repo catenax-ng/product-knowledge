@@ -10,7 +10,7 @@
     <parent>
         <groupId>io.catenax</groupId>
         <artifactId>knowledge</artifactId>
-        <version>0.5.3-SNAPSHOT</version>
+        <version>0.5.4-SNAPSHOT</version>
         <relativePath>../../../pom.xml</relativePath>    
     </parent>
 
@@ -90,7 +90,7 @@
         <dependency>
             <groupId>net.catenax.edc</groupId>
             <artifactId>edc-dataplane-base</artifactId>
-            <version>0.0.6-KA</version>
+            <version>0.1.1-KA</version>
         </dependency>
 
         <dependency>

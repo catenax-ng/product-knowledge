@@ -31,7 +31,7 @@ services:
     build:
       dockerfile: src/main/docker/Dockerfile.agent
       context: ../dataspace/agents/provisioning
-    image: ghcr.io/catenax-ng/product-knowledge/dataspace/provisioning-agent:0.5.3-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/dataspace/provisioning-agent:0.5.4-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8080:8080" # sparql endpoint
@@ -75,7 +75,7 @@ services:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/agents/remoting
-    image: ghcr.io/catenax-ng/product-knowledge/dataspace/remoting-agent:0.5.3-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/dataspace/remoting-agent:0.5.4-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8081:8081" # sparql endpoint
@@ -98,7 +98,7 @@ services:
       args:
         JAR: target/agentplane-azure-vault.jar
         LIB: target/lib
-    image: ghcr.io/catenax-ng/product-knowledge/dataspace/agentplane-azure-vault:0.5.3-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/dataspace/agentplane-azure-vault:0.5.4-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8082:8082" # API/sparql endpoint
