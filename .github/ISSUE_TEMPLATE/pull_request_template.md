@@ -11,6 +11,6 @@ assignees: ''
 _A summary of what the feature/bug is._
 
 ## Checklist before merging
-- [ ] Did code scanning NOT add any high priority issues to the security tab?
-- [ ] Do the unit tests NOT fail?
-- [ ] Did the integration tests still run on your localhost environment?
+- [ ] Checked _Security_ tab to confirm no high priority issues where introduced through code scanning
+- [ ] Checked that unit tests executed successfully
+- [ ] Checked that the integration tests still run on your localhost environment
