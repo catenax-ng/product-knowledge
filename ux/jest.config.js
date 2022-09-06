@@ -11,6 +11,9 @@ module.exports = {
   transform: {'^.+\\.ts?$': 'ts-jest'},
   testEnvironment: 'node',
   testRegex: '.*/test/.*\\.(ts|tsx)$',
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node']
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  jest: {
+    "reporters": ["jest-Junit"]
+  }
 };
 
