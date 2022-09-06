@@ -71,10 +71,18 @@ jobs:
       - if: matrix.language == 'java' 
         name: Build Java via Maven
         run: |
-          mvn -s settings.xml install -DskipTests
+          mvn -s settings.xml install
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - if: matrix.language == 'java'
+        name: Java Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: Test Report Java
+          path: '**/surefire-reports/TEST-*.xml'
+          reporter: java-junit
 
       # Scan Compiled and Iterpreted Languages
       - name: Perform CodeQL Analysis
