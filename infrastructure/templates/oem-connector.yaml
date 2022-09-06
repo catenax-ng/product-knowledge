@@ -72,6 +72,8 @@ kind: Deployment
 metadata:
   name: oem-control-plane
   namespace: {{ .Values.namespace }}
+  annotations:
+    container.apparmor.security.beta.kubernetes.io/oem-control-plane: default
 spec:
   selector:
     matchLabels:
@@ -98,6 +100,7 @@ spec:
                 - all
               add: ['NET_BIND_SERVICE']
             allowPrivilegeEscalation: false   
+            readOnlyRootFilesystem: true
           ports:
             - containerPort: 8080 # API
             - containerPort: 8181 # DATA
@@ -146,15 +149,19 @@ spec:
           volumeMounts:
             - name: control-plane-config
               mountPath: /connector-config
+              readOnly: true
             - name: control-plane-config
               mountPath: /app/configuration.properties
               subPath: configuration.properties
+              readOnly: true
             - name: control-plane-config
               mountPath: /app/opentelemetry.properties
               subPath: opentelemetry.properties
+              readOnly: true
             - name: control-plane-config
               mountPath: /app/logging.properties
               subPath: logging.properties
+              readOnly: true
       volumes:
         - name: control-plane-config
           configMap:
