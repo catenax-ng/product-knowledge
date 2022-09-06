@@ -44,7 +44,7 @@ data:
         # edc.contractnegotiationstore.cosmos.container-name=
         # edc.contractnegotiationstore.cosmos.database-name=
         # edc.contractnegotiationstore.cosmos.preferred-region=
-    edc.controlplane.validation-endpoint=http://consumer-control-plane:8182/validation/token
+    edc.dataplane.token.validation.endpoint=http://consumer-control-plane:8182/validation/token
         # edc.core.retry.backoff.max=
         # edc.core.retry.backoff.min=
         # edc.core.retry.retries.max=
