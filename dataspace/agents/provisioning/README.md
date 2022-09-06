@@ -56,7 +56,7 @@ Practical deployments will
 To build the docker image of the Agent, please invoke this command
 
 ```console
-docker build -t ghcr.io/catenax-ng/product-knowledge/dataspace/provisioning-agent:latest -f src/main/docker/Dockerfile.agent .
+docker build -t ghcr.io/catenax-ng/product-knowledge/dataspace/provisioning-agent:latest -f src/main/docker/Dockerfile .
 ```
 
 The image contains
@@ -72,7 +72,7 @@ docker run -p 8080:8080 \
   -v $(pwd)/resources/university-role1.obda:/input/mapping.obda \
   -v $(pwd)/resources/university-role1.properties:/input/settings.properties \
   -v $(pwd)/resources/university.sql:/tmp/university.sql \
-  ghcr.io/catenax-ng/product-knowledge/dataspace/provisioning-agent:0.5.3
+  ghcr.io/catenax-ng/product-knowledge/dataspace/provisioning-agent:latest
 ````
 
 Afterwards, you should be able to access the [local SparQL endpoint](http://localhost:8080/) via

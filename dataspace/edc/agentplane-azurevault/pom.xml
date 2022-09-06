@@ -26,10 +26,11 @@
 
     <properties>
         <sonar.moduleKey>${project.groupId}_${project.artifactId}</sonar.moduleKey>
+        <symbolic.name>io.catenax.knowledge.agentplane-azure-vault</symbolic.name>
+        <finalName>${symbolic.name}-${project.version}</finalName>
     </properties>
 
     <build>
-        <finalName>${project.artifactId}</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -218,67 +219,4 @@
        </dependency>
     </dependencies>
 
-    <profiles>
-        <profile>
-            <!--
-                mvn package -Pwith-docker-image
-            -->
-            <id>with-docker-image</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <!--
-                            NOTE: To build and tag docker images the `docker` executable needs to
-                                  be on the PATH to be used by the exec-maven-plugin plugin
-                        -->
-                        <executions>
-                            <execution>
-                                <id>docker-build-${project.artifactId}:${project.version}</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <executable>docker</executable>
-                                    <workingDirectory>${project.basedir}</workingDirectory>
-                                    <arguments>
-                                        <argument>build</argument>
-                                        <argument>--platform</argument>
-                                        <argument>${platform}</argument>
-                                        <argument>-f</argument>
-                                        <argument>src/main/docker/Dockerfile</argument>
-                                        <argument>--build-arg</argument>
-                                        <argument>JAR=target/${project.artifactId}.jar</argument>
-                                        <argument>--build-arg</argument>
-                                        <argument>LIB=target/lib</argument>
-                                        <argument>-t</argument>
-                                        <argument>${repo}${project.artifactId}:${project.version}</argument>
-                                        <argument>.</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>docker-tag-${project.artifactId}:latest</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <executable>docker</executable>
-                                    <workingDirectory>${project.basedir}</workingDirectory>
-                                    <arguments>
-                                        <argument>tag</argument>
-                                        <argument>${repo}${project.artifactId}:${project.version}</argument>
-                                        <argument>${repo}${project.artifactId}:latest</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>

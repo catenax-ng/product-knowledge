@@ -58,12 +58,17 @@ Knowledge Agents builds all containers using docker technology. The docker build
 
 ### Containers
 
-To build all artifacts (including compilation artifacts, tests and container images), you can invoke
+To build all artifacts (including compilation artifacts, tests and container images with the default target platform linux/amd64), you can invoke
 
 ```console
 ./mvnw -s settings.xml install -Pwith-docker-image
 ```
 
+To build all artifacts especially for target platform linux/arm64, use this command
+
+```console
+./mvnw -s settings.xml install -Dplatform=linux/arm64 -Pwith-docker-image
+```
 ### Registry
 
 To register all artifacts (including compilation artifacts, tests and container images) into their respective registries, you can invoke
