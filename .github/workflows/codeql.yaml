@@ -69,11 +69,11 @@ jobs:
         with:
           node-version: 18
       - if: matrix.language == 'javascript'  
-        run: npm install -g jest
-      - if: matrix.language == 'javascript'  
-        run: npm run init:dev
-      - if: matrix.language == 'javascript'  
-        run: npm test
+        run: |
+          cd ux
+          npm install -g jest
+          npm run init:dev
+          npm test
       - if: matrix.language == 'javascript' && (success() || failure())
         name: Test Report TypeScript
         uses: dorny/test-reporter@v1
