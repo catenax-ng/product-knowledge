@@ -63,9 +63,24 @@ jobs:
           cache: 'maven'
 
       # Autobuild other compiled languages  
-      - if: matrix.language != 'java'  
-        name: Autobuild
-        uses: github/codeql-action/autobuild@v2
+      - if: matrix.language == 'javascript'  
+        name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - if: matrix.language == 'javascript'  
+        run: npm install -g jest
+      - if: matrix.language == 'javascript'  
+        run: npm run init:dev
+      - if: matrix.language == 'javascript'  
+        run: npm test
+      - if: matrix.language == 'javascript' && (success() || failure())
+        name: Test Report TypeScript
+        uses: dorny/test-reporter@v1
+        with:
+          name: 'TypeScript Test Report'
+          path: '**/reports/jest-*.xml'
+          reporter: jest-junit
 
       # We need to manually instruct maven
       - if: matrix.language == 'java' 
