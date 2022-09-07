@@ -39,7 +39,7 @@ data:
     edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
 
     edc.data.encryption.algorithm=NONE
-#    edc.data.encryption.keys.alias
+      # edc.data.encryption.keys.alias
     
     edc.oauth.provider.jwks.url={{ .Values.security.dapsUrl }}/.well-known/jwks.json
     edc.oauth.public.key.alias={{ .Values.dataspace.publicKeyAliasOem }}
