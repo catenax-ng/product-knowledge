@@ -52,12 +52,35 @@ services:
       # If you want to enable different developer modes, simply list them with spaces, like NTOP_DEV_MODE: true false 
       ONTOP_DEV_MODE: true
     volumes:
-      - ./oem/resources/cx-ontology.xml:/input/cx-ontology.xml
+      - ./resources/cx-ontology.xml:/input/cx-ontology.xml
       - ./oem/resources/dtc.obda:/input/dtc.obda
       - ./oem/resources/settings.properties:/input/settings.properties
       - ./oem/resources/settings.dremio.properties:/input/settings.dremio.properties
       - ./oem/resources/portal.toml:/input/portal.toml
       - ./oem/resources/logback.xml:/opt/ontop/log/logback.xml
+
+  #
+  # Configures the oem control plane
+  #
+  oem-control-plane:
+    image: ghcr.io/catenax-ng/product-knowledge/dataspace/edc-controlplane-memory:0.1.1-KA-SNAPSHOT
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
+    ports:
+      - "8083:8080" # API
+      - "8181:8181" # PUBLIC
+      - "8182:8182" # VALIDATION
+      - "8282:8282" # IDS
+      - "9998:9998" # METRICS
+      - "9999:9999" # CONTROL
+    environment:
+      # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
+      EDC_FS_CONFIG: /app/configuration.properties      
+      # Uncomment to enable for debugging, please choose a different port for each endpoint
+      #JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090
+    volumes:
+      - ./oem/resources/controlplane.properties:/app/configuration.properties
+      - ./resources/opentelemetry.properties:/app/opentelemetry.properties
+      - ./resources/logging.properties:/app/logging.properties
 
   #
   # Configures the tiera backend 
@@ -104,13 +127,13 @@ services:
       - "8082:8082" # API/sparql endpoint
       - "8185:8185" # PUBLIC
       - "8186:8186" # AGREEMENT CALLBACK
-      - "9999:9999" # CONTROL
+      - "10000:9999" # CONTROL
     environment:
       # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
       EDC_FS_CONFIG: /app/configuration.properties      
       # Uncomment to enable for debugging, please choose a different port for each endpoint
       #JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090
     volumes:
-      - ./oem/resources/dataplane.properties:/app/configuration.properties
-      - ./oem/resources/opentelemetry.properties:/app/opentelemetry.properties
-      - ./oem/resources/logging.properties:/app/logging.properties
+      - ./consumer/resources/dataplane.properties:/app/configuration.properties
+      - ./resources/opentelemetry.properties:/app/opentelemetry.properties
+      - ./resources/logging.properties:/app/logging.properties
