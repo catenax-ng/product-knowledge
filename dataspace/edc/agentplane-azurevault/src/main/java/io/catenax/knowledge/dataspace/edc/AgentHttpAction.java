@@ -19,6 +19,7 @@ import org.apache.jena.fuseki.servlets.HttpAction;
  */
 public class AgentHttpAction extends HttpAction {
     final String skill;
+    final String graphs;
     
     /**
      * creates a new http action
@@ -28,9 +29,10 @@ public class AgentHttpAction extends HttpAction {
      * @param response servlet output
      * @param skill option skill reference
      */
-    public AgentHttpAction(long id, Logger logger, HttpServletRequest request, HttpServletResponse response, String skill) {
+    public AgentHttpAction(long id, Logger logger, HttpServletRequest request, HttpServletResponse response, String skill, String graphs) {
         super(id, logger, ActionCategory.ACTION, request, response);
         this.skill=skill;
+        this.graphs=graphs;
     }
     
     /**
@@ -39,4 +41,12 @@ public class AgentHttpAction extends HttpAction {
     public String getSkill() {
         return skill;
     }
-};
+
+        /**
+     * @return optional skill
+     */
+    public String getGraphs() {
+        return graphs;
+    }
+
+}

@@ -13,7 +13,7 @@ services:
   #
   # Configures the oem backend 
   #
-  # oem-backend:
+  # oem-data-backend:
   #   build:
   #     dockerfile: src/main/docker/Dockerfile.backend
   #     context: ../dataspace/agents/provisioning
@@ -27,7 +27,7 @@ services:
   #
   # Configures the oem agent 
   #
-  oem-agent:
+  oem-provider-agent:
     build:
       dockerfile: src/main/docker/Dockerfile.agent
       context: ../dataspace/agents/provisioning
@@ -64,7 +64,7 @@ services:
   #
   oem-control-plane:
     image: ghcr.io/catenax-ng/product-knowledge/dataspace/edc-controlplane-memory:0.1.1-KA-SNAPSHOT
-    platform: ${DOCKER_PLATFORM:-linux/amd64}
+    platform: linux/amd64
     ports:
       - "8083:8080" # API
       - "8181:8181" # PUBLIC
@@ -72,11 +72,12 @@ services:
       - "8282:8282" # IDS
       - "9998:9998" # METRICS
       - "9999:9999" # CONTROL
+      - "8090:8090" # DEBUG
     environment:
       # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
       EDC_FS_CONFIG: /app/configuration.properties      
       # Uncomment to enable for debugging, please choose a different port for each endpoint
-      #JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090
     volumes:
       - ./oem/resources/controlplane.properties:/app/configuration.properties
       - ./resources/opentelemetry.properties:/app/opentelemetry.properties
@@ -85,7 +86,7 @@ services:
   #
   # Configures the tiera backend 
   #
-  tiera-backend:
+  tiera-api-backend:
     image: ghcr.io/catenax-ng/product-knowledge/backend/lifetime-prognosis-mock:latest
     platform: linux/amd64
     ports:
@@ -94,7 +95,7 @@ services:
   #
   # Configures the tier1 agent 
   #
-  tiera-agent:
+  tiera-remoting-agent:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/agents/remoting

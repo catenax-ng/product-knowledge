@@ -93,31 +93,79 @@
             <version>${edc.version}</version>
         </dependency>
 
+        <!-- Catalog SPI/SDK -->
         <dependency>
-            <groupId>jakarta.ws.rs</groupId>
-            <artifactId>jakarta.ws.rs-api</artifactId>
-            <version>3.1.0</version>
+            <groupId>org.eclipse.dataspaceconnector</groupId>
+            <artifactId>catalog-spi</artifactId>
+            <version>${edc.version}</version>
         </dependency>
 
+        <!-- Contract SPI/SDK -->
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>4.0.1</version>
+            <groupId>org.eclipse.dataspaceconnector</groupId>
+            <artifactId>contract-spi</artifactId>
+            <version>${edc.version}</version>
         </dependency>
 
+        <!-- EDC Azure Vault -->
+        <dependency>
+            <groupId>org.eclipse.dataspaceconnector</groupId>
+            <artifactId>azure-vault</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.azure</groupId>
+                    <artifactId>azure-security-keyvault-secrets</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.azure</groupId>
+                    <artifactId>azure-identity</artifactId>
+                </exclusion>
+            </exclusions>
+            <version>${edc.version}</version>
+        </dependency>
+
+        <!-- Use the right Azure SDK -->
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-identity</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-security-keyvault-secrets</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>dev.failsafe</groupId>
+            <artifactId>failsafe</artifactId>
+            <version>3.2.4</version>
+        </dependency>
+
+        <!-- use JWT inspection -->
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
             <version>4.0.0</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-server -->
+        <!-- Fuseki is a server-in-server -->
+        <dependency>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
+        <!-- we need both version of the servlet api, one for jetty, one for jakarta -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+        </dependency>
         <dependency>
             <groupId>org.eclipse.jetty.toolchain</groupId>
             <artifactId>jetty-jakarta-servlet-api</artifactId>
             <version>5.0.2</version>
         </dependency>
 
+        <!-- everything for SparQL protocol -->
         <dependency>
           <groupId>org.apache.jena</groupId>
           <artifactId>jena-fuseki-core</artifactId>
@@ -162,7 +210,7 @@
           </exclusions>
         </dependency>
 
-        <!--<dependency>
+        <!-- maybe we need advanced storage capacities <dependency>
           <groupId>org.apache.jena</groupId>
           <artifactId>jena-fuseki-arq</artifactId>
           <version>4.6.0</version>
@@ -178,32 +226,6 @@
           </exclusions>
         </dependency>-->
 
-        <!-- Vault -->
-        <dependency>
-            <groupId>org.eclipse.dataspaceconnector</groupId>
-            <artifactId>azure-vault</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.azure</groupId>
-                    <artifactId>azure-security-keyvault-secrets</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.azure</groupId>
-                    <artifactId>azure-identity</artifactId>
-                </exclusion>
-            </exclusions>
-            <version>${edc.version}</version>
-        </dependency>
-
-        <!-- Other -->
-        <dependency>
-            <groupId>com.azure</groupId>
-            <artifactId>azure-identity</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.azure</groupId>
-            <artifactId>azure-security-keyvault-secrets</artifactId>
-        </dependency>
 
         <!-- Test -->
         <dependency>
@@ -216,6 +238,7 @@
          <artifactId>mockito-core</artifactId>
          <scope>test</scope>
        </dependency>
+
     </dependencies>
 
     <profiles>

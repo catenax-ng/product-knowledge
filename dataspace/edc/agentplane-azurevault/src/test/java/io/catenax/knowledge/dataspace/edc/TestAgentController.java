@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,12 +53,12 @@ public class TestAgentController {
     
     ConsoleMonitor monitor=new ConsoleMonitor();
     TestConfig config=new TestConfig();
-    AgentController agentController=new AgentController(monitor,null,new AgentConfig(monitor,config));
+    AgentController agentController=new AgentController(monitor,null,new AgentConfig(monitor,config),null);
 
     AutoCloseable mocks=null;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp()  {
         mocks=MockitoAnnotations.openMocks(this);
     }
 
@@ -82,7 +83,7 @@ public class TestAgentController {
 
     /**
      * execution helper
-     * @param method http methos
+     * @param method http method
      * @param query optional query
      * @param asset optional asset name
      * @param accepts determines return representation
@@ -91,7 +92,7 @@ public class TestAgentController {
      */
     protected String testExecute(String method, String query, String asset, String accepts, List<Map.Entry<String,String>> params) throws IOException {
         Map<String,String[]> fparams=new HashMap<>();
-        StringBuffer queryString=new StringBuffer();
+        StringBuilder queryString=new StringBuilder();
         boolean isFirst=true;
         for(Map.Entry<String,String> param : params) {
             if(isFirst) {
@@ -99,9 +100,9 @@ public class TestAgentController {
             } else {
                 queryString.append("&");
             }
-            queryString.append(URLEncoder.encode(param.getKey(),"UTF-8"));
+            queryString.append(URLEncoder.encode(param.getKey(), StandardCharsets.UTF_8));
             queryString.append("=");
-            queryString.append(URLEncoder.encode(param.getValue(),"UTF-8"));
+            queryString.append(URLEncoder.encode(param.getValue(), StandardCharsets.UTF_8));
             if(fparams.containsKey(param.getKey())) {
                 String[] oarray=fparams.get(param.getKey());
                 String[] narray=new String[oarray.length+1];
@@ -133,12 +134,12 @@ public class TestAgentController {
         MockServletOutputStream mos=new MockServletOutputStream(responseStream);
         when(response.getOutputStream()).thenReturn(mos);
         agentController.getQuery(request, response, asset);
-        return new String(responseStream.toByteArray());
+        return responseStream.toString();
     }
 
     /**
      * test canonical call with fixed binding
-     * @throws IOException
+     * @throws IOException in case of an error
      */
     @Test
     public void testFixedQuery() throws IOException {
@@ -153,7 +154,7 @@ public class TestAgentController {
 
     /**
      * test canonical call with simple replacement binding
-     * @throws IOException
+     * @throws IOException in case of an error
      */
     @Test
     public void testParameterizedQuerySingle() throws IOException {
@@ -168,7 +169,7 @@ public class TestAgentController {
 
     /**
      * test canonical call with simple replacement binding
-     * @throws IOException
+     * @throws IOException in case of an error
      */
     @Test
     public void testParameterizedQueryMultiSingleResult() throws IOException {
@@ -183,7 +184,7 @@ public class TestAgentController {
 
     /**
      * test canonical call with simple replacement binding
-     * @throws IOException
+     * @throws IOException in case of an error
      */
     @Test
     public void testParameterizedQueryMultiMultiResult() throws IOException {
@@ -200,7 +201,7 @@ public class TestAgentController {
 
     /**
      * test canonical call with simple replacement binding
-     * @throws IOException
+     * @throws IOException in case of an error
      */
     @Test
     public void testParameterizedQueryTupleResult() throws IOException {
@@ -234,7 +235,7 @@ public class TestAgentController {
 
     /**
      * test canonical call with simple replacement binding
-     * @throws IOException
+     * @throws IOException in case of an error
      */
     @Test
     public void testParameterizedQueryTupleResultOrderIrrelevant() throws IOException {
@@ -268,7 +269,7 @@ public class TestAgentController {
 
     /**
      * test canonical call with simple replacement binding
-     * @throws IOException
+     * @throws IOException in case of an error
      */
     @Test
     public void testParameterizedQueryTupleResultSpecial() throws IOException {
@@ -299,16 +300,16 @@ public class TestAgentController {
 
     /**
      * test canonical call with simple replacement binding
-     * @throws IOException
+     * @throws IOException in case of an error
      */
     @Test
     public void testParameterizedSkill() throws IOException {
         String query="PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT ?what WHERE { VALUES (?what) { (\"@input\"^^xsd:int)} }";
-        String asset="urn:skill:cx:Test";
+        String asset="urn:cx:Skill:cx:Test";
         agentController.postSkill(query,asset);
         String result=testExecute("GET",null,asset,"*/*",List.of(new AbstractMap.SimpleEntry<>("input","84")));
         JsonNode root=mapper.readTree(result);
-        JsonNode whatBinding0=((ArrayNode) root.get("results").get("bindings")).get(0).get("what");
+        JsonNode whatBinding0=root.get("results").get("bindings").get(0).get("what");
         assertEquals("84",whatBinding0.get("value").asText(),"Correct binding");
     }
 
