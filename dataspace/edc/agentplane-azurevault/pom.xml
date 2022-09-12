@@ -91,6 +91,12 @@
             <groupId>net.catenax.edc</groupId>
             <artifactId>edc-dataplane-base</artifactId>
             <version>${edc.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.eclipse.dataspaceconnector</groupId>
+                    <artifactId>data-plane-s3</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- Catalog SPI/SDK -->

@@ -6,7 +6,9 @@
 package io.catenax.knowledge.dataspace.edc;
 
 import okhttp3.OkHttpClient;
+import org.eclipse.dataspaceconnector.dataplane.http.pipeline.HttpDataSource;
 import org.eclipse.dataspaceconnector.dataplane.http.pipeline.HttpRequestParamsSupplier;
+import org.eclipse.dataspaceconnector.dataplane.spi.pipeline.DataSource;
 import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
 import org.eclipse.dataspaceconnector.spi.security.Vault;
 import dev.failsafe.RetryPolicy;
@@ -17,6 +19,8 @@ import org.eclipse.dataspaceconnector.spi.types.domain.transfer.DataFlowRequest;
  */
 public class AgentSourceFactory extends org.eclipse.dataspaceconnector.dataplane.http.pipeline.HttpDataSourceFactory {
 
+    HttpRequestParamsSupplier supp;
+
     /**
      * create a new agent source factory
      * @param httpClient http outgoing system
@@ -25,6 +29,7 @@ public class AgentSourceFactory extends org.eclipse.dataspaceconnector.dataplane
      */
     public AgentSourceFactory(OkHttpClient httpClient, RetryPolicy<Object> retryPolicy, HttpRequestParamsSupplier supplier) {
         super(httpClient,retryPolicy,supplier);
+        this.supp=supplier;
     }
 
     /**
@@ -34,6 +39,16 @@ public class AgentSourceFactory extends org.eclipse.dataspaceconnector.dataplane
      */
     @Override
     public boolean canHandle(DataFlowRequest request) {
-        return AgentSinkFactory.AGENT_TYPE_SERVER.equals(request.getDestinationDataAddress().getType());
+        return AgentProtocol.SPARQL_HTTP.getProtocolId().equals(request.getSourceDataAddress().getType());
+    }
+
+    /**
+     * soon, we will create a special source tied to fuseki
+     * @param request incoming agent protocol request
+     * @return new data source
+     */
+    @Override
+    public DataSource createSource(DataFlowRequest request) {
+        return super.createSource(request);
     }
 }

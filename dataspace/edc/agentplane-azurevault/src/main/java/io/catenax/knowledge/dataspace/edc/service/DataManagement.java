@@ -41,6 +41,7 @@ public class DataManagement {
     public static final String NEGOTIATION_CHECK_CALL = "%s/contractnegotiations/%s";
     public static final String TRANSFER_INITIATE_CALL = "%s/transferprocess";
     public static final String TRANSFER_CHECK_CALL = "%s/transferprocess/%s";
+    public static final String AGREEMENT_CHECK_CALL = "%s/contractagreements/%s";
 
     /**
      * references to EDC services
@@ -84,7 +85,7 @@ public class DataManagement {
      * Access the catalogue
      * @param remoteControlPlaneIdsUrl url of the remote control plane ids endpoint
      * @return catalog object
-     * @throws IOException
+     * @throws IOException in case something went wrong
      */
     public Catalog getCatalog(String remoteControlPlaneIdsUrl) throws IOException {
         var url = String.format(CATALOG_CALL,config.getControlPlaneManagementUrl() , URLEncoder.encode(remoteControlPlaneIdsUrl,URL_ENCODING));
@@ -107,9 +108,9 @@ public class DataManagement {
 
     /**
      * initiates negotation
-     * @param negotiationRequest
+     * @param negotiationRequest outgoing request
      * @return negotiation id
-     * @throws IOException
+     * @throws IOException in case something went wronf
      */
     public String initiateNegotiation(ContractNegotiationRequest negotiationRequest) throws IOException {
         var url = String.format(NEGOTIATION_INITIATE_CALL,config.getControlPlaneManagementUrl());
@@ -132,7 +133,7 @@ public class DataManagement {
 
             var negotiationId = objectMapper.readTree(body.string()).get("id").textValue();
 
-            monitor.info("Started negotiation with ID: " + negotiationId);
+            monitor.debug("Started negotiation with ID: " + negotiationId);
 
             return negotiationId;
         } catch (Exception e) {
@@ -143,9 +144,9 @@ public class DataManagement {
 
     /**
      * return state of contract negotiation
-     * @param negotiationId
-     * @return
-     * @throws IOException
+     * @param negotiationId id of the negotation to inbestigate
+     * @return status of the negotiation
+     * @throws IOException in case something went wrong
      */
     public ContractNegotiation getNegotiation(String negotiationId) throws IOException {
         var url = String.format(NEGOTIATION_CHECK_CALL,config.getControlPlaneManagementUrl(),negotiationId);
@@ -161,9 +162,37 @@ public class DataManagement {
             }
 
             var negotiation = objectMapper.readValue(body.string(), ContractNegotiation.class);
-            monitor.info(format("Negotiation %s is in state '%s' (agreementId: %s)", negotiationId, negotiation.getState(), negotiation.getContractAgreementId()));
+            monitor.debug(format("Negotiation %s is in state '%s' (agreementId: %s)", negotiationId, negotiation.getState(), negotiation.getContractAgreementId()));
 
             return negotiation;
+        } catch (Exception e) {
+            monitor.severe(format("Error in calling the Control plane at %s", url), e);
+            throw e;
+        }
+    }
+
+    /**
+     * @param agreementId id of the agreement
+     * @return contract agreement
+     * @throws IOException something wild happens
+     */
+    public ContractAgreement getAgreement(String agreementId) throws IOException {
+        var url = String.format(AGREEMENT_CHECK_CALL,config.getControlPlaneManagementUrl(),agreementId);
+        var request = new Request.Builder()
+                .url(url);
+        config.getControlPlaneManagementHeaders().forEach(request::addHeader);
+
+        try (var response = httpClient.newCall(request.build()).execute()) {
+            var body = response.body();
+
+            if (!response.isSuccessful() || body == null) {
+                throw new InternalServerErrorException(format("Control plane responded with: %s %s", response.code(), body != null ? body.string() : ""));
+            }
+
+            var agreement = objectMapper.readValue(body.string(), ContractAgreement.class);
+            monitor.debug(format("Agreement %s found for asset %s", agreementId, agreement.getAssetId()));
+
+            return agreement;
         } catch (Exception e) {
             monitor.severe(format("Error in calling the Control plane at %s", url), e);
             throw e;
@@ -174,7 +203,7 @@ public class DataManagement {
      * Initiates a transfer
      * @param transferRequest request
      * @return transfer id
-     * @throws IOException
+     * @throws IOException in case something went wrong
      */
     public String initiateHttpProxyTransferProcess(TransferRequest transferRequest) throws IOException {
         var url = String.format(TRANSFER_INITIATE_CALL,config.getControlPlaneManagementUrl());
@@ -200,7 +229,7 @@ public class DataManagement {
             // var transferProcessId = TransferId.Builder.newInstance().id(body.string()).build();
             var transferProcessId = objectMapper.readTree(body.string()).get("id").textValue();
 
-            monitor.info(format("Transfer process (%s) initiated", transferProcessId));
+            monitor.debug(format("Transfer process (%s) initiated", transferProcessId));
 
             return transferProcessId;
         } catch (Exception e) {
@@ -211,9 +240,9 @@ public class DataManagement {
 
     /**
      * return state of transfer process
-     * @param transferProcessId
-     * @return
-     * @throws IOException
+     * @param transferProcessId id of the transfer process
+     * @return state of the transfer process
+     * @throws IOException in case something went wrong
      */
     public TransferProcess getTransfer(String transferProcessId) throws IOException {
         var url = String.format(TRANSFER_CHECK_CALL,config.getControlPlaneManagementUrl(),transferProcessId);

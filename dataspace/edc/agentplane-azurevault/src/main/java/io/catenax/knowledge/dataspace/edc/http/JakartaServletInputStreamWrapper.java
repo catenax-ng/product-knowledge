@@ -4,7 +4,7 @@
 // See authors file in the top folder
 // See license file in the top folder
 //
-package io.catenax.knowledge.dataspace.edc;
+package io.catenax.knowledge.dataspace.edc.http;
 
 import java.io.IOException;
 

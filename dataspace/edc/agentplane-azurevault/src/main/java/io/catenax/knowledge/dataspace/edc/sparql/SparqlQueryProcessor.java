@@ -4,8 +4,11 @@
 // See authors file in the top folder
 // See license file in the top folder
 //
-package io.catenax.knowledge.dataspace.edc;
+package io.catenax.knowledge.dataspace.edc.sparql;
 
+import io.catenax.knowledge.dataspace.edc.AgentHttpAction;
+import io.catenax.knowledge.dataspace.edc.Tuple;
+import io.catenax.knowledge.dataspace.edc.TupleSet;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.InternalServerErrorException;
 import org.apache.http.HttpStatus;
@@ -204,7 +207,7 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
         String graphs=((AgentHttpAction) action).getGraphs();
         List<String> namedGraphs = graphs!=null ? List.of(graphs) : List.of();
  
-        DatasetDescription desc=null;
+        DatasetDescription desc;
         if ( graphURLs.size() != 0 && namedGraphs.size() != 0 )
             desc=DatasetDescription.create(graphURLs, namedGraphs);
         else 

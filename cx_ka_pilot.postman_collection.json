@@ -174,7 +174,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:graph:oem:Diagnosis2022\",\n      \"asset:prop:name\": \"Diagnostic Trouble Code Catalogue Version 2022\",\n      \"asset:prop:contenttype\": \"application/json, application/xml\",\n      \"asset:prop:policy-id\": \"research\",\n      \"asset:prop:cx:requesttype\": \"application/sparql\",\n      \"asset:prop:cx:apitype\": \"application/knowledge-agent-query\",\n      \"asset:prop:cx:ontology\": \"https://github.com/catenax-ng/product-knowledge/ontology#\",\n      \"asset:prop:cx:ontologyVersion\": \"https://github.com/catenax-ng/product-knowledge/tree/main\",\n      \"asset:prop:cx:shapesGraph\": \"@prefix : <urn:cx:graph:oem:Diagnosis2022> .\\n@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .\\n@prefix cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#> .\\n@prefix owl: <http://www.w3.org/2002/07/owl#> .\\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\n@prefix sh: <http://www.w3.org/ns/shacl#> .\\n\\nOemDTC rdf:type sh:NodeShape ;\\n  sh:targetClass cx-diag:DTC ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\\n    ] ;\\n  sh:property [\\n        sh:path cx-diag:Version ;\\n        sh:hasValue 0^^xsd:long ;\\n    ] ;\\n  sh:property [\\n        sh:path cx-diag:Affects ;\\n        sh:class OemDiagnosedParts ;\\n    ] ;\\n\\nOemDiagnosedParts rdf:type sh:NodeShape ;\\n  sh:targetClass cx-diag:DiagnosedPart ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\\n    ] ;\\n\",\n      \"asset:prop:cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"endpoint\": \"http://oem-provider-agent:8080/sparql\",\n      \"type\": \"HttpData\"\n    }\n  }\n}",
+											"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Graph:oem:Diagnosis2022\",\n      \"asset:prop:name\": \"Diagnostic Trouble Code Catalogue Version 2022\",\n      \"asset:prop:contenttype\": \"application/json, application/xml\",\n      \"asset:prop:policy-id\": \"research\",\n      \"asset:prop:cx:requesttype\": \"application/sparql\",\n      \"asset:prop:cx:apitype\": \"application/knowledge-agent-query\",\n      \"asset:prop:cx:ontology\": \"https://github.com/catenax-ng/product-knowledge/ontology#\",\n      \"asset:prop:cx:ontologyVersion\": \"https://github.com/catenax-ng/product-knowledge/tree/main\",\n      \"asset:prop:cx:shapesGraph\": \"@prefix : <urn:cx:Graph:oem:Diagnosis2022> .\\n@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .\\n@prefix cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#> .\\n@prefix owl: <http://www.w3.org/2002/07/owl#> .\\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\n@prefix sh: <http://www.w3.org/ns/shacl#> .\\n\\nOemDTC rdf:type sh:NodeShape ;\\n  sh:targetClass cx-diag:DTC ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\\n    ] ;\\n  sh:property [\\n        sh:path cx-diag:Version ;\\n        sh:hasValue 0^^xsd:long ;\\n    ] ;\\n  sh:property [\\n        sh:path cx-diag:Affects ;\\n        sh:class OemDiagnosedParts ;\\n    ] ;\\n\\nOemDiagnosedParts rdf:type sh:NodeShape ;\\n  sh:targetClass cx-diag:DiagnosedPart ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\\n    ] ;\\n\",\n      \"asset:prop:cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"baseUrl\": \"http://oem-provider-agent:8080/sparql\",\n      \"type\": \"urn:cx:Protocol:w3c:Http#SPARQL\",\n      \"proxyPath\": \"false\",\n      \"proxyMethod\": \"true\",\n      \"proxyQueryParams\": \"true\",\n      \"proxyBody\": \"true\",\n      \"header:Accept\": \"*/*\",\n      \"header:Host\": \"consumer-data-plane:8082\"\n    }\n  }\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -223,7 +223,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"id\": \"oemPolicy\",\n  \"policy\": {\n    \"permissions\": [\n        {\n            \"target\": \"urn:cx:graph:oem*\",\n            \"action\": {\n                \"type\": \"USE\"\n            },\n            \"edctype\": \"dataspaceconnector:permission\"\n        }\n    ],\n    \"@type\": {\n        \"@policytype\": \"set\"\n    }\n  }\n}",
+											"raw": "{\n  \"id\": \"oemPolicy\",\n  \"policy\": {\n    \"target\": \"urn:cx:Graph:oem:.*\",\n    \"permissions\": [\n        {\n            \"target\": \"urn:cx:Graph:oem:Diagnosis.*\",\n            \"action\": {\n                \"type\": \"USE\"\n            },\n            \"edctype\": \"dataspaceconnector:permission\"\n        }\n    ],\n    \"@type\": {\n        \"@policytype\": \"set\"\n    }\n  }\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -272,7 +272,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"id\":\"oemOffer\",\n  \"accessPolicyId\": \"oemPolicy\",\n  \"contractPolicyId\": \"oemPolicy\",\n  \"criteria\": []\n}",
+											"raw": "{\n  \"id\":\"oemOffer\",\n  \"accessPolicyId\": \"oemPolicy\",\n  \"contractPolicyId\": \"oemPolicy\",\n  \"criteria\": [ {\n      \"operandLeft\": \"asset:prop:id\",\n      \"operator\":\"~\",\n      \"operandRight\":\"urn:cx:Graph:oem:.*\"\n  }]\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -394,6 +394,104 @@
 									"response": []
 								},
 								{
+									"name": "List Contract Definitions",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Asset listing was successful\", function () {",
+													"    pm.expect(pm.response.code).oneOf([200]);",
+													"    pm.expect(pm.response.json()).to.have.length.gt(0);",
+													"    pm.response.json().map(function(policy) {",
+													"        pm.expect(policy).to.have.property(\"uid\");",
+													"        pm.expect(policy).to.have.property(\"permissions\");",
+													"        pm.expect(policy.permissions).to.have.length.gte(0);",
+													"        policy.permissions.map(function(permission) {",
+													"            pm.expect(permission).to.have.property(\"edctype\",\"dataspaceconnector:permission\");",
+													"            pm.expect(permission).to.have.property(\"target\");",
+													"        });",
+													"    });",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-Api-Key",
+												"value": "{{oemEdcApiKey}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{oemEdcControl}}/data/contractdefinitions",
+											"host": [
+												"{{oemEdcControl}}"
+											],
+											"path": [
+												"data",
+												"contractdefinitions"
+											]
+										},
+										"description": "Uses the datamanagement API to get an (internal) list of the policies."
+									},
+									"response": []
+								},
+								{
+									"name": "List Contract Agreements",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Asset listing was successful\", function () {",
+													"    pm.expect(pm.response.code).oneOf([200]);",
+													"    pm.expect(pm.response.json()).to.have.length.gt(0);",
+													"    pm.response.json().map(function(policy) {",
+													"        pm.expect(policy).to.have.property(\"uid\");",
+													"        pm.expect(policy).to.have.property(\"permissions\");",
+													"        pm.expect(policy.permissions).to.have.length.gte(0);",
+													"        policy.permissions.map(function(permission) {",
+													"            pm.expect(permission).to.have.property(\"edctype\",\"dataspaceconnector:permission\");",
+													"            pm.expect(permission).to.have.property(\"target\");",
+													"        });",
+													"    });",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-Api-Key",
+												"value": "{{oemEdcApiKey}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{oemEdcControl}}/data/contractagreements",
+											"host": [
+												"{{oemEdcControl}}"
+											],
+											"path": [
+												"data",
+												"contractagreements"
+											]
+										},
+										"description": "Uses the datamanagement API to get an (internal) list of the policies."
+									},
+									"response": []
+								},
+								{
 									"name": "Show Catalogue",
 									"event": [
 										{
@@ -431,7 +529,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{oemEdcControl}}/data/catalog?providerUrl={{oemEdcControl}}/api/v1/ids/data",
+											"raw": "{{oemEdcControl}}/data/catalog?providerUrl={{oemEdcIds}}/api/v1/ids/data",
 											"host": [
 												"{{oemEdcControl}}"
 											],
@@ -447,7 +545,7 @@
 												},
 												{
 													"key": "providerUrl",
-													"value": "{{oemEdcControl}}/api/v1/ids/data"
+													"value": "{{oemEdcIds}}/api/v1/ids/data"
 												}
 											]
 										},
@@ -1541,6 +1639,70 @@
 												{
 													"key": "query",
 													"value": "SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.}"
+												}
+											]
+										},
+										"description": "Uses the Agent Extension of the Dataplane to Perform Some Dynamic Query on a Local Graph (here: the federated data catalogue)."
+									},
+									"response": []
+								},
+								{
+									"name": "Get Remote SparQL",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{consumerAgentPlane}}/api/agent?query=SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.} LIMIT 10&asset=http%3A%2F%2Foem-control-plane%3A8282%23urn%3Acx%3AGraph%3Aoem%3ADiagnosis2022",
+											"host": [
+												"{{consumerAgentPlane}}"
+											],
+											"path": [
+												"api",
+												"agent"
+											],
+											"query": [
+												{
+													"key": "query",
+													"value": "SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.} LIMIT 10"
+												},
+												{
+													"key": "asset",
+													"value": "http%3A%2F%2Foem-control-plane%3A8282%23urn%3Acx%3AGraph%3Aoem%3ADiagnosis2022"
+												}
+											]
+										},
+										"description": "Uses the Agent Extension of the Dataplane to Perform Some Dynamic Query on a Local Graph (here: the federated data catalogue)."
+									},
+									"response": []
+								},
+								{
+									"name": "Post Remote SparQL",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/sparql-query",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.} LIMIT 10"
+										},
+										"url": {
+											"raw": "{{consumerAgentPlane}}/api/agent?asset=http%3A%2F%2Foem-control-plane%3A8282%23urn%3Acx%3AGraph%3Aoem%3ADiagnosis2022",
+											"host": [
+												"{{consumerAgentPlane}}"
+											],
+											"path": [
+												"api",
+												"agent"
+											],
+											"query": [
+												{
+													"key": "asset",
+													"value": "http%3A%2F%2Foem-control-plane%3A8282%23urn%3Acx%3AGraph%3Aoem%3ADiagnosis2022"
 												}
 											]
 										},

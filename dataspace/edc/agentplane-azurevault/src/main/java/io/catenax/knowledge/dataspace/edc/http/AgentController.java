@@ -4,9 +4,11 @@
 // See authors file in the top folder
 // See license file in the top folder
 //
-package io.catenax.knowledge.dataspace.edc;
+package io.catenax.knowledge.dataspace.edc.http;
 
+import io.catenax.knowledge.dataspace.edc.*;
 import io.catenax.knowledge.dataspace.edc.service.DataManagement;
+import io.catenax.knowledge.dataspace.edc.sparql.SparqlQueryProcessor;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.ResponseBuilder;
@@ -17,7 +19,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -149,8 +154,8 @@ public class AgentController {
         return executeQuery(request,response,asset);
     }
 
-    public static Pattern SKILL_PATTERN=Pattern.compile("((?<url>[^#]+)#)?(?<skill>urn:(cx|artifact):Skill:.*)");
-    public static Pattern GRAPH_PATTERN=Pattern.compile("((?<url>[^#]+)#)?(?<graph>urn:(cx|artifact):Graph:.*)");
+    public static Pattern SKILL_PATTERN=Pattern.compile("((?<url>[^#]+)#)?(?<skill>(urn:(cx|artifact):)?Skill:.*)");
+    public static Pattern GRAPH_PATTERN=Pattern.compile("((?<url>[^#]+)#)?(?<graph>(urn:(cx|artifact):)?Graph:.*)");
 
     /**
      * the actual execution is done by delegating to the Fuseki engine
@@ -223,14 +228,13 @@ public class AgentController {
         }
         if("GET".equals(request.getMethod())) {
             try {
-                response.getOutputStream().print(sendGETRequest(endpoint, "", request.getParameterMap()));
+                response.getOutputStream().print(sendGETRequest(endpoint, "", request));
             } catch(IOException e) {
                 throw new InternalServerErrorException(String.format("Could not delegate remote get call to connector %s asset %s because of %s",remoteUrl,asset,e),e);
             }
         } else if("POST".equals(request.getMethod())) {
             try {
-                response.getOutputStream().print(sendPOSTRequest(endpoint, "", request.getParameterMap(),
-                        new String(request.getInputStream().readAllBytes()), Objects.requireNonNull(MediaType.parse(request.getContentType()))));
+                response.getOutputStream().print(sendPOSTRequest(endpoint, "", request));
             } catch(IOException e) {
                 throw new InternalServerErrorException(String.format("Could not delegate remote post call to connector %s asset %s because of %s",remoteUrl,asset,e),e);
             }
@@ -238,8 +242,16 @@ public class AgentController {
         return Response.ok().build();
     }
 
-    public String sendGETRequest(EndpointDataReference dataReference, String subUrl, Map<String, String[]> parameters) throws IOException {
-        var url = getUrl(dataReference.getEndpoint(), subUrl, parameters);
+    /**
+     * route a get request
+     * @param dataReference the encoded call embedding
+     * @param subUrl protocol-specific part
+     * @param original request to route
+     * @return string body
+     * @throws IOException in case something strange happens
+     */
+    public String sendGETRequest(EndpointDataReference dataReference, String subUrl, HttpServletRequest original) throws IOException {
+        var url = getUrl(dataReference.getEndpoint(), subUrl, original);
 
         var request = new Request.Builder()
                 .url(url)
@@ -249,20 +261,44 @@ public class AgentController {
         return sendRequest(request);
     }
 
-    public String sendPOSTRequest(EndpointDataReference dataReference, String subUrl, Map<String, String[]> parameters, String data, MediaType mediaType) throws IOException {
-        var url = getUrl(dataReference.getEndpoint(), subUrl, parameters);
+    /**
+     * route a post request
+     * @param dataReference the encoded call embedding
+     * @param subUrl protocol-specific part
+     * @param original request to route
+     * @return string body
+     * @throws IOException in case something strange happens
+     */
+    public String sendPOSTRequest(EndpointDataReference dataReference, String subUrl, HttpServletRequest original) throws IOException {
+        var url = getUrl(dataReference.getEndpoint(), subUrl, original);
 
         var request = new Request.Builder()
                 .url(url)
                 .addHeader(Objects.requireNonNull(dataReference.getAuthKey()), Objects.requireNonNull(dataReference.getAuthCode()))
-                .addHeader("Content-Type", mediaType.toString())
-                .post(RequestBody.create(data, mediaType))
+                .addHeader("Content-Type", original.getContentType())
+                .post(RequestBody.create(original.getInputStream().readAllBytes(), MediaType.parse(original.getContentType())))
                 .build();
 
         return sendRequest(request);
     }
 
-    private HttpUrl getUrl(String connectorUrl, String subUrl, Map<String, String[]> parameters) {
+    /**
+     * filter particular parameteres
+     * @param key parameter key
+     * @return whether to filter the parameter
+     */
+    protected boolean allowParameter(String key) {
+        return !"asset".equals(key);
+    }
+
+    /**
+     * computes the url to target the given data plane
+     * @param connectorUrl data plane url
+     * @param subUrl sub-path to use
+     * @param original request to route
+     * @return typed url
+     */
+    protected HttpUrl getUrl(String connectorUrl, String subUrl, HttpServletRequest original) throws UnsupportedEncodingException {
         var url = connectorUrl;
 
         if (subUrl != null && !subUrl.isEmpty()) {
@@ -270,9 +306,12 @@ public class AgentController {
         }
 
         HttpUrl.Builder httpBuilder = Objects.requireNonNull(HttpUrl.parse(url)).newBuilder();
-        for (Map.Entry<String, String[]> param : parameters.entrySet()) {
+        for (Map.Entry<String, String[]> param : original.getParameterMap().entrySet()) {
             for (String value : param.getValue()) {
-                httpBuilder = httpBuilder.addQueryParameter(param.getKey(), value);
+                if(allowParameter(param.getKey())) {
+                    String recode = HttpUtils.urlEncodeParameter(value);
+                    httpBuilder = httpBuilder.addQueryParameter(param.getKey(), recode);
+                }
             }
         }
 

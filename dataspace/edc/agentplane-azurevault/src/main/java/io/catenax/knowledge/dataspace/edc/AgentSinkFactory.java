@@ -8,6 +8,7 @@ package io.catenax.knowledge.dataspace.edc;
 
 import okhttp3.OkHttpClient;
 import org.eclipse.dataspaceconnector.dataplane.http.pipeline.HttpRequestParamsSupplier;
+import org.eclipse.dataspaceconnector.dataplane.spi.pipeline.DataSink;
 import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
 import org.eclipse.dataspaceconnector.spi.types.domain.transfer.DataFlowRequest;
 
@@ -19,11 +20,7 @@ import java.util.concurrent.ExecutorService;
  */
 public class AgentSinkFactory extends org.eclipse.dataspaceconnector.dataplane.http.pipeline.HttpDataSinkFactory {
 
-    /**
-     * constant
-     */
-    public static String AGENT_TYPE_SERVER="HttpData";
-    public static String AGENT_TYPE_CLIENT="HttpProxy";
+    protected HttpRequestParamsSupplier supp;
 
     /**
      * creates the sink factory
@@ -39,6 +36,7 @@ public class AgentSinkFactory extends org.eclipse.dataspaceconnector.dataplane.h
                             Monitor monitor,
                             HttpRequestParamsSupplier supplier) {
         super(httpClient,executorService,partitionSize,monitor,supplier);
+        this.supp=supplier;
     }
 
     /**
@@ -48,8 +46,9 @@ public class AgentSinkFactory extends org.eclipse.dataspaceconnector.dataplane.h
      */
     @Override
     public boolean canHandle(DataFlowRequest request) {
-        return AGENT_TYPE_SERVER.equals(request.getDestinationDataAddress().getType());
+        return AgentProtocol.SPARQL_HTTP.getProtocolId().equals(request.getDestinationDataAddress().getType());
     }
+
 }
 
 

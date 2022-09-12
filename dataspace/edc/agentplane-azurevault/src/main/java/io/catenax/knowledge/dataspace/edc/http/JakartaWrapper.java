@@ -4,10 +4,9 @@
 // See authors file in the top folder
 // See license file in the top folder
 //
-package io.catenax.knowledge.dataspace.edc;
+package io.catenax.knowledge.dataspace.edc.http;
 
 import java.lang.reflect.*;
-import java.util.Arrays;
 
 import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
 

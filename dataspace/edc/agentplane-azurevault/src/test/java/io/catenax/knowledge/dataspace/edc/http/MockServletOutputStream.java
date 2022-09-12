@@ -4,13 +4,14 @@
 // See authors file in the top folder
 // See license file in the top folder
 //
-package io.catenax.knowledge.dataspace.edc;
+package io.catenax.knowledge.dataspace.edc.http;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.WriteListener;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Mock implementation of ServletOutputStream
@@ -33,12 +34,12 @@ public class MockServletOutputStream extends ServletOutputStream {
 	}
 
 	@Override
-	public void write(byte[] b) throws IOException {
+	public void write(@NotNull byte[] b) throws IOException {
 		this.delegate.write(b);
 	}
 
 	@Override
-	public void write(byte[] b, int from, int length) throws IOException {
+	public void write(@NotNull byte[] b, int from, int length) throws IOException {
 		this.delegate.write(b, from, length);
 	}
 

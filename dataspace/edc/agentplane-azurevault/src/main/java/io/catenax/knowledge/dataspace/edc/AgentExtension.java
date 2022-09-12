@@ -7,10 +7,14 @@
 package io.catenax.knowledge.dataspace.edc;
 
 import dev.failsafe.RetryPolicy;
+import io.catenax.knowledge.dataspace.edc.http.AgentController;
 import org.eclipse.dataspaceconnector.dataplane.http.pipeline.HttpSinkRequestParamsSupplier;
 import org.eclipse.dataspaceconnector.dataplane.http.pipeline.HttpSourceRequestParamsSupplier;
 import org.eclipse.dataspaceconnector.dataplane.spi.pipeline.DataTransferExecutorServiceContainer;
+import org.eclipse.dataspaceconnector.dataplane.spi.pipeline.TransferService;
+import org.eclipse.dataspaceconnector.dataplane.spi.registry.TransferServiceRegistry;
 import org.eclipse.dataspaceconnector.spi.WebService;
+import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
 import org.eclipse.dataspaceconnector.spi.security.Vault;
 import org.eclipse.dataspaceconnector.spi.system.Inject;
 import org.eclipse.dataspaceconnector.spi.system.ServiceExtension;
@@ -19,6 +23,7 @@ import okhttp3.OkHttpClient;
 import io.catenax.knowledge.dataspace.edc.service.DataManagement;
 
 import org.eclipse.dataspaceconnector.dataplane.spi.pipeline.PipelineService;
+import org.eclipse.dataspaceconnector.spi.types.TypeManager;
 
 /**
  * EDC extension that initializes the Agent subsystem (Agent Sources, Agent Sinks, Agent Endpoint and Federation Callbacks
@@ -54,31 +59,31 @@ public class AgentExtension implements ServiceExtension {
 
     @Override
     public void initialize(ServiceExtensionContext context) {
-        var monitor = context.getMonitor();
+        Monitor monitor = context.getMonitor();
         
         monitor.debug(String.format("Initializing %s",name()));
 
-        var config = new AgentConfig(monitor,context.getConfig());
-        var typeManager = context.getTypeManager();
+        AgentConfig config = new AgentConfig(monitor,context.getConfig());
+        TypeManager typeManager = context.getTypeManager();
 
-        var catalogService=new DataManagement(monitor,typeManager,httpClient,config);
+        DataManagement catalogService=new DataManagement(monitor,typeManager,httpClient,config);
 
-        var agreementController=new AgreementController(monitor,config,catalogService);
+        AgreementController agreementController=new AgreementController(monitor,config,catalogService);
         monitor.debug(String.format("Registering agreement controller %s",agreementController));
         webService.registerResource(CALLBACK_CONTEXT_ALIAS, agreementController);
 
-        var agentController=new AgentController(monitor,agreementController,config,httpClient);
+        AgentController agentController=new AgentController(monitor,agreementController,config,httpClient);
         monitor.debug(String.format("Registering agent controller %s",agentController));
         webService.registerResource(DEFAULT_CONTEXT_ALIAS, agentController);
 
         monitor.debug(String.format("Initialized %s",name()));
 
-        /*@SuppressWarnings("unchecked") var sourceFactory = new AgentSourceFactory(httpClient, retryPolicy, new HttpSourceRequestParamsSupplier(vault));
+        AgentSourceFactory sourceFactory = new AgentSourceFactory(httpClient, retryPolicy, new AgentSourceRequestParamsSupplier(vault));
         pipelineService.registerFactory(sourceFactory);
 
-        var sinkFactory = new AgentSinkFactory(httpClient, executorContainer.getExecutorService(), 5, monitor, new HttpSinkRequestParamsSupplier(vault));
+        AgentSinkFactory sinkFactory = new AgentSinkFactory(httpClient, executorContainer.getExecutorService(), 5, monitor, new HttpSinkRequestParamsSupplier(vault));
         pipelineService.registerFactory(sinkFactory);
-*/
+
     }
 
 }

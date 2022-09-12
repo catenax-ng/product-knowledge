@@ -22,12 +22,10 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import org.eclipse.dataspaceconnector.spi.types.domain.transfer.TransferType;
+import org.jetbrains.annotations.Contract;
 
 /**
  * An endpoint/service that receives information from the control plane
@@ -48,21 +46,28 @@ public class AgreementController {
      * TODO make this a distributed cache
      * TODO let this cache evict invalidate references automatically
      */
-    protected final Map<String, EndpointDataReference> endpointStore = new HashMap<>();
-    protected final Map<String, ContractNegotiation> agreementStore = new HashMap<>();
+    // hosts all pending processes
+    protected final Set<String> activeAssets = new HashSet<>();
+    // any contract agreements indexed by asset
+    protected final Map<String, ContractAgreement> agreementStore = new HashMap<>();
+    // any transfer processes indexed by asset, the current process should
+    // always adhere to the above agreement
     protected final Map<String, TransferProcess> processStore = new HashMap<>();
-    protected final Map<String, String> transferStore = new HashMap<>();
+    // at the end of provisioning and endpoint reference will be set
+    // that fits to the current transfer process
+    protected final Map<String, EndpointDataReference> endpointStore = new HashMap<>();
 
     /**
      * creates an agreement controller
-     * @param monitor logger
-     * @param config typed config
+     *
+     * @param monitor        logger
+     * @param config         typed config
      * @param dataManagement data management service wrapper
      */
     public AgreementController(Monitor monitor, AgentConfig config, DataManagement dataManagement) {
         this.monitor = monitor;
         this.dataManagement = dataManagement;
-        this.config=config;
+        this.config = config;
     }
 
     /**
@@ -75,36 +80,41 @@ public class AgreementController {
 
     /**
      * this is called by the control plane when an agreement has been made
+     *
      * @param dataReference contains the actual call token
-     * TODO how should several data planes receive their respective endpoints?
      */
     @POST
     public void receiveEdcCallback(EndpointDataReference dataReference) {
         var agreementId = dataReference.getProperties().get("cid");
-        synchronized (endpointStore) {
-            endpointStore.put(agreementId, dataReference);
-        }
         monitor.debug(String.format("An endpoint data reference for agreement %s has been posted.", agreementId));
+        synchronized (agreementStore) {
+            for (Map.Entry<String, ContractAgreement> agreement : agreementStore.entrySet()) {
+                if (agreement.getValue().getId().equals(agreementId)) {
+                    synchronized (endpointStore) {
+                        monitor.debug(String.format("Agreement %s belongs to asset %s.", agreementId, agreement.getKey()));
+                        endpointStore.put(agreement.getKey(), dataReference);
+                        return;
+                    }
+                }
+            }
+        }
+        monitor.debug(String.format("Agreement %s has no active asset. Guess that came for another plane. Ignoring.", agreementId));
     }
 
     /**
-     * accesses the endpoint for the given asset and validate any
-     * endpoint address
+     * accesses an active endpoint for the given asset
+     *
      * @param assetId id of the agreed asset
      * @return endpoint found, null if not found or invalid
      */
     public EndpointDataReference get(String assetId) {
-        synchronized(agreementStore) {
-            ContractNegotiation negotation = agreementStore.get(assetId);
-            if (negotation == null) {
-                return null;
-            }
-            String agreementId = negotation.getContractAgreementId();
-            if(agreementId==null) {
+        synchronized (activeAssets) {
+            if (!activeAssets.contains(assetId)) {
+                monitor.debug(String.format("Asset %s is not active",assetId));
                 return null;
             }
             synchronized (endpointStore) {
-                EndpointDataReference result = endpointStore.get(agreementId);
+                EndpointDataReference result = endpointStore.get(assetId);
                 if (result != null) {
                     String token = result.getAuthCode();
                     if (token != null) {
@@ -113,13 +123,20 @@ public class AgreementController {
                             return result;
                         }
                     }
-                    endpointStore.remove(agreementId);
+                    endpointStore.remove(assetId);
+                }
+                monitor.debug(String.format("Active asset %s has timed out or was not installed.",assetId));
+                synchronized (processStore) {
+                    processStore.remove(assetId);
+                    synchronized (agreementStore) {
+                        ContractAgreement agreement = agreementStore.get(assetId);
+                        if (agreement != null && agreement.getContractEndDate() <= System.currentTimeMillis()) {
+                            agreementStore.remove(assetId);
+                        }
+                        activeAssets.remove(assetId);
+                    }
                 }
             }
-            agreementStore.remove(assetId);
-            // TODO need to deprovision transfer
-            transferStore.remove(assetId);
-            processStore.remove(assetId);
         }
         return null;
     }
@@ -127,70 +144,84 @@ public class AgreementController {
     /**
      * creates a new agreement (asynchronously)
      * and waits for the result
+     *
      * @param remoteUrl ids endpoint url of the remote connector
-     * @param asset name of the asset to agree upon
-     * TODO make this federation aware: multiple assets, different policies
+     * @param asset     name of the asset to agree upon
+     *                                   TODO make this federation aware: multiple assets, different policies
      */
     public EndpointDataReference createAgreement(String remoteUrl, String asset) throws IOException {
-        Collection<ContractOffer> contractOffers = dataManagement.findContractOffers(remoteUrl,asset);
+        synchronized (activeAssets) {
+            if (activeAssets.contains(asset)) {
+                throw new IOException("Cannot agree on an already active asset.");
+            }
+            activeAssets.add(asset);
+            Collection<ContractOffer> contractOffers = dataManagement.findContractOffers(remoteUrl, asset);
 
-        if (contractOffers.isEmpty()) {
-            throw new BadRequestException(String.format("There is no contract offer in remote connector %s related to asset %s.",remoteUrl,asset));
-        }
+            if (contractOffers.isEmpty()) {
+                throw new BadRequestException(String.format("There is no contract offer in remote connector %s related to asset %s.", remoteUrl, asset));
+            }
 
-        // TODO implement a cost-based offer choice
-        ContractOffer contractOffer = contractOffers.stream().findFirst().get();
+            // TODO implement a cost-based offer choice
+            ContractOffer contractOffer = contractOffers.stream().findFirst().get();
 
-        // Initiate negotiation
-        var policy = Policy.Builder.newInstance()
-                .permission(Permission.Builder.newInstance()
-                        .target(asset)
-                        .action(Action.Builder.newInstance().type("USE").build())
-                        .build())
-                .type(PolicyType.SET)
-                .build();
+            // Initiate negotiation
+            var policy = Policy.Builder.newInstance()
+                    .permission(Permission.Builder.newInstance()
+                            .target(asset)
+                            .action(Action.Builder.newInstance().type("USE").build())
+                            .build())
+                    .type(PolicyType.SET)
+                    .build();
 
-        var contractOfferDescription = new ContractOfferDescription(
-                contractOffer.getId(),
-                asset,
-                policy
-        );
-        var contractNegotiationRequest = ContractNegotiationRequest.Builder.newInstance()
-                .offerId(contractOfferDescription)
-                .connectorId("provider")
-                .connectorAddress(String.format(DataManagement.IDS_PATH,remoteUrl))
-                .protocol("ids-multipart")
-                .build();
-        var negotiationId = dataManagement.initiateNegotiation(
-                contractNegotiationRequest
-        );
+            var contractOfferDescription = new ContractOfferDescription(
+                    contractOffer.getId(),
+                    asset,
+                    policy
+            );
+            var contractNegotiationRequest = ContractNegotiationRequest.Builder.newInstance()
+                    .offerId(contractOfferDescription)
+                    .connectorId("provider")
+                    .connectorAddress(String.format(DataManagement.IDS_PATH, remoteUrl))
+                    .protocol("ids-multipart")
+                    .build();
+            var negotiationId = dataManagement.initiateNegotiation(
+                    contractNegotiationRequest
+            );
 
-        // Check negotiation state
-        ContractNegotiation negotiation = null;
+            // Check negotiation state
+            ContractNegotiation negotiation = null;
 
-        long startTime=System.currentTimeMillis();
+            long startTime = System.currentTimeMillis();
 
-        try {
-            while ((System.currentTimeMillis()-startTime<config.getNegotiationTimeout()) && (negotiation == null || !negotiation.getState().equals("CONFIRMED") )) {
-                Thread.sleep(config.getNegotiationPollinterval());
-                negotiation = dataManagement.getNegotiation(
-                    negotiationId
-                );
-                synchronized(agreementStore) {
-                    agreementStore.put(asset,negotiation);
+            try {
+                while ((System.currentTimeMillis() - startTime < config.getNegotiationTimeout()) && (negotiation == null || !negotiation.getState().equals("CONFIRMED"))) {
+                    Thread.sleep(config.getNegotiationPollinterval());
+                    negotiation = dataManagement.getNegotiation(
+                            negotiationId
+                    );
                 }
+            } catch (InterruptedException e) {
+                monitor.info(String.format("Negotiation thread for asset %s negotiation %s has been interrupted. Giving up.", asset, negotiationId));
             }
-        } catch(InterruptedException e ) {
-            monitor.info(String.format("Negotiation thread for asset %s negotiation %s has been interrupted. Giving up.",asset,negotiationId));
-        }
 
-        if(negotiation == null || !negotiation.getState().equals("CONFIRMED")) {
-            synchronized (agreementStore) {
-                agreementStore.remove(asset);
+            if (negotiation == null || !negotiation.getState().equals("CONFIRMED")) {
+                activeAssets.remove(asset);
+                throw new InternalServerErrorException(String.format("Contract Negotiation %s for asset %s was not successful.", negotiationId, asset));
             }
-        } else {
+
+            ContractAgreement agreement = dataManagement.getAgreement(negotiation.getContractAgreementId());
+
+            if (agreement == null || !agreement.getAssetId().endsWith(asset)) {
+                activeAssets.remove(asset);
+                throw new InternalServerErrorException(String.format("Agreement %s does not refer to asset %s.", negotiation.getContractAgreementId(), asset));
+            }
+
+            synchronized (agreementStore) {
+                agreementStore.put(asset, agreement);
+            }
+
             DataAddress dataDestination = DataAddress.Builder.newInstance()
-                    .type(AgentSinkFactory.AGENT_TYPE_CLIENT)
+                    .type("HttpProxy")
                     .build();
 
             TransferType transferType = TransferType.Builder.
@@ -202,7 +233,7 @@ public class AgreementController {
 
             TransferRequest transferRequest = TransferRequest.Builder.newInstance()
                     .assetId(asset)
-                    .contractId(negotiation.getContractAgreementId())
+                    .contractId(agreement.getId())
                     .connectorId("provider")
                     .connectorAddress(String.format(DataManagement.IDS_PATH, remoteUrl))
                     .protocol("ids-multipart")
@@ -212,41 +243,37 @@ public class AgreementController {
                     .build();
 
             String transferId = dataManagement.initiateHttpProxyTransferProcess(transferRequest);
-            synchronized (transferStore) {
-                transferStore.put(asset, transferId);
-            }
 
             // Check negotiation state
             TransferProcess process = null;
 
-            startTime=System.currentTimeMillis();
+            startTime = System.currentTimeMillis();
 
             try {
-                while ((System.currentTimeMillis()-startTime<config.getNegotiationTimeout()) && (process == null || !process.getState().equals("COMPLETED") )) {
+                while ((System.currentTimeMillis() - startTime < config.getNegotiationTimeout()) && (process == null || !process.getState().equals("COMPLETED"))) {
                     Thread.sleep(config.getNegotiationPollinterval());
                     process = dataManagement.getTransfer(
                             transferId
                     );
-                    synchronized(processStore) {
-                        processStore.put(asset,process);
+                    synchronized (processStore) {
+                        processStore.put(asset, process);
                     }
                 }
-            } catch(InterruptedException e ) {
-                monitor.info(String.format("Process thread for asset %s transfer %s has been interrupted. Giving up.",asset,transferId));
+            } catch (InterruptedException e) {
+                monitor.info(String.format("Process thread for asset %s transfer %s has been interrupted. Giving up.", asset, transferId));
             }
 
-            if(process == null || !process.getState().equals("COMPLETED")) {
+            if (process == null || !process.getState().equals("COMPLETED")) {
                 synchronized (processStore) {
                     processStore.remove(asset);
-                }
-                synchronized (transferStore) {
-                    transferStore.remove(asset);
                 }
                 synchronized (agreementStore) {
                     agreementStore.remove(asset);
                 }
+                activeAssets.remove(asset);
+                throw new InternalServerErrorException(String.format("Transfer process %s for agreement %s and asset %s could not be provisioned.", transferId, agreement.getId(), asset));
             }
-        }
+        } // synchronized
         return get(asset);
     }
 

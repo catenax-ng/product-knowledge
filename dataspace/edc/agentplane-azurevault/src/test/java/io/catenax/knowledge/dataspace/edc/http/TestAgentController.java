@@ -4,13 +4,15 @@
 // See authors file in the top folder
 // See license file in the top folder
 //
-package io.catenax.knowledge.dataspace.edc;
+package io.catenax.knowledge.dataspace.edc.http;
 
+import io.catenax.knowledge.dataspace.edc.AgentConfig;
+import io.catenax.knowledge.dataspace.edc.TestConfig;
+import io.catenax.knowledge.dataspace.edc.http.AgentController;
+import io.catenax.knowledge.dataspace.edc.http.MockServletOutputStream;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -19,8 +21,6 @@ import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.AbstractMap;
@@ -30,7 +30,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.jena.fuseki.Fuseki;
-import org.apache.jena.reasoner.rulesys.impl.BindingVectorMultiSet;
 import org.eclipse.dataspaceconnector.spi.monitor.ConsoleMonitor;
 
 import jakarta.servlet.http.HttpServletRequest;

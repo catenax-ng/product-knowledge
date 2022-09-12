@@ -64,7 +64,7 @@ services:
   #
   oem-control-plane:
     image: ghcr.io/catenax-ng/product-knowledge/dataspace/edc-controlplane-memory:0.1.1-KA-SNAPSHOT
-    platform: linux/amd64
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8083:8080" # API
       - "8181:8181" # PUBLIC
