@@ -86,7 +86,7 @@ services:
   #
   # Configures the tiera backend 
   #
-  tiera-api-backend:
+  tiera-backend:
     image: ghcr.io/catenax-ng/product-knowledge/backend/lifetime-prognosis-mock:latest
     platform: linux/amd64
     ports:

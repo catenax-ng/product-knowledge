@@ -20,7 +20,8 @@ import java.util.concurrent.ExecutorService;
  */
 public class AgentSinkFactory extends org.eclipse.dataspaceconnector.dataplane.http.pipeline.HttpDataSinkFactory {
 
-    protected HttpRequestParamsSupplier supp;
+    final HttpRequestParamsSupplier supplier;
+    final Monitor monitor;
 
     /**
      * creates the sink factory
@@ -36,7 +37,8 @@ public class AgentSinkFactory extends org.eclipse.dataspaceconnector.dataplane.h
                             Monitor monitor,
                             HttpRequestParamsSupplier supplier) {
         super(httpClient,executorService,partitionSize,monitor,supplier);
-        this.supp=supplier;
+        this.supplier=supplier;
+        this.monitor=monitor;
     }
 
     /**
@@ -49,6 +51,13 @@ public class AgentSinkFactory extends org.eclipse.dataspaceconnector.dataplane.h
         return AgentProtocol.SPARQL_HTTP.getProtocolId().equals(request.getDestinationDataAddress().getType());
     }
 
+    @Override
+    public DataSink createSink(DataFlowRequest request) {
+        DataSink sink=super.createSink(request);
+        monitor.debug(String.format("Created a new agent sink %s for destination %s and params %s",sink,request.getDestinationDataAddress().getType(),supplier.apply(request).toRequest()));
+        return sink;
+
+    }
 }
 
 

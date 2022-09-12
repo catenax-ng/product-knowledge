@@ -50,18 +50,21 @@ public class AgentSourceRequestParamsSupplier extends HttpSourceRequestParamsSup
 
     @Override
     protected @Nullable String extractQueryParams(HttpDataAddress address, DataFlowRequest request) {
+        if (request.getSourceDataAddress().getProperties().getOrDefault("baseUrl", "").contains("api/public"))
+            return super.extractQueryParams(address,request);
         return address.getProperty(QUERY_PARAMS);
     }
 
     @Override
     protected @NotNull DataAddress selectAddress(DataFlowRequest request) {
         try {
-            DataAddress superAddress=super.selectAddress(request);
+            DataAddress superAddress = super.selectAddress(request);
+            if (request.getSourceDataAddress().getProperties().getOrDefault("baseUrl", "").contains("api/public"))
+                return superAddress;
+            monitor.debug(String.format("Rewriting params/headers of request %s before hitting backend.",request));
             boolean fixedHeader=superAddress.getProperty(HttpDataAddress.ADDITIONAL_HEADER+"Accept")!=null;
             boolean fixedHost=superAddress.getProperty(HttpDataAddress.ADDITIONAL_HEADER+"Host")!=null;
             String oldQueryParams=request.getProperties().getOrDefault(QUERY_PARAMS,"");
-
-            monitor.debug(String.format("Found a source address %s with a fixed Accept %b, a fixed Host %b and params %s",superAddress,fixedHeader,fixedHost,oldQueryParams));
 
             String accept="*/*";
             StringBuilder newQueryParams=new StringBuilder();
@@ -74,7 +77,6 @@ public class AgentSourceRequestParamsSupplier extends HttpSourceRequestParamsSup
                 if(newAccept!=null && newAccept.length()>0) {
                     accept=newAccept.replace("%2A","*").replace("%2F","/");
                 }
-                monitor.debug(String.format("Found accept param %s",accept));
                 lastStart = acceptMatcher.end();
             }
             newQueryParams.append(oldQueryParams.substring(lastStart));
@@ -83,11 +85,9 @@ public class AgentSourceRequestParamsSupplier extends HttpSourceRequestParamsSup
             var addressBuilder =
                 HttpDataAddress.Builder.newInstance().copyFrom(superAddress);
 
-            monitor.debug(String.format("Computed new target query params %s",targetQueryParams));
             addressBuilder.property(QUERY_PARAMS,targetQueryParams);
 
             if(!fixedHeader) {
-                monitor.debug(String.format("Setting Accept header %s",accept));
                 addressBuilder.addAdditionalHeader("Accept", accept);
             }
             if(!fixedHost) {
@@ -95,7 +95,6 @@ public class AgentSourceRequestParamsSupplier extends HttpSourceRequestParamsSup
                 String hostPart=controlPlane.getHost();
                 int portPart = controlPlane.getPort();
                 String host=String.format("%s:%d",hostPart,portPart);
-                monitor.debug(String.format("Setting Host header %s",host));
                 addressBuilder.addAdditionalHeader("Host", host);
             }
             return addressBuilder.build();

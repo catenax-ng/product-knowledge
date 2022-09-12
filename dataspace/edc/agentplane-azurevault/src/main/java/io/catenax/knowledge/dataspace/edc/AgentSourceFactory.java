@@ -52,7 +52,7 @@ public class AgentSourceFactory extends org.eclipse.dataspaceconnector.dataplane
     @Override
     public DataSource createSource(DataFlowRequest request) {
         HttpDataSource dataSource=(HttpDataSource) super.createSource(request);
-        monitor.debug(String.format("Created a new agent source %s for params %s",dataSource,supplier.apply(request).toRequest()));
+        monitor.debug(String.format("Created a new agent source %s for destination type %s and params %s",dataSource,request.getDestinationDataAddress().getType(),supplier.apply(request).toRequest()));
         return dataSource;
     }
 }
