@@ -306,11 +306,25 @@ spec:
     - host: {{ .Values.ingress.host }}
       http:
         paths:
-          - path: /consumer-edc-data/{{ .Values.dataspace.bpnCustomer }}/(api)(/|$)(.*)
+          - path: /consumer-edc-data/{{ .Values.dataspace.bpnCustomer }}/(api/public)(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: consumer-data-plane
+                port:
+                  number: 8185
+          - path: /consumer-edc-data/{{ .Values.dataspace.bpnCustomer }}/(api/agent)(/|$)(.*)
             pathType: Prefix
             backend:
               service:
                 name: consumer-data-plane
                 port:
                   number: 8082
+          - path: /consumer-edc-data/{{ .Values.dataspace.bpnCustomer }}/(callback)(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: consumer-data-plane
+                port:
+                  number: 8186
 
