@@ -15,9 +15,8 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-
-    <groupId>io.catenax.knowledge</groupId>
-    <artifactId>agents.remoting</artifactId>
+    <groupId>io.catenax.knowledge.dataspace.agents</groupId>
+    <artifactId>remoting-agent</artifactId>
     
     <name>Catena-X Knowledge Agents Remoting</name>
     <description>This container/application binds existing REST services and functions to a SparQL inference engine.</description>
@@ -29,12 +28,10 @@
     </organization>
 
     <properties>
-        <symbolic.name>io.catenax.knowledge.agents.remoting</symbolic.name>
+        <symbolic.name>io.catenax.knowledge.remoting-agent</symbolic.name>
         <finalName>${symbolic.name}-${project.version}</finalName>
         <filter.main.resources>true</filter.main.resources>
         <skipTests>false</skipTests>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -105,12 +102,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M3</version>
             </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-shade-plugin</artifactId>
-            <version>2.4.3</version>
             <executions>
               <execution>
                <phase>package</phase>
@@ -134,4 +129,18 @@
         </plugins>
     </build>
 
+    <profiles>
+      <profile>
+        <id>with-docker-image</id>
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                </plugin>
+            </plugins>
+        </build>
+     </profile>
+    </profiles>
+    
 </project>

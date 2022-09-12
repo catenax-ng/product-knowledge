@@ -13,11 +13,14 @@
     <version>0.5.4-SNAPSHOT</version>
     <name>Catena-X Knowledge Agents</name>
     <description>Top Level Project for all Knowledge Agents Modules</description>
+
     <dependencies>
     </dependencies>
+
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <skipTests>false</skipTests>
 
        <com.azure.sdk.bom.version>1.2.2</com.azure.sdk.bom.version>
        <junit.version>5.9.0</junit.version>
@@ -28,11 +31,14 @@
         <repo>ghcr.io/catenax-ng/product-knowledge/dataspace/</repo>
         <platform>linux/amd64</platform>
     </properties>
+
     <modules>
+        <module>dataspace/agents/provisioning</module>
         <module>dataspace/agents/remoting</module>
         <module>dataspace/edc/agentplane-azurevault</module>
         <module>ontology</module>
     </modules>
+
     <dependencyManagement>
       <dependencies>
             <!-- BOMs -->
@@ -59,6 +65,90 @@
             </dependency>
       </dependencies>
     </dependencyManagement>
+
+    <build>
+      <pluginManagement>
+      <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>3.0.0-M3</version>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>2.4.3</version>
+        </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <!--
+                    NOTE: To build and tag docker images the `docker` executable needs to
+                            be on the PATH to be used by the exec-maven-plugin plugin
+                -->
+                <executions>
+                    <execution>
+                        <id>docker-build-${project.artifactId}:${project.version}</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>docker</executable>
+                            <workingDirectory>${project.basedir}</workingDirectory>
+                            <arguments>
+                                <argument>build</argument>
+                                <argument>--platform</argument>
+                                <argument>${platform}</argument>
+                                <argument>-f</argument>
+                                <argument>src/main/docker/Dockerfile</argument>
+                                <argument>--build-arg</argument>
+                                <argument>JAR=target/${project.artifactId}.jar</argument>
+                                <argument>--build-arg</argument>
+                                <argument>LIB=target/lib</argument>
+                                <argument>-t</argument>
+                                <argument>${repo}${project.artifactId}:${project.version}</argument>
+                                <argument>.</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>docker-tag-${project.artifactId}:latest</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>docker</executable>
+                            <workingDirectory>${project.basedir}</workingDirectory>
+                            <arguments>
+                                <argument>tag</argument>
+                                <argument>${repo}${project.artifactId}:${project.version}</argument>
+                                <argument>${repo}${project.artifactId}:latest</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>docker-push-${project.artifactId}:${project.version}</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>docker</executable>
+                            <workingDirectory>${project.basedir}</workingDirectory>
+                            <arguments>
+                                <argument>push</argument>
+                                <argument>${repo}${project.artifactId}:${project.version}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+      </plugins>
+    </pluginManagement>
+    </build>
+    
     <repositories>
         <repository>
             <id>central</id>
@@ -74,6 +164,7 @@
             <url>https://maven.pkg.github.com/catenax/ka-DataspaceConnector</url>
         </repository>
     </repositories>
+
     <distributionManagement>
      <repository>
        <id>github</id>
@@ -81,5 +172,5 @@
        <url>https://maven.pkg.github.com/catenax-ng/product-knowledge</url>
      </repository>
     </distributionManagement>
-
+        
 </project>

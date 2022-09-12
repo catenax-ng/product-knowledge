@@ -29,7 +29,7 @@ services:
   #
   oem-provider-agent:
     build:
-      dockerfile: src/main/docker/Dockerfile.agent
+      dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/agents/provisioning
     image: ghcr.io/catenax-ng/product-knowledge/dataspace/provisioning-agent:0.5.4-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
