@@ -53,7 +53,7 @@ data:
     
     edc.receiver.http.auth-code=X-Api-Key
     edc.receiver.http.auth-key={{ .Values.security.xApiKey }}
-    edc.receiver.http.endpoint=http://consumer-data-plane:9192/callback/endpoint-data-reference
+    edc.receiver.http.endpoint=http://consumer-data-plane:8186/callback/endpoint-data-reference
 
     edc.dataplane.selector.agentplane.url=http://consumer-data-plane:8082/
     edc.dataplane.selector.agentplane.sourcetypes=urn:cx:Protocol:w3c:Http#SPARQL
