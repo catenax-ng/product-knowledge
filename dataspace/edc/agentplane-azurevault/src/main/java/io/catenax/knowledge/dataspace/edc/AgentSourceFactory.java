@@ -19,7 +19,8 @@ import org.eclipse.dataspaceconnector.spi.types.domain.transfer.DataFlowRequest;
  */
 public class AgentSourceFactory extends org.eclipse.dataspaceconnector.dataplane.http.pipeline.HttpDataSourceFactory {
 
-    HttpRequestParamsSupplier supp;
+    final HttpRequestParamsSupplier supplier;
+    final Monitor monitor;
 
     /**
      * create a new agent source factory
@@ -27,9 +28,10 @@ public class AgentSourceFactory extends org.eclipse.dataspaceconnector.dataplane
      * @param retryPolicy a retry ppolicy to use
      * @param supplier a parameter supplier hellper
      */
-    public AgentSourceFactory(OkHttpClient httpClient, RetryPolicy<Object> retryPolicy, HttpRequestParamsSupplier supplier) {
+    public AgentSourceFactory(OkHttpClient httpClient, RetryPolicy<Object> retryPolicy, HttpRequestParamsSupplier supplier, Monitor monitor) {
         super(httpClient,retryPolicy,supplier);
-        this.supp=supplier;
+        this.supplier=supplier;
+        this.monitor=monitor;
     }
 
     /**
@@ -49,6 +51,8 @@ public class AgentSourceFactory extends org.eclipse.dataspaceconnector.dataplane
      */
     @Override
     public DataSource createSource(DataFlowRequest request) {
-        return super.createSource(request);
+        HttpDataSource dataSource=(HttpDataSource) super.createSource(request);
+        monitor.debug(String.format("Created a new agent source %s for params %s",dataSource,supplier.apply(request).toRequest()));
+        return dataSource;
     }
 }

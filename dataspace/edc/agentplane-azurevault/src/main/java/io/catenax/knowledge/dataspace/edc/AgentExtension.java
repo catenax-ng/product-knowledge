@@ -78,7 +78,7 @@ public class AgentExtension implements ServiceExtension {
 
         monitor.debug(String.format("Initialized %s",name()));
 
-        AgentSourceFactory sourceFactory = new AgentSourceFactory(httpClient, retryPolicy, new AgentSourceRequestParamsSupplier(vault));
+        AgentSourceFactory sourceFactory = new AgentSourceFactory(httpClient, retryPolicy, new AgentSourceRequestParamsSupplier(vault,config,monitor),monitor);
         pipelineService.registerFactory(sourceFactory);
 
         AgentSinkFactory sinkFactory = new AgentSinkFactory(httpClient, executorContainer.getExecutorService(), 5, monitor, new HttpSinkRequestParamsSupplier(vault));

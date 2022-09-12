@@ -253,6 +253,8 @@ public class AgentController {
     public String sendGETRequest(EndpointDataReference dataReference, String subUrl, HttpServletRequest original) throws IOException {
         var url = getUrl(dataReference.getEndpoint(), subUrl, original);
 
+        monitor.debug(String.format("About to delegate GET %s",url));
+
         var request = new Request.Builder()
                 .url(url)
                 .addHeader(Objects.requireNonNull(dataReference.getAuthKey()), Objects.requireNonNull(dataReference.getAuthCode()))
@@ -271,6 +273,8 @@ public class AgentController {
      */
     public String sendPOSTRequest(EndpointDataReference dataReference, String subUrl, HttpServletRequest original) throws IOException {
         var url = getUrl(dataReference.getEndpoint(), subUrl, original);
+
+        monitor.debug(String.format("About to delegate POST %s",url));
 
         var request = new Request.Builder()
                 .url(url)
@@ -313,6 +317,12 @@ public class AgentController {
                     httpBuilder = httpBuilder.addQueryParameter(param.getKey(), recode);
                 }
             }
+        }
+
+        if(original.getHeader("Accept")!=null) {
+            httpBuilder = httpBuilder.addQueryParameter("cx_accept", HttpUtils.urlEncodeParameter(original.getHeader("Accept")));
+        } else {
+            httpBuilder = httpBuilder.addQueryParameter("cx_accept", HttpUtils.urlEncodeParameter("application/json"));
         }
 
         return httpBuilder.build();

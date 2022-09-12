@@ -16,7 +16,7 @@ import java.nio.charset.StandardCharsets;
  */
 public class HttpUtils {
 
-    public static String DEFAULT_CHARSET= StandardCharsets.UTF_8.name();
+    public static String DEFAULT_CHARSET= StandardCharsets.US_ASCII.name();
 
     /**
      * ensure that the given parameter string is correctly
@@ -27,9 +27,22 @@ public class HttpUtils {
      */
     public static String urlEncodeParameter(String parameter) throws UnsupportedEncodingException {
         if(parameter==null || parameter.length()==0) return parameter;
-        return URLEncoder.encode(URLDecoder.decode(parameter,DEFAULT_CHARSET),DEFAULT_CHARSET)
-                .replace("?","%3F")
+        return encodeParameter(URLEncoder.encode(URLDecoder.decode(parameter)));
+    }
+
+    /**
+     * ensure that the given parameter string is correctly
+     * encoded
+     * TODO optimize
+     * @param parameter maybe undecoded parameter
+     * @return a url encoded string which additionally encodes some URL-prefix related symbols
+     */
+    public static String encodeParameter(String parameter) throws UnsupportedEncodingException {
+        if(parameter==null || parameter.length()==0) return parameter;
+        return parameter.replace("?","%3F")
                 .replace("{","%7B")
-                .replace("}","%7D");
+                .replace("}","%7D")
+                .replace("*","%2A")
+                .replace("/","%2F");
     }
 }
