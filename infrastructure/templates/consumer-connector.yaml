@@ -19,7 +19,8 @@ data:
     edc.api.auth.key={{ .Values.security.xApiKey }}
     edc.api.control.auth.apikey.key=X-Api-Key
     edc.api.control.auth.apikey.value={{ .Values.security.xApiKey }}
-
+    
+    cx.agent.controlplane.url=http://oem-control-plane:8181/data
         # edc.api.control.auth.apikey.key=
         # edc.api.control.auth.apikey.value=
         # edc.assetindex.cosmos.account-name=
@@ -44,7 +45,7 @@ data:
         # edc.contractnegotiationstore.cosmos.container-name=
         # edc.contractnegotiationstore.cosmos.database-name=
         # edc.contractnegotiationstore.cosmos.preferred-region=
-    edc.dataplane.token.validation.endpoint=http://consumer-control-plane:8182/validation/token
+    edc.dataplane.token.validation.endpoint=http://oem-control-plane:8182/validation/token
         # edc.core.retry.backoff.max=
         # edc.core.retry.backoff.min=
         # edc.core.retry.retries.max=
