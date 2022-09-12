@@ -245,7 +245,7 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
             List<String> graphURLs = datasetDesc.getDefaultGraphURIs();
             List<String> namedGraphs = datasetDesc.getNamedGraphURIs();
 
-            if ( graphURLs.size() == 0 && namedGraphs.size() == 0 )
+            if ( (graphURLs == null || graphURLs.size() == 0) && (namedGraphs==null || namedGraphs.size() == 0) )
                 return null;
 
             Dataset dataset = DatasetFactory.create();
@@ -254,21 +254,23 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
             // ---- Default graph
             {
                 Model model = ModelFactory.createDefaultModel();
-                for ( String uri : graphURLs ) {
-                    if ( uri == null || uri.equals("") )
-                        throw new InternalErrorException("Default graph URI is null or the empty string");
+                if(graphURLs!=null) {
+                    for ( String uri : graphURLs ) {
+                        if ( uri == null || uri.length() == 0 )
+                            throw new InternalErrorException("Default graph URI is null or the empty string");
 
-                    try {
-                        GraphLoadUtils.loadModel(model, uri, MAX_TRIPLES);
-                        action.log.info(String.format("[%d] Load (default graph) %s", action.id, uri));
-                    }
-                    catch (RiotException ex) {
-                        action.log.info(String.format("[%d] Parsing error loading %s: %s", action.id, uri, ex.getMessage()));
-                        ServletOps.errorBadRequest("Failed to load URL (parse error) " + uri + " : " + ex.getMessage());
-                    }
-                    catch (Exception ex) {
-                        action.log.info(String.format("[%d] Failed to load (default) %s: %s", action.id, uri, ex.getMessage()));
-                        ServletOps.errorBadRequest("Failed to load URL " + uri);
+                        try {
+                            GraphLoadUtils.loadModel(model, uri, MAX_TRIPLES);
+                            action.log.info(String.format("[%d] Load (default graph) %s", action.id, uri));
+                        }
+                        catch (RiotException ex) {
+                            action.log.info(String.format("[%d] Parsing error loading %s: %s", action.id, uri, ex.getMessage()));
+                            ServletOps.errorBadRequest("Failed to load URL (parse error) " + uri + " : " + ex.getMessage());
+                        }
+                        catch (Exception ex) {
+                            action.log.info(String.format("[%d] Failed to load (default) %s: %s", action.id, uri, ex.getMessage()));
+                            ServletOps.errorBadRequest("Failed to load URL " + uri);
+                        }
                     }
                 }
                 dataset.setDefaultModel(model);
@@ -276,7 +278,7 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
             // ---- Named graphs
             if ( namedGraphs != null ) {
                 for ( String uri : namedGraphs ) {
-                    if ( uri == null || uri.equals("") )
+                    if ( uri == null || uri.length() == 0 )
                         throw new InternalErrorException("Named graph URI is null or the empty string");
 
                     try {
