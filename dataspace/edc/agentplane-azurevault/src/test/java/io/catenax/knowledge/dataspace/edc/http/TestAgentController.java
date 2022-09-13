@@ -8,10 +8,12 @@ package io.catenax.knowledge.dataspace.edc.http;
 
 import io.catenax.knowledge.dataspace.edc.AgentConfig;
 import io.catenax.knowledge.dataspace.edc.TestConfig;
-import io.catenax.knowledge.dataspace.edc.http.AgentController;
-import io.catenax.knowledge.dataspace.edc.http.MockServletOutputStream;
+import io.catenax.knowledge.dataspace.edc.sparql.DataspaceServiceExecutor;
+import io.catenax.knowledge.dataspace.edc.sparql.SparqlQueryProcessor;
+import org.apache.jena.sparql.service.ServiceExecutorRegistry;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -52,13 +54,18 @@ public class TestAgentController {
     
     ConsoleMonitor monitor=new ConsoleMonitor();
     TestConfig config=new TestConfig();
-    AgentController agentController=new AgentController(monitor,null,new AgentConfig(monitor,config),null);
+    AgentConfig agentConfig=new AgentConfig(monitor,config);
+    ServiceExecutorRegistry reg=new ServiceExecutorRegistry();
+    DataspaceServiceExecutor exec=new DataspaceServiceExecutor(monitor,null,agentConfig);
+    SparqlQueryProcessor processor=new SparqlQueryProcessor(reg,monitor);
+    AgentController agentController=new AgentController(monitor,null,agentConfig,null,processor);
 
     AutoCloseable mocks=null;
 
     @BeforeEach
     public void setUp()  {
         mocks=MockitoAnnotations.openMocks(this);
+        reg.add(exec);
     }
 
     @AfterEach
@@ -66,6 +73,7 @@ public class TestAgentController {
         if(mocks!=null) {
             mocks.close();
             mocks=null;
+            reg.remove(exec);
         }
     }
     
@@ -304,6 +312,22 @@ public class TestAgentController {
     @Test
     public void testParameterizedSkill() throws IOException {
         String query="PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT ?what WHERE { VALUES (?what) { (\"@input\"^^xsd:int)} }";
+        String asset="urn:cx:Skill:cx:Test";
+        agentController.postSkill(query,asset);
+        String result=testExecute("GET",null,asset,"*/*",List.of(new AbstractMap.SimpleEntry<>("input","84")));
+        JsonNode root=mapper.readTree(result);
+        JsonNode whatBinding0=root.get("results").get("bindings").get(0).get("what");
+        assertEquals("84",whatBinding0.get("value").asText(),"Correct binding");
+    }
+
+    /**
+     * test federation call - will only work with a local oem provider running
+     * @throws IOException in case of an error
+     */
+    @Test
+    @Tag("online")
+    public void testFederatedSkill() throws IOException {
+        String query="PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT ?what WHERE { SERVICE<http://localhost:8080/sparql> { VALUES (?what) { (\"@input\"^^xsd:int)} } }";
         String asset="urn:cx:Skill:cx:Test";
         agentController.postSkill(query,asset);
         String result=testExecute("GET",null,asset,"*/*",List.of(new AbstractMap.SimpleEntry<>("input","84")));

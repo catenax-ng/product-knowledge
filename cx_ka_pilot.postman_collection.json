@@ -174,7 +174,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Graph:oem:Diagnosis2022\",\n      \"asset:prop:name\": \"Diagnostic Trouble Code Catalogue Version 2022\",\n      \"asset:prop:contenttype\": \"application/json, application/xml\",\n      \"asset:prop:policy-id\": \"research\",\n      \"asset:prop:cx:requesttype\": \"application/sparql\",\n      \"asset:prop:cx:apitype\": \"application/knowledge-agent-query\",\n      \"asset:prop:cx:ontology\": \"https://github.com/catenax-ng/product-knowledge/ontology#\",\n      \"asset:prop:cx:ontologyVersion\": \"https://github.com/catenax-ng/product-knowledge/tree/main\",\n      \"asset:prop:cx:shapesGraph\": \"@prefix : <urn:cx:Graph:oem:Diagnosis2022> .\\n@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .\\n@prefix cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#> .\\n@prefix owl: <http://www.w3.org/2002/07/owl#> .\\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\n@prefix sh: <http://www.w3.org/ns/shacl#> .\\n\\nOemDTC rdf:type sh:NodeShape ;\\n  sh:targetClass cx-diag:DTC ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\\n    ] ;\\n  sh:property [\\n        sh:path cx-diag:Version ;\\n        sh:hasValue 0^^xsd:long ;\\n    ] ;\\n  sh:property [\\n        sh:path cx-diag:Affects ;\\n        sh:class OemDiagnosedParts ;\\n    ] ;\\n\\nOemDiagnosedParts rdf:type sh:NodeShape ;\\n  sh:targetClass cx-diag:DiagnosedPart ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\\n    ] ;\\n\",\n      \"asset:prop:cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"baseUrl\": \"http://oem-provider-agent:8080/sparql\",\n      \"type\": \"urn:cx:Protocol:w3c:Http#SPARQL\",\n      \"proxyPath\": \"false\",\n      \"proxyMethod\": \"true\",\n      \"proxyQueryParams\": \"true\",\n      \"proxyBody\": \"true\",\n      \"header:Accept\": \"*/*\",\n      \"header:Host\": \"consumer-data-plane:8082\"\n    }\n  }\n}",
+											"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Graph:oem:Diagnosis2022\",\n      \"asset:prop:name\": \"Diagnostic Trouble Code Catalogue Version 2022\",\n      \"asset:prop:contenttype\": \"application/json, application/xml\",\n      \"asset:prop:policy-id\": \"research\",\n      \"asset:prop:cx:requesttype\": \"application/sparql\",\n      \"asset:prop:cx:apitype\": \"application/knowledge-agent-query\",\n      \"asset:prop:cx:ontology\": \"https://github.com/catenax-ng/product-knowledge/ontology#\",\n      \"asset:prop:cx:ontologyVersion\": \"https://github.com/catenax-ng/product-knowledge/tree/main\",\n      \"asset:prop:cx:shapesGraph\": \"@prefix : <urn:cx:Graph:oem:Diagnosis2022> .\\n@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .\\n@prefix cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#> .\\n@prefix owl: <http://www.w3.org/2002/07/owl#> .\\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\n@prefix sh: <http://www.w3.org/ns/shacl#> .\\n\\nOemDTC rdf:type sh:NodeShape ;\\n  sh:targetClass cx-diag:DTC ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\\n    ] ;\\n  sh:property [\\n        sh:path cx-diag:Version ;\\n        sh:hasValue 0^^xsd:long ;\\n    ] ;\\n  sh:property [\\n        sh:path cx-diag:Affects ;\\n        sh:class OemDiagnosedParts ;\\n    ] ;\\n\\nOemDiagnosedParts rdf:type sh:NodeShape ;\\n  sh:targetClass cx-diag:DiagnosedPart ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\\n    ] ;\\n\",\n      \"asset:prop:cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"baseUrl\": \"http://oem-provider-agent:8080/sparql\",\n      \"type\": \"urn:cx:Protocol:w3c:Http#SPARQL\",\n      \"proxyPath\": \"false\",\n      \"proxyMethod\": \"true\",\n      \"proxyQueryParams\": \"true\",\n      \"proxyBody\": \"true\"\n    }\n  }\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -928,7 +928,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:graph:tier1:LifetimeGearbox\",\n      \"asset:prop:name\": \"Lifetime Prognosis Service for Gearboxes\",\n      \"asset:prop:contenttype\": \"application/json, application/xml\",\n      \"asset:prop:policy-id\": \"gobang\",\n      \"asset:prop:cx:requesttype\": \"application/sparql\",\n      \"asset:prop:cx:apitype\": \"application/knowledge-agent-query\",\n      \"asset:prop:cx:ontology\": \"https://github.com/catenax-ng/product-knowledge/ontology#\",\n      \"asset:prop:cx:ontologyVersion\": \"https://github.com/catenax-ng/product-knowledge/tree/main\",\n      \"asset:prop:cx:shapesGraph\": \"@prefix : <urn:cx:graph:tier1:LifetimeGearbox> .\\n@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .\\n@prefix cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#> .\\n@prefix owl: <http://www.w3.org/2002/07/owl#> .\\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\n@prefix sh: <http://www.w3.org/ns/shacl#> .\\n :Tier1LifetimePrognosis rdf:type sh:NodeShape ;\\n  sh:targetClass cx-lifetime:LifetimePrognosis ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003CPIY> ].\\n\",\n      \"asset:prop:cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"endpoint\": \"http://tiera-remoting-agent:8080/sparql\",\n      \"type\": \"HttpData\"\n    }\n  }\n}",
+											"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Graph:tierA:LifetimeGearbox\",\n      \"asset:prop:name\": \"Lifetime Prognosis Service for Gearboxes\",\n      \"asset:prop:contenttype\": \"application/json, application/xml\",\n      \"asset:prop:policy-id\": \"gobang\",\n      \"asset:prop:cx:requesttype\": \"application/sparql\",\n      \"asset:prop:cx:apitype\": \"application/knowledge-agent-query\",\n      \"asset:prop:cx:ontology\": \"https://github.com/catenax-ng/product-knowledge/ontology#\",\n      \"asset:prop:cx:ontologyVersion\": \"https://github.com/catenax-ng/product-knowledge/tree/main\",\n      \"asset:prop:cx:shapesGraph\": \"@prefix : <urn:cx:Graph:tierA:LifetimeGearbox> .\\n@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .\\n@prefix cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#> .\\n@prefix owl: <http://www.w3.org/2002/07/owl#> .\\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\n@prefix sh: <http://www.w3.org/ns/shacl#> .\\n :Tier1LifetimePrognosis rdf:type sh:NodeShape ;\\n  sh:targetClass cx-lifetime:LifetimePrognosis ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003CPIY> ].\\n\",\n      \"asset:prop:cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"baseUrl\": \"http://tiera-remoting-agent:8081/rdf4j-server/repositories/prognosis\",\n      \"type\": \"urn:cx:Protocol:w3c:Http#SPARQL\",\n      \"proxyPath\": \"false\",\n      \"proxyMethod\": \"true\",\n      \"proxyQueryParams\": \"true\",\n      \"proxyBody\": \"true\"\n    }\n  }\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -977,7 +977,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"id\": \"tierAPolicy\",\n  \"policy\": {\n      \"permissions\": [\n        {\n        \"target\": \"urn:cx:graph:tiera*\",\n        \"action\": {\n        \"type\": \"USE\"\n        },\n        \"edctype\": \"dataspaceconnector:permission\"\n        }\n    ],\n    \"@type\": {\n        \"@policytype\": \"set\"\n    }\n  }\n}",
+											"raw": "{\n  \"id\": \"tierAPolicy\",\n  \"target\": \"urn:cx:Graph:tierA:.*\",\n  \"policy\": {\n      \"permissions\": [\n        {\n        \"target\": \"urn:cx:Graph:tierA:.*\",\n        \"action\": {\n        \"type\": \"USE\"\n        },\n        \"edctype\": \"dataspaceconnector:permission\"\n        }\n    ],\n    \"@type\": {\n        \"@policytype\": \"set\"\n    }\n  }\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1026,7 +1026,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"id\":\"tier1Offer\",\n  \"accessPolicyId\": \"tierAPolicy\",\n  \"contractPolicyId\": \"tierAPolicy\",\n  \"criteria\": []\n}",
+											"raw": "{\n  \"id\":\"tierAOffer\",\n  \"accessPolicyId\": \"tierAPolicy\",\n  \"contractPolicyId\": \"tierAPolicy\",\n  \"criteria\": [ {\n      \"operandLeft\": \"asset:prop:id\",\n      \"operator\":\"~\",\n      \"operandRight\":\"urn:cx:Graph:tierA:.*\"\n  }]\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1336,7 +1336,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:skill:consumer:Lifetime\",\n      \"asset:prop:name\": \"Lifetime Skill for Vehicles\",\n      \"asset:prop:contenttype\": \"application/json\",\n      \"asset:prop:policy-id\": \"gobang\",\n      \"asset:prop:cx:ontology\": \"https://github.com/catenax-ng/product-knowledge/ontology#\",\n      \"asset:prop:cx:ontologyVersion\": \"https://github.com/catenax-ng/product-knowledge/tree/main\",\n      \"asset:prop:cx:requesttype\": \"application/sparql\",\n      \"asset:prop:cx:sparql\": \"PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\\nPREFIX cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\\nSELECT ?reason ?code ?description ?version ?partend ?partcat ?partclass WHERE {\\n  # Select Business Partner\\n  ?Oem cx:BPNL \\\"BPNL00000003COJN\\\".\\n\\n  # Search for Trouble Codes of the Business Partner\\n  # related to a cause in the \\\"Kabelbaum\\\"\\n  ?Dtc rdf:type cx-diag:DTC.\\n  ?Dtc cx:provisionedBy ?Oem.\\n  ?Dtc cx-diag:PossibleCauses ?reason.\\n  FILTER contains(?reason,\\\"Kabelbaum\\\").\\n  ?Dtc cx-diag:Code ?code.\\n  ?Dtc cx-diag:Description ?description.\\n  ?Dtc cx-diag:Version ?version.\\n\\n  # Navigate to the affected parts\\n  # and show only parts with a classification \\\"Powertrain\\\"\\n  ?Dtc cx-diag:affects ?Part.\\n  ?Part cx-diag:Category ?partcat.\\n  ?Part cx-diag:EnDenomination ?partend.\\n  ?Part cx-diag:Classification ?partclass.\\n  FILTER contains(?partclass,'Powertrain').\\n\\n}\\n\",\n      \"asset:prop:cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"endpoint\": \"http://consumer-federating-agent:8080/sparql\",\n      \"type\": \"HttpData\"\n    }\n  }\n}",
+											"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Skill:consumer:LifetimeGearbox\",\n      \"asset:prop:name\": \"Lifetime Skill for Vehicles\",\n      \"asset:prop:contenttype\": \"application/json, application/xml\",\n      \"asset:prop:cx:ontology\": \"https://github.com/catenax-ng/product-knowledge/ontology#\",\n      \"asset:prop:cx:ontologyVersion\": \"https://github.com/catenax-ng/product-knowledge/tree/main\",\n      \"asset:prop:cx:requesttype\": \"application/sparql-skill\",\n      \"asset:prop:cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"type\": \"urn:cx:Protocol:w3c:Http#SKILL#SPARQL\",\n      \"query\": \"PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\\nPREFIX cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\\nSELECT ?reason ?code ?description ?version ?partend ?partcat ?partclass WHERE {\\n  # Select Business Partner\\n  ?Oem cx:BPNL \\\"BPNL00000003COJN\\\".\\n\\n  # Search for Trouble Codes of the Business Partner\\n  # related to a cause in the \\\"Kabelbaum\\\"\\n  ?Dtc rdf:type cx-diag:DTC.\\n  ?Dtc cx:provisionedBy ?Oem.\\n  ?Dtc cx-diag:PossibleCauses ?reason.\\n  FILTER contains(?reason,\\\"Kabelbaum\\\").\\n  ?Dtc cx-diag:Code ?code.\\n  ?Dtc cx-diag:Description ?description.\\n  ?Dtc cx-diag:Version ?version.\\n\\n  # Navigate to the affected parts\\n  # and show only parts with a classification \\\"Powertrain\\\"\\n  ?Dtc cx-diag:affects ?Part.\\n  ?Part cx-diag:Category ?partcat.\\n  ?Part cx-diag:EnDenomination ?partend.\\n  ?Part cx-diag:Classification ?partclass.\\n  FILTER contains(?partclass,'Powertrain').\\n\\n}\\n\",\n      \"proxyPath\": \"false\",\n      \"proxyMethod\": \"false\",\n      \"proxyQueryParams\": \"true\",\n      \"proxyBody\": \"false\"\n    }\n  }\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1385,7 +1385,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"id\": \"consumerPolicy\",\n  \"policy\": {\n      \"permissions\": [\n        {\n        \"target\": \"urn:cx:graph:consumer*\",\n        \"action\": {\n            \"type\": \"USE\"\n        },\n        \"edctype\": \"dataspaceconnector:permission\"\n        }\n    ],\n    \"@type\": {\n        \"@policytype\": \"set\"\n    }\n  }\n}",
+											"raw": "{\n  \"id\": \"consumerPolicy\",\n  \"policy\": {\n      \"target\": \"urn:cx:Skill:consumer.*\",\n      \"permissions\": [\n        {\n        \"target\": \"urn:cx:Skill:consumer:Lifetime.*\",\n        \"action\": {\n            \"type\": \"USE\"\n        },\n        \"edctype\": \"dataspaceconnector:permission\"\n        }\n    ],\n    \"@type\": {\n        \"@policytype\": \"set\"\n    }\n  }\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1434,7 +1434,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"id\":\"consumerOffer\",\n  \"accessPolicyId\": \"consumerPolicy\",\n  \"contractPolicyId\": \"consumerPolicy\",\n  \"criteria\": []\n}",
+											"raw": "{\n  \"id\":\"consumerOffer\",\n  \"accessPolicyId\": \"consumerPolicy\",\n  \"contractPolicyId\": \"consumerPolicy\",\n  \"criteria\": [ {\n      \"operandLeft\": \"asset:prop:id\",\n      \"operator\":\"~\",\n      \"operandRight\":\"urn:cx:Skill:consumer:.*\"\n  }]\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1618,7 +1618,7 @@
 									"response": []
 								},
 								{
-									"name": "Get Local SparQL",
+									"name": "Perform a Consumer-Local SparQL",
 									"request": {
 										"method": "GET",
 										"header": [],
@@ -1647,12 +1647,12 @@
 									"response": []
 								},
 								{
-									"name": "Get Remote SparQL",
+									"name": "Perform a Remote SparQL over the Dataspace",
 									"request": {
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{consumerAgentPlane}}/api/agent?query=SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.} LIMIT 10&asset=http%3A%2F%2Foem-control-plane%3A8282%23urn%3Acx%3AGraph%3Aoem%3ADiagnosis2022",
+											"raw": "{{consumerAgentPlane}}/api/agent?query=SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.} LIMIT 10&asset=https://knowledge.int.demo.catena-x.net/oem-edc-control/BPNL00000003COJN%23urn:cx:Graph:oem:Diagnosis2022",
 											"host": [
 												"{{consumerAgentPlane}}"
 											],
@@ -1667,7 +1667,12 @@
 												},
 												{
 													"key": "asset",
-													"value": "http%3A%2F%2Foem-control-plane%3A8282%23urn%3Acx%3AGraph%3Aoem%3ADiagnosis2022"
+													"value": "http://oem-control-plane:8282%23urn:cx:Graph:oem:Diagnosis2022",
+													"disabled": true
+												},
+												{
+													"key": "asset",
+													"value": "https://knowledge.int.demo.catena-x.net/oem-edc-control/BPNL00000003COJN%23urn:cx:Graph:oem:Diagnosis2022"
 												}
 											]
 										},
@@ -1676,7 +1681,7 @@
 									"response": []
 								},
 								{
-									"name": "Post Remote SparQL",
+									"name": "Post Remote SparQL (Data)",
 									"request": {
 										"method": "POST",
 										"header": [
@@ -1691,7 +1696,7 @@
 											"raw": "SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.} LIMIT 10"
 										},
 										"url": {
-											"raw": "{{consumerAgentPlane}}/api/agent?asset=http%3A%2F%2Foem-control-plane%3A8282%23urn%3Acx%3AGraph%3Aoem%3ADiagnosis2022",
+											"raw": "{{consumerAgentPlane}}/api/agent?asset=https://knowledge.int.demo.catena-x.net/oem-edc-control/BPNL00000003COJN%23urn:cx:Graph:oem:Diagnosis2022",
 											"host": [
 												"{{consumerAgentPlane}}"
 											],
@@ -1702,7 +1707,12 @@
 											"query": [
 												{
 													"key": "asset",
-													"value": "http%3A%2F%2Foem-control-plane%3A8282%23urn%3Acx%3AGraph%3Aoem%3ADiagnosis2022"
+													"value": "http://oem-control-plane:8282%23urn:cx:Graph:oem:Diagnosis2022",
+													"disabled": true
+												},
+												{
+													"key": "asset",
+													"value": "https://knowledge.int.demo.catena-x.net/oem-edc-control/BPNL00000003COJN%23urn:cx:Graph:oem:Diagnosis2022"
 												}
 											]
 										},
@@ -1711,7 +1721,58 @@
 									"response": []
 								},
 								{
-									"name": "Post Federated SparQL",
+									"name": "Post Remote SparQL (Function)",
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {
+											"content-type": true,
+											"accept": true
+										}
+									},
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/sparql-query",
+												"type": "text"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> \nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \nPREFIX cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\n\nSELECT ?invocation ?distance ?time\nWHERE { \n  ?invocation a cx-lifetime:LifetimePrognosis;\n              cx-lifetime:loadCollectiveFile \"{  \\\"Type\\\": \\\"ZF_load_collective\\\", \\\"Version\\\": \\\"1.7\\\"  }\"^^xsd:string; \n              cx-lifetime:loadCollectiveHeader \"{  \\\"CountingMethod\\\": \\\"ZF_TimeAtLevel\\\",    \\\"CountingUnit\\\": \\\"s\\\",    \\\"Channels\\\": [      {        \\\"Name\\\": \\\"Temp_Oil\\\",        \\\"Type\\\": \\\"Load\\\",        \\\"Unit\\\": \\\"degC\\\",        \\\"LowerLimit\\\": -40,        \\\"UpperLimit\\\": 220,        \\\"NumberOfBins\\\": 52      }  ]  }\"^^xsd:string; \n              cx-lifetime:loadCollectiveBody \"{     \\\"Temp_Oil-class\\\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \\\"Counts\\\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }\"^^xsd:string; \n              cx-lifetime:loadCollectiveComponent \"\\\"GearOil\\\"\"^^xsd:string; \n              cx-lifetime:loadCollectiveMileage \"{ \\\"Value\\\": 82563, \\\"Unit\\\": \\\"km\\\" }\"^^xsd:string; \n              cx-lifetime:loadCollectiveRegistrationDate \"{ \\\"Value\\\": 20171206,  \\\"Unit\\\": \\\"yyyymmdd\\\" }\"^^xsd:string; \n              cx-lifetime:remainingDistance ?distance; \n              cx-lifetime:remainingTime ?time.\n}"
+										},
+										"url": {
+											"raw": "{{consumerAgentPlane}}/api/agent?asset=https://knowledge.int.demo.catena-x.net/oem-edc-control/BPNL00000003COJN%23urn:cx:Graph:tierA:LifetimeGearbox",
+											"host": [
+												"{{consumerAgentPlane}}"
+											],
+											"path": [
+												"api",
+												"agent"
+											],
+											"query": [
+												{
+													"key": "asset",
+													"value": "https://knowledge.int.demo.catena-x.net/oem-edc-control/BPNL00000003COJN#urn:cx:Graph:tierA:LifetimeGearbox"
+												},
+												{
+													"key": "asset",
+													"value": "http://oem-control-plane:8282%23urn:cx:Graph:tierA:LifetimeGearbox",
+													"disabled": true
+												}
+											]
+										},
+										"description": "Uses the Agent Extension of the Dataplane to Perform Some Dynamic Query on a Local Graph (here: the federated data catalogue)."
+									},
+									"response": []
+								},
+								{
+									"name": "Post Federated SparQL (Shortcut Over Backends)",
 									"protocolProfileBehavior": {
 										"disabledSystemHeaders": {
 											"content-type": true
@@ -1729,6 +1790,45 @@
 										"body": {
 											"mode": "raw",
 											"raw": "PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\nPREFIX cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\nPREFIX cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\n#\n# Sample for a Federated Skill (No Matchmaking) Which\n#  - Uses an OEM connector/agent to infer diagnosis data \n#  - Feeds this data into a Tier A connector/agent to perform a prognosis \n\nSELECT ?vin ?troubleCode ?description ?partProg ?distance ?time WHERE {\n\n    # Actual input parameters, when used as a predefined skill, \n    # these would be the named URL (or body multi-form) parameters\n    # Since you could use them multiple times, there is a combinatorial difference in \n    # defining them as single variables or as combined tuples\n    VALUES (?vin ?troubleCode) { (\"WVA8984323420333\"^^xsd:string \"P0745\"^^xsd:string) }\n\n    # In this place, there would be a to-be-implemented catalogue logic \n    # (so the default \"asset\" would be the catalogue including the CX ontology)\n    # which maps the VIN via regular expressions to the right \n    # business partner and connector\n    # Currently, we chose even not the connector, but the backend directly\n    VALUES (?oemBpn ?oemConnector) { (\"BPNL00000003COJN\"^^xsd:string <http://{{oemProviderAgent}}:8080/sparql>) }\n\n    # Now we are jumping into the OEM\n    SERVICE ?oemConnector { \n        # Select Business Partner Node\n        ?Oem cx:BPNL ?oemBpn.\n\n        # Unless we have vehicle master data, we directly bind the variables\n        VALUES (?mileage ?registrationDate) { (\n            \"{ \\\"Value\\\": 82563, \\\"Unit\\\": \\\"km\\\" }\"^^xsd:string\n            \"{ \\\"Value\\\": 20171206,  \\\"Unit\\\": \\\"yyyymmdd\\\" }\"^^xsd:string\n        )}\n\n        # Search for troubled parts to forecast\n        ?Dtc rdf:type cx-diag:DTC;\n            cx:provisionedBy ?Oem;\n            cx-diag:PossibleCauses ?reason;\n            cx-diag:Code ?troubleCode;\n            cx-diag:Description ?description.\n        \n        # Unless we have a mapping of diagnosed parts to the prognosed parts\n        VALUES ?partProg { \"\\\"GearOil\\\"\"^^xsd:string }        \n\n        # Next we need to find the appropriate load spectrum associated to the prognosed part\n        VALUES ?loadCollective { \n         \"{ \\\"Temp_Oil-class\\\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \\\"Counts\\\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }\"^^xsd:string\n        }\n\n        # we need to find the right supplier for the trouble part\n        VALUES (?tieraBpn ?tieraConnector) {\n           (\"BPNL00000003CPIY\"^^xsd:string <http://{{tierARemotingAgent}}:8081/rdf4j-server/repositories/prognosis>) \n        }       \n\n        \n    }\n\n    # Now we are jumping into the tiera\n    # Notice that ideally, the OEM agent would perform this\n    # as the consumer will have most likely no agreement/contract\n    # for this purpose this SERVICE section would be nested\n    # into the former section\n    SERVICE ?tieraConnector { \n        ?invocation a cx-lifetime:LifetimePrognosis;\n            # Input from the OEM\n            cx-lifetime:loadCollectiveBody ?loadCollective;\n            cx-lifetime:loadCollectiveComponent ?partProg;\n            cx-lifetime:loadCollectiveMileage ?mileage;\n            cx-lifetime:loadCollectiveRegistrationDate ?registrationDate;\n            # Additional info from the Tiera about its measurements\n            cx-lifetime:loadCollectiveFile \"{  \\\"Type\\\": \\\"ZF_load_collective\\\", \\\"Version\\\": \\\"1.7\\\"  }\"^^xsd:string; \n            cx-lifetime:loadCollectiveHeader \"{  \\\"CountingMethod\\\": \\\"ZF_TimeAtLevel\\\",    \\\"CountingUnit\\\": \\\"s\\\",    \\\"Channels\\\": [      {        \\\"Name\\\": \\\"Temp_Oil\\\",        \\\"Type\\\": \\\"Load\\\",        \\\"Unit\\\": \\\"degC\\\",        \\\"LowerLimit\\\": -40,        \\\"UpperLimit\\\": 220,        \\\"NumberOfBins\\\": 52      }  ]  }\"^^xsd:string; \n            # the actual prognosis output\n            cx-lifetime:remainingDistance ?distance; \n            cx-lifetime:remainingTime ?time.\n    }\n\n\n}\n\n",
+											"options": {
+												"raw": {
+													"language": "text"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{consumerAgentPlane}}/api/agent",
+											"host": [
+												"{{consumerAgentPlane}}"
+											],
+											"path": [
+												"api",
+												"agent"
+											]
+										},
+										"description": "Uses the Agent Extension of the Dataplane to Perform Some Dynamic Query on Remote Graphs."
+									},
+									"response": []
+								},
+								{
+									"name": "Post Federated SparQL (over Dataspace)",
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {
+											"content-type": true
+										}
+									},
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/sparql-query",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\nPREFIX cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\nPREFIX cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\n#\n# Sample for a Federated Skill (No Matchmaking) Which\n#  - Uses an OEM connector/agent to infer diagnosis data \n#  - Feeds this data into a Tier A connector/agent to perform a prognosis \n\nSELECT ?vin ?troubleCode ?description ?partProg ?distance ?time WHERE {\n\n    # Actual input parameters, when used as a predefined skill, \n    # these would be the named URL (or body multi-form) parameters\n    # Since you could use them multiple times, there is a combinatorial difference in \n    # defining them as single variables or as combined tuples\n    VALUES (?vin ?troubleCode) { (\"WVA8984323420333\"^^xsd:string \"P0745\"^^xsd:string) }\n\n    # In this place, there would be a to-be-implemented catalogue logic \n    # (so the default \"asset\" would be the catalogue including the CX ontology)\n    # which maps the VIN via regular expressions to the right \n    # business partner and connector\n    # Currently, we chose even not the connector, but the backend directly\n    VALUES (?oemBpn ?oemConnector) { (\"BPNL00000003COJN\"^^xsd:string <edc://oem-control-plane:8282#urn:cx:Graph:oem:Diagnosis2022>) }\n\n    # Now we are jumping into the OEM\n    SERVICE ?oemConnector { \n        # Select Business Partner Node\n        ?Oem cx:BPNL ?oemBpn.\n\n        # Unless we have vehicle master data, we directly bind the variables\n        VALUES (?mileage ?registrationDate) { (\n            \"{ \\\"Value\\\": 82563, \\\"Unit\\\": \\\"km\\\" }\"^^xsd:string\n            \"{ \\\"Value\\\": 20171206,  \\\"Unit\\\": \\\"yyyymmdd\\\" }\"^^xsd:string\n        )}\n\n        # Search for troubled parts to forecast\n        ?Dtc rdf:type cx-diag:DTC;\n            cx:provisionedBy ?Oem;\n            cx-diag:PossibleCauses ?reason;\n            cx-diag:Code ?troubleCode;\n            cx-diag:Description ?description.\n        \n        # Unless we have a mapping of diagnosed parts to the prognosed parts\n        VALUES ?partProg { \"\\\"GearOil\\\"\"^^xsd:string }        \n\n        # Next we need to find the appropriate load spectrum associated to the prognosed part\n        VALUES ?loadCollective { \n         \"{ \\\"Temp_Oil-class\\\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \\\"Counts\\\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }\"^^xsd:string\n        }\n\n        # we need to find the right supplier for the trouble part\n        VALUES (?tieraBpn ?tieraConnector) {\n           (\"BPNL00000003CPIY\"^^xsd:string <edc://oem-control-plane:8282#urn:cx:Graph:tierA:LifetimeGearbox>) \n        }       \n    }\n\n    # Now we are jumping into the tiera\n    # Notice that ideally, the OEM agent would perform this\n    # as the consumer will have most likely no agreement/contract\n    # for this purpose this SERVICE section would be nested\n    # into the former section\n    SERVICE ?tieraConnector { \n        ?invocation a cx-lifetime:LifetimePrognosis;\n            # Input from the OEM\n            cx-lifetime:loadCollectiveBody ?loadCollective;\n            cx-lifetime:loadCollectiveComponent ?partProg;\n            cx-lifetime:loadCollectiveMileage ?mileage;\n            cx-lifetime:loadCollectiveRegistrationDate ?registrationDate;\n            # Additional info from the Tiera about its measurements\n            cx-lifetime:loadCollectiveFile \"{  \\\"Type\\\": \\\"ZF_load_collective\\\", \\\"Version\\\": \\\"1.7\\\"  }\"^^xsd:string; \n            cx-lifetime:loadCollectiveHeader \"{  \\\"CountingMethod\\\": \\\"ZF_TimeAtLevel\\\",    \\\"CountingUnit\\\": \\\"s\\\",    \\\"Channels\\\": [      {        \\\"Name\\\": \\\"Temp_Oil\\\",        \\\"Type\\\": \\\"Load\\\",        \\\"Unit\\\": \\\"degC\\\",        \\\"LowerLimit\\\": -40,        \\\"UpperLimit\\\": 220,        \\\"NumberOfBins\\\": 52      }  ]  }\"^^xsd:string; \n            # the actual prognosis output\n            cx-lifetime:remainingDistance ?distance; \n            cx-lifetime:remainingTime ?time.\n    }\n\n\n}\n\n",
 											"options": {
 												"raw": {
 													"language": "text"
@@ -1775,7 +1875,7 @@
 											}
 										},
 										"url": {
-											"raw": "{{consumerAgentPlane}}/api/agent/skill?asset=urn:skill:consumer:Lifetime",
+											"raw": "{{consumerAgentPlane}}/api/agent/skill?asset=urn:cx:Skill:consumer:Lifetime",
 											"host": [
 												"{{consumerAgentPlane}}"
 											],
@@ -1787,7 +1887,7 @@
 											"query": [
 												{
 													"key": "asset",
-													"value": "urn:skill:consumer:Lifetime"
+													"value": "urn:cx:Skill:consumer:Lifetime"
 												}
 											]
 										},
@@ -1822,7 +1922,7 @@
 											}
 										},
 										"url": {
-											"raw": "{{consumerAgentPlane}}/api/agent/skill?asset=urn:skill:consumer:Lifetime",
+											"raw": "{{consumerAgentPlane}}/api/agent/skill?asset=urn:cx:Skill:consumer:Lifetime",
 											"host": [
 												"{{consumerAgentPlane}}"
 											],
@@ -1834,7 +1934,7 @@
 											"query": [
 												{
 													"key": "asset",
-													"value": "urn:skill:consumer:Lifetime"
+													"value": "urn:cx:Skill:consumer:Lifetime"
 												}
 											]
 										},
@@ -1859,7 +1959,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{consumerAgentPlane}}/api/agent?asset=urn:skill:consumer:Lifetime&(vin=WVA8984323420333&troubleCode=P0746&troubleCode=P0745)&(vin=WVA8984323420334&troubleCode=P0744)",
+											"raw": "{{consumerAgentPlane}}/api/agent?asset=urn:cx:Skill:consumer:Lifetime&(vin=WVA8984323420333&troubleCode=P0746&troubleCode=P0745)&(vin=WVA8984323420334&troubleCode=P0744)",
 											"host": [
 												"{{consumerAgentPlane}}"
 											],
@@ -1870,7 +1970,7 @@
 											"query": [
 												{
 													"key": "asset",
-													"value": "urn:skill:consumer:Lifetime"
+													"value": "urn:cx:Skill:consumer:Lifetime"
 												},
 												{
 													"key": "(vin",
@@ -1972,14 +2072,14 @@
 							}
 						],
 						"url": {
-							"raw": "{{oemEdcControl}}/data/assets/urn:cx:graph:oem:Diagnosis2022",
+							"raw": "{{oemEdcControl}}/data/assets/urn:cx:Graph:oem:Diagnosis2022",
 							"host": [
 								"{{oemEdcControl}}"
 							],
 							"path": [
 								"data",
 								"assets",
-								"urn:cx:graph:oem:Diagnosis2022"
+								"urn:cx:Graph:oem:Diagnosis2022"
 							]
 						},
 						"description": "Calls the datamanagement API in order to create a graph asset."
@@ -2014,7 +2114,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:graph:oem:Diagnosis2022\",\n      \"asset:prop:name\": \"Diagnostic Trouble Code Catalogue Version 2022\",\n      \"asset:prop:contenttype\": \"application/json, application/xml\",\n      \"asset:prop:policy-id\": \"research\",\n      \"asset:prop:cx:requesttype\": \"application/sparql\",\n      \"asset:prop:cx:apitype\": \"application/knowledge-agent-query\",\n      \"asset:prop:cx:ontology\": \"https://github.com/catenax-ng/product-knowledge/ontology#\",\n      \"asset:prop:cx:ontologyVersion\": \"https://github.com/catenax-ng/product-knowledge/tree/main\",\n      \"asset:prop:cx:shapesGraph\": \"@prefix : <urn:cx:graph:oem:Diagnosis2022> .\\n@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .\\n@prefix cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#> .\\n@prefix owl: <http://www.w3.org/2002/07/owl#> .\\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\n@prefix sh: <http://www.w3.org/ns/shacl#> .\\n\\nOemDTC rdf:type sh:NodeShape ;\\n  sh:targetClass cx-diag:DTC ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\\n    ] ;\\n  sh:property [\\n        sh:path cx-diag:Version ;\\n        sh:hasValue 0^^xsd:long ;\\n    ] ;\\n  sh:property [\\n        sh:path cx-diag:Affects ;\\n        sh:class OemDiagnosedParts ;\\n    ] ;\\n\\nOemDiagnosedParts rdf:type sh:NodeShape ;\\n  sh:targetClass cx-diag:DiagnosedPart ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\\n    ] ;\\n\",\n      \"asset:prop:cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"endpoint\": \"http://oem-provider-agent:8080/sparql\",\n      \"type\": \"HttpData\"\n    }\n  }\n}",
+							"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Graph:oem:Diagnosis2022\",\n      \"asset:prop:name\": \"Diagnostic Trouble Code Catalogue Version 2022\",\n      \"asset:prop:contenttype\": \"application/json, application/xml\",\n      \"asset:prop:policy-id\": \"research\",\n      \"asset:prop:cx:requesttype\": \"application/sparql\",\n      \"asset:prop:cx:apitype\": \"application/knowledge-agent-query\",\n      \"asset:prop:cx:ontology\": \"https://github.com/catenax-ng/product-knowledge/ontology#\",\n      \"asset:prop:cx:ontologyVersion\": \"https://github.com/catenax-ng/product-knowledge/tree/main\",\n      \"asset:prop:cx:shapesGraph\": \"@prefix : <urn:cx:Graph:oem:Diagnosis2022> .\\n@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .\\n@prefix cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#> .\\n@prefix owl: <http://www.w3.org/2002/07/owl#> .\\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\n@prefix sh: <http://www.w3.org/ns/shacl#> .\\n\\nOemDTC rdf:type sh:NodeShape ;\\n  sh:targetClass cx-diag:DTC ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\\n    ] ;\\n  sh:property [\\n        sh:path cx-diag:Version ;\\n        sh:hasValue 0^^xsd:long ;\\n    ] ;\\n  sh:property [\\n        sh:path cx-diag:Affects ;\\n        sh:class OemDiagnosedParts ;\\n    ] ;\\n\\nOemDiagnosedParts rdf:type sh:NodeShape ;\\n  sh:targetClass cx-diag:DiagnosedPart ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\\n    ] ;\\n\",\n      \"asset:prop:cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"baseUrl\": \"http://oem-provider-agent:8080/sparql\",\n      \"type\": \"urn:cx:Protocol:w3c:Http#SPARQL\",\n      \"proxyPath\": \"false\",\n      \"proxyMethod\": \"true\",\n      \"proxyQueryParams\": \"true\",\n      \"proxyBody\": \"true\"\n    }\n  }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2104,7 +2204,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"id\": \"oemPolicy\",\n  \"policy\": {\n    \"permissions\": [\n        {\n            \"target\": \"urn:cx:graph:oem*\",\n            \"action\": {\n                \"type\": \"USE\"\n            },\n            \"edctype\": \"dataspaceconnector:permission\"\n        }\n    ],\n    \"@type\": {\n        \"@policytype\": \"set\"\n    }\n  }\n}",
+							"raw": "{\n  \"id\": \"oemPolicy\",\n  \"policy\": {\n    \"target\": \"urn:cx:Graph:oem:.*\",\n    \"permissions\": [\n        {\n            \"target\": \"urn:cx:Graph:oem:Diagnosis.*\",\n            \"action\": {\n                \"type\": \"USE\"\n            },\n            \"edctype\": \"dataspaceconnector:permission\"\n        }\n    ],\n    \"@type\": {\n        \"@policytype\": \"set\"\n    }\n  }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2152,14 +2252,14 @@
 							}
 						],
 						"url": {
-							"raw": "{{oemEdcControl}}/data/assets/urn:cx:graph:tier1:LifetimeGearbox",
+							"raw": "{{oemEdcControl}}/data/assets/urn:cx:Graph:tierA:LifetimeGearbox",
 							"host": [
 								"{{oemEdcControl}}"
 							],
 							"path": [
 								"data",
 								"assets",
-								"urn:cx:graph:tier1:LifetimeGearbox"
+								"urn:cx:Graph:tierA:LifetimeGearbox"
 							]
 						},
 						"description": "Calls the datamanagement API in order to create a graph asset."
@@ -2194,7 +2294,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:graph:tier1:LifetimeGearbox\",\n      \"asset:prop:name\": \"Lifetime Prognosis Service for Gearboxes\",\n      \"asset:prop:contenttype\": \"application/json, application/xml\",\n      \"asset:prop:policy-id\": \"gobang\",\n      \"asset:prop:cx:requesttype\": \"application/sparql\",\n      \"asset:prop:cx:apitype\": \"application/knowledge-agent-query\",\n      \"asset:prop:cx:ontology\": \"https://github.com/catenax-ng/product-knowledge/ontology#\",\n      \"asset:prop:cx:ontologyVersion\": \"https://github.com/catenax-ng/product-knowledge/tree/main\",\n      \"asset:prop:cx:shapesGraph\": \"@prefix : <urn:cx:graph:tier1:LifetimeGearbox> .\\n@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .\\n@prefix cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#> .\\n@prefix owl: <http://www.w3.org/2002/07/owl#> .\\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\n@prefix sh: <http://www.w3.org/ns/shacl#> .\\n :Tier1LifetimePrognosis rdf:type sh:NodeShape ;\\n  sh:targetClass cx-lifetime:LifetimePrognosis ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003CPIY> ].\\n\",\n      \"asset:prop:cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"endpoint\": \"http://tiera-remoting-agent:8080/sparql\",\n      \"type\": \"HttpData\"\n    }\n  }\n}",
+							"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Graph:tierA:LifetimeGearbox\",\n      \"asset:prop:name\": \"Lifetime Prognosis Service for Gearboxes\",\n      \"asset:prop:contenttype\": \"application/json, application/xml\",\n      \"asset:prop:policy-id\": \"gobang\",\n      \"asset:prop:cx:requesttype\": \"application/sparql\",\n      \"asset:prop:cx:apitype\": \"application/knowledge-agent-query\",\n      \"asset:prop:cx:ontology\": \"https://github.com/catenax-ng/product-knowledge/ontology#\",\n      \"asset:prop:cx:ontologyVersion\": \"https://github.com/catenax-ng/product-knowledge/tree/main\",\n      \"asset:prop:cx:shapesGraph\": \"@prefix : <urn:cx:Graph:tierA:LifetimeGearbox> .\\n@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .\\n@prefix cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#> .\\n@prefix owl: <http://www.w3.org/2002/07/owl#> .\\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\n@prefix sh: <http://www.w3.org/ns/shacl#> .\\n :Tier1LifetimePrognosis rdf:type sh:NodeShape ;\\n  sh:targetClass cx-lifetime:LifetimePrognosis ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003CPIY> ].\\n\",\n      \"asset:prop:cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"baseUrl\": \"http://tiera-remoting-agent:8081/rdf4j-server/repositories/prognosis\",\n      \"type\": \"urn:cx:Protocol:w3c:Http#SPARQL\",\n      \"proxyPath\": \"false\",\n      \"proxyMethod\": \"true\",\n      \"proxyQueryParams\": \"true\",\n      \"proxyBody\": \"true\"\n    }\n  }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2284,7 +2384,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"id\": \"tierAPolicy\",\n  \"policy\": {\n      \"permissions\": [\n        {\n        \"target\": \"urn:cx:graph:tiera*\",\n        \"action\": {\n        \"type\": \"USE\"\n        },\n        \"edctype\": \"dataspaceconnector:permission\"\n        }\n    ],\n    \"@type\": {\n        \"@policytype\": \"set\"\n    }\n  }\n}",
+							"raw": "{\n  \"id\": \"tierAPolicy\",\n  \"target\": \"urn:cx:Graph:tierA:.*\",\n  \"policy\": {\n      \"permissions\": [\n        {\n        \"target\": \"urn:cx:Graph:tierA:.*\",\n        \"action\": {\n        \"type\": \"USE\"\n        },\n        \"edctype\": \"dataspaceconnector:permission\"\n        }\n    ],\n    \"@type\": {\n        \"@policytype\": \"set\"\n    }\n  }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2332,14 +2432,14 @@
 							}
 						],
 						"url": {
-							"raw": "{{oemEdcControl}}/data/assets/urn:cx:skill:consumer:Lifetime",
+							"raw": "{{oemEdcControl}}/data/assets/urn:cx:Skill:consumer:LifetimeGearbox",
 							"host": [
 								"{{oemEdcControl}}"
 							],
 							"path": [
 								"data",
 								"assets",
-								"urn:cx:skill:consumer:Lifetime"
+								"urn:cx:Skill:consumer:LifetimeGearbox"
 							]
 						},
 						"description": "Calls the datamanagement API in order to create a skill asset."
@@ -2374,7 +2474,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:skill:consumer:Lifetime\",\n      \"asset:prop:name\": \"Lifetime Skill for Vehicles\",\n      \"asset:prop:contenttype\": \"application/json\",\n      \"asset:prop:policy-id\": \"gobang\",\n      \"asset:prop:cx:ontology\": \"https://github.com/catenax-ng/product-knowledge/ontology#\",\n      \"asset:prop:cx:ontologyVersion\": \"https://github.com/catenax-ng/product-knowledge/tree/main\",\n      \"asset:prop:cx:requesttype\": \"application/sparql\",\n      \"asset:prop:cx:sparql\": \"PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\\nPREFIX cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\\nSELECT ?reason ?code ?description ?version ?partend ?partcat ?partclass WHERE {\\n  # Select Business Partner\\n  ?Oem cx:BPNL \\\"BPNL00000003COJN\\\".\\n\\n  # Search for Trouble Codes of the Business Partner\\n  # related to a cause in the \\\"Kabelbaum\\\"\\n  ?Dtc rdf:type cx-diag:DTC.\\n  ?Dtc cx:provisionedBy ?Oem.\\n  ?Dtc cx-diag:PossibleCauses ?reason.\\n  FILTER contains(?reason,\\\"Kabelbaum\\\").\\n  ?Dtc cx-diag:Code ?code.\\n  ?Dtc cx-diag:Description ?description.\\n  ?Dtc cx-diag:Version ?version.\\n\\n  # Navigate to the affected parts\\n  # and show only parts with a classification \\\"Powertrain\\\"\\n  ?Dtc cx-diag:affects ?Part.\\n  ?Part cx-diag:Category ?partcat.\\n  ?Part cx-diag:EnDenomination ?partend.\\n  ?Part cx-diag:Classification ?partclass.\\n  FILTER contains(?partclass,'Powertrain').\\n\\n}\\n\",\n      \"asset:prop:cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"endpoint\": \"http://consumer-federating-agent:8080/sparql\",\n      \"type\": \"HttpData\"\n    }\n  }\n}",
+							"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Skill:consumer:LifetimeGearbox\",\n      \"asset:prop:name\": \"Lifetime Skill for Vehicles\",\n      \"asset:prop:contenttype\": \"application/json, application/xml\",\n      \"asset:prop:cx:ontology\": \"https://github.com/catenax-ng/product-knowledge/ontology#\",\n      \"asset:prop:cx:ontologyVersion\": \"https://github.com/catenax-ng/product-knowledge/tree/main\",\n      \"asset:prop:cx:requesttype\": \"application/sparql-skill\",\n      \"asset:prop:cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"type\": \"urn:cx:Protocol:w3c:Http#SKILL#SPARQL\",\n      \"query\": \"PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\\nPREFIX cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\\nSELECT ?reason ?code ?description ?version ?partend ?partcat ?partclass WHERE {\\n  # Select Business Partner\\n  ?Oem cx:BPNL \\\"BPNL00000003COJN\\\".\\n\\n  # Search for Trouble Codes of the Business Partner\\n  # related to a cause in the \\\"Kabelbaum\\\"\\n  ?Dtc rdf:type cx-diag:DTC.\\n  ?Dtc cx:provisionedBy ?Oem.\\n  ?Dtc cx-diag:PossibleCauses ?reason.\\n  FILTER contains(?reason,\\\"Kabelbaum\\\").\\n  ?Dtc cx-diag:Code ?code.\\n  ?Dtc cx-diag:Description ?description.\\n  ?Dtc cx-diag:Version ?version.\\n\\n  # Navigate to the affected parts\\n  # and show only parts with a classification \\\"Powertrain\\\"\\n  ?Dtc cx-diag:affects ?Part.\\n  ?Part cx-diag:Category ?partcat.\\n  ?Part cx-diag:EnDenomination ?partend.\\n  ?Part cx-diag:Classification ?partclass.\\n  FILTER contains(?partclass,'Powertrain').\\n\\n}\\n\",\n      \"proxyPath\": \"false\",\n      \"proxyMethod\": \"false\",\n      \"proxyQueryParams\": \"true\",\n      \"proxyBody\": \"false\"\n    }\n  }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2464,7 +2564,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"id\": \"consumerPolicy\",\n  \"policy\": {\n      \"permissions\": [\n        {\n        \"target\": \"urn:cx:graph:consumer*\",\n        \"action\": {\n            \"type\": \"USE\"\n        },\n        \"edctype\": \"dataspaceconnector:permission\"\n        }\n    ],\n    \"@type\": {\n        \"@policytype\": \"set\"\n    }\n  }\n}",
+							"raw": "{\n  \"id\": \"consumerPolicy\",\n  \"policy\": {\n      \"target\": \"urn:cx:Skill:consumer.*\",\n      \"permissions\": [\n        {\n        \"target\": \"urn:cx:Skill:consumer:Lifetime.*\",\n        \"action\": {\n            \"type\": \"USE\"\n        },\n        \"edctype\": \"dataspaceconnector:permission\"\n        }\n    ],\n    \"@type\": {\n        \"@policytype\": \"set\"\n    }\n  }\n}",
 							"options": {
 								"raw": {
 									"language": "json"

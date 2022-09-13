@@ -25,7 +25,10 @@ public class AgentConfig {
     public static String VERBOSE_PROPERTY = "cx.agent.sparql.verbose";
     public static boolean DEFAULT_VERBOSE_PROPERTY = false;
     public static String DEFAULT_ACCESS_POINT = "api";
+    /* deprecated */
     public static String CONTROL_PLANE_URL = "cx.agent.controlplane.url";
+    public static String CONTROL_PLANE_MANAGEMENT = "cx.agent.controlplane.management";
+    public static String CONTROL_PLANE_IDS = "cx.agent.controlplane.ids";
     public static String CONTROL_PLANE_AUTH_HEADER = "edc.api.control.auth.apikey.key";
     public static String CONTROL_PLANE_AUTH_VALUE = "edc.api.control.auth.apikey.value";
     public static String NEGOTIATION_TIMEOUT_PROPERTY = "cx.agent.negotiation.timeout";
@@ -74,7 +77,14 @@ public class AgentConfig {
      * @return uri of the control plane management endpoint (without concrete api)
      */
     public String getControlPlaneManagementUrl() {
-        return config.getString(CONTROL_PLANE_URL);
+        return config.getString(CONTROL_PLANE_MANAGEMENT,config.getString(CONTROL_PLANE_URL,null));
+    }
+
+    /**
+     * @return uri of the control plane ids endpoint (without concrete api)
+     */
+    public String getControlPlaneIdsUrl() {
+        return config.getString(CONTROL_PLANE_IDS);
     }
 
     /**

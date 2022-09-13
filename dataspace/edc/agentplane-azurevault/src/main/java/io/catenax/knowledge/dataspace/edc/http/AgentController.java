@@ -51,10 +51,10 @@ import java.util.regex.Pattern;
  * It is currently implemented using a single query language (SparQL) 
  * on top of an Apache Fuseki Engine using a memory store (for local
  * graphs=assets).
- * TODO deal with skill and graph assets
+ * TODO deal with remote skills
  * TODO exchange fixed store by configurable options
- * TODO perform agreements and route service via connector requests
  * TODO implement a synchronized data catalogue for the default graph asset
+ * TODO generalize sub-protocols from SparQL
  */
 @Path("/agent")
 public class AgentController {
@@ -84,14 +84,19 @@ public class AgentController {
             
     /** 
      * creates a new agent controller 
+     * @param monitor logging subsystem
+     * @param agreementController agreement controller for remote skill/queries
+     * @param config configuration
+     * @param client http client
+     * @param processor sparql processor
      */
-    public AgentController(Monitor monitor, AgreementController agreementController, AgentConfig config, OkHttpClient client) {
+    public AgentController(Monitor monitor, AgreementController agreementController, AgentConfig config, OkHttpClient client, SparqlQueryProcessor processor) {
         this.monitor = monitor;
         this.monitorWrapper=new MonitorWrapper(getClass().getName(),monitor);
         this.agreementController = agreementController;
         this.client=client;
         this.config=config;
-        this.processor=new SparqlQueryProcessor();
+        this.processor=processor;
         final DatasetGraph dataset = DatasetGraphFactory.createTxnMem();
         // read file with ontology, share this dataset with the catalogue sync procedure
         DataService.Builder dataService = DataService.newBuilder(dataset);
@@ -189,20 +194,23 @@ public class AgentController {
             return executeQueryRemote(request,response,remoteUrl,skill,graph);
         }
 
-        // exchange skill against text
-        skill=skills.get(asset);
+        try {
+            // exchange skill against text
+            skill = skills.get(asset);
 
-        // Should we check whether this already has been done? the context should be quite static
-        request.getServletContext().setAttribute(Fuseki.attrVerbose, config.isSparqlVerbose());
-        request.getServletContext().setAttribute(Fuseki.attrOperationRegistry, operationRegistry);
-        request.getServletContext().setAttribute(Fuseki.attrNameRegistry, dataAccessPointRegistry);
+            // Should we check whether this already has been done? the context should be quite static
+            request.getServletContext().setAttribute(Fuseki.attrVerbose, config.isSparqlVerbose());
+            request.getServletContext().setAttribute(Fuseki.attrOperationRegistry, operationRegistry);
+            request.getServletContext().setAttribute(Fuseki.attrNameRegistry, dataAccessPointRegistry);
 
-        AgentHttpAction action=new AgentHttpAction(++count, monitorWrapper, getJavaxRequest(request), getJavaxResponse(response), skill, graph);
-        action.setRequest(api, api.getDataService());
-        processor.execute(action); 
-
-        // kind of redundant, but javax.ws.rs likes it this way
-        return Response.ok().build();   
+            AgentHttpAction action = new AgentHttpAction(++count, monitorWrapper, getJavaxRequest(request), getJavaxResponse(response), skill, graph);
+            action.setRequest(api, api.getDataService());
+            processor.execute(action);
+            // kind of redundant, but javax.ws.rs likes it this way
+            return Response.ok().build();
+        } catch(WebApplicationException e) {
+            return HttpUtils.respond(request,e.getResponse().getStatus(),e.getMessage(),e.getCause());
+        }
     }
 
     /**
@@ -329,7 +337,13 @@ public class AgentController {
         return httpBuilder.build();
     }
 
-    private String sendRequest(Request request) throws IOException {
+    /**
+     * generic sendRequest method which extracts the result string of textual responses
+     * @param request predefined request
+     * @return string obtained in body
+     * @throws IOException in case something goes wrong
+     */
+    protected String sendRequest(Request request) throws IOException {
         var response = client.newCall(request).execute();
         var body = response.body();
 

@@ -8,11 +8,11 @@ package io.catenax.knowledge.dataspace.edc;
 
 import dev.failsafe.RetryPolicy;
 import io.catenax.knowledge.dataspace.edc.http.AgentController;
+import io.catenax.knowledge.dataspace.edc.sparql.DataspaceServiceExecutor;
+import io.catenax.knowledge.dataspace.edc.sparql.SparqlQueryProcessor;
+import org.apache.jena.sparql.service.ServiceExecutorRegistry;
 import org.eclipse.dataspaceconnector.dataplane.http.pipeline.HttpSinkRequestParamsSupplier;
-import org.eclipse.dataspaceconnector.dataplane.http.pipeline.HttpSourceRequestParamsSupplier;
 import org.eclipse.dataspaceconnector.dataplane.spi.pipeline.DataTransferExecutorServiceContainer;
-import org.eclipse.dataspaceconnector.dataplane.spi.pipeline.TransferService;
-import org.eclipse.dataspaceconnector.dataplane.spi.registry.TransferServiceRegistry;
 import org.eclipse.dataspaceconnector.spi.WebService;
 import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
 import org.eclipse.dataspaceconnector.spi.security.Vault;
@@ -30,9 +30,15 @@ import org.eclipse.dataspaceconnector.spi.types.TypeManager;
  */
 public class AgentExtension implements ServiceExtension {
 
+    /**
+     * static constants
+     */
     private static final String DEFAULT_CONTEXT_ALIAS = "default";
     private static final String CALLBACK_CONTEXT_ALIAS = "callback";
 
+    /**
+     * dependency injection part
+     */
     @Inject
     private WebService webService;
 
@@ -52,11 +58,18 @@ public class AgentExtension implements ServiceExtension {
     @Inject
     private DataTransferExecutorServiceContainer executorContainer;
 
+    /**
+     * @return name of the extension
+     */
     @Override
     public String name() {
         return "Knowledge Agents Extension";
     }
 
+    /**
+     * runs on extension initialization
+     * @param context EDC bootstrap context
+     */
     @Override
     public void initialize(ServiceExtensionContext context) {
         Monitor monitor = context.getMonitor();
@@ -72,7 +85,11 @@ public class AgentExtension implements ServiceExtension {
         monitor.debug(String.format("Registering agreement controller %s",agreementController));
         webService.registerResource(CALLBACK_CONTEXT_ALIAS, agreementController);
 
-        AgentController agentController=new AgentController(monitor,agreementController,config,httpClient);
+        ServiceExecutorRegistry reg = new ServiceExecutorRegistry();
+        reg.add(new DataspaceServiceExecutor(monitor,agreementController,config));
+        SparqlQueryProcessor processor=new SparqlQueryProcessor(reg,monitor);
+
+        AgentController agentController=new AgentController(monitor,agreementController,config,httpClient,processor);
         monitor.debug(String.format("Registering agent controller %s",agentController));
         webService.registerResource(DEFAULT_CONTEXT_ALIAS, agentController);
 
@@ -83,7 +100,6 @@ public class AgentExtension implements ServiceExtension {
 
         AgentSinkFactory sinkFactory = new AgentSinkFactory(httpClient, executorContainer.getExecutorService(), 5, monitor, new HttpSinkRequestParamsSupplier(vault));
         pipelineService.registerFactory(sinkFactory);
-
     }
 
 }

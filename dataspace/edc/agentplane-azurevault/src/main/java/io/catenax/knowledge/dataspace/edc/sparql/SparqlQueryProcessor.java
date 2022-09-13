@@ -10,7 +10,6 @@ import io.catenax.knowledge.dataspace.edc.AgentHttpAction;
 import io.catenax.knowledge.dataspace.edc.Tuple;
 import io.catenax.knowledge.dataspace.edc.TupleSet;
 import jakarta.ws.rs.BadRequestException;
-import jakarta.ws.rs.InternalServerErrorException;
 import org.apache.http.HttpStatus;
 import org.apache.jena.fuseki.servlets.HttpAction;
 import org.apache.jena.fuseki.servlets.SPARQL_QueryGeneral;
@@ -41,14 +40,32 @@ import org.apache.jena.fuseki.servlets.ServletOps;
 import org.apache.jena.riot.RiotException;
 import org.apache.jena.fuseki.system.GraphLoadUtils;
 import org.apache.jena.atlas.lib.InternalErrorException;
+import org.apache.jena.sparql.service.ServiceExecutorRegistry;
+import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
 
 /**
- * dedicated SparQL query processor which is skill-enabled: Execute
- * predefined queries and parameterize the queries with an additional layer
+ * dedicated SparQL query processor which is skill-enabled and open for edc-based services:
+ * Execute predefined queries and parameterize the queries with an additional layer
  * of URL parameterization.
  */
 public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
-     
+
+    /**
+     * other services
+     */
+    final Monitor monitor;
+    final ServiceExecutorRegistry registry;
+
+    /**
+     * create a new sparql processor
+     * @param registry service execution registry
+     * @param monitor EDC logging
+     */
+    public SparqlQueryProcessor(ServiceExecutorRegistry registry, Monitor monitor) {
+        this.monitor=monitor;
+        this.registry=registry;
+    }
+
     /**
      * execute GET-style with possibility of asset=local skill
      * @param action typically a GET request
@@ -77,6 +94,9 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
         }
     }
 
+    /**
+     * regexes to deal with url parameters
+     */
     public static String URL_PARAM_REGEX = "(?<key>[^=&]+)=(?<value>[^&]+)"; 
     public static Pattern URL_PARAM_PATTERN=Pattern.compile(URL_PARAM_REGEX);
     
@@ -88,6 +108,7 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
      */
     @Override
     protected void execute(String queryString, HttpAction action) {
+        ServiceExecutorRegistry.set(action.getContext(),registry);
         String params="";
         try {
             String uriParams=action.getRequest().getQueryString();
@@ -182,7 +203,7 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
         try {
             Collection<Tuple> tuples=ts.peek().getTuples(variables.toArray(new String[0]));
             if(tuples.size()<=0 && variables.size()>0) {
-                throw new BadRequestException(String.format("Warning: Got variables %s on top-level but no bindings.",Arrays.toString(variables.toArray())));
+                throw new BadRequestException(String.format("Error: Got variables %s on top-level but no bindings.",Arrays.toString(variables.toArray())));
             } else if(tuples.size()>0) {
                 System.err.println(String.format("Warning: Got %s tuples for top-level bindings of variables %s. Using only the first one.",tuples.size(),Arrays.toString(variables.toArray())));
             }
@@ -193,7 +214,7 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
                 }
             }
         } catch (Exception e) {
-            throw new BadRequestException(e);
+            throw new BadRequestException(String.format("Error: Could not bind variables"),e);
         } 
         super.execute(queryString,action);
     }
