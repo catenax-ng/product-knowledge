@@ -31,6 +31,8 @@
     </properties>
 
     <build>
+        <!-- keep it for shadowing and docker input -->
+        <finalName>${project.artifactId}</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -248,4 +250,17 @@
 
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>with-docker-image</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

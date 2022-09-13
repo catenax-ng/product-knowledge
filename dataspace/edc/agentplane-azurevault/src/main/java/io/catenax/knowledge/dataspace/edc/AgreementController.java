@@ -9,6 +9,7 @@ package io.catenax.knowledge.dataspace.edc;
 import io.catenax.knowledge.dataspace.edc.service.*;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.eclipse.dataspaceconnector.policy.model.Action;
 import org.eclipse.dataspaceconnector.policy.model.Permission;
 import org.eclipse.dataspaceconnector.policy.model.Policy;
@@ -149,16 +150,29 @@ public class AgreementController {
      * @param asset     name of the asset to agree upon
      *                                                    TODO make this federation aware: multiple assets, different policies
      */
-    public EndpointDataReference createAgreement(String remoteUrl, String asset) throws IOException {
+    public EndpointDataReference createAgreement(String remoteUrl, String asset) throws WebApplicationException {
         synchronized (activeAssets) {
             if (activeAssets.contains(asset)) {
-                throw new IOException("Cannot agree on an already active asset.");
+                throw new ClientErrorException("Cannot agree on an already active asset.", Response.Status.CONFLICT);
             }
             activeAssets.add(asset);
         }
-        Collection<ContractOffer> contractOffers = dataManagement.findContractOffers(remoteUrl, asset);
+
+        Collection<ContractOffer> contractOffers;
+
+        try {
+            contractOffers=dataManagement.findContractOffers(remoteUrl, asset);
+        } catch(IOException io) {
+            synchronized (activeAssets) {
+                activeAssets.remove(asset);
+            }
+            throw new InternalServerErrorException(String.format("Error when resolving contract offers from %s for asset %s through data management api.",remoteUrl,asset),io);
+        }
 
         if (contractOffers.isEmpty()) {
+            synchronized (activeAssets) {
+                activeAssets.remove(asset);
+            }
             throw new BadRequestException(String.format("There is no contract offer in remote connector %s related to asset %s.", remoteUrl, asset));
         }
 
@@ -185,9 +199,16 @@ public class AgreementController {
                 .connectorAddress(String.format(DataManagement.IDS_PATH, remoteUrl))
                 .protocol("ids-multipart")
                 .build();
-        var negotiationId = dataManagement.initiateNegotiation(
-                contractNegotiationRequest
-        );
+        String negotiationId;
+
+        try {
+            negotiationId=dataManagement.initiateNegotiation(contractNegotiationRequest);
+        } catch(IOException ioe) {
+            synchronized (activeAssets) {
+                activeAssets.remove(asset);
+            }
+            throw new InternalServerErrorException(String.format("Error when initiating negotation for offer %s through data management api.",contractOffer.getId()),ioe);
+        }
 
         // Check negotiation state
         ContractNegotiation negotiation = null;
@@ -202,7 +223,9 @@ public class AgreementController {
                 );
             }
         } catch (InterruptedException e) {
-            monitor.info(String.format("Negotiation thread for asset %s negotiation %s has been interrupted. Giving up.", asset, negotiationId));
+            monitor.info(String.format("Negotiation thread for asset %s negotiation %s has been interrupted. Giving up.", asset, negotiationId),e);
+        } catch(IOException e) {
+            monitor.warning(String.format("Negotiation thread for asset %s negotiation %s run into problem. Giving up.", asset, negotiationId),e);
         }
 
         if (negotiation == null || !negotiation.getState().equals("CONFIRMED")) {
@@ -212,7 +235,16 @@ public class AgreementController {
             throw new InternalServerErrorException(String.format("Contract Negotiation %s for asset %s was not successful.", negotiationId, asset));
         }
 
-        ContractAgreement agreement = dataManagement.getAgreement(negotiation.getContractAgreementId());
+        ContractAgreement agreement;
+
+        try {
+            agreement=dataManagement.getAgreement(negotiation.getContractAgreementId());
+        } catch(IOException ioe) {
+            synchronized (activeAssets) {
+                activeAssets.remove(asset);
+            }
+            throw new InternalServerErrorException(String.format("Error when retrieving agreement %s for negotiation %s.",negotiation.getContractAgreementId(),negotiationId),ioe);
+        }
 
         if (agreement == null || !agreement.getAssetId().endsWith(asset)) {
             synchronized (activeAssets) {
@@ -247,7 +279,19 @@ public class AgreementController {
                 .transferType(transferType)
                 .build();
 
-        String transferId = dataManagement.initiateHttpProxyTransferProcess(transferRequest);
+        String transferId;
+
+        try {
+            transferId=dataManagement.initiateHttpProxyTransferProcess(transferRequest);
+        } catch(IOException ioe) {
+            synchronized (activeAssets) {
+                activeAssets.remove(asset);
+            }
+            synchronized (agreementStore) {
+                agreementStore.remove(asset);
+            }
+            throw new InternalServerErrorException(String.format("HttpProxy transfer for agreement %s could not be initiated.", agreement.getId()),ioe);
+        }
 
         // Check negotiation state
         TransferProcess process = null;
@@ -265,7 +309,9 @@ public class AgreementController {
                 }
             }
         } catch (InterruptedException e) {
-            monitor.info(String.format("Process thread for asset %s transfer %s has been interrupted. Giving up.", asset, transferId));
+            monitor.info(String.format("Process thread for asset %s transfer %s has been interrupted. Giving up.", asset, transferId),e);
+        } catch(IOException e) {
+            monitor.warning(String.format("Process thread for asset %s transfer %s run into problem. Giving up.", asset, transferId),e);
         }
 
         if (process == null || !process.getState().equals("COMPLETED")) {

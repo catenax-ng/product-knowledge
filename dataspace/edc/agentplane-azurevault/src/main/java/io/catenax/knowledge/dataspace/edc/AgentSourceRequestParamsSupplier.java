@@ -75,7 +75,7 @@ public class AgentSourceRequestParamsSupplier extends HttpSourceRequestParamsSup
                 newQueryParams.append(oldQueryParams.substring(lastStart, yetString));
                 String newAccept= acceptMatcher.group("Accept");
                 if(newAccept!=null && newAccept.length()>0) {
-                    accept=newAccept.replace("%2A","*").replace("%2F","/");
+                    accept=newAccept.replace("%2F","/");
                 }
                 lastStart = acceptMatcher.end();
             }

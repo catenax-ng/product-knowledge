@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.*;
+import org.apache.http.HttpStatus;
 import org.apache.jena.fuseki.Fuseki;
 import org.apache.jena.fuseki.metrics.MetricsProviderRegistry;
 import org.apache.jena.fuseki.server.DataAccessPoint;
@@ -219,24 +220,24 @@ public class AgentController {
         if(endpoint==null) {
             try {
                 endpoint=agreementController.createAgreement(remoteUrl,asset);
-            } catch(IOException e) {
-                throw new InternalServerErrorException(String.format("Could not get an agreement from connector %s to asset %s because of %s",remoteUrl,asset,e),e);
+            } catch(WebApplicationException e) {
+                return HttpUtils.respond(request, e.getResponse().getStatus(),String.format("Could not get an agreement from connector %s to asset %s",remoteUrl,asset),e.getCause());
             }
         }
         if(endpoint==null) {
-            throw new InternalServerErrorException(String.format("Could not get an agreement from connector %s to asset %s",remoteUrl,asset));
+            return HttpUtils.respond(request,HttpStatus.SC_FORBIDDEN,String.format("Could not get an agreement from connector %s to asset %s",remoteUrl,asset),null);
         }
         if("GET".equals(request.getMethod())) {
             try {
                 response.getOutputStream().print(sendGETRequest(endpoint, "", request));
             } catch(IOException e) {
-                throw new InternalServerErrorException(String.format("Could not delegate remote get call to connector %s asset %s because of %s",remoteUrl,asset,e),e);
+                return HttpUtils.respond(request, HttpStatus.SC_INTERNAL_SERVER_ERROR,String.format("Could not delegate remote GET call to connector %s asset %s",remoteUrl,asset),e);
             }
         } else if("POST".equals(request.getMethod())) {
             try {
                 response.getOutputStream().print(sendPOSTRequest(endpoint, "", request));
             } catch(IOException e) {
-                throw new InternalServerErrorException(String.format("Could not delegate remote post call to connector %s asset %s because of %s",remoteUrl,asset,e),e);
+                return HttpUtils.respond(request, HttpStatus.SC_INTERNAL_SERVER_ERROR,String.format("Could not delegate remote POST call to connector %s asset %s",remoteUrl,asset),e);
             }
         }
         return Response.ok().build();
