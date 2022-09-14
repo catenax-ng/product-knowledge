@@ -19,6 +19,7 @@ jobs:
         uses: hashicorp/vault-action@v2.4.0
         with:
           url: https://vault.demo.catena-x.net:443
+          caCertificate: ${{ secrets.VAULT_CA_CERT }}
           role: product-knowledge
           method: jwt
           jwtGithubAudience: sigstore
