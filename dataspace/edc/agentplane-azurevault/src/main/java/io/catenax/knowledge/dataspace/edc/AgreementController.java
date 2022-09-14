@@ -143,36 +143,77 @@ public class AgreementController {
     }
 
     /**
-     * creates a new agreement (asynchronously)
-     * and waits for the result
-     *
-     * @param remoteUrl ids endpoint url of the remote connector
-     * @param asset     name of the asset to agree upon
-     *                                                    TODO make this federation aware: multiple assets, different policies
+     * sets active
+     * @param asset name
      */
-    public EndpointDataReference createAgreement(String remoteUrl, String asset) throws WebApplicationException {
+    protected void activate(String asset) {
         synchronized (activeAssets) {
             if (activeAssets.contains(asset)) {
                 throw new ClientErrorException("Cannot agree on an already active asset.", Response.Status.CONFLICT);
             }
             activeAssets.add(asset);
         }
+    }
 
+    /**
+     * sets active
+     * @param asset name
+     */
+    protected void deactivate(String asset) {
+        synchronized (activeAssets) {
+            activeAssets.remove(asset);
+        }
+        synchronized (agreementStore) {
+            agreementStore.remove(asset);
+        }
+        synchronized (processStore) {
+            processStore.remove(asset);
+        }
+    }
+
+    /**
+     * register an agreement
+     * @param asset name
+     * @param agreement object
+     */
+    protected void registerAgreement(String asset, ContractAgreement agreement) {
+        synchronized (agreementStore) {
+            agreementStore.put(asset, agreement);
+        }
+    }
+
+    /**
+     * register a process
+     * @param asset name
+     * @param agreement object
+     */
+    protected void registerProcess(String asset, TransferProcess process) {
+        synchronized (processStore) {
+            processStore.put(asset, process);
+        }
+    }
+
+        /**
+         * creates a new agreement (asynchronously)
+         * and waits for the result
+         *
+         * @param remoteUrl ids endpoint url of the remote connector
+         * @param asset     name of the asset to agree upon
+         *                                                    TODO make this federation aware: multiple assets, different policies
+         */
+    public EndpointDataReference createAgreement(String remoteUrl, String asset) throws WebApplicationException {
+        activate(asset);
         Collection<ContractOffer> contractOffers;
 
         try {
             contractOffers=dataManagement.findContractOffers(remoteUrl, asset);
         } catch(IOException io) {
-            synchronized (activeAssets) {
-                activeAssets.remove(asset);
-            }
+            deactivate(asset);
             throw new InternalServerErrorException(String.format("Error when resolving contract offers from %s for asset %s through data management api.",remoteUrl,asset),io);
         }
 
         if (contractOffers.isEmpty()) {
-            synchronized (activeAssets) {
-                activeAssets.remove(asset);
-            }
+            deactivate(asset);
             throw new BadRequestException(String.format("There is no contract offer in remote connector %s related to asset %s.", remoteUrl, asset));
         }
 
@@ -204,9 +245,7 @@ public class AgreementController {
         try {
             negotiationId=dataManagement.initiateNegotiation(contractNegotiationRequest);
         } catch(IOException ioe) {
-            synchronized (activeAssets) {
-                activeAssets.remove(asset);
-            }
+            deactivate(asset);
             throw new InternalServerErrorException(String.format("Error when initiating negotation for offer %s through data management api.",contractOffer.getId()),ioe);
         }
 
@@ -229,9 +268,7 @@ public class AgreementController {
         }
 
         if (negotiation == null || !negotiation.getState().equals("CONFIRMED")) {
-            synchronized (activeAssets) {
-                activeAssets.remove(asset);
-            }
+            deactivate(asset);
             throw new InternalServerErrorException(String.format("Contract Negotiation %s for asset %s was not successful.", negotiationId, asset));
         }
 
@@ -240,22 +277,16 @@ public class AgreementController {
         try {
             agreement=dataManagement.getAgreement(negotiation.getContractAgreementId());
         } catch(IOException ioe) {
-            synchronized (activeAssets) {
-                activeAssets.remove(asset);
-            }
+            deactivate(asset);
             throw new InternalServerErrorException(String.format("Error when retrieving agreement %s for negotiation %s.",negotiation.getContractAgreementId(),negotiationId),ioe);
         }
 
         if (agreement == null || !agreement.getAssetId().endsWith(asset)) {
-            synchronized (activeAssets) {
-                activeAssets.remove(asset);
-            }
+            deactivate(asset);
             throw new InternalServerErrorException(String.format("Agreement %s does not refer to asset %s.", negotiation.getContractAgreementId(), asset));
         }
 
-        synchronized (agreementStore) {
-            agreementStore.put(asset, agreement);
-        }
+        registerAgreement(asset,agreement);
 
         DataAddress dataDestination = DataAddress.Builder.newInstance()
                 .type("HttpProxy")
@@ -284,12 +315,7 @@ public class AgreementController {
         try {
             transferId=dataManagement.initiateHttpProxyTransferProcess(transferRequest);
         } catch(IOException ioe) {
-            synchronized (activeAssets) {
-                activeAssets.remove(asset);
-            }
-            synchronized (agreementStore) {
-                agreementStore.remove(asset);
-            }
+            deactivate(asset);
             throw new InternalServerErrorException(String.format("HttpProxy transfer for agreement %s could not be initiated.", agreement.getId()),ioe);
         }
 
@@ -304,9 +330,7 @@ public class AgreementController {
                 process = dataManagement.getTransfer(
                         transferId
                 );
-                synchronized (processStore) {
-                    processStore.put(asset, process);
-                }
+                registerProcess(asset, process);
             }
         } catch (InterruptedException e) {
             monitor.info(String.format("Process thread for asset %s transfer %s has been interrupted. Giving up.", asset, transferId),e);
@@ -315,15 +339,7 @@ public class AgreementController {
         }
 
         if (process == null || !process.getState().equals("COMPLETED")) {
-            synchronized (activeAssets) {
-                synchronized (processStore) {
-                    processStore.remove(asset);
-                }
-                synchronized (agreementStore) {
-                    agreementStore.remove(asset);
-                }
-                activeAssets.remove(asset);
-            }
+            deactivate(asset);
             throw new InternalServerErrorException(String.format("Transfer process %s for agreement %s and asset %s could not be provisioned.", transferId, agreement.getId(), asset));
         }
         return get(asset);
