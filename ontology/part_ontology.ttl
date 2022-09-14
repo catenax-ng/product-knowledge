@@ -1,0 +1,35 @@
+@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+cx:isPartOf a owl:ObjectProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    rdfs:range cx:Part,
+        cx:Vehicle ;
+    skos:prefLabel "is part of"@en .
+
+cx:produces a owl:ObjectProperty ;
+    rdfs:domain cx:PartManufacturer ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    rdfs:range cx:Part ;
+    skos:prefLabel "produces"@en .
+
+cx:PartManufacturer a owl:Class ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    skos:prefLabel "Part Manufacturer"@en .
+
+cx:Part a owl:Class ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    skos:note "ISO 18542-2"@en ;
+    skos:prefLabel "Part"@en .
+
+cx:PartOntology a owl:Ontology ;
+    dc:creator "Zazralt Magic" ;
+    dc:date "2022-09-13"^^xsd:date ;
+    dc:title "Part Ontology" ;
+    owl:versionInfo "0.0.1" .
+

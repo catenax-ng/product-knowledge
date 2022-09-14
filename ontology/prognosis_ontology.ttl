@@ -1,0 +1,276 @@
+@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+cx:DataDrivenPrognostics a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:subClassOf cx:VehiclePrognosis ;
+    skos:definition "based on machine learning models"@en ;
+    skos:prefLabel "Data Driven Prognostics"@en .
+
+cx:DataStream a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    skos:prefLabel "Data Stream"@en .
+
+cx:Degradation a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    skos:prefLabel "Degradation"@en .
+
+cx:ExperienceBasedPrognostics a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:subClassOf cx:VehiclePrognosis ;
+    skos:definition "based on statistical models"@en ;
+    skos:prefLabel "Experience Based Prognostics"@en .
+
+cx:HealthMonitoring a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    skos:prefLabel "Health Monitoring"@en .
+
+cx:Important a cx:FailureClassification ;
+    skos:prefLabel "Important"@en .
+
+cx:LeastSevere a cx:FailureClassification ;
+    skos:definition "routine maintenance"@en ;
+    skos:prefLabel "Least Severe"@en .
+
+cx:MaintenanceAlert a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    skos:prefLabel "Maintenance Alert"@en .
+
+cx:MaterialFatigue a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Fatigue_> ;
+    skos:definition "process"@en ;
+    skos:prefLabel "Materialermüdung"@de,
+        "Material Fatigue"@en .
+
+cx:Minor a cx:FailureClassification ;
+    skos:definition "minor repair"@en ;
+    skos:prefLabel "Minor"@en .
+
+cx:ModelBasedPrognostics a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:subClassOf cx:VehiclePrognosis ;
+    skos:definition "based on physical models"@en ;
+    skos:prefLabel "Model Based Prognostics"@en .
+
+cx:MostSevere a cx:FailureClassification ;
+    skos:definition "breakdown, safety issue"@en ;
+    skos:prefLabel "Most Severe"@en .
+
+cx:PlannedMaintenance a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:subClassOf cx:Maintenance ;
+    skos:altLabel "scheduled maintenance"@en ;
+    skos:definition "process"@en ;
+    skos:prefLabel "Geplante Wartung"@de,
+        "Planned Maintenance"@en .
+
+cx:PreventiveMaintenance a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:subClassOf cx:Maintenance ;
+    skos:definition "process of periodic inspection and repair"@en ;
+    skos:prefLabel "Vorbeugende Wartung"@de,
+        "Preventive Maintenance"@en .
+
+cx:ProductLifetime a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Product_lifetime> ;
+    skos:altLabel "product lifespan"@en ;
+    skos:prefLabel "Product Lifetime"@en .
+
+cx:ProgonsisOntology a owl:Ontology ;
+    dc:creator "Zazralt Magic" ;
+    dc:date "2022-09-13"^^xsd:date ;
+    dc:title "Progonsis Ontology" ;
+    owl:imports cx:DiagnosisOntology ;
+    owl:versionInfo "0.0.1" .
+
+cx:Severity a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    skos:prefLabel "Severity"@en .
+
+cx:Urgent a cx:FailureClassification ;
+    skos:definition "customer inconvenience"@en ;
+    skos:prefLabel "Urgent"@en .
+
+cx:VehicleFleetData a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    skos:definition "cloud data"@en ;
+    skos:prefLabel "Vehicle Fleet Data"@en .
+
+cx:batteryStateOfHealth a owl:DatatypeProperty ;
+    rdfs:domain cx:BatteryHealthCondition ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range xsd:double ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/State_of_health> ;
+    skos:altLabel "SoH"@en,
+        "state of health"@en ;
+    skos:prefLabel "Battery State Of Health"@en .
+
+cx:considers a owl:ObjectProperty ;
+    rdfs:domain cx:VehiclePrognosis ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range cx:Vehicle,
+        cx:VehicleComponent,
+        cx:VehicleSystem ;
+    skos:prefLabel "considers"@en .
+
+cx:determines a owl:ObjectProperty ;
+    rdfs:domain cx:VehiclePrognosis ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range cx:BatteryHealthCondition,
+        cx:EngineHealthCondition,
+        cx:VehicleHealthCondition ;
+    skos:prefLabel "determines"@en .
+
+cx:engineStateOfHealth a owl:DatatypeProperty ;
+    rdfs:domain cx:EngineHealthCondition ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range xsd:double ;
+    skos:prefLabel "Engine State Of Health"@en .
+
+cx:improves a owl:ObjectProperty ;
+    rdfs:domain cx:VehiclePrognosis ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range cx:VehicleAvailability,
+        cx:VehicleReliability ;
+    skos:prefLabel "improves"@en .
+
+cx:predicts a owl:ObjectProperty ;
+    rdfs:domain cx:VehiclePrognosis ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range cx:RemainingUsefulLifetime,
+        cx:VehicleBreakdown,
+        cx:VehicleError,
+        cx:VehicleFailure ;
+    skos:prefLabel "predicts"@en .
+
+cx:recommends a owl:ObjectProperty ;
+    rdfs:domain cx:VehiclePrognosis ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range cx:ConditionBasedMaintenance,
+        cx:PredictiveMaintenance ;
+    skos:prefLabel "recommends"@en .
+
+cx:remainingLifetime a owl:DatatypeProperty ;
+    rdfs:domain cx:RemainingUsefulLifetime ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range xsd:integer ;
+    skos:definition "Remaining time the vehicle will drive in the future."@en ;
+    skos:note "in years"@en ;
+    skos:prefLabel "Remaining Lifetime"@en .
+
+cx:remainingMileage a owl:DatatypeProperty ;
+    rdfs:domain cx:RemainingUsefulLifetime ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range xsd:integer ;
+    skos:definition "Remaining distance the vehicle will drive in the future."@en ;
+    skos:note "in kilometer"@en ;
+    skos:prefLabel "Remaining Mileage"@en .
+
+cx:uses a owl:ObjectProperty ;
+    rdfs:domain cx:Vehicle,
+        cx:VehiclePrognosis ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range cx:OnBoardDiagnostics2,
+        cx:PredictiveModel,
+        cx:Telematics,
+        cx:VehicleDiagnosis ;
+    skos:prefLabel "uses"@en .
+
+cx:vehiclePrognosisCreator a owl:DatatypeProperty ;
+    rdfs:domain cx:VehiclePrognosis ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Vehicle Prognosis Creator"@en .
+
+cx:vehiclePrognosisDate a owl:DatatypeProperty ;
+    rdfs:domain cx:VehiclePrognosis ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Vehicle Prognosis Date"@en .
+
+cx:vehiclePrognosisId a owl:DatatypeProperty ;
+    rdfs:domain cx:VehiclePrognosis ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Vehicle Prognosis Id"@en .
+
+cx:vehicleStateOfHealth a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleHealthCondition ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range xsd:double ;
+    skos:prefLabel "Vehicle State Of Health"@en .
+
+cx:ConditionBasedMaintenance a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:subClassOf cx:Maintenance ;
+    skos:altLabel "CBM"@en,
+        "condition-based maintenance"@en ;
+    skos:definition "process"@en ;
+    skos:prefLabel "Zustandsorientierte Wartung"@de,
+        "Condition-Based Maintenance"@en .
+
+cx:PredictiveMaintenance a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:subClassOf cx:Maintenance ;
+    skos:definition "process"@en ;
+    skos:prefLabel "Vorausschauende Wartung"@de,
+        "Predictive Maintenance"@en .
+
+cx:PredictiveModel a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Predictive_modelling> ;
+    skos:definition "A model that quantifies the risk of failure for a vehicle at any moment in time and use this information to improve scheduling of maintenance."@en ;
+    skos:prefLabel "Predictive Model"@en .
+
+cx:BatteryHealthCondition a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:subClassOf cx:HealthCondition ;
+    skos:prefLabel "Battery Health Condition"@en .
+
+cx:EngineHealthCondition a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:subClassOf cx:HealthCondition ;
+    skos:prefLabel "Engine Health Condition"@en .
+
+cx:VehicleHealthCondition a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:subClassOf cx:HealthCondition ;
+    skos:prefLabel "Vehicle Health Condition"@en .
+
+cx:HealthCondition a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    skos:prefLabel "Health Condition"@en .
+
+cx:RemainingUsefulLifetime a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    skos:altLabel "RUL"@en,
+        "remaining life"@en,
+        "remaining useful life"@en,
+        "remaining useful lifetime"@en ;
+    skos:prefLabel "Restnutzungsdauer"@de,
+        "Remaining Useful Lifetime"@en .
+
+cx:Maintenance a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Maintenance_>,
+        <https://en.wikipedia.org/wiki/Service_> ;
+    skos:altLabel "Instandhaltung"@de ;
+    skos:definition "process"@en ;
+    skos:prefLabel "Wartung"@de,
+        "Maintenance"@en .
+
+cx:VehiclePrognosis a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Prognosis>,
+        <https://en.wikipedia.org/wiki/Prognostics> ;
+    skos:altLabel "vehicle prognostics"@en ;
+    skos:definition "prediction of the time at which a system or a component will malfunction"@en ;
+    skos:note "SAE JA 6268"@en ;
+    skos:prefLabel "Vehicle Prognosis"@en .
+

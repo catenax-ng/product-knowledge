@@ -1,0 +1,213 @@
+@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix wd: <https://www.wikidata.org/wiki/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+cx:CustomerComplaint a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    skos:prefLabel "Customer Complaint"@en .
+
+cx:MechanicObservation a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    skos:prefLabel "Mechanic Observation"@en .
+
+cx:RemoteDiagnostics a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Remote_diagnostics> ;
+    skos:prefLabel "Remote Diagnostics"@en .
+
+cx:SporadicError a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:subClassOf cx:DiagnosticTroubleCode ;
+    skos:prefLabel "Sporadic Error"@en .
+
+cx:StaticError a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:subClassOf cx:DiagnosticTroubleCode ;
+    skos:prefLabel "Static Error"@en .
+
+cx:UnifiedDiagnosticServices a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Unified_Diagnostic_Services> ;
+    skos:altLabel "UDS"@en,
+        "Unified Diagnostic Services"@en ;
+    skos:prefLabel "Unified Diagnostic Services"@en .
+
+cx:connectsTo a owl:ObjectProperty ;
+    rdfs:domain cx:VehicleDiagnosticDevice,
+        cx:VehicleDiagnosticSystem ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range cx:OnBoardDiagnostics2 ;
+    skos:prefLabel "connects to"@en .
+
+cx:diagnoses a owl:ObjectProperty ;
+    rdfs:domain cx:VehicleDiagnosis ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range cx:Vehicle ;
+    skos:prefLabel "diagnoses"@en .
+
+cx:diagnosticTroubleCodeId a owl:DatatypeProperty ;
+    rdfs:domain cx:DiagnosticTroubleCode ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Diagnostic Trouble Code Id"@en .
+
+cx:diagnosticTroubleCodeName a owl:DatatypeProperty ;
+    rdfs:domain cx:DiagnosticTroubleCode ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Diagnostic Trouble Code Name"@en .
+
+cx:hasActualCause a owl:ObjectProperty ;
+    rdfs:domain cx:PossibleCause ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range cx:ActualCause ;
+    skos:prefLabel "has actual cause"@en .
+
+cx:hasCauseType a owl:ObjectProperty ;
+    rdfs:domain cx:ActualCause,
+        cx:PossibleCause ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range cx:CauseType ;
+    skos:prefLabel "has cause type"@en .
+
+cx:hasDiagnosticTroubleCode a owl:ObjectProperty ;
+    rdfs:domain cx:VehicleDiagnosis ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range cx:DiagnosticTroubleCode ;
+    skos:prefLabel "has diagnostic trouble code"@en .
+
+cx:hasEncoding a owl:ObjectProperty ;
+    rdfs:domain cx:DiagnosticTroubleCode ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range cx:Encoding ;
+    skos:prefLabel "has encoding"@en .
+
+cx:hasInterface a owl:ObjectProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range cx:DataLinkConnector,
+        cx:Telematics ;
+    skos:prefLabel "has interface"@en .
+
+cx:hasLoadSpectrum a owl:ObjectProperty ;
+    rdfs:domain cx:VehicleDiagnosis ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range cx:LoadSpectrum ;
+    skos:prefLabel "has load spectrum"@en .
+
+cx:hasPossibleCause a owl:ObjectProperty ;
+    rdfs:domain cx:DiagnosticTroubleCode ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range cx:PossibleCause ;
+    skos:prefLabel "has possible cause"@en .
+
+cx:isReasonOf a owl:ObjectProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range cx:PossibleCause ;
+    skos:prefLabel "is reason of"@en .
+
+cx:isStoredIn a owl:ObjectProperty ;
+    rdfs:domain cx:DiagnosticTroubleCode ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range cx:ErrorMemory ;
+    skos:prefLabel "is stored in"@en .
+
+cx:testingTechnician a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    skos:prefLabel "Testing Technician"@en .
+
+cx:vehicleDiagnosisDate a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    skos:prefLabel "Vehicle Diagnosis Date"@en .
+
+cx:vehicleDiagnosisLocation a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    skos:prefLabel "Vehicle Diagnosis Location"@en .
+
+cx:CauseType a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    skos:prefLabel "Cause Type"@en .
+
+cx:LoadSpectrum a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Lastkollektiv> ;
+    skos:prefLabel "Lastkollektiv"@de,
+        "Load Spectrum"@en .
+
+cx:OnBoardDiagnostics2 a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/On-board_diagnostics#OBD-II> ;
+    rdfs:subClassOf cx:DataLinkConnector ;
+    skos:altLabel "OBD"@en,
+        "On-board diagnostics"@en ;
+    skos:prefLabel "On Board Diagnostics 2"@en .
+
+cx:Telematics a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Telematics> ;
+    skos:prefLabel "Telematik"@de,
+        "Telematics"@en .
+
+cx:VehicleDiagnosticDevice a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    skos:altLabel "OBD scanner"@en,
+        "diagnostic tool"@en ;
+    skos:prefLabel "Fahrzeugdiagnosegerät"@de,
+        "Diagnostic Device"@en .
+
+cx:VehicleDiagnosticSystem a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    skos:altLabel "VDS"@en,
+        "vehicle diagnostic system"@en ;
+    skos:prefLabel "Fahrzeugdiagnosesystem"@de,
+        "Diagnostic System"@en .
+
+cx:ActualCause a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:subClassOf cx:ErrorCause ;
+    skos:prefLabel "Actual Cause"@en .
+
+cx:DataLinkConnector a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Data_link_connector_> ;
+    skos:altLabel "DLC"@en,
+        "data link connector"@en ;
+    skos:prefLabel "Data Link Connector"@en .
+
+cx:VehicleDiagnosis a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Fehlerdiagnose>,
+        <https://en.wikipedia.org/wiki/Diagnosis> ;
+    skos:definition "Vehicle diagnosis is the identification of a problem or the cause and location of a problem."@en ;
+    skos:prefLabel "Fahrzeugdiagnose"@de,
+        "Vehicle Diagnosis"@en .
+
+cx:PossibleCause a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:subClassOf cx:ErrorCause ;
+    skos:prefLabel "Possible Cause"@en .
+
+cx:DiagnosticTroubleCode a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:seeAlso wd:Q5525576 ;
+    skos:altLabel "Fehlercode"@de,
+        "DTC"@en,
+        "diagnostic trouble code"@en,
+        "error code"@en,
+        "trouble code"@en ;
+    skos:note "ISO 15031-6, SAE J2012"@en ;
+    skos:prefLabel "Diagnostic Trouble Code"@en .
+
+cx:DiagnosisOntology a owl:Ontology ;
+    dc:creator "Zazralt Magic" ;
+    dc:date "2022-09-13"^^xsd:date ;
+    dc:description "Ontology for vehicle diagnosis." ;
+    dc:title "Diagnosis Ontology" ;
+    owl:imports cx:VehicleOntology ;
+    owl:versionInfo "0.0.1" .
+

@@ -1,0 +1,143 @@
+@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+cx:Assembly a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:subClassOf cx:Process ;
+    skos:prefLabel "Montage"@de,
+        "Assembly"@en .
+
+cx:ComponentSupplier a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:subClassOf cx:Supplier ;
+    skos:prefLabel "Component Supplier"@en .
+
+cx:DataSpace a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Data Space"@en .
+
+cx:EclipseDataConnector a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:altLabel "EDC"@en,
+        "eclipse data connector"@en ;
+    skos:prefLabel "Eclipse Data Connector"@en .
+
+cx:Manufacturing a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:subClassOf cx:Process ;
+    skos:prefLabel "Fertigung"@de,
+        "Manufacturing"@en .
+
+cx:RawMaterialSupplier a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:subClassOf cx:Supplier ;
+    skos:prefLabel "Raw Material Supplier"@en .
+
+cx:Recycler a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:subClassOf cx:Role ;
+    skos:prefLabel "Recycler"@en .
+
+cx:Unit a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Unit"@en .
+
+cx:VehicleManufacturer a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:subClassOf cx:Manufacturer ;
+    skos:prefLabel "Vehicle Manufacturer"@en .
+
+cx:businessPartnerNumberLong a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:altLabel "BPNL"@en,
+        "business partner number long"@en ;
+    skos:definition "The  Business Partner Number is a unique identifier following the pattern 'BPNL{8}{4}'."@en ;
+    skos:prefLabel "BPNL"@en .
+
+cx:businessPartnerNumberType a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:definition "The  Business Partner Number Type describes strings following the pattern 'BPNL{8}{4}'."@en ;
+    skos:prefLabel "BPNL Type"@en .
+
+cx:hasContact a owl:ObjectProperty ;
+    rdfs:domain cx:Person ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range cx:Contact ;
+    skos:prefLabel "has contact"@en .
+
+cx:hasRole a owl:ObjectProperty ;
+    rdfs:domain cx:BusinessPartner ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range cx:Role ;
+    skos:prefLabel "has role"@en .
+
+cx:isProvisionedBy a owl:ObjectProperty ;
+    rdfs:domain cx:Asset ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range cx:BusinessPartner ;
+    skos:definition "The provisioned by predicate connects assets to their providing Catena-X Business Partner."@en ;
+    skos:prefLabel "is provisioned by"@en .
+
+cx:produces a owl:ObjectProperty ;
+    rdfs:domain cx:Manufacturer ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range cx:Product ;
+    skos:prefLabel "produces"@en .
+
+cx:regexPattern a owl:AnnotationProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Regex Pattern"@en .
+
+cx:Asset a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:definition "An Asset is any artifact that is provisioned/owned/attributed to some Catena-X Business Partner."@en ;
+    skos:prefLabel "Asset"@en .
+
+cx:Contact a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Contact"@en .
+
+cx:Person a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Person"@en .
+
+cx:Product a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Product"@en .
+
+cx:BusinessPartner a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:altLabel "BP"@en,
+        "business partner"@en ;
+    skos:definition "A Business Partner is a legal entity that is part of the Catena-X network or that stands in a relevant relation to a Catena-X Business Partner."@en ;
+    skos:prefLabel "Business Partner"@en .
+
+cx:Manufacturer a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:subClassOf cx:Role ;
+    skos:prefLabel "Manufacturer"@en .
+
+cx:Process a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Process"@en .
+
+cx:Supplier a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:subClassOf cx:Role ;
+    skos:prefLabel "Supplier"@en .
+
+cx:Role a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Role"@en .
+
+cx:CommonOntology a owl:Ontology ;
+    dc:creator "Zazralt Magic" ;
+    dc:date "2022-09-13"^^xsd:date ;
+    dc:description "The Catena-X Common Domain lists all domain-independent concepts, attributes and relations." ;
+    dc:title "Common Ontology" ;
+    owl:versionInfo "0.0.1" .
+

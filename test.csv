@@ -1,0 +1,46 @@
+identifier,rdf:type,skos:prefLabel@en,skos:prefLabel@de,skos:definition@en,skos:example@en,skos:note@en,skos:altLabel@en,skos:altLabel@de,rdfs:subClassOf,cx:isPartOf,rdfs:domain,rdfs:range,rdfs:seeAlso,rdfs:subPropertyOf,rdfs:isDefinedBy
+cx:VehicleDiagnosis,owl:Class,Vehicle Diagnosis,Fahrzeugdiagnose,Vehicle diagnosis is the identification of a problem or the cause and location of a problem.,,,,,,,,,https://de.wikipedia.org/wiki/Fehlerdiagnose,,cx:DiagnosisOntology
+cx:VehicleDiagnosis,owl:Class,Vehicle Diagnosis,Fahrzeugdiagnose,Vehicle diagnosis is the identification of a problem or the cause and location of a problem.,,,,,,,,,https://en.wikipedia.org/wiki/Diagnosis,,cx:DiagnosisOntology
+cx:diagnoses,owl:ObjectProperty,diagnoses,,,,,,,,,cx:VehicleDiagnosis,cx:Vehicle,,,cx:DiagnosisOntology
+cx:vehicleDiagnosisDate,owl:DatatypeProperty,Vehicle Diagnosis Date,,,,,,,,,,,,,cx:DiagnosisOntology
+cx:vehicleDiagnosisLocation,owl:DatatypeProperty,Vehicle Diagnosis Location,,,,,,,,,,,,,cx:DiagnosisOntology
+cx:testingTechnician,owl:DatatypeProperty,Testing Technician,,,,,,,,,,,,,cx:DiagnosisOntology
+cx:DiagnosticTroubleCode,owl:Class,Diagnostic Trouble Code,,,,"ISO 15031-6, SAE J2012",diagnostic trouble code,Fehlercode,,,,,https://www.wikidata.org/wiki/Q5525576,,cx:DiagnosisOntology
+cx:DiagnosticTroubleCode,owl:Class,Diagnostic Trouble Code,,,,"ISO 15031-6, SAE J2012",DTC,Fehlercode,,,,,https://www.wikidata.org/wiki/Q5525576,,cx:DiagnosisOntology
+cx:DiagnosticTroubleCode,owl:Class,Diagnostic Trouble Code,,,,"ISO 15031-6, SAE J2012",error code,Fehlercode,,,,,https://www.wikidata.org/wiki/Q5525576,,cx:DiagnosisOntology
+cx:DiagnosticTroubleCode,owl:Class,Diagnostic Trouble Code,,,,"ISO 15031-6, SAE J2012",trouble code,Fehlercode,,,,,https://www.wikidata.org/wiki/Q5525576,,cx:DiagnosisOntology
+cx:diagnosticTroubleCodeId,owl:DatatypeProperty,Diagnostic Trouble Code Id,,,,,,,,,cx:DiagnosticTroubleCode,xsd:string,,,cx:DiagnosisOntology
+cx:diagnosticTroubleCodeName,owl:DatatypeProperty,Diagnostic Trouble Code Name,,,,,,,,,cx:DiagnosticTroubleCode,xsd:string,,,cx:DiagnosisOntology
+cx:hasDiagnosticTroubleCode,owl:ObjectProperty,has diagnostic trouble code,,,,,,,,,cx:VehicleDiagnosis,cx:DiagnosticTroubleCode,,,cx:DiagnosisOntology
+cx:hasEncoding,owl:ObjectProperty,has encoding,,,,,,,,,cx:DiagnosticTroubleCode,cx:Encoding,,,cx:DiagnosisOntology
+cx:hasPossibleCause,owl:ObjectProperty,has possible cause,,,,,,,,,cx:DiagnosticTroubleCode,cx:PossibleCause,,,cx:DiagnosisOntology
+cx:isStoredIn,owl:ObjectProperty,is stored in,,,,,,,,,cx:DiagnosticTroubleCode,cx:ErrorMemory,,,cx:DiagnosisOntology
+cx:StaticError,owl:Class,Static Error,,,,,,,cx:DiagnosticTroubleCode,,,,,,cx:DiagnosisOntology
+cx:SporadicError,owl:Class,Sporadic Error,,,,,,,cx:DiagnosticTroubleCode,,,,,,cx:DiagnosisOntology
+cx:PossibleCause,owl:Class,Possible Cause,,,,,,,cx:ErrorCause,,,,,,cx:DiagnosisOntology
+cx:hasActualCause,owl:ObjectProperty,has actual cause,,,,,,,,,cx:PossibleCause,cx:ActualCause,,,cx:DiagnosisOntology
+cx:isReasonOf,owl:ObjectProperty,is reason of,,,,,,,,,cx:Part,cx:PossibleCause,,,cx:DiagnosisOntology
+cx:ActualCause,owl:Class,Actual Cause,,,,,,,cx:ErrorCause,,,,,,cx:DiagnosisOntology
+cx:CauseType,owl:Class,Cause Type,,,,,,,,,,,,,cx:DiagnosisOntology
+cx:hasCauseType,owl:ObjectProperty,has cause type,,,,,,,,,cx:PossibleCause,cx:CauseType,,,cx:DiagnosisOntology
+cx:hasCauseType,owl:ObjectProperty,has cause type,,,,,,,,,cx:ActualCause,cx:CauseType,,,cx:DiagnosisOntology
+cx:CustomerComplaint,owl:Class,Customer Complaint,,,,,,,,,,,,,cx:DiagnosisOntology
+cx:MechanicObservation,owl:Class,Mechanic Observation,,,,,,,,,,,,,cx:DiagnosisOntology
+cx:DataLinkConnector,owl:Class,Data Link Connector,,,,,data link connector,,,,,,https://en.wikipedia.org/wiki/Data_link_connector_,,cx:DiagnosisOntology
+cx:DataLinkConnector,owl:Class,Data Link Connector,,,,,DLC,,,,,,https://en.wikipedia.org/wiki/Data_link_connector_,,cx:DiagnosisOntology
+cx:hasInterface,owl:ObjectProperty,has interface,,,,,,,,,cx:Vehicle,cx:DataLinkConnector,,,cx:DiagnosisOntology
+cx:OnBoardDiagnostics2,owl:Class,On Board Diagnostics 2,,,,,On-board diagnostics,,cx:DataLinkConnector,,,,https://en.wikipedia.org/wiki/On-board_diagnostics#OBD-II,,cx:DiagnosisOntology
+cx:OnBoardDiagnostics2,owl:Class,On Board Diagnostics 2,,,,,OBD,,cx:DataLinkConnector,,,,https://en.wikipedia.org/wiki/On-board_diagnostics#OBD-II,,cx:DiagnosisOntology
+cx:UnifiedDiagnosticServices,owl:Class,Unified Diagnostic Services,,,,,Unified Diagnostic Services,,,,,,https://en.wikipedia.org/wiki/Unified_Diagnostic_Services,,cx:DiagnosisOntology
+cx:UnifiedDiagnosticServices,owl:Class,Unified Diagnostic Services,,,,,UDS,,,,,,https://en.wikipedia.org/wiki/Unified_Diagnostic_Services,,cx:DiagnosisOntology
+cx:RemoteDiagnostics,owl:Class,Remote Diagnostics,,,,,,,,,,,https://en.wikipedia.org/wiki/Remote_diagnostics,,cx:DiagnosisOntology
+cx:Telematics,owl:Class,Telematics,Telematik,,,,,,,,,,https://en.wikipedia.org/wiki/Telematics,,cx:DiagnosisOntology
+cx:hasInterface,owl:ObjectProperty,has interface,,,,,,,,,cx:Vehicle,cx:Telematics,,,cx:DiagnosisOntology
+cx:VehicleDiagnosticDevice,owl:Class,Diagnostic Device,Fahrzeugdiagnosegerät,,,,diagnostic tool,,,,,,,,cx:DiagnosisOntology
+cx:VehicleDiagnosticDevice,owl:Class,Diagnostic Device,Fahrzeugdiagnosegerät,,,,OBD scanner,,,,,,,,cx:DiagnosisOntology
+cx:connectsTo,owl:ObjectProperty,connects to,,,,,,,,,cx:VehicleDiagnosticDevice,cx:OnBoardDiagnostics2,,,cx:DiagnosisOntology
+cx:VehicleDiagnosticSystem,owl:Class,Diagnostic System,Fahrzeugdiagnosesystem,,,,vehicle diagnostic system,,,,,,,,cx:DiagnosisOntology
+cx:VehicleDiagnosticSystem,owl:Class,Diagnostic System,Fahrzeugdiagnosesystem,,,,VDS,,,,,,,,cx:DiagnosisOntology
+cx:connectsTo,owl:ObjectProperty,connects to,,,,,,,,,cx:VehicleDiagnosticSystem,cx:OnBoardDiagnostics2,,,cx:DiagnosisOntology
+cx:LoadSpectrum,owl:Class,Load Spectrum,Lastkollektiv,,,,,,,,,,https://de.wikipedia.org/wiki/Lastkollektiv,,cx:DiagnosisOntology
+cx:hasLoadSpectrum,owl:ObjectProperty,has load spectrum,,,,,,,,,cx:VehicleDiagnosis,cx:LoadSpectrum,,,cx:DiagnosisOntology

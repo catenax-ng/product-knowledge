@@ -1,0 +1,181 @@
+@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+cx:Breakdown a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Breakdown_> ;
+    skos:altLabel "Panne"@de ;
+    skos:prefLabel "Betriebsstörung"@de,
+        "Breakdown"@en .
+
+cx:ErrorAnalysis a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Fault_detection_and_isolation> ;
+    skos:altLabel "Fehlerisolation"@de,
+        "fault isolation"@en ;
+    skos:definition "process"@en ;
+    skos:note "how"@en ;
+    skos:prefLabel "Fehleranalyse"@de,
+        "Error Analysis"@en .
+
+cx:ErrorCompensation a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    skos:definition "process"@en ;
+    skos:prefLabel "Fehlerkompensation"@de,
+        "Error Compensation"@en .
+
+cx:ErrorCorrection a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    skos:definition "process"@en ;
+    skos:prefLabel "Fehlerkorrektur"@de,
+        "Error Correction"@en .
+
+cx:ErrorDiagnosis a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Fehlerdiagnose> ;
+    skos:definition "process"@en ;
+    skos:note "how"@en ;
+    skos:prefLabel "Fehlerdiagnose"@de,
+        "Error Diagnosis"@en .
+
+cx:ErrorManagement a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Fehlermanagement> ;
+    skos:definition "process"@en ;
+    skos:prefLabel "Fehlermanagement"@de,
+        "Error Management"@en .
+
+cx:ProblemSolving a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Problem_solving> ;
+    skos:prefLabel "Problem Solving"@en .
+
+cx:RootCauseAnalysis a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Root_cause_analysis> ;
+    skos:altLabel "RCA"@en,
+        "root cause analysis"@en ;
+    skos:definition "process"@en ;
+    skos:note "how"@en ;
+    skos:prefLabel "Fehler-Ursachen-Analyse"@de,
+        "Root Cause Analysis"@en .
+
+cx:TechnicalFailure a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Technical_failure> ;
+    skos:prefLabel "Technischer Defekt"@de,
+        "Technical Failure"@en .
+
+cx:detects a owl:ObjectProperty ;
+    rdfs:domain cx:ErrorDetection ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:range cx:Error ;
+    skos:prefLabel "detects"@en .
+
+cx:hasError a owl:ObjectProperty ;
+    rdfs:domain cx:Part,
+        cx:Vehicle,
+        cx:VehicleComponent ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:range cx:Error ;
+    skos:prefLabel "has error"@en .
+
+cx:hasSolution a owl:ObjectProperty ;
+    rdfs:domain cx:Error ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:range cx:ErrorSolution ;
+    skos:prefLabel "has solution"@en .
+
+cx:isCausedBy a owl:ObjectProperty ;
+    rdfs:domain cx:Error,
+        cx:Failure ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:range cx:Error,
+        cx:ErrorCause ;
+    skos:prefLabel "is caused by"@en .
+
+cx:isLocatedIn a owl:ObjectProperty ;
+    rdfs:domain cx:Error ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:range cx:ErrorLocation,
+        cx:ErrorPosition ;
+    skos:prefLabel "is located in"@en .
+
+cx:isTypedBy a owl:ObjectProperty ;
+    rdfs:domain cx:Error ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:range cx:ErrorType ;
+    skos:prefLabel "is typed by"@en .
+
+cx:ErrorCause a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    skos:note "why"@en ;
+    skos:prefLabel "Fehlerursache"@de,
+        "Error Cause"@en .
+
+cx:ErrorDetection a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Fault_detection_and_isolation> ;
+    skos:altLabel "Fehlerentdeckung"@de,
+        "fault detection"@en ;
+    skos:definition "process"@en ;
+    skos:note "how"@en ;
+    skos:prefLabel "Fehlererkennung"@de,
+        "Error Detection"@en .
+
+cx:ErrorLocation a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    skos:note "where"@en ;
+    skos:prefLabel "Fehlerort"@de,
+        "Error Location"@en .
+
+cx:ErrorPosition a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    skos:altLabel "Fehlerlage"@de ;
+    skos:note "where"@en ;
+    skos:prefLabel "Fehlerposition"@de,
+        "Error Position"@en .
+
+cx:ErrorSolution a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    skos:note "how"@en ;
+    skos:prefLabel "Fehlerlösung"@de,
+        "Error Solution"@en .
+
+cx:ErrorType a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    skos:note "which"@en ;
+    skos:prefLabel "Fehlerart"@de,
+        "Error Type"@en .
+
+cx:Failure a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Failure> ;
+    skos:altLabel "Fehlfunktion"@de,
+        "malfunction"@en ;
+    skos:definition "event of the loss or deviation from expected function"@en ;
+    skos:prefLabel "Versagen"@de,
+        "Failure"@en .
+
+cx:Error a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Error> ;
+    skos:altLabel "defect"@en,
+        "failure"@en,
+        "fault"@en,
+        "trouble"@en ;
+    skos:definition "deviation from the expected result"@en ;
+    skos:note "what"@en ;
+    skos:prefLabel "Fehler"@de,
+        "Error"@en .
+
+cx:ErrorOntology a owl:Ontology ;
+    dc:creator "Zazralt Magic" ;
+    dc:date "2022-09-13"^^xsd:date ;
+    dc:title "Error Ontology" ;
+    owl:versionInfo "0.0.1" .
+

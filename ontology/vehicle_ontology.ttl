@@ -1,0 +1,547 @@
+@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+cx:AggressiveDrivingPattern a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:DrivingPattern ;
+    skos:prefLabel "Aggressive Driving Pattern"@en .
+
+cx:BatteryElectricVehicle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Battery_electric_vehicle> ;
+    rdfs:subClassOf cx:ElectricVehicle ;
+    skos:altLabel "BEV"@en,
+        "Battery Electric Vehicle"@en ;
+    skos:definition "are powered solely by an electric motor, using electricity stored in an on-board battery."@en ;
+    skos:prefLabel "Battery Electric Vehicle"@en .
+
+cx:Bus a cx:VehicleType ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Bus> ;
+    skos:prefLabel "Bus"@en .
+
+cx:Car a cx:VehicleType ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Car> ;
+    skos:prefLabel "Car"@en .
+
+cx:CircularEconomy a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Circular_economy> ;
+    skos:prefLabel "Circular Economy"@en .
+
+cx:ColdTemperatureClimate a cx:VehicleEnvironment ;
+    skos:prefLabel "Cold Temperature Climate"@en .
+
+cx:CradleToCradle a cx:VehicleLifeCycleStage ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Cradle-to-cradle_design> ;
+    skos:prefLabel "Cradle To Cradle"@en .
+
+cx:CradleToGate a cx:VehicleLifeCycleStage ;
+    skos:prefLabel "Cradle To Gate"@en .
+
+cx:DryHumidityClimate a cx:VehicleEnvironment ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Precipitation> ;
+    skos:prefLabel "Dry Humidity Climate"@en .
+
+cx:FuelCellElectricVehicle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Fuel_cell_vehicle> ;
+    rdfs:subClassOf cx:ElectricVehicle ;
+    skos:altLabel "FCEV"@en,
+        "FCV"@en,
+        "Fuel Cell Electric Vehicle"@en,
+        "fuel cell vehicle"@en ;
+    skos:prefLabel "Fuel Cell Electric Vehicle"@en .
+
+cx:GateToGate a cx:VehicleLifeCycleStage ;
+    skos:prefLabel "Gate To Gate"@en .
+
+cx:HotTemperatureClimate a cx:VehicleEnvironment ;
+    skos:prefLabel "Hot Temperature Climate"@en .
+
+cx:HybridElectricVehicle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Hybrid_electric_vehicle> ;
+    rdfs:subClassOf cx:ElectricVehicle ;
+    skos:altLabel "HEV"@en,
+        "Hybrid Electric Vehicle"@en ;
+    skos:definition "combine an internal combustion engine and an electric motor that assists the conventional engine, for example during vehicle acceleration."@en ;
+    skos:prefLabel "Hybrid Electric Vehicle"@en .
+
+cx:LithiumCobaltOxide a cx:BatteryType ;
+    skos:altLabel "LCO"@en,
+        "lithium-cobalt oxide"@en ;
+    skos:prefLabel "Lithium Cobalt Oxide"@en .
+
+cx:LithiumIronPhosphate a cx:BatteryType ;
+    skos:altLabel "LiFePO4"@en,
+        "lithium-iron-phosphate"@en ;
+    skos:prefLabel "Lithium Iron Phosphate"@en .
+
+cx:LithiumManganeseOxide a cx:BatteryType ;
+    skos:altLabel "LMO"@en,
+        "lithium-manganese oxide"@en ;
+    skos:prefLabel "Lithium Manganese Oxide"@en .
+
+cx:LithiumNickelCobaltAluminiumOxide a cx:BatteryType ;
+    skos:altLabel "LiNCA"@en,
+        "lithium-nickel-cobalt-aluminium oxide"@en ;
+    skos:prefLabel "Lithium Nickel Cobalt Aluminium Oxide"@en .
+
+cx:LithiumNickelManganeseCobaltOxide a cx:BatteryType ;
+    skos:altLabel "LiNMC"@en,
+        "lithium-nickel-manganese-cobalt oxide"@en ;
+    skos:prefLabel "Lithium Nickel Manganese Cobalt Oxide"@en .
+
+cx:MildTemperatureClimate a cx:VehicleEnvironment ;
+    skos:prefLabel "Mild Temperature Climate"@en .
+
+cx:Motorcycle a cx:VehicleType ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Motorcycle> ;
+    skos:prefLabel "Motorcycle"@en .
+
+cx:PlugInHybridElectricVehicle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Plug-in_electric_vehicle> ;
+    rdfs:subClassOf cx:ElectricVehicle ;
+    skos:altLabel "NEV"@en,
+        "PHEV"@en,
+        "Plug-in Hybrid Electric Vehicle"@en,
+        "new energy vehicle"@en ;
+    skos:definition "are powered by an electric motor and an internal combustion engine that work together or separately."@en ;
+    skos:prefLabel "Plug-In Hybrid Electric Vehicle"@en .
+
+cx:RangeExtendedElectricVehicle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:ElectricVehicle ;
+    skos:altLabel "REEV"@en,
+        "Range extended electric vehicle"@en ;
+    skos:prefLabel "Range Extended Electric Vehicle"@en .
+
+cx:RawMaterialMining a cx:VehicleLifeCycleStage ;
+    skos:altLabel "extraction"@en ;
+    skos:prefLabel "Raw Material Mining"@en .
+
+cx:RawMaterialProcessing a cx:VehicleLifeCycleStage ;
+    skos:prefLabel "Raw Material Processing"@en .
+
+cx:TankToWheel a cx:FuelCycle ;
+    skos:prefLabel "Tank To Wheel"@en .
+
+cx:Transmission a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:VehicleComponent ;
+    skos:prefLabel "Transmission"@en .
+
+cx:Truck a cx:VehicleType ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Truck> ;
+    skos:prefLabel "Truck"@en .
+
+cx:VehicleComponentManfacturing a cx:VehicleLifeCycleStage ;
+    skos:prefLabel "Vehicle Component Manfacturing"@en .
+
+cx:VehicleDisposal a cx:VehicleLifeCycleStage ;
+    skos:prefLabel "Vehicle Disposal"@en .
+
+cx:VehicleEndOfLife a cx:VehicleLifeCycleStage ;
+    skos:prefLabel "Vehicle End Of Life"@en .
+
+cx:VehicleProduction a cx:VehicleLifeCycleStage ;
+    skos:prefLabel "Vehicle Production"@en .
+
+cx:VehicleRecovery a cx:VehicleLifeCycleStage ;
+    skos:definition "The reclamation of metals and metal compounds, inorganic materials and components used for pollution abatement and reuse of oil."@en ;
+    skos:note "Annex IIB to Directive 75/442/EEC"@en ;
+    skos:prefLabel "Vehicle Recovery"@en .
+
+cx:VehicleRecycling a cx:VehicleLifeCycleStage ;
+    skos:definition "The reprocessing of waste materials, for either the original purpose or a different purpose."@en ;
+    skos:prefLabel "Vehicle Recycling"@en .
+
+cx:VehicleRepair a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    skos:prefLabel "Vehicle Repair"@en .
+
+cx:VehicleRepairShop a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Automobile_repair_shop> ;
+    skos:prefLabel "Autowerkstatt"@de,
+        "Vehicle Repair Shop"@en .
+
+cx:VehicleReuse a cx:VehicleLifeCycleStage ;
+    skos:definition "The end-of-life vehicle component is used for the same purpose for which it was originally made."@en ;
+    skos:prefLabel "Vehicle Reuse"@en .
+
+cx:VehicleService a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Service_> ;
+    skos:prefLabel "Vehicle Service"@en .
+
+cx:VehicleSystem a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:VehicleComponent ;
+    skos:prefLabel "Vehicle System"@en .
+
+cx:VehicleUse a cx:VehicleLifeCycleStage ;
+    skos:prefLabel "Vehicle Use"@en .
+
+cx:WellToTank a cx:FuelCycle ;
+    skos:prefLabel "Well To Tank"@en .
+
+cx:WellToWheel a cx:FuelCycle ;
+    skos:prefLabel "Well To Wheel"@en .
+
+cx:WetHumidityClimate a cx:VehicleEnvironment ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Precipitation> ;
+    skos:prefLabel "Wet Humidity Climate"@en .
+
+cx:batteryWeight a owl:DatatypeProperty ;
+    rdfs:domain cx:Battery ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:integer ;
+    skos:example "250.0"@en ;
+    skos:note "in kilogramms"@en ;
+    skos:prefLabel "Battery Weight"@en .
+
+cx:consumes a owl:ObjectProperty ;
+    rdfs:domain cx:DieselEngine,
+        cx:PetrolEngine ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range cx:Diesel,
+        cx:Petrol ;
+    skos:prefLabel "consumes"@en .
+
+cx:expectedLifetime a owl:DatatypeProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:integer ;
+    skos:example "12.0"@en ;
+    skos:note "in years"@en ;
+    skos:prefLabel "Lebensdauer"@de,
+        "Expected Lifetime"@en .
+
+cx:expectedLifetimeMileage a owl:DatatypeProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:integer ;
+    skos:example "150000.0"@en ;
+    skos:note "in kilometers"@en ;
+    skos:prefLabel "Laufleistung"@de,
+        "Expected Lifetime Mileage"@en .
+
+cx:fuelConsumption a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Fuel_efficiency> ;
+    skos:note "in liters / 100 km"@en ;
+    skos:prefLabel "Fuel Consumption"@en .
+
+cx:gearSwitching a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    skos:prefLabel "Gear Switching"@en .
+
+cx:isMadeBy a owl:ObjectProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range cx:VehicleManufacturer ;
+    skos:prefLabel "is made by"@en .
+
+cx:isOfType a owl:ObjectProperty ;
+    rdfs:domain cx:ElectricVehicle,
+        cx:Vehicle ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range cx:ElectricVehicle,
+        cx:VehicleType ;
+    skos:prefLabel "is of type"@en .
+
+cx:isPartOf a owl:ObjectProperty ;
+    rdfs:domain cx:Actuator,
+        cx:Battery,
+        cx:CanBus,
+        cx:DieselEngine,
+        cx:ElectricMotor,
+        cx:ElectronicControlUnit,
+        cx:Engine,
+        cx:ErrorMemory,
+        cx:PetrolEngine,
+        cx:Sensor,
+        cx:SpeedProfile,
+        cx:VehicleLifeCycleStage ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range cx:DieselVehicle,
+        cx:DrivingPattern,
+        cx:ElectricVehicle,
+        cx:ElectronicControlUnit,
+        cx:InternalCombustionEngineVehicle,
+        cx:Part,
+        cx:PetrolVehicle,
+        cx:Vehicle,
+        cx:VehicleLifeCycle ;
+    skos:prefLabel "is part of"@en .
+
+cx:maxAcceleration a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleUsage ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:integer ;
+    skos:prefLabel "Max Acceleration"@en .
+
+cx:maxDeceleration a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleUsage ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:integer ;
+    skos:prefLabel "Max Deceleration"@en .
+
+cx:maxRotationalSpeed a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleUsage ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:integer ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Rotational_speed> ;
+    skos:prefLabel "Drehzahl"@de,
+        "Max Rotational Speed"@en .
+
+cx:maxSpeed a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleUsage ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:integer ;
+    skos:prefLabel "Max Speed"@en .
+
+cx:milageDate a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleUsage ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:date ;
+    skos:prefLabel "Milage Date"@en .
+
+cx:mileage a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleUsage ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:integer ;
+    skos:example "123.0"@en ;
+    skos:note "in kilometers"@en ;
+    skos:prefLabel "Kilometerstand"@de,
+        "Mileage"@en .
+
+cx:vehicleAge a owl:DatatypeProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:integer ;
+    skos:definition "The current age of the vehicle in years."@en ;
+    skos:example "3.0"@en ;
+    skos:note "in years"@en ;
+    skos:prefLabel "Fahrzeugalter"@de,
+        "Vehicle Age"@en .
+
+cx:vehicleId a owl:DatatypeProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Vehicle_identification_number> ;
+    skos:altLabel "FIN"@de,
+        "Fahrzeugidentifikationsnummer"@de,
+        "VIN"@en,
+        "vehicle identification number"@en ;
+    skos:prefLabel "VIN"@de,
+        "VIN"@en .
+
+cx:vehicleMileage a owl:DatatypeProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:integer ;
+    skos:definition "The current mileage of the vehicle in km."@en ;
+    skos:example "1000.0"@en ;
+    skos:note "in kilometers"@en ;
+    skos:prefLabel "Vehicle Mileage"@en .
+
+cx:vehicleRegistrationDate a owl:DatatypeProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:date ;
+    skos:prefLabel "Vehicle Registration Date"@en .
+
+cx:vehicleWeight a owl:DatatypeProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:integer ;
+    skos:example "1500.0"@en ;
+    skos:note "in kilogramms"@en ;
+    skos:prefLabel "Fahrzeuggewicht"@de,
+        "Vehicle Weight"@en .
+
+cx:worldManufacturerIdentifier a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    skos:altLabel "WMI"@en,
+        "world manufacturer identifier"@en ;
+    skos:prefLabel "World Manufacturer Identifier"@en .
+
+cx:Actuator a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:VehicleComponent ;
+    skos:prefLabel "Actuator"@en .
+
+cx:CanBus a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/CAN_bus> ;
+    skos:altLabel "CAN"@en,
+        "Controller Area Network"@en ;
+    skos:prefLabel "Can Bus"@en .
+
+cx:Diesel a cx:Fuel ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Diesel_fuel> ;
+    skos:prefLabel "Diesel"@en .
+
+cx:DieselVehicle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Diesel_engine> ;
+    rdfs:subClassOf cx:InternalCombustionEngineVehicle ;
+    skos:definition "uses diesel"@en ;
+    skos:prefLabel "Dieselfahrzeug"@de,
+        "Diesel Vehicle"@en .
+
+cx:ElectricMotor a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:VehicleComponent ;
+    skos:prefLabel "Electric Motor"@en .
+
+cx:ErrorMemory a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Fehlerspeicher> ;
+    rdfs:subClassOf cx:VehicleComponent ;
+    skos:altLabel "fault memory"@en ;
+    skos:note "is stored in the EEPROM"@en ;
+    skos:prefLabel "Fehlerspeicher"@de,
+        "Error Memory"@en .
+
+cx:Petrol a cx:Fuel ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Gasoline> ;
+    skos:prefLabel "Petrol"@en .
+
+cx:PetrolVehicle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:InternalCombustionEngineVehicle ;
+    skos:definition "uses petrol"@en ;
+    skos:prefLabel "Benzinfahrzeug"@de,
+        "Petrol Vehicle"@en .
+
+cx:Sensor a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:VehicleComponent ;
+    skos:prefLabel "Sensor"@en .
+
+cx:SpeedProfile a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    skos:prefLabel "Speed Profile"@en .
+
+cx:VehicleLifeCycle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    skos:prefLabel "Vehicle Life Cycle"@en .
+
+cx:VehicleManufacturer a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Vehicle_identification_number#World_manufacturer_identifier> ;
+    skos:prefLabel "Vehicle Manufacturer"@en .
+
+cx:Battery a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:VehicleComponent ;
+    skos:prefLabel "Battery"@en .
+
+cx:DieselEngine a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Diesel_engine> ;
+    rdfs:subClassOf cx:Engine ;
+    skos:prefLabel "Diesel Engine"@en .
+
+cx:DrivingPattern a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    skos:altLabel "driver behaviour"@en,
+        "driving style"@en ;
+    skos:prefLabel "Fahrmuster"@de,
+        "Driving Pattern"@en .
+
+cx:ElectronicControlUnit a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:VehicleComponent ;
+    skos:altLabel "ECU"@en,
+        "electronic control unit"@en ;
+    skos:prefLabel "Electronic Control Unit"@en .
+
+cx:Fuel a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Fuel> ;
+    skos:prefLabel "Fuel"@en .
+
+cx:PetrolEngine a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Petrol_engine> ;
+    rdfs:subClassOf cx:Engine ;
+    skos:prefLabel "Petrol Engine"@en .
+
+cx:Engine a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Internal_combustion_engine> ;
+    rdfs:subClassOf cx:VehicleComponent ;
+    skos:altLabel "ICE"@en,
+        "internal combustion engine"@en ;
+    skos:prefLabel "Engine"@en .
+
+cx:FuelCycle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    skos:prefLabel "Fuel Cycle"@en .
+
+cx:InternalCombustionEngineVehicle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:Vehicle ;
+    skos:altLabel "ICEV"@en,
+        "internal combustion engine vehicle"@en ;
+    skos:prefLabel "Internal Combustion Engine Vehicle"@en .
+
+cx:BatteryType a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    skos:definition "by cathode material"@en ;
+    skos:prefLabel "Battery Type"@en .
+
+cx:VehicleEnvironment a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/K%C3%B6ppen_climate_classification> ;
+    skos:altLabel "climate"@en ;
+    skos:prefLabel "Vehicle Environment"@en .
+
+cx:VehicleType a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    skos:prefLabel "Vehicle Type"@en .
+
+cx:VehicleUsage a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    skos:prefLabel "Vehicle Usage"@en .
+
+cx:ElectricVehicle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:Vehicle ;
+    skos:prefLabel "Electric Vehicle"@en .
+
+cx:VehicleComponent a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    skos:prefLabel "Vehicle Component"@en .
+
+cx:Vehicle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Motor_vehicle> ;
+    skos:altLabel "automotive vehicle"@en,
+        "motor vehicle"@en ;
+    skos:definition "Is a self-propelled wheeled vehicle that transports people or cargo on land."@en ;
+    skos:prefLabel "Fahrzeug"@de,
+        "Vehicle"@en .
+
+cx:VehicleLifeCycleStage a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    skos:prefLabel "Vehicle Life Cycle Stage"@en .
+
+cx:VehicleOntology a owl:Ontology ;
+    dc:creator "Zazralt Magic" ;
+    dc:date "2022-09-13"^^xsd:date ;
+    dc:description "Ontology for vehicles in the automotive industry." ;
+    dc:title "Vehicle Ontology" ;
+    owl:imports cx:PartOntology ;
+    owl:versionInfo "0.0.1" .
+
