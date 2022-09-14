@@ -1,0 +1,21 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>io.catenax.knowledge.dataspace</groupId>
+    <artifactId>edc</artifactId>
+    <packaging>pom</packaging>
+    <parent>
+        <groupId>io.catenax.knowledge</groupId>
+        <artifactId>dataspace</artifactId>
+        <version>0.5.4-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>    
+    </parent>
+    <name>Catena-X Knowledge Agents Dataspace EDC Extensions</name>
+    <description>Project for all EDC-Related Artifacts</description>
+    <dependencies>
+    </dependencies>
+    <properties>
+    </properties>
+    <modules>
+        <module>agentplane-azurevault</module>
+    </modules>
+</project>

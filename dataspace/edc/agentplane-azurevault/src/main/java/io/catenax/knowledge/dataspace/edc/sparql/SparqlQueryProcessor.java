@@ -6,11 +6,18 @@
 //
 package io.catenax.knowledge.dataspace.edc.sparql;
 
-import io.catenax.knowledge.dataspace.edc.AgentHttpAction;
-import io.catenax.knowledge.dataspace.edc.Tuple;
-import io.catenax.knowledge.dataspace.edc.TupleSet;
+import io.catenax.knowledge.dataspace.edc.*;
+import io.catenax.knowledge.dataspace.edc.http.IJakartaWrapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.BadRequestException;
 import org.apache.http.HttpStatus;
+import org.apache.jena.fuseki.Fuseki;
+import org.apache.jena.fuseki.metrics.MetricsProviderRegistry;
+import org.apache.jena.fuseki.server.DataAccessPoint;
+import org.apache.jena.fuseki.server.DataAccessPointRegistry;
+import org.apache.jena.fuseki.server.DataService;
+import org.apache.jena.fuseki.server.OperationRegistry;
 import org.apache.jena.fuseki.servlets.HttpAction;
 import org.apache.jena.fuseki.servlets.SPARQL_QueryGeneral;
 
@@ -28,6 +35,7 @@ import java.util.regex.Pattern;
 import org.apache.jena.sparql.core.DatasetDescription;
 import org.apache.jena.query.Query;
 import org.apache.jena.sparql.core.DatasetGraph;
+import org.apache.jena.sparql.core.DatasetGraphFactory;
 import org.apache.jena.sparql.core.DatasetGraphZero;
 import org.apache.jena.atlas.lib.Pair;
 import org.apache.jena.query.Dataset;
@@ -53,17 +61,91 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
     /**
      * other services
      */
-    final Monitor monitor;
-    final ServiceExecutorRegistry registry;
+    protected final Monitor monitor;
+    protected final ServiceExecutorRegistry registry;
+    protected final AgentConfig config;
+
+
+    /**
+     * state
+     */
+    protected final OperationRegistry operationRegistry= OperationRegistry.createEmpty();
+    protected final DataAccessPointRegistry dataAccessPointRegistry=new DataAccessPointRegistry(MetricsProviderRegistry.get().getMeterRegistry());
+    // we need a single data access point (with its default graph)
+    protected final DataAccessPoint api;
+    // map EDC monitor to SLF4J (better than the builtin MonitorProvider)
+    private final MonitorWrapper monitorWrapper;
+    // some state to set when interacting with Fuseki
+    private long count=-1;
 
     /**
      * create a new sparql processor
      * @param registry service execution registry
      * @param monitor EDC logging
      */
-    public SparqlQueryProcessor(ServiceExecutorRegistry registry, Monitor monitor) {
+    public SparqlQueryProcessor(ServiceExecutorRegistry registry, Monitor monitor, AgentConfig config) {
         this.monitor=monitor;
         this.registry=registry;
+        this.config=config;
+        this.monitorWrapper=new MonitorWrapper(getClass().getName(),monitor);
+        final DatasetGraph dataset = DatasetGraphFactory.createTxnMem();
+        // read file with ontology, share this dataset with the catalogue sync procedure
+        DataService.Builder dataService = DataService.newBuilder(dataset);
+        DataService service=dataService.build();
+        api=new DataAccessPoint(config.getAccessPoint(), service);
+        dataAccessPointRegistry.register(api);
+        monitor.debug(String.format("Activating data service %s under access point %s",service,api));
+        service.goActive();
+    }
+
+    /**
+     * @return the operation registry
+     */
+    public OperationRegistry getOperationRegistry() {
+        return operationRegistry;
+    }
+
+    /**
+     * @return the data access point registry
+     */
+    public DataAccessPointRegistry getDataAccessPointRegistry() {
+        return dataAccessPointRegistry;
+    }
+
+    /**
+     * wraps a response to a previous servlet API
+     * @param jakartaResponse new servlet object
+     * @return wrapped/adapted response
+     */
+    public javax.servlet.http.HttpServletResponse getJavaxResponse(HttpServletResponse jakartaResponse) {
+        return IJakartaWrapper.javaxify(jakartaResponse,javax.servlet.http.HttpServletResponse.class,monitor);
+    }
+
+    /**
+     * wraps a request to a previous servlet API
+     * @param jakartaRequest new servlet object
+     * @return wrapped/adapted request
+     */
+    public javax.servlet.http.HttpServletRequest getJavaxRequest(HttpServletRequest jakartaRequest) {
+        return IJakartaWrapper.javaxify(jakartaRequest,javax.servlet.http.HttpServletRequest.class,monitor);
+    }
+
+    /**
+     * execute sparql based on the given request and response
+     * @param request
+     * @param response
+     * @param skill
+     * @param graph
+     */
+    public void execute(HttpServletRequest request, HttpServletResponse response, String skill, String graph) {
+        AgentHttpAction action = new AgentHttpAction(++count, monitorWrapper, getJavaxRequest(request), getJavaxResponse(response), skill, graph);
+        // Should we check whether this already has been done? the context should be quite static
+        action.getRequest().getServletContext().setAttribute(Fuseki.attrVerbose, config.isSparqlVerbose());
+        action.getRequest().getServletContext().setAttribute(Fuseki.attrOperationRegistry, operationRegistry);
+        action.getRequest().getServletContext().setAttribute(Fuseki.attrNameRegistry, dataAccessPointRegistry);
+        action.setRequest(api, api.getDataService());
+        ServiceExecutorRegistry.set(action.getContext(),registry);
+        execute(action);
     }
 
     /**
@@ -108,7 +190,6 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
      */
     @Override
     protected void execute(String queryString, HttpAction action) {
-        ServiceExecutorRegistry.set(action.getContext(),registry);
         String params="";
         try {
             String uriParams=action.getRequest().getQueryString();

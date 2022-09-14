@@ -57,7 +57,7 @@ public class TestAgentController {
     AgentConfig agentConfig=new AgentConfig(monitor,config);
     ServiceExecutorRegistry reg=new ServiceExecutorRegistry();
     DataspaceServiceExecutor exec=new DataspaceServiceExecutor(monitor,null,agentConfig);
-    SparqlQueryProcessor processor=new SparqlQueryProcessor(reg,monitor);
+    SparqlQueryProcessor processor=new SparqlQueryProcessor(reg,monitor,agentConfig);
     AgentController agentController=new AgentController(monitor,null,agentConfig,null,processor);
 
     AutoCloseable mocks=null;
@@ -135,8 +135,9 @@ public class TestAgentController {
         when(request.getServletContext()).thenReturn(context);
         when(request.getHeaders("Accept")).thenReturn(Collections.enumeration(List.of(accepts)));
         when(context.getAttribute(Fuseki.attrVerbose)).thenReturn(false);
-        when(context.getAttribute(Fuseki.attrOperationRegistry)).thenReturn(agentController.operationRegistry);
-        when(context.getAttribute(Fuseki.attrNameRegistry)).thenReturn(agentController.dataAccessPointRegistry);
+        when(context.getAttribute(Fuseki.attrOperationRegistry)).thenReturn(processor.getOperationRegistry());
+        when(context.getAttribute(Fuseki.attrNameRegistry)).thenReturn(processor.getDataAccessPointRegistry());
+        when(context.getAttribute(Fuseki.attrNameRegistry)).thenReturn(processor.getDataAccessPointRegistry());
         ByteArrayOutputStream responseStream=new ByteArrayOutputStream();
         MockServletOutputStream mos=new MockServletOutputStream(responseStream);
         when(response.getOutputStream()).thenReturn(mos);
@@ -310,6 +311,7 @@ public class TestAgentController {
      * @throws IOException in case of an error
      */
     @Test
+    @Tag("online")
     public void testParameterizedSkill() throws IOException {
         String query="PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT ?what WHERE { VALUES (?what) { (\"@input\"^^xsd:int)} }";
         String asset="urn:cx:Skill:cx:Test";

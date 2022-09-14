@@ -65,20 +65,9 @@ public class AgentController {
     private final OkHttpClient client;
     private final AgentConfig config;
 
-    // map EDC monitor to SLF4J (better than the builtin MonitorProvider)
-    private final MonitorWrapper monitorWrapper;
-
-    // some state to set when interacting with Fuseki
-    private long count=-1;
-    
     // the actual Fuseki engine components
     private final SparqlQueryProcessor processor;
-    OperationRegistry operationRegistry= OperationRegistry.createEmpty();
-    DataAccessPointRegistry dataAccessPointRegistry=new DataAccessPointRegistry(MetricsProviderRegistry.get().getMeterRegistry());
 
-    // we need a single data access point (with its default graph)
-    final private DataAccessPoint api;
-    
     // temporary local skill store
     final private Map<String,String> skills=new HashMap<>();
             
@@ -92,19 +81,10 @@ public class AgentController {
      */
     public AgentController(Monitor monitor, AgreementController agreementController, AgentConfig config, OkHttpClient client, SparqlQueryProcessor processor) {
         this.monitor = monitor;
-        this.monitorWrapper=new MonitorWrapper(getClass().getName(),monitor);
         this.agreementController = agreementController;
         this.client=client;
         this.config=config;
         this.processor=processor;
-        final DatasetGraph dataset = DatasetGraphFactory.createTxnMem();
-        // read file with ontology, share this dataset with the catalogue sync procedure
-        DataService.Builder dataService = DataService.newBuilder(dataset);
-        DataService service=dataService.build();
-        api=new DataAccessPoint(config.getAccessPoint(), service);
-        dataAccessPointRegistry.register(api);
-        monitor.debug(String.format("Activating data service %s under access point %s",service,api));
-        service.goActive();
     }
 
     /**
@@ -113,24 +93,6 @@ public class AgentController {
     @Override
     public String toString() {
         return super.toString()+"/agent";
-    }
-
-    /**
-     * wraps a response to a previous servlet API
-     * @param jakartaResponse new servlet object
-     * @return wrapped/adapted response
-     */
-    public javax.servlet.http.HttpServletResponse getJavaxResponse(HttpServletResponse jakartaResponse) {
-        return IJakartaWrapper.javaxify(jakartaResponse,javax.servlet.http.HttpServletResponse.class,monitor);
-    }
-
-    /**
-     * wraps a request to a previous servlet API
-     * @param jakartaRequest new servlet object
-     * @return wrapped/adapted request
-     */
-    public javax.servlet.http.HttpServletRequest getJavaxRequest(HttpServletRequest jakartaRequest) {
-        return IJakartaWrapper.javaxify(jakartaRequest,javax.servlet.http.HttpServletRequest.class,monitor);
     }
 
     /**
@@ -198,14 +160,7 @@ public class AgentController {
             // exchange skill against text
             skill = skills.get(asset);
 
-            // Should we check whether this already has been done? the context should be quite static
-            request.getServletContext().setAttribute(Fuseki.attrVerbose, config.isSparqlVerbose());
-            request.getServletContext().setAttribute(Fuseki.attrOperationRegistry, operationRegistry);
-            request.getServletContext().setAttribute(Fuseki.attrNameRegistry, dataAccessPointRegistry);
-
-            AgentHttpAction action = new AgentHttpAction(++count, monitorWrapper, getJavaxRequest(request), getJavaxResponse(response), skill, graph);
-            action.setRequest(api, api.getDataService());
-            processor.execute(action);
+            processor.execute(request,response,skill,graph);
             // kind of redundant, but javax.ws.rs likes it this way
             return Response.ok().build();
         } catch(WebApplicationException e) {

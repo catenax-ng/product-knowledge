@@ -1,0 +1,22 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>io.catenax.knowledge.dataspace</groupId>
+    <artifactId>agents</artifactId>
+    <packaging>pom</packaging>
+    <parent>
+        <groupId>io.catenax.knowledge</groupId>
+        <artifactId>dataspace</artifactId>
+        <version>0.5.4-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>    
+    </parent>
+    <name>Catena-X Knowledge Agents Dataspace Agents</name>
+    <description>Project for all Agent-Related Artifacts</description>
+    <dependencies>
+    </dependencies>
+    <properties>
+    </properties>
+    <modules>
+        <module>provisioning</module>
+        <module>remoting</module>
+    </modules>
+</project>

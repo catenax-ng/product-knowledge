@@ -11,7 +11,7 @@
         <groupId>io.catenax</groupId>
         <artifactId>knowledge</artifactId>
         <version>0.5.4-SNAPSHOT</version>
-        <relativePath>../../../pom.xml</relativePath>    
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -83,6 +83,10 @@
              <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                 <!-- surefire forgets it conf from the parent -->
+                 <configuration>
+                     <groups>!online</groups>
+                 </configuration>
             </plugin>
         </plugins>
     </build>

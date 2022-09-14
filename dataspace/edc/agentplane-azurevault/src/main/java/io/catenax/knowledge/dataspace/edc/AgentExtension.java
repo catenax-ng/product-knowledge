@@ -87,7 +87,7 @@ public class AgentExtension implements ServiceExtension {
 
         ServiceExecutorRegistry reg = new ServiceExecutorRegistry();
         reg.add(new DataspaceServiceExecutor(monitor,agreementController,config));
-        SparqlQueryProcessor processor=new SparqlQueryProcessor(reg,monitor);
+        SparqlQueryProcessor processor=new SparqlQueryProcessor(reg,monitor,config);
 
         AgentController agentController=new AgentController(monitor,agreementController,config,httpClient,processor);
         monitor.debug(String.format("Registering agent controller %s",agentController));
