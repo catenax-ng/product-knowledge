@@ -13,6 +13,8 @@ jobs:
       id-token: write
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
       - name: Import Secrets
         uses: hashicorp/vault-action@v2.4.0
         with:
@@ -23,3 +25,10 @@ jobs:
           secrets: |
             knowledge/oem password | OEM_PASSWORD ;
             knowledge/oem api-key | OEM_EDC_API_KEY ;
+      - name: Execute Integration Tests
+        uses: matt-ball/newman-action@master
+        with:
+          collection: cx_ka_pilot.postman_collection.json
+          environment: cx_ka_pilot.integration.postman_environment.json
+          folder: Integration Tests
+          envVar: '[{ "key": "oemPassword", "value": "..." }, { "key": "oemEdcApiKey", "value": "..." }]'
