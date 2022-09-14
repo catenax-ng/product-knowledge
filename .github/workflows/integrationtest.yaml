@@ -32,5 +32,5 @@ jobs:
         with:
           collection: cx_ka_pilot.postman_collection.json
           environment: cx_ka_pilot.integration.postman_environment.json
-          folder: 'Integration Tests'
+          folder: "Integration Tests"
           envVar: '[{ "key": "oemPassword", "value": "..." }, { "key": "oemEdcApiKey", "value": "..." }]'
