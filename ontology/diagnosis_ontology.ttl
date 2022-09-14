@@ -208,6 +208,6 @@ cx:DiagnosisOntology a owl:Ontology ;
     dc:date "2022-09-13"^^xsd:date ;
     dc:description "Ontology for vehicle diagnosis." ;
     dc:title "Diagnosis Ontology" ;
-    owl:imports cx:VehicleOntology ;
+#    owl:imports cx:VehicleOntology ;
     owl:versionInfo "0.0.1" .
 

@@ -542,6 +542,6 @@ cx:VehicleOntology a owl:Ontology ;
     dc:date "2022-09-13"^^xsd:date ;
     dc:description "Ontology for vehicles in the automotive industry." ;
     dc:title "Vehicle Ontology" ;
-    owl:imports cx:PartOntology ;
+#    owl:imports cx:PartOntology ;
     owl:versionInfo "0.0.1" .
 

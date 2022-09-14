@@ -86,7 +86,7 @@ cx:ProgonsisOntology a owl:Ontology ;
     dc:creator "Zazralt Magic" ;
     dc:date "2022-09-13"^^xsd:date ;
     dc:title "Progonsis Ontology" ;
-    owl:imports cx:DiagnosisOntology ;
+#    owl:imports cx:DiagnosisOntology ;
     owl:versionInfo "0.0.1" .
 
 cx:Severity a owl:Class ;
