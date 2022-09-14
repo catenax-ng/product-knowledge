@@ -10,6 +10,7 @@ import io.catenax.knowledge.dataspace.edc.AgentConfig;
 import io.catenax.knowledge.dataspace.edc.TestConfig;
 import io.catenax.knowledge.dataspace.edc.sparql.DataspaceServiceExecutor;
 import io.catenax.knowledge.dataspace.edc.sparql.SparqlQueryProcessor;
+import okhttp3.OkHttpClient;
 import org.apache.jena.sparql.service.ServiceExecutorRegistry;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -56,7 +57,8 @@ public class TestAgentController {
     TestConfig config=new TestConfig();
     AgentConfig agentConfig=new AgentConfig(monitor,config);
     ServiceExecutorRegistry reg=new ServiceExecutorRegistry();
-    DataspaceServiceExecutor exec=new DataspaceServiceExecutor(monitor,null,agentConfig);
+    OkHttpClient client=new OkHttpClient();
+    DataspaceServiceExecutor exec=new DataspaceServiceExecutor(monitor,null,agentConfig,client);
     SparqlQueryProcessor processor=new SparqlQueryProcessor(reg,monitor,agentConfig);
     AgentController agentController=new AgentController(monitor,null,agentConfig,null,processor);
 

@@ -138,11 +138,11 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
      * @param graph
      */
     public void execute(HttpServletRequest request, HttpServletResponse response, String skill, String graph) {
+        request.getServletContext().setAttribute(Fuseki.attrVerbose, config.isSparqlVerbose());
+        request.getServletContext().setAttribute(Fuseki.attrOperationRegistry, operationRegistry);
+        request.getServletContext().setAttribute(Fuseki.attrNameRegistry, dataAccessPointRegistry);
         AgentHttpAction action = new AgentHttpAction(++count, monitorWrapper, getJavaxRequest(request), getJavaxResponse(response), skill, graph);
         // Should we check whether this already has been done? the context should be quite static
-        action.getRequest().getServletContext().setAttribute(Fuseki.attrVerbose, config.isSparqlVerbose());
-        action.getRequest().getServletContext().setAttribute(Fuseki.attrOperationRegistry, operationRegistry);
-        action.getRequest().getServletContext().setAttribute(Fuseki.attrNameRegistry, dataAccessPointRegistry);
         action.setRequest(api, api.getDataService());
         ServiceExecutorRegistry.set(action.getContext(),registry);
         execute(action);

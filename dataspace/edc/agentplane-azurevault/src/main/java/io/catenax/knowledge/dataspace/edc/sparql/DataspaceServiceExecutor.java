@@ -8,7 +8,9 @@ package io.catenax.knowledge.dataspace.edc.sparql;
 
 import io.catenax.knowledge.dataspace.edc.AgentConfig;
 import io.catenax.knowledge.dataspace.edc.AgreementController;
+import io.catenax.knowledge.dataspace.edc.http.HttpClientWrapper;
 import jakarta.ws.rs.WebApplicationException;
+import okhttp3.OkHttpClient;
 import org.apache.jena.atlas.logging.FmtLog;
 import org.apache.jena.atlas.logging.Log;
 import org.apache.jena.graph.Node;
@@ -61,6 +63,8 @@ public class DataspaceServiceExecutor extends ServiceExecutorHttp {
     final Monitor monitor;
     final AgreementController agreementController;
     final AgentConfig config;
+    final HttpClient client;
+
 
     /**
      * some constants
@@ -75,10 +79,11 @@ public class DataspaceServiceExecutor extends ServiceExecutorHttp {
      * @param monitor    logging subsystem
      * @param controller dataspace agreement
      */
-    public DataspaceServiceExecutor(Monitor monitor, AgreementController controller, AgentConfig config) {
+    public DataspaceServiceExecutor(Monitor monitor, AgreementController controller, AgentConfig config, OkHttpClient client) {
         this.monitor = monitor;
         this.agreementController = controller;
         this.config = config;
+        this.client=new HttpClientWrapper(client);
     }
 
 
@@ -140,6 +145,13 @@ public class DataspaceServiceExecutor extends ServiceExecutorHttp {
                 targetUrl = targetUrl + "?" + edcMatcher.group("params");
             }
             Node newServiceNode = NodeFactory.createURI(targetUrl);
+            Map<String, Map<String, List<String>>> allServiceParams = context.get(Service.serviceParams);
+            if (allServiceParams == null) {
+                allServiceParams = new HashMap<>();
+                context.put(Service.serviceParams, allServiceParams);
+            }
+            Map<String, List<String>> serviceParams = allServiceParams.computeIfAbsent(targetUrl, k -> new HashMap<>());
+            serviceParams.put("Accept",List.of("application/json"));
             realOpExecute = new OpService(newServiceNode, opExecute.getSubOp(), opExecute.getServiceElement(), silent);
             execCxt.getContext().put(authKey, endpoint.getAuthKey());
             execCxt.getContext().put(authSecret, endpoint.getAuthCode());
@@ -200,7 +212,6 @@ public class DataspaceServiceExecutor extends ServiceExecutorHttp {
 
             // RegistryServiceModifier is applied by QueryExecHTTP
             Params serviceParams = getServiceParamsFromContext(serviceURL, context);
-            serviceParams.add("Accept", "application/json");
             HttpClient httpClient = chooseHttpClient(serviceURL, context);
 
             QuerySendMode querySendMode = chooseQuerySendMode(serviceURL, context, QuerySendMode.asGetWithLimitBody);
@@ -247,30 +258,7 @@ public class DataspaceServiceExecutor extends ServiceExecutorHttp {
      * @return http client
      */
     protected HttpClient chooseHttpClient(String serviceURL, Context context) {
-        // [QExec] Done in HttpLib?
-        // -- RegistryHttpClient : preferred way to set a custom HttpClient
-        HttpClient httpClient = RegistryHttpClient.get().find(serviceURL);
-        if (httpClient == null && context != null) {
-            // Check for old setting.
-            if (context.isDefined(Service.oldQueryClient))
-                monitor.warning("Deprecated context symbol " + Service.oldQueryClient + ". See " + Service.httpQueryClient + ".");
-
-            Object client = context.get(Service.httpQueryClient);
-            if (client != null) {
-                // Check for old HttpClient
-                if (client.getClass().getName().equals("org.apache.http.client.HttpClient")) {
-                    monitor.warning("Found Apache HttpClient for context symbol " + Service.httpQueryClient + ". Jena now uses java.net.http.HttpClient");
-                } else if (client instanceof HttpClient) {
-                    httpClient = (HttpClient) client;
-                } else {
-                    monitor.warning("Not recognized " + Service.httpQueryClient + " -> " + client);
-                }
-            }
-        }
-        // -- Default : common case.
-        if (httpClient == null)
-            httpClient = HttpEnv.getDftHttpClient();
-        return httpClient;
+        return client;
     }
 
     /**

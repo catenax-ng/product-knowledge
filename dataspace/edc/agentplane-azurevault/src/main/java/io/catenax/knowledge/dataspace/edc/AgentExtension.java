@@ -86,7 +86,7 @@ public class AgentExtension implements ServiceExtension {
         webService.registerResource(CALLBACK_CONTEXT_ALIAS, agreementController);
 
         ServiceExecutorRegistry reg = new ServiceExecutorRegistry();
-        reg.add(new DataspaceServiceExecutor(monitor,agreementController,config));
+        reg.add(new DataspaceServiceExecutor(monitor,agreementController,config,httpClient));
         SparqlQueryProcessor processor=new SparqlQueryProcessor(reg,monitor,config);
 
         AgentController agentController=new AgentController(monitor,agreementController,config,httpClient,processor);

@@ -8,8 +8,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>io.catenax</groupId>
-        <artifactId>knowledge</artifactId>
+        <groupId>io.catenax.knowledge.dataspace</groupId>
+        <artifactId>edc</artifactId>
         <version>0.5.4-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -83,10 +83,6 @@
              <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                 <!-- surefire forgets it conf from the parent -->
-                 <configuration>
-                     <groups>!online</groups>
-                 </configuration>
             </plugin>
         </plugins>
     </build>
@@ -102,6 +98,10 @@
                     <groupId>org.eclipse.dataspaceconnector</groupId>
                     <artifactId>data-plane-s3</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.eclipse.dataspaceconnector</groupId>
+                    <artifactId>s3-core</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
@@ -116,6 +116,13 @@
         <dependency>
             <groupId>org.eclipse.dataspaceconnector</groupId>
             <artifactId>contract-spi</artifactId>
+            <version>${edc.version}</version>
+        </dependency>
+
+        <!-- Transfer SPI/SDK -->
+        <dependency>
+            <groupId>org.eclipse.dataspaceconnector</groupId>
+            <artifactId>transfer-spi</artifactId>
             <version>${edc.version}</version>
         </dependency>
 
