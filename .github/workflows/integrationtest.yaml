@@ -32,4 +32,4 @@ jobs:
         with:
           collection: cx_ka_pilot.postman_collection.json
           environment: cx_ka_pilot.integration.postman_environment.json
-          folder: "Integration Tests"
+          folder: '["Integration Tests"]' # See https://github.com/matt-ball/newman-action/issues/50
