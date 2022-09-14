@@ -25,13 +25,13 @@ mvn package
 Run the following command to merge the CX ontology to the standard output.
 
 ```console
-java -jar target/tools-0.5.3-SNAPSHOT.jar ../*.ttl
+java -jar target/tools-0.5.4-SNAPSHOT.jar ../*_ontology.ttl
 ```
 
 To run the merger with a stylesheet, for example to render the ontology as a graph
 
 ```console
-java -jar target/tools-0.5.3-SNAPSHOT.jar -styleSheet src/main/resources/graph.xslt ../*.ttl
+java -jar target/tools-0.5.4-SNAPSHOT.jar -styleSheet src/main/resources/graph.xslt ../*_ontology.ttl
 ```
 
 ### JSON Converters
@@ -47,12 +47,6 @@ Run the following command to convert a given json file into separate data jsons
 ```console
 node src/main/node/json2json.js
 ```
-
-## Contents
-
-- [Dublin Core Meta-Model (dcterms)](dcterms.ttl)
-- [Catena-X Common Domain (cx)](cx.ttl)
-- [Catena-X Diagnosis Domain (cx)](diagnosis.ttl)
 
 
 
