@@ -1,8 +1,6 @@
 name: Integration Tests
 
-on:
-  workflow_dispatch:
-  push:
+on: workflow_dispatch
 
 jobs:
   run_integration_test:
