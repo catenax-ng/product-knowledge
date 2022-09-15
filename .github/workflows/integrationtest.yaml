@@ -10,13 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Fetch Secrets
-        OEM_PASSWORD: ${{ secrets.ORG_KNOWLEDGE_PASSWORD }}
-        OEM_EDC_API_KEY: ${{ secrets.ORG_KNOWLEDGE_API_KEY }}
       - name: Checkout repository
         uses: actions/checkout@v2
-      - if: "${{ env.OEM_PASSWORD != '' && env.OEM_EDC_API_KEY != ''}}"
-        name: Execute Integration Tests
+      - name: Execute Integration Tests
+        env:
+          OEM_PASSWORD: ${{ secrets.ORG_KNOWLEDGE_PASSWORD }}
+          OEM_EDC_API_KEY: ${{ secrets.ORG_KNOWLEDGE_API_KEY }}
+        if: "${{ env.OEM_PASSWORD != '' && env.OEM_EDC_API_KEY != ''}}"
         uses: matt-ball/newman-action@master
         with:
           reporters: '["junit"]'
