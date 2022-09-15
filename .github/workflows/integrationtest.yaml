@@ -20,3 +20,10 @@ jobs:
           environment: cx_ka_pilot.integration.postman_environment.json
           folder: '["Integration Tests"]' # See https://github.com/matt-ball/newman-action/issues/50
           envVar: '[{ "key": "oemPassword", "value": "${{ secrets.GITHUB_TOKEN }}" }, { "key": "oemEdcApiKey", "value": "${{ secrets.GITHUB_TOKEN }}" }]'
+      - if: always()
+        name: Test Report
+        uses: dorny/test-reporter@v1
+        with:
+          name: Test Report Postman
+          path: 'newman-run-report-*.xml'
+          reporter: java-junit
