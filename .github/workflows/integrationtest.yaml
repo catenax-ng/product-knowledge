@@ -25,5 +25,5 @@ jobs:
         uses: dorny/test-reporter@v1
         with:
           name: Test Report Postman
-          path: 'newman-run-report-*.xml'
+          path: 'newman/newman-run-report-*.xml'
           reporter: java-junit
