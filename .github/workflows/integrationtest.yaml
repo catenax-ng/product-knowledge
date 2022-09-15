@@ -8,28 +8,14 @@ jobs:
   run_integration_test:
     name: Run Integration Tests
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Import Secrets
-        uses: hashicorp/vault-action@v2.4.0
-        with:
-          url: https://vault.demo.catena-x.net:443
-          caCertificate: ${{ secrets.VAULT_CA_CERT }}
-          role: product-knowledge
-          method: jwt
-          jwtGithubAudience: sigstore
-          secrets: |
-            knowledge/oem password | OEM_PASSWORD ;
-            knowledge/oem api-key | OEM_EDC_API_KEY ;
-      - if: always()
-        name: Execute Integration Tests
+      - name: Execute Integration Tests
         uses: matt-ball/newman-action@master
         with:
           collection: cx_ka_pilot.postman_collection.json
           environment: cx_ka_pilot.integration.postman_environment.json
           folder: '["Integration Tests"]' # See https://github.com/matt-ball/newman-action/issues/50
+          envVar: '[{ "key": "oemPassword", "value": "${{ secrets.GITHUB_TOKEN }}" }, { "key": "oemEdcApiKey", "value": "${{ secrets.GITHUB_TOKEN }}" }]'
