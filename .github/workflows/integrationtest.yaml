@@ -13,17 +13,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Execute Integration Tests
-        env:
-          OEM_PASSWORD: ${{ secrets.ORG_KNOWLEDGE_PASSWORD }}
-          OEM_EDC_API_KEY: ${{ secrets.ORG_KNOWLEDGE_API_KEY }}
-        if: "${{ env.OEM_PASSWORD != '' && env.OEM_EDC_API_KEY != ''}}"
         uses: matt-ball/newman-action@master
         with:
           reporters: '["junit"]'
           collection: cx_ka_pilot.postman_collection.json
           environment: cx_ka_pilot.integration.postman_environment.json
           folder: '["Integration Tests"]' # See https://github.com/matt-ball/newman-action/issues/50
-          envVar: '[{ "key": "oemPassword", "value": "${{ env.OEM_PASSWORD }}" }, { "key": "oemEdcApiKey", "value": "${{ env.OEM_EDC_API_KEY }}" }]'
+          envVar: '[{ "key": "oemPassword", "value": "${{ secrets.ORG_KNOWLEDGE_PASSWORD }}" }, { "key": "oemEdcApiKey", "value": "${{ secrets.ORG_KNOWLEDGE_API_KEY }}" }]'
       - if: always()
         name: Test Report
         uses: dorny/test-reporter@v1
