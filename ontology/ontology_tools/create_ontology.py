@@ -3,6 +3,7 @@ import os
 from ontology.ontology_tools.settings import ontology_path, tables_path, tools_path
 from ontology.ontology_tools.ontology_tools import read_numbers2df
 from ontology.ontology_tools.convert_df2graph import convert_df2graph
+from ontology.ontology_tools.merge_ontology import merge_ontology
 
 # get ontology_list from files
 file_ext = 'numbers'
@@ -23,7 +24,8 @@ for ontology in ontology_list:
     # read numbers
     #numbers_file = tables_path + '/' + ontology + '_ontology.numbers'
     df = read_numbers2df(ontology_file+'numbers').dropna(how='all').fillna('')  # necessary
-    #df.to_csv(ontoloy_file+'csv')
+    #df.to_csv(ontology_file+'csv', index=False)
+    df.to_excel(ontology_file+'xlsx', index=False)
 
     # read csv
     # csv_file = tables_path+'/csv/'+ontology+'_ontology.csv'
@@ -35,10 +37,10 @@ for ontology in ontology_list:
     # write file
     ttl_file = ontology_path + '/' + ontology + '_ontology.ttl'
     g.serialize(destination=ttl_file, format = 'turtle')
+    #g.serialize(destination=ontology_path + '/' + ontology + '_ontology.jsonld', format = 'json-ld', indent=4)
 
-    g.serialize(destination=ontology_path + '/' + ontology + '_ontology.jsonld', format = 'json-ld', indent=4)
+merge_ontology()
 
-#
 # ontology = 'diagnosis'
 # numbers_file = tables_path + '/' + ontology + '_ontology.numbers'
 # df = read_numbers2df(numbers_file).dropna(how='all').fillna('')  # necessary

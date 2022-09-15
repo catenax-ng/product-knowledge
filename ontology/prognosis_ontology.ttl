@@ -1,4 +1,4 @@
-@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/> .
+@prefix cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -82,13 +82,6 @@ cx:ProductLifetime a owl:Class ;
     skos:altLabel "product lifespan"@en ;
     skos:prefLabel "Product Lifetime"@en .
 
-cx:ProgonsisOntology a owl:Ontology ;
-    dc:creator "Zazralt Magic" ;
-    dc:date "2022-09-13"^^xsd:date ;
-    dc:title "Progonsis Ontology" ;
-#    owl:imports cx:DiagnosisOntology ;
-    owl:versionInfo "0.0.1" .
-
 cx:Severity a owl:Class ;
     rdfs:isDefinedBy cx:PrognosisOntology ;
     skos:prefLabel "Severity"@en .
@@ -148,6 +141,13 @@ cx:predicts a owl:ObjectProperty ;
         cx:VehicleError,
         cx:VehicleFailure ;
     skos:prefLabel "predicts"@en .
+
+cx:progonsis_ontology.ttl a owl:Ontology ;
+    dc:creator "Zazralt Magic" ;
+    dc:date "2022-09-15"^^xsd:date ;
+    dc:title "Progonsis Ontology" ;
+    owl:imports cx:diagnosis_ontology.ttl ;
+    owl:versionInfo "0.0.1" .
 
 cx:recommends a owl:ObjectProperty ;
     rdfs:domain cx:VehiclePrognosis ;

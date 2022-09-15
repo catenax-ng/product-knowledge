@@ -1,4 +1,4 @@
-@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/> .
+@prefix cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -20,17 +20,32 @@ cx:DataSpace a owl:Class ;
     rdfs:isDefinedBy cx:CommonOntology ;
     skos:prefLabel "Data Space"@en .
 
-cx:EclipseDataConnector a owl:Class ;
+cx:DinStandard a owl:Class ;
     rdfs:isDefinedBy cx:CommonOntology ;
-    skos:altLabel "EDC"@en,
-        "eclipse data connector"@en ;
-    skos:prefLabel "Eclipse Data Connector"@en .
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Deutsches_Institut_f%C3%BCr_Normung> ;
+    rdfs:subClassOf cx:TechnicalStandard ;
+    skos:altLabel "DIN"@en,
+        "Deutsches Institut für Normung"@en ;
+    skos:prefLabel "Din Standard"@en .
+
+cx:IsoStandard a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/International_Organization_for_Standardization> ;
+    rdfs:subClassOf cx:TechnicalStandard ;
+    skos:altLabel "ISO"@en,
+        "International Organization for Standardization"@en ;
+    skos:prefLabel "Iso Standard"@en .
 
 cx:Manufacturing a owl:Class ;
     rdfs:isDefinedBy cx:CommonOntology ;
     rdfs:subClassOf cx:Process ;
     skos:prefLabel "Fertigung"@de,
         "Manufacturing"@en .
+
+cx:OpenStandard a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Open_standard> ;
+    skos:prefLabel "Open Standard"@en .
 
 cx:RawMaterialSupplier a owl:Class ;
     rdfs:isDefinedBy cx:CommonOntology ;
@@ -42,13 +57,24 @@ cx:Recycler a owl:Class ;
     rdfs:subClassOf cx:Role ;
     skos:prefLabel "Recycler"@en .
 
+cx:SmallAndMediumSizedEnterprise a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Small_and_medium-sized_enterprises> ;
+    rdfs:subClassOf cx:Company ;
+    skos:altLabel "KMU"@de,
+        "Kleine und mittlere Unternehmen"@de,
+        "SME"@en,
+        "Small and medium-sized enterprise"@en ;
+    skos:prefLabel "Kleine und mittlere Unternehmen"@de,
+        "Small and medium-sized enterprise"@en .
+
 cx:Unit a owl:Class ;
     rdfs:isDefinedBy cx:CommonOntology ;
     skos:prefLabel "Unit"@en .
 
 cx:VehicleManufacturer a owl:Class ;
     rdfs:isDefinedBy cx:CommonOntology ;
-    rdfs:subClassOf cx:Manufacturer ;
+    rdfs:subClassOf cx:OriginalEquipmentManufacturer ;
     skos:prefLabel "Vehicle Manufacturer"@en .
 
 cx:businessPartnerNumberLong a owl:DatatypeProperty ;
@@ -62,6 +88,91 @@ cx:businessPartnerNumberType a owl:DatatypeProperty ;
     rdfs:isDefinedBy cx:CommonOntology ;
     skos:definition "The  Business Partner Number Type describes strings following the pattern 'BPNL{8}{4}'."@en ;
     skos:prefLabel "BPNL Type"@en .
+
+cx:category a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:type ;
+    skos:prefLabel "Kategorie"@de,
+        "Category"@en .
+
+cx:class a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:type ;
+    skos:prefLabel "Klasse"@de,
+        "Class"@en .
+
+cx:code a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Code> ;
+    rdfs:subPropertyOf cx:identifier ;
+    skos:altLabel "Kurzzeichen"@de,
+        "Kürzel"@de ;
+    skos:prefLabel "code"@de,
+        "Code"@en .
+
+cx:common_ontology.ttl a owl:Ontology ;
+    dc:creator "Zazralt Magic" ;
+    dc:date "2022-09-15"^^xsd:date ;
+    dc:description "The Catena-X Common Domain lists all domain-independent concepts, attributes and relations." ;
+    dc:title "Common Ontology" ;
+    owl:versionInfo "0.0.1" .
+
+cx:date a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:date ;
+    skos:prefLabel "Datum"@de,
+        "Date"@en .
+
+cx:dateTime a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:dateTime ;
+    skos:prefLabel "Zeit"@de,
+        "Date Time"@en .
+
+cx:description a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Definite_description> ;
+    skos:prefLabel "Beschreibung"@de,
+        "Description"@en .
+
+cx:dinName a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Din Name"@en .
+
+cx:dinNumber a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Din Number"@en .
+
+cx:eclipseDataspaceConnectorId a owl:DatatypeProperty ;
+    rdfs:domain cx:EclipseDataspaceConnector ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "EDC Id"@en .
+
+cx:eclipseDataspaceConnectorUrl a owl:DatatypeProperty ;
+    rdfs:domain cx:EclipseDataspaceConnector ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "EDC URL"@en .
+
+cx:globalUniqueIdentifier a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Universally_unique_identifier> ;
+    rdfs:subPropertyOf cx:identifier ;
+    skos:example "global unique identifier"@en,
+        "universally unique identifier"@en ;
+    skos:prefLabel "Global Unique Identifier"@en .
+
+cx:hasConnector a owl:ObjectProperty ;
+    rdfs:domain cx:BusinessPartner ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range cx:EclipseDataspaceConnector ;
+    skos:prefLabel "has connector"@en .
 
 cx:hasContact a owl:ObjectProperty ;
     rdfs:domain cx:Person ;
@@ -82,15 +193,83 @@ cx:isProvisionedBy a owl:ObjectProperty ;
     skos:definition "The provisioned by predicate connects assets to their providing Catena-X Business Partner."@en ;
     skos:prefLabel "is provisioned by"@en .
 
+cx:isoName a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Iso Name"@en .
+
+cx:isoNumber a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Iso Number"@en .
+
+cx:kind a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:type ;
+    skos:prefLabel "Art"@de,
+        "Kind"@en .
+
+cx:name a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Name> ;
+    rdfs:subPropertyOf cx:identifier ;
+    skos:altLabel "Benennung"@de,
+        "Bezeichnung"@de ;
+    skos:example "part number"@en,
+        "serial number"@en ;
+    skos:prefLabel "Name"@de,
+        "Name"@en .
+
 cx:produces a owl:ObjectProperty ;
     rdfs:domain cx:Manufacturer ;
     rdfs:isDefinedBy cx:CommonOntology ;
     rdfs:range cx:Product ;
     skos:prefLabel "produces"@en .
 
-cx:regexPattern a owl:AnnotationProperty ;
+cx:serialNumber a owl:DatatypeProperty ;
     rdfs:isDefinedBy cx:CommonOntology ;
-    skos:prefLabel "Regex Pattern"@en .
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Serial_number> ;
+    rdfs:subPropertyOf cx:identifier ;
+    skos:definition "A unique identifier assigned incrementally or sequentially to an item, to uniquely identify it."@en ;
+    skos:prefLabel "Seriennummer"@de,
+        "Serial Number"@en .
+
+cx:tag a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Tag_> ;
+    rdfs:subPropertyOf cx:type ;
+    skos:prefLabel "Tag"@de,
+        "Tag"@en .
+
+cx:technicalStandardStandardName a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Technical Standard Standard Name"@en .
+
+cx:technicalStandardStandardNumber a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Technical Standard Standard Number"@en .
+
+cx:text a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "text"@de,
+        "Text"@en .
+
+cx:title a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Titel"@de,
+        "Title"@en .
+
+cx:uniqueIdentifier a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Unique_identifier> ;
+    rdfs:subPropertyOf cx:identifier ;
+    skos:example "unique identifier"@en ;
+    skos:prefLabel "Unique Identifier"@en .
 
 cx:Asset a owl:Class ;
     rdfs:isDefinedBy cx:CommonOntology ;
@@ -101,6 +280,14 @@ cx:Contact a owl:Class ;
     rdfs:isDefinedBy cx:CommonOntology ;
     skos:prefLabel "Contact"@en .
 
+cx:OriginalEquipmentManufacturer a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Original_equipment_manufacturer> ;
+    rdfs:subClassOf cx:Manufacturer ;
+    skos:altLabel "OEM"@en,
+        "original equipment manufacturer"@en ;
+    skos:prefLabel "OEM"@en .
+
 cx:Person a owl:Class ;
     rdfs:isDefinedBy cx:CommonOntology ;
     skos:prefLabel "Person"@en .
@@ -109,12 +296,9 @@ cx:Product a owl:Class ;
     rdfs:isDefinedBy cx:CommonOntology ;
     skos:prefLabel "Product"@en .
 
-cx:BusinessPartner a owl:Class ;
+cx:Company a owl:Class ;
     rdfs:isDefinedBy cx:CommonOntology ;
-    skos:altLabel "BP"@en,
-        "business partner"@en ;
-    skos:definition "A Business Partner is a legal entity that is part of the Catena-X network or that stands in a relevant relation to a Catena-X Business Partner."@en ;
-    skos:prefLabel "Business Partner"@en .
+    skos:prefLabel "Company"@en .
 
 cx:Manufacturer a owl:Class ;
     rdfs:isDefinedBy cx:CommonOntology ;
@@ -130,14 +314,43 @@ cx:Supplier a owl:Class ;
     rdfs:subClassOf cx:Role ;
     skos:prefLabel "Supplier"@en .
 
+cx:TechnicalStandard a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Technical_standard> ;
+    skos:prefLabel "Technical Standard"@en .
+
+cx:BusinessPartner a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:subClassOf cx:Company ;
+    skos:altLabel "BP"@en,
+        "business partner"@en ;
+    skos:definition "A Business Partner is a legal entity that is part of the Catena-X network or that stands in a relevant relation to a Catena-X Business Partner."@en ;
+    skos:prefLabel "Business Partner"@en .
+
+cx:EclipseDataspaceConnector a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:altLabel "EDC"@en,
+        "eclipse dataspace connector"@en ;
+    skos:prefLabel "EDC"@en .
+
 cx:Role a owl:Class ;
     rdfs:isDefinedBy cx:CommonOntology ;
     skos:prefLabel "Role"@en .
 
-cx:CommonOntology a owl:Ontology ;
-    dc:creator "Zazralt Magic" ;
-    dc:date "2022-09-13"^^xsd:date ;
-    dc:description "The Catena-X Common Domain lists all domain-independent concepts, attributes and relations." ;
-    dc:title "Common Ontology" ;
-    owl:versionInfo "0.0.1" .
+cx:type a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Typ"@de,
+        "Type"@en .
+
+cx:identifier a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Identifier> ;
+    skos:altLabel "Kennzeichen"@de ;
+    skos:example "ID"@en,
+        "UID"@en,
+        "unique identifier"@en ;
+    skos:prefLabel "Identifikator"@de,
+        "Identifier"@en .
 

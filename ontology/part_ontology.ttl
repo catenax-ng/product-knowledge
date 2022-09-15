@@ -1,9 +1,33 @@
-@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/> .
+@prefix cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+cx:ElectronicPart a owl:Class ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    rdfs:subClassOf cx:Part ;
+    skos:note "unique physical object"@en ;
+    skos:prefLabel "Elektronisches Bauteil"@de,
+        "Electronic Part"@en .
+
+cx:RepairMaintenanceInformationTerminology a cx:IsoStandard ;
+    rdfs:seeAlso <https://www.iso.org/standard/58101.html> ;
+    rdfs:subClassOf cx:PartType ;
+    skos:altLabel "Terminologie für Reparatur- und Wartungsinformationen"@de,
+        "RMI"@en,
+        "repair maintenance information"@en ;
+    skos:note "ISO 18542-2"@en ;
+    skos:prefLabel "RMI term"@en .
+
+cx:batchNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:BatchPart ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    rdfs:range xsd:string ;
+    skos:altLabel "lot number"@en ;
+    skos:prefLabel "Chargennummer"@de,
+        "Batch Number"@en .
 
 cx:isPartOf a owl:ObjectProperty ;
     rdfs:domain cx:Part ;
@@ -12,24 +36,106 @@ cx:isPartOf a owl:ObjectProperty ;
         cx:Vehicle ;
     skos:prefLabel "is part of"@en .
 
+cx:isProducedBy a owl:ObjectProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    rdfs:range cx:PartManufacturer ;
+    skos:prefLabel "is produced by"@en .
+
+cx:partGeneration a owl:DatatypeProperty ;
+    rdfs:domain cx:SerializedPart ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    rdfs:range xsd:string ;
+    skos:example "Gen3H"@en ;
+    skos:prefLabel "Generationsstand"@de,
+        "Part Generation"@en .
+
+cx:partId a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    skos:prefLabel "Bauteil Id"@de,
+        "Part Id"@en .
+
+cx:partName a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    skos:altLabel "Teilebezeichnung"@de,
+        "Teilname"@de ;
+    skos:prefLabel "Bauteilname"@de,
+        "Part Name"@en .
+
+cx:partNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:ConstructionPart ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Part_number> ;
+    skos:altLabel "Bauteilnummer"@de,
+        "PN"@en,
+        "component number"@en,
+        "part number"@en ;
+    skos:prefLabel "Sachnummer"@de,
+        "Part Number"@en .
+
+cx:partVersion a owl:DatatypeProperty ;
+    rdfs:domain cx:ConstructionPart ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    rdfs:range xsd:string ;
+    skos:altLabel "Versionsstand"@de,
+        "Änderungsindex"@de ;
+    skos:prefLabel "Bauteil Version"@de,
+        "Part Version"@en .
+
+cx:part_ontology.ttl a owl:Ontology ;
+    dc:creator "Zazralt Magic" ;
+    dc:date "2022-09-15"^^xsd:date ;
+    dc:title "Part Ontology" ;
+    owl:versionInfo "0.0.1" .
+
 cx:produces a owl:ObjectProperty ;
     rdfs:domain cx:PartManufacturer ;
     rdfs:isDefinedBy cx:PartOntology ;
     rdfs:range cx:Part ;
     skos:prefLabel "produces"@en .
 
+cx:serialNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:SerializedPart ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Seriennummer"@de,
+        "Serial Number"@en .
+
+cx:BatchPart a owl:Class ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    rdfs:subClassOf cx:Part ;
+    skos:note "unique physical object"@en ;
+    skos:prefLabel "Chargenbauteil"@de,
+        "Batch Part"@en .
+
+cx:ConstructionPart a owl:Class ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    rdfs:subClassOf cx:Part ;
+    skos:note "non-physical object"@en ;
+    skos:prefLabel "Konstruktionsbauteil"@de,
+        "Construction Part"@en .
+
 cx:PartManufacturer a owl:Class ;
     rdfs:isDefinedBy cx:PartOntology ;
-    skos:prefLabel "Part Manufacturer"@en .
+    rdfs:subClassOf cx:Manufacturer ;
+    skos:prefLabel "Bauteilhersteller"@de,
+        "Part Manufacturer"@en .
+
+cx:SerializedPart a owl:Class ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    rdfs:subClassOf cx:Part ;
+    skos:note "unique physical object"@en ;
+    skos:prefLabel "Serienbauteil"@de,
+        "Serialized Part"@en .
 
 cx:Part a owl:Class ;
     rdfs:isDefinedBy cx:PartOntology ;
-    skos:note "ISO 18542-2"@en ;
-    skos:prefLabel "Part"@en .
-
-cx:PartOntology a owl:Ontology ;
-    dc:creator "Zazralt Magic" ;
-    dc:date "2022-09-13"^^xsd:date ;
-    dc:title "Part Ontology" ;
-    owl:versionInfo "0.0.1" .
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Bauteil_> ;
+    skos:altLabel "Komponente"@de,
+        "Teil"@de,
+        "component"@en ;
+    skos:note "non-physical object"@en ;
+    skos:prefLabel "Bauteil"@de,
+        "Part"@en .
 

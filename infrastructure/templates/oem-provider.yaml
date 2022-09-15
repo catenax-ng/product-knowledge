@@ -141,11 +141,11 @@ metadata:
     nginx.ingress.kubernetes.io/x-forwarded-prefix: "/oem-provider-agent"
     nginx.org/mergeable-ingress-type: master
     # type of authentication
-    nginx.ingress.kubernetes.io/auth-type: basic
+    #nginx.ingress.kubernetes.io/auth-type: basic
     # name of the secret that contains the user/password definitions
-    nginx.ingress.kubernetes.io/{{ .Values.security.authType }}: oem-provider-auth
+    #nginx.ingress.kubernetes.io/{{ .Values.security.authType }}: oem-provider-auth
     # message to display with an appropriate context why the authentication is required
-    nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - OEM'
+    #nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - OEM'
 spec:
   tls:
     - hosts:

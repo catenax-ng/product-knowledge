@@ -1,4 +1,4 @@
-@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/> .
+@prefix cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -23,9 +23,17 @@ cx:Bus a cx:VehicleType ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Bus> ;
     skos:prefLabel "Bus"@en .
 
+cx:BusinessVehicle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:Vehicle ;
+    skos:prefLabel "Business Vehicle"@en .
+
 cx:Car a cx:VehicleType ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Car> ;
-    skos:prefLabel "Car"@en .
+    skos:altLabel "Automobil"@de,
+        "Karre"@de ;
+    skos:prefLabel "Auto"@de,
+        "Car"@en .
 
 cx:CircularEconomy a owl:Class ;
     rdfs:isDefinedBy cx:VehicleOntology ;
@@ -113,6 +121,11 @@ cx:PlugInHybridElectricVehicle a owl:Class ;
         "new energy vehicle"@en ;
     skos:definition "are powered by an electric motor and an internal combustion engine that work together or separately."@en ;
     skos:prefLabel "Plug-In Hybrid Electric Vehicle"@en .
+
+cx:PrivateVehicle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:Vehicle ;
+    skos:prefLabel "Private Vehicle"@en .
 
 cx:RangeExtendedElectricVehicle a owl:Class ;
     rdfs:isDefinedBy cx:VehicleOntology ;
@@ -213,6 +226,12 @@ cx:consumes a owl:ObjectProperty ;
     rdfs:range cx:Diesel,
         cx:Petrol ;
     skos:prefLabel "consumes"@en .
+
+cx:engineId a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subPropertyOf cx:identifier ;
+    skos:prefLabel "Motornummer"@de,
+        "Engine number"@en .
 
 cx:expectedLifetime a owl:DatatypeProperty ;
     rdfs:domain cx:Vehicle ;
@@ -322,6 +341,12 @@ cx:mileage a owl:DatatypeProperty ;
     skos:prefLabel "Kilometerstand"@de,
         "Mileage"@en .
 
+cx:sameAs a owl:ObjectProperty ;
+    rdfs:domain cx:VehicleManufacturer ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range cx:BusinessPartner ;
+    skos:prefLabel "same as"@en .
+
 cx:vehicleAge a owl:DatatypeProperty ;
     rdfs:domain cx:Vehicle ;
     rdfs:isDefinedBy cx:VehicleOntology ;
@@ -337,10 +362,12 @@ cx:vehicleId a owl:DatatypeProperty ;
     rdfs:isDefinedBy cx:VehicleOntology ;
     rdfs:range xsd:string ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Vehicle_identification_number> ;
+    rdfs:subPropertyOf cx:identifier ;
     skos:altLabel "FIN"@de,
         "Fahrzeugidentifikationsnummer"@de,
         "VIN"@en,
         "vehicle identification number"@en ;
+    skos:definition "17-digit unique identifier"@en ;
     skos:prefLabel "VIN"@de,
         "VIN"@en .
 
@@ -357,6 +384,7 @@ cx:vehicleRegistrationDate a owl:DatatypeProperty ;
     rdfs:domain cx:Vehicle ;
     rdfs:isDefinedBy cx:VehicleOntology ;
     rdfs:range xsd:date ;
+    skos:definition "Date of first registration."@en ;
     skos:prefLabel "Vehicle Registration Date"@en .
 
 cx:vehicleWeight a owl:DatatypeProperty ;
@@ -367,6 +395,14 @@ cx:vehicleWeight a owl:DatatypeProperty ;
     skos:note "in kilogramms"@en ;
     skos:prefLabel "Fahrzeuggewicht"@de,
         "Vehicle Weight"@en .
+
+cx:vehicle_ontology.ttl a owl:Ontology ;
+    dc:creator "Zazralt Magic" ;
+    dc:date "2022-09-15"^^xsd:date ;
+    dc:description "Ontology for vehicles in the automotive industry." ;
+    dc:title "Vehicle Ontology" ;
+    owl:imports cx:part_ontology.ttl ;
+    owl:versionInfo "0.0.1" .
 
 cx:worldManufacturerIdentifier a owl:DatatypeProperty ;
     rdfs:isDefinedBy cx:VehicleOntology ;
@@ -436,11 +472,6 @@ cx:VehicleLifeCycle a owl:Class ;
     rdfs:isDefinedBy cx:VehicleOntology ;
     skos:prefLabel "Vehicle Life Cycle"@en .
 
-cx:VehicleManufacturer a owl:Class ;
-    rdfs:isDefinedBy cx:VehicleOntology ;
-    rdfs:seeAlso <https://en.wikipedia.org/wiki/Vehicle_identification_number#World_manufacturer_identifier> ;
-    skos:prefLabel "Vehicle Manufacturer"@en .
-
 cx:Battery a owl:Class ;
     rdfs:isDefinedBy cx:VehicleOntology ;
     rdfs:subClassOf cx:VehicleComponent ;
@@ -476,6 +507,11 @@ cx:PetrolEngine a owl:Class ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Petrol_engine> ;
     rdfs:subClassOf cx:Engine ;
     skos:prefLabel "Petrol Engine"@en .
+
+cx:VehicleManufacturer a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Vehicle_identification_number#World_manufacturer_identifier> ;
+    skos:prefLabel "Vehicle Manufacturer"@en .
 
 cx:Engine a owl:Class ;
     rdfs:isDefinedBy cx:VehicleOntology ;
@@ -527,7 +563,8 @@ cx:VehicleComponent a owl:Class ;
 cx:Vehicle a owl:Class ;
     rdfs:isDefinedBy cx:VehicleOntology ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Motor_vehicle> ;
-    skos:altLabel "automotive vehicle"@en,
+    skos:altLabel "auto"@de,
+        "automotive vehicle"@en,
         "motor vehicle"@en ;
     skos:definition "Is a self-propelled wheeled vehicle that transports people or cargo on land."@en ;
     skos:prefLabel "Fahrzeug"@de,
@@ -536,12 +573,4 @@ cx:Vehicle a owl:Class ;
 cx:VehicleLifeCycleStage a owl:Class ;
     rdfs:isDefinedBy cx:VehicleOntology ;
     skos:prefLabel "Vehicle Life Cycle Stage"@en .
-
-cx:VehicleOntology a owl:Ontology ;
-    dc:creator "Zazralt Magic" ;
-    dc:date "2022-09-13"^^xsd:date ;
-    dc:description "Ontology for vehicles in the automotive industry." ;
-    dc:title "Vehicle Ontology" ;
-#    owl:imports cx:PartOntology ;
-    owl:versionInfo "0.0.1" .
 

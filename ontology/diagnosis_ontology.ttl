@@ -1,4 +1,4 @@
-@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/> .
+@prefix cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -49,16 +49,27 @@ cx:diagnoses a owl:ObjectProperty ;
     rdfs:range cx:Vehicle ;
     skos:prefLabel "diagnoses"@en .
 
+cx:diagnosis_ontology.ttl a owl:Ontology ;
+    dc:creator "Zazralt Magic" ;
+    dc:date "2022-09-15"^^xsd:date ;
+    dc:description "Ontology for vehicle diagnosis." ;
+    dc:title "Diagnosis Ontology" ;
+    owl:imports cx:vehicle_ontology.ttl ;
+    owl:versionInfo "0.0.1" .
+
 cx:diagnosticTroubleCodeId a owl:DatatypeProperty ;
     rdfs:domain cx:DiagnosticTroubleCode ;
     rdfs:isDefinedBy cx:DiagnosisOntology ;
     rdfs:range xsd:string ;
+    skos:example "P0001"@en ;
+    skos:note "5-digit code"@en ;
     skos:prefLabel "Diagnostic Trouble Code Id"@en .
 
 cx:diagnosticTroubleCodeName a owl:DatatypeProperty ;
     rdfs:domain cx:DiagnosticTroubleCode ;
     rdfs:isDefinedBy cx:DiagnosisOntology ;
     rdfs:range xsd:string ;
+    skos:example "Steuerkreis Kraftstoffvolumenregler - offener Stromkreis"@en ;
     skos:prefLabel "Diagnostic Trouble Code Name"@en .
 
 cx:hasActualCause a owl:ObjectProperty ;
@@ -117,6 +128,73 @@ cx:isStoredIn a owl:ObjectProperty ;
     rdfs:range cx:ErrorMemory ;
     skos:prefLabel "is stored in"@en .
 
+cx:loadSpectrumAbscissa a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range xsd:string ;
+    skos:definition "x axis"@en ;
+    skos:example "counts"@en ;
+    skos:note "needs rework!"@en ;
+    skos:prefLabel "Definitionsbereich"@de,
+        "Load Spectrum Abscissa"@en .
+
+cx:loadSpectrumCountingMethod a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Load Spectrum Counting Method"@en .
+
+cx:loadSpectrumCountingUnit a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Load Spectrum Counting Unit"@en .
+
+cx:loadSpectrumLowerLimit a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range xsd:integer ;
+    skos:prefLabel "Load Spectrum Lower Limit"@en .
+
+cx:loadSpectrumName a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Load Spectrum Name"@en .
+
+cx:loadSpectrumNumberOfBins a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range xsd:integer ;
+    skos:prefLabel "Load Spectrum Number Of Bins"@en .
+
+cx:loadSpectrumOrdinate a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range xsd:string ;
+    skos:definition "y axis"@en ;
+    skos:example "oil temperature"@en ;
+    skos:prefLabel "Wertebereich"@de,
+        "Load Spectrum Ordinate"@en .
+
+cx:loadSpectrumType a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Load Spectrum Type"@en .
+
+cx:loadSpectrumUnit a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Load Spectrum Unit"@en .
+
+cx:loadSpectrumUpperLimit a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range xsd:integer ;
+    skos:prefLabel "Load Spectrum Upper Limit"@en .
+
 cx:testingTechnician a owl:DatatypeProperty ;
     rdfs:isDefinedBy cx:DiagnosisOntology ;
     skos:prefLabel "Testing Technician"@en .
@@ -132,12 +210,6 @@ cx:vehicleDiagnosisLocation a owl:DatatypeProperty ;
 cx:CauseType a owl:Class ;
     rdfs:isDefinedBy cx:DiagnosisOntology ;
     skos:prefLabel "Cause Type"@en .
-
-cx:LoadSpectrum a owl:Class ;
-    rdfs:isDefinedBy cx:DiagnosisOntology ;
-    rdfs:seeAlso <https://de.wikipedia.org/wiki/Lastkollektiv> ;
-    skos:prefLabel "Lastkollektiv"@de,
-        "Load Spectrum"@en .
 
 cx:OnBoardDiagnostics2 a owl:Class ;
     rdfs:isDefinedBy cx:DiagnosisOntology ;
@@ -162,6 +234,7 @@ cx:VehicleDiagnosticDevice a owl:Class ;
 
 cx:VehicleDiagnosticSystem a owl:Class ;
     rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Fahrzeugdiagnosesystem> ;
     skos:altLabel "VDS"@en,
         "vehicle diagnostic system"@en ;
     skos:prefLabel "Fahrzeugdiagnosesystem"@de,
@@ -201,13 +274,13 @@ cx:DiagnosticTroubleCode a owl:Class ;
         "error code"@en,
         "trouble code"@en ;
     skos:note "ISO 15031-6, SAE J2012"@en ;
-    skos:prefLabel "Diagnostic Trouble Code"@en .
+    skos:prefLabel "Fehlercode"@de,
+        "Diagnostic Trouble Code"@en .
 
-cx:DiagnosisOntology a owl:Ontology ;
-    dc:creator "Zazralt Magic" ;
-    dc:date "2022-09-13"^^xsd:date ;
-    dc:description "Ontology for vehicle diagnosis." ;
-    dc:title "Diagnosis Ontology" ;
-#    owl:imports cx:VehicleOntology ;
-    owl:versionInfo "0.0.1" .
+cx:LoadSpectrum a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Lastkollektiv> ;
+    skos:altLabel "load collective"@en ;
+    skos:prefLabel "Lastkollektiv"@de,
+        "Load Spectrum"@en .
 

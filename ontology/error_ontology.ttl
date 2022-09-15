@@ -1,4 +1,4 @@
-@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/> .
+@prefix cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -75,6 +75,12 @@ cx:detects a owl:ObjectProperty ;
     rdfs:isDefinedBy cx:ErrorOntology ;
     rdfs:range cx:Error ;
     skos:prefLabel "detects"@en .
+
+cx:error_ontology.ttl a owl:Ontology ;
+    dc:creator "Zazralt Magic" ;
+    dc:date "2022-09-15"^^xsd:date ;
+    dc:title "Error Ontology" ;
+    owl:versionInfo "0.0.1" .
 
 cx:hasError a owl:ObjectProperty ;
     rdfs:domain cx:Part,
@@ -172,10 +178,4 @@ cx:Error a owl:Class ;
     skos:note "what"@en ;
     skos:prefLabel "Fehler"@de,
         "Error"@en .
-
-cx:ErrorOntology a owl:Ontology ;
-    dc:creator "Zazralt Magic" ;
-    dc:date "2022-09-13"^^xsd:date ;
-    dc:title "Error Ontology" ;
-    owl:versionInfo "0.0.1" .
 

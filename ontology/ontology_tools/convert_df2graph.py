@@ -54,6 +54,11 @@ def convert_df2graph(df=None, mapping=None, ontology_name='', csv_file='', ttl_f
     if csv_file != '':
         df = pd.read_csv(csv_file, dtype=str).dropna(how='all').fillna('')  # necessary
 
+    # remove empty columns
+    if (df.columns.isna().sum() > 0):
+        print('- found empty column names')
+        df = df.loc[:, df.columns.notna()]
+
     # extract header
     authors = extract_header(df, 'author')
     title = extract_header(df, 'title', first_string=True)
@@ -181,7 +186,7 @@ def convert_df2graph(df=None, mapping=None, ontology_name='', csv_file='', ttl_f
     g = rdfpandas.to_graph(df, namespace_manager = namespace_manager)
 
     # add metadata
-    ontology_uri = title.title().replace(' ', '')
+    ontology_uri = title.lower().replace(' ', '_')+'.ttl'
     g = g.add((ns[ontology_uri], RDF.type, OWL.Ontology))
     g = g.add((ns[ontology_uri], DC.title, Literal(title.title())))
     g = g.add((ns[ontology_uri], DC.date, Literal(date.today())))
@@ -195,7 +200,7 @@ def convert_df2graph(df=None, mapping=None, ontology_name='', csv_file='', ttl_f
             g = g.add((ns[ontology_uri], DC.description, Literal(x)))
     if len(dependency) > 0:
         for import_ontology in dependency:
-            g = g.add((ns[ontology_uri], OWL.imports, URIRef(ns[import_ontology.title().replace(' ', '')])))
+            g = g.add((ns[ontology_uri], OWL.imports, URIRef(ns[import_ontology.lower().replace(' ', '_')+'.ttl'])))
 
     # write ontology
     if ttl_file != '':
