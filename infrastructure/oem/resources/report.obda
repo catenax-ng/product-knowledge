@@ -1,0 +1,59 @@
+[PrefixDeclaration]
+cx:         https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/
+cx-diag:	https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#
+owl:		http://www.w3.org/2002/07/owl#
+rdf:		http://www.w3.org/1999/02/22-rdf-syntax-ns#
+xml:		http://www.w3.org/XML/1998/namespace
+xsd:		http://www.w3.org/2001/XMLSchema#
+obda:		https://w3id.org/obda/vocabulary#
+rdfs:		http://www.w3.org/2000/01/rdf-schema#
+
+[MappingDeclaration] @collection [[
+
+mappingId	Part
+target		cx:Part/{part_id} rdf:type cx:Part ; cx:partId {part_id}^^xsd:string ; cx:partName {partName}^^xsd:string ; cx:isPartOf cx:Vehicle/{vin} ; cx:hasLoadSpectrum cx:LoadSpectrum/{lc_id} . 
+source		SELECT "part_id", "vin", "partName" "lc_id" FROM "report"."part_loadcollective"
+
+mappingId	LoadSpectrum
+target		cx:LoadSpectrum/{lc_id}  rdf:type cx:LoadSpectrum ; cx:loadSpectrumType {type}^^xsd:string ; cx:loadSpectrumVersion {version}^^xsd:string ;
+            cx:loadSpectrumComponent {component}^^xsd:string ;
+            cx:loadSpectrumCountingMethod {counting_method}^^xsd:string ;
+            cx:loadSpectrumCountingUnit {counting_unit}^^xsd:string ;
+            cx:loadSpectrumName {name}^^xsd:string ;
+            cx:loadSpectrumChannelType {channel_type}^^xsd:string ;
+            cx:loadSpectrumUnit {unit}^^xsd:string ;
+            cx:loadSpectrumLowerLimit {lowerLimit}^^xsd:string ;
+            cx:loadSpectrumUpperLimit {upperLimit}^^xsd:string ;
+            cx:loadSpectrumNumberOfBins {numberOfBins}^^xsd:string ;
+            cx:loadSpectrumAbscissa {classes}^^xsd:string ;
+            cx:loadSpectrumOrdinate {counts}^^xsd:string .
+source		SELECT "lc_id","type", "version", "component", "counting_method","counting_unit","name","channel_type","unit","lowerLimit", "upperLimit", "numberOfBins", "classes", "counts" FROM "report"."part_loadcollective"
+
+mappingId	Vehicle
+target		cx:Vehicle/{vin} df:type cx:Vehicle;
+            cx:vin {vin}^^xsd:string ;
+            cx:mileage_value {mileage_value}^^xsd:string ;
+            cx:mileage_unit {mileage_unit}^^xsd:string ;
+            cx:registrationDate_value {mileage_unit}^^xsd:string ;
+            cx:registrationDate_unit {mileage_unit}^^xsd:string .
+source		SELECT "vin", "mileage_value", "mileage_unit", "registrationDate_value", "registrationDate_unit" FROM "report"."businessPartner"
+
+mappingId	BusinessPartner
+target		cx:BusinessPartner/{businessPartnerNummer} df:type cx:BusinessPartner;
+            cx:businessPartnerNummer {businessPartnerNummer}^^xsd:string ;
+            cx:name {manufacturer}^^xsd:string ;
+            cx:has_vehicle cx:Vehicle/{vin} . 
+source      SELECT "vin", "businessPartnerNummer", "manufacturer", FROM "report"."businessPartner"
+
+mappingId	DiagnosisResult
+target		cx:DiagnosisResult/{dtc_id} df:type cx:DiagnosisResult;
+            cx:code {dtc_code_1}^^xsd:string ;
+            cx:code {dtc_code_2}^^xsd:string ;
+            cx:code {dtc_code_3}^^xsd:string .
+source      SELECT "dtc_id","vin", "dtc_code_1", "dtc_code_2", "dtc_code_3" FROM "report"."dtc" 
+
+mappingId	Vehicle_2_DiagnosisResult
+target		cx:Vehicle/{vin} cx:hasDiagnosisResult cx:DiagnosisResult/{dtc_id}.
+source      SELECT "dtc_id","vin" FROM "report"."dtc" 
+
+]]
