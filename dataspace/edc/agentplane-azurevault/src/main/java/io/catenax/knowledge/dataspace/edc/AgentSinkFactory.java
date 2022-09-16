@@ -54,7 +54,7 @@ public class AgentSinkFactory extends org.eclipse.dataspaceconnector.dataplane.h
     @Override
     public DataSink createSink(DataFlowRequest request) {
         DataSink sink=super.createSink(request);
-        monitor.debug(String.format("Created a new agent sink %s for destination %s and params %s",sink,request.getDestinationDataAddress().getType(),supplier.apply(request).toRequest()));
+        monitor.debug(String.format("Created a new agent sink %s for destination type %s",sink,request.getDestinationDataAddress().getType()));
         return sink;
 
     }

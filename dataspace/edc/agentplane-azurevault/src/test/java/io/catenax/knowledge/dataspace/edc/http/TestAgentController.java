@@ -7,19 +7,18 @@
 package io.catenax.knowledge.dataspace.edc.http;
 
 import io.catenax.knowledge.dataspace.edc.AgentConfig;
+import io.catenax.knowledge.dataspace.edc.SkillStore;
 import io.catenax.knowledge.dataspace.edc.TestConfig;
 import io.catenax.knowledge.dataspace.edc.sparql.DataspaceServiceExecutor;
 import io.catenax.knowledge.dataspace.edc.sparql.SparqlQueryProcessor;
-import okhttp3.OkHttpClient;
+import okhttp3.*;
 import org.apache.jena.sparql.service.ServiceExecutorRegistry;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayOutputStream;
@@ -60,7 +59,8 @@ public class TestAgentController {
     OkHttpClient client=new OkHttpClient();
     DataspaceServiceExecutor exec=new DataspaceServiceExecutor(monitor,null,agentConfig,client);
     SparqlQueryProcessor processor=new SparqlQueryProcessor(reg,monitor,agentConfig);
-    AgentController agentController=new AgentController(monitor,null,agentConfig,null,processor);
+    SkillStore skillStore=new SkillStore();
+    AgentController agentController=new AgentController(monitor,null,agentConfig,null,processor,skillStore);
 
     AutoCloseable mocks=null;
 
@@ -336,6 +336,24 @@ public class TestAgentController {
         agentController.postSkill(query,asset);
         String result=testExecute("GET",null,asset,"*/*",List.of(new AbstractMap.SimpleEntry<>("input","84")));
         JsonNode root=mapper.readTree(result);
+        JsonNode whatBinding0=root.get("results").get("bindings").get(0).get("what");
+        assertEquals("84",whatBinding0.get("value").asText(),"Correct binding");
+    }
+
+    /**
+     * test federation call - will only work with a local oem provider running
+     * @throws IOException in case of an error
+     */
+    @Test
+    @Tag("online")
+    public void testFederatedSkill2() throws IOException {
+        String query="PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT ?what WHERE { SERVICE<edc://localhost:8080/sparql> { " +
+                "GRAPH <urn:cx:Graph:4711> { VALUES (?what) { (\"42\"^^xsd:int)} } } }";
+        Request.Builder builder=new Request.Builder();
+        builder.url("http://localhost:8080");
+        builder.put(RequestBody.create(query, MediaType.parse("application/sparql-query")));
+        Response response=processor.execute(builder.build(),null,null);
+        JsonNode root=mapper.readTree(response.body().string());
         JsonNode whatBinding0=root.get("results").get("bindings").get(0).get("what");
         assertEquals("84",whatBinding0.get("value").asText(),"Correct binding");
     }

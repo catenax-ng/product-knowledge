@@ -25,6 +25,8 @@ import io.catenax.knowledge.dataspace.edc.service.DataManagement;
 import org.eclipse.dataspaceconnector.dataplane.spi.pipeline.PipelineService;
 import org.eclipse.dataspaceconnector.spi.types.TypeManager;
 
+import java.util.regex.Pattern;
+
 /**
  * EDC extension that initializes the Agent subsystem (Agent Sources, Agent Sinks, Agent Endpoint and Federation Callbacks
  */
@@ -33,30 +35,32 @@ public class AgentExtension implements ServiceExtension {
     /**
      * static constants
      */
-    private static final String DEFAULT_CONTEXT_ALIAS = "default";
-    private static final String CALLBACK_CONTEXT_ALIAS = "callback";
+    protected static final String DEFAULT_CONTEXT_ALIAS = "default";
+    protected static final String CALLBACK_CONTEXT_ALIAS = "callback";
+    public static Pattern GRAPH_PATTERN=Pattern.compile("((?<url>[^#]+)#)?(?<graph>(urn:(cx|artifact):)?Graph:.*)");
+
 
     /**
      * dependency injection part
      */
     @Inject
-    private WebService webService;
+    protected WebService webService;
 
     @Inject
-    private OkHttpClient httpClient;
+    protected OkHttpClient httpClient;
 
     @Inject
     @SuppressWarnings("rawtypes")
-    private RetryPolicy retryPolicy;
+    protected RetryPolicy retryPolicy;
 
     @Inject
-    private PipelineService pipelineService;
+    protected PipelineService pipelineService;
 
     @Inject
-    private Vault vault;
+    protected Vault vault;
 
     @Inject
-    private DataTransferExecutorServiceContainer executorContainer;
+    protected DataTransferExecutorServiceContainer executorContainer;
 
     /**
      * @return name of the extension
@@ -89,13 +93,15 @@ public class AgentExtension implements ServiceExtension {
         reg.add(new DataspaceServiceExecutor(monitor,agreementController,config,httpClient));
         SparqlQueryProcessor processor=new SparqlQueryProcessor(reg,monitor,config);
 
-        AgentController agentController=new AgentController(monitor,agreementController,config,httpClient,processor);
+        SkillStore skillStore=new SkillStore();
+
+        AgentController agentController=new AgentController(monitor,agreementController,config,httpClient,processor,skillStore);
         monitor.debug(String.format("Registering agent controller %s",agentController));
         webService.registerResource(DEFAULT_CONTEXT_ALIAS, agentController);
 
         monitor.debug(String.format("Initialized %s",name()));
 
-        AgentSourceFactory sourceFactory = new AgentSourceFactory(httpClient, retryPolicy, new AgentSourceRequestParamsSupplier(vault,config,monitor),monitor);
+        AgentSourceFactory sourceFactory = new AgentSourceFactory(httpClient, retryPolicy, new AgentSourceRequestParamsSupplier(vault,config,monitor),monitor, processor, skillStore);
         pipelineService.registerFactory(sourceFactory);
 
         AgentSinkFactory sinkFactory = new AgentSinkFactory(httpClient, executorContainer.getExecutorService(), 5, monitor, new HttpSinkRequestParamsSupplier(vault));

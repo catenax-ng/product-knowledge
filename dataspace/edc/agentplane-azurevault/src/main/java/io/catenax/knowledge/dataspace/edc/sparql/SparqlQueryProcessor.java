@@ -7,10 +7,15 @@
 package io.catenax.knowledge.dataspace.edc.sparql;
 
 import io.catenax.knowledge.dataspace.edc.*;
-import io.catenax.knowledge.dataspace.edc.http.IJakartaWrapper;
+import io.catenax.knowledge.dataspace.edc.http.HttpServletContextAdapter;
+import io.catenax.knowledge.dataspace.edc.http.HttpServletRequestAdapter;
+import io.catenax.knowledge.dataspace.edc.http.HttpServletResponseAdapter;
+import io.catenax.knowledge.dataspace.edc.http.IJakartaAdapter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.BadRequestException;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.apache.http.HttpStatus;
 import org.apache.jena.fuseki.Fuseki;
 import org.apache.jena.fuseki.metrics.MetricsProviderRegistry;
@@ -25,9 +30,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,6 +53,8 @@ import org.apache.jena.fuseki.system.GraphLoadUtils;
 import org.apache.jena.atlas.lib.InternalErrorException;
 import org.apache.jena.sparql.service.ServiceExecutorRegistry;
 import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * dedicated SparQL query processor which is skill-enabled and open for edc-based services:
@@ -118,7 +123,7 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
      * @return wrapped/adapted response
      */
     public javax.servlet.http.HttpServletResponse getJavaxResponse(HttpServletResponse jakartaResponse) {
-        return IJakartaWrapper.javaxify(jakartaResponse,javax.servlet.http.HttpServletResponse.class,monitor);
+        return IJakartaAdapter.javaxify(jakartaResponse,javax.servlet.http.HttpServletResponse.class,monitor);
     }
 
     /**
@@ -127,15 +132,15 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
      * @return wrapped/adapted request
      */
     public javax.servlet.http.HttpServletRequest getJavaxRequest(HttpServletRequest jakartaRequest) {
-        return IJakartaWrapper.javaxify(jakartaRequest,javax.servlet.http.HttpServletRequest.class,monitor);
+        return IJakartaAdapter.javaxify(jakartaRequest,javax.servlet.http.HttpServletRequest.class,monitor);
     }
 
     /**
      * execute sparql based on the given request and response
-     * @param request
-     * @param response
-     * @param skill
-     * @param graph
+     * @param request jakarta request
+     * @param response jakarta response
+     * @param skill skill ref
+     * @param graph graph ref
      */
     public void execute(HttpServletRequest request, HttpServletResponse response, String skill, String graph) {
         request.getServletContext().setAttribute(Fuseki.attrVerbose, config.isSparqlVerbose());
@@ -146,6 +151,34 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
         action.setRequest(api, api.getDataService());
         ServiceExecutorRegistry.set(action.getContext(),registry);
         execute(action);
+    }
+
+    /**
+     * execute sparql based on the given internal okhttp request and response
+     * @param request ok request
+     * @param skill skill ref
+     * @param graph graph ref
+     * @return simulated ok response
+     */
+    public Response execute(Request request, String skill, String graph) {
+        HttpServletContextAdapter contextAdapter=new HttpServletContextAdapter(request);
+        HttpServletRequestAdapter requestAdapter=new HttpServletRequestAdapter(request,contextAdapter);
+        HttpServletResponseAdapter responseAdapter=new HttpServletResponseAdapter(request);
+        contextAdapter.setAttribute(Fuseki.attrVerbose, config.isSparqlVerbose());
+        contextAdapter.setAttribute(Fuseki.attrOperationRegistry, operationRegistry);
+        contextAdapter.setAttribute(Fuseki.attrNameRegistry, dataAccessPointRegistry);
+        AgentHttpAction action = new AgentHttpAction(++count, monitorWrapper, requestAdapter,responseAdapter, skill, graph);
+        // Should we check whether this already has been done? the context should be quite static
+        action.setRequest(api, api.getDataService());
+        ServiceExecutorRegistry.set(action.getContext(),registry);
+        action.getContext().set(DataspaceServiceExecutor.targetUrl,request);
+        if(skill!=null) {
+            action.getContext().set(DataspaceServiceExecutor.asset,skill);
+        } else if(graph!=null) {
+            action.getContext().set(DataspaceServiceExecutor.asset,graph);
+        }
+        execute(action);
+        return responseAdapter.toResponse();
     }
 
     /**
@@ -181,7 +214,7 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
      */
     public static String URL_PARAM_REGEX = "(?<key>[^=&]+)=(?<value>[^&]+)"; 
     public static Pattern URL_PARAM_PATTERN=Pattern.compile(URL_PARAM_REGEX);
-    
+
     /**
      * general (URL-parameterized) query execution
      * @param queryString the resolved query
@@ -191,14 +224,9 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
     @Override
     protected void execute(String queryString, HttpAction action) {
         String params="";
-        try {
-            String uriParams=action.getRequest().getQueryString();
-            if(uriParams!=null) {
-                params = URLDecoder.decode(uriParams,StandardCharsets.UTF_8.toString());
-            }
-        } catch (UnsupportedEncodingException e) {
-            action.getResponse().setStatus(HttpStatus.SC_BAD_REQUEST);
-            return;
+        String uriParams=action.getRequest().getQueryString();
+        if(uriParams!=null) {
+            params = URLDecoder.decode(uriParams, UTF_8);
         }
         Matcher paramMatcher=URL_PARAM_PATTERN.matcher(params);
         Stack<TupleSet> ts=new Stack<>();
@@ -296,7 +324,22 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
             }
         } catch (Exception e) {
             throw new BadRequestException(String.format("Error: Could not bind variables"),e);
-        } 
+        }
+        if(action.getContext().isDefined(DataspaceServiceExecutor.asset)) {
+            Request request=action.getContext().get(DataspaceServiceExecutor.targetUrl);
+            String asset=action.getContext().get(DataspaceServiceExecutor.asset);
+            String graphPattern=String.format("GRAPH\\s*<%s>",asset);
+            Matcher graphMatcher=Pattern.compile(graphPattern).matcher(queryString);
+            replaceQuery=new StringBuilder();
+            lastStart=0;
+            while(graphMatcher.find()) {
+                replaceQuery.append(queryString.substring(lastStart,graphMatcher.start()-1));
+                replaceQuery.append(String.format("SERVICE <%s>",request.url().uri().toString()));
+                lastStart=graphMatcher.end();
+            }
+            replaceQuery.append(queryString.substring(lastStart));
+            queryString=replaceQuery.toString();
+        }
         super.execute(queryString,action);
     }
 

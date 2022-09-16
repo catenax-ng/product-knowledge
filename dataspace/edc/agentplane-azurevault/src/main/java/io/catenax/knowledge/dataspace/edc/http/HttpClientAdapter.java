@@ -27,7 +27,7 @@ import java.util.concurrent.Flow;
 /**
  * Wrapper that hides OkHttpClient behind a java.net.http.HttpClient
  */
-public class HttpClientWrapper extends HttpClient {
+public class HttpClientAdapter extends HttpClient {
 
     protected final OkHttpClient delegate;
 
@@ -35,7 +35,7 @@ public class HttpClientWrapper extends HttpClient {
      * creates a new wrapper
      * @param delegate the real client
      */
-    public HttpClientWrapper(OkHttpClient delegate) {
+    public HttpClientAdapter(OkHttpClient delegate) {
         this.delegate=delegate;
     }
 
@@ -88,7 +88,7 @@ public class HttpClientWrapper extends HttpClient {
     @Override
     public <T> HttpResponse<T> send(HttpRequest request, HttpResponse.BodyHandler<T> responseBodyHandler) throws IOException, InterruptedException {
         var builder=new Request.Builder();
-        request.headers().map().entrySet().forEach( header -> header.getValue().forEach( value -> builder.header(header.getKey(),value)));
+        request.headers().map().forEach( (key,values) -> values.forEach( value -> builder.header(key,value)));
         if(request.bodyPublisher().isPresent()) {
             var bodyPublisher = request.bodyPublisher().get();
 
@@ -130,7 +130,7 @@ public class HttpClientWrapper extends HttpClient {
             if (subscriber.problem != null) {
                 throw new IOException("Could not wrap request because body cannot be read",subscriber.problem);
             }
-            builder.method(request.method(), RequestBody.create(subscriber.body.array()));
+            builder.method(request.method(), RequestBody.create(subscriber.body.array(),MediaType.parse(request.headers().firstValue("Content-Type").get())));
         } else {
             builder.method(request.method(), null);
         }
@@ -138,7 +138,7 @@ public class HttpClientWrapper extends HttpClient {
         Request okRequest=builder.build();
         Call okCall = delegate.newCall(okRequest);
         Response okResponse=okCall.execute();
-        return (HttpResponse<T>) new HttpResponseWrapper(okResponse,request);
+        return (HttpResponse<T>) new HttpResponseAdapter(okResponse,request);
     }
 
     @Override

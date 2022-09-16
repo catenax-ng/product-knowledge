@@ -21,13 +21,13 @@ import java.util.Optional;
 /**
  * wraps OkHttp Response to java.net.http version
  */
-public class HttpResponseWrapper implements HttpResponse<InputStream> {
+public class HttpResponseAdapter implements HttpResponse<InputStream> {
 
     Response delegate;
     HttpHeaders headers;
     HttpRequest request;
 
-    public HttpResponseWrapper(Response delegate, HttpRequest request) {
+    public HttpResponseAdapter(Response delegate, HttpRequest request) {
         this.delegate=delegate;
         this.request=request;
         headers=HttpHeaders.of(delegate.headers().toMultimap(), (key,value)->true);

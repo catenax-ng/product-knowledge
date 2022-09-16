@@ -10,18 +10,19 @@ import java.io.IOException;
 
 import javax.servlet.ReadListener;
 
+import jakarta.servlet.ServletInputStream;
 import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
 
 /**
  * An invocation handler which maps all jakarta input stream
  * to a javax.servlet level
  */
-public class JakartaServletInputStreamWrapper extends javax.servlet.ServletInputStream implements IJakartaWrapper<jakarta.servlet.ServletInputStream> {
+public class JakartaServletInputStreamAdapter extends javax.servlet.ServletInputStream implements IJakartaAdapter<ServletInputStream> {
     
     jakarta.servlet.ServletInputStream jakartaDelegate;
     Monitor monitor;
 
-    public JakartaServletInputStreamWrapper(jakarta.servlet.ServletInputStream jakartaDelegate, Monitor monitor) {
+    public JakartaServletInputStreamAdapter(jakarta.servlet.ServletInputStream jakartaDelegate, Monitor monitor) {
         this.jakartaDelegate=jakartaDelegate;
         this.monitor=monitor;
     }

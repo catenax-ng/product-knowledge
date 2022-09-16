@@ -7,7 +7,6 @@
 package io.catenax.knowledge.dataspace.edc;
 
 import io.catenax.knowledge.dataspace.edc.http.HttpUtils;
-import org.apache.http.HttpStatus;
 import org.eclipse.dataspaceconnector.dataplane.http.pipeline.HttpSourceRequestParamsSupplier;
 import org.eclipse.dataspaceconnector.spi.EdcException;
 import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
@@ -18,10 +17,7 @@ import org.eclipse.dataspaceconnector.spi.types.domain.transfer.DataFlowRequest;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.util.Collection;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,10 +53,16 @@ public class AgentSourceRequestParamsSupplier extends HttpSourceRequestParamsSup
 
     @Override
     protected @NotNull DataAddress selectAddress(DataFlowRequest request) {
+        DataAddress superAddress = super.selectAddress(request);
+        // is it an ordinary transfer?
+        if(AgentSourceFactory.isTransferRequest(request)) {
+            return superAddress;
+        }
+        // no, manipulate the endpoint address with additional
+        // headers based on given parameters and source address properties
+        // for example ONTOP does not like getting no Host header
+        // for example RDF4J returns csv if no Accept header is given
         try {
-            DataAddress superAddress = super.selectAddress(request);
-            if (request.getSourceDataAddress().getProperties().getOrDefault("baseUrl", "").contains("api/public"))
-                return superAddress;
             monitor.debug(String.format("Rewriting params/headers of request %s before hitting backend.",request));
             boolean fixedHeader=superAddress.getProperty(HttpDataAddress.ADDITIONAL_HEADER+"Accept")!=null;
             boolean fixedHost=superAddress.getProperty(HttpDataAddress.ADDITIONAL_HEADER+"Host")!=null;

@@ -14,7 +14,7 @@ import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
  * An invocation handler which maps all jakarta objects
  * to a javax.servlet level
  */
-public interface IJakartaWrapper<Target> {
+public interface IJakartaAdapter<Target> {
 
     /**
      * @return the wrapper object
@@ -31,21 +31,21 @@ public interface IJakartaWrapper<Target> {
      * @param types array of type annotations
      * @param args array of objects
      * @return unwrapped array of objects
-     * @throws Throwable
+     * @throws Throwable in case something strange happens
      */
     static Object[] unwrap(Class[] types, Object[] args) throws Throwable {
         if(args==null) args=new Object[0];
         for(int count=0;count<args.length;count++) {
             if(types[count].getCanonicalName().startsWith("javax.servlet") && args[count]!=null) {
-                IJakartaWrapper<Object> wrapper=null;
-                if(args[count] instanceof IJakartaWrapper) {
-                    wrapper=(IJakartaWrapper<Object>) args[count];
+                IJakartaAdapter<Object> wrapper;
+                if(args[count] instanceof IJakartaAdapter) {
+                    wrapper=(IJakartaAdapter<Object>) args[count];
                 } else {
                     // we assume its a proxy
-                    wrapper=(IJakartaWrapper<Object>) Proxy.getInvocationHandler(args[count]);
+                    wrapper=(IJakartaAdapter<Object>) Proxy.getInvocationHandler(args[count]);
                 }
                 args[count]=wrapper.getDelegate();
-                Class jakartaClass=IJakartaWrapper.class.getClassLoader().loadClass(types[count].getCanonicalName().replace("javax.servlet","jakarta.servlet"));
+                Class jakartaClass= IJakartaAdapter.class.getClassLoader().loadClass(types[count].getCanonicalName().replace("javax.servlet","jakarta.servlet"));
                 types[count]=jakartaClass;
             }
         }
@@ -62,14 +62,14 @@ public interface IJakartaWrapper<Target> {
      */
     static <Target> Target javaxify(Object jakarta, Class<Target> javaxClass, Monitor monitor) {
         if(javax.servlet.ServletInputStream.class.equals(javaxClass)) {
-            return (Target) new JakartaServletInputStreamWrapper((jakarta.servlet.ServletInputStream) jakarta,monitor);
+            return (Target) new JakartaServletInputStreamAdapter((jakarta.servlet.ServletInputStream) jakarta,monitor);
         }
         if(javax.servlet.ServletOutputStream.class.equals(javaxClass)) {
-            return (Target) new JakartaServletOutputStreamWrapper((jakarta.servlet.ServletOutputStream) jakarta,monitor);
+            return (Target) new JakartaServletOutputStreamAdapter((jakarta.servlet.ServletOutputStream) jakarta,monitor);
         }
-        return (Target) Proxy.newProxyInstance(JakartaWrapper.class.getClassLoader(),
+        return (Target) Proxy.newProxyInstance(JakartaAdapter.class.getClassLoader(),
             new Class[] { javaxClass },
-            new JakartaWrapper(jakarta,monitor));
+            new JakartaAdapter(jakarta,monitor));
     }
 
 }

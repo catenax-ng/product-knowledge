@@ -20,28 +20,16 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.*;
 import org.apache.http.HttpStatus;
-import org.apache.jena.fuseki.Fuseki;
-import org.apache.jena.fuseki.metrics.MetricsProviderRegistry;
-import org.apache.jena.fuseki.server.DataAccessPoint;
-import org.apache.jena.fuseki.server.DataAccessPointRegistry;
-import org.apache.jena.fuseki.server.DataService;
-import org.apache.jena.fuseki.server.OperationRegistry;
-import org.apache.jena.sparql.core.DatasetGraph;
-import org.apache.jena.sparql.core.DatasetGraphFactory;
 import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
 import org.eclipse.dataspaceconnector.spi.types.domain.edr.EndpointDataReference;
 
 import java.util.Objects;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * The Agent Controller provides an API endpoint
@@ -60,17 +48,15 @@ import java.util.regex.Pattern;
 public class AgentController {
 
     // EDC services
-    private final Monitor monitor;
-    private final AgreementController agreementController;
-    private final OkHttpClient client;
-    private final AgentConfig config;
+    protected final Monitor monitor;
+    protected final AgreementController agreementController;
+    protected final OkHttpClient client;
+    protected final AgentConfig config;
+    protected final SkillStore skillStore;
 
     // the actual Fuseki engine components
     private final SparqlQueryProcessor processor;
 
-    // temporary local skill store
-    final private Map<String,String> skills=new HashMap<>();
-            
     /** 
      * creates a new agent controller 
      * @param monitor logging subsystem
@@ -79,12 +65,13 @@ public class AgentController {
      * @param client http client
      * @param processor sparql processor
      */
-    public AgentController(Monitor monitor, AgreementController agreementController, AgentConfig config, OkHttpClient client, SparqlQueryProcessor processor) {
+    public AgentController(Monitor monitor, AgreementController agreementController, AgentConfig config, OkHttpClient client, SparqlQueryProcessor processor, SkillStore skillStore) {
         this.monitor = monitor;
         this.agreementController = agreementController;
         this.client=client;
         this.config=config;
         this.processor=processor;
+        this.skillStore=skillStore;
     }
 
     /**
@@ -122,9 +109,6 @@ public class AgentController {
         return executeQuery(request,response,asset);
     }
 
-    public static Pattern SKILL_PATTERN=Pattern.compile("((?<url>[^#]+)#)?(?<skill>(urn:(cx|artifact):)?Skill:.*)");
-    public static Pattern GRAPH_PATTERN=Pattern.compile("((?<url>[^#]+)#)?(?<graph>(urn:(cx|artifact):)?Graph:.*)");
-
     /**
      * the actual execution is done by delegating to the Fuseki engine
      * @param request http request
@@ -138,12 +122,12 @@ public class AgentController {
         String remoteUrl=null;
 
         if(asset!=null) {
-            Matcher matcher=GRAPH_PATTERN.matcher(asset);
+            Matcher matcher=AgentExtension.GRAPH_PATTERN.matcher(asset);
             if(matcher.matches()) {
                 remoteUrl=matcher.group("url");
                 graph=matcher.group("graph");
             } else {
-                matcher=SKILL_PATTERN.matcher(asset);
+                matcher=skillStore.matchSkill(asset);
                 if(!matcher.matches()) {
                     return Response.status(Response.Status.BAD_REQUEST).build();
                 }
@@ -158,7 +142,7 @@ public class AgentController {
 
         try {
             // exchange skill against text
-            skill = skills.get(asset);
+            skill = skillStore.get(asset).orElse(null);
 
             processor.execute(request,response,skill,graph);
             // kind of redundant, but javax.ws.rs likes it this way
@@ -238,13 +222,15 @@ public class AgentController {
     public String sendPOSTRequest(EndpointDataReference dataReference, String subUrl, HttpServletRequest original) throws IOException {
         var url = getUrl(dataReference.getEndpoint(), subUrl, original);
 
-        monitor.debug(String.format("About to delegate POST %s",url));
+        String contentType=original.getContentType();
+
+        monitor.debug(String.format("About to delegate POST %s with content type %s",url,contentType));
 
         var request = new Request.Builder()
                 .url(url)
                 .addHeader(Objects.requireNonNull(dataReference.getAuthKey()), Objects.requireNonNull(dataReference.getAuthCode()))
                 .addHeader("Content-Type", original.getContentType())
-                .post(RequestBody.create(original.getInputStream().readAllBytes(), MediaType.parse(original.getContentType())))
+                .post(RequestBody.create(original.getInputStream().readAllBytes(), MediaType.parse(contentType)))
                 .build();
 
         return sendRequest(request);
@@ -299,17 +285,18 @@ public class AgentController {
      * @throws IOException in case something goes wrong
      */
     protected String sendRequest(Request request) throws IOException {
-        var response = client.newCall(request).execute();
-        var body = response.body();
+        try(var response = client.newCall(request).execute()) {
+            var body = response.body();
 
-        if (!response.isSuccessful() || body == null) {
-            monitor.severe(String.format("Data plane responded with error: %s %s", response.code(), body != null ? body.string() : ""));
-            throw new InternalServerErrorException(String.format("Data plane responded with error status code %s", response.code()));
+            if (!response.isSuccessful() || body == null) {
+                monitor.severe(String.format("Data plane responded with error: %s %s", response.code(), body != null ? body.string() : ""));
+                throw new InternalServerErrorException(String.format("Data plane responded with error status code %s", response.code()));
+            }
+
+            var bodyString = body.string();
+            monitor.info("Data plane responded correctly: " + URLEncoder.encode(bodyString, DataManagement.URL_ENCODING));
+            return bodyString;
         }
-
-        var bodyString = body.string();
-        monitor.info("Data plane responded correctly: " + URLEncoder.encode(bodyString, DataManagement.URL_ENCODING));
-        return bodyString;
     }
 
     /**
@@ -324,7 +311,7 @@ public class AgentController {
     public Response postSkill(String query, @QueryParam("asset") String asset) {
         monitor.debug(String.format("Received a POST skill request %s %s ",asset,query));
         ResponseBuilder rb;
-        if(skills.put(asset,query)!=null) {
+        if(skillStore.put(asset,query)!=null) {
             rb=Response.ok();
         } else {
             rb=Response.status(Status.CREATED);
@@ -343,7 +330,7 @@ public class AgentController {
     public Response getSkill(@QueryParam("asset") String asset) {
         monitor.debug(String.format("Received a GET skill request %s",asset));
         ResponseBuilder rb;
-        String query=skills.get(asset);
+        String query=skillStore.get(asset).orElse(null);
         if(query==null) {
             rb = Response.status(Status.NOT_FOUND);
         } else {
