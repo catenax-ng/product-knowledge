@@ -40,7 +40,7 @@ source		SELECT "vin", "mileage_value", "mileage_unit", "registrationDate_value",
 
 mappingId	BusinessPartner
 target		cx:BusinessPartner/{businessPartnerNummer} df:type cx:BusinessPartner;
-            cx:businessPartnerNummer {businessPartnerNummer}^^xsd:string ;
+            cx:businessPartnerNumber {businessPartnerNummer}^^xsd:string ;
             cx:name {manufacturer}^^xsd:string ;
             cx:has_vehicle cx:Vehicle/{vin} . 
 source      SELECT "vin", "businessPartnerNummer", "manufacturer", FROM "report"."businessPartner"

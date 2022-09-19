@@ -737,7 +737,7 @@ cx:hasInterface a owl:ObjectProperty ;
     skos:prefLabel "has interface"@en .
 
 cx:hasLoadSpectrum a owl:ObjectProperty ;
-    rdfs:domain cx:VehicleDiagnosis ;
+    rdfs:domain cx:Vehicle ;
     rdfs:isDefinedBy cx:DiagnosisOntology ;
     rdfs:range cx:LoadSpectrum ;
     skos:prefLabel "has load spectrum"@en .
@@ -1731,3 +1731,53 @@ cx:Vehicle a owl:Class ;
     skos:prefLabel "Fahrzeug"@de,
         "Vehicle"@en .
 
+# Interim solution
+#owl:DatatypeProperty
+
+
+# Business Partner 
+cx:has_vehicle a owl:ObjectProperty ;
+    rdfs:range cx:Vehicle ;
+    rdfs:domain cx:BusinessPartner.
+
+cx:cx:businessPartnerNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:BusinessPartner ;
+    rdfs:range xsd:string.
+
+#Vehicle
+cx:hasDiagnosisResult a owl:ObjectProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:range cx:DiagnosisResult.
+
+cx:mileage_value a owl:DatatypeProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:range xsd:string.
+
+cx:mileage_unit a owl:DatatypeProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:range xsd:string.
+
+cx:registrationDate_value a owl:DatatypeProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:range xsd:string.
+
+cx:registrationDate_unit a owl:DatatypeProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:range xsd:string.
+
+#Diagnosis Result
+cx:DiagnosisResult a owl:Class .
+
+cx:code a owl:DatatypeProperty ;
+    rdfs:domain cx:DiagnosisResult;
+    rdfs:range xsd:string.
+
+#LoadSpectrum cx:LoadSpectrum
+
+cx:loadSpectrumComponent a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum;
+    rdfs:range xsd:string.
+
+cx:loadSpectrumChannelType a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum;
+    rdfs:range xsd:string.
