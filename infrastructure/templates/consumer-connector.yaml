@@ -21,6 +21,8 @@ data:
     edc.api.control.auth.apikey.value={{ .Values.security.xApiKey }}
     
     cx.agent.controlplane.url=http://oem-control-plane:8181/data
+    cx.agent.asset.file=dataspace.ttl
+
         # edc.api.control.auth.apikey.key=
         # edc.api.control.auth.apikey.value=
         # edc.assetindex.cosmos.account-name=
@@ -155,7 +157,7 @@ data:
   agent.ttl: |-
 {{- .Files.Get "consumer/resources/agent.ttl" | nindent 4 }}
   dataspace.ttl: |-
-{{- .Files.Get "consumer/resources/dataspace.ttl" | nindent 4 }}
+{{- .Files.Get "resources/dataspace.ttl" | nindent 4 }}
 ---
 apiVersion: apps/v1
 kind: Deployment
