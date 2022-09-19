@@ -18,9 +18,8 @@ import java.util.Map;
 public class AgentConfig {
 
     public static String DEFAULT_ASSET_PROPERTY = "cx.agent.asset.default";
-    public static String DEFAULT_ASSET_NAME = "urn:graph:cx:Dataspace";
+    public static String DEFAULT_ASSET_NAME = "urn:x-arq:DefaultGraph";
     public static String ASSET_FILE_PROPERTY = "cx.agent.asset.file";
-    public static String DEFAULT_ASSET_FILE = "dataspace.ttl";
     public static String ACCESS_POINT_PROPERTY = "cx.agent.accesspoint.name";
     public static String VERBOSE_PROPERTY = "cx.agent.sparql.verbose";
     public static boolean DEFAULT_VERBOSE_PROPERTY = false;
@@ -63,7 +62,7 @@ public class AgentConfig {
      * @return initial file to load
      */
     public String getAssetFile() {
-        return config.getString(ASSET_FILE_PROPERTY, DEFAULT_ASSET_FILE);
+        return config.getString(ASSET_FILE_PROPERTY,null);
     }
 
     /**
