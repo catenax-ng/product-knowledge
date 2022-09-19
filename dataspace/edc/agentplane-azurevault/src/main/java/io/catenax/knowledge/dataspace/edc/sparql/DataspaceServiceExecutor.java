@@ -11,7 +11,6 @@ import io.catenax.knowledge.dataspace.edc.AgreementController;
 import io.catenax.knowledge.dataspace.edc.http.HttpClientAdapter;
 import jakarta.ws.rs.WebApplicationException;
 import okhttp3.OkHttpClient;
-import org.apache.jena.atlas.logging.FmtLog;
 import org.apache.jena.atlas.logging.Log;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.NodeFactory;
@@ -112,7 +111,10 @@ public class DataspaceServiceExecutor extends ServiceExecutorHttp {
             }
             return asset2;
         } else if(operator instanceof Op1) {
-            return getUniqueGraph(((Op1) operator).getSubOp());
+            // currently, we need to stop looking for graphes
+            // in remote services
+            if(!(operator instanceof OpService))
+                return getUniqueGraph(((Op1) operator).getSubOp());
         }
         return null;
     }
@@ -155,9 +157,9 @@ public class DataspaceServiceExecutor extends ServiceExecutorHttp {
             }
             String asset = edcMatcher.group("asset");
             if (asset == null || asset.length() == 0) {
-                asset=getUniqueGraph(opExecute);
+                asset=getUniqueGraph(opExecute.getSubOp());
                 if(asset==null) {
-                    throw new QueryExecException("There is no graph asset under service: " + target);
+                    throw new QueryExecException("There is no graph asset under EDC-based service: " + target);
                 }
             }
             EndpointDataReference endpoint = agreementController.get(asset);
@@ -241,7 +243,7 @@ public class DataspaceServiceExecutor extends ServiceExecutorHttp {
 
             // -- Setup
             //boolean withCompression = context.isTrueOrUndef(httpQueryCompression);
-            long timeoutMillis = context.getLong(Service.httpQueryTimeout, -1);
+            long timeoutMillis = timeoutFromContext(context);
 
             // RegistryServiceModifier is applied by QueryExecHTTP
             Params serviceParams = getServiceParamsFromContext(serviceURL, context);
@@ -303,33 +305,7 @@ public class DataspaceServiceExecutor extends ServiceExecutorHttp {
      * @return decided send mode
      */
     protected QuerySendMode chooseQuerySendMode(String serviceURL, Context context, QuerySendMode dftValue) {
-        if (context == null)
-            return dftValue;
-        Object querySendMode = context.get(Service.httpServiceSendMode, dftValue);
-        if (querySendMode == null)
-            return dftValue;
-
-        if (querySendMode instanceof QuerySendMode)
-            // handle enum type from Java API
-            return (QuerySendMode) querySendMode;
-
-        if (querySendMode instanceof String) {
-            String str = (String) querySendMode;
-            // Specials.
-            if ("POST".equalsIgnoreCase(str))
-                return QuerySendMode.asPost;
-            if ("GET".equalsIgnoreCase(str))
-                return QuerySendMode.asGetAlways;
-            try {
-                // "asGetWithLimitForm", "asGetWithLimitBody", "asGetAlways", "asPostForm", "asPost"
-                return QuerySendMode.valueOf((String) querySendMode);
-            } catch (IllegalArgumentException ex) {
-                throw new QueryExecException("Failed to interpret '" + querySendMode + "' as a query send mode");
-            }
-        }
-        FmtLog.warn(Service.class,
-                "Unrecognized object type '%s' as a query send mode - ignored", querySendMode.getClass().getSimpleName());
-        return dftValue;
+        return QuerySendMode.asPost;
     }
 
     /**

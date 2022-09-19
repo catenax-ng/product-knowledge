@@ -330,7 +330,7 @@ public class TestAgentController {
      */
     @Test
     @Tag("online")
-    public void testFederatedSkill() throws IOException {
+    public void testRemotingSkill() throws IOException {
         String query="PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT ?what WHERE { SERVICE<http://localhost:8080/sparql> { VALUES (?what) { (\"@input\"^^xsd:int)} } }";
         String asset="urn:cx:Skill:cx:Test";
         agentController.postSkill(query,asset);
@@ -346,9 +346,27 @@ public class TestAgentController {
      */
     @Test
     @Tag("online")
-    public void testFederatedSkill2() throws IOException {
+    public void testFederatedGraph() throws IOException {
         String query="PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT ?what WHERE { SERVICE<edc://localhost:8080/sparql> { " +
                 "GRAPH <urn:cx:Graph:4711> { VALUES (?what) { (\"42\"^^xsd:int)} } } }";
+        Request.Builder builder=new Request.Builder();
+        builder.url("http://localhost:8080");
+        builder.put(RequestBody.create(query, MediaType.parse("application/sparql-query")));
+        Response response=processor.execute(builder.build(),null,null);
+        JsonNode root=mapper.readTree(response.body().string());
+        JsonNode whatBinding0=root.get("results").get("bindings").get(0).get("what");
+        assertEquals("84",whatBinding0.get("value").asText(),"Correct binding");
+    }
+
+    /**
+     * test federation call - will only work with a local oem provider running
+     * @throws IOException in case of an error
+     */
+    @Test
+    @Tag("online")
+    public void testFederatedServiceChain() throws IOException {
+        String query="PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT ?what WHERE { VALUES (?chain1) { (<http://localhost:8080/sparql#urn:cs:Graph:1>)} SERVICE ?chain1 { " +
+                "VALUES (?chain2) { (<http://localhost:8080/sparql>)} SERVICE ?chain2 { VALUES (?what) { (\"42\"^^xsd:int)} } } }";
         Request.Builder builder=new Request.Builder();
         builder.url("http://localhost:8080");
         builder.put(RequestBody.create(query, MediaType.parse("application/sparql-query")));
