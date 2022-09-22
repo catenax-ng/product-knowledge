@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography } from '@mui/material';
-import { SharedThemeProvider, theme } from "cx-portal-shared-components";
 import CytoscapeComponent from "react-cytoscapejs";
 
 export const OntologyView = () => {
@@ -14,6 +13,50 @@ export const OntologyView = () => {
         setGraphData(responseJson);
       })
   }, [])
+
+  const testData = {
+    nodes: [
+      { data: { id: '1', label: 'IP 1', type: 'ip' } },
+      { data: { id: '2', label: 'Device 1', type: 'device' } },
+      { data: { id: '3', label: 'IP 2', type: 'ip' } },
+      { data: { id: '4', label: 'Device 2', type: 'device' } },
+      { data: { id: '5', label: 'Device 3', type: 'device' } },
+      { data: { id: '6', label: 'IP 3', type: 'ip' } },
+      { data: { id: '7', label: 'Device 5', type: 'device' } },
+      { data: { id: '8', label: 'Device 6', type: 'device' } },
+      { data: { id: '9', label: 'Device 7', type: 'device' } },
+      { data: { id: '10', label: 'Device 8', type: 'device' } },
+      { data: { id: '11', label: 'Device 9', type: 'device' } },
+      { data: { id: '12', label: 'IP 3', type: 'ip' } },
+      { data: { id: '13', label: 'Device 10', type: 'device' } },
+    ],
+    edges: [
+      {
+        data: { source: '1', target: '2', label: 'Node2' },
+      },
+      {
+        data: { source: '3', target: '4', label: 'Node4' },
+      },
+      {
+        data: { source: '3', target: '5', label: 'Node5' },
+      },
+      {
+        data: { source: '6', target: '5', label: ' 6 -> 5' },
+      },
+      {
+        data: { source: '6', target: '7', label: ' 6 -> 7' },
+      },
+      {
+        data: { source: '6', target: '8', label: ' 6 -> 8' },
+      },
+      {
+        data: { source: '6', target: '9', label: ' 6 -> 9' },
+      },
+      {
+        data: { source: '3', target: '13', label: ' 3 -> 13' },
+      },
+    ],
+  };
 
   const layout = {
     name: 'circle',
@@ -33,7 +76,7 @@ export const OntologyView = () => {
     {
       selector: "node",
       style: {
-        backgroundColor: theme.palette.primary.main,
+        backgroundColor: '#ffa600',
         width: 30,
         height: 30,
         label: "data(label)",
@@ -45,7 +88,7 @@ export const OntologyView = () => {
         overlayPadding: "6px",
         zIndex: "10",
         //text props
-        color: theme.palette.primary.main,
+        color: '#ffa600',
         fontSize: 20
       }
     },
@@ -53,20 +96,20 @@ export const OntologyView = () => {
       selector: "node:selected",
       style: {
         borderWidth: "2px",
-        borderColor: theme.palette.success.main,
+        borderColor: '#b3cb2d',
         borderOpacity: "0.5",
-        backgroundColor: theme.palette.success.main,
+        backgroundColor: '#b3cb2d',
         width: 50,
         height: 50,
         //text props
-        color: theme.palette.success.main,
+        color: '#b3cb2d',
       }
     },
     {
       selector: "node[category='https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl']",
       style: {
-        backgroundColor: theme.palette.warning.main,
-        color: theme.palette.warning.main,
+        backgroundColor: '#D91E18',
+        color: '#D91E18',
         shape: "rectangle"
       }
     },
@@ -74,8 +117,8 @@ export const OntologyView = () => {
       selector: "edge",
       style: {
         width: 3,
-        lineColor: theme.palette.secondary.main,
-        targetArrowColor: theme.palette.secondary.dark,
+        lineColor: '#0f71cb',
+        targetArrowColor: '#0d55af',
         targetArrowShape: "triangle",
         curveStyle: "bezier"
       }
@@ -84,8 +127,8 @@ export const OntologyView = () => {
 
   let myCyRef;
   return (
-    <SharedThemeProvider>
-      <Typography>Welcome to the Ontology view</Typography>
+    <Box p={4}>
+      <Typography p={2} variant='h4'>Welcome to the Ontology view</Typography>
       <CytoscapeComponent
         elements={CytoscapeComponent.normalizeElements(graphData)}
         // pan={{ x: 200, y: 200 }}
@@ -109,6 +152,6 @@ export const OntologyView = () => {
           });
         }}
       />
-    </SharedThemeProvider>
+    </Box>
   );
 };
