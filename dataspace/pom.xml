@@ -1,0 +1,22 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>io.catenax.knowledge</groupId>
+    <artifactId>dataspace</artifactId>
+    <packaging>pom</packaging>
+    <parent>
+        <groupId>io.catenax</groupId>
+        <artifactId>knowledge</artifactId>
+        <version>0.5.4-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>    
+    </parent>
+    <name>Catena-X Knowledge Agents Dataspace</name>
+    <description>Project for all Dataspace-Related Artifacts</description>
+    <dependencies>
+    </dependencies>
+    <properties>
+    </properties>
+    <modules>
+        <module>agents</module>
+        <module>edc</module>
+    </modules>
+</project>

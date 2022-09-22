@@ -1,5 +1,5 @@
 //
-// Remoting interface to the Storage and Inference Layer (SAIL)
+// Application to provide REST APIs as SPARQL services
 // See copyright notice in the top folder
 // See authors file in the top folder
 // See license file in the top folder
@@ -9,8 +9,6 @@ package io.catenax.knowledge.agents.remoting;
 import org.eclipse.rdf4j.query.algebra.*;
 import org.eclipse.rdf4j.sail.SailException;
 import org.eclipse.rdf4j.model.IRI;
-import org.eclipse.rdf4j.model.impl.SimpleIRI;
-import org.eclipse.rdf4j.query.BindingSet;
 import org.eclipse.rdf4j.query.impl.MapBindingSet;
 import org.eclipse.rdf4j.model.Value;
 
@@ -19,8 +17,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  * The query processing is done while visiting 
@@ -46,245 +42,310 @@ public class RemotingQueryModelVisitor implements QueryModelVisitor<SailExceptio
 		this.connection=connection;        
 	}
 
+    @Override
+    public String toString() {
+        return super.toString()+"/visitor";
+    }
+
+    @Override
 	public void meet(QueryRoot node) throws SailException {
 		logger.debug(String.format("Visiting a query root"));
 		node.getArg().visit(this);
     }
 
+    @Override
 	public void meet(Add node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(And node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(ArbitraryLengthPath node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Avg node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(BindingSetAssignment node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(BNodeGenerator node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Bound node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Clear node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Coalesce node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Compare node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(CompareAll node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(CompareAny node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(DescribeOperator node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Copy node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Count node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Create node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Datatype node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(DeleteData node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Difference node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Distinct node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(EmptySet node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Exists node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Extension node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(ExtensionElem node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Filter node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(FunctionCall node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Group node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(GroupConcat node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(GroupElem node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(If node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(In node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(InsertData node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Intersection node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(IRIFunction node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(IsBNode node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(IsLiteral node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
     public void meet(IsNumeric node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(IsResource node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(IsURI node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Join node) throws SailException {
         logger.debug(String.format("Visiting a join"));
         node.getLeftArg().visit(this);
         node.getRightArg().visit(this);
     }
 
+    @Override
 	public void meet(Label node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Lang node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(LangMatches node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(LeftJoin node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Like node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Load node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(LocalName node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(MathExpr node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Max node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Min node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Modify node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Move node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(MultiProjection node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Namespace node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Not node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Or node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Order node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(OrderElem node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Projection node) throws SailException {
 		logger.debug(String.format("Visiting a projection"));
 		node.getArg().visit(this);
@@ -297,6 +358,7 @@ public class RemotingQueryModelVisitor implements QueryModelVisitor<SailExceptio
 		node.getProjectionElemList().visit(this);
     }
 
+    @Override
 	public void meet(ProjectionElem node) throws SailException {
 		logger.debug(String.format("Visiting a projection element"));
         if(!bindings.hasBinding(node.getTargetName())) {
@@ -307,39 +369,48 @@ public class RemotingQueryModelVisitor implements QueryModelVisitor<SailExceptio
         } 
     }
 
+    @Override
     public void meet(ProjectionElemList node) throws SailException {
 		logger.debug(String.format("Visiting a projection list"));
         node.visitChildren(this);
     }
 
+    @Override
 	public void meet(Reduced node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Regex node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(SameTerm node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Sample node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Service node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(SingletonSet node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Slice node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(StatementPattern statement) throws SailException {
         Var predicate=statement.getPredicateVar();
         Var object = statement.getObjectVar();
@@ -415,32 +486,37 @@ public class RemotingQueryModelVisitor implements QueryModelVisitor<SailExceptio
         }
     }
 
+    @Override
 	public void meet(Str node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Sum node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Union node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(ValueConstant node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
-	/**
-	 */
+   @Override
 	public void meet(ListMemberOperator node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(Var node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meet(ZeroLengthPath node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
@@ -450,6 +526,7 @@ public class RemotingQueryModelVisitor implements QueryModelVisitor<SailExceptio
 	 *           implementations are expected to override.
 	 * @since 3.2.0
 	 */
+    @Override
 	public void meet(TripleRef node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
@@ -459,10 +536,12 @@ public class RemotingQueryModelVisitor implements QueryModelVisitor<SailExceptio
 	 *           implementations are expected to override.
 	 * @since 3.2.0
 	 */
+    @Override
 	public void meet(ValueExprTripleRef node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }
 
+    @Override
 	public void meetOther(QueryModelNode node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
     }

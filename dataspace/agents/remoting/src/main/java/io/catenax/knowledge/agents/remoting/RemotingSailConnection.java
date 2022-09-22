@@ -1,5 +1,5 @@
 //
-// Remoting interface to the Storage and Inference Layer (SAIL)
+// Application to provide REST APIs as SPARQL services
 // See copyright notice in the top folder
 // See authors file in the top folder
 // See license file in the top folder
@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -51,6 +52,12 @@ public class RemotingSailConnection extends AbstractSailConnection {
         if(logger.isInfoEnabled()) {
             logger.info(String.format("Creating a new connection to the remoting sail %s wrapping config %s",remotingSail,remotingSail.config));
         }
+    }
+
+
+    @Override
+    public String toString() {
+        return super.toString()+"/connection";
     }
 
     /**
@@ -108,13 +115,19 @@ public class RemotingSailConnection extends AbstractSailConnection {
         }
         return new AbstractCloseableIteration<Namespace,SailException>() {
             java.util.Iterator<java.util.Map.Entry<String,String>> iterator=namespaces.entrySet().iterator();
+
+            @Override
             public void remove() {
                 iterator.remove();
             }
+
+            @Override
             public Namespace next() {
                 java.util.Map.Entry<String,String> nextEntry=iterator.next();
                 return new SimpleNamespace(nextEntry.getKey(),nextEntry.getValue());               
             }
+
+            @Override
             public boolean hasNext() {
                 return iterator.hasNext();
             }
@@ -147,14 +160,17 @@ public class RemotingSailConnection extends AbstractSailConnection {
                     
                     java.util.Iterator<BindingSet> allBindings=java.util.List.of((BindingSet) visitor.bindings).iterator();
 
+                    @Override
                     public void remove() {
                         allBindings.remove();
                     }
 
+                    @Override
                     public BindingSet next() {
                         return allBindings.next();       
                     }
 
+                    @Override
                     public boolean hasNext() {
                         return allBindings.hasNext();
                     }
@@ -172,12 +188,16 @@ public class RemotingSailConnection extends AbstractSailConnection {
                 }
                 return new AbstractCloseableIteration<Resource,SailException>() {
                     
+                    @Override
                     public void remove() {
                     }
 
+                    @Override
                     public Resource next() {
                         return null;             
                     }
+
+                    @Override
                     public boolean hasNext() {
                         return false;
                     }
@@ -191,16 +211,20 @@ public class RemotingSailConnection extends AbstractSailConnection {
 	protected CloseableIteration<? extends Statement, SailException> getStatementsInternal(Resource subj,
 			IRI pred, Value obj, boolean includeInferred, Resource... contexts) throws SailException {
                 if(logger.isInfoEnabled()) {
-                    logger.info(String.format("Returning all statements on subject %s for predicate %s and object %s (including inferred %b) in contexts %s for connection to the remoting sail %s wrapping config %s",subj,pred,obj,includeInferred,contexts,remotingSail,remotingSail.config));
+                    logger.info(String.format("Returning all statements on subject %s for predicate %s and object %s (including inferred %b) in contexts %s for connection to the remoting sail %s wrapping config %s",subj,pred,obj,includeInferred,Arrays.toString(contexts),remotingSail,remotingSail.config));
                 }
                 return new AbstractCloseableIteration<Statement,SailException>() {
                     
+                    @Override
                     public void remove() {
                     }
 
+                    @Override
                     public Statement next() {
                         return null;             
                     }
+
+                    @Override
                     public boolean hasNext() {
                         return false;
                     }
@@ -214,7 +238,7 @@ public class RemotingSailConnection extends AbstractSailConnection {
     @Override
 	protected long sizeInternal(Resource... contexts) throws SailException {
         if(logger.isInfoEnabled()) {
-            logger.info(String.format("Returning siteo for contexts %s for connection to the remoting sail %s wrapping config %s",contexts,remotingSail,remotingSail.config));
+            logger.info(String.format("Returning siteo for contexts %s for connection to the remoting sail %s wrapping config %s",Arrays.toString(contexts),remotingSail,remotingSail.config));
         }
         return -1;
     }
@@ -256,7 +280,7 @@ public class RemotingSailConnection extends AbstractSailConnection {
 	protected void addStatementInternal(Resource subj, IRI pred, Value obj, Resource... contexts)
 			throws SailException {
                 if(logger.isInfoEnabled()) {
-                    logger.info(String.format("Adding statements on subject %s for predicate %s and object %s in contexts %s for connection to the remoting sail %s wrapping config %s",subj,pred,obj,contexts,remotingSail,remotingSail.config));
+                    logger.info(String.format("Adding statements on subject %s for predicate %s and object %s in contexts %s for connection to the remoting sail %s wrapping config %s",subj,pred,obj,Arrays.toString(contexts),remotingSail,remotingSail.config));
                 }
     }
 
@@ -264,14 +288,14 @@ public class RemotingSailConnection extends AbstractSailConnection {
 	protected void removeStatementsInternal(Resource subj, IRI pred, Value obj, Resource... contexts)
 			throws SailException {
                 if(logger.isInfoEnabled()) {
-                    logger.info(String.format("Remove statements on subject %s for predicate %s and object %s in contexts %s for connection to the remoting sail %s wrapping config %s",subj,pred,obj,contexts,remotingSail,remotingSail.config));
+                    logger.info(String.format("Remove statements on subject %s for predicate %s and object %s in contexts %s for connection to the remoting sail %s wrapping config %s",subj,pred,obj,Arrays.toString(contexts),remotingSail,remotingSail.config));
                 }
     }
 	
     @Override
     protected void clearInternal(Resource... contexts) throws SailException {
         if(logger.isInfoEnabled()) {
-            logger.info(String.format("Clearcontexts %s for connection to the remoting sail %s wrapping config %s",contexts,remotingSail,remotingSail.config));
+            logger.info(String.format("Clearcontexts %s for connection to the remoting sail %s wrapping config %s",Arrays.toString(contexts),remotingSail,remotingSail.config));
         }
     }
 

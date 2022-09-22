@@ -6,6 +6,8 @@
 //
 package io.catenax.knowledge.agents.remoting;
 
+import java.util.Arrays;
+
 import org.eclipse.rdf4j.model.*;
 import org.eclipse.rdf4j.model.util.*;
 import org.eclipse.rdf4j.model.vocabulary.*;
@@ -27,17 +29,13 @@ import org.eclipse.rdf4j.rio.*;
  */
 public class Application {
 
-    public static void main(String[] args) {
-        Repository rep = new SailRepository(new MemoryStore());
-        Namespace ex = Values.namespace("ex", "http://example.org/");
-        IRI john = Values.iri(ex, "john");
-        try (RepositoryConnection conn = rep.getConnection()) {
-            conn.add(john, RDF.TYPE, FOAF.PERSON);
-            conn.add(john, RDFS.LABEL, Values.literal("John"));
-            RepositoryResult<Statement> statements = conn.getStatements(null, null, null);
-            Model model = QueryResults.asModel(statements);
-            Rio.write(model, System.out, RDFFormat.TURTLE);
-        }
+
+    @Override
+    public String toString() {
+        return super.toString()+"/application";
+    }
+
+    public static void main(String[] args) {        
         RemotingSailConfig rsc=new RemotingSailConfig(RemotingSailFactory.SAIL_TYPE);
         InvocationConfig ic=new InvocationConfig();
         rsc.invocations.put("https://github.com/catenax-ng/product-knowledge/ontology/prognosis.ttl#Invocation",ic);
@@ -53,7 +51,7 @@ public class Application {
         
         rsc.validate();
 
-        rep = new SailRepository(new RemotingSail(rsc));
+        Repository rep = new SailRepository(new RemotingSail(rsc));
         try (RepositoryConnection conn = rep.getConnection()) {
             //conn.add(john, RDF.TYPE, FOAF.PERSON);
             //conn.add(john, RDFS.LABEL, Values.literal("John"));
@@ -70,8 +68,9 @@ public class Application {
             "}");
             final TupleQueryResult result = query.evaluate();
 		    final String[] names = result.getBindingNames().toArray(new String[0]);
+            System.out.println("Got variables "+Arrays.toString(names));
 		    java.util.List<BindingSet> bindings = Iterations.asList(result);
-		    System.out.println("Got bindings "+bindings.size());
+		    System.out.println("Got bindings "+Arrays.toString(bindings.toArray(new BindingSet[0])));
         }
     }
 }

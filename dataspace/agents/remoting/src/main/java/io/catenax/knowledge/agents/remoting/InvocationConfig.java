@@ -1,5 +1,5 @@
 //
-// Remoting interface to the Storage and Inference Layer (SAIL)
+// Application to provide REST APIs as SPARQL services
 // See copyright notice in the top folder
 // See authors file in the top folder
 // See license file in the top folder
@@ -39,6 +39,11 @@ public class InvocationConfig {
      * map of outputs
      */
     protected Map<String, ReturnValueConfig> outputs = new java.util.HashMap<String, ReturnValueConfig>();
+
+    @Override
+    public String toString() {
+        return super.toString()+"/service";
+    }   
 
     /**
      * Validates the invocation config

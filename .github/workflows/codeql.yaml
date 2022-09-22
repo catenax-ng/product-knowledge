@@ -12,17 +12,28 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  analyze:
-    name: Analyze
-    runs-on: ubuntu-latest
+  pre_job:
+      # continue-on-error: true # Uncomment once integration is finished
+      runs-on: ubuntu-latest
+      # Map a step output to a job output
+      outputs:
+        should_skip: ${{ steps.skip_check.outputs.should_skip }}
+      steps:
+        - id: skip_check
+          uses: fkirc/skip-duplicate-actions@v4
+          with:
+            # All of these options are optional, so you can remove them if you are happy with the defaults
+            concurrent_skipping: 'same_content'
+            skip_after_successful_duplicate: 'true'
+            do_not_skip: '["pull_request", "workflow_dispatch", "schedule"]'
 
+  analyze_javascript:
+    name: Analyze JavaScript
+    runs-on: ubuntu-latest
+    needs: pre_job
+    if: ${{ needs.pre_job.outputs.should_skip != 'true' }}
     strategy:
       fail-fast: false
-      matrix:
-        language: [ 'java' , 'javascript' ]
-        # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python' ]
-        # Learn more:
-        # https://docs.github.com/en/free-pro-team@latest/github/finding-security-vulnerabilities-and-errors-in-your-code/configuring-code-scanning#changing-the-languages-that-are-analyzed
 
     steps:
       - name: Checkout repository
@@ -32,7 +43,7 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         with:
-          languages: ${{ matrix.language }}
+          languages: javascript
           queries: +security-and-quality
           # If you wish to specify custom queries, you can do so here or in a config file.
           # By default, queries listed here will override any specified in a config file.
@@ -40,15 +51,72 @@ jobs:
           # queries: ./path/to/local/query, your-org/your-repo/queries@main
 
       # Not sure this is needed
+
+      # Autobuild other compiled languages  
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Build TypeScript via NPM
+        run: |
+          cd ux
+          npm install -g jest
+          npm run init:dev
+          npm test
+
+      - if: success() || failure()
+        name: Test Report TypeScript
+        uses: dorny/test-reporter@v1
+        with:
+          name: 'TypeScript Test Report'
+          path: '**/reports/jest-*.xml'
+          reporter: jest-junit
+
+      # Scan Compiled and Iterpreted Languages
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+
+  analyze_java:
+    name: Analyze Java
+    runs-on: ubuntu-latest
+    needs: pre_job
+    if: ${{ needs.pre_job.outputs.should_skip != 'true' }}
+    strategy:
+      fail-fast: false
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Initializes the CodeQL tools for scanning.
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: java
+          queries: +security-and-quality
+
+      # We need to manually instruct maven
       - uses: actions/setup-java@v2
         with:
           distribution: 'temurin'
           java-version: '17'
           cache: 'maven'
 
-      # Autobuild compiled languages  
-      - name: Autbuild
-        uses: github/codeql-action/autobuild@v2
+      - name: Build Java via Maven
+        run: |
+          mvn -s settings.xml install
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - if: success() || failure()
+        name: Java Test Report
+        uses: dorny/test-reporter@v1
+        with:
+          name: Test Report Java
+          path: '**/surefire-reports/TEST-*.xml'
+          reporter: java-junit
 
       # Scan Compiled and Iterpreted Languages
       - name: Perform CodeQL Analysis

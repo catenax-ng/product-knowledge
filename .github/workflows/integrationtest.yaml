@@ -1,0 +1,27 @@
+name: Integration Tests
+
+on: workflow_dispatch
+
+jobs:
+  run_integration_test:
+    name: Run Integration Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Execute Integration Tests
+        uses: matt-ball/newman-action@master
+        with:
+          reporters: '["junit"]'
+          collection: cx_ka_pilot.postman_collection.json
+          environment: cx_ka_pilot.integration.postman_environment.json
+          folder: '["Integration Tests"]' # See https://github.com/matt-ball/newman-action/issues/50
+          envVar: '[{ "key": "oemPassword", "value": "${{ secrets.ORG_KNOWLEDGE_PASSWORD }}" }, { "key": "oemEdcApiKey", "value": "${{ secrets.ORG_KNOWLEDGE_API_KEY }}" }]'
+      - if: always()
+        name: Test Report
+        uses: dorny/test-reporter@v1
+        with:
+          name: Test Report Postman
+          path: 'newman/newman-run-report-*.xml'
+          reporter: java-junit

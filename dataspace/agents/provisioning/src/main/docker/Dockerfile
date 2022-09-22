@@ -21,11 +21,12 @@ RUN groupadd -g 30000 ontop && \
     chown -R ontop:ontop /input && \
     mkdir /database && \
     chown -R ontop:ontop /database && \
+    chmod 775 /database && \
     chmod 755 /opt/ontop/entrypoint.sh 
 
 # run with docker --build-arg dremioDownload=download_url to establish a different driver
-ARG dremioDownload=https://download.dremio.com/jdbc-driver/dremio-jdbc-driver-LATEST.jar
-RUN wget -q "${dremioDownload}" -O /opt/ontop/jdbc/dremio-jdbc-driver-LATEST.jar
+#ARG dremioDownload=https://download.dremio.com/jdbc-driver/dremio-jdbc-driver-LATEST.jar
+#RUN wget -q "${dremioDownload}" -O /opt/ontop/jdbc/dremio-jdbc-driver-LATEST.jar
 
 WORKDIR /opt/ontop
 USER ontop

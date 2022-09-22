@@ -81,12 +81,12 @@ do
 
           if [[ "${ENDPOINT_NUMBER}" == "${ENDPOINT_LENGTH}" ]]; then
             echo "Invoking last process";
-            java -cp ./lib/*:./jdbc/* -Dlogback.configurationFile=file:./log/logback.xml \
+            java -cp ./lib/*:./jdbc/* -Dlogback.configurationFile="/opt/ontop/log/logback.xml" -Dlogging.config="/opt/ontop/log/logback.xml" \
               it.unibz.inf.ontop.cli.Ontop endpoint ${ONTOLOGY_FILE} ${MAPPING_FILE} \
               ${PROPERTIES_FILE} ${PORTAL_FILE} ${DEV_MODE} ${PORT} ${CORS};
           else 
             echo "Invoking intermediate process";
-            java -cp ./lib/*:./jdbc/* -Dlogback.configurationFile=file:./log/logback.xml \
+            java -cp ./lib/*:./jdbc/* -Dlogback.configurationFile="/opt/ontop/log/logback.xml" -Dlogging.config="/opt/ontop/log/logback.xml" \
               it.unibz.inf.ontop.cli.Ontop endpoint ${ONTOLOGY_FILE} ${MAPPING_FILE} \
               ${PROPERTIES_FILE} ${PORTAL_FILE} ${DEV_MODE} ${PORT} ${CORS}&
           fi

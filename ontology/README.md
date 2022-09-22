@@ -26,8 +26,12 @@ Domain ontologies can refer to concepts of other domains/prefixes. Relations are
 ## Contents
 
 - [Ontology Tools](tools)
-- [Dublin Core Meta-Model (dcterms)](dcterms.ttl)
-- [Catena-X Common Domain (cx)](cx.ttl)
+- [Catena-X Common Domain (cx)](common_ontology.ttl)
+- [Catena-X Vehicle Domain (cx)](vehicle_ontology.ttl)
+- [Catena-X Traceability Domain (cx)](traceability_ontology.ttl)
+- [Catena-X (Serialized) Part Domain (cx)](part_ontology.ttl)
+- [Catena-X Diagnosis Domain (cx)](diagnosis_ontology.ttl)
+- [Catena-X Prognosis Domain (cx)](prognosis_ontology.ttl)
 
 
 

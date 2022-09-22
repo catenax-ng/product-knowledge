@@ -28,7 +28,10 @@ export interface IConnector {
      * function to list all assets of the default catalogue through this connector
      * the providerUrl is an optional parameter (means that we will look for the local catalogue)
      */
+
+    // beide nicht optional!
     listAssets: (providerUrl?:string) => Promise<Catalogue>
+    execute: (skill:string, vin:string, troubleCode:string) => Promise<BindingSet>
 }
 
 /**
@@ -307,6 +310,54 @@ class MockConnector implements IConnector {
                 }
             ]});
     }
+
+    //execute
+    public execute(): Promise<BindingSet> {
+        return Promise.resolve({
+            "head": {
+                "vars": [
+                    "vin",
+                    "troubleCode",
+                    "description",
+                    "partProg",
+                    "distance",
+                    "time"
+                ]
+            },
+            "results": {
+                "bindings": [
+                    {
+                        "vin": {
+                            "type": "literal",
+                            "value": "WVA8984323420333"
+                        },
+                        "troubleCode": {
+                            "type": "literal",
+                            "value": "P0745"
+                        },
+                        "description": {
+                            "type": "literal",
+                            "value": "Getriebeöldruck-Magnetventil - Fehlfunktion Stromkreis"
+                        },
+                        "partProg": {
+                            "type": "literal",
+                            "value": "\"GearOil\""
+                        },
+                        "distance": {
+                            "type": "literal",
+                            "datatype": "http://www.w3.org/2001/XMLSchema#int",
+                            "value": "150"
+                        },
+                        "time": {
+                            "type": "literal",
+                            "datatype": "http://www.w3.org/2001/XMLSchema#int",
+                            "value": "2"
+                        }
+                    }
+                ]
+            }
+        });
+    }
 }
 
 /**
@@ -316,8 +367,8 @@ export class EnvironmentConnectorFactory implements IConnectorFactory {
     private environmentConnector: IConnector;
     
     constructor() {
-        if (process.env.SKILL_CONNECTOR != undefined && process.env.SKILL_CONNECTOR != "" ) {
-            this.environmentConnector = new RemoteConnector(process.env.SKILL_CONNECTOR,undefined,process.env.SKILL_PROXY);
+        if (process.env.SKILL_CONNECTOR_CONTROL != undefined && process.env.SKILL_CONNECTOR_DATA != undefined && process.env.SKILL_CONNECTOR_CONTROL != "" && process.env.SKILL_CONNECTOR_DATA != "") {
+            this.environmentConnector = new RemoteConnector(process.env.SKILL_CONNECTOR_CONTROL,process.env.SKILL_CONNECTOR_DATA,undefined,process.env.SKILL_PROXY);
         } else {
             this.environmentConnector = new MockConnector();
         }
@@ -380,22 +431,63 @@ class EnvironmentRealmMapping implements IRealmMapping {
    realmMappingFactory=factory;
  }
 
+
+ export interface BindingSet {
+
+    head: Head,
+    results:  Binding,
+ 
+}
+
+export interface Head {
+    /**
+     * the id of the catalogue
+     */
+    vars: string[],
+}
+
+export interface Binding {
+    /**
+     * the id of the catalogue
+     */
+     bindings: Entry[],
+}
+
+export interface Entry {
+
+   vin: Value,
+   troubleCode: Value,
+   partProg: Value,
+   distance: Value,
+   time: Value
+    
+}
+
+export interface Value {
+    value: string,
+    
+}
+
+
 /**
- * Implementation of a mock connector
+ * Implementation of a remote connector
  */
 class RemoteConnector implements IConnector {
     private url:string;
+    private data_url: string;
     private realmMapping:IRealmMapping;
     private proxy?:HttpsProxyAgent;
 
-    constructor(url:string, realmMapping?:IRealmMapping, proxy?:string) {
+    constructor(url:string, data_url:string, realmMapping?:IRealmMapping, proxy?:string) {
         this.url=url;
+        this.data_url= data_url;
         this.realmMapping=realmMapping ?? getRealmMappingFactory().create();
         if(proxy) {
             this.proxy=createHttpsProxyAgent(proxy);
         } 
     }
     
+    //List Asset
     public async listAssets(providerUrl?: string) : Promise<Catalogue> {
        const start = new Date().getTime();
        const finalproviderUrl = providerUrl ?? this.url;
@@ -404,7 +496,7 @@ class RemoteConnector implements IConnector {
        console.log(`Listing Assets from Remote Connector ${finalproviderUrl} starts at ${start}.`);
 
        const finalUrl = `${this.url}/data/catalog?providerUrl=${idsUrl}`;
-       
+
        const fetchOpts:RequestInit= {
         method: 'GET',
         headers: this.realmMapping.getHeaderAnnotation(this.url),
@@ -430,8 +522,41 @@ class RemoteConnector implements IConnector {
        return result;
     }
 
-}
+    //Execute Query
+    public async execute(skill:string, vin:string, troubleCode:string) : Promise<BindingSet>  {
+        
+        const start = new Date().getTime();
 
+        var parameters ='/api/agent?asset=urn:skill:consumer:'+skill+'&vin=' + vin + '&troubleCode=' + troubleCode;
+
+        var finalUrl = this.data_url + parameters;
+
+        const fetchOpts:RequestInit= {
+            method: 'GET',
+            headers: this.realmMapping.getHeaderAnnotation(this.url),
+            agent: this.proxy
+           };
+    
+           // 👇️ const response: Response
+           const response = await fetch(finalUrl,fetchOpts);
+           
+           let elapsed = new Date().getTime() - start;
+    
+           console.log(`Result from Remote Connector finished after ${elapsed} milliseconds.`);
+    
+           if (!response.ok) {
+             throw new Error(`Error! status: ${response.status}`);
+           }
+      
+           // 👇️ const result: BindingSet
+           const result = (await response.json()) as BindingSet;
+      
+           //console.log('result is: ', JSON.stringify(result, null, 4));
+      
+           return result;
+    }
+}
+    
 /**
  * global factory variable
  */
@@ -452,5 +577,3 @@ class RemoteConnector implements IConnector {
  export const setConnectorFactory = function( factory: IConnectorFactory) {
    connectorFactory=factory;
  }
- 
-

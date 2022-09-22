@@ -5,13 +5,13 @@ metadata:
   namespace: {{ .Values.namespace }}
 data:
   cx-ontology.xml: |-
-{{- .Files.Get "provider/resources/cx-ontology.xml" | nindent 4 }}
+{{- .Files.Get "oem/resources/cx-ontology.xml" | nindent 4 }}
   dtc.obda: |-
-{{- .Files.Get "provider/resources/dtc.obda" | nindent 4 }}
+{{- .Files.Get "oem/resources/dtc.obda" | nindent 4 }}
   settings.properties: |-
-{{- .Files.Get "provider/resources/settings.properties" | nindent 4 }}
+{{- .Files.Get "oem/resources/settings.properties" | nindent 4 }}
   portal.toml: |-
-{{- .Files.Get "provider/resources/portal.toml" | nindent 4 }}
+{{- .Files.Get "oem/resources/portal.toml" | nindent 4 }}
 ---
 apiVersion: v1
 data:
@@ -27,6 +27,8 @@ kind: Deployment
 metadata:
   name: oem-provider-agent
   namespace: {{ .Values.namespace }}
+  annotations:
+    container.apparmor.security.beta.kubernetes.io/oem-provider-agent: default
 spec:
   replicas: 1
   revisionHistoryLimit: 1
@@ -47,7 +49,7 @@ spec:
            type: RuntimeDefault
       containers:
         - name: oem-provider-agent
-          image: ghcr.io/catenax-ng/product-knowledge/dataspace/provisioning-agent:0.5.2
+          image: ghcr.io/catenax-ng/product-knowledge/dataspace/provisioning-agent:{{.Values.version}}
           imagePullPolicy: Always
           securityContext:
             capabilities:
@@ -55,6 +57,7 @@ spec:
                 - all
               add: ['NET_BIND_SERVICE']
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
           ports:
             - containerPort: 8080 # API
           resources:
@@ -75,26 +78,26 @@ spec:
             successThreshold: 1
             timeoutSeconds: 5
           livenessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /
-              port: 8080
-              scheme: HTTP
-            periodSeconds: 60
-            successThreshold: 1
-            timeoutSeconds: 5
-          readinessProbe:
-            failureThreshold: 3
+            failureThreshold: 2
             httpGet:
               path: /
               port: 8080
               scheme: HTTP
             periodSeconds: 300
             successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            failureThreshold: 2
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 60
+            successThreshold: 1
             timeoutSeconds: 5        
           env:
             - name: JAVA_TOOL_OPTIONS
-              value: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090"
+              value: "" #"-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090"
             - name: ONTOP_ONTOLOGY_FILE 
               value: "/input/cx-ontology.xml"
             - name: ONTOP_MAPPING_FILE 
@@ -138,11 +141,11 @@ metadata:
     nginx.ingress.kubernetes.io/x-forwarded-prefix: "/oem-provider-agent"
     nginx.org/mergeable-ingress-type: master
     # type of authentication
-    nginx.ingress.kubernetes.io/auth-type: basic
+    #nginx.ingress.kubernetes.io/auth-type: basic
     # name of the secret that contains the user/password definitions
-    nginx.ingress.kubernetes.io/{{ .Values.security.authType }}: oem-provider-auth
+    #nginx.ingress.kubernetes.io/{{ .Values.security.authType }}: oem-provider-auth
     # message to display with an appropriate context why the authentication is required
-    nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - OEM'
+    #nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - OEM'
 spec:
   tls:
     - hosts:

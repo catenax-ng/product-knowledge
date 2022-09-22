@@ -1,5 +1,5 @@
 # Copyright Notice
 
-All artifacts in this repository are Copyright Catena-X and product-knowledge contributors. All rights reserved. 
+All artifacts in this repository are Copyright Catena-X and the respective contributors. All rights reserved. 
 
-See [authors file](AUTHORS.md). 
+For more information on the contributors see [authors file](AUTHORS.md). 

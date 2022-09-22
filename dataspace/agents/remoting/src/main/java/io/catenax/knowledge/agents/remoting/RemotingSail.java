@@ -1,5 +1,5 @@
 //
-// Remoting interface to the Storage and Inference Layer (SAIL)
+// Application to provide REST APIs as SPARQL services
 // See copyright notice in the top folder
 // See authors file in the top folder
 // See license file in the top folder
@@ -10,7 +10,6 @@ import org.eclipse.rdf4j.model.*;
 
 import org.eclipse.rdf4j.sail.helpers.AbstractSail;
 import org.eclipse.rdf4j.sail.SailException;
-import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,13 +26,18 @@ public class RemotingSail extends AbstractSail {
 
     /**
      * creates the remoting sail
-     * @param url to the target service
+     * @param config config of the services
      */
     public RemotingSail(RemotingSailConfig config) {
         this.config=config;
         if(logger.isDebugEnabled()) {
         logger.debug(String.format("Starting remoting inference on config %s",this.config));
        }
+    }
+
+    @Override
+    public String toString() {
+        return super.toString()+"/sail";
     }
 
     /**

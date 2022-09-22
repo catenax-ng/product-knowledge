@@ -9,11 +9,11 @@ import { getConnectorFactory } from '../src/index';
 import {jest} from '@jest/globals';
 
 /**
- * test the mock connector
- */
+ * test:get assets 
+*/
 describe('testing skill framework', () => {
   jest.setTimeout(15000);
-  test('empty string should result in zero', async () => {
+  test('assets should be returned', async () => {
       var connector = getConnectorFactory().create();
       console.log(`Got connector ${connector}.`);
       var catalogue = await connector.listAssets();
@@ -33,5 +33,30 @@ describe('testing skill framework', () => {
         console.log(`Found asset ${contractOffer.asset.properties["asset:prop:name"]} in offer ${contractOffer.id}.`);
         expect(contractOffer.asset.properties).toHaveProperty("asset:prop:contenttype");
       });
+    });
+});
+
+/**
+ * test: get lifetime
+ */
+ describe('testing skill framework', () => {
+  jest.setTimeout(15000);
+  test('lifetime should be returned ', async () => {
+
+    var connector = getConnectorFactory().create();
+
+      console.log(`Got connector ${connector}.`);
+
+      var result = await connector.execute('Lifetime','WVA8984323420333','P0745');
+    
+      result.results.bindings.map(function(entry) {
+        console.log("Result as parsed JSON \n"+
+           "  vin:  " + entry.vin.value + "\n" +
+           "  troubleCode:  " + entry.troubleCode.value + "\n" +
+           "  partProg: " + entry.partProg.value + "\n" +
+           "  distance: " + entry.distance.value + "\n" +
+           "  time: " + entry.time.value );
+       });
+      
     });
 });
