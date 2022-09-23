@@ -1,82 +1,34 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography } from '@mui/material';
+import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material';
 import CytoscapeComponent from "react-cytoscapejs";
+import { Layouts } from "./Layouts";
+import setupCy from "./setupCy";
+setupCy();
 
 export const OntologyView = () => {
-  const [graphData, setGraphData] = useState({nodes: [], edges: []})
+  const cyRef = React.useRef<cytoscape.Core | undefined>();
+  const [width, setWith] = useState('100%');
+  const [height, setHeight] = useState('100%');
+  const [graphData, setGraphData] = useState({nodes: [], edges: []});
+  const [layout, setLayout] = useState(Layouts.circle);
+  const primary = '#ffa600'
+  const secondary = '#b3cb2d'
+  const cxCategory = '#D91E18'
 
   useEffect(() => {
-    fetch('https://raw.githubusercontent.com/catenax-ng/product-knowledge/feature/ka-38-edc-assets/infrastructure/consumer/resources/cx-ontology.json')
+    fetch('https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/infrastructure/consumer/resources/cx-ontology.json')
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson)
         setGraphData(responseJson);
+
       })
   }, [])
-
-  const testData = {
-    nodes: [
-      { data: { id: '1', label: 'IP 1', type: 'ip' } },
-      { data: { id: '2', label: 'Device 1', type: 'device' } },
-      { data: { id: '3', label: 'IP 2', type: 'ip' } },
-      { data: { id: '4', label: 'Device 2', type: 'device' } },
-      { data: { id: '5', label: 'Device 3', type: 'device' } },
-      { data: { id: '6', label: 'IP 3', type: 'ip' } },
-      { data: { id: '7', label: 'Device 5', type: 'device' } },
-      { data: { id: '8', label: 'Device 6', type: 'device' } },
-      { data: { id: '9', label: 'Device 7', type: 'device' } },
-      { data: { id: '10', label: 'Device 8', type: 'device' } },
-      { data: { id: '11', label: 'Device 9', type: 'device' } },
-      { data: { id: '12', label: 'IP 3', type: 'ip' } },
-      { data: { id: '13', label: 'Device 10', type: 'device' } },
-    ],
-    edges: [
-      {
-        data: { source: '1', target: '2', label: 'Node2' },
-      },
-      {
-        data: { source: '3', target: '4', label: 'Node4' },
-      },
-      {
-        data: { source: '3', target: '5', label: 'Node5' },
-      },
-      {
-        data: { source: '6', target: '5', label: ' 6 -> 5' },
-      },
-      {
-        data: { source: '6', target: '7', label: ' 6 -> 7' },
-      },
-      {
-        data: { source: '6', target: '8', label: ' 6 -> 8' },
-      },
-      {
-        data: { source: '6', target: '9', label: ' 6 -> 9' },
-      },
-      {
-        data: { source: '3', target: '13', label: ' 3 -> 13' },
-      },
-    ],
-  };
-
-  const layout = {
-    name: 'circle',
-    fit: true,
-    // circle: true,
-    directed: true,
-    padding: 50,
-    // spacingFactor: 1.5,
-    animate: true,
-    animationDuration: 1000,
-    avoidOverlap: true,
-    nodeDimensionsIncludeLabels: false,
-  };
-
 
   const styleSheet = [
     {
       selector: "node",
       style: {
-        backgroundColor: '#ffa600',
+        backgroundColor: primary,
         width: 30,
         height: 30,
         label: "data(label)",
@@ -88,28 +40,29 @@ export const OntologyView = () => {
         overlayPadding: "6px",
         zIndex: "10",
         //text props
-        color: '#ffa600',
-        fontSize: 20
+        color: primary,
+        fontSize: 20,
+        transition: "width 2s, height 2s"
       }
     },
     {
       selector: "node:selected",
       style: {
         borderWidth: "2px",
-        borderColor: '#b3cb2d',
-        borderOpacity: "0.5",
-        backgroundColor: '#b3cb2d',
-        width: 50,
-        height: 50,
+        borderColor: primary,
+        backgroundColor: secondary,
+        width: 40,
+        height: 40,
         //text props
-        color: '#b3cb2d',
+        color: secondary,
+        transition: "width 2s, height 2s"
       }
     },
     {
       selector: "node[category='https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl']",
       style: {
-        backgroundColor: '#D91E18',
-        color: '#D91E18',
+        backgroundColor: cxCategory,
+        color: cxCategory,
         shape: "rectangle"
       }
     },
@@ -117,8 +70,8 @@ export const OntologyView = () => {
       selector: "edge",
       style: {
         width: 3,
-        lineColor: '#0f71cb',
-        targetArrowColor: '#0d55af',
+        lineColor: '#eee',
+        targetArrowColor: '#ddd',
         targetArrowShape: "triangle",
         curveStyle: "bezier"
       }
@@ -126,32 +79,70 @@ export const OntologyView = () => {
   ];
 
   let myCyRef;
-  return (
-    <Box p={4}>
-      <Typography p={2} variant='h4'>Welcome to the Ontology view</Typography>
-      <CytoscapeComponent
-        elements={CytoscapeComponent.normalizeElements(graphData)}
-        // pan={{ x: 200, y: 200 }}
-        style={{ width: '400px', height:  '400px'}}
-        zoomingEnabled={true}
-        maxZoom={3}
-        minZoom={0.1}
-        autounselectify={false}
-        boxSelectionEnabled={true}
-        layout={layout}
-        stylesheet={styleSheet}
-        cy={(cy) => {
-          myCyRef = cy;
-          console.log(cy.data())
 
-          cy.on('tap', 'node', (evt) => {
-            var node = evt.target;
-            console.log('EVT', evt);
-            console.log('TARGET', node.data());
-            console.log('TARGET TYPE', typeof node[0]);
-          });
-        }}
-      />
-    </Box>
+  const onSelectChange = (e: SelectChangeEvent) => {
+    console.log(e.target.value)
+    setLayout({ ...Layouts[e.target.value] });
+  }
+
+  return (
+    <>
+      <Box p={4}>
+        <Typography p={2} variant='h4'>Welcome to the Ontology view</Typography>
+        <FormControl>
+          <InputLabel id="select-layout-label">Layout</InputLabel>
+          <Select
+            labelId="select-layout-label"
+            id="select-layout"
+            value={layout.name}
+            label="Layout"
+            onChange={onSelectChange}
+            sx={{minWidth: '150px'}}
+          >
+            {Object.keys(Layouts).map((l) => (
+              <MenuItem
+                key={`select-layout_${l}`}
+                value={l}
+              >
+                {Layouts[l].label}
+              </MenuItem>
+              ))}
+          </Select>
+        </FormControl>
+        <Box
+          style={{
+            border: `1px solid #ccc`,
+            marginTop: 2
+          }}
+        >
+          {graphData.nodes.length > 0 &&
+            <CytoscapeComponent
+              elements={CytoscapeComponent.normalizeElements(graphData)}
+              // pan={{ x: 200, y: 200 }}
+              style={{ width: width, height: height, minHeight: '500px' }}
+              zoomingEnabled={true}
+              maxZoom={3}
+              minZoom={0.1}
+              autounselectify={false}
+              boxSelectionEnabled={true}
+              layout={layout}
+              stylesheet={styleSheet}
+              cy={(cy) => {
+                myCyRef = cy;
+
+                console.log('EVT', cy);
+
+                cy.on('tap', 'node', (evt) => {
+                  var node = evt.target;
+                  console.log('EVT', evt);
+                  console.log('TARGET', node.data());
+                  console.log('TARGET TYPE', typeof node[0]);
+                });
+              }}
+            />
+          }
+        </Box>
+      </Box>
+    </>
   );
 };
