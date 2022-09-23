@@ -3,92 +3,56 @@ import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typo
 import CytoscapeComponent from "react-cytoscapejs";
 import { Layouts } from "./Layouts";
 import setupCy from "./setupCy";
+import { GraphObject, NodeData } from "./types";
+import { DefaultStyleSheet } from "./DefaultGraphStyles";
+import { Stylesheet } from "cytoscape";
 setupCy();
 
 export const OntologyView = () => {
   const cyRef = React.useRef<cytoscape.Core | undefined>();
   const [width, setWith] = useState('100%');
   const [height, setHeight] = useState('100%');
-  const [graphData, setGraphData] = useState({nodes: [], edges: []});
+  const [graphData, setGraphData] = useState<GraphObject>({nodes: [], edges: []});
   const [layout, setLayout] = useState(Layouts.circle);
-  const primary = '#ffa600'
-  const secondary = '#b3cb2d'
-  const cxCategory = '#D91E18'
+  const [activeNode, setActiveNode] = useState<NodeData>();
+  const [categories, setCategories] = useState<string[]>([])
+  const [stylesheet, setStylesheet] = React.useState<Stylesheet[]>(DefaultStyleSheet);
 
   useEffect(() => {
     fetch('https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/infrastructure/consumer/resources/cx-ontology.json')
       .then((response) => response.json())
-      .then((responseJson) => {
+      .then((responseJson: GraphObject) => {
         setGraphData(responseJson);
-
+        const uniqueCategories = responseJson.nodes.map(n => n.data.category).filter((value, index, self) => self.indexOf(value) === index);
+        setCategories(uniqueCategories);
       })
   }, [])
 
-  const styleSheet = [
-    {
-      selector: "node",
-      style: {
-        backgroundColor: primary,
-        width: 30,
-        height: 30,
-        label: "data(label)",
-
-        // "width": "mapData(score, 0, 0.006769776522008331, 20, 60)",
-        // "height": "mapData(score, 0, 0.006769776522008331, 20, 60)",
-        // "text-valign": "center",
-        // "text-halign": "center",
-        overlayPadding: "6px",
-        zIndex: "10",
-        //text props
-        color: primary,
-        fontSize: 20,
-        transition: "width 2s, height 2s"
-      }
-    },
-    {
-      selector: "node:selected",
-      style: {
-        borderWidth: "2px",
-        borderColor: primary,
-        backgroundColor: secondary,
-        width: 40,
-        height: 40,
-        //text props
-        color: secondary,
-        transition: "width 2s, height 2s"
-      }
-    },
-    {
-      selector: "node[category='https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl']",
-      style: {
-        backgroundColor: cxCategory,
-        color: cxCategory,
-        shape: "rectangle"
-      }
-    },
-    {
-      selector: "edge",
-      style: {
-        width: 3,
-        lineColor: '#eee',
-        targetArrowColor: '#ddd',
-        targetArrowShape: "triangle",
-        curveStyle: "bezier"
-      }
+  useEffect(() => {
+    if(categories.length > 0){
+      categories.map((cat, i) => {
+        const hslDegree = (360/categories.length) * (i + 1)
+        const catStyles = {
+          selector: `node[category='${cat}']`,
+          style: {
+            backgroundColor: `hsl(${hslDegree}, 100%, 50%)`,
+            color: `hsl(${hslDegree}, 100%, 50%)`,
+            shape: "rectangle"
+          }
+        };
+        setStylesheet(s => [...s, catStyles])
+      })
     }
-  ];
-
-  let myCyRef;
+  }, [categories])
 
   const onSelectChange = (e: SelectChangeEvent) => {
-    console.log(e.target.value)
     setLayout({ ...Layouts[e.target.value] });
   }
 
   return (
     <>
       <Box p={4}>
-        <Typography p={2} variant='h4'>Welcome to the Ontology view</Typography>
+        <Typography p={2} mb={4} variant='h4'>Welcome to the Ontology view</Typography>
         <FormControl>
           <InputLabel id="select-layout-label">Layout</InputLabel>
           <Select
@@ -110,15 +74,12 @@ export const OntologyView = () => {
           </Select>
         </FormControl>
         <Box
-          style={{
-            border: `1px solid #ccc`,
-            marginTop: 2
-          }}
+          mt={2}
+          border="1px solid #ccc"
         >
           {graphData.nodes.length > 0 &&
             <CytoscapeComponent
               elements={CytoscapeComponent.normalizeElements(graphData)}
-              // pan={{ x: 200, y: 200 }}
               style={{ width: width, height: height, minHeight: '500px' }}
               zoomingEnabled={true}
               maxZoom={3}
@@ -126,22 +87,22 @@ export const OntologyView = () => {
               autounselectify={false}
               boxSelectionEnabled={true}
               layout={layout}
-              stylesheet={styleSheet}
+              stylesheet={stylesheet}
               cy={(cy) => {
-                myCyRef = cy;
-
-                console.log('EVT', cy);
-
-                cy.on('tap', 'node', (evt) => {
+                cyRef.current = cy;
+                cy.on('click', 'node', (evt) => {
                   var node = evt.target;
-                  console.log('EVT', evt);
-                  console.log('TARGET', node.data());
-                  console.log('TARGET TYPE', typeof node[0]);
+                  setActiveNode(node.data());
                 });
               }}
             />
           }
         </Box>
+        {activeNode &&
+          <Box>
+            <Typography variant="h2">{activeNode.id}</Typography>
+          </Box>
+        }
       </Box>
     </>
   );
