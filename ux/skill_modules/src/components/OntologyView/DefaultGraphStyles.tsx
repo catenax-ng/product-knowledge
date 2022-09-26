@@ -12,24 +12,25 @@ export const DefaultStyleSheet: Stylesheet[] = [
       width: 30,
       height: 30,
       label: "data(label)",
-      'text-valign': "bottom",
       'overlay-padding': "6px",
       'z-index': 10,
       //text props
       color: primary,
       'font-size': 20,
+      "font-weight": 600,
+      'text-halign': "center",
+      'text-valign': "top",
+      "text-margin-y": -7
     }
   },
   {
     selector: "node:selected",
     style: {
       'border-width': '2px',
-      'border-color': primary,
-      backgroundColor: secondary,
       width: 40,
       height: 40,
-      //text props
-      color: secondary
+      shape: "star",
+      'z-index': 11,
     }
   },
   {
@@ -37,19 +38,27 @@ export const DefaultStyleSheet: Stylesheet[] = [
     style: {
       backgroundColor: cxCategory,
       color: cxCategory,
-      shape: "rectangle"
+      shape: "diamond"
     }
   },
   {
     selector: "edge",
     style: {
       width: 1,
-      label: "data(type)",
-      'text-valign': "top",
-      'line-color': '#eee',
-      'target-arrow-color': '#ddd',
+      'line-color': '#ccc',
+      'target-arrow-color': '#bbb',
       'target-arrow-shape': "triangle",
       'curve-style': "bezier"
+    }
+  },
+  {
+    selector: "edge:selected",
+    style: {
+      width: 2,
+      label: "data(type)",
+      'text-valign': "top",
+      'line-color': '#aaa',
+      'target-arrow-color': primary,
     }
   },
   {

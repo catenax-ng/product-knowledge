@@ -15,7 +15,8 @@ export interface EdgeData {
 export interface NodeData {
   id: string,
   category: string,
-  label?: string
+  label?: string,
+  type?: string
 }
 
 export interface GraphObject {

@@ -30,6 +30,7 @@ export const Layouts: Record<string, any> = {
     name: "breadthfirst",
     animate: true,
     grid: true,
-    label: 'efficient Hierarchy'
+    label: 'efficient Hierarchy',
+    padding: 50
   },
 };

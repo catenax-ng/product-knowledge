@@ -32,15 +32,24 @@ export const OntologyView = () => {
     if(categories.length > 0){
       categories.map((cat, i) => {
         const hslDegree = (360/categories.length) * (i + 1)
-        const catStyles = {
-          selector: `node[category='${cat}']`,
-          style: {
-            backgroundColor: `hsl(${hslDegree}, 100%, 50%)`,
-            color: `hsl(${hslDegree}, 100%, 50%)`,
-            shape: "rectangle"
-          }
-        };
-        setStylesheet(s => [...s, catStyles])
+        const hslColor = `hsl(${hslDegree}, 100%, 50%)`;
+        const darkHslColor = `hsl(${hslDegree}, 100%, 35%)`
+        const catStyles = [
+          {selector: `node[category='${cat}']`,
+            style: {
+              backgroundColor: hslColor,
+              color: darkHslColor
+            }
+          },
+          {selector: `node[category='${cat}']:selected`,
+            style: {
+              backgroundColor: darkHslColor,
+              'border-color': hslColor,
+              color: '#333'
+            }
+          },
+        ]
+        setStylesheet(s => [...s, ...catStyles])
       })
     }
   }, [categories])
@@ -53,6 +62,12 @@ export const OntologyView = () => {
     <>
       <Box p={4}>
         <Typography p={2} mb={4} variant='h4'>Welcome to the Ontology view</Typography>
+        {activeNode &&
+          <Box mb={3}>
+            <Typography variant="h5">Selected Node: {activeNode.label ? activeNode.label : activeNode.id}</Typography>
+            <Typography><b>Category:</b> {activeNode.category}, <b>Type:</b> {activeNode.type ? activeNode.type : '-'}, <b>ID:</b> {activeNode.id}</Typography>
+          </Box>
+        }
         <FormControl>
           <InputLabel id="select-layout-label">Layout</InputLabel>
           <Select
@@ -92,17 +107,13 @@ export const OntologyView = () => {
                 cyRef.current = cy;
                 cy.on('click', 'node', (evt) => {
                   var node = evt.target;
+                  console.log(node.data())
                   setActiveNode(node.data());
                 });
               }}
             />
           }
         </Box>
-        {activeNode &&
-          <Box>
-            <Typography variant="h2">{activeNode.id}</Typography>
-          </Box>
-        }
       </Box>
     </>
   );
