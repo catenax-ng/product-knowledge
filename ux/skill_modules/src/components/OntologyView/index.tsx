@@ -8,7 +8,11 @@ import { DefaultStyleSheet } from "./DefaultGraphStyles";
 import { Stylesheet } from "cytoscape";
 setupCy();
 
-export const OntologyView = () => {
+interface OntologyViewType {
+  dataUrl: string
+}
+
+export const OntologyView = ({dataUrl}: OntologyViewType) => {
   const cyRef = React.useRef<cytoscape.Core | undefined>();
   const [width, setWith] = useState('100%');
   const [height, setHeight] = useState('100%');
@@ -19,7 +23,7 @@ export const OntologyView = () => {
   const [stylesheet, setStylesheet] = React.useState<Stylesheet[]>(DefaultStyleSheet);
 
   useEffect(() => {
-    fetch('https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/infrastructure/consumer/resources/cx-ontology.json')
+    fetch(dataUrl)
       .then((response) => response.json())
       .then((responseJson: GraphObject) => {
         setGraphData(responseJson);
