@@ -9,6 +9,7 @@ package io.catenax.knowledge.dataspace.edc.http;
 import io.catenax.knowledge.dataspace.edc.AgentConfig;
 import io.catenax.knowledge.dataspace.edc.SkillStore;
 import io.catenax.knowledge.dataspace.edc.TestConfig;
+import io.catenax.knowledge.dataspace.edc.rdf.RDFStore;
 import io.catenax.knowledge.dataspace.edc.sparql.DataspaceServiceExecutor;
 import io.catenax.knowledge.dataspace.edc.sparql.SparqlQueryProcessor;
 import okhttp3.*;
@@ -58,7 +59,8 @@ public class TestAgentController {
     ServiceExecutorRegistry reg=new ServiceExecutorRegistry();
     OkHttpClient client=new OkHttpClient();
     DataspaceServiceExecutor exec=new DataspaceServiceExecutor(monitor,null,agentConfig,client);
-    SparqlQueryProcessor processor=new SparqlQueryProcessor(reg,monitor,agentConfig);
+    RDFStore store = new RDFStore(agentConfig,monitor);
+    SparqlQueryProcessor processor=new SparqlQueryProcessor(reg,monitor,agentConfig,store);
     SkillStore skillStore=new SkillStore();
     AgentController agentController=new AgentController(monitor,null,agentConfig,null,processor,skillStore);
 

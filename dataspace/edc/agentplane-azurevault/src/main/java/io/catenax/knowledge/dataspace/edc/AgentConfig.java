@@ -34,6 +34,9 @@ public class AgentConfig {
     public static long DEFAULT_NEGOTIATION_TIMEOUT = 30000;
     public static String NEGOTIATION_POLLINTERVAL_PROPERTY = "cx.agent.negotiation.poll";
     public static long DEFAULT_NEGOTIATION_POLLINTERVAL = 1000;
+    public static String DATASPACE_SYNCINTERVAL_PROPERTY = "cx.agent.dataspace.synchronization";
+    public static long DEFAULT_DATASPACE_SYNCINTERVAL = -1;
+    public static String DATASPACE_SYNCCONNECTORS_PROPERTY = "cx.agent.dataspace.remotes";
 
     /**
      * references to EDC services
@@ -108,8 +111,26 @@ public class AgentConfig {
     /**
      * @return the default overall timeout when waiting for a negotation result
      */
-    public long getNegotiationPollinterval() {
+    public long getNegotiationPollInterval() {
         return config.getLong(NEGOTIATION_POLLINTERVAL_PROPERTY,DEFAULT_NEGOTIATION_POLLINTERVAL);
+    }
+
+    /**
+     * @return the synchronization interval between individual sync calls, -1 if no sync
+     */
+    public long getDataspaceSynchronizationInterval() {
+        return config.getLong(DATASPACE_SYNCINTERVAL_PROPERTY,DEFAULT_DATASPACE_SYNCINTERVAL);
+    }
+
+    /**
+     * @return array of connector urls to synchronize, null if no sync
+     */
+    public String[] getDataspaceSynchronizationConnectors() {
+        String[] connectors= config.getString(DATASPACE_SYNCCONNECTORS_PROPERTY,"").split(",");
+        if(connectors.length==1 && "".equals(connectors[0])) {
+            return null;
+        }
+        return connectors;
     }
 
     /**

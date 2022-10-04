@@ -11,6 +11,7 @@ import io.catenax.knowledge.dataspace.edc.http.HttpServletContextAdapter;
 import io.catenax.knowledge.dataspace.edc.http.HttpServletRequestAdapter;
 import io.catenax.knowledge.dataspace.edc.http.HttpServletResponseAdapter;
 import io.catenax.knowledge.dataspace.edc.http.IJakartaAdapter;
+import io.catenax.knowledge.dataspace.edc.rdf.RDFStore;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.BadRequestException;
@@ -20,9 +21,7 @@ import okhttp3.Response;
 import org.apache.http.HttpStatus;
 import org.apache.jena.fuseki.Fuseki;
 import org.apache.jena.fuseki.metrics.MetricsProviderRegistry;
-import org.apache.jena.fuseki.server.DataAccessPoint;
 import org.apache.jena.fuseki.server.DataAccessPointRegistry;
-import org.apache.jena.fuseki.server.DataService;
 import org.apache.jena.fuseki.server.OperationRegistry;
 import org.apache.jena.fuseki.servlets.ActionErrorException;
 import org.apache.jena.fuseki.servlets.HttpAction;
@@ -37,19 +36,9 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.jena.graph.NodeFactory;
 import org.apache.jena.query.QueryExecException;
-import org.apache.jena.query.TxnType;
-import org.apache.jena.riot.Lang;
-import org.apache.jena.riot.RDFParser;
-import org.apache.jena.riot.lang.StreamRDFCounting;
-import org.apache.jena.riot.system.ErrorHandler;
-import org.apache.jena.riot.system.ErrorHandlerFactory;
-import org.apache.jena.riot.system.StreamRDF;
-import org.apache.jena.riot.system.StreamRDFLib;
 import org.apache.jena.query.Query;
 import org.apache.jena.sparql.core.DatasetGraph;
-import org.apache.jena.sparql.core.DatasetGraphFactory;
 import org.apache.jena.atlas.lib.Pair;
 import org.apache.jena.sparql.engine.http.QueryExceptionHTTP;
 import org.apache.jena.sparql.service.ServiceExecutorRegistry;
@@ -77,12 +66,10 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
      */
     protected final OperationRegistry operationRegistry= OperationRegistry.createEmpty();
     protected final DataAccessPointRegistry dataAccessPointRegistry=new DataAccessPointRegistry(MetricsProviderRegistry.get().getMeterRegistry());
-    // we need a single data access point (with its default graph)
-    protected final DatasetGraph dataset;
-    protected final DataAccessPoint api;
     // map EDC monitor to SLF4J (better than the builtin MonitorProvider)
     private final MonitorWrapper monitorWrapper;
     // some state to set when interacting with Fuseki
+    protected final RDFStore rdfStore;
     private long count=-1;
 
     /**
@@ -90,33 +77,13 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
      * @param registry service execution registry
      * @param monitor EDC logging
      */
-    public SparqlQueryProcessor(ServiceExecutorRegistry registry, Monitor monitor, AgentConfig config) {
+    public SparqlQueryProcessor(ServiceExecutorRegistry registry, Monitor monitor, AgentConfig config, RDFStore rdfStore) {
         this.monitor=monitor;
         this.registry=registry;
         this.config=config;
         this.monitorWrapper=new MonitorWrapper(getClass().getName(),monitor);
-        dataset = DatasetGraphFactory.createTxnMem();
-        DataService.Builder dataService = DataService.newBuilder(dataset);
-        DataService service=dataService.build();
-        api=new DataAccessPoint(config.getAccessPoint(), service);
-        dataAccessPointRegistry.register(api);
-        monitor.debug(String.format("Activating data service %s under access point %s",service,api));
-        service.goActive();
-        // read file with ontology, share this dataset with the catalogue sync procedure
-        if(config.getAssetFile()!=null) {
-            dataset.begin(TxnType.WRITE);
-            StreamRDF dest = StreamRDFLib.dataset(dataset);
-            StreamRDF graphDest = StreamRDFLib.extendTriplesToQuads(NodeFactory.createURI(config.getDefaultAsset()),dest);
-            StreamRDFCounting countingDest = StreamRDFLib.count(graphDest);
-            ErrorHandler errorHandler = ErrorHandlerFactory.errorHandlerStd(monitorWrapper);
-            RDFParser.create()
-                    .errorHandler(errorHandler)
-                    .source(config.getAssetFile())
-                    .lang(Lang.TTL)
-                    .parse(countingDest);
-            dataset.commit();
-            monitor.info(String.format("Initialised asset %s with %d triples from file %s",config.getDefaultAsset(),countingDest.countTriples(),config.getAssetFile()));
-        }
+        this.rdfStore=rdfStore;
+        dataAccessPointRegistry.register(rdfStore.getDataAccessPoint());
     }
 
     /**
@@ -164,7 +131,7 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
         request.getServletContext().setAttribute(Fuseki.attrNameRegistry, dataAccessPointRegistry);
         AgentHttpAction action = new AgentHttpAction(++count, monitorWrapper, getJavaxRequest(request), getJavaxResponse(response), skill, graph);
         // Should we check whether this already has been done? the context should be quite static
-        action.setRequest(api, api.getDataService());
+        action.setRequest(rdfStore.getDataAccessPoint(), rdfStore.getDataService());
         ServiceExecutorRegistry.set(action.getContext(),registry);
         try {
             execute(action);
@@ -193,7 +160,7 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
         contextAdapter.setAttribute(Fuseki.attrNameRegistry, dataAccessPointRegistry);
         AgentHttpAction action = new AgentHttpAction(++count, monitorWrapper, requestAdapter,responseAdapter, skill, graph);
         // Should we check whether this already has been done? the context should be quite static
-        action.setRequest(api, api.getDataService());
+        action.setRequest(rdfStore.getDataAccessPoint(), rdfStore.getDataService());
         ServiceExecutorRegistry.set(action.getContext(),registry);
         action.getContext().set(DataspaceServiceExecutor.targetUrl,request);
         action.getContext().set(DataspaceServiceExecutor.authKey,authKey);
@@ -385,6 +352,6 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
             query.getNamedGraphURIs().clear();
             query.getGraphURIs().clear();
         }
-        return Pair.create(dataset, query);
+        return Pair.create(rdfStore.getDataSet(), query);
      }
 }
