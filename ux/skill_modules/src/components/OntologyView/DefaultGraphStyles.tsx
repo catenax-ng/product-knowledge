@@ -1,8 +1,6 @@
 import { Stylesheet } from "cytoscape";
 
 const primary = '#ffa600';
-const secondary = '#b3cb2d';
-const cxCategory = '#D91E18';
 
 export const DefaultStyleSheet: Stylesheet[] = [
   {
@@ -34,10 +32,8 @@ export const DefaultStyleSheet: Stylesheet[] = [
     }
   },
   {
-    selector: "node[category='https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl']",
+    selector: "node[type='class']",
     style: {
-      backgroundColor: cxCategory,
-      color: cxCategory,
       shape: "diamond"
     }
   },

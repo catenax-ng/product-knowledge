@@ -6,6 +6,7 @@ import setupCy from "./setupCy";
 import { GraphObject, NodeData } from "./types";
 import { DefaultStyleSheet } from "./DefaultGraphStyles";
 import { Stylesheet } from "cytoscape";
+
 setupCy();
 
 interface OntologyViewType {
@@ -14,8 +15,6 @@ interface OntologyViewType {
 
 export const OntologyView = ({dataUrl}: OntologyViewType) => {
   const cyRef = React.useRef<cytoscape.Core | undefined>();
-  const [width, setWith] = useState('100%');
-  const [height, setHeight] = useState('100%');
   const [graphData, setGraphData] = useState<GraphObject>({nodes: [], edges: []});
   const [layout, setLayout] = useState(Layouts.circle);
   const [activeNode, setActiveNode] = useState<NodeData>();
@@ -69,7 +68,10 @@ export const OntologyView = ({dataUrl}: OntologyViewType) => {
         {activeNode &&
           <Box mb={3}>
             <Typography variant="h5">Selected Node: {activeNode.label ? activeNode.label : activeNode.id}</Typography>
-            <Typography><b>Category:</b> {activeNode.category}, <b>Type:</b> {activeNode.type ? activeNode.type : '-'}, <b>ID:</b> {activeNode.id}</Typography>
+            <Typography>
+              {activeNode.category && <span><b>Category:</b> {activeNode.category}, </span>}
+              {activeNode.type && <span><b>Type:</b> {activeNode.type}, </span>} 
+              <b>ID:</b> {activeNode.id}</Typography>
           </Box>
         }
         <FormControl>
@@ -99,7 +101,7 @@ export const OntologyView = ({dataUrl}: OntologyViewType) => {
           {graphData.nodes.length > 0 &&
             <CytoscapeComponent
               elements={CytoscapeComponent.normalizeElements(graphData)}
-              style={{ width: width, height: height, minHeight: '500px' }}
+              style={{ width: '100%', height: '100%', minHeight: '500px' }}
               zoomingEnabled={true}
               maxZoom={3}
               minZoom={0.1}
