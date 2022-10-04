@@ -80,7 +80,9 @@ public class AgentSource implements DataSource {
                     skill=asset;
                 }
             }
-            try (Response response = processor.execute(params.toRequest(),skill,graph)) {
+            String authKey=request.getSourceDataAddress().getProperties().getOrDefault("authKey",null);
+            String authCode=request.getSourceDataAddress().getProperties().getOrDefault("authCode",null);
+            try (Response response = processor.execute(params.toRequest(),skill,graph,authKey,authCode)) {
                 return getPart(response);
             } catch (IOException e) {
                 throw new EdcException(e);

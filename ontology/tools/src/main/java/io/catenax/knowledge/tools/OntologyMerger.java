@@ -6,8 +6,9 @@
 //
 package io.catenax.knowledge.tools;
 
+import org.semanticweb.owlapi.formats.RDFJsonLDDocumentFormat;
+import org.semanticweb.owlapi.formats.RDFXMLDocumentFormat;
 import org.semanticweb.owlapi.model.*;
-import org.semanticweb.owlapi.util.OWLOntologyMerger;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 
 import java.io.ByteArrayInputStream;
@@ -29,15 +30,16 @@ import javax.xml.transform.stream.StreamSource;
 public class OntologyMerger {
    /** ontology manager */
    OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-   /** the ontology merger tool */
-   OWLOntologyMerger ontologyMerger = new OWLOntologyMerger(manager);
+   /** the output format */
+
+   OWLDocumentFormat ontologyFormat = new RDFXMLDocumentFormat();
 
    /** 
     * run the merge command on the given files and output the result to the console  
     * @param args a set of arguments
     */
    public void run(String[] args) throws Exception {
-      ArrayList<String> remainingArgs=new ArrayList<String>();
+      ArrayList<String> remainingArgs=new ArrayList<>();
       PrintStream outStream = System.out;
       String styleSheet=null;
       try {
@@ -47,12 +49,14 @@ public class OntologyMerger {
                if(count<args.length) {
                   styleSheet=args[count];
                }
+            } else if("+jsonld".equals(args[count])) {
+              ontologyFormat=new RDFJsonLDDocumentFormat();
             } else {
                remainingArgs.add(args[count]);
             }
          }
          ByteArrayOutputStream bos=new ByteArrayOutputStream();
-         run(remainingArgs.toArray(new String[remainingArgs.size()]),bos);
+         run(remainingArgs.toArray(new String[0]),bos);
          if(styleSheet!=null) {
             StreamSource sheet = new javax.xml.transform.stream.StreamSource(styleSheet);
             TransformerFactory factory=TransformerFactory.newInstance();
@@ -61,7 +65,7 @@ public class OntologyMerger {
             bos=new ByteArrayOutputStream();
             transformer.transform(new StreamSource(bis), new StreamResult(bos));
          } 
-         outStream.println(new String(bos.toByteArray()));
+         outStream.println(bos.toString());
          outStream.flush();
       } finally {
          if(outStream!=System.out) {
@@ -78,12 +82,14 @@ public class OntologyMerger {
    public void run(String[] args, OutputStream out) throws Exception {
       ArrayList<OWLOntology> imports=new ArrayList();
 
-      for(int count=0;count<args.length;count++) {
-         imports.add(manager.loadOntologyFromOntologyDocument(new File(args[count])));
+      for (String arg : args) {
+         imports.add(manager.loadOntologyFromOntologyDocument(new File(arg)));
       }
       
       OWLOntology newOntology = manager.createOntology(IRI.create("https://github.com/catenax-ng/product-knowledge"),imports,false);
-      newOntology.getOWLOntologyManager().saveOntology(newOntology, out);
+
+
+      newOntology.getOWLOntologyManager().saveOntology(newOntology,ontologyFormat, out);
    }
 
    /** 

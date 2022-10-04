@@ -77,7 +77,7 @@ services:
       # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
       EDC_FS_CONFIG: /app/configuration.properties      
       # Uncomment to enable for debugging, please choose a different port for each endpoint
-      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090
+      #JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090
     volumes:
       - ./oem/resources/controlplane.properties:/app/configuration.properties
       - ./resources/opentelemetry.properties:/app/opentelemetry.properties
@@ -105,7 +105,9 @@ services:
       - "8081:8081" # sparql endpoint
       - "8091:8090" # debugging endpoint
     environment:
-      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090
+      # dummy environment var
+      FOO: bar
+      #JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090
     volumes:
       - ./tiera/resources/rdf4j/conf:/var/rdf4j/server/conf
       - ./tiera/resources/rdf4j/repositories:/var/rdf4j/server/repositories
@@ -137,6 +139,6 @@ services:
       #JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090
     volumes:
       - ./consumer/resources/dataplane.properties:/app/configuration.properties
-      - ./resources/dataspace.ttl:/app/dataspace.ttl
+      - ./resources/dataspace_local.ttl:/app/dataspace.ttl
       - ./resources/opentelemetry.properties:/app/opentelemetry.properties
       - ./resources/logging.properties:/app/logging.properties

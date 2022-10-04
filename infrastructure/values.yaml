@@ -17,6 +17,8 @@ dataspace:
   privateKeyAliasCustomer: "customer-daps-key"
   publicKeyAliasCustomer: "customer-daps-crt"
   dapsClientIdCustomer: ""
+  ontology: resources/dataspace.ttl
+  config: resources/agent.ttl
 
 ingress:
   host: knowledge.int.demo.catena-x.net

@@ -46,7 +46,7 @@ public class AgentSourceRequestParamsSupplier extends HttpSourceRequestParamsSup
 
     @Override
     protected @Nullable String extractQueryParams(HttpDataAddress address, DataFlowRequest request) {
-        if (request.getSourceDataAddress().getProperties().getOrDefault("baseUrl", "").contains("api/public"))
+        if(AgentSourceFactory.isTransferRequest(request))
             return super.extractQueryParams(address,request);
         return address.getProperty(QUERY_PARAMS);
     }

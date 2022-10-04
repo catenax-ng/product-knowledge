@@ -29,7 +29,7 @@ data:
     edc.ids.curator=http://catenax.net
     edc.ids.description=Eclipse Dataspace Connector for Knowledge Agents OEM
     # whatever that is needed
-    edc.ids.endpoint=http://oem-control-plane:8282/api/v1/ids
+    edc.ids.endpoint=https://{{ .Values.ingress.host }}/oem-edc-control/{{ .Values.dataspace.bpnOem }}/api/v1/ids
     # This is checked as the audience for incoming ids messages/tokens
     edc.ids.endpoint.audience=https://{{ .Values.ingress.host }}/oem-edc-control/{{ .Values.dataspace.bpnOem }}/api/v1/ids/data
     # This is send as the audience to outgoing ids messages/tokens

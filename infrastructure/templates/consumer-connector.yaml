@@ -155,9 +155,9 @@ data:
     java.util.logging.ConsoleHandler.level=ALL
     java.util.logging.SimpleFormatter.format=[%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS] [%4$-7s] %5$s%6$s%n
   agent.ttl: |-
-{{- .Files.Get "consumer/resources/agent.ttl" | nindent 4 }}
+{{- .Files.Get .Values.dataspace.config | nindent 4 }}
   dataspace.ttl: |-
-{{- .Files.Get "resources/dataspace.ttl" | nindent 4 }}
+{{- .Files.Get .Values.dataspace.ontology | nindent 4 }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -201,8 +201,6 @@ spec:
           env:
             - name:  EDC_FS_CONFIG
               value: /connector-config/configuration.properties
-            # - name: FUSEKI_CONFIG
-            #   value: agent.ttl
           resources:
            requests:
             cpu: 0.5

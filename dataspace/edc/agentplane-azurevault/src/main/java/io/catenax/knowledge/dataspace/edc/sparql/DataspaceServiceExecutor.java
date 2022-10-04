@@ -29,11 +29,13 @@ import org.apache.jena.sparql.engine.ExecutionContext;
 import org.apache.jena.sparql.engine.QueryIterator;
 import org.apache.jena.sparql.engine.Rename;
 import org.apache.jena.sparql.engine.binding.Binding;
+import org.apache.jena.sparql.engine.binding.BindingBuilder;
 import org.apache.jena.sparql.engine.http.HttpParams;
 import org.apache.jena.sparql.engine.iterator.QueryIter;
 import org.apache.jena.sparql.engine.iterator.QueryIterCommonParent;
 import org.apache.jena.sparql.engine.iterator.QueryIterPlainWrapper;
 import org.apache.jena.sparql.engine.iterator.QueryIterSingleton;
+import org.apache.jena.sparql.engine.main.QC;
 import org.apache.jena.sparql.exec.RowSet;
 import org.apache.jena.sparql.exec.http.*;
 import org.apache.jena.sparql.service.single.ServiceExecutorHttp;
@@ -67,7 +69,7 @@ public class DataspaceServiceExecutor extends ServiceExecutorHttp {
      * some constants
      */
     public final static Symbol authKey = Symbol.create("cx:authKey");
-    public final static Symbol authSecret = Symbol.create("cx:authSecret");
+    public final static Symbol authCode = Symbol.create("cx:authCode");
     public final static Pattern EDC_TARGET_ADDRESS = Pattern.compile("(?<protocol>edc|edcs)://(?<connector>[^#?]*)(#(?<asset>[^/?]*))?(\\?(?<params>.*))?");
     public final static Symbol targetUrl = Symbol.create("cx:targetUrl");
     public final static Symbol asset = Symbol.create("cx:asset");
@@ -90,17 +92,20 @@ public class DataspaceServiceExecutor extends ServiceExecutorHttp {
      * @param operator embedding operator
      * @return unique graph asset found, null if there is none
      */
-    protected String getUniqueGraph(Op operator) {
+    protected String getUniqueGraph(Op operator, Binding binding) {
         if(operator instanceof OpGraph) {
             Node graphNode = ((OpGraph) operator).getNode();
+            if(graphNode.isVariable()) {
+                graphNode=binding.get((Var) graphNode);
+            }
             if(!graphNode.isURI()) {
                 throw new QueryExecException(String.format("Could not derive asset name from graph operator %s which is not an uri.",operator));
             } else {
                 return graphNode.getURI();
             }
         } else if(operator instanceof Op2) {
-            String asset=getUniqueGraph(((Op2) operator).getLeft());
-            String asset2=getUniqueGraph(((Op2) operator).getRight());
+            String asset=getUniqueGraph(((Op2) operator).getLeft(),binding);
+            String asset2=getUniqueGraph(((Op2) operator).getRight(),binding);
             if(asset!=null) {
                 if(asset2!=null) {
                     if(!(asset.equals(asset2))) {
@@ -114,7 +119,7 @@ public class DataspaceServiceExecutor extends ServiceExecutorHttp {
             // currently, we need to stop looking for graphes
             // in remote services
             if(!(operator instanceof OpService))
-                return getUniqueGraph(((Op1) operator).getSubOp());
+                return getUniqueGraph(((Op1) operator).getSubOp(),binding);
         }
         return null;
     }
@@ -132,12 +137,18 @@ public class DataspaceServiceExecutor extends ServiceExecutorHttp {
     @Override
     public QueryIterator createExecution(OpService opExecute, OpService opOriginal, Binding binding,
                                          ExecutionContext execCxt) {
+
+        // it maybe that a subselect has "masked" some input
+        // variables
+        BindingBuilder bb=Binding.builder();
+        binding.forEach( (var,node)-> bb.add(Var.alloc("/"+var.getVarName()),node));
+        opExecute= (OpService) QC.substitute(opExecute,bb.build());
+
         Context context = execCxt.getContext();
         if (!opExecute.getService().isURI())
             throw new QueryExecException("Service URI not bound: " + opExecute.getService());
 
         boolean silent = opExecute.getSilent();
-        OpService realOpExecute = opExecute;
 
         // check whether we need to route over EDC
         String target = opExecute.getService().getURI();
@@ -157,7 +168,7 @@ public class DataspaceServiceExecutor extends ServiceExecutorHttp {
             }
             String asset = edcMatcher.group("asset");
             if (asset == null || asset.length() == 0) {
-                asset=getUniqueGraph(opExecute.getSubOp());
+                asset=getUniqueGraph(opExecute.getSubOp(),binding);
                 if(asset==null) {
                     throw new QueryExecException("There is no graph asset under EDC-based service: " + target);
                 }
@@ -187,9 +198,9 @@ public class DataspaceServiceExecutor extends ServiceExecutorHttp {
             }
             Map<String, List<String>> serviceParams = allServiceParams.computeIfAbsent(targetUrl, k -> new HashMap<>());
             serviceParams.put("cx_accept",List.of("application/json"));
-            realOpExecute = new OpService(newServiceNode, opExecute.getSubOp(), opExecute.getServiceElement(), silent);
+            opExecute = new OpService(newServiceNode, opExecute.getSubOp(), opExecute.getServiceElement(), silent);
             execCxt.getContext().put(authKey, endpoint.getAuthKey());
-            execCxt.getContext().put(authSecret, endpoint.getAuthCode());
+            execCxt.getContext().put(authCode, endpoint.getAuthCode());
         } else {
             monitor.info(String.format("About to execute http target %s without dataspace", target));
         }
@@ -197,9 +208,9 @@ public class DataspaceServiceExecutor extends ServiceExecutorHttp {
         // http execute with headers and such
         try {
             // [QExec] Add getSubOpUnmodified();
-            String serviceURL = realOpExecute.getService().getURI();
+            String serviceURL = opExecute.getService().getURI();
 
-            Op opRemote = realOpExecute.getSubOp();
+            Op opRemote = opExecute.getSubOp();
 
             // This relies on the observation that the query was originally correct,
             // so reversing the scope renaming is safe (it merely restores the
@@ -221,7 +232,7 @@ public class DataspaceServiceExecutor extends ServiceExecutorHttp {
             Map<Var, Var> varMapping = null;
             if (!opRestored.equals(opRemote)) {
                 varMapping = new HashMap<>();
-                Set<Var> originalVars = OpVars.visibleVars(realOpExecute);
+                Set<Var> originalVars = OpVars.visibleVars(opExecute);
                 Set<Var> remoteVars = OpVars.visibleVars(opRestored);
 
                 for (Var v : originalVars) {
@@ -263,7 +274,10 @@ public class DataspaceServiceExecutor extends ServiceExecutorHttp {
                     .sendMode(querySendMode);
 
             if (context.isDefined(authKey)) {
-                qExecBuilder.httpHeader(context.get(authKey), context.get(authSecret));
+                String authKeyProp=context.get(authKey);
+                monitor.debug(String.format("About to use authentication header %s on http target %s", authKeyProp,serviceURL));
+                String authCodeProp=context.get(authCode);
+                qExecBuilder=qExecBuilder.httpHeader(authKeyProp,authCodeProp);
             }
 
             try(QueryExecHTTP qExec = qExecBuilder.build()) {

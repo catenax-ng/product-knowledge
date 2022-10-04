@@ -5,7 +5,7 @@ from datetime import date
 from ontology.ontology_tools.settings import cx, cx_url
 
 
-def merge_ontology(path='ontology', folder = 'ontology', file_out = 'cx_ontology.ttl'):
+def merge_ontology(path='ontology', folder = 'ontology', file_out = 'cx.ttl'):
 
     # get file list
     files = os.listdir(folder)
@@ -14,7 +14,7 @@ def merge_ontology(path='ontology', folder = 'ontology', file_out = 'cx_ontology
     # start
     g = Graph()
     for file in files:
-        if ((not file.startswith('.')) & file.endswith('_ontology.ttl') & (file != 'cx_ontology.ttl')):
+        if ((not file.startswith('.')) & file.endswith('_ontology.ttl') ):
             ttl_file = path+'/'+file
             if os.path.exists(ttl_file):
                 # read ontology

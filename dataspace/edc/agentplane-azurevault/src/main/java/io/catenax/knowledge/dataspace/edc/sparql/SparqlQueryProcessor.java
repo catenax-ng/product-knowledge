@@ -14,6 +14,7 @@ import io.catenax.knowledge.dataspace.edc.http.IJakartaAdapter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.BadRequestException;
+import jakarta.ws.rs.InternalServerErrorException;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.http.HttpStatus;
@@ -23,6 +24,7 @@ import org.apache.jena.fuseki.server.DataAccessPoint;
 import org.apache.jena.fuseki.server.DataAccessPointRegistry;
 import org.apache.jena.fuseki.server.DataService;
 import org.apache.jena.fuseki.server.OperationRegistry;
+import org.apache.jena.fuseki.servlets.ActionErrorException;
 import org.apache.jena.fuseki.servlets.HttpAction;
 import org.apache.jena.fuseki.servlets.SPARQL_QueryGeneral;
 
@@ -36,6 +38,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.jena.graph.NodeFactory;
+import org.apache.jena.query.QueryExecException;
 import org.apache.jena.query.TxnType;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFParser;
@@ -48,6 +51,7 @@ import org.apache.jena.query.Query;
 import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.sparql.core.DatasetGraphFactory;
 import org.apache.jena.atlas.lib.Pair;
+import org.apache.jena.sparql.engine.http.QueryExceptionHTTP;
 import org.apache.jena.sparql.service.ServiceExecutorRegistry;
 import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
 
@@ -162,7 +166,13 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
         // Should we check whether this already has been done? the context should be quite static
         action.setRequest(api, api.getDataService());
         ServiceExecutorRegistry.set(action.getContext(),registry);
-        execute(action);
+        try {
+            execute(action);
+        } catch(ActionErrorException e) {
+            throw new BadRequestException(e.getMessage(),e.getCause());
+        } catch(QueryExecException e) {
+            throw new InternalServerErrorException(e.getMessage(),e.getCause());
+        }
     }
 
     /**
@@ -170,9 +180,11 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
      * @param request ok request
      * @param skill skill ref
      * @param graph graph ref
+     * @param authKey optional auth key, such as X-Api-Key or Authorization
+     * @param authCode optional auth value, such as 4711 or Basic xxxx
      * @return simulated ok response
      */
-    public Response execute(Request request, String skill, String graph) {
+    public Response execute(Request request, String skill, String graph, String authKey, String authCode) {
         HttpServletContextAdapter contextAdapter=new HttpServletContextAdapter(request);
         HttpServletRequestAdapter requestAdapter=new HttpServletRequestAdapter(request,contextAdapter);
         HttpServletResponseAdapter responseAdapter=new HttpServletResponseAdapter(request);
@@ -184,12 +196,18 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
         action.setRequest(api, api.getDataService());
         ServiceExecutorRegistry.set(action.getContext(),registry);
         action.getContext().set(DataspaceServiceExecutor.targetUrl,request);
+        action.getContext().set(DataspaceServiceExecutor.authKey,authKey);
+        action.getContext().set(DataspaceServiceExecutor.authCode,authCode);
         if(skill!=null) {
             action.getContext().set(DataspaceServiceExecutor.asset,skill);
         } else if(graph!=null) {
             action.getContext().set(DataspaceServiceExecutor.asset,graph);
         }
-        execute(action);
+        try {
+            execute(action);
+        } catch(QueryExceptionHTTP e) {
+            responseAdapter.setStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR,e.getMessage());
+        }
         return responseAdapter.toResponse();
     }
 
@@ -280,7 +298,7 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
         StringBuilder replaceQuery=new StringBuilder();
         int lastStart=0;
         while(tupleMatcher.find()) {
-            replaceQuery.append(queryString.substring(lastStart,tupleMatcher.start()-1));
+            replaceQuery.append(queryString.substring(lastStart,tupleMatcher.start()));
             String otuple=tupleMatcher.group(0);
             Matcher variableMatcher=variablePattern.matcher(otuple);
             List<String> variables=new java.util.ArrayList<>();

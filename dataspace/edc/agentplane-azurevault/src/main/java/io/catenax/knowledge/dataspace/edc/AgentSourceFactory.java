@@ -62,6 +62,9 @@ public class AgentSourceFactory extends org.eclipse.dataspaceconnector.dataplane
     @Override
     public DataSource createSource(DataFlowRequest request) {
         boolean isTransfer=isTransferRequest(request);
+        if(isTransfer) {
+            return super.createSource(request);
+        }
         var dataAddress = HttpDataAddress.Builder.newInstance()
                 .copyFrom(request.getSourceDataAddress())
                 .build();
@@ -83,14 +86,11 @@ public class AgentSourceFactory extends org.eclipse.dataspaceconnector.dataplane
     }
 
     /**
-     * a check that distinguishes between http transfer
-     * and http data requests
+     * a check that distinguishes between http transfer and http data requests
      * @param request incoming data flow request
      * @return flag indicating whether its a transfer or protocol request
-     * TODO find a better heuristic as the endpoint may change
      */
     public static boolean isTransferRequest(DataFlowRequest request) {
-        return request.getSourceDataAddress().getProperties().getOrDefault("baseUrl", "").
-                contains("api/public");
+        return request.getSourceDataAddress().getProperties().getOrDefault("asset:prop:id", null)==null;
     }
 }

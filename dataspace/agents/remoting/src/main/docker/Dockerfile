@@ -42,6 +42,7 @@ RUN	mkdir -p /var/rdf4j/server/conf && \
 COPY resources/web/logging.properties /usr/local/tomcat/conf/logging.properties
 COPY resources/web/server.xml /usr/local/tomcat/conf/server.xml
 COPY resources/web/web.xml /usr/local/tomcat/conf/web.xml
+COPY resources/web/tomcat-users.xml /usr/local/tomcat/conf/tomcat-users.xml
 
 USER tomcat
 

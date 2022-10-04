@@ -22,16 +22,22 @@ mvn package
 
 ### Ontology Merger
 
-Run the following command to merge the CX ontology to the standard output.
+Run the following command to merge the CX ontology to the standard output (RDF XML format)
 
 ```console
-java -jar target/tools-0.5.4-SNAPSHOT.jar ../*_ontology.ttl
+java -jar target/tools-0.5.4-SNAPSHOT.jar ../*_ontology.ttl 
 ```
 
-To run the merger with a stylesheet, for example to render the ontology as a graph
+To run the merger with an XML-based stylesheet, for example to render the ontology as a graph
 
 ```console
 java -jar target/tools-0.5.4-SNAPSHOT.jar -styleSheet src/main/resources/graph.xslt ../*_ontology.ttl
+```
+
+To run the merger with RDF JSON LD output
+
+```console
+java -jar target/tools-0.5.4-SNAPSHOT.jar +jsonld ../*_ontology.ttl
 ```
 
 ### JSON Converters

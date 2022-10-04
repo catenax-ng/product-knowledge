@@ -1,28 +1,550 @@
 
 { 
     "nodes":[
-      { "data": { "id": "http://www.w3.org/2000/01/rdf-schema#Argument", "category": "http://www.w3.org/2000/01/rdf-schema", "label": "" } },
-      { "data": { "id": "http://www.w3.org/2000/01/rdf-schema#Datatype", "category": "http://www.w3.org/2000/01/rdf-schema", "label": "" } },
-      { "data": { "id": "http://www.w3.org/2000/01/rdf-schema#ReturnValue", "category": "http://www.w3.org/2000/01/rdf-schema", "label": "" } },
-      { "data": { "id": "https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#Asset", "category": "https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl", "label": "Asset" } },
-      { "data": { "id": "https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner", "category": "https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl", "label": "Business Partner" } },
-      { "data": { "id": "https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#DTC", "category": "https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl", "label": "Diagnostic Trouble Code" } },
-      { "data": { "id": "https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#DiagnosedPart", "category": "https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl", "label": "Diagnosed Part" } },
-      { "data": { "id": "https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl#Argument", "category": "https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl", "label": "" } },
-      { "data": { "id": "https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl#Function", "category": "https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl", "label": "" } },
-      { "data": { "id": "https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl#ReturnValue", "category": "https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl", "label": "" } }],
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ActualCause", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "Actual Cause" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Actuator", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Actuator" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/AggressiveDrivingPattern", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Aggressive Driving Pattern" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Assembly", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "Assembly" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Asset", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "Asset" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/BatchPart", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PartOntology", "label": "Batch Part" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Battery", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Battery" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/BatteryElectricVehicle", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Battery Electric Vehicle" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/BatteryHealthCondition", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "Battery Health Condition" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/BatteryType", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Battery Type" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Breakdown", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorOntology", "label": "Betriebsstörung" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/BusinessPartner", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "Business Partner" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/BusinessVehicle", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Business Vehicle" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CanBus", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Can Bus" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CauseType", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "Cause Type" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CircularEconomy", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Circular Economy" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Company", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "Company" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ComponentSupplier", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "Component Supplier" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ConditionBasedMaintenance", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "Condition-Based Maintenance" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ConstructionPart", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PartOntology", "label": "Construction Part" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Contact", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "Contact" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CustomerComplaint", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "Customer Complaint" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DataDrivenPrognostics", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "Data Driven Prognostics" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DataLinkConnector", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "Data Link Connector" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DataSpace", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "Data Space" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DataStream", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "Data Stream" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Degradation", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "Degradation" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisResult", "type":"class", "category": "", "label": "" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosticTroubleCode", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "Diagnostic Trouble Code" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Diesel", "type":"class", "category": "", "label": "" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DieselEngine", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Diesel Engine" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DieselVehicle", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Diesel Vehicle" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DinStandard", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "Din Standard" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DrivingPattern", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Driving Pattern" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/EclipseDataspaceConnector", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "EDC" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ElectricMotor", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Electric Motor" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ElectricVehicle", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Electric Vehicle" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ElectronicControlUnit", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Electronic Control Unit" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ElectronicPart", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PartOntology", "label": "Electronic Part" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Encoding", "type":"class", "category": "", "label": "" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Engine", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Engine" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/EngineHealthCondition", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "Engine Health Condition" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Error", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorOntology", "label": "Error" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorAnalysis", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorOntology", "label": "Error Analysis" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorCause", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorOntology", "label": "Error Cause" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorCompensation", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorOntology", "label": "Error Compensation" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorCorrection", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorOntology", "label": "Error Correction" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorDetection", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorOntology", "label": "Error Detection" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorDiagnosis", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorOntology", "label": "Error Diagnosis" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorLocation", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorOntology", "label": "Error Location" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorManagement", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorOntology", "label": "Error Management" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorMemory", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Error Memory" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorPosition", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorOntology", "label": "Error Position" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorSolution", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorOntology", "label": "Error Solution" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorType", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorOntology", "label": "Error Type" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ExperienceBasedPrognostics", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "Experience Based Prognostics" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Failure", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorOntology", "label": "Failure" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/FailureClassification", "type":"class", "category": "", "label": "" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Fuel", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Fuel" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/FuelCellElectricVehicle", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Fuel Cell Electric Vehicle" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/FuelCycle", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Fuel Cycle" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/HealthCondition", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "Health Condition" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/HealthMonitoring", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "Health Monitoring" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/HybridElectricVehicle", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Hybrid Electric Vehicle" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/InternalCombustionEngineVehicle", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Internal Combustion Engine Vehicle" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/IsoStandard", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "Iso Standard" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/LoadSpectrum", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "Lastkollektiv" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Maintenance", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "Maintenance" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/MaintenanceAlert", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "Maintenance Alert" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Manufacturer", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "Manufacturer" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Manufacturing", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "Fertigung" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/MaterialFatigue", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "Materialermüdung" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/MechanicObservation", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "Mechanic Observation" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ModelBasedPrognostics", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "Model Based Prognostics" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/OnBoardDiagnostics2", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "On Board Diagnostics 2" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/OpenStandard", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "Open Standard" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/OriginalEquipmentManufacturer", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "OEM" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Part", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PartOntology", "label": "Bauteil" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PartManufacturer", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PartOntology", "label": "Bauteilhersteller" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PartType", "type":"class", "category": "", "label": "" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Person", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "Person" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Petrol", "type":"class", "category": "", "label": "" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PetrolEngine", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Petrol Engine" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PetrolVehicle", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Benzinfahrzeug" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PlannedMaintenance", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "Geplante Wartung" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PlugInHybridElectricVehicle", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Plug-In Hybrid Electric Vehicle" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PossibleCause", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "Possible Cause" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PredictiveMaintenance", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "Predictive Maintenance" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PredictiveModel", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "Predictive Model" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PreventiveMaintenance", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "Preventive Maintenance" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrivateVehicle", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Private Vehicle" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ProblemSolving", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorOntology", "label": "Problem Solving" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Process", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "Process" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Product", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "Product" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ProductLifetime", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "Product Lifetime" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/RangeExtendedElectricVehicle", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Range Extended Electric Vehicle" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/RawMaterialSupplier", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "Raw Material Supplier" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Recycler", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "Recycler" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/RemainingUsefulLifetime", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "Remaining Useful Lifetime" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/RemoteDiagnostics", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "Remote Diagnostics" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/RepairMaintenanceInformationTerminology", "type":"class", "category": "", "label": "" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Role", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "Role" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/RootCauseAnalysis", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorOntology", "label": "Fehler-Ursachen-Analyse" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Sensor", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Sensor" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/SerializedPart", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PartOntology", "label": "Serialized Part" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Severity", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "Severity" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/SmallAndMediumSizedEnterprise", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "Kleine und mittlere Unternehmen" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/SpeedProfile", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Speed Profile" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/SporadicError", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "Sporadic Error" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/StaticError", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "Static Error" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Supplier", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "Supplier" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/TechnicalFailure", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorOntology", "label": "Technical Failure" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/TechnicalStandard", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "Technical Standard" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Telematics", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "Telematics" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Traceability", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/TraceabillityOntology", "label": "Traceability" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Transmission", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Transmission" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/UnifiedDiagnosticServices", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "Unified Diagnostic Services" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Unit", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "Unit" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Vehicle", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Fahrzeug" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleAvailability", "type":"class", "category": "", "label": "" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleBreakdown", "type":"class", "category": "", "label": "" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleComponent", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Vehicle Component" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleDiagnosis", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "Fahrzeugdiagnose" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleDiagnosticDevice", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "Diagnostic Device" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleDiagnosticSystem", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "Diagnostic System" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleEnvironment", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Vehicle Environment" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleError", "type":"class", "category": "", "label": "" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleFailure", "type":"class", "category": "", "label": "" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleFleetData", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "Vehicle Fleet Data" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleHealthCondition", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "Vehicle Health Condition" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleLifeCycle", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Vehicle Life Cycle" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleLifeCycleStage", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Vehicle Life Cycle Stage" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleManufacturer", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "Vehicle Manufacturer" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehiclePrognosis", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "Vehicle Prognosis" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleReliability", "type":"class", "category": "", "label": "" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleRepair", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Vehicle Repair" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleRepairShop", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Autowerkstatt" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleService", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Vehicle Service" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleSystem", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Vehicle System" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleType", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Vehicle Type" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleUsage", "type":"class", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Vehicle Usage" } } ,
+    
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Bus", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Bus" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Car", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Auto" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ColdTemperatureClimate", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Cold Temperature Climate" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CradleToCradle", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Cradle To Cradle" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CradleToGate", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Cradle To Gate" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Diesel", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DryHumidityClimate", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Dry Humidity Climate" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/GateToGate", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Gate To Gate" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/HotTemperatureClimate", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Hot Temperature Climate" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Important", "type":"object", "category": "", "label": "Important" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/LeastSevere", "type":"object", "category": "", "label": "Least Severe" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/LithiumCobaltOxide", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Lithium Cobalt Oxide" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/LithiumIronPhosphate", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Lithium Iron Phosphate" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/LithiumManganeseOxide", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Lithium Manganese Oxide" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/LithiumNickelCobaltAluminiumOxide", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Lithium Nickel Cobalt Aluminium Oxide" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/LithiumNickelManganeseCobaltOxide", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Lithium Nickel Manganese Cobalt Oxide" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/MildTemperatureClimate", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Mild Temperature Climate" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Minor", "type":"object", "category": "", "label": "Minor" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/MostSevere", "type":"object", "category": "", "label": "Most Severe" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Motorcycle", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Motorcycle" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Petrol", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/RawMaterialMining", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Raw Material Mining" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/RawMaterialProcessing", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Raw Material Processing" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/RepairMaintenanceInformationTerminology", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/TankToWheel", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Tank To Wheel" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Truck", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Truck" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Urgent", "type":"object", "category": "", "label": "Urgent" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleComponentManfacturing", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Vehicle Component Manfacturing" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleDisposal", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Vehicle Disposal" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleEndOfLife", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Vehicle End Of Life" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleProduction", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Vehicle Production" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleRecovery", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Vehicle Recovery" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleRecycling", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Vehicle Recycling" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleReuse", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Vehicle Reuse" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleUse", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Vehicle Use" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/WellToTank", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Well To Tank" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/WellToWheel", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Well To Wheel" } },
+      { "data": { "id": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/WetHumidityClimate", "type":"object", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "Wet Humidity Climate" } }],
     "edges":[
-      { "data": { "source": "https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#Asset", "type":"relation", "target": "https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner", "category": "https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl", "label": "Provisioned By" } } ,
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleDiagnosticDevice", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/OnBoardDiagnostics2", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "connects to" } } ,
     
-      { "data": { "source": "https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#DTC", "type":"relation", "target": "https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#DiagnosedPart", "category": "https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl", "label": "Affects" } } ,
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehiclePrognosis", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Vehicle", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "considers" } } ,
     
-      { "data": { "source": "https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl#ReturnValue", "type":"relation", "target": "http://www.w3.org/2000/01/rdf-schema#Datatype", "category": "https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl", "label": "" } } ,
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DieselEngine", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Diesel", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "consumes" } } ,
     
-      { "data": { "source": "https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl#Function", "type":"relation", "target": "http://www.w3.org/2000/01/rdf-schema#Argument", "category": "https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl", "label": "" } } ,
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorDetection", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Error", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorOntology", "label": "detects" } } ,
     
-      { "data": { "source": "https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl#Function", "type":"relation", "target": "http://www.w3.org/2000/01/rdf-schema#ReturnValue", "category": "https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl", "label": "" } } ,
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehiclePrognosis", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/BatteryHealthCondition", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "determines" } } ,
     
-      { "data": { "source": "https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#DTC", "type":"subclass", "target": "https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#Asset", "category": "https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl", "label": "subclass" } } ,
-      { "data": { "source": "https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#DiagnosedPart", "type":"subclass", "target": "https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#Asset", "category": "https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl", "label": "subclass" } } ]
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleDiagnosis", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Vehicle", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "diagnoses" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PossibleCause", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ActualCause", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "has actual cause" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ActualCause", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CauseType", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "has cause type" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/BusinessPartner", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/EclipseDataspaceConnector", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "has connector" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Person", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Contact", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "has contact" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Vehicle", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisResult", "category": "", "label": "" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleDiagnosis", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosticTroubleCode", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "has diagnostic trouble code" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosticTroubleCode", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Encoding", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "has encoding" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Part", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Error", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorOntology", "label": "has error" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Vehicle", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DataLinkConnector", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "has interface" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Vehicle", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/LoadSpectrum", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "has load spectrum" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosticTroubleCode", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PossibleCause", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "has possible cause" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/BusinessPartner", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Role", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "has role" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Error", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorSolution", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorOntology", "label": "has solution" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/BusinessPartner", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Vehicle", "category": "", "label": "" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehiclePrognosis", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleAvailability", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "improves" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Error", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Error", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorOntology", "label": "is caused by" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Error", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorLocation", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorOntology", "label": "is located in" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Vehicle", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleManufacturer", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "is made by" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ElectricVehicle", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ElectricVehicle", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "is of type" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Actuator", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DieselVehicle", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PartOntology", "label": "is part of" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Part", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PartManufacturer", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PartOntology", "label": "is produced by" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Asset", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/BusinessPartner", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "is provisioned by" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Part", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PossibleCause", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "is reason of" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosticTroubleCode", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorMemory", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "is stored in" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Error", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorType", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorOntology", "label": "is typed by" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehiclePrognosis", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/RemainingUsefulLifetime", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "predicts" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Manufacturer", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Part", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "produces" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehiclePrognosis", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ConditionBasedMaintenance", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "recommends" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleManufacturer", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/BusinessPartner", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "same as" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Vehicle", "type":"relation", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/OnBoardDiagnostics2", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "uses" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ActualCause", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorCause", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Actuator", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleComponent", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/AggressiveDrivingPattern", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DrivingPattern", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Assembly", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Process", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/BatchPart", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Part", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PartOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Battery", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleComponent", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/BatteryElectricVehicle", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ElectricVehicle", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/BatteryHealthCondition", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/HealthCondition", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/BusinessPartner", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Company", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/BusinessVehicle", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Vehicle", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ComponentSupplier", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Supplier", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ConditionBasedMaintenance", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Maintenance", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ConstructionPart", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Part", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PartOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DataDrivenPrognostics", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehiclePrognosis", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DieselEngine", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Engine", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DieselVehicle", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/InternalCombustionEngineVehicle", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DinStandard", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/TechnicalStandard", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ElectricMotor", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleComponent", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ElectricVehicle", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Vehicle", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ElectronicControlUnit", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleComponent", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ElectronicPart", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Part", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PartOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Engine", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleComponent", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/EngineHealthCondition", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/HealthCondition", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorMemory", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleComponent", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ExperienceBasedPrognostics", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehiclePrognosis", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/FuelCellElectricVehicle", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ElectricVehicle", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/HybridElectricVehicle", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ElectricVehicle", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/InternalCombustionEngineVehicle", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Vehicle", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/IsoStandard", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/TechnicalStandard", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Manufacturer", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Role", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Manufacturing", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Process", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ModelBasedPrognostics", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehiclePrognosis", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/OnBoardDiagnostics2", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DataLinkConnector", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/OriginalEquipmentManufacturer", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Manufacturer", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PartManufacturer", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Manufacturer", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PartOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PetrolEngine", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Engine", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PetrolVehicle", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/InternalCombustionEngineVehicle", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PlannedMaintenance", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Maintenance", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PlugInHybridElectricVehicle", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ElectricVehicle", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PossibleCause", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ErrorCause", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PredictiveMaintenance", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Maintenance", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PreventiveMaintenance", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Maintenance", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrivateVehicle", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Vehicle", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/RangeExtendedElectricVehicle", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ElectricVehicle", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/RawMaterialSupplier", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Supplier", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Recycler", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Role", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/RepairMaintenanceInformationTerminology", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PartType", "category": "", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Sensor", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleComponent", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/SerializedPart", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Part", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PartOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/SmallAndMediumSizedEnterprise", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Company", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/SporadicError", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosticTroubleCode", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/StaticError", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosticTroubleCode", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DiagnosisOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Supplier", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Role", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Transmission", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleComponent", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleHealthCondition", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/HealthCondition", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/PrognosisOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleManufacturer", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/OriginalEquipmentManufacturer", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "subclass" } } ,
+    
+      { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleSystem", "type":"subclass", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleComponent", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "subclass" } } ,
+    
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Bus", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleType", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Car", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleType", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/ColdTemperatureClimate", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleEnvironment", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CradleToCradle", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleLifeCycleStage", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CradleToGate", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleLifeCycleStage", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Diesel", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Fuel", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/DryHumidityClimate", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleEnvironment", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/GateToGate", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleLifeCycleStage", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/HotTemperatureClimate", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleEnvironment", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Important", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/FailureClassification", "category": "", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/LeastSevere", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/FailureClassification", "category": "", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/LithiumCobaltOxide", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/BatteryType", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/LithiumIronPhosphate", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/BatteryType", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/LithiumManganeseOxide", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/BatteryType", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/LithiumNickelCobaltAluminiumOxide", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/BatteryType", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/LithiumNickelManganeseCobaltOxide", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/BatteryType", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/MildTemperatureClimate", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleEnvironment", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Minor", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/FailureClassification", "category": "", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/MostSevere", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/FailureClassification", "category": "", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Motorcycle", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleType", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Petrol", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Fuel", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/RawMaterialMining", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleLifeCycleStage", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/RawMaterialProcessing", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleLifeCycleStage", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/RepairMaintenanceInformationTerminology", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/IsoStandard", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/CommonOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/TankToWheel", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/FuelCycle", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Truck", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleType", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/Urgent", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/FailureClassification", "category": "", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleComponentManfacturing", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleLifeCycleStage", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleDisposal", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleLifeCycleStage", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleEndOfLife", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleLifeCycleStage", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleProduction", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleLifeCycleStage", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleRecovery", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleLifeCycleStage", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleRecycling", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleLifeCycleStage", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleReuse", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleLifeCycleStage", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleUse", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleLifeCycleStage", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/WellToTank", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/FuelCycle", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/WellToWheel", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/FuelCycle", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ,
+    { "data": { "source": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/WetHumidityClimate", "type":"instance", "target": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleEnvironment", "category": "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/VehicleOntology", "label": "type" } } ]
 }
   

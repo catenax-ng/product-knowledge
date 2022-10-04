@@ -1,48 +1,1783 @@
-#################################################################
-# Catena-X "Common" Domain Ontology in TTL/RDF/OWL FORMAT
-# See copyright notice in the top folder
-# See authors file in the top folder
-# See license file in the top folder
-#################################################################
-
-@prefix : <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .
-@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .
+@prefix cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix xml: <http://www.w3.org/XML/1998/namespace> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@base <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix wd: <https://www.wikidata.org/wiki/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-cx: rdf:type owl:Ontology ;
-    rdfs:comment "The Catena-X Common Domain lists all domain-independent concepts, attributes and relations.‚"@en ;
-    rdfs:label "Catena-X Common Domain" ;
-    owl:versionInfo "0.5.1" .
+cx:AggressiveDrivingPattern a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:DrivingPattern ;
+    skos:prefLabel "Aggressive Driving Pattern"@en .
 
-cx:BusinessPartner rdf:type owl:Class ;
-    rdfs:comment "A Business Partner is a legal entity that is part of the Catena-X network or that stands in a relevant relation to a Catena-X Business Partner."@en ;
-    rdfs:label "Business Partner" .
+cx:Assembly a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:subClassOf cx:Process ;
+    skos:prefLabel "Montage"@de,
+        "Assembly"@en .
 
-cx:BPNLType rdf:type rdfs:Datatype ;
-    rdfs:comment "The (long) Business Partner Number Type describes strings following the pattern 'BPNL[0-9]{8}[A-Z]{4}'."@en ;
-    rdfs:label "Business Partner Number Long Type" ;
-    owl:onDatatype xsd:string ;
-    owl:withRestrictions ([ xsd:pattern "BPNL[0-9]{8}[A-Z]{4}" ]) .
+cx:BatteryElectricVehicle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Battery_electric_vehicle> ;
+    rdfs:subClassOf cx:ElectricVehicle ;
+    skos:altLabel "BEV"@en,
+        "Battery Electric Vehicle"@en ;
+    skos:definition "are powered solely by an electric motor, using electricity stored in an on-board battery."@en ;
+    skos:prefLabel "Battery Electric Vehicle"@en .
 
-cx:BPNL rdf:type owl:DatatypeProperty ;
-    rdfs:comment "The (long) Business Partner Number is a unique identifier following the pattern 'BPNL[0-9]{8}[A-Z]{4}'."@en ;
-    rdfs:label "Business Partner Number Long" ;
+cx:Breakdown a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Breakdown_> ;
+    skos:altLabel "Panne"@de ;
+    skos:prefLabel "Betriebsstörung"@de,
+        "Breakdown"@en .
+
+cx:Bus a cx:VehicleType ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Bus> ;
+    skos:prefLabel "Bus"@en .
+
+cx:BusinessVehicle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:Vehicle ;
+    skos:prefLabel "Business Vehicle"@en .
+
+cx:Car a cx:VehicleType ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Car> ;
+    skos:altLabel "Automobil"@de,
+        "Karre"@de ;
+    skos:prefLabel "Auto"@de,
+        "Car"@en .
+
+cx:CircularEconomy a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Circular_economy> ;
+    skos:prefLabel "Circular Economy"@en .
+
+cx:ColdTemperatureClimate a cx:VehicleEnvironment ;
+    skos:prefLabel "Cold Temperature Climate"@en .
+
+cx:ComponentSupplier a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:subClassOf cx:Supplier ;
+    skos:prefLabel "Component Supplier"@en .
+
+cx:CradleToCradle a cx:VehicleLifeCycleStage ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Cradle-to-cradle_design> ;
+    skos:prefLabel "Cradle To Cradle"@en .
+
+cx:CradleToGate a cx:VehicleLifeCycleStage ;
+    skos:prefLabel "Cradle To Gate"@en .
+
+cx:CustomerComplaint a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    skos:prefLabel "Customer Complaint"@en .
+
+cx:CxOntology a owl:Ontology ;
+    dc:date "2022-09-15"^^xsd:date ;
+    dc:description "Catena-X Ontology for the Autmotive Industry." ;
+    dc:title "Catena-X Ontology" ;
+    rdfs:seeAlso <https://github.com/catenax-ng/product-knowledge/blob/main/ontology/> .
+
+cx:DataDrivenPrognostics a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:subClassOf cx:VehiclePrognosis ;
+    skos:definition "based on machine learning models"@en ;
+    skos:prefLabel "Data Driven Prognostics"@en .
+
+cx:DataSpace a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Data Space"@en .
+
+cx:DataStream a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    skos:prefLabel "Data Stream"@en .
+
+cx:Degradation a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    skos:prefLabel "Degradation"@en .
+
+cx:DinStandard a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Deutsches_Institut_f%C3%BCr_Normung> ;
+    rdfs:subClassOf cx:TechnicalStandard ;
+    skos:altLabel "DIN"@en,
+        "Deutsches Institut für Normung"@en ;
+    skos:prefLabel "Din Standard"@en .
+
+cx:DryHumidityClimate a cx:VehicleEnvironment ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Precipitation> ;
+    skos:prefLabel "Dry Humidity Climate"@en .
+
+cx:ElectronicPart a owl:Class ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    rdfs:subClassOf cx:Part ;
+    skos:note "unique physical object"@en ;
+    skos:prefLabel "Elektronisches Bauteil"@de,
+        "Electronic Part"@en .
+
+cx:ErrorAnalysis a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Fault_detection_and_isolation> ;
+    skos:altLabel "Fehlerisolation"@de,
+        "fault isolation"@en ;
+    skos:definition "process"@en ;
+    skos:note "how"@en ;
+    skos:prefLabel "Fehleranalyse"@de,
+        "Error Analysis"@en .
+
+cx:ErrorCompensation a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    skos:definition "process"@en ;
+    skos:prefLabel "Fehlerkompensation"@de,
+        "Error Compensation"@en .
+
+cx:ErrorCorrection a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    skos:definition "process"@en ;
+    skos:prefLabel "Fehlerkorrektur"@de,
+        "Error Correction"@en .
+
+cx:ErrorDiagnosis a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Fehlerdiagnose> ;
+    skos:definition "process"@en ;
+    skos:note "how"@en ;
+    skos:prefLabel "Fehlerdiagnose"@de,
+        "Error Diagnosis"@en .
+
+cx:ErrorManagement a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Fehlermanagement> ;
+    skos:definition "process"@en ;
+    skos:prefLabel "Fehlermanagement"@de,
+        "Error Management"@en .
+
+cx:ExperienceBasedPrognostics a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:subClassOf cx:VehiclePrognosis ;
+    skos:definition "based on statistical models"@en ;
+    skos:prefLabel "Experience Based Prognostics"@en .
+
+cx:FuelCellElectricVehicle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Fuel_cell_vehicle> ;
+    rdfs:subClassOf cx:ElectricVehicle ;
+    skos:altLabel "FCEV"@en,
+        "FCV"@en,
+        "Fuel Cell Electric Vehicle"@en,
+        "fuel cell vehicle"@en ;
+    skos:prefLabel "Fuel Cell Electric Vehicle"@en .
+
+cx:GateToGate a cx:VehicleLifeCycleStage ;
+    skos:prefLabel "Gate To Gate"@en .
+
+cx:HealthMonitoring a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    skos:prefLabel "Health Monitoring"@en .
+
+cx:HotTemperatureClimate a cx:VehicleEnvironment ;
+    skos:prefLabel "Hot Temperature Climate"@en .
+
+cx:HybridElectricVehicle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Hybrid_electric_vehicle> ;
+    rdfs:subClassOf cx:ElectricVehicle ;
+    skos:altLabel "HEV"@en,
+        "Hybrid Electric Vehicle"@en ;
+    skos:definition "combine an internal combustion engine and an electric motor that assists the conventional engine, for example during vehicle acceleration."@en ;
+    skos:prefLabel "Hybrid Electric Vehicle"@en .
+
+cx:Important a cx:FailureClassification ;
+    skos:prefLabel "Important"@en .
+
+cx:LeastSevere a cx:FailureClassification ;
+    skos:definition "routine maintenance"@en ;
+    skos:prefLabel "Least Severe"@en .
+
+cx:LithiumCobaltOxide a cx:BatteryType ;
+    skos:altLabel "LCO"@en,
+        "lithium-cobalt oxide"@en ;
+    skos:prefLabel "Lithium Cobalt Oxide"@en .
+
+cx:LithiumIronPhosphate a cx:BatteryType ;
+    skos:altLabel "LiFePO4"@en,
+        "lithium-iron-phosphate"@en ;
+    skos:prefLabel "Lithium Iron Phosphate"@en .
+
+cx:LithiumManganeseOxide a cx:BatteryType ;
+    skos:altLabel "LMO"@en,
+        "lithium-manganese oxide"@en ;
+    skos:prefLabel "Lithium Manganese Oxide"@en .
+
+cx:LithiumNickelCobaltAluminiumOxide a cx:BatteryType ;
+    skos:altLabel "LiNCA"@en,
+        "lithium-nickel-cobalt-aluminium oxide"@en ;
+    skos:prefLabel "Lithium Nickel Cobalt Aluminium Oxide"@en .
+
+cx:LithiumNickelManganeseCobaltOxide a cx:BatteryType ;
+    skos:altLabel "LiNMC"@en,
+        "lithium-nickel-manganese-cobalt oxide"@en ;
+    skos:prefLabel "Lithium Nickel Manganese Cobalt Oxide"@en .
+
+cx:MaintenanceAlert a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    skos:prefLabel "Maintenance Alert"@en .
+
+cx:Manufacturing a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:subClassOf cx:Process ;
+    skos:prefLabel "Fertigung"@de,
+        "Manufacturing"@en .
+
+cx:MaterialFatigue a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Fatigue_> ;
+    skos:definition "process"@en ;
+    skos:prefLabel "Materialermüdung"@de,
+        "Material Fatigue"@en .
+
+cx:MechanicObservation a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    skos:prefLabel "Mechanic Observation"@en .
+
+cx:MildTemperatureClimate a cx:VehicleEnvironment ;
+    skos:prefLabel "Mild Temperature Climate"@en .
+
+cx:Minor a cx:FailureClassification ;
+    skos:definition "minor repair"@en ;
+    skos:prefLabel "Minor"@en .
+
+cx:ModelBasedPrognostics a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:subClassOf cx:VehiclePrognosis ;
+    skos:definition "based on physical models"@en ;
+    skos:prefLabel "Model Based Prognostics"@en .
+
+cx:MostSevere a cx:FailureClassification ;
+    skos:definition "breakdown, safety issue"@en ;
+    skos:prefLabel "Most Severe"@en .
+
+cx:Motorcycle a cx:VehicleType ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Motorcycle> ;
+    skos:prefLabel "Motorcycle"@en .
+
+cx:OpenStandard a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Open_standard> ;
+    skos:prefLabel "Open Standard"@en .
+
+cx:PlannedMaintenance a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:subClassOf cx:Maintenance ;
+    skos:altLabel "scheduled maintenance"@en ;
+    skos:definition "process"@en ;
+    skos:prefLabel "Geplante Wartung"@de,
+        "Planned Maintenance"@en .
+
+cx:PlugInHybridElectricVehicle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Plug-in_electric_vehicle> ;
+    rdfs:subClassOf cx:ElectricVehicle ;
+    skos:altLabel "NEV"@en,
+        "PHEV"@en,
+        "Plug-in Hybrid Electric Vehicle"@en,
+        "new energy vehicle"@en ;
+    skos:definition "are powered by an electric motor and an internal combustion engine that work together or separately."@en ;
+    skos:prefLabel "Plug-In Hybrid Electric Vehicle"@en .
+
+cx:PreventiveMaintenance a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:subClassOf cx:Maintenance ;
+    skos:definition "process of periodic inspection and repair"@en ;
+    skos:prefLabel "Vorbeugende Wartung"@de,
+        "Preventive Maintenance"@en .
+
+cx:PrivateVehicle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:Vehicle ;
+    skos:prefLabel "Private Vehicle"@en .
+
+cx:ProblemSolving a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Problem_solving> ;
+    skos:prefLabel "Problem Solving"@en .
+
+cx:ProductLifetime a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Product_lifetime> ;
+    skos:altLabel "product lifespan"@en ;
+    skos:prefLabel "Product Lifetime"@en .
+
+cx:RangeExtendedElectricVehicle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:ElectricVehicle ;
+    skos:altLabel "REEV"@en,
+        "Range extended electric vehicle"@en ;
+    skos:prefLabel "Range Extended Electric Vehicle"@en .
+
+cx:RawMaterialMining a cx:VehicleLifeCycleStage ;
+    skos:altLabel "extraction"@en ;
+    skos:prefLabel "Raw Material Mining"@en .
+
+cx:RawMaterialProcessing a cx:VehicleLifeCycleStage ;
+    skos:prefLabel "Raw Material Processing"@en .
+
+cx:RawMaterialSupplier a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:subClassOf cx:Supplier ;
+    skos:prefLabel "Raw Material Supplier"@en .
+
+cx:Recycler a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:subClassOf cx:Role ;
+    skos:prefLabel "Recycler"@en .
+
+cx:RemoteDiagnostics a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Remote_diagnostics> ;
+    skos:prefLabel "Remote Diagnostics"@en .
+
+cx:RepairMaintenanceInformationTerminology a cx:IsoStandard ;
+    rdfs:seeAlso <https://www.iso.org/standard/58101.html> ;
+    rdfs:subClassOf cx:PartType ;
+    skos:altLabel "Terminologie für Reparatur- und Wartungsinformationen"@de,
+        "RMI"@en,
+        "repair maintenance information"@en ;
+    skos:note "ISO 18542-2"@en ;
+    skos:prefLabel "RMI term"@en .
+
+cx:RootCauseAnalysis a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Root_cause_analysis> ;
+    skos:altLabel "RCA"@en,
+        "root cause analysis"@en ;
+    skos:definition "process"@en ;
+    skos:note "how"@en ;
+    skos:prefLabel "Fehler-Ursachen-Analyse"@de,
+        "Root Cause Analysis"@en .
+
+cx:Severity a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    skos:prefLabel "Severity"@en .
+
+cx:SmallAndMediumSizedEnterprise a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Small_and_medium-sized_enterprises> ;
+    rdfs:subClassOf cx:Company ;
+    skos:altLabel "KMU"@de,
+        "Kleine und mittlere Unternehmen"@de,
+        "SME"@en,
+        "Small and medium-sized enterprise"@en ;
+    skos:prefLabel "Kleine und mittlere Unternehmen"@de,
+        "Small and medium-sized enterprise"@en .
+
+cx:SporadicError a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:subClassOf cx:DiagnosticTroubleCode ;
+    skos:prefLabel "Sporadic Error"@en .
+
+cx:StaticError a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:subClassOf cx:DiagnosticTroubleCode ;
+    skos:prefLabel "Static Error"@en .
+
+cx:TankToWheel a cx:FuelCycle ;
+    skos:prefLabel "Tank To Wheel"@en .
+
+cx:TechnicalFailure a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Technical_failure> ;
+    skos:prefLabel "Technischer Defekt"@de,
+        "Technical Failure"@en .
+
+cx:Traceability a owl:Class ;
+    rdfs:isDefinedBy cx:TraceabillityOntology ;
+    skos:prefLabel "Traceability"@en .
+
+cx:Transmission a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:VehicleComponent ;
+    skos:prefLabel "Transmission"@en .
+
+cx:Truck a cx:VehicleType ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Truck> ;
+    skos:prefLabel "Truck"@en .
+
+cx:UnifiedDiagnosticServices a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Unified_Diagnostic_Services> ;
+    skos:altLabel "UDS"@en,
+        "Unified Diagnostic Services"@en ;
+    skos:prefLabel "Unified Diagnostic Services"@en .
+
+cx:Unit a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Unit"@en .
+
+cx:Urgent a cx:FailureClassification ;
+    skos:definition "customer inconvenience"@en ;
+    skos:prefLabel "Urgent"@en .
+
+cx:VehicleComponentManfacturing a cx:VehicleLifeCycleStage ;
+    skos:prefLabel "Vehicle Component Manfacturing"@en .
+
+cx:VehicleDisposal a cx:VehicleLifeCycleStage ;
+    skos:prefLabel "Vehicle Disposal"@en .
+
+cx:VehicleEndOfLife a cx:VehicleLifeCycleStage ;
+    skos:prefLabel "Vehicle End Of Life"@en .
+
+cx:VehicleFleetData a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    skos:definition "cloud data"@en ;
+    skos:prefLabel "Vehicle Fleet Data"@en .
+
+cx:VehicleProduction a cx:VehicleLifeCycleStage ;
+    skos:prefLabel "Vehicle Production"@en .
+
+cx:VehicleRecovery a cx:VehicleLifeCycleStage ;
+    skos:definition "The reclamation of metals and metal compounds, inorganic materials and components used for pollution abatement and reuse of oil."@en ;
+    skos:note "Annex IIB to Directive 75/442/EEC"@en ;
+    skos:prefLabel "Vehicle Recovery"@en .
+
+cx:VehicleRecycling a cx:VehicleLifeCycleStage ;
+    skos:definition "The reprocessing of waste materials, for either the original purpose or a different purpose."@en ;
+    skos:prefLabel "Vehicle Recycling"@en .
+
+cx:VehicleRepair a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    skos:prefLabel "Vehicle Repair"@en .
+
+cx:VehicleRepairShop a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Automobile_repair_shop> ;
+    skos:prefLabel "Autowerkstatt"@de,
+        "Vehicle Repair Shop"@en .
+
+cx:VehicleReuse a cx:VehicleLifeCycleStage ;
+    skos:definition "The end-of-life vehicle component is used for the same purpose for which it was originally made."@en ;
+    skos:prefLabel "Vehicle Reuse"@en .
+
+cx:VehicleService a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Service_> ;
+    skos:prefLabel "Vehicle Service"@en .
+
+cx:VehicleUse a cx:VehicleLifeCycleStage ;
+    skos:prefLabel "Vehicle Use"@en .
+
+cx:WellToTank a cx:FuelCycle ;
+    skos:prefLabel "Well To Tank"@en .
+
+cx:WellToWheel a cx:FuelCycle ;
+    skos:prefLabel "Well To Wheel"@en .
+
+cx:WetHumidityClimate a cx:VehicleEnvironment ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Precipitation> ;
+    skos:prefLabel "Wet Humidity Climate"@en .
+
+cx:batchNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:BatchPart ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    rdfs:range xsd:string ;
+    skos:altLabel "lot number"@en ;
+    skos:prefLabel "Chargennummer"@de,
+        "Batch Number"@en .
+
+cx:batteryStateOfHealth a owl:DatatypeProperty ;
+    rdfs:domain cx:BatteryHealthCondition ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range xsd:double ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/State_of_health> ;
+    skos:altLabel "SoH"@en,
+        "state of health"@en ;
+    skos:prefLabel "Battery State Of Health"@en .
+
+cx:batteryWeight a owl:DatatypeProperty ;
+    rdfs:domain cx:Battery ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:integer ;
+    skos:example "250.0"@en ;
+    skos:note "in kilogramms"@en ;
+    skos:prefLabel "Battery Weight"@en .
+
+cx:businessPartnerNumberLong a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:altLabel "BPNL"@en,
+        "business partner number long"@en ;
+    skos:definition "The  Business Partner Number is a unique identifier following the pattern 'BPNL{8}{4}'."@en ;
+    skos:prefLabel "BPNL"@en .
+
+cx:businessPartnerNumberType a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:definition "The  Business Partner Number Type describes strings following the pattern 'BPNL{8}{4}'."@en ;
+    skos:prefLabel "BPNL Type"@en .
+
+cx:category a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:type ;
+    skos:prefLabel "Kategorie"@de,
+        "Category"@en .
+
+cx:class a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:type ;
+    skos:prefLabel "Klasse"@de,
+        "Class"@en .
+
+cx:code a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Code> ;
+    rdfs:subPropertyOf cx:identifier ;
+    skos:altLabel "Kurzzeichen"@de,
+        "Kürzel"@de ;
+    skos:prefLabel "code"@de,
+        "Code"@en .
+
+cx:connectsTo a owl:ObjectProperty ;
+    rdfs:domain cx:VehicleDiagnosticDevice,
+        cx:VehicleDiagnosticSystem ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range cx:OnBoardDiagnostics2 ;
+    skos:prefLabel "connects to"@en .
+
+cx:considers a owl:ObjectProperty ;
+    rdfs:domain cx:VehiclePrognosis ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range cx:Vehicle,
+        cx:VehicleComponent,
+        cx:VehicleSystem ;
+    skos:prefLabel "considers"@en .
+
+cx:consumes a owl:ObjectProperty ;
+    rdfs:domain cx:DieselEngine,
+        cx:PetrolEngine ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range cx:Diesel,
+        cx:Petrol ;
+    skos:prefLabel "consumes"@en .
+
+cx:date a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:date ;
+    skos:prefLabel "Datum"@de,
+        "Date"@en .
+
+cx:dateTime a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:dateTime ;
+    skos:prefLabel "Zeit"@de,
+        "Date Time"@en .
+
+cx:description a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Definite_description> ;
+    skos:prefLabel "Beschreibung"@de,
+        "Description"@en .
+
+cx:detects a owl:ObjectProperty ;
+    rdfs:domain cx:ErrorDetection ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:range cx:Error ;
+    skos:prefLabel "detects"@en .
+
+cx:determines a owl:ObjectProperty ;
+    rdfs:domain cx:VehiclePrognosis ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range cx:BatteryHealthCondition,
+        cx:EngineHealthCondition,
+        cx:VehicleHealthCondition ;
+    skos:prefLabel "determines"@en .
+
+cx:diagnoses a owl:ObjectProperty ;
+    rdfs:domain cx:VehicleDiagnosis ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range cx:Vehicle ;
+    skos:prefLabel "diagnoses"@en .
+
+cx:diagnosticTroubleCodeId a owl:DatatypeProperty ;
+    rdfs:domain cx:DiagnosticTroubleCode ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range xsd:string ;
+    skos:example "P0001"@en ;
+    skos:note "5-digit code"@en ;
+    skos:prefLabel "Diagnostic Trouble Code Id"@en .
+
+cx:diagnosticTroubleCodeName a owl:DatatypeProperty ;
+    rdfs:domain cx:DiagnosticTroubleCode ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range xsd:string ;
+    skos:example "Steuerkreis Kraftstoffvolumenregler - offener Stromkreis"@en ;
+    skos:prefLabel "Diagnostic Trouble Code Name"@en .
+
+cx:dinName a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Din Name"@en .
+
+cx:dinNumber a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Din Number"@en .
+
+cx:eclipseDataspaceConnectorId a owl:DatatypeProperty ;
+    rdfs:domain cx:EclipseDataspaceConnector ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "EDC Id"@en .
+
+cx:eclipseDataspaceConnectorUrl a owl:DatatypeProperty ;
+    rdfs:domain cx:EclipseDataspaceConnector ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "EDC URL"@en .
+
+cx:engineId a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subPropertyOf cx:identifier ;
+    skos:prefLabel "Motornummer"@de,
+        "Engine number"@en .
+
+cx:engineStateOfHealth a owl:DatatypeProperty ;
+    rdfs:domain cx:EngineHealthCondition ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range xsd:double ;
+    skos:prefLabel "Engine State Of Health"@en .
+
+cx:expectedLifetime a owl:DatatypeProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:integer ;
+    skos:example "12.0"@en ;
+    skos:note "in years"@en ;
+    skos:prefLabel "Lebensdauer"@de,
+        "Expected Lifetime"@en .
+
+cx:expectedLifetimeMileage a owl:DatatypeProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:integer ;
+    skos:example "150000.0"@en ;
+    skos:note "in kilometers"@en ;
+    skos:prefLabel "Laufleistung"@de,
+        "Expected Lifetime Mileage"@en .
+
+cx:fuelConsumption a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Fuel_efficiency> ;
+    skos:note "in liters / 100 km"@en ;
+    skos:prefLabel "Fuel Consumption"@en .
+
+cx:gearSwitching a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    skos:prefLabel "Gear Switching"@en .
+
+cx:globalUniqueIdentifier a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Universally_unique_identifier> ;
+    rdfs:subPropertyOf cx:identifier ;
+    skos:example "global unique identifier"@en,
+        "universally unique identifier"@en ;
+    skos:prefLabel "Global Unique Identifier"@en .
+
+cx:hasActualCause a owl:ObjectProperty ;
+    rdfs:domain cx:PossibleCause ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range cx:ActualCause ;
+    skos:prefLabel "has actual cause"@en .
+
+cx:hasCauseType a owl:ObjectProperty ;
+    rdfs:domain cx:ActualCause,
+        cx:PossibleCause ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range cx:CauseType ;
+    skos:prefLabel "has cause type"@en .
+
+cx:hasConnector a owl:ObjectProperty ;
     rdfs:domain cx:BusinessPartner ;
-    rdfs:range cx:BPNLType .
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range cx:EclipseDataspaceConnector ;
+    skos:prefLabel "has connector"@en .
 
-cx:Asset rdf:type owl:Class ;
-    rdfs:comment "An Asset is any artifact that is provisioned/owned/attributed to some Catena-X Business Partner."@en ;
-    rdfs:label "Asset" .
+cx:hasContact a owl:ObjectProperty ;
+    rdfs:domain cx:Person ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range cx:Contact ;
+    skos:prefLabel "has contact"@en .
 
-cx:provisionedBy rdf:type owl:ObjectProperty;
-    rdfs:comment "The provisioned by predicate connects assets to their providing Catena-X Business Partner."@en ;
-    rdfs:label "Provisioned By" ;
+cx:hasDiagnosticTroubleCode a owl:ObjectProperty ;
+    rdfs:domain cx:VehicleDiagnosis ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range cx:DiagnosticTroubleCode ;
+    skos:prefLabel "has diagnostic trouble code"@en .
+
+cx:hasEncoding a owl:ObjectProperty ;
+    rdfs:domain cx:DiagnosticTroubleCode ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range cx:Encoding ;
+    skos:prefLabel "has encoding"@en .
+
+cx:hasError a owl:ObjectProperty ;
+    rdfs:domain cx:Part,
+        cx:Vehicle,
+        cx:VehicleComponent ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:range cx:Error ;
+    skos:prefLabel "has error"@en .
+
+cx:hasInterface a owl:ObjectProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range cx:DataLinkConnector,
+        cx:Telematics ;
+    skos:prefLabel "has interface"@en .
+
+cx:hasLoadSpectrum a owl:ObjectProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range cx:LoadSpectrum ;
+    skos:prefLabel "has load spectrum"@en .
+
+cx:hasPossibleCause a owl:ObjectProperty ;
+    rdfs:domain cx:DiagnosticTroubleCode ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range cx:PossibleCause ;
+    skos:prefLabel "has possible cause"@en .
+
+cx:hasRole a owl:ObjectProperty ;
+    rdfs:domain cx:BusinessPartner ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range cx:Role ;
+    skos:prefLabel "has role"@en .
+
+cx:hasSolution a owl:ObjectProperty ;
+    rdfs:domain cx:Error ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:range cx:ErrorSolution ;
+    skos:prefLabel "has solution"@en .
+
+cx:improves a owl:ObjectProperty ;
+    rdfs:domain cx:VehiclePrognosis ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range cx:VehicleAvailability,
+        cx:VehicleReliability ;
+    skos:prefLabel "improves"@en .
+
+cx:isCausedBy a owl:ObjectProperty ;
+    rdfs:domain cx:Error,
+        cx:Failure ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:range cx:Error,
+        cx:ErrorCause ;
+    skos:prefLabel "is caused by"@en .
+
+cx:isLocatedIn a owl:ObjectProperty ;
+    rdfs:domain cx:Error ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:range cx:ErrorLocation,
+        cx:ErrorPosition ;
+    skos:prefLabel "is located in"@en .
+
+cx:isMadeBy a owl:ObjectProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range cx:VehicleManufacturer ;
+    skos:prefLabel "is made by"@en .
+
+cx:isOfType a owl:ObjectProperty ;
+    rdfs:domain cx:ElectricVehicle,
+        cx:Vehicle ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range cx:ElectricVehicle,
+        cx:VehicleType ;
+    skos:prefLabel "is of type"@en .
+
+cx:isPartOf a owl:ObjectProperty ;
+    rdfs:domain cx:Actuator,
+        cx:Battery,
+        cx:CanBus,
+        cx:DieselEngine,
+        cx:ElectricMotor,
+        cx:ElectronicControlUnit,
+        cx:Engine,
+        cx:ErrorMemory,
+        cx:Part,
+        cx:PetrolEngine,
+        cx:Sensor,
+        cx:SpeedProfile,
+        cx:VehicleLifeCycleStage ;
+    rdfs:isDefinedBy cx:PartOntology,
+        cx:VehicleOntology ;
+    rdfs:range cx:DieselVehicle,
+        cx:DrivingPattern,
+        cx:ElectricVehicle,
+        cx:ElectronicControlUnit,
+        cx:InternalCombustionEngineVehicle,
+        cx:Part,
+        cx:PetrolVehicle,
+        cx:Vehicle,
+        cx:VehicleLifeCycle ;
+    skos:prefLabel "is part of"@en .
+
+cx:isProducedBy a owl:ObjectProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    rdfs:range cx:PartManufacturer ;
+    skos:prefLabel "is produced by"@en .
+
+cx:isProvisionedBy a owl:ObjectProperty ;
     rdfs:domain cx:Asset ;
-    rdfs:range cx:BusinessPartner .
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range cx:BusinessPartner ;
+    skos:definition "The provisioned by predicate connects assets to their providing Catena-X Business Partner."@en ;
+    skos:prefLabel "is provisioned by"@en .
 
-###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
+cx:isReasonOf a owl:ObjectProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range cx:PossibleCause ;
+    skos:prefLabel "is reason of"@en .
+
+cx:isStoredIn a owl:ObjectProperty ;
+    rdfs:domain cx:DiagnosticTroubleCode ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range cx:ErrorMemory ;
+    skos:prefLabel "is stored in"@en .
+
+cx:isTypedBy a owl:ObjectProperty ;
+    rdfs:domain cx:Error ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:range cx:ErrorType ;
+    skos:prefLabel "is typed by"@en .
+
+cx:isoName a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Iso Name"@en .
+
+cx:isoNumber a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Iso Number"@en .
+
+cx:kind a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:type ;
+    skos:prefLabel "Art"@de,
+        "Kind"@en .
+
+cx:loadSpectrumAbscissa a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range xsd:string ;
+    skos:definition "x axis"@en ;
+    skos:example "counts"@en ;
+    skos:note "needs rework!"@en ;
+    skos:prefLabel "Definitionsbereich"@de,
+        "Load Spectrum Abscissa"@en .
+
+cx:loadSpectrumCountingMethod a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Load Spectrum Counting Method"@en .
+
+cx:loadSpectrumCountingUnit a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Load Spectrum Counting Unit"@en .
+
+cx:loadSpectrumLowerLimit a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range xsd:integer ;
+    skos:prefLabel "Load Spectrum Lower Limit"@en .
+
+cx:loadSpectrumName a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Load Spectrum Name"@en .
+
+cx:loadSpectrumNumberOfBins a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range xsd:integer ;
+    skos:prefLabel "Load Spectrum Number Of Bins"@en .
+
+cx:loadSpectrumOrdinate a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range xsd:string ;
+    skos:definition "y axis"@en ;
+    skos:example "oil temperature"@en ;
+    skos:prefLabel "Wertebereich"@de,
+        "Load Spectrum Ordinate"@en .
+
+cx:loadSpectrumType a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Load Spectrum Type"@en .
+
+cx:loadSpectrumUnit a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Load Spectrum Unit"@en .
+
+cx:loadSpectrumUpperLimit a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:range xsd:integer ;
+    skos:prefLabel "Load Spectrum Upper Limit"@en .
+
+cx:maxAcceleration a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleUsage ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:integer ;
+    skos:prefLabel "Max Acceleration"@en .
+
+cx:maxDeceleration a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleUsage ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:integer ;
+    skos:prefLabel "Max Deceleration"@en .
+
+cx:maxRotationalSpeed a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleUsage ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:integer ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Rotational_speed> ;
+    skos:prefLabel "Drehzahl"@de,
+        "Max Rotational Speed"@en .
+
+cx:maxSpeed a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleUsage ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:integer ;
+    skos:prefLabel "Max Speed"@en .
+
+cx:milageDate a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleUsage ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:date ;
+    skos:prefLabel "Milage Date"@en .
+
+cx:mileage a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleUsage ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:integer ;
+    skos:example "123.0"@en ;
+    skos:note "in kilometers"@en ;
+    skos:prefLabel "Kilometerstand"@de,
+        "Mileage"@en .
+
+cx:name a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Name> ;
+    rdfs:subPropertyOf cx:identifier ;
+    skos:altLabel "Benennung"@de,
+        "Bezeichnung"@de ;
+    skos:example "part number"@en,
+        "serial number"@en ;
+    skos:prefLabel "Name"@de,
+        "Name"@en .
+
+cx:partGeneration a owl:DatatypeProperty ;
+    rdfs:domain cx:SerializedPart ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    rdfs:range xsd:string ;
+    skos:example "Gen3H"@en ;
+    skos:prefLabel "Generationsstand"@de,
+        "Part Generation"@en .
+
+cx:partId a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    skos:prefLabel "Bauteil Id"@de,
+        "Part Id"@en .
+
+cx:partName a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    skos:altLabel "Teilebezeichnung"@de,
+        "Teilname"@de ;
+    skos:prefLabel "Bauteilname"@de,
+        "Part Name"@en .
+
+cx:partNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:ConstructionPart ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Part_number> ;
+    skos:altLabel "Bauteilnummer"@de,
+        "PN"@en,
+        "component number"@en,
+        "part number"@en ;
+    skos:prefLabel "Sachnummer"@de,
+        "Part Number"@en .
+
+cx:partVersion a owl:DatatypeProperty ;
+    rdfs:domain cx:ConstructionPart ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    rdfs:range xsd:string ;
+    skos:altLabel "Versionsstand"@de,
+        "Änderungsindex"@de ;
+    skos:prefLabel "Bauteil Version"@de,
+        "Part Version"@en .
+
+cx:predicts a owl:ObjectProperty ;
+    rdfs:domain cx:VehiclePrognosis ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range cx:RemainingUsefulLifetime,
+        cx:VehicleBreakdown,
+        cx:VehicleError,
+        cx:VehicleFailure ;
+    skos:prefLabel "predicts"@en .
+
+cx:produces a owl:ObjectProperty ;
+    rdfs:domain cx:Manufacturer,
+        cx:PartManufacturer ;
+    rdfs:isDefinedBy cx:CommonOntology,
+        cx:PartOntology ;
+    rdfs:range cx:Part,
+        cx:Product ;
+    skos:prefLabel "produces"@en .
+
+cx:recommends a owl:ObjectProperty ;
+    rdfs:domain cx:VehiclePrognosis ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range cx:ConditionBasedMaintenance,
+        cx:PredictiveMaintenance ;
+    skos:prefLabel "recommends"@en .
+
+cx:remainingLifetime a owl:DatatypeProperty ;
+    rdfs:domain cx:RemainingUsefulLifetime ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range xsd:integer ;
+    skos:definition "Remaining time the vehicle will drive in the future."@en ;
+    skos:note "in years"@en ;
+    skos:prefLabel "Remaining Lifetime"@en .
+
+cx:remainingMileage a owl:DatatypeProperty ;
+    rdfs:domain cx:RemainingUsefulLifetime ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range xsd:integer ;
+    skos:definition "Remaining distance the vehicle will drive in the future."@en ;
+    skos:note "in kilometer"@en ;
+    skos:prefLabel "Remaining Mileage"@en .
+
+cx:sameAs a owl:ObjectProperty ;
+    rdfs:domain cx:VehicleManufacturer ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range cx:BusinessPartner ;
+    skos:prefLabel "same as"@en .
+
+cx:serialNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:SerializedPart ;
+    rdfs:isDefinedBy cx:CommonOntology,
+        cx:PartOntology ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Serial_number> ;
+    rdfs:subPropertyOf cx:identifier ;
+    skos:definition "A unique identifier assigned incrementally or sequentially to an item, to uniquely identify it."@en ;
+    skos:prefLabel "Seriennummer"@de,
+        "Serial Number"@en .
+
+cx:tag a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Tag_> ;
+    rdfs:subPropertyOf cx:type ;
+    skos:prefLabel "Tag"@de,
+        "Tag"@en .
+
+cx:technicalStandardStandardName a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Technical Standard Standard Name"@en .
+
+cx:technicalStandardStandardNumber a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Technical Standard Standard Number"@en .
+
+cx:testingTechnician a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    skos:prefLabel "Testing Technician"@en .
+
+cx:text a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "text"@de,
+        "Text"@en .
+
+cx:title a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Titel"@de,
+        "Title"@en .
+
+cx:uniqueIdentifier a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Unique_identifier> ;
+    rdfs:subPropertyOf cx:identifier ;
+    skos:example "unique identifier"@en ;
+    skos:prefLabel "Unique Identifier"@en .
+
+cx:uses a owl:ObjectProperty ;
+    rdfs:domain cx:Vehicle,
+        cx:VehiclePrognosis ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range cx:OnBoardDiagnostics2,
+        cx:PredictiveModel,
+        cx:Telematics,
+        cx:VehicleDiagnosis ;
+    skos:prefLabel "uses"@en .
+
+cx:vehicleAge a owl:DatatypeProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:integer ;
+    skos:definition "The current age of the vehicle in years."@en ;
+    skos:example "3.0"@en ;
+    skos:note "in years"@en ;
+    skos:prefLabel "Fahrzeugalter"@de,
+        "Vehicle Age"@en .
+
+cx:vehicleDiagnosisDate a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    skos:prefLabel "Vehicle Diagnosis Date"@en .
+
+cx:vehicleDiagnosisLocation a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    skos:prefLabel "Vehicle Diagnosis Location"@en .
+
+cx:vehicleId a owl:DatatypeProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Vehicle_identification_number> ;
+    rdfs:subPropertyOf cx:identifier ;
+    skos:altLabel "FIN"@de,
+        "Fahrzeugidentifikationsnummer"@de,
+        "VIN"@en,
+        "vehicle identification number"@en ;
+    skos:definition "17-digit unique identifier"@en ;
+    skos:prefLabel "VIN"@de,
+        "VIN"@en .
+
+cx:vehicleMileage a owl:DatatypeProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:integer ;
+    skos:definition "The current mileage of the vehicle in km."@en ;
+    skos:example "1000.0"@en ;
+    skos:note "in kilometers"@en ;
+    skos:prefLabel "Vehicle Mileage"@en .
+
+cx:vehiclePrognosisCreator a owl:DatatypeProperty ;
+    rdfs:domain cx:VehiclePrognosis ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Vehicle Prognosis Creator"@en .
+
+cx:vehiclePrognosisDate a owl:DatatypeProperty ;
+    rdfs:domain cx:VehiclePrognosis ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Vehicle Prognosis Date"@en .
+
+cx:vehiclePrognosisId a owl:DatatypeProperty ;
+    rdfs:domain cx:VehiclePrognosis ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Vehicle Prognosis Id"@en .
+
+cx:vehicleRegistrationDate a owl:DatatypeProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:date ;
+    skos:definition "Date of first registration."@en ;
+    skos:prefLabel "Vehicle Registration Date"@en .
+
+cx:vehicleStateOfHealth a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleHealthCondition ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:range xsd:double ;
+    skos:prefLabel "Vehicle State Of Health"@en .
+
+cx:vehicleWeight a owl:DatatypeProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:range xsd:integer ;
+    skos:example "1500.0"@en ;
+    skos:note "in kilogramms"@en ;
+    skos:prefLabel "Fahrzeuggewicht"@de,
+        "Vehicle Weight"@en .
+
+cx:worldManufacturerIdentifier a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    skos:altLabel "WMI"@en,
+        "world manufacturer identifier"@en ;
+    skos:prefLabel "World Manufacturer Identifier"@en .
+
+cx:Actuator a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:VehicleComponent ;
+    skos:prefLabel "Actuator"@en .
+
+cx:Asset a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:definition "An Asset is any artifact that is provisioned/owned/attributed to some Catena-X Business Partner."@en ;
+    skos:prefLabel "Asset"@en .
+
+cx:BatchPart a owl:Class ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    rdfs:subClassOf cx:Part ;
+    skos:note "unique physical object"@en ;
+    skos:prefLabel "Chargenbauteil"@de,
+        "Batch Part"@en .
+
+cx:CanBus a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/CAN_bus> ;
+    skos:altLabel "CAN"@en,
+        "Controller Area Network"@en ;
+    skos:prefLabel "Can Bus"@en .
+
+cx:CauseType a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    skos:prefLabel "Cause Type"@en .
+
+cx:ConditionBasedMaintenance a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:subClassOf cx:Maintenance ;
+    skos:altLabel "CBM"@en,
+        "condition-based maintenance"@en ;
+    skos:definition "process"@en ;
+    skos:prefLabel "Zustandsorientierte Wartung"@de,
+        "Condition-Based Maintenance"@en .
+
+cx:Contact a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Contact"@en .
+
+cx:Diesel a cx:Fuel ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Diesel_fuel> ;
+    skos:prefLabel "Diesel"@en .
+
+cx:DieselVehicle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Diesel_engine> ;
+    rdfs:subClassOf cx:InternalCombustionEngineVehicle ;
+    skos:definition "uses diesel"@en ;
+    skos:prefLabel "Dieselfahrzeug"@de,
+        "Diesel Vehicle"@en .
+
+cx:ElectricMotor a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:VehicleComponent ;
+    skos:prefLabel "Electric Motor"@en .
+
+cx:ErrorDetection a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Fault_detection_and_isolation> ;
+    skos:altLabel "Fehlerentdeckung"@de,
+        "fault detection"@en ;
+    skos:definition "process"@en ;
+    skos:note "how"@en ;
+    skos:prefLabel "Fehlererkennung"@de,
+        "Error Detection"@en .
+
+cx:ErrorLocation a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    skos:note "where"@en ;
+    skos:prefLabel "Fehlerort"@de,
+        "Error Location"@en .
+
+cx:ErrorPosition a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    skos:altLabel "Fehlerlage"@de ;
+    skos:note "where"@en ;
+    skos:prefLabel "Fehlerposition"@de,
+        "Error Position"@en .
+
+cx:ErrorSolution a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    skos:note "how"@en ;
+    skos:prefLabel "Fehlerlösung"@de,
+        "Error Solution"@en .
+
+cx:ErrorType a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    skos:note "which"@en ;
+    skos:prefLabel "Fehlerart"@de,
+        "Error Type"@en .
+
+cx:Failure a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Failure> ;
+    skos:altLabel "Fehlfunktion"@de,
+        "malfunction"@en ;
+    skos:definition "event of the loss or deviation from expected function"@en ;
+    skos:prefLabel "Versagen"@de,
+        "Failure"@en .
+
+cx:IsoStandard a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/International_Organization_for_Standardization> ;
+    rdfs:subClassOf cx:TechnicalStandard ;
+    skos:altLabel "ISO"@en,
+        "International Organization for Standardization"@en ;
+    skos:prefLabel "Iso Standard"@en .
+
+cx:OriginalEquipmentManufacturer a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Original_equipment_manufacturer> ;
+    rdfs:subClassOf cx:Manufacturer ;
+    skos:altLabel "OEM"@en,
+        "original equipment manufacturer"@en ;
+    skos:prefLabel "OEM"@en .
+
+cx:Person a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Person"@en .
+
+cx:Petrol a cx:Fuel ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Gasoline> ;
+    skos:prefLabel "Petrol"@en .
+
+cx:PetrolVehicle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:InternalCombustionEngineVehicle ;
+    skos:definition "uses petrol"@en ;
+    skos:prefLabel "Benzinfahrzeug"@de,
+        "Petrol Vehicle"@en .
+
+cx:PredictiveMaintenance a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:subClassOf cx:Maintenance ;
+    skos:definition "process"@en ;
+    skos:prefLabel "Vorausschauende Wartung"@de,
+        "Predictive Maintenance"@en .
+
+cx:PredictiveModel a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Predictive_modelling> ;
+    skos:definition "A model that quantifies the risk of failure for a vehicle at any moment in time and use this information to improve scheduling of maintenance."@en ;
+    skos:prefLabel "Predictive Model"@en .
+
+cx:Product a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Product"@en .
+
+cx:Sensor a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:VehicleComponent ;
+    skos:prefLabel "Sensor"@en .
+
+cx:SpeedProfile a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    skos:prefLabel "Speed Profile"@en .
+
+cx:VehicleDiagnosticDevice a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    skos:altLabel "OBD scanner"@en,
+        "diagnostic tool"@en ;
+    skos:prefLabel "Fahrzeugdiagnosegerät"@de,
+        "Diagnostic Device"@en .
+
+cx:VehicleDiagnosticSystem a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Fahrzeugdiagnosesystem> ;
+    skos:altLabel "VDS"@en,
+        "vehicle diagnostic system"@en ;
+    skos:prefLabel "Fahrzeugdiagnosesystem"@de,
+        "Diagnostic System"@en .
+
+cx:VehicleLifeCycle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    skos:prefLabel "Vehicle Life Cycle"@en .
+
+cx:VehicleSystem a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:VehicleComponent ;
+    skos:prefLabel "Vehicle System"@en .
+
+cx:ActualCause a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:subClassOf cx:ErrorCause ;
+    skos:prefLabel "Actual Cause"@en .
+
+cx:Battery a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:VehicleComponent ;
+    skos:prefLabel "Battery"@en .
+
+cx:BatteryHealthCondition a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:subClassOf cx:HealthCondition ;
+    skos:prefLabel "Battery Health Condition"@en .
+
+cx:Company a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Company"@en .
+
+cx:ConstructionPart a owl:Class ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    rdfs:subClassOf cx:Part ;
+    skos:note "non-physical object"@en ;
+    skos:prefLabel "Konstruktionsbauteil"@de,
+        "Construction Part"@en .
+
+cx:DataLinkConnector a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Data_link_connector_> ;
+    skos:altLabel "DLC"@en,
+        "data link connector"@en ;
+    skos:prefLabel "Data Link Connector"@en .
+
+cx:DieselEngine a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Diesel_engine> ;
+    rdfs:subClassOf cx:Engine ;
+    skos:prefLabel "Diesel Engine"@en .
+
+cx:DrivingPattern a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    skos:altLabel "driver behaviour"@en,
+        "driving style"@en ;
+    skos:prefLabel "Fahrmuster"@de,
+        "Driving Pattern"@en .
+
+cx:ElectronicControlUnit a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:VehicleComponent ;
+    skos:altLabel "ECU"@en,
+        "electronic control unit"@en ;
+    skos:prefLabel "Electronic Control Unit"@en .
+
+cx:EngineHealthCondition a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:subClassOf cx:HealthCondition ;
+    skos:prefLabel "Engine Health Condition"@en .
+
+cx:ErrorMemory a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Fehlerspeicher> ;
+    rdfs:subClassOf cx:VehicleComponent ;
+    skos:altLabel "fault memory"@en ;
+    skos:note "is stored in the EEPROM"@en ;
+    skos:prefLabel "Fehlerspeicher"@de,
+        "Error Memory"@en .
+
+cx:Fuel a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Fuel> ;
+    skos:prefLabel "Fuel"@en .
+
+cx:OnBoardDiagnostics2 a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/On-board_diagnostics#OBD-II> ;
+    rdfs:subClassOf cx:DataLinkConnector ;
+    skos:altLabel "OBD"@en,
+        "On-board diagnostics"@en ;
+    skos:prefLabel "On Board Diagnostics 2"@en .
+
+cx:PartManufacturer a owl:Class ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    rdfs:subClassOf cx:Manufacturer ;
+    skos:prefLabel "Bauteilhersteller"@de,
+        "Part Manufacturer"@en .
+
+cx:PetrolEngine a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Petrol_engine> ;
+    rdfs:subClassOf cx:Engine ;
+    skos:prefLabel "Petrol Engine"@en .
+
+cx:Process a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Process"@en .
+
+cx:SerializedPart a owl:Class ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    rdfs:subClassOf cx:Part ;
+    skos:note "unique physical object"@en ;
+    skos:prefLabel "Serienbauteil"@de,
+        "Serialized Part"@en .
+
+cx:Supplier a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:subClassOf cx:Role ;
+    skos:prefLabel "Supplier"@en .
+
+cx:TechnicalStandard a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Technical_standard> ;
+    skos:prefLabel "Technical Standard"@en .
+
+cx:Telematics a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Telematics> ;
+    skos:prefLabel "Telematik"@de,
+        "Telematics"@en .
+
+cx:VehicleHealthCondition a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:subClassOf cx:HealthCondition ;
+    skos:prefLabel "Vehicle Health Condition"@en .
+
+cx:VehicleManufacturer a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology,
+        cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Vehicle_identification_number#World_manufacturer_identifier> ;
+    rdfs:subClassOf cx:OriginalEquipmentManufacturer ;
+    skos:prefLabel "Vehicle Manufacturer"@en .
+
+cx:EclipseDataspaceConnector a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:altLabel "EDC"@en,
+        "eclipse dataspace connector"@en ;
+    skos:prefLabel "EDC"@en .
+
+cx:Engine a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Internal_combustion_engine> ;
+    rdfs:subClassOf cx:VehicleComponent ;
+    skos:altLabel "ICE"@en,
+        "internal combustion engine"@en ;
+    skos:prefLabel "Engine"@en .
+
+cx:ErrorCause a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    skos:note "why"@en ;
+    skos:prefLabel "Fehlerursache"@de,
+        "Error Cause"@en .
+
+cx:FuelCycle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    skos:prefLabel "Fuel Cycle"@en .
+
+cx:HealthCondition a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    skos:prefLabel "Health Condition"@en .
+
+cx:InternalCombustionEngineVehicle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:Vehicle ;
+    skos:altLabel "ICEV"@en,
+        "internal combustion engine vehicle"@en ;
+    skos:prefLabel "Internal Combustion Engine Vehicle"@en .
+
+cx:Manufacturer a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:subClassOf cx:Role ;
+    skos:prefLabel "Manufacturer"@en .
+
+cx:RemainingUsefulLifetime a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    skos:altLabel "RUL"@en,
+        "remaining life"@en,
+        "remaining useful life"@en,
+        "remaining useful lifetime"@en ;
+    skos:prefLabel "Restnutzungsdauer"@de,
+        "Remaining Useful Lifetime"@en .
+
+cx:BusinessPartner a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:subClassOf cx:Company ;
+    skos:altLabel "BP"@en,
+        "business partner"@en ;
+    skos:definition "A Business Partner is a legal entity that is part of the Catena-X network or that stands in a relevant relation to a Catena-X Business Partner."@en ;
+    skos:prefLabel "Business Partner"@en .
+
+cx:Maintenance a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Maintenance_>,
+        <https://en.wikipedia.org/wiki/Service_> ;
+    skos:altLabel "Instandhaltung"@de ;
+    skos:definition "process"@en ;
+    skos:prefLabel "Wartung"@de,
+        "Maintenance"@en .
+
+cx:PossibleCause a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:subClassOf cx:ErrorCause ;
+    skos:prefLabel "Possible Cause"@en .
+
+cx:Role a owl:Class ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    skos:prefLabel "Role"@en .
+
+cx:VehicleDiagnosis a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Fehlerdiagnose>,
+        <https://en.wikipedia.org/wiki/Diagnosis> ;
+    skos:definition "Vehicle diagnosis is the identification of a problem or the cause and location of a problem."@en ;
+    skos:prefLabel "Fahrzeugdiagnose"@de,
+        "Vehicle Diagnosis"@en .
+
+cx:type a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Typ"@de,
+        "Type"@en .
+
+cx:BatteryType a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    skos:definition "by cathode material"@en ;
+    skos:prefLabel "Battery Type"@en .
+
+cx:VehicleEnvironment a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/K%C3%B6ppen_climate_classification> ;
+    skos:altLabel "climate"@en ;
+    skos:prefLabel "Vehicle Environment"@en .
+
+cx:VehicleType a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    skos:prefLabel "Vehicle Type"@en .
+
+cx:VehicleUsage a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    skos:prefLabel "Vehicle Usage"@en .
+
+cx:Error a owl:Class ;
+    rdfs:isDefinedBy cx:ErrorOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Error> ;
+    skos:altLabel "defect"@en,
+        "failure"@en,
+        "fault"@en,
+        "trouble"@en ;
+    skos:definition "deviation from the expected result"@en ;
+    skos:note "what"@en ;
+    skos:prefLabel "Fehler"@de,
+        "Error"@en .
+
+cx:identifier a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:CommonOntology ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Identifier> ;
+    skos:altLabel "Kennzeichen"@de ;
+    skos:example "ID"@en,
+        "UID"@en,
+        "unique identifier"@en ;
+    skos:prefLabel "Identifikator"@de,
+        "Identifier"@en .
+
+cx:DiagnosticTroubleCode a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:seeAlso wd:Q5525576 ;
+    skos:altLabel "Fehlercode"@de,
+        "DTC"@en,
+        "diagnostic trouble code"@en,
+        "error code"@en,
+        "trouble code"@en ;
+    skos:note "ISO 15031-6, SAE J2012"@en ;
+    skos:prefLabel "Fehlercode"@de,
+        "Diagnostic Trouble Code"@en .
+
+cx:ElectricVehicle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:subClassOf cx:Vehicle ;
+    skos:prefLabel "Electric Vehicle"@en .
+
+cx:Part a owl:Class ;
+    rdfs:isDefinedBy cx:PartOntology ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Bauteil_> ;
+    skos:altLabel "Komponente"@de,
+        "Teil"@de,
+        "component"@en ;
+    skos:note "non-physical object"@en ;
+    skos:prefLabel "Bauteil"@de,
+        "Part"@en .
+
+cx:LoadSpectrum a owl:Class ;
+    rdfs:isDefinedBy cx:DiagnosisOntology ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Lastkollektiv> ;
+    skos:altLabel "load collective"@en ;
+    skos:prefLabel "Lastkollektiv"@de,
+        "Load Spectrum"@en .
+
+cx:VehicleComponent a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    skos:prefLabel "Vehicle Component"@en .
+
+cx:VehiclePrognosis a owl:Class ;
+    rdfs:isDefinedBy cx:PrognosisOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Prognosis>,
+        <https://en.wikipedia.org/wiki/Prognostics> ;
+    skos:altLabel "vehicle prognostics"@en ;
+    skos:definition "prediction of the time at which a system or a component will malfunction"@en ;
+    skos:note "SAE JA 6268"@en ;
+    skos:prefLabel "Vehicle Prognosis"@en .
+
+cx:VehicleLifeCycleStage a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    skos:prefLabel "Vehicle Life Cycle Stage"@en .
+
+cx:Vehicle a owl:Class ;
+    rdfs:isDefinedBy cx:VehicleOntology ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Motor_vehicle> ;
+    skos:altLabel "auto"@de,
+        "automotive vehicle"@en,
+        "motor vehicle"@en ;
+    skos:definition "Is a self-propelled wheeled vehicle that transports people or cargo on land."@en ;
+    skos:prefLabel "Fahrzeug"@de,
+        "Vehicle"@en .
+
+# Interim solution
+#owl:DatatypeProperty
+
+
+# Business Partner 
+cx:has_vehicle a owl:ObjectProperty ;
+    rdfs:range cx:Vehicle ;
+    rdfs:domain cx:BusinessPartner.
+
+cx:cx:businessPartnerNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:BusinessPartner ;
+    rdfs:range xsd:string.
+
+#Vehicle
+cx:hasDiagnosisResult a owl:ObjectProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:range cx:DiagnosisResult.
+
+cx:mileage_value a owl:DatatypeProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:range xsd:string.
+
+cx:mileage_unit a owl:DatatypeProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:range xsd:string.
+
+cx:registrationDate_value a owl:DatatypeProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:range xsd:string.
+
+cx:registrationDate_unit a owl:DatatypeProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:range xsd:string.
+
+#Diagnosis Result
+cx:DiagnosisResult a owl:Class .
+
+cx:code a owl:DatatypeProperty ;
+    rdfs:domain cx:DiagnosisResult;
+    rdfs:range xsd:string.
+
+#LoadSpectrum cx:LoadSpectrum
+
+cx:loadSpectrumComponent a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum;
+    rdfs:range xsd:string.
+
+cx:loadSpectrumChannelType a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum;
+    rdfs:range xsd:string.
