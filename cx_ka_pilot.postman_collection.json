@@ -525,11 +525,6 @@
 											"query": [
 												{
 													"key": "providerUrl",
-													"value": "http://connector.cx-rel.edc.aws.bmw.cloud:8282/BPNL00000003AYRE/api/v1/ids/data",
-													"disabled": true
-												},
-												{
-													"key": "providerUrl",
 													"value": "{{oemEdcIds}}/api/v1/ids/data"
 												}
 											]
@@ -673,7 +668,7 @@
 												{
 													"key": "load_collective_file",
 													"type": "file",
-													"src": "/Users/A29078924/Downloads/Fzg1_LCollective.json"
+													"src": "/Users/A29078924/Projects/catenax/product-knowledge/dataspace/agents/remoting/resources/sample_input.json"
 												}
 											]
 										},
@@ -1178,11 +1173,6 @@
 											"query": [
 												{
 													"key": "providerUrl",
-													"value": "http://connector.cx-rel.edc.aws.bmw.cloud:8282/BPNL00000003AYRE/api/v1/ids/data",
-													"disabled": true
-												},
-												{
-													"key": "providerUrl",
 													"value": "{{tieraEdcIds}}/api/v1/ids/data"
 												}
 											]
@@ -1586,11 +1576,6 @@
 											"query": [
 												{
 													"key": "providerUrl",
-													"value": "http://connector.cx-rel.edc.aws.bmw.cloud:8282/BPNL00000003AYRE/api/v1/ids/data",
-													"disabled": true
-												},
-												{
-													"key": "providerUrl",
 													"value": "{{oemEdcIds}}/api/v1/ids/data"
 												},
 												{
@@ -1647,7 +1632,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{consumerAgentPlane}}/api/agent?query=SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.} LIMIT 10&asset=http://oem-control-plane:8282%23urn:cx:Graph:oem:Diagnosis2022",
+											"raw": "{{consumerAgentPlane}}/api/agent?query=SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.} LIMIT 100&asset=https://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN%23urn:cx:Graph:oem:Diagnosis2022",
 											"host": [
 												"{{consumerAgentPlane}}"
 											],
@@ -1658,16 +1643,21 @@
 											"query": [
 												{
 													"key": "query",
-													"value": "SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.} LIMIT 10"
+													"value": "SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.} LIMIT 100"
 												},
 												{
 													"key": "asset",
-													"value": "http://oem-control-plane:8282%23urn:cx:Graph:oem:Diagnosis2022"
+													"value": "http://oem-control-plane:8282%23urn:cx:Graph:oem:Diagnosis2022",
+													"disabled": true
 												},
 												{
 													"key": "asset",
 													"value": "https://knowledge.int.demo.catena-x.net/oem-edc-control/BPNL00000003COJN%23urn:cx:Graph:oem:Diagnosis2022",
 													"disabled": true
+												},
+												{
+													"key": "asset",
+													"value": "https://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN%23urn:cx:Graph:oem:Diagnosis2022"
 												}
 											]
 										},
@@ -1688,10 +1678,10 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.} LIMIT 10"
+											"raw": "SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.} LIMIT 100"
 										},
 										"url": {
-											"raw": "{{consumerAgentPlane}}/api/agent?asset=http://oem-control-plane:8282%23urn:cx:Graph:oem:Diagnosis2022",
+											"raw": "{{consumerAgentPlane}}/api/agent?asset=https://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN%23urn:cx:Graph:oem:Diagnosis2022",
 											"host": [
 												"{{consumerAgentPlane}}"
 											],
@@ -1702,12 +1692,17 @@
 											"query": [
 												{
 													"key": "asset",
-													"value": "http://oem-control-plane:8282%23urn:cx:Graph:oem:Diagnosis2022"
+													"value": "http://oem-control-plane:8282%23urn:cx:Graph:oem:Diagnosis2022",
+													"disabled": true
 												},
 												{
 													"key": "asset",
 													"value": "https://knowledge.int.demo.catena-x.net/oem-edc-control/BPNL00000003COJN%23urn:cx:Graph:oem:Diagnosis2022",
 													"disabled": true
+												},
+												{
+													"key": "asset",
+													"value": "https://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN%23urn:cx:Graph:oem:Diagnosis2022"
 												}
 											]
 										},
@@ -1742,7 +1737,7 @@
 											"raw": "PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> \nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \nPREFIX cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\n\nSELECT ?invocation ?distance ?time\nWHERE { \n    GRAPH <urn:cx:Graph:tierA:LifetimeGearbox> {\n        ?invocation a cx-lifetime:LifetimePrognosis;\n              cx-lifetime:loadCollectiveFile \"{  \\\"Type\\\": \\\"ZF_load_collective\\\", \\\"Version\\\": \\\"1.7\\\"  }\"^^xsd:string; \n              cx-lifetime:loadCollectiveHeader \"{  \\\"CountingMethod\\\": \\\"ZF_TimeAtLevel\\\",    \\\"CountingUnit\\\": \\\"s\\\",    \\\"Channels\\\": [      {        \\\"Name\\\": \\\"Temp_Oil\\\",        \\\"Type\\\": \\\"Load\\\",        \\\"Unit\\\": \\\"degC\\\",        \\\"LowerLimit\\\": -40,        \\\"UpperLimit\\\": 220,        \\\"NumberOfBins\\\": 52      }  ]  }\"^^xsd:string; \n              cx-lifetime:loadCollectiveBody \"{     \\\"Temp_Oil-class\\\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \\\"Counts\\\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }\"^^xsd:string; \n              cx-lifetime:loadCollectiveComponent \"\\\"GearOil\\\"\"^^xsd:string; \n              cx-lifetime:loadCollectiveMileage \"{ \\\"Value\\\": 82563, \\\"Unit\\\": \\\"km\\\" }\"^^xsd:string; \n              cx-lifetime:loadCollectiveRegistrationDate \"{ \\\"Value\\\": 20171206,  \\\"Unit\\\": \\\"yyyymmdd\\\" }\"^^xsd:string; \n              cx-lifetime:remainingDistance ?distance; \n              cx-lifetime:remainingTime ?time.\n    }\n}"
 										},
 										"url": {
-											"raw": "{{consumerAgentPlane}}/api/agent?asset=http://tiera-control-plane:8282%23urn:cx:Graph:tierA:LifetimeGearbox",
+											"raw": "{{consumerAgentPlane}}/api/agent?asset=https://knowledge.dev.demo.catena-x.net/tiera-edc-control/BPNL00000003CPIY%23urn:cx:Graph:tierA:LifetimeGearbox",
 											"host": [
 												"{{consumerAgentPlane}}"
 											],
@@ -1753,13 +1748,18 @@
 											"query": [
 												{
 													"key": "asset",
-													"value": "https://knowledge.int.demo.catena-x.net/tiera-edc-control/tiera-edc-control/BPNL00000003CPIY%23urn:cx:Graph:tierA:LifetimeGearbox",
+													"value": "https://knowledge.int.demo.catena-x.net/tiera-edc-control/BPNL00000003CPIY%23urn:cx:Graph:tierA:LifetimeGearbox",
 													"description": "Dataspace Asset",
 													"disabled": true
 												},
 												{
 													"key": "asset",
-													"value": "http://tiera-control-plane:8282%23urn:cx:Graph:tierA:LifetimeGearbox"
+													"value": "http://tiera-control-plane:8282%23urn:cx:Graph:tierA:LifetimeGearbox",
+													"disabled": true
+												},
+												{
+													"key": "asset",
+													"value": "https://knowledge.dev.demo.catena-x.net/tiera-edc-control/BPNL00000003CPIY%23urn:cx:Graph:tierA:LifetimeGearbox"
 												}
 											]
 										},
