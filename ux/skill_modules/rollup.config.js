@@ -29,8 +29,7 @@ export default [
       resolve(),
       commonjs(),
       sass({}),
-      typescript({ tsconfig: './tsconfig.build.json' }),
-      terser()
+      typescript({ tsconfig: './tsconfig.build.json' })
     ],
     external: [...Object.keys(pkg.peerDependencies || {}), 'node-fetch']
   },
