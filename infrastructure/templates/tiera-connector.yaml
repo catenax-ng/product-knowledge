@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: supplier-control-plane-config
+  name: tiera-control-plane-config
   namespace: {{ .Values.namespace }}
 data:
   configuration.properties: |-
@@ -29,13 +29,13 @@ data:
     edc.ids.curator=http://catenax.net
     edc.ids.description=Eclipse Dataspace Connector for Knowledge Agents Supplier
     # whatever that is needed
-    edc.ids.endpoint=https://{{ .Values.ingress.host }}/supplier-edc-control/{{ .Values.dataspace.bpnTier1 }}/api/v1/ids
+    edc.ids.endpoint=https://{{ .Values.ingress.host }}/tiera-edc-control/{{ .Values.dataspace.bpnTier1 }}/api/v1/ids
     # This is checked as the audience for incoming ids messages/tokens
-    edc.ids.endpoint.audience=https://{{ .Values.ingress.host }}/supplier-edc-control/{{ .Values.dataspace.bpnTier1 }}/api/v1/ids/data
+    edc.ids.endpoint.audience=https://{{ .Values.ingress.host }}/tiera-edc-control/{{ .Values.dataspace.bpnTier1 }}/api/v1/ids/data
     # This is send as the audience to outgoing ids messages/tokens
-    ids.webhook.address=https://{{ .Values.ingress.host }}/supplier-edc-control/{{ .Values.dataspace.bpnTier1Tier }}
+    ids.webhook.address=https://{{ .Values.ingress.host }}/tiera-edc-control/{{ .Values.dataspace.bpnTier1Tier }}
     edc.ids.validation.referringconnector=false
-    edc.ids.id=urn:connector:edc:consumer
+    edc.ids.id=urn:connector:edc:tiera
     edc.ids.maintainer=http://catenax.net
     edc.ids.security.profile=base
     edc.ids.title=Supplier Dataspace Connector
@@ -53,14 +53,14 @@ data:
     
     edc.receiver.http.auth-code=X-Api-Key
     edc.receiver.http.auth-key={{ .Values.security.xApiKey }}
-    edc.receiver.http.endpoint=http://supplier-data-plane:8186/callback/endpoint-data-reference
+    edc.receiver.http.endpoint=http://tiera-data-plane:8186/callback/endpoint-data-reference
 
-    edc.dataplane.selector.agentplane.url=http://supplier-data-plane:8082/
+    edc.dataplane.selector.agentplane.url=http://tiera-data-plane:8082/
     edc.dataplane.selector.agentplane.sourcetypes=urn:cx:Protocol:w3c:Http#SPARQL
     edc.dataplane.selector.agentplane.destinationtypes=HttpProxy
-    edc.dataplane.selector.agentplane.properties={ "publicApiUrl": "https://{{ .Values.ingress.host }}/supplier-edc-data/{{ .Values.dataspace.bpnTier1 }}/api/public/" }
+    edc.dataplane.selector.agentplane.properties={ "publicApiUrl": "https://{{ .Values.ingress.host }}/tiera-edc-data/{{ .Values.dataspace.bpnTier1 }}/api/public/" }
     
-    edc.transfer.proxy.endpoint=https://{{ .Values.ingress.host }}/supplier-edc-data/{{ .Values.dataspace.bpnTier1 }}
+    edc.transfer.proxy.endpoint=https://{{ .Values.ingress.host }}/tiera-edc-data/{{ .Values.dataspace.bpnTier1 }}
     edc.transfer.proxy.token.signer.privatekey.alias={{ .Values.dataspace.privateKeyAliasTier1 }}
     edc.transfer.proxy.token.verifier.publickey.alias={{ .Values.dataspace.publicKeyAliasTier1 }}
     
@@ -82,18 +82,18 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: supplier-control-plane
+  name: tiera-control-plane
   namespace: {{ .Values.namespace }}
   annotations:
-    container.apparmor.security.beta.kubernetes.io/supplier-control-plane: default
+    container.apparmor.security.beta.kubernetes.io/tiera-control-plane: default
 spec:
   selector:
     matchLabels:
-      app: supplier-control-plane
+      app: tiera-control-plane
   template:
     metadata:
       labels:
-        app: supplier-control-plane
+        app: tiera-control-plane
     spec:
       automountServiceAccountToken: false
       securityContext:
@@ -105,7 +105,7 @@ spec:
       containers:
         - image: {{ .Values.edc.repo }}/edc-controlplane-memory:{{ .Values.edc.version }}
           imagePullPolicy: Always
-          name: control-plane
+          name: tiera-control-plane
           securityContext:
             capabilities:
               drop:
@@ -177,12 +177,12 @@ spec:
       volumes:
         - name: control-plane-config
           configMap:
-            name: supplier-control-plane-config
+            name: tiera-control-plane-config
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: supplier-control-plane
+  name: tiera-control-plane
   namespace: {{ .Values.namespace }}
 spec:
   type: ClusterIP
@@ -206,12 +206,12 @@ spec:
       name: metrics
       targetPort: 9998
   selector:
-    app: supplier-control-plane
+    app: tiera-control-plane
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: supplier-control-plane-ingress
+  name: tiera-control-plane-ingress
   namespace: {{ .Values.namespace }}
   annotations:
     cert-manager.io/cluster-issuer: {{ .Values.ingress.issuer }}
@@ -219,43 +219,43 @@ metadata:
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
-    nginx.ingress.kubernetes.io/x-forwarded-prefix: "/supplier-control-plane"
+    nginx.ingress.kubernetes.io/x-forwarded-prefix: "/tiera-control-plane"
     nginx.org/mergeable-ingress-type: minion
 spec:
   rules:
     - host: {{ .Values.ingress.host }}
       http:
         paths:
-          - path: /supplier-edc-control/{{ .Values.dataspace.bpnTier1 }}/(data)(/|$)(.*)
+          - path: /tiera-edc-control/{{ .Values.dataspace.bpnTier1 }}/(data)(/|$)(.*)
             pathType: Prefix
             backend:
               service:
-                name: supplier-control-plane
+                name: tiera-control-plane
                 port:
                   number: 8181
-          - path: /supplier-edc-control/{{ .Values.dataspace.bpnTier1 }}/(api/v1/ids)(/|$)(.*)
+          - path: /tiera-edc-control/{{ .Values.dataspace.bpnTier1 }}/(api/v1/ids)(/|$)(.*)
             pathType: Prefix
             backend:
               service:
-                name: supplier-control-plane
+                name: tiera-control-plane
                 port:
                   number: 8282
-          - path: /supplier-edc-control/{{ .Values.dataspace.bpnTier1 }}/(api/check)(/|$)(.*)
+          - path: /tiera-edc-control/{{ .Values.dataspace.bpnTier1 }}/(api/check)(/|$)(.*)
             pathType: Prefix
             backend:
               service:
-                name: supplier-control-plane
+                name: tiera-control-plane
                 port:
                   number: 8080
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: supplier-data-plane-config
+  name: tiera-data-plane-config
   namespace: {{ .Values.namespace }}
 data:
   configuration.properties: |-
-    ids.webhook.address=http://supplier-data-plane:8080
+    ids.webhook.address=http://tiera-data-plane:8080
     
     web.http.default.port=8082
     web.http.default.path=/api
@@ -270,7 +270,7 @@ data:
     edc.api.control.auth.apikey.key=X-Api-Key
     edc.api.control.auth.apikey.value={{ .Values.security.xApiKey }}
     
-    cx.agent.controlplane.url=http://supplier-control-plane:8181/data
+    cx.agent.controlplane.url=http://tiera-control-plane:8181/data
     cx.agent.asset.file=dataspace.ttl
     cx.agent.dataspace.synchronization=-1
     cx.agent.dataspace.remotes=
@@ -299,7 +299,7 @@ data:
         # edc.contractnegotiationstore.cosmos.container-name=
         # edc.contractnegotiationstore.cosmos.database-name=
         # edc.contractnegotiationstore.cosmos.preferred-region=
-    edc.dataplane.token.validation.endpoint=http://supplier-control-plane:8182/validation/token
+    edc.dataplane.token.validation.endpoint=http://tiera-control-plane:8182/validation/token
         # edc.core.retry.backoff.max=
         # edc.core.retry.backoff.min=
         # edc.core.retry.retries.max=
@@ -414,18 +414,18 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: supplier-data-plane
+  name: tiera-data-plane
   namespace: {{ .Values.namespace }}
   annotations:
-    container.apparmor.security.beta.kubernetes.io/supplier-data-plane: default
+    container.apparmor.security.beta.kubernetes.io/tiera-data-plane: default
 spec:
   selector:
     matchLabels:
-      app: supplier-data-plane
+      app: tiera-data-plane
   template:
     metadata:
       labels:
-        app: supplier-data-plane
+        app: tiera-data-plane
     spec:
       automountServiceAccountToken: false
       securityContext:
@@ -437,7 +437,7 @@ spec:
       containers:
         - image: ghcr.io/catenax-ng/product-knowledge/dataspace/agentplane-azure-vault:{{.Values.version}}
           imagePullPolicy: Always
-          name: supplier-data-plane
+          name: tiera-data-plane
           securityContext:
             capabilities:
               drop:
@@ -489,38 +489,38 @@ spec:
             successThreshold: 1
             timeoutSeconds: 5          
           volumeMounts:
-            - name: supplier-data-plane-config
+            - name: tiera-data-plane-config
               mountPath: /connector-config
               readOnly: true
-            - name: supplier-data-plane-config
+            - name: tiera-data-plane-config
               mountPath: /app/configuration.properties
               subPath: configuration.properties
               readOnly: true
-            - name: supplier-data-plane-config
+            - name: tiera-data-plane-config
               mountPath: /app/opentelemetry.properties
               subPath: opentelemetry.properties
               readOnly: true
-            - name: supplier-data-plane-config
+            - name: tiera-data-plane-config
               mountPath: /app/logging.properties
               subPath: logging.properties
               readOnly: true
-            - name: supplier-data-plane-config
+            - name: tiera-data-plane-config
               mountPath: /app/agent.ttl
               subPath: agent.ttl
               readOnly: true
-            - name: supplier-data-plane-config
+            - name: tiera-data-plane-config
               mountPath: /app/dataspace.ttl
               subPath: dataspace.ttl
               readOnly: true
       volumes:
-        - name: supplier-data-plane-config
+        - name: tiera-data-plane-config
           configMap:
-            name: supplier-data-plane-config
+            name: tiera-data-plane-config
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: supplier-data-plane
+  name: tiera-data-plane
   namespace: {{ .Values.namespace }}
 spec:
   type: ClusterIP
@@ -538,12 +538,12 @@ spec:
       name: control
       targetPort: 9999
   selector:
-    app: supplier-data-plane
+    app: tiera-data-plane
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: supplier-data-plane-ingress
+  name: tiera-data-plane-ingress
   namespace: {{ .Values.namespace }}
   annotations:
     cert-manager.io/cluster-issuer: {{ .Values.ingress.issuer }}
@@ -551,32 +551,32 @@ metadata:
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
-    nginx.ingress.kubernetes.io/x-forwarded-prefix: "/supplier-data-plane"
+    nginx.ingress.kubernetes.io/x-forwarded-prefix: "/tiera-data-plane"
     nginx.org/mergeable-ingress-type: minion
 spec:
   rules:
     - host: {{ .Values.ingress.host }}
       http:
         paths:
-          - path: /supplier-edc-data/{{ .Values.dataspace.bpnTier1 }}/(api/public)(/|$)(.*)
+          - path: /tiera-edc-data/{{ .Values.dataspace.bpnTier1 }}/(api/public)(/|$)(.*)
             pathType: Prefix
             backend:
               service:
-                name: supplier-data-plane
+                name: tiera-data-plane
                 port:
                   number: 8185
-          - path: /supplier-edc-data/{{ .Values.dataspace.bpnTier1 }}/(api/agent)(/|$)(.*)
+          - path: /tiera-edc-data/{{ .Values.dataspace.bpnTier1 }}/(api/agent)(/|$)(.*)
             pathType: Prefix
             backend:
               service:
-                name: supplier-data-plane
+                name: tiera-data-plane
                 port:
                   number: 8082
-          - path: /supplier-edc-data/{{ .Values.dataspace.bpnTier1 }}/(callback)(/|$)(.*)
+          - path: /tiera-edc-data/{{ .Values.dataspace.bpnTier1 }}/(callback)(/|$)(.*)
             pathType: Prefix
             backend:
               service:
-                name: supplier-data-plane
+                name: tiera-data-plane
                 port:
                   number: 8186
 

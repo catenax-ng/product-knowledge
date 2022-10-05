@@ -273,7 +273,7 @@ data:
     cx.agent.controlplane.url=http://oem-control-plane:8181/data
     cx.agent.asset.file=dataspace.ttl
     cx.agent.dataspace.synchronization=60000
-    cx.agent.dataspace.remotes=http://tiera-control-plane:8282
+    cx.agent.dataspace.remotes=https://knowledge.dev.demo.catena-x.net/tiera-edc-control/BPNL00000003CPIY
 
         # edc.api.control.auth.apikey.key=
         # edc.api.control.auth.apikey.value=
