@@ -9,10 +9,7 @@ import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
 import org.eclipse.dataspaceconnector.spi.types.domain.catalog.Catalog;
 import org.eclipse.dataspaceconnector.spi.types.domain.contract.offer.ContractOffer;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -22,14 +19,39 @@ import java.util.concurrent.TimeUnit;
  */
 public class DataspaceSynchronizer implements Runnable {
 
+    /**
+     * constants
+     */
+    protected final static Node CX_ASSET=NodeFactory.createURI("https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#offersAsset");
+
+    protected final static Map<String,Node> assetPropertyMap=new HashMap<>();
+
+    static {
+        assetPropertyMap.put("asset:prop:id",NodeFactory.createURI("https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#id"));
+        assetPropertyMap.put("asset:prop:name",NodeFactory.createURI("https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#name"));
+        assetPropertyMap.put("asset:prop:description",NodeFactory.createURI("https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#description"));
+        assetPropertyMap.put("asset:prop:version",NodeFactory.createURI("https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#version"));
+        assetPropertyMap.put("asset:prop:contenttype",NodeFactory.createURI("https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#contentType"));
+        assetPropertyMap.put("rdf:type",NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"));
+        assetPropertyMap.put("rdfs:isDefinedBy",NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#isDefinedBy"));
+        assetPropertyMap.put("cx:protocol",NodeFactory.createURI("https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#protocol"));
+        assetPropertyMap.put("cx:shape",NodeFactory.createURI("https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#shape"));
+        assetPropertyMap.put("cx:isFederated",NodeFactory.createURI("https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#isFederated"));
+    }
+
+    /**
+     * service links
+     */
     protected final ScheduledExecutorService service;
     protected final AgentConfig config;
-    protected boolean isStarted=false;
     protected final DataManagement dataManagement;
     protected final RDFStore rdfStore;
     protected final Monitor monitor;
 
-    protected final static Node CX_ASSET=NodeFactory.createURI("https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#offersAsset");
+    /**
+     * internal state
+     */
+    protected boolean isStarted=false;
 
     /**
      * creates the synchronizer
@@ -140,11 +162,20 @@ public class DataspaceSynchronizer implements Runnable {
      * @return a collection of quads
      */
     public Collection<Quad> convertToQuads(Node graph, Node connector, ContractOffer offer) {
+        if(!"true".equals(String.valueOf(offer.getAsset().getProperties().getOrDefault("cx:isFederated","false")))) {
+            return List.of();
+        }
         List<Quad> quads=new ArrayList<>();
+        Node assetNode=NodeFactory.createURI(offer.getAsset().getId());
         quads.add(Quad.create(graph,
                 connector,
                 CX_ASSET,
-                NodeFactory.createURI(offer.getAsset().getId())));
+                assetNode));
+        for(Map.Entry<String,Node> assetProp : assetPropertyMap.entrySet()) {
+            if(offer.getAsset().getProperty(assetProp.getKey())!=null) {
+                quads.add(Quad.create(graph,assetNode,assetProp.getValue(),NodeFactory.createLiteral(String.valueOf(offer.getAsset().getProperty(assetProp.getKey())))));
+            }
+        }
         return quads;
     }
 
