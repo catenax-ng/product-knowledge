@@ -211,6 +211,16 @@ export interface Asset {
 }
 
 /**
+ * the different types of endpoints/data planes supported
+ */
+ export declare enum DataAddressEndpointType {
+    /** http data plane */
+    HttpData = "HttpData",
+    /** Sparql subprotocol */
+    Sparql = "urn:cx:Protocol:w3c:Http#SPARQL"
+}
+
+/**
  * the flexible properties of an asset
  */
  export interface AssetProperties {
@@ -262,14 +272,6 @@ export interface DataAddress {
     properties: DataAddressProperties;
 }
 
-/**
- * the different types of endpoints/data planes supported
- */
-export declare enum DataAddressEndpointType {
-    /** http data plane */
-    HttpData = "HttpData",
-    Sparql = "urn:cx:Protocol:w3c:Http#SPARQL"
-}
 
 /**
  * the flexible properties of a data address
@@ -330,7 +332,7 @@ class MockConnector implements IConnector {
                             "asset:prop:contenttype": "application/json, application/xml",
                             "rdfs:isDefinedBy": "https://github.com/catenax-ng/product-knowledge/ontology/diagnosis_ontology.ttl",
                             "cx:shape": "@prefix : <urn:cx:Graph:oem:Diagnosis2022> .\n@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .\n@prefix cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#> .\n@prefix owl: <http://www.w3.org/2002/07/owl#> .\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n@prefix sh: <http://www.w3.org/ns/shacl#> .\n\nOemDTC rdf:type sh:NodeShape ;\n  sh:targetClass cx-diag:DTC ;\n  sh:property [\n        sh:path cx:provisionedBy ;\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\n    ] ;\n  sh:property [\n        sh:path cx-diag:Version ;\n        sh:hasValue 0^^xsd:long ;\n    ] ;\n  sh:property [\n        sh:path cx-diag:Affects ;\n        sh:class OemDiagnosedParts ;\n    ] ;\n\nOemDiagnosedParts rdf:type sh:NodeShape ;\n  sh:targetClass cx-diag:DiagnosedPart ;\n  sh:property [\n        sh:path cx:provisionedBy ;\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\n    ] ;\n",
-                            "cx:protocol": DataAddressEndpointType.Sparql,
+                            "cx:protocol": undefined,
                             "asset:prop:version": "0.5.5-SNAPSHOT",
                             "asset:prop:id": "urn:cx:Graph:oem:Diagnosis2022",
                             "asset:prop:fileName": null,

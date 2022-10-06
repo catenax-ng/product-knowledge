@@ -89,9 +89,17 @@ The docker compose files and helm charts can be found in the  [infrastructure](i
 
 You may use/export/fork this online [Postman Workspace/Collecion](https://www.postman.com/catena-x/workspace/catena-x-knowledge-agents/collection/2757771-6a1813a3-766d-42e2-962d-3b340fbba397?action=share&creator=2757771) a copy of which is embedded [here](cx_ka_pilot.postman_collection.json). 
 
-It contains collection of sample interactions with the various sub-products in several environments (e.g. local, integration) and tailored to the sample dataspace. 
+It contains collection of sample interactions with the various sub-products in several environments (e.g. [local](cx_ka_pilot.localhost.postman_environment.json), [development](cx_ka_pilot.development.postman_environment.json) and [integration](cx_ka_pilot.integration.postman_environment.json)) and tailored to the sample dataspace. 
 
-Also integrated there is a folder with the integrations tests.
+Also integrated there is a folder with the integrations tests which are scripted and consective Postman actions which test features and state changes within the target environment. This is used in the [Github Integration Test Workflow](.github/workflows/integrationtest.yaml).
+
+## Further code quality checks
+
+The [Github Code Quality Workflow](.github/workflows/codeql.yaml) checks Java and Javascript source code and build artifacts for the most common vulnerabilities.
+
+The [Github KICS Workflow](.github/workflows/kics.yaml) checks Docker Buildfiles and Helm Charts for the most common vulnerabilities.
+
+
 
 
 
