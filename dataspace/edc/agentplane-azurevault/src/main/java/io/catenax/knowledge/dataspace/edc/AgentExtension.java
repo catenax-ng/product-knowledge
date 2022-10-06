@@ -8,6 +8,8 @@ package io.catenax.knowledge.dataspace.edc;
 
 import dev.failsafe.RetryPolicy;
 import io.catenax.knowledge.dataspace.edc.http.AgentController;
+import io.catenax.knowledge.dataspace.edc.rdf.RDFStore;
+import io.catenax.knowledge.dataspace.edc.service.DataspaceSynchronizer;
 import io.catenax.knowledge.dataspace.edc.sparql.DataspaceServiceExecutor;
 import io.catenax.knowledge.dataspace.edc.sparql.SparqlQueryProcessor;
 import org.apache.jena.sparql.service.ServiceExecutorRegistry;
@@ -25,6 +27,8 @@ import io.catenax.knowledge.dataspace.edc.service.DataManagement;
 import org.eclipse.dataspaceconnector.dataplane.spi.pipeline.PipelineService;
 import org.eclipse.dataspaceconnector.spi.types.TypeManager;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.regex.Pattern;
 
 /**
@@ -63,6 +67,17 @@ public class AgentExtension implements ServiceExtension {
     protected DataTransferExecutorServiceContainer executorContainer;
 
     /**
+     * refers a scheduler
+     * TODO maybe reuse an injected scheduler
+     */
+    protected ScheduledExecutorService executorService;
+
+    /**
+     * data synchronization service
+     */
+    protected DataspaceSynchronizer synchronizer;
+
+    /**
      * @return name of the extension
      */
     @Override
@@ -89,9 +104,14 @@ public class AgentExtension implements ServiceExtension {
         monitor.debug(String.format("Registering agreement controller %s",agreementController));
         webService.registerResource(CALLBACK_CONTEXT_ALIAS, agreementController);
 
+        RDFStore rdfStore=new RDFStore(config,monitor);
+
         ServiceExecutorRegistry reg = new ServiceExecutorRegistry();
         reg.add(new DataspaceServiceExecutor(monitor,agreementController,config,httpClient));
-        SparqlQueryProcessor processor=new SparqlQueryProcessor(reg,monitor,config);
+        SparqlQueryProcessor processor=new SparqlQueryProcessor(reg,monitor,config,rdfStore);
+
+        executorService= Executors.newSingleThreadScheduledExecutor();
+        synchronizer=new DataspaceSynchronizer(executorService,config,catalogService,rdfStore,monitor);
 
         SkillStore skillStore=new SkillStore();
 
@@ -108,4 +128,20 @@ public class AgentExtension implements ServiceExtension {
         pipelineService.registerFactory(sinkFactory);
     }
 
+    /**
+     * start scheduled services
+     */
+    @Override
+    public void start() {
+        synchronizer.start();
+    }
+
+    /**
+     * Signals the extension to release resources and shutdown.
+     * stop any schedules services
+     */
+    @Override
+    public void shutdown() {
+        synchronizer.shutdown();
+    }
 }

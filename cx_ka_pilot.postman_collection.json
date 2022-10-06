@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6a1813a3-766d-42e2-962d-3b340fbba397",
+		"_postman_id": "e2ff36aa-f9de-43c0-9f40-710833cb469c",
 		"name": "Knowledge Agents Pilot",
 		"description": "A collection of API calls against various services of the Knowledge Agents Pilot.\n\nAlso contains a special integration test subfolder.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -55,21 +55,6 @@
 								}
 							],
 							"description": "A Collection of API Calls Against the Data Provisioning Agents Directly Which Sits upon some Data Source.",
-							"auth": {
-								"type": "basic",
-								"basic": [
-									{
-										"key": "password",
-										"value": "{{oemPassword}}",
-										"type": "string"
-									},
-									{
-										"key": "username",
-										"value": "{{oemUser}}",
-										"type": "string"
-									}
-								]
-							},
 							"event": [
 								{
 									"listen": "prerequest",
@@ -126,9 +111,9 @@
 											}
 										],
 										"url": {
-											"raw": "{{oemEdcControl}}/api/check/:stage",
+											"raw": "{{oemEdcApi}}/api/check/:stage",
 											"host": [
-												"{{oemEdcControl}}"
+												"{{oemEdcApi}}"
 											],
 											"path": [
 												"api",
@@ -174,7 +159,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Graph:oem:Diagnosis2022\",\n      \"asset:prop:name\": \"Diagnostic Trouble Code Catalogue Version 2022\",\n      \"asset:prop:contenttype\": \"application/json, application/xml\",\n      \"asset:prop:policy-id\": \"research\",\n      \"asset:prop:cx:requesttype\": \"application/sparql\",\n      \"asset:prop:cx:apitype\": \"application/knowledge-agent-query\",\n      \"asset:prop:cx:ontology\": \"https://github.com/catenax-ng/product-knowledge/ontology#\",\n      \"asset:prop:cx:ontologyVersion\": \"https://github.com/catenax-ng/product-knowledge/tree/main\",\n      \"asset:prop:cx:shapesGraph\": \"@prefix : <urn:cx:Graph:oem:Diagnosis2022> .\\n@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .\\n@prefix cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#> .\\n@prefix owl: <http://www.w3.org/2002/07/owl#> .\\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\n@prefix sh: <http://www.w3.org/ns/shacl#> .\\n\\nOemDTC rdf:type sh:NodeShape ;\\n  sh:targetClass cx-diag:DTC ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\\n    ] ;\\n  sh:property [\\n        sh:path cx-diag:Version ;\\n        sh:hasValue 0^^xsd:long ;\\n    ] ;\\n  sh:property [\\n        sh:path cx-diag:Affects ;\\n        sh:class OemDiagnosedParts ;\\n    ] ;\\n\\nOemDiagnosedParts rdf:type sh:NodeShape ;\\n  sh:targetClass cx-diag:DiagnosedPart ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\\n    ] ;\\n\",\n      \"asset:prop:cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"baseUrl\": \"http://oem-provider-agent:8080/sparql\",\n      \"type\": \"urn:cx:Protocol:w3c:Http#SPARQL\",\n      \"proxyPath\": \"false\",\n      \"proxyMethod\": \"true\",\n      \"proxyQueryParams\": \"true\",\n      \"proxyBody\": \"true\"\n    }\n  }\n}",
+											"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Graph:oem:Diagnosis2022\",\n      \"asset:prop:name\": \"Diagnostic Trouble Code Catalogue Version 2022\",\n      \"asset:prop:description\": \"A sample graph asset/offering referring to a specific diagnosis resource.\",\n      \"asset:prop:version\": \"0.5.5-SNAPSHOT\",\n      \"asset:prop:contenttype\": \"application/json, application/xml\",\n      \"rdf:type\":\"https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#GraphAsset\",\n      \"rdfs:isDefinedBy\": \"https://github.com/catenax-ng/product-knowledge/ontology/diagnosis_ontology.ttl\",\n      \"cx:protocol\": \"urn:cx:Protocol:w3c:Http#SPARQL\",\n      \"cx:shape\": \"@prefix : <urn:cx:Graph:oem:Diagnosis2022> .\\n@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .\\n@prefix cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#> .\\n@prefix owl: <http://www.w3.org/2002/07/owl#> .\\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\n@prefix sh: <http://www.w3.org/ns/shacl#> .\\n\\nOemDTC rdf:type sh:NodeShape ;\\n  sh:targetClass cx-diag:DTC ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\\n    ] ;\\n  sh:property [\\n        sh:path cx-diag:Version ;\\n        sh:hasValue 0^^xsd:long ;\\n    ] ;\\n  sh:property [\\n        sh:path cx-diag:Affects ;\\n        sh:class OemDiagnosedParts ;\\n    ] ;\\n\\nOemDiagnosedParts rdf:type sh:NodeShape ;\\n  sh:targetClass cx-diag:DiagnosedPart ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\\n    ] ;\\n\",\n      \"cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Graph:oem:Diagnosis2022\",\n      \"baseUrl\": \"http://oem-provider-agent:8080/sparql\",\n      \"type\": \"urn:cx:Protocol:w3c:Http#SPARQL\",\n      \"proxyPath\": \"false\",\n      \"proxyMethod\": \"true\",\n      \"proxyQueryParams\": \"true\",\n      \"proxyBody\": \"true\",\n      \"authKey\": \"{{oemBackendAuthKey}}\",\n      \"authCode\": \"{{oemBackendAuthCode}}\"\n    }\n  }\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -287,6 +272,62 @@
 											"path": [
 												"data",
 												"contractdefinitions"
+											]
+										},
+										"description": "Calls the datamanagement API in order to create a contract."
+									},
+									"response": []
+								},
+								{
+									"name": "Delete Graph Contract Definition",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Creation/Existance was successful\", function () {",
+													"    pm.expect(pm.response.code).oneOf([204,409]);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"warning": "This is a duplicate header and will be overridden by the X-Api-Key header generated by Postman.",
+												"key": "X-Api-Key",
+												"value": "{{oemEdcApiKey}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{oemEdcControl}}/data/contractdefinitions/:id",
+											"host": [
+												"{{oemEdcControl}}"
+											],
+											"path": [
+												"data",
+												"contractdefinitions",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "oemOffer"
+												}
 											]
 										},
 										"description": "Calls the datamanagement API in order to create a contract."
@@ -492,6 +533,116 @@
 									"response": []
 								},
 								{
+									"name": "List Contract Negotiations",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Asset listing was successful\", function () {",
+													"    pm.expect(pm.response.code).oneOf([200]);",
+													"    pm.expect(pm.response.json()).to.have.length.gt(0);",
+													"    pm.response.json().map(function(policy) {",
+													"        pm.expect(policy).to.have.property(\"uid\");",
+													"        pm.expect(policy).to.have.property(\"permissions\");",
+													"        pm.expect(policy.permissions).to.have.length.gte(0);",
+													"        policy.permissions.map(function(permission) {",
+													"            pm.expect(permission).to.have.property(\"edctype\",\"dataspaceconnector:permission\");",
+													"            pm.expect(permission).to.have.property(\"target\");",
+													"        });",
+													"    });",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-Api-Key",
+												"value": "{{oemEdcApiKey}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{oemEdcControl}}/data/contractnegotiations",
+											"host": [
+												"{{oemEdcControl}}"
+											],
+											"path": [
+												"data",
+												"contractnegotiations"
+											]
+										},
+										"description": "Uses the datamanagement API to get an (internal) list of the policies."
+									},
+									"response": []
+								},
+								{
+									"name": "Delete Contract Negotiation",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Creation/Existance was successful\", function () {",
+													"    pm.expect(pm.response.code).oneOf([204,409]);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"warning": "This is a duplicate header and will be overridden by the X-Api-Key header generated by Postman.",
+												"key": "X-Api-Key",
+												"value": "{{oemEdcApiKey}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{oemEdcControl}}/data/contractnegotiations/:id/:type",
+											"host": [
+												"{{oemEdcControl}}"
+											],
+											"path": [
+												"data",
+												"contractnegotiations",
+												":id",
+												":type"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "69091dba-f7cd-4a84-92bd-68967d8f4042"
+												},
+												{
+													"key": "type",
+													"value": "cancel"
+												}
+											]
+										},
+										"description": "Calls the datamanagement API in order to create a contract."
+									},
+									"response": []
+								},
+								{
 									"name": "Show Catalogue",
 									"event": [
 										{
@@ -538,11 +689,6 @@
 												"catalog"
 											],
 											"query": [
-												{
-													"key": "providerUrl",
-													"value": "http://connector.cx-rel.edc.aws.bmw.cloud:8282/BPNL00000003AYRE/api/v1/ids/data",
-													"disabled": true
-												},
 												{
 													"key": "providerUrl",
 													"value": "{{oemEdcIds}}/api/v1/ids/data"
@@ -820,9 +966,6 @@
 								}
 							],
 							"description": "A Collection of API Calls Against the Function Remoting Agents Directly Which Sits upon some REST Service.",
-							"auth": {
-								"type": "noauth"
-							},
 							"event": [
 								{
 									"listen": "prerequest",
@@ -879,9 +1022,9 @@
 											}
 										],
 										"url": {
-											"raw": "{{oemEdcControl}}/api/check/:stage",
+											"raw": "{{tieraEdcApi}}/api/check/:stage",
 											"host": [
-												"{{oemEdcControl}}"
+												"{{tieraEdcApi}}"
 											],
 											"path": [
 												"api",
@@ -928,7 +1071,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Graph:tierA:LifetimeGearbox\",\n      \"asset:prop:name\": \"Lifetime Prognosis Service for Gearboxes\",\n      \"asset:prop:contenttype\": \"application/json, application/xml\",\n      \"asset:prop:policy-id\": \"gobang\",\n      \"asset:prop:cx:requesttype\": \"application/sparql\",\n      \"asset:prop:cx:apitype\": \"application/knowledge-agent-query\",\n      \"asset:prop:cx:ontology\": \"https://github.com/catenax-ng/product-knowledge/ontology#\",\n      \"asset:prop:cx:ontologyVersion\": \"https://github.com/catenax-ng/product-knowledge/tree/main\",\n      \"asset:prop:cx:shapesGraph\": \"@prefix : <urn:cx:Graph:tierA:LifetimeGearbox> .\\n@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .\\n@prefix cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#> .\\n@prefix owl: <http://www.w3.org/2002/07/owl#> .\\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\n@prefix sh: <http://www.w3.org/ns/shacl#> .\\n :Tier1LifetimePrognosis rdf:type sh:NodeShape ;\\n  sh:targetClass cx-lifetime:LifetimePrognosis ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003CPIY> ].\\n\",\n      \"asset:prop:cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"baseUrl\": \"http://tiera-remoting-agent:8081/rdf4j-server/repositories/prognosis\",\n      \"type\": \"urn:cx:Protocol:w3c:Http#SPARQL\",\n      \"proxyPath\": \"false\",\n      \"proxyMethod\": \"true\",\n      \"proxyQueryParams\": \"true\",\n      \"proxyBody\": \"true\"\n    }\n  }\n}",
+											"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Graph:tierA:LifetimeGearbox\",\n      \"asset:prop:name\": \"Lifetime Prognosis Service for Gearboxes\",\n      \"asset:prop:description\": \"A sample graph asset/offering referring to a specific prognosis resource.\",\n      \"asset:prop:version\": \"0.5.5-SNAPSHOT\",\n      \"asset:prop:contenttype\": \"application/json, application/xml\",\n      \"rdf:type\":\"https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#GraphAsset\",\n      \"rdfs:isDefinedBy\": \"https://github.com/catenax-ng/product-knowledge/ontology/prognosis_ontology.ttl\",\n      \"cx:protocol\": \"urn:cx:Protocol:w3c:Http#SPARQL\",\n      \"cx:shape\": \"@prefix : <urn:cx:Graph:tierA:LifetimeGearbox> .\\n@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .\\n@prefix cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#> .\\n@prefix owl: <http://www.w3.org/2002/07/owl#> .\\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\n@prefix sh: <http://www.w3.org/ns/shacl#> .\\n :Tier1LifetimePrognosis rdf:type sh:NodeShape ;\\n  sh:targetClass cx-lifetime:LifetimePrognosis ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003CPIY> ].\\n\",\n      \"cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Graph:tierA:LifetimeGearbox\",\n      \"baseUrl\": \"http://tiera-remoting-agent:8081/rdf4j-server/repositories/prognosis\",\n      \"type\": \"urn:cx:Protocol:w3c:Http#SPARQL\",\n      \"proxyPath\": \"false\",\n      \"proxyMethod\": \"true\",\n      \"proxyQueryParams\": \"true\",\n      \"proxyBody\": \"true\",\n      \"authKey\": \"{{supplierBackendAuthKey}}\",\n      \"authCode\": \"{{supplierBackendAuthCode}}\"\n    }\n  }\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -936,9 +1079,9 @@
 											}
 										},
 										"url": {
-											"raw": "{{oemEdcControl}}/data/assets",
+											"raw": "{{tieraEdcControl}}/data/assets",
 											"host": [
-												"{{oemEdcControl}}"
+												"{{tieraEdcControl}}"
 											],
 											"path": [
 												"data",
@@ -985,9 +1128,9 @@
 											}
 										},
 										"url": {
-											"raw": "{{oemEdcControl}}/data/policydefinitions",
+											"raw": "{{tieraEdcControl}}/data/policydefinitions",
 											"host": [
-												"{{oemEdcControl}}"
+												"{{tieraEdcControl}}"
 											],
 											"path": [
 												"data",
@@ -1034,9 +1177,9 @@
 											}
 										},
 										"url": {
-											"raw": "{{oemEdcControl}}/data/contractdefinitions",
+											"raw": "{{tieraEdcControl}}/data/contractdefinitions",
 											"host": [
-												"{{oemEdcControl}}"
+												"{{tieraEdcControl}}"
 											],
 											"path": [
 												"data",
@@ -1085,9 +1228,9 @@
 											}
 										],
 										"url": {
-											"raw": "{{oemEdcControl}}/data/assets",
+											"raw": "{{tieraEdcControl}}/data/assets",
 											"host": [
-												"{{oemEdcControl}}"
+												"{{tieraEdcControl}}"
 											],
 											"path": [
 												"data",
@@ -1134,9 +1277,9 @@
 											}
 										],
 										"url": {
-											"raw": "{{oemEdcControl}}/data/policydefinitions",
+											"raw": "{{tieraEdcControl}}/data/policydefinitions",
 											"host": [
-												"{{oemEdcControl}}"
+												"{{tieraEdcControl}}"
 											],
 											"path": [
 												"data",
@@ -1185,9 +1328,9 @@
 											}
 										],
 										"url": {
-											"raw": "{{oemEdcControl}}/data/catalog?providerUrl={{oemEdcControl}}/api/v1/ids/data",
+											"raw": "{{tieraEdcControl}}/data/catalog?providerUrl={{tieraEdcIds}}/api/v1/ids/data",
 											"host": [
-												"{{oemEdcControl}}"
+												"{{tieraEdcControl}}"
 											],
 											"path": [
 												"data",
@@ -1196,12 +1339,7 @@
 											"query": [
 												{
 													"key": "providerUrl",
-													"value": "http://connector.cx-rel.edc.aws.bmw.cloud:8282/BPNL00000003AYRE/api/v1/ids/data",
-													"disabled": true
-												},
-												{
-													"key": "providerUrl",
-													"value": "{{oemEdcControl}}/api/v1/ids/data"
+													"value": "{{tieraEdcIds}}/api/v1/ids/data"
 												}
 											]
 										},
@@ -1288,9 +1426,9 @@
 											}
 										],
 										"url": {
-											"raw": "{{oemEdcControl}}/api/check/:stage",
+											"raw": "{{consumerEdcApi}}/api/check/:stage",
 											"host": [
-												"{{oemEdcControl}}"
+												"{{consumerEdcApi}}"
 											],
 											"path": [
 												"api",
@@ -1336,7 +1474,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Skill:consumer:LifetimeGearbox\",\n      \"asset:prop:name\": \"Lifetime Skill for Vehicles\",\n      \"asset:prop:contenttype\": \"application/json, application/xml\",\n      \"asset:prop:cx:ontology\": \"https://github.com/catenax-ng/product-knowledge/ontology#\",\n      \"asset:prop:cx:ontologyVersion\": \"https://github.com/catenax-ng/product-knowledge/tree/main\",\n      \"asset:prop:cx:requesttype\": \"application/sparql-skill\",\n      \"asset:prop:cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"type\": \"urn:cx:Protocol:w3c:Http#SKILL#SPARQL\",\n      \"query\": \"PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\\nPREFIX cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\\nSELECT ?reason ?code ?description ?version ?partend ?partcat ?partclass WHERE {\\n  # Select Business Partner\\n  ?Oem cx:BPNL \\\"BPNL00000003COJN\\\".\\n\\n  # Search for Trouble Codes of the Business Partner\\n  # related to a cause in the \\\"Kabelbaum\\\"\\n  ?Dtc rdf:type cx-diag:DTC.\\n  ?Dtc cx:provisionedBy ?Oem.\\n  ?Dtc cx-diag:PossibleCauses ?reason.\\n  FILTER contains(?reason,\\\"Kabelbaum\\\").\\n  ?Dtc cx-diag:Code ?code.\\n  ?Dtc cx-diag:Description ?description.\\n  ?Dtc cx-diag:Version ?version.\\n\\n  # Navigate to the affected parts\\n  # and show only parts with a classification \\\"Powertrain\\\"\\n  ?Dtc cx-diag:affects ?Part.\\n  ?Part cx-diag:Category ?partcat.\\n  ?Part cx-diag:EnDenomination ?partend.\\n  ?Part cx-diag:Classification ?partclass.\\n  FILTER contains(?partclass,'Powertrain').\\n\\n}\\n\",\n      \"proxyPath\": \"false\",\n      \"proxyMethod\": \"false\",\n      \"proxyQueryParams\": \"true\",\n      \"proxyBody\": \"false\"\n    }\n  }\n}",
+											"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Skill:consumer:LifetimeGearbox\",\n      \"asset:prop:name\": \"Remaining Useful Lifetime Skill for Vehicles\",\n      \"asset:prop:description\": \"A sample skill asset/offering implemented via SparQL.\",\n      \"asset:prop:version\": \"0.5.5-SNAPSHOT\",\n      \"asset:prop:contenttype\": \"application/json, application/xml\",\n      \"cx:protocol\": \"urn:cx:Protocol:w3c:Http#SPARQL\",\n      \"rdf:type\":\"https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#SkillAsset\",\n      \"rdfs:isDefinedBy\": \"https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl\",\n      \"cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Skill:consumer:LifetimeGearbox\",\n      \"type\": \"urn:cx:Protocol:w3c:Http#SKILL#SPARQL\",\n      \"query\": \"PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\\nPREFIX cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\\nSELECT ?reason ?code ?description ?version ?partend ?partcat ?partclass WHERE {\\n  # Select Business Partner\\n  ?Oem cx:BPNL \\\"BPNL00000003COJN\\\".\\n\\n  # Search for Trouble Codes of the Business Partner\\n  # related to a cause in the \\\"Kabelbaum\\\"\\n  ?Dtc rdf:type cx-diag:DTC.\\n  ?Dtc cx:provisionedBy ?Oem.\\n  ?Dtc cx-diag:PossibleCauses ?reason.\\n  FILTER contains(?reason,\\\"Kabelbaum\\\").\\n  ?Dtc cx-diag:Code ?code.\\n  ?Dtc cx-diag:Description ?description.\\n  ?Dtc cx-diag:Version ?version.\\n\\n  # Navigate to the affected parts\\n  # and show only parts with a classification \\\"Powertrain\\\"\\n  ?Dtc cx-diag:affects ?Part.\\n  ?Part cx-diag:Category ?partcat.\\n  ?Part cx-diag:EnDenomination ?partend.\\n  ?Part cx-diag:Classification ?partclass.\\n  FILTER contains(?partclass,'Powertrain').\\n\\n}\\n\",\n      \"proxyPath\": \"false\",\n      \"proxyMethod\": \"false\",\n      \"proxyQueryParams\": \"true\",\n      \"proxyBody\": \"false\"\n    }\n  }\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1344,9 +1482,9 @@
 											}
 										},
 										"url": {
-											"raw": "{{oemEdcControl}}/data/assets",
+											"raw": "{{consumerEdcControl}}/data/assets",
 											"host": [
-												"{{oemEdcControl}}"
+												"{{consumerEdcControl}}"
 											],
 											"path": [
 												"data",
@@ -1393,9 +1531,9 @@
 											}
 										},
 										"url": {
-											"raw": "{{oemEdcControl}}/data/policydefinitions",
+											"raw": "{{consumerEdcControl}}/data/policydefinitions",
 											"host": [
-												"{{oemEdcControl}}"
+												"{{consumerEdcControl}}"
 											],
 											"path": [
 												"data",
@@ -1442,9 +1580,9 @@
 											}
 										},
 										"url": {
-											"raw": "{{oemEdcControl}}/data/contractdefinitions",
+											"raw": "{{consumerEdcControl}}/data/contractdefinitions",
 											"host": [
-												"{{oemEdcControl}}"
+												"{{consumerEdcControl}}"
 											],
 											"path": [
 												"data",
@@ -1493,9 +1631,9 @@
 											}
 										],
 										"url": {
-											"raw": "{{oemEdcControl}}/data/assets",
+											"raw": "{{consumerEdcControl}}/data/assets",
 											"host": [
-												"{{oemEdcControl}}"
+												"{{consumerEdcControl}}"
 											],
 											"path": [
 												"data",
@@ -1542,9 +1680,9 @@
 											}
 										],
 										"url": {
-											"raw": "{{oemEdcControl}}/data/policydefinitions",
+											"raw": "{{consumerEdcControl}}/data/policydefinitions",
 											"host": [
-												"{{oemEdcControl}}"
+												"{{consumerEdcControl}}"
 											],
 											"path": [
 												"data",
@@ -1593,9 +1731,9 @@
 											}
 										],
 										"url": {
-											"raw": "{{oemEdcControl}}/data/catalog?providerUrl={{oemEdcControl}}/api/v1/ids/data",
+											"raw": "{{consumerEdcControl}}/data/catalog?providerUrl={{oemEdcIds}}/api/v1/ids/data",
 											"host": [
-												"{{oemEdcControl}}"
+												"{{consumerEdcControl}}"
 											],
 											"path": [
 												"data",
@@ -1604,12 +1742,17 @@
 											"query": [
 												{
 													"key": "providerUrl",
-													"value": "http://connector.cx-rel.edc.aws.bmw.cloud:8282/BPNL00000003AYRE/api/v1/ids/data",
+													"value": "{{oemEdcIds}}/api/v1/ids/data"
+												},
+												{
+													"key": "providerUrl",
+													"value": "{{tieraEdcIds}}/api/v1/ids/data",
 													"disabled": true
 												},
 												{
 													"key": "providerUrl",
-													"value": "{{oemEdcControl}}/api/v1/ids/data"
+													"value": "{{consumerEdcIds}}/api/v1/ids/data",
+													"disabled": true
 												}
 											]
 										},
@@ -1623,7 +1766,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{consumerAgentPlane}}/api/agent?asset=urn:graph:cx:Dataspace&query=SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.}",
+											"raw": "{{consumerAgentPlane}}/api/agent?query=SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.}",
 											"host": [
 												"{{consumerAgentPlane}}"
 											],
@@ -1634,11 +1777,14 @@
 											"query": [
 												{
 													"key": "asset",
-													"value": "urn:graph:cx:Dataspace"
+													"value": "urn:x-arq:DefaultGraph",
+													"description": "the default graph should be compliant",
+													"disabled": true
 												},
 												{
 													"key": "query",
-													"value": "SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.}"
+													"value": "SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.}",
+													"description": "A local query"
 												}
 											]
 										},
@@ -1652,7 +1798,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{consumerAgentPlane}}/api/agent?query=SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.} LIMIT 10&asset=https://knowledge.int.demo.catena-x.net/oem-edc-control/BPNL00000003COJN%23urn:cx:Graph:oem:Diagnosis2022",
+											"raw": "{{consumerAgentPlane}}/api/agent?query=SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.} LIMIT 100&asset=https://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN%23urn:cx:Graph:oem:Diagnosis2022",
 											"host": [
 												"{{consumerAgentPlane}}"
 											],
@@ -1663,7 +1809,7 @@
 											"query": [
 												{
 													"key": "query",
-													"value": "SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.} LIMIT 10"
+													"value": "SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.} LIMIT 100"
 												},
 												{
 													"key": "asset",
@@ -1672,7 +1818,12 @@
 												},
 												{
 													"key": "asset",
-													"value": "https://knowledge.int.demo.catena-x.net/oem-edc-control/BPNL00000003COJN%23urn:cx:Graph:oem:Diagnosis2022"
+													"value": "https://knowledge.int.demo.catena-x.net/oem-edc-control/BPNL00000003COJN%23urn:cx:Graph:oem:Diagnosis2022",
+													"disabled": true
+												},
+												{
+													"key": "asset",
+													"value": "https://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN%23urn:cx:Graph:oem:Diagnosis2022"
 												}
 											]
 										},
@@ -1693,7 +1844,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.} LIMIT 10"
+											"raw": "SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.} LIMIT 100"
 										},
 										"url": {
 											"raw": "{{consumerAgentPlane}}/api/agent?asset=https://knowledge.int.demo.catena-x.net/oem-edc-control/BPNL00000003COJN%23urn:cx:Graph:oem:Diagnosis2022",
@@ -1744,10 +1895,10 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> \nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \nPREFIX cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\n\nSELECT ?invocation ?distance ?time\nWHERE { \n  ?invocation a cx-lifetime:LifetimePrognosis;\n              cx-lifetime:loadCollectiveFile \"{  \\\"Type\\\": \\\"ZF_load_collective\\\", \\\"Version\\\": \\\"1.7\\\"  }\"^^xsd:string; \n              cx-lifetime:loadCollectiveHeader \"{  \\\"CountingMethod\\\": \\\"ZF_TimeAtLevel\\\",    \\\"CountingUnit\\\": \\\"s\\\",    \\\"Channels\\\": [      {        \\\"Name\\\": \\\"Temp_Oil\\\",        \\\"Type\\\": \\\"Load\\\",        \\\"Unit\\\": \\\"degC\\\",        \\\"LowerLimit\\\": -40,        \\\"UpperLimit\\\": 220,        \\\"NumberOfBins\\\": 52      }  ]  }\"^^xsd:string; \n              cx-lifetime:loadCollectiveBody \"{     \\\"Temp_Oil-class\\\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \\\"Counts\\\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }\"^^xsd:string; \n              cx-lifetime:loadCollectiveComponent \"\\\"GearOil\\\"\"^^xsd:string; \n              cx-lifetime:loadCollectiveMileage \"{ \\\"Value\\\": 82563, \\\"Unit\\\": \\\"km\\\" }\"^^xsd:string; \n              cx-lifetime:loadCollectiveRegistrationDate \"{ \\\"Value\\\": 20171206,  \\\"Unit\\\": \\\"yyyymmdd\\\" }\"^^xsd:string; \n              cx-lifetime:remainingDistance ?distance; \n              cx-lifetime:remainingTime ?time.\n}"
+											"raw": "PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> \nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \nPREFIX cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\n\nSELECT ?invocation ?distance ?time\nWHERE { \n    GRAPH <urn:cx:Graph:tierA:LifetimeGearbox> {\n        ?invocation a cx-lifetime:LifetimePrognosis;\n              cx-lifetime:loadCollectiveFile \"{  \\\"Type\\\": \\\"ZF_load_collective\\\", \\\"Version\\\": \\\"1.7\\\"  }\"^^xsd:string; \n              cx-lifetime:loadCollectiveHeader \"{  \\\"CountingMethod\\\": \\\"ZF_TimeAtLevel\\\",    \\\"CountingUnit\\\": \\\"s\\\",    \\\"Channels\\\": [      {        \\\"Name\\\": \\\"Temp_Oil\\\",        \\\"Type\\\": \\\"Load\\\",        \\\"Unit\\\": \\\"degC\\\",        \\\"LowerLimit\\\": -40,        \\\"UpperLimit\\\": 220,        \\\"NumberOfBins\\\": 52      }  ]  }\"^^xsd:string; \n              cx-lifetime:loadCollectiveBody \"{     \\\"Temp_Oil-class\\\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \\\"Counts\\\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }\"^^xsd:string; \n              cx-lifetime:loadCollectiveComponent \"\\\"GearOil\\\"\"^^xsd:string; \n              cx-lifetime:loadCollectiveMileage \"{ \\\"Value\\\": 82563, \\\"Unit\\\": \\\"km\\\" }\"^^xsd:string; \n              cx-lifetime:loadCollectiveRegistrationDate \"{ \\\"Value\\\": 20171206,  \\\"Unit\\\": \\\"yyyymmdd\\\" }\"^^xsd:string; \n              cx-lifetime:remainingDistance ?distance; \n              cx-lifetime:remainingTime ?time.\n    }\n}"
 										},
 										"url": {
-											"raw": "{{consumerAgentPlane}}/api/agent?asset=https://knowledge.int.demo.catena-x.net/oem-edc-control/BPNL00000003COJN%23urn:cx:Graph:tierA:LifetimeGearbox",
+											"raw": "{{consumerAgentPlane}}/api/agent?asset=https://knowledge.dev.demo.catena-x.net/tiera-edc-control/BPNL00000003CPIY%23urn:cx:Graph:tierA:LifetimeGearbox",
 											"host": [
 												"{{consumerAgentPlane}}"
 											],
@@ -1758,12 +1909,18 @@
 											"query": [
 												{
 													"key": "asset",
-													"value": "https://knowledge.int.demo.catena-x.net/oem-edc-control/BPNL00000003COJN#urn:cx:Graph:tierA:LifetimeGearbox"
+													"value": "https://knowledge.int.demo.catena-x.net/tiera-edc-control/BPNL00000003CPIY%23urn:cx:Graph:tierA:LifetimeGearbox",
+													"description": "Dataspace Asset",
+													"disabled": true
 												},
 												{
 													"key": "asset",
-													"value": "http://oem-control-plane:8282%23urn:cx:Graph:tierA:LifetimeGearbox",
+													"value": "http://tiera-control-plane:8282%23urn:cx:Graph:tierA:LifetimeGearbox",
 													"disabled": true
+												},
+												{
+													"key": "asset",
+													"value": "https://knowledge.dev.demo.catena-x.net/tiera-edc-control/BPNL00000003CPIY%23urn:cx:Graph:tierA:LifetimeGearbox"
 												}
 											]
 										},
@@ -1789,7 +1946,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\nPREFIX cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\nPREFIX cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\n#\n# Sample for a Federated Skill (No Matchmaking) Which\n#  - Uses an OEM connector/agent to infer diagnosis data \n#  - Feeds this data into a Tier A connector/agent to perform a prognosis \n\nSELECT ?vin ?troubleCode ?description ?partProg ?distance ?time WHERE {\n\n    # Actual input parameters, when used as a predefined skill, \n    # these would be the named URL (or body multi-form) parameters\n    # Since you could use them multiple times, there is a combinatorial difference in \n    # defining them as single variables or as combined tuples\n    VALUES (?vin ?troubleCode) { (\"WVA8984323420333\"^^xsd:string \"P0745\"^^xsd:string) }\n\n    # In this place, there would be a to-be-implemented catalogue logic \n    # (so the default \"asset\" would be the catalogue including the CX ontology)\n    # which maps the VIN via regular expressions to the right \n    # business partner and connector\n    # Currently, we chose even not the connector, but the backend directly\n    VALUES (?oemBpn ?oemConnector) { (\"BPNL00000003COJN\"^^xsd:string <http://{{oemProviderAgent}}:8080/sparql>) }\n\n    # Now we are jumping into the OEM\n    SERVICE ?oemConnector { \n        # Select Business Partner Node\n        ?Oem cx:BPNL ?oemBpn.\n\n        # Unless we have vehicle master data, we directly bind the variables\n        VALUES (?mileage ?registrationDate) { (\n            \"{ \\\"Value\\\": 82563, \\\"Unit\\\": \\\"km\\\" }\"^^xsd:string\n            \"{ \\\"Value\\\": 20171206,  \\\"Unit\\\": \\\"yyyymmdd\\\" }\"^^xsd:string\n        )}\n\n        # Search for troubled parts to forecast\n        ?Dtc rdf:type cx-diag:DTC;\n            cx:provisionedBy ?Oem;\n            cx-diag:PossibleCauses ?reason;\n            cx-diag:Code ?troubleCode;\n            cx-diag:Description ?description.\n        \n        # Unless we have a mapping of diagnosed parts to the prognosed parts\n        VALUES ?partProg { \"\\\"GearOil\\\"\"^^xsd:string }        \n\n        # Next we need to find the appropriate load spectrum associated to the prognosed part\n        VALUES ?loadCollective { \n         \"{ \\\"Temp_Oil-class\\\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \\\"Counts\\\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }\"^^xsd:string\n        }\n\n        # we need to find the right supplier for the trouble part\n        VALUES (?tieraBpn ?tieraConnector) {\n           (\"BPNL00000003CPIY\"^^xsd:string <http://{{tierARemotingAgent}}:8081/rdf4j-server/repositories/prognosis>) \n        }       \n\n        \n    }\n\n    # Now we are jumping into the tiera\n    # Notice that ideally, the OEM agent would perform this\n    # as the consumer will have most likely no agreement/contract\n    # for this purpose this SERVICE section would be nested\n    # into the former section\n    SERVICE ?tieraConnector { \n        ?invocation a cx-lifetime:LifetimePrognosis;\n            # Input from the OEM\n            cx-lifetime:loadCollectiveBody ?loadCollective;\n            cx-lifetime:loadCollectiveComponent ?partProg;\n            cx-lifetime:loadCollectiveMileage ?mileage;\n            cx-lifetime:loadCollectiveRegistrationDate ?registrationDate;\n            # Additional info from the Tiera about its measurements\n            cx-lifetime:loadCollectiveFile \"{  \\\"Type\\\": \\\"ZF_load_collective\\\", \\\"Version\\\": \\\"1.7\\\"  }\"^^xsd:string; \n            cx-lifetime:loadCollectiveHeader \"{  \\\"CountingMethod\\\": \\\"ZF_TimeAtLevel\\\",    \\\"CountingUnit\\\": \\\"s\\\",    \\\"Channels\\\": [      {        \\\"Name\\\": \\\"Temp_Oil\\\",        \\\"Type\\\": \\\"Load\\\",        \\\"Unit\\\": \\\"degC\\\",        \\\"LowerLimit\\\": -40,        \\\"UpperLimit\\\": 220,        \\\"NumberOfBins\\\": 52      }  ]  }\"^^xsd:string; \n            # the actual prognosis output\n            cx-lifetime:remainingDistance ?distance; \n            cx-lifetime:remainingTime ?time.\n    }\n\n\n}\n\n",
+											"raw": "PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\nPREFIX cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\nPREFIX cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\n#\n# Sample for a Federated Skill (No Matchmaking) Which\n#  - Uses an OEM connector/agent to infer diagnosis data \n#  - Feeds this data into a Tier A connector/agent to perform a prognosis \n\nSELECT ?vin ?troubleCode ?description ?partProg ?distance ?time WHERE {\n\n    # Actual input parameters, when used as a predefined skill, \n    # these would be the named URL (or body multi-form) parameters\n    # Since you could use them multiple times, there is a combinatorial difference in \n    # defining them as single variables or as combined tuples\n    VALUES (?vin ?troubleCode) { (\"WVA8984323420333\"^^xsd:string \"P0745\"^^xsd:string) }\n\n    # In this place, there would be a to-be-implemented catalogue logic \n    # (so the default \"asset\" would be the catalogue including the CX ontology)\n    # which maps the VIN via regular expressions to the right \n    # business partner and connector\n    # Currently, we chose even not the connector, but the backend directly\n    VALUES (?oemBpn ?oemConnector) { (\"BPNL00000003COJN\"^^xsd:string <{{oemProviderAgent}}/sparql>) }\n\n    # Now we are jumping into the OEM\n    SERVICE ?oemConnector { \n        # Select Business Partner Node\n        ?Oem cx:BPNL ?oemBpn.\n\n        # Unless we have vehicle master data, we directly bind the variables\n        VALUES (?mileage ?registrationDate) { (\n            \"{ \\\"Value\\\": 82563, \\\"Unit\\\": \\\"km\\\" }\"^^xsd:string\n            \"{ \\\"Value\\\": 20171206,  \\\"Unit\\\": \\\"yyyymmdd\\\" }\"^^xsd:string\n        )}\n\n        # Search for troubled parts to forecast\n        ?Dtc rdf:type cx-diag:DTC;\n            cx:provisionedBy ?Oem;\n            cx-diag:PossibleCauses ?reason;\n            cx-diag:Code ?troubleCode;\n            cx-diag:Description ?description.\n        \n        # Unless we have a mapping of diagnosed parts to the prognosed parts\n        VALUES ?partProg { \"\\\"GearOil\\\"\"^^xsd:string }        \n\n        # Next we need to find the appropriate load spectrum associated to the prognosed part\n        VALUES ?loadCollective { \n         \"{ \\\"Temp_Oil-class\\\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \\\"Counts\\\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }\"^^xsd:string\n        }\n\n        # we need to find the right supplier for the trouble part\n        VALUES (?tieraBpn ?tieraConnector) {\n           (\"BPNL00000003CPIY\"^^xsd:string <{{tierARemotingAgent}}/repositories/prognosis>) \n        }       \n\n        \n    }\n\n    # Now we are jumping into the tiera\n    # Notice that ideally, the OEM agent would perform this\n    # as the consumer will have most likely no agreement/contract\n    # for this purpose this SERVICE section would be nested\n    # into the former section\n    SERVICE ?tieraConnector { \n        ?invocation a cx-lifetime:LifetimePrognosis;\n            # Input from the OEM\n            cx-lifetime:loadCollectiveBody ?loadCollective;\n            cx-lifetime:loadCollectiveComponent ?partProg;\n            cx-lifetime:loadCollectiveMileage ?mileage;\n            cx-lifetime:loadCollectiveRegistrationDate ?registrationDate;\n            # Additional info from the Tiera about its measurements\n            cx-lifetime:loadCollectiveFile \"{  \\\"Type\\\": \\\"ZF_load_collective\\\", \\\"Version\\\": \\\"1.7\\\"  }\"^^xsd:string; \n            cx-lifetime:loadCollectiveHeader \"{  \\\"CountingMethod\\\": \\\"ZF_TimeAtLevel\\\",    \\\"CountingUnit\\\": \\\"s\\\",    \\\"Channels\\\": [      {        \\\"Name\\\": \\\"Temp_Oil\\\",        \\\"Type\\\": \\\"Load\\\",        \\\"Unit\\\": \\\"degC\\\",        \\\"LowerLimit\\\": -40,        \\\"UpperLimit\\\": 220,        \\\"NumberOfBins\\\": 52      }  ]  }\"^^xsd:string; \n            # the actual prognosis output\n            cx-lifetime:remainingDistance ?distance; \n            cx-lifetime:remainingTime ?time.\n    }\n\n\n}\n\n",
 											"options": {
 												"raw": {
 													"language": "text"
@@ -1828,7 +1985,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\nPREFIX cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\nPREFIX cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\n#\n# Sample for a Federated Skill (No Matchmaking) Which\n#  - Uses an OEM connector/agent to infer diagnosis data \n#  - Feeds this data into a Tier A connector/agent to perform a prognosis \n\nSELECT ?vin ?troubleCode ?description ?partProg ?distance ?time WHERE {\n\n    # Actual input parameters, when used as a predefined skill, \n    # these would be the named URL (or body multi-form) parameters\n    # Since you could use them multiple times, there is a combinatorial difference in \n    # defining them as single variables or as combined tuples\n    VALUES (?vin ?troubleCode) { (\"WVA8984323420333\"^^xsd:string \"P0745\"^^xsd:string) }\n\n    # In this place, there would be a to-be-implemented catalogue logic \n    # (so the default \"asset\" would be the catalogue including the CX ontology)\n    # which maps the VIN via regular expressions to the right \n    # business partner and connector\n    # Currently, we chose even not the connector, but the backend directly\n    VALUES (?oemBpn ?oemConnector) { (\"BPNL00000003COJN\"^^xsd:string <edc://oem-control-plane:8282#urn:cx:Graph:oem:Diagnosis2022>) }\n\n    # Now we are jumping into the OEM\n    SERVICE ?oemConnector { \n        # Select Business Partner Node\n        ?Oem cx:BPNL ?oemBpn.\n\n        # Unless we have vehicle master data, we directly bind the variables\n        VALUES (?mileage ?registrationDate) { (\n            \"{ \\\"Value\\\": 82563, \\\"Unit\\\": \\\"km\\\" }\"^^xsd:string\n            \"{ \\\"Value\\\": 20171206,  \\\"Unit\\\": \\\"yyyymmdd\\\" }\"^^xsd:string\n        )}\n\n        # Search for troubled parts to forecast\n        ?Dtc rdf:type cx-diag:DTC;\n            cx:provisionedBy ?Oem;\n            cx-diag:PossibleCauses ?reason;\n            cx-diag:Code ?troubleCode;\n            cx-diag:Description ?description.\n        \n        # Unless we have a mapping of diagnosed parts to the prognosed parts\n        VALUES ?partProg { \"\\\"GearOil\\\"\"^^xsd:string }        \n\n        # Next we need to find the appropriate load spectrum associated to the prognosed part\n        VALUES ?loadCollective { \n         \"{ \\\"Temp_Oil-class\\\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \\\"Counts\\\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }\"^^xsd:string\n        }\n\n        # we need to find the right supplier for the trouble part\n        VALUES (?tieraBpn ?tieraConnector) {\n           (\"BPNL00000003CPIY\"^^xsd:string <edc://oem-control-plane:8282#urn:cx:Graph:tierA:LifetimeGearbox>) \n        }       \n    }\n\n    # Now we are jumping into the tiera\n    # Notice that ideally, the OEM agent would perform this\n    # as the consumer will have most likely no agreement/contract\n    # for this purpose this SERVICE section would be nested\n    # into the former section\n    SERVICE ?tieraConnector { \n        ?invocation a cx-lifetime:LifetimePrognosis;\n            # Input from the OEM\n            cx-lifetime:loadCollectiveBody ?loadCollective;\n            cx-lifetime:loadCollectiveComponent ?partProg;\n            cx-lifetime:loadCollectiveMileage ?mileage;\n            cx-lifetime:loadCollectiveRegistrationDate ?registrationDate;\n            # Additional info from the Tiera about its measurements\n            cx-lifetime:loadCollectiveFile \"{  \\\"Type\\\": \\\"ZF_load_collective\\\", \\\"Version\\\": \\\"1.7\\\"  }\"^^xsd:string; \n            cx-lifetime:loadCollectiveHeader \"{  \\\"CountingMethod\\\": \\\"ZF_TimeAtLevel\\\",    \\\"CountingUnit\\\": \\\"s\\\",    \\\"Channels\\\": [      {        \\\"Name\\\": \\\"Temp_Oil\\\",        \\\"Type\\\": \\\"Load\\\",        \\\"Unit\\\": \\\"degC\\\",        \\\"LowerLimit\\\": -40,        \\\"UpperLimit\\\": 220,        \\\"NumberOfBins\\\": 52      }  ]  }\"^^xsd:string; \n            # the actual prognosis output\n            cx-lifetime:remainingDistance ?distance; \n            cx-lifetime:remainingTime ?time.\n    }\n\n\n}\n\n",
+											"raw": "PREFIX xsd:           <http://www.w3.org/2001/XMLSchema#> \nPREFIX rdf:           <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs:          <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX cx:            <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\nPREFIX cx-diag:       <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\nPREFIX cx-telematics: <https://github.com/catenax-ng/product-knowledge/ontology/telematics.ttl#>\nPREFIX cx-lifetime:   <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\n\n##############################################################################################\n#                  Catena-X Knowledge Agents Sample Federated Skill                          #\n#                         Realizes a 5-Step Business Process                                 #\n#            \"Remaining Useful Life Prognosis based on Diagnosis TroubleCodes\"               #\n##############################################################################################\n# Preconditions:                                                                             #\n# - A Contract Offering from OEM (e.g. BMW) to CONSUMER (e.g. ADAC)                          #\n#   - VIN-VAN Conversion                                                                     #\n#   - DTC Analysis/Resolution (including the READING of PartType and Description)            #\n#   - Serial Part & SUPPLIER Lookup                                                          #\n# - A Contract Offering from SUPPLIER (e.g. ZF) to OEM                                       #\n#   - Telematics data (including the PROPAGATION of LoadSpectrum)                            #\n#   - RUL Prognosis Invocation (including the DISTRIBUTION of RUL results)                   #\n##############################################################################################\n\n####\n# 5. Project the actual output of the Skill on CONSUMER side\n####\nSELECT ?vin ?van ?troubleCode ?description ?serializedPartName ?distance ?time WHERE {\n\n    ####\n    # 1. The CONSUMER detects a trouble code on a car in his fleet\n    ####\n    VALUES (?vin ?troubleCode) { (\"WBAAL31029PZ00001\"^^xsd:string \"P0745\"^^xsd:string) }.\n\n    ####\n    # 2. The CONSUMER looks up the OEM (connector) associated to the VIN \n    #    using the Federated Data Catalogue  (Catalogue=Default Graph)\n    ####\n    ?oem cx:isIssuerOfVehicleIdentificationNumber ?vin;\n         cx:hasConnector ?oemConnector.\n\n    ?oemConnector cx:offersAsset ?diagnoseAsset.\n\n    ####\n    # 3. The CONSUMER delegates the following logic to the OEM (connector)\n    ####\n    SERVICE ?oemConnector { \n\n        ####\n        # 3.1 The OEM (e.g. BMW) anomyzes the VIN into an anomymous (VAN) node\n        #.    and gets some master data with it \n        ####\n        ?van cx:isAnonymousVehicle ?vin;\n             cx:hasRegistration ?registration.\n\n        ####\n        # 3.2 The OEM analyzes the DTC-affected part type (Diagnosis Graph)\n        ####\n        GRAPH ?diagnoseAsset {\n\n           ?Dtc rdf:type cx-diag:DTC; \n                cx-diag:Code ?troubleCode;\n                cx-diag:affects [ cx-diag:EnDenomination ?partType ]; \n                cx-diag:Description ?description.\n        \n        } # OEM#Diagnosis context\n\n        ####\n        # 3.3 The OEM obtains fresh telematics/load-spectrum data for the vehicle\n        #     focussed to the problematic partType (Telematics Graph) \n        ####\n        ?van cx-telematics:latestMileageReceived ?mileage;\n             cx-telematics:latestDetailReceived ?telematicDetail.\n        ?telematicsDetail cx-diag:hasPartType ?partType;\n                          cx-diag:hasLoadSpectrum ?loadSpectrum.\n\n        ####\n        # 3.4 The OEM looks up the serialized part of the VAN (Traceability Graph)\n        #     and the supplier address in the dataspace\n        ####\n        ?serializedPart cx:isComponentOf+ ?van;\n                        cx:hasPartType ?partType;\n                        cx:hasName ?serializedPartName;\n                        cx:hasSupplier [\n                            cx:hasConnector ?tieraConnector\n                        ].           \n\n        ?tieraConnector cx:offersAsset ?prognosisAsset.\n\n        ####\n        # 4. The OEM (and not the CONSUMER) delegates to the SUPPLIER (connector)\n        #    which means that load spectrum data etc is only exchanged using their\n        #    contract and between their connectors.\n        ####\n        SERVICE ?tieraConnector { \n\n            ####\n            # 4.1 The SUPPLIER adds additional measurement information\n            ####\n            ?telematicsDetail cx-telematics:hasFile ?loadSpectrumFile;\n                              cx-telematics:hasHeader ?loadSpectrumHeader.\n\n            ####\n            # 4.2 The SUPPLIER invokes a prognosis model associated the part type using the load-spectrum data\n            ####\n            GRAPH ?prognosisAsset {\n\n                ?invocation rdf:type cx-lifetime:LifetimePrognosis;\n                    \n                    # <--General vehicle info\n                    cx-lifetime:loadCollectiveMileage ?mileage;\n                    cx-lifetime:loadCollectiveRegistrationDate ?registration;\n\n                    # <--Part Info from the OEM\n                    cx-lifetime:loadCollectiveComponent ?serializedPartName;\n                    cx-lifetime:loadCollectiveBody ?loadSpectrum;\n                    \n                    # <--Additional info from the SUPPLIER\n                    cx-lifetime:loadCollectiveFile ?loadSpectrumFile;\n                    cx-lifetime:loadCollectiveHeader ?loadSpectrumHeader; \n                    \n                    # -->the actual prognosis output\n                    cx-lifetime:remainingDistance ?distance; \n                    cx-lifetime:remainingTime ?time.\n            \n            } # SUPPLIER#Prognosis context\n        \n        } # SUPPLIER context\n\n    } # OEM context\n\n   # now we do reporting/operationalising on the CONSUMER side\n} ORDER BY ?remainingDistance LIMIT 5\n\n",
 											"options": {
 												"raw": {
 													"language": "text"
@@ -1867,7 +2024,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\nPREFIX cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\nPREFIX cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\n#\n# Sample for a Federated Skill (No Matchmaking) Which\n#  - Uses an OEM connector/agent to infer diagnosis data \n#  - Feeds this data into a Tier A connector/agent to perform a prognosis \n\nSELECT ?vin ?troubleCode ?description ?partProg ?distance ?time WHERE {\n\n    # Actual input parameters, when used as a predefined skill, \n    # these would be the named URL (or body multi-form) parameters\n    # Since you could use them multiple times, there is a combinatorial difference in \n    # defining them as single variables or as combined tuples\n    VALUES (?vin ?troubleCode) { (\"@vin\"^^xsd:string \"@troubleCode\"^^xsd:string) }\n    \n    # In this place, there would be a to-be-implemented catalogue logic \n    # (so the default \"asset\" would be the catalogue including the CX ontology)\n    # which maps the VIN via regular expressions to the right \n    # business partner and connector\n    # Currently, we chose even not the connector, but the backend directly\n    VALUES (?oemBpn ?oemConnector) { (\"BPNL00000003COJN\"^^xsd:string <http://{{oemProviderAgent}}:8080/sparql>) }\n\n    # Now we are jumping into the OEM\n    SERVICE ?oemConnector { \n        # Select Business Partner Node\n        ?Oem cx:BPNL ?oemBpn.\n\n        # Unless we have vehicle master data, we directly bind the variables\n        VALUES (?mileage ?registrationDate) { (\n            \"{ \\\"Value\\\": 82563, \\\"Unit\\\": \\\"km\\\" }\"^^xsd:string\n            \"{ \\\"Value\\\": 20171206,  \\\"Unit\\\": \\\"yyyymmdd\\\" }\"^^xsd:string\n        )}\n\n        # Search for troubled parts to forecast\n        ?Dtc rdf:type cx-diag:DTC;\n            cx:provisionedBy ?Oem;\n            cx-diag:PossibleCauses ?reason;\n            cx-diag:Code ?troubleCode;\n            cx-diag:Description ?description.\n        \n        # Unless we have a mapping of diagnosed parts to the prognosed parts\n        VALUES ?partProg { \"\\\"GearOil\\\"\"^^xsd:string }        \n\n        # Next we need to find the appropriate load spectrum associated to the prognosed part\n        VALUES ?loadCollective { \n         \"{ \\\"Temp_Oil-class\\\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \\\"Counts\\\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }\"^^xsd:string\n        }\n\n        # we need to find the right supplier for the trouble part\n        VALUES (?tieraBpn ?tieraConnector) {\n           (\"BPNL00000003CPIY\"^^xsd:string <http://{{tierARemotingAgent}}:8081/rdf4j-server/repositories/prognosis>) \n        }       \n    }\n\n    # Now we are jumping into the tiera\n    # Notice that ideally, the OEM agent would perform this\n    # as the consumer will have most likely no agreement/contract\n    # for this purpose this SERVICE section would be nested\n    # into the former section\n    SERVICE ?tieraConnector { \n        ?invocation a cx-lifetime:LifetimePrognosis;\n            # Input from the OEM\n            cx-lifetime:loadCollectiveBody ?loadCollective;\n            cx-lifetime:loadCollectiveComponent ?partProg;\n            cx-lifetime:loadCollectiveMileage ?mileage;\n            cx-lifetime:loadCollectiveRegistrationDate ?registrationDate;\n            # Additional info from the Tiera about its measurements\n            cx-lifetime:loadCollectiveFile \"{  \\\"Type\\\": \\\"ZF_load_collective\\\", \\\"Version\\\": \\\"1.7\\\"  }\"^^xsd:string; \n            cx-lifetime:loadCollectiveHeader \"{  \\\"CountingMethod\\\": \\\"ZF_TimeAtLevel\\\",    \\\"CountingUnit\\\": \\\"s\\\",    \\\"Channels\\\": [      {        \\\"Name\\\": \\\"Temp_Oil\\\",        \\\"Type\\\": \\\"Load\\\",        \\\"Unit\\\": \\\"degC\\\",        \\\"LowerLimit\\\": -40,        \\\"UpperLimit\\\": 220,        \\\"NumberOfBins\\\": 52      }  ]  }\"^^xsd:string; \n            # the actual prognosis output\n            cx-lifetime:remainingDistance ?distance; \n            cx-lifetime:remainingTime ?time.\n    }\n}\n\n",
+											"raw": "PREFIX xsd:           <http://www.w3.org/2001/XMLSchema#> \nPREFIX rdf:           <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs:          <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX cx:            <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\nPREFIX cx-diag:       <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\nPREFIX cx-telematics: <https://github.com/catenax-ng/product-knowledge/ontology/telematics.ttl#>\nPREFIX cx-lifetime:   <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\n\n##############################################################################################\n#                  Catena-X Knowledge Agents Sample Federated Skill                          #\n#                         Realizes a 5-Step Business Process                                 #\n#            \"Remaining Useful Life Prognosis based on Diagnosis TroubleCodes\"               #\n##############################################################################################\n# Preconditions:                                                                             #\n# - A Contract Offering from OEM (e.g. BMW) to CONSUMER (e.g. ADAC)                          #\n#   - VIN-VAN Conversion                                                                     #\n#   - DTC Analysis/Resolution (including the READING of PartType and Description)            #\n#   - Serial Part & SUPPLIER Lookup                                                          #\n# - A Contract Offering from SUPPLIER (e.g. ZF) to OEM                                       #\n#   - Telematics data (including the PROPAGATION of LoadSpectrum)                            #\n#   - RUL Prognosis Invocation (including the DISTRIBUTION of RUL results)                   #\n##############################################################################################\n\n####\n# 5. Project the actual output of the Skill on CONSUMER side\n####\nSELECT ?vin ?van ?troubleCode ?description ?serializedPartName ?distance ?time WHERE {\n\n    ####\n    # 1. The CONSUMER detects a trouble code on a car in his fleet\n    ####\n    VALUES (?vin ?troubleCode) { (\"@vin\"^^xsd:string \"@troubleCode\"^^xsd:string) }.\n\n    ####\n    # 2. The CONSUMER looks up the OEM (connector) associated to the VIN \n    #    using the Federated Data Catalogue  (Catalogue=Default Graph)\n    ####\n    ?oem cx:isIssuerOfVehicleIdentificationNumber ?vin;\n         cx:hasConnector ?oemConnector.\n\n    ?oemConnector cx:offersAsset ?diagnoseAsset.\n\n    ####\n    # 3. The CONSUMER delegates the following logic to the OEM (connector)\n    ####\n    SERVICE ?oemConnector { \n\n        ####\n        # 3.1 The OEM (e.g. BMW) anomyzes the VIN into an anomymous (VAN) node\n        #.    and gets some master data with it \n        ####\n        ?van cx:isAnonymousVehicle ?vin;\n             cx:hasRegistration ?registration.\n\n        ####\n        # 3.2 The OEM analyzes the DTC-affected part type (Diagnosis Graph)\n        ####\n        GRAPH ?diagnoseAsset {\n\n           ?Dtc rdf:type cx-diag:DTC; \n                cx-diag:Code ?troubleCode;\n                cx-diag:affects [ cx-diag:EnDenomination ?partType ]; \n                cx-diag:Description ?description.\n        \n        } # OEM#Diagnosis context\n\n        ####\n        # 3.3 The OEM obtains fresh telematics/load-spectrum data for the vehicle\n        #     focussed to the problematic partType (Telematics Graph) \n        ####\n        ?van cx-telematics:latestMileageReceived ?mileage;\n             cx-telematics:latestDetailReceived ?telematicDetail.\n        ?telematicsDetail cx-diag:hasPartType ?partType;\n                          cx-diag:hasLoadSpectrum ?loadSpectrum.\n\n        ####\n        # 3.4 The OEM looks up the serialized part of the VAN (Traceability Graph)\n        #     and the supplier address in the dataspace\n        ####\n        ?serializedPart cx:isComponentOf+ ?van;\n                        cx:hasPartType ?partType;\n                        cx:hasName ?serializedPartName;\n                        cx:hasSupplier [\n                            cx:hasConnector ?tieraConnector\n                        ].           \n\n        ?tieraConnector cx:offersAsset ?prognosisAsset.\n\n        ####\n        # 4. The OEM (and not the CONSUMER) delegates to the SUPPLIER (connector)\n        #    which means that load spectrum data etc is only exchanged using their\n        #    contract and between their connectors.\n        ####\n        SERVICE ?tieraConnector { \n\n            ####\n            # 4.1 The SUPPLIER adds additional measurement information\n            ####\n            ?telematicsDetail cx-telematics:hasFile ?loadSpectrumFile;\n                              cx-telematics:hasHeader ?loadSpectrumHeader.\n\n            ####\n            # 4.2 The SUPPLIER invokes a prognosis model associated the part type using the load-spectrum data\n            ####\n            GRAPH ?prognosisAsset {\n\n                ?invocation rdf:type cx-lifetime:LifetimePrognosis;\n                    \n                    # <--General vehicle info\n                    cx-lifetime:loadCollectiveMileage ?mileage;\n                    cx-lifetime:loadCollectiveRegistrationDate ?registration;\n\n                    # <--Part Info from the OEM\n                    cx-lifetime:loadCollectiveComponent ?serializedPartName;\n                    cx-lifetime:loadCollectiveBody ?loadSpectrum;\n                    \n                    # <--Additional info from the SUPPLIER\n                    cx-lifetime:loadCollectiveFile ?loadSpectrumFile;\n                    cx-lifetime:loadCollectiveHeader ?loadSpectrumHeader; \n                    \n                    # -->the actual prognosis output\n                    cx-lifetime:remainingDistance ?distance; \n                    cx-lifetime:remainingTime ?time.\n            \n            } # SUPPLIER#Prognosis context\n        \n        } # SUPPLIER context\n\n    } # OEM context\n\n   # now we do reporting/operationalising on the CONSUMER side\n} ORDER BY ?remainingDistance LIMIT 5\n\n",
 											"options": {
 												"raw": {
 													"language": "text"
@@ -1959,7 +2116,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{consumerAgentPlane}}/api/agent?asset=urn:cx:Skill:consumer:Lifetime&(vin=WVA8984323420333&troubleCode=P0746&troubleCode=P0745)&(vin=WVA8984323420334&troubleCode=P0744)",
+											"raw": "{{consumerAgentPlane}}/api/agent?asset=urn:cx:Skill:consumer:Lifetime&(vin=WBAAL31029PZ00001&troubleCode=P0746&troubleCode=P0745)&(vin=WBAAL31029PZ00002&troubleCode=P0744)&(vin=WBAAL31029PZ00003&troubleCode=P0743)",
 											"host": [
 												"{{consumerAgentPlane}}"
 											],
@@ -1974,7 +2131,7 @@
 												},
 												{
 													"key": "(vin",
-													"value": "WVA8984323420333"
+													"value": "WBAAL31029PZ00001"
 												},
 												{
 													"key": "troubleCode",
@@ -1986,11 +2143,19 @@
 												},
 												{
 													"key": "(vin",
-													"value": "WVA8984323420334"
+													"value": "WBAAL31029PZ00002"
 												},
 												{
 													"key": "troubleCode",
 													"value": "P0744)"
+												},
+												{
+													"key": "(vin",
+													"value": "WBAAL31029PZ00003"
+												},
+												{
+													"key": "troubleCode",
+													"value": "P0743)"
 												}
 											]
 										},
@@ -2046,13 +2211,13 @@
 			"name": "Integration Tests",
 			"item": [
 				{
-					"name": "1.1 Deregister Existing Oem Graph Asset",
+					"name": "1.0 Deregister Existing Oem Contract Definition",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Deletion/Non-Existance of Data Graph Asset was successful\", function () {",
+									"pm.test(\"Deletion/Non-Existance of Contract Definition was successful\", function () {",
 									"    pm.expect(pm.response.code).oneOf([204,404]);",
 									"});",
 									""
@@ -2072,14 +2237,21 @@
 							}
 						],
 						"url": {
-							"raw": "{{oemEdcControl}}/data/assets/urn:cx:Graph:oem:Diagnosis2022",
+							"raw": "{{oemEdcControl}}/data/contractdefinitions/:contract",
 							"host": [
 								"{{oemEdcControl}}"
 							],
 							"path": [
 								"data",
-								"assets",
-								"urn:cx:Graph:oem:Diagnosis2022"
+								"contractdefinitions",
+								":contract"
+							],
+							"variable": [
+								{
+									"key": "contract",
+									"value": "oemOffer",
+									"description": "Id of the Contract Definition"
+								}
 							]
 						},
 						"description": "Calls the datamanagement API in order to create a graph asset."
@@ -2087,14 +2259,14 @@
 					"response": []
 				},
 				{
-					"name": "1.2 Register Oem Data Graph Asset",
+					"name": "1.1 Deregister Existing Oem Graph Asset",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Creation of Data Graph Asset was successful\", function () {",
-									"    pm.expect(pm.response.code).oneOf([204]);",
+									"pm.test(\"Deletion/Non-Existance of Data Graph Asset was successful (in case no agreements were pending)\", function () {",
+									"    pm.expect(pm.response.code).oneOf([204,404,409]);",
 									"});",
 									""
 								],
@@ -2103,7 +2275,7 @@
 						}
 					],
 					"request": {
-						"method": "POST",
+						"method": "DELETE",
 						"header": [
 							{
 								"warning": "This is a duplicate header and will be overridden by the X-Api-Key header generated by Postman.",
@@ -2112,23 +2284,22 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Graph:oem:Diagnosis2022\",\n      \"asset:prop:name\": \"Diagnostic Trouble Code Catalogue Version 2022\",\n      \"asset:prop:contenttype\": \"application/json, application/xml\",\n      \"asset:prop:policy-id\": \"research\",\n      \"asset:prop:cx:requesttype\": \"application/sparql\",\n      \"asset:prop:cx:apitype\": \"application/knowledge-agent-query\",\n      \"asset:prop:cx:ontology\": \"https://github.com/catenax-ng/product-knowledge/ontology#\",\n      \"asset:prop:cx:ontologyVersion\": \"https://github.com/catenax-ng/product-knowledge/tree/main\",\n      \"asset:prop:cx:shapesGraph\": \"@prefix : <urn:cx:Graph:oem:Diagnosis2022> .\\n@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .\\n@prefix cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#> .\\n@prefix owl: <http://www.w3.org/2002/07/owl#> .\\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\n@prefix sh: <http://www.w3.org/ns/shacl#> .\\n\\nOemDTC rdf:type sh:NodeShape ;\\n  sh:targetClass cx-diag:DTC ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\\n    ] ;\\n  sh:property [\\n        sh:path cx-diag:Version ;\\n        sh:hasValue 0^^xsd:long ;\\n    ] ;\\n  sh:property [\\n        sh:path cx-diag:Affects ;\\n        sh:class OemDiagnosedParts ;\\n    ] ;\\n\\nOemDiagnosedParts rdf:type sh:NodeShape ;\\n  sh:targetClass cx-diag:DiagnosedPart ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\\n    ] ;\\n\",\n      \"asset:prop:cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"baseUrl\": \"http://oem-provider-agent:8080/sparql\",\n      \"type\": \"urn:cx:Protocol:w3c:Http#SPARQL\",\n      \"proxyPath\": \"false\",\n      \"proxyMethod\": \"true\",\n      \"proxyQueryParams\": \"true\",\n      \"proxyBody\": \"true\"\n    }\n  }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "{{oemEdcControl}}/data/assets",
+							"raw": "{{oemEdcControl}}/data/assets/:asset",
 							"host": [
 								"{{oemEdcControl}}"
 							],
 							"path": [
 								"data",
-								"assets"
+								"assets",
+								":asset"
+							],
+							"variable": [
+								{
+									"key": "asset",
+									"value": "urn:cx:Graph:oem:Diagnosis2022",
+									"description": "Id of the Asset"
+								}
 							]
 						},
 						"description": "Calls the datamanagement API in order to create a graph asset."
@@ -2136,7 +2307,7 @@
 					"response": []
 				},
 				{
-					"name": "1.3 Disable Oem Graph Policy",
+					"name": "1.2 Disable Oem Graph Policy",
 					"event": [
 						{
 							"listen": "test",
@@ -2162,14 +2333,21 @@
 							}
 						],
 						"url": {
-							"raw": "{{oemEdcControl}}/data/policydefinitions/oemPolicy",
+							"raw": "{{oemEdcControl}}/data/policydefinitions/:policy",
 							"host": [
 								"{{oemEdcControl}}"
 							],
 							"path": [
 								"data",
 								"policydefinitions",
-								"oemPolicy"
+								":policy"
+							],
+							"variable": [
+								{
+									"key": "policy",
+									"value": "oemPolicy",
+									"description": "Id of the Policy"
+								}
 							]
 						},
 						"description": "Calls the datamanagement API in order to create a graph policy."
@@ -2177,7 +2355,111 @@
 					"response": []
 				},
 				{
-					"name": "1.4 Enable Oem Graph Policy",
+					"name": "1.3 Check Propagation into Consumer Data Catalogue",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"setTimeout(function(){ console.log(\"Wait before catalogue is synchronized.\")}, 60000);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Contract Offer Deletion was propagated\", function () {",
+									"    pm.expect(pm.response.code).oneOf([200]);",
+									"    pm.expect(pm.response.json().results.bindings.length).eq(0);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{consumerAgentPlane}}/api/agent?query=SELECT ?asset WHERE { <edcs://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN> <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl%23offersAsset> ?asset. }",
+							"host": [
+								"{{consumerAgentPlane}}"
+							],
+							"path": [
+								"api",
+								"agent"
+							],
+							"query": [
+								{
+									"key": "asset",
+									"value": "urn:x-arq:DefaultGraph",
+									"description": "the default graph should be compliant",
+									"disabled": true
+								},
+								{
+									"key": "query",
+									"value": "SELECT ?asset WHERE { <edcs://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN> <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl%23offersAsset> ?asset. }"
+								}
+							]
+						},
+						"description": "Uses the Agent Extension of the Dataplane to Perform Some Dynamic Query on a Local Graph (here: the federated data catalogue)."
+					},
+					"response": []
+				},
+				{
+					"name": "1.5 Register Oem Data Graph Asset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Creation of Data Graph Asset was successful (in case no agreements were pending)\", function () {",
+									"    pm.expect(pm.response.code).oneOf([204,409]);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"warning": "This is a duplicate header and will be overridden by the X-Api-Key header generated by Postman.",
+								"key": "X-Api-Key",
+								"value": "{{oemEdcApiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Graph:oem:Diagnosis2022\",\n      \"asset:prop:name\": \"Diagnostic Trouble Code Catalogue Version 2022\",\n      \"asset:prop:description\": \"A sample graph asset/offering referring to a specific diagnosis resource.\",\n      \"asset:prop:version\": \"0.5.5-SNAPSHOT\",\n      \"asset:prop:contenttype\": \"application/json, application/xml\",\n      \"rdf:type\":\"https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#GraphAsset\",\n      \"rdfs:isDefinedBy\": \"https://github.com/catenax-ng/product-knowledge/ontology/diagnosis_ontology.ttl\",\n      \"cx:protocol\": \"urn:cx:Protocol:w3c:Http#SPARQL\",\n      \"cx:shape\": \"@prefix : <urn:cx:Graph:oem:Diagnosis2022> .\\n@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .\\n@prefix cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#> .\\n@prefix owl: <http://www.w3.org/2002/07/owl#> .\\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\n@prefix sh: <http://www.w3.org/ns/shacl#> .\\n\\nOemDTC rdf:type sh:NodeShape ;\\n  sh:targetClass cx-diag:DTC ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\\n    ] ;\\n  sh:property [\\n        sh:path cx-diag:Version ;\\n        sh:hasValue 0^^xsd:long ;\\n    ] ;\\n  sh:property [\\n        sh:path cx-diag:Affects ;\\n        sh:class OemDiagnosedParts ;\\n    ] ;\\n\\nOemDiagnosedParts rdf:type sh:NodeShape ;\\n  sh:targetClass cx-diag:DiagnosedPart ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\\n    ] ;\\n\",\n      \"cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Graph:oem:Diagnosis2022\",\n      \"baseUrl\": \"http://oem-provider-agent:8080/sparql\",\n      \"type\": \"urn:cx:Protocol:w3c:Http#SPARQL\",\n      \"proxyPath\": \"false\",\n      \"proxyMethod\": \"true\",\n      \"proxyQueryParams\": \"true\",\n      \"proxyBody\": \"true\",\n      \"authKey\": \"{{oemBackendAuthKey}}\",\n      \"authCode\": \"{{oemBackendAuthCode}}\"\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{oemEdcControl}}/data/assets",
+							"host": [
+								"{{oemEdcControl}}"
+							],
+							"path": [
+								"data",
+								"assets"
+							]
+						},
+						"description": "Calls the datamanagement API in order to create a graph asset."
+					},
+					"response": []
+				},
+				{
+					"name": "1.6 Enable Oem Graph Policy",
 					"event": [
 						{
 							"listen": "test",
@@ -2226,13 +2508,118 @@
 					"response": []
 				},
 				{
-					"name": "2.1 Deregister Tier1 Function Graph Asset",
+					"name": "1.7 Register Oem Graph Contract Definition",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Deletion/Non-Existance of Function Graph Asset was successful\", function () {",
+									"pm.test(\"Creation/Existance was successful\", function () {",
+									"    pm.expect(pm.response.code).oneOf([204]);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"warning": "This is a duplicate header and will be overridden by the X-Api-Key header generated by Postman.",
+								"key": "X-Api-Key",
+								"value": "{{oemEdcApiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\":\"oemOffer\",\n  \"accessPolicyId\": \"oemPolicy\",\n  \"contractPolicyId\": \"oemPolicy\",\n  \"criteria\": [ {\n      \"operandLeft\": \"asset:prop:id\",\n      \"operator\":\"~\",\n      \"operandRight\":\"urn:cx:Graph:oem:.*\"\n  }]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{oemEdcControl}}/data/contractdefinitions",
+							"host": [
+								"{{oemEdcControl}}"
+							],
+							"path": [
+								"data",
+								"contractdefinitions"
+							]
+						},
+						"description": "Calls the datamanagement API in order to create a contract."
+					},
+					"response": []
+				},
+				{
+					"name": "1.8 Check Propagation into Consumer Data Catalogue Copy",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"setTimeout(function(){ console.log(\"Wait before catalogue is synchronized.\")}, 60000);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Contract Offer was propagated\", function () {",
+									"    pm.expect(pm.response.code).oneOf([200]);",
+									"    pm.expect(pm.response.json().results.bindings.length).gte(1);",
+									"    pm.expect(pm.response.json().results.bindings[0].asset.value).eq(\"urn:cx:Graph:oem:Diagnosis2022\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{consumerAgentPlane}}/api/agent?query=SELECT ?asset WHERE { <edcs://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN> <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl%23offersAsset> ?asset. }",
+							"host": [
+								"{{consumerAgentPlane}}"
+							],
+							"path": [
+								"api",
+								"agent"
+							],
+							"query": [
+								{
+									"key": "asset",
+									"value": "urn:x-arq:DefaultGraph",
+									"description": "the default graph should be compliant",
+									"disabled": true
+								},
+								{
+									"key": "query",
+									"value": "SELECT ?asset WHERE { <edcs://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN> <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl%23offersAsset> ?asset. }"
+								}
+							]
+						},
+						"description": "Uses the Agent Extension of the Dataplane to Perform Some Dynamic Query on a Local Graph (here: the federated data catalogue)."
+					},
+					"response": []
+				},
+				{
+					"name": "2.0 Deregister Existing Tiera Contract Definition",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Deletion/Non-Existance of Contract Definition was successful\", function () {",
 									"    pm.expect(pm.response.code).oneOf([204,404]);",
 									"});",
 									""
@@ -2252,9 +2639,57 @@
 							}
 						],
 						"url": {
-							"raw": "{{oemEdcControl}}/data/assets/urn:cx:Graph:tierA:LifetimeGearbox",
+							"raw": "{{tieraEdcControl}}/data/contractdefinitions/:contract",
 							"host": [
-								"{{oemEdcControl}}"
+								"{{tieraEdcControl}}"
+							],
+							"path": [
+								"data",
+								"contractdefinitions",
+								":contract"
+							],
+							"variable": [
+								{
+									"key": "contract",
+									"value": "tierAOffer",
+									"description": "Id of the Contract Definition"
+								}
+							]
+						},
+						"description": "Calls the datamanagement API in order to create a graph asset."
+					},
+					"response": []
+				},
+				{
+					"name": "2.1 Deregister Tier1 Function Graph Asset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Deletion/Non-Existance of Function Graph Asset was successful (or conflicted because of existing agreements).\", function () {",
+									"    pm.expect(pm.response.code).oneOf([204,404,409]);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"warning": "This is a duplicate header and will be overridden by the X-Api-Key header generated by Postman.",
+								"key": "X-Api-Key",
+								"value": "{{oemEdcApiKey}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{tieraEdcControl}}/data/assets/urn:cx:Graph:tierA:LifetimeGearbox",
+							"host": [
+								"{{tieraEdcControl}}"
 							],
 							"path": [
 								"data",
@@ -2267,14 +2702,116 @@
 					"response": []
 				},
 				{
-					"name": "2.2 Register Tier1 Function Graph Asset",
+					"name": "2.2 Disable Tier1 Graph Policy",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Creation of Function Graph Asset was successful\", function () {",
-									"    pm.expect(pm.response.code).oneOf([204]);",
+									"pm.test(\"Deletion/Non-Existance of Tier1 Policy was successful\", function () {",
+									"    pm.expect(pm.response.code).oneOf([204,404]);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"warning": "This is a duplicate header and will be overridden by the X-Api-Key header generated by Postman.",
+								"key": "X-Api-Key",
+								"value": "{{oemEdcApiKey}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{tieraEdcControl}}/data/policydefinitions/:policy",
+							"host": [
+								"{{tieraEdcControl}}"
+							],
+							"path": [
+								"data",
+								"policydefinitions",
+								":policy"
+							],
+							"variable": [
+								{
+									"key": "policy",
+									"value": "tierAPolicy"
+								}
+							]
+						},
+						"description": "Calls the datamanagement API in order to create a graph policy."
+					},
+					"response": []
+				},
+				{
+					"name": "2.3 Check Propagation into Consumer Data Catalogue",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"setTimeout(function(){ console.log(\"Wait before catalogue is synchronized.\")}, 60000);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Contract Offer Deletion was propagated\", function () {",
+									"    pm.expect(pm.response.code).oneOf([200]);",
+									"    pm.expect(pm.response.json().results.bindings.length).eq(0);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{consumerAgentPlane}}/api/agent?query=SELECT ?asset WHERE { <edcs://knowledge.dev.demo.catena-x.net/tiera-edc-control/BPNL00000003CPIY> <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl%23offersAsset> ?asset. }",
+							"host": [
+								"{{consumerAgentPlane}}"
+							],
+							"path": [
+								"api",
+								"agent"
+							],
+							"query": [
+								{
+									"key": "asset",
+									"value": "urn:x-arq:DefaultGraph",
+									"description": "the default graph should be compliant",
+									"disabled": true
+								},
+								{
+									"key": "query",
+									"value": "SELECT ?asset WHERE { <edcs://knowledge.dev.demo.catena-x.net/tiera-edc-control/BPNL00000003CPIY> <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl%23offersAsset> ?asset. }"
+								}
+							]
+						},
+						"description": "Uses the Agent Extension of the Dataplane to Perform Some Dynamic Query on a Local Graph (here: the federated data catalogue)."
+					},
+					"response": []
+				},
+				{
+					"name": "2.5 Register Tier1 Function Graph Asset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Creation of Function Graph Asset was successful (or pending because of existing agreements)\", function () {",
+									"    pm.expect(pm.response.code).oneOf([204,409]);",
 									"});",
 									""
 								],
@@ -2302,9 +2839,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{oemEdcControl}}/data/assets",
+							"raw": "{{tieraEdcControl}}/data/assets",
 							"host": [
-								"{{oemEdcControl}}"
+								"{{tieraEdcControl}}"
 							],
 							"path": [
 								"data",
@@ -2316,48 +2853,7 @@
 					"response": []
 				},
 				{
-					"name": "2.3 Disable Tier1 Graph Policy",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Deletion/Non-Existance of Tier1 Policy was successful\", function () {",
-									"    pm.expect(pm.response.code).oneOf([204,404]);",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"warning": "This is a duplicate header and will be overridden by the X-Api-Key header generated by Postman.",
-								"key": "X-Api-Key",
-								"value": "{{oemEdcApiKey}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{oemEdcControl}}/data/policydefinitions/tierAPolicy",
-							"host": [
-								"{{oemEdcControl}}"
-							],
-							"path": [
-								"data",
-								"policydefinitions",
-								"tierAPolicy"
-							]
-						},
-						"description": "Calls the datamanagement API in order to create a graph policy."
-					},
-					"response": []
-				},
-				{
-					"name": "2.4 EnableTier1 Graph Policy",
+					"name": "2.6 EnableTier1 Graph Policy",
 					"event": [
 						{
 							"listen": "test",
@@ -2392,9 +2888,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{oemEdcControl}}/data/policydefinitions",
+							"raw": "{{tieraEdcControl}}/data/policydefinitions",
 							"host": [
-								"{{oemEdcControl}}"
+								"{{tieraEdcControl}}"
 							],
 							"path": [
 								"data",
@@ -2406,48 +2902,7 @@
 					"response": []
 				},
 				{
-					"name": "3.2 Deregister Consumer Skill Asset",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Deletion/Non-Existance of Skill Asset was successful\", function () {",
-									"    pm.expect(pm.response.code).oneOf([204,404]);",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"warning": "This is a duplicate header and will be overridden by the X-Api-Key header generated by Postman.",
-								"key": "X-Api-Key",
-								"value": "{{oemEdcApiKey}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{oemEdcControl}}/data/assets/urn:cx:Skill:consumer:LifetimeGearbox",
-							"host": [
-								"{{oemEdcControl}}"
-							],
-							"path": [
-								"data",
-								"assets",
-								"urn:cx:Skill:consumer:LifetimeGearbox"
-							]
-						},
-						"description": "Calls the datamanagement API in order to create a skill asset."
-					},
-					"response": []
-				},
-				{
-					"name": "3.2 Register Consumer Skill Asset",
+					"name": "2.7 Register Tier1 Graph Contract Definition",
 					"event": [
 						{
 							"listen": "test",
@@ -2474,7 +2929,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Skill:consumer:LifetimeGearbox\",\n      \"asset:prop:name\": \"Lifetime Skill for Vehicles\",\n      \"asset:prop:contenttype\": \"application/json, application/xml\",\n      \"asset:prop:cx:ontology\": \"https://github.com/catenax-ng/product-knowledge/ontology#\",\n      \"asset:prop:cx:ontologyVersion\": \"https://github.com/catenax-ng/product-knowledge/tree/main\",\n      \"asset:prop:cx:requesttype\": \"application/sparql-skill\",\n      \"asset:prop:cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"type\": \"urn:cx:Protocol:w3c:Http#SKILL#SPARQL\",\n      \"query\": \"PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\\nPREFIX cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\\nSELECT ?reason ?code ?description ?version ?partend ?partcat ?partclass WHERE {\\n  # Select Business Partner\\n  ?Oem cx:BPNL \\\"BPNL00000003COJN\\\".\\n\\n  # Search for Trouble Codes of the Business Partner\\n  # related to a cause in the \\\"Kabelbaum\\\"\\n  ?Dtc rdf:type cx-diag:DTC.\\n  ?Dtc cx:provisionedBy ?Oem.\\n  ?Dtc cx-diag:PossibleCauses ?reason.\\n  FILTER contains(?reason,\\\"Kabelbaum\\\").\\n  ?Dtc cx-diag:Code ?code.\\n  ?Dtc cx-diag:Description ?description.\\n  ?Dtc cx-diag:Version ?version.\\n\\n  # Navigate to the affected parts\\n  # and show only parts with a classification \\\"Powertrain\\\"\\n  ?Dtc cx-diag:affects ?Part.\\n  ?Part cx-diag:Category ?partcat.\\n  ?Part cx-diag:EnDenomination ?partend.\\n  ?Part cx-diag:Classification ?partclass.\\n  FILTER contains(?partclass,'Powertrain').\\n\\n}\\n\",\n      \"proxyPath\": \"false\",\n      \"proxyMethod\": \"false\",\n      \"proxyQueryParams\": \"true\",\n      \"proxyBody\": \"false\"\n    }\n  }\n}",
+							"raw": "{\n  \"id\":\"tierAOffer\",\n  \"accessPolicyId\": \"tierAPolicy\",\n  \"contractPolicyId\": \"tierAPolicy\",\n  \"criteria\": [ {\n      \"operandLeft\": \"asset:prop:id\",\n      \"operator\":\"~\",\n      \"operandRight\":\"urn:cx:Graph:tierA:.*\"\n  }]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2482,13 +2937,164 @@
 							}
 						},
 						"url": {
-							"raw": "{{oemEdcControl}}/data/assets",
+							"raw": "{{tieraEdcControl}}/data/contractdefinitions",
 							"host": [
-								"{{oemEdcControl}}"
+								"{{tieraEdcControl}}"
 							],
 							"path": [
 								"data",
-								"assets"
+								"contractdefinitions"
+							]
+						},
+						"description": "Calls the datamanagement API in order to create a contract."
+					},
+					"response": []
+				},
+				{
+					"name": "2.8 Check Propagation into Consumer Data Catalogue",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"setTimeout(function(){ console.log(\"Wait before catalogue is synchronized.\")}, 60000);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Contract Offer was propagated\", function () {",
+									"    pm.expect(pm.response.code).oneOf([200]);",
+									"    pm.expect(pm.response.json().results.bindings.length).gte(1);",
+									"    pm.expect(pm.response.json().results.bindings[0].asset.value).eq(\"urn:cx:Graph:tierA:LifetimeGearbox\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{consumerAgentPlane}}/api/agent?query=SELECT ?asset WHERE { <edcs://knowledge.dev.demo.catena-x.net/tiera-edc-control/BPNL00000003CPIY> <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl%23offersAsset> ?asset. }",
+							"host": [
+								"{{consumerAgentPlane}}"
+							],
+							"path": [
+								"api",
+								"agent"
+							],
+							"query": [
+								{
+									"key": "asset",
+									"value": "urn:x-arq:DefaultGraph",
+									"description": "the default graph should be compliant",
+									"disabled": true
+								},
+								{
+									"key": "query",
+									"value": "SELECT ?asset WHERE { <edcs://knowledge.dev.demo.catena-x.net/tiera-edc-control/BPNL00000003CPIY> <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl%23offersAsset> ?asset. }"
+								}
+							]
+						},
+						"description": "Uses the Agent Extension of the Dataplane to Perform Some Dynamic Query on a Local Graph (here: the federated data catalogue)."
+					},
+					"response": []
+				},
+				{
+					"name": "3.0 Deregister Existing Consumer Contract Definition",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Deletion/Non-Existance of Contract Definition was successful\", function () {",
+									"    pm.expect(pm.response.code).oneOf([204,404]);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"warning": "This is a duplicate header and will be overridden by the X-Api-Key header generated by Postman.",
+								"key": "X-Api-Key",
+								"value": "{{oemEdcApiKey}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{consumerEdcControl}}/data/contractdefinitions/:contract",
+							"host": [
+								"{{consumerEdcControl}}"
+							],
+							"path": [
+								"data",
+								"contractdefinitions",
+								":contract"
+							],
+							"variable": [
+								{
+									"key": "contract",
+									"value": "consumerOffer",
+									"description": "Id of the Contract Definition"
+								}
+							]
+						},
+						"description": "Calls the datamanagement API in order to create a graph asset."
+					},
+					"response": []
+				},
+				{
+					"name": "3.1 Deregister Consumer Skill Asset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Deletion/Non-Existance of Skill Asset was successful (if not part of an agreement)\", function () {",
+									"    pm.expect(pm.response.code).oneOf([204,404,409]);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"warning": "This is a duplicate header and will be overridden by the X-Api-Key header generated by Postman.",
+								"key": "X-Api-Key",
+								"value": "{{oemEdcApiKey}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{consumerEdcControl}}/data/assets/:asset",
+							"host": [
+								"{{consumerEdcControl}}"
+							],
+							"path": [
+								"data",
+								"assets",
+								":asset"
+							],
+							"variable": [
+								{
+									"key": "asset",
+									"value": "urn:cx:Skill:consumer:LifetimeGearbox"
+								}
 							]
 						},
 						"description": "Calls the datamanagement API in order to create a skill asset."
@@ -2496,7 +3102,7 @@
 					"response": []
 				},
 				{
-					"name": "3.4 Disable Consumer Skill Policy",
+					"name": "3.2 Disable Consumer Skill Policy",
 					"event": [
 						{
 							"listen": "test",
@@ -2522,14 +3128,20 @@
 							}
 						],
 						"url": {
-							"raw": "{{oemEdcControl}}/data/policydefinitions/consumerPolicy",
+							"raw": "{{consumerEdcControl}}/data/policydefinitions/:policy",
 							"host": [
-								"{{oemEdcControl}}"
+								"{{consumerEdcControl}}"
 							],
 							"path": [
 								"data",
 								"policydefinitions",
-								"consumerPolicy"
+								":policy"
+							],
+							"variable": [
+								{
+									"key": "policy",
+									"value": "consumerPolicy"
+								}
 							]
 						},
 						"description": "Calls the datamanagement API in order to create a skill policy."
@@ -2537,7 +3149,111 @@
 					"response": []
 				},
 				{
-					"name": "3.4 Enable Consumer Skill Policy",
+					"name": "3.3 Check Propagation into Consumer Data Catalogue",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"setTimeout(function(){ console.log(\"Wait before catalogue is synchronized.\")}, 60000);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Contract Offer Deletion was propagated\", function () {",
+									"    pm.expect(pm.response.code).oneOf([200]);",
+									"    pm.expect(pm.response.json().results.bindings.length).eq(0);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{consumerAgentPlane}}/api/agent?query=SELECT ?asset WHERE { <edcs://knowledge.dev.demo.catena-x.net/consumer-edc-control/BPNL00000003CQI9> <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl%23offersAsset> ?asset. }",
+							"host": [
+								"{{consumerAgentPlane}}"
+							],
+							"path": [
+								"api",
+								"agent"
+							],
+							"query": [
+								{
+									"key": "asset",
+									"value": "urn:x-arq:DefaultGraph",
+									"description": "the default graph should be compliant",
+									"disabled": true
+								},
+								{
+									"key": "query",
+									"value": "SELECT ?asset WHERE { <edcs://knowledge.dev.demo.catena-x.net/consumer-edc-control/BPNL00000003CQI9> <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl%23offersAsset> ?asset. }"
+								}
+							]
+						},
+						"description": "Uses the Agent Extension of the Dataplane to Perform Some Dynamic Query on a Local Graph (here: the federated data catalogue)."
+					},
+					"response": []
+				},
+				{
+					"name": "3.5 Register Consumer Skill Asset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Creation/Existance was successful (if not blocked by agreement)\", function () {",
+									"    pm.expect(pm.response.code).oneOf([204,409]);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"warning": "This is a duplicate header and will be overridden by the X-Api-Key header generated by Postman.",
+								"key": "X-Api-Key",
+								"value": "{{oemEdcApiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Skill:consumer:LifetimeGearbox\",\n      \"asset:prop:name\": \"Remaining Useful Lifetime Skill for Vehicles\",\n      \"asset:prop:description\": \"A sample skill asset/offering implemented via SparQL.\",\n      \"asset:prop:version\": \"0.5.5-SNAPSHOT\",\n      \"asset:prop:contenttype\": \"application/json, application/xml\",\n      \"cx:protocol\": \"urn:cx:Protocol:w3c:Http#SPARQL\",\n      \"rdf:type\":\"https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#SkillAsset\",\n      \"rdfs:isDefinedBy\": \"https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl\",\n      \"cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Skill:consumer:LifetimeGearbox\",\n      \"type\": \"urn:cx:Protocol:w3c:Http#SKILL#SPARQL\",\n      \"query\": \"PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\\nPREFIX cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\\nSELECT ?reason ?code ?description ?version ?partend ?partcat ?partclass WHERE {\\n  # Select Business Partner\\n  ?Oem cx:BPNL \\\"BPNL00000003COJN\\\".\\n\\n  # Search for Trouble Codes of the Business Partner\\n  # related to a cause in the \\\"Kabelbaum\\\"\\n  ?Dtc rdf:type cx-diag:DTC.\\n  ?Dtc cx:provisionedBy ?Oem.\\n  ?Dtc cx-diag:PossibleCauses ?reason.\\n  FILTER contains(?reason,\\\"Kabelbaum\\\").\\n  ?Dtc cx-diag:Code ?code.\\n  ?Dtc cx-diag:Description ?description.\\n  ?Dtc cx-diag:Version ?version.\\n\\n  # Navigate to the affected parts\\n  # and show only parts with a classification \\\"Powertrain\\\"\\n  ?Dtc cx-diag:affects ?Part.\\n  ?Part cx-diag:Category ?partcat.\\n  ?Part cx-diag:EnDenomination ?partend.\\n  ?Part cx-diag:Classification ?partclass.\\n  FILTER contains(?partclass,'Powertrain').\\n\\n}\\n\",\n      \"proxyPath\": \"false\",\n      \"proxyMethod\": \"false\",\n      \"proxyQueryParams\": \"true\",\n      \"proxyBody\": \"false\"\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{consumerEdcControl}}/data/assets",
+							"host": [
+								"{{consumerEdcControl}}"
+							],
+							"path": [
+								"data",
+								"assets"
+							]
+						},
+						"description": "Calls the datamanagement API in order to create a skill asset."
+					},
+					"response": []
+				},
+				{
+					"name": "3.6 Enable Consumer Skill Policy",
 					"event": [
 						{
 							"listen": "test",
@@ -2572,9 +3288,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{oemEdcControl}}/data/policydefinitions",
+							"raw": "{{consumerEdcControl}}/data/policydefinitions",
 							"host": [
-								"{{oemEdcControl}}"
+								"{{consumerEdcControl}}"
 							],
 							"path": [
 								"data",
@@ -2582,6 +3298,111 @@
 							]
 						},
 						"description": "Calls the datamanagement API in order to create a skill policy."
+					},
+					"response": []
+				},
+				{
+					"name": "3.7 Register Tier1 Skill Contract Definition",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Creation/Existance was successful\", function () {",
+									"    pm.expect(pm.response.code).oneOf([204]);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"warning": "This is a duplicate header and will be overridden by the X-Api-Key header generated by Postman.",
+								"key": "X-Api-Key",
+								"value": "{{oemEdcApiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\":\"consumerOffer\",\n  \"accessPolicyId\": \"consumerPolicy\",\n  \"contractPolicyId\": \"consumerPolicy\",\n  \"criteria\": [ {\n      \"operandLeft\": \"asset:prop:id\",\n      \"operator\":\"~\",\n      \"operandRight\":\"urn:cx:Skill:consumer:.*\"\n  }]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{consumerEdcControl}}/data/contractdefinitions",
+							"host": [
+								"{{consumerEdcControl}}"
+							],
+							"path": [
+								"data",
+								"contractdefinitions"
+							]
+						},
+						"description": "Calls the datamanagement API in order to create a skill contract."
+					},
+					"response": []
+				},
+				{
+					"name": "3.8 Check Propagation into Consumer Data Catalogue",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"setTimeout(function(){ console.log(\"Wait before catalogue is synchronized.\")}, 60000);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Contract Offer was propagated\", function () {",
+									"    pm.expect(pm.response.code).oneOf([200]);",
+									"    pm.expect(pm.response.json().results.bindings.length).gte(1);",
+									"    pm.expect(pm.response.json().results.bindings[0].asset.value).eq(\"urn:cx:Skill:consumer:LifetimeGearbox\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{consumerAgentPlane}}/api/agent?query=SELECT ?asset WHERE { <edcs://knowledge.dev.demo.catena-x.net/consumer-edc-control/BPNL00000003CQI9> <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl%23offersAsset> ?asset. }",
+							"host": [
+								"{{consumerAgentPlane}}"
+							],
+							"path": [
+								"api",
+								"agent"
+							],
+							"query": [
+								{
+									"key": "asset",
+									"value": "urn:x-arq:DefaultGraph",
+									"description": "the default graph should be compliant",
+									"disabled": true
+								},
+								{
+									"key": "query",
+									"value": "SELECT ?asset WHERE { <edcs://knowledge.dev.demo.catena-x.net/consumer-edc-control/BPNL00000003CQI9> <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl%23offersAsset> ?asset. }"
+								}
+							]
+						},
+						"description": "Uses the Agent Extension of the Dataplane to Perform Some Dynamic Query on a Local Graph (here: the federated data catalogue)."
 					},
 					"response": []
 				}

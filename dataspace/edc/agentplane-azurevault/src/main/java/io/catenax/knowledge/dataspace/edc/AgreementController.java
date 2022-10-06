@@ -262,7 +262,7 @@ public class AgreementController {
 
         try {
             while ((System.currentTimeMillis() - startTime < config.getNegotiationTimeout()) && (negotiation == null || !negotiation.getState().equals("CONFIRMED"))) {
-                Thread.sleep(config.getNegotiationPollinterval());
+                Thread.sleep(config.getNegotiationPollInterval());
                 negotiation = dataManagement.getNegotiation(
                         negotiationId
                 );
@@ -338,7 +338,7 @@ public class AgreementController {
 
         try {
             while ((System.currentTimeMillis() - startTime < config.getNegotiationTimeout()) && (process == null || !process.getState().equals("COMPLETED"))) {
-                Thread.sleep(config.getNegotiationPollinterval());
+                Thread.sleep(config.getNegotiationPollInterval());
                 process = dataManagement.getTransfer(
                         transferId
                 );
@@ -355,6 +355,24 @@ public class AgreementController {
             throw new InternalServerErrorException(String.format("Transfer process %s for agreement %s and asset %s could not be provisioned.", transferId, agreement.getId(), asset));
         }
 
+        // finally wait a bit for the endpoint data reference in case
+        // that the process was signalled earlier than the callbacks
+        startTime = System.currentTimeMillis();
+
+        EndpointDataReference reference=null;
+
+        try {
+            while ((System.currentTimeMillis() - startTime < config.getNegotiationTimeout()) && (reference == null)) {
+                Thread.sleep(config.getNegotiationPollInterval());
+                synchronized(endpointStore) {
+                    reference=endpointStore.get(asset);
+                }
+            }
+        } catch (InterruptedException e) {
+            monitor.info(String.format("Wait thread for reference to asset %s has been interrupted. Giving up.", asset),e);
+        }
+
+        // now delegate to the original getter
         return get(asset);
     }
 

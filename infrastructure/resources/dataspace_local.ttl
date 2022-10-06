@@ -20,12 +20,13 @@
                              cx:isIssuerOfVehicleIdentificationNumber "WBAAL31029PZ00001"^^xsd:string;
                              cx:isIssuerOfVehicleIdentificationNumber "WBAAL31029PZ00002"^^xsd:string;
                              cx:isIssuerOfVehicleIdentificationNumber "WBAAL31029PZ00003"^^xsd:string;
-                             cx:hasConnector <edc://oem-control-plane:8282>;
-                             cx:offersAsset <urn:cx:Graph:oem:Diagnosis2022>.
+                             cx:hasConnector <edc://oem-control-plane:8282>.
 
 <urn:cx:BusinessPartner:tiera> cx:hasLongBusinessPartnerNumber "BPNL00000003CPIY"^^xsd:string;
-                               cx:hasConnector <edc://oem-control-plane:8282>;
-                               cx:offersAsset <urn:cx:Graph:tierA:LifetimeGearbox>.
+                               cx:hasConnector <edc://tiera-control-plane:8282>.
+
+<urn:cx:BusinessPartner:consumer> cx:hasLongBusinessPartnerNumber "BPNL00000003CQI9"^^xsd:string;
+                               cx:hasConnector <edc://consumer-control-plane:8282>.
 
 <urn:cx:AnonymousVehicle#10000ZP92013LAABW> cx:isAnonymousVehicle "WBAAL31029PZ00001"^^xsd:string;
                                             cx:hasRegistration "{ \"Value\": 20220624,  \"Unit\": \"yyyymmdd\" }"^^xsd:string;
