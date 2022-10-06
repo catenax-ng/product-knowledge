@@ -54,8 +54,8 @@ import {getRealmMappingFactory} from '@knowledge-agents-ux/skill_framework';
 var additionalHeaders=getRealmMappingFactory().create().getHeaderAnnotation('http://www.example.com');
 ```
 
-The default realm mapping factory will use a realm mapping implementation which takes a header key from the `SKILL_CONNECTOR_AUTH_HEADER_KEY` environment variable 
-and the header value from the `SKILL_CONNECTOR_AUTH_HEADER_VALUE` variable. If the environment variables are unset, the header object will be empty.
+The default realm mapping factory will use a realm mapping implementation which takes a header key from the `REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY` environment variable 
+and the header value from the `REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_VALUE` variable. If the environment variables are unset, the header object will be empty.
 
 ## Interacting with the Dataspace Connector
 
@@ -69,16 +69,17 @@ import {getConnectorFactory, Catalogue} from '@knowledge-agents-ux/skill_framewo
 var catalogue:Catalogue = await getConnectorFactory().create().listAssets();
 ```
 
-The default connector factory will inspect the `SKILL_CONNECTOR`,`SKILL_CONNECTOR_AUTH_HEADER_KEY`, `SKILL_CONNECTOR_AUTH_HEADER_VALUE` and `SKILL_PROXY` environment variables. 
+The default connector factory will inspect the `REACT_APP_SKILL_CONNECTOR_CONTROL`,`REACT_APP_SKILL_CONNECTOR_DATA`,`REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY`, `REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_VALUE` and `REACT_APP_SKILL_PROXY` environment variables. 
 If they are unset or empty, it will use a mock connector implementation. 
 
 Otherwise, it will use a connector implementation that uses the given string as the connector URL.
 
 ```console
-export SKILL_CONNECTOR=https://knowledge.int.demo.catena-x.net/oem-edc-control/BPNL00000003COJN
-export SKILL_CONNECTOR_AUTH_HEADER_KEY=X-Api-Key
-export SKILL_CONNECTOR_AUTH_HEADER_VALUE=YOURAPIKEY
-export SKILL_PROXY=YOURPROXY
+export REACT_APP_SKILL_CONNECTOR_CONTROL=https://knowledge.int.demo.catena-x.net/oem-edc-control/BPNL00000003COJN
+export REACT_APP_SKILL_CONNECTOR_DATA=https://knowledge.int.demo.catena-x.net/oem-edc-data/BPNL00000003COJN
+export REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY=X-Api-Key
+export REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_VALUE=YOURAPIKEY
+export REACT_APP_SKILL_PROXY=YOURPROXY
 ## Notice
 
 * see copyright notice in the top folder

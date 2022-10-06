@@ -11,7 +11,7 @@ import createHttpsProxyAgent from 'https-proxy-agent';
 import { HttpsProxyAgent } from 'https-proxy-agent'; 
 
 // issue a module loading message
-console.log("Debug: Loading skill_framework/index");
+console.log("skill_framework/index: Loading");
 
 /*
  * a connector factory
@@ -63,7 +63,7 @@ export interface ContractOffer {
     /**
      * optional id of the associated artifact/asset
      */
-    assetId?: string,
+    assetId?: string | null,
     /**
      * the urn of the provider
      */
@@ -75,19 +75,19 @@ export interface ContractOffer {
     /**
      * if this offer is temporarily restricted: the start of the offer
      */
-    offerStart?: string,
+    offerStart?: string | null,
     /**
      * if this offer is temporarily restricted: the end of the offer
      */
-    offerEnd?: string,
+    offerEnd?: string | null,
     /**
      * if the contract associated to this offer is temporarily restricted: the start of the contract
      */
-    contractStart?: string,
+    contractStart?: string | null,
     /**
      * if the contract associated to this offer is temporarily restricted: the end of the contract
      */
-    contractEnd?: string,
+    contractEnd?: string | null,
     /**
      * the policy of the offer
      */
@@ -103,7 +103,7 @@ export interface ContractOffer {
  */
 interface Policy {
     /** unique id of the policy */
-    uid: string,
+    uid?: string | null,
     /** a set of permissions */
     permissions: Condition[],
     /** a set of prohibitions */
@@ -113,13 +113,13 @@ interface Policy {
     /** this is extensible */
     extensibleProperties: any,
     /** policies may inherit from each other, this would be the uid of the parent policy if so */
-    inheritsFrom?: string,
+    inheritsFrom?: string | null,
     /** the assigner of the policy */
-    assigner?: string,
+    assigner?: string | null,
     /** the assignee of the policy */
-    assignee?: string,
+    assignee?: string | null,
     /** the target of the policy (if restricted) */
-    target?: string,
+    target?: string | null,
     /** the type of the policy */
     '@type': PolicyTypeObject
 }
@@ -152,7 +152,7 @@ interface Condition {
     /**
      * condition may have a unique identifier
      */
-    uid?: string,
+    uid?: string | null,
     /**
      * a target of the condition
      */
@@ -164,11 +164,11 @@ interface Condition {
     /**
      * assignee of the condition
      */
-    assignee?: string,
+    assignee?: string | null,
     /**
      * assigner of the condition
      */
-    assigner?: string,
+    assigner?: string | null,
     /** a set of constraints on the condition */
     constraints: Constraint[],
     /** a set of duties attached to the condition */
@@ -191,9 +191,9 @@ export interface Action {
     /** type of action */
     type: ActionType,
     /** TODO wtf */
-    includedIn?: string,
+    includedIn?: string | null,
     /** an action may also directly have a constraint */
-    constraint?: Constraint
+    constraint?: Constraint | null
 }
 
 /**
@@ -213,22 +213,35 @@ export interface Asset {
 /**
  * the flexible properties of an asset
  */
-export interface AssetProperties {
+ export interface AssetProperties {
     /** clear name of the asset  */
-    'asset:prop:name': string,
+    'asset:prop:name'?: string | null;
     /** content type TODO use enum or media type  */
-    'asset:prop:contenttype': string,
+    'asset:prop:contenttype': string;
     /** optional size */
-    'ids:byteSize'?: number,
+    'ids:byteSize'?: number | null;
     /** version of the asset descriptor */
-    'asset:prop:version'?: string,
+    'asset:prop:version'?: string | null;
     /** id of the asset */
-    'asset:prop:id': string,
+    'asset:prop:id': string;
     /** optional filename when downloading */
-    'ids:fileName'?: string,
+    'ids:fileName'?: string | null;
     /** a policy may be referenced directly  */
-    'asset:prop:policy-id'?: string,
-
+    'asset:prop:policy-id'?: string;
+    /** whether its a federated asset */
+    "cx:isFederated"?: boolean | null,
+    /** asset description */
+    "asset:prop:description"?: string | null,
+    /** asset filename */
+    "asset:prop:fileName"?: string | null,
+    /** asset ontology */
+    "rdfs:isDefinedBy"?: string | null,
+    /** asset self-description in SHACL */
+    "cx:shape"?: string | null,
+    /** query subprotocol */
+    "cx:protocol"?: DataAddressEndpointType | null,
+    /** asset type */
+    "rdf:type"?: string | null
 }
 
 /**
@@ -236,9 +249,9 @@ export interface AssetProperties {
  */
 export interface Artifact {
     /** links an asset description */
-    asset:Asset,
+    asset: Asset;
     /** with a data address description */
-    dataAddress:DataAddress
+    dataAddress: DataAddress;
 }
 
 /**
@@ -246,15 +259,16 @@ export interface Artifact {
  */
 export interface DataAddress {
     /** just a flexible container of properties */
-    properties: DataAddressProperties
+    properties: DataAddressProperties;
 }
 
 /**
  * the different types of endpoints/data planes supported
  */
-export enum DataAddressEndpointType {
+export declare enum DataAddressEndpointType {
     /** http data plane */
-    HttpData = "HttpData"
+    HttpData = "HttpData",
+    Sparql = "urn:cx:Protocol:w3c:Http#SPARQL"
 }
 
 /**
@@ -273,19 +287,23 @@ export interface DataAddressProperties {
 class MockConnector implements IConnector {
     public listAssets(providerUrl?: string): Promise<Catalogue> {
         return Promise.resolve({
-            "id": "default",
+            "id": "catenax",
             "contractOffers": [
                 {
-                    "id": "contract-readall:6854d537-c810-49c0-85e6-df038257d90c",
+                    "id": "oemOffer:64640ec6-5566-353f-97c2-f82013f6956e",
                     "policy": {
-                        "uid": "f0930399-72da-4d64-82e1-e7df015de403",
                         "permissions": [
                             {
                                 "edctype": "dataspaceconnector:permission",
-                                "target": "offer-code",
+                                "uid": null,
+                                "target": "urn:cx:Graph:oem:Diagnosis2022",
                                 "action": {
                                     "type": ActionType.USE,
+                                    "includedIn": null,
+                                    "constraint": null
                                 },
+                                "assignee": null,
+                                "assigner": null,
                                 "constraints": [],
                                 "duties": []
                             }
@@ -293,22 +311,42 @@ class MockConnector implements IConnector {
                         "prohibitions": [],
                         "obligations": [],
                         "extensibleProperties": {},
+                        "inheritsFrom": null,
+                        "assigner": null,
+                        "assignee": null,
+                        "target": "urn:cx:Graph:oem:Diagnosis2022",
                         "@type": {
                             "@policytype": PolicyType.set
                         }
                     },
                     "asset": {
+                        "id": "urn:cx:Graph:oem:Diagnosis2022",
+                        "createdAt": 1665051075480,
                         "properties": {
-                            "asset:prop:name": "Tenant Offer of Certificates of Destruction.",
-                            "asset:prop:contenttype": "application/json",
-                            "asset:prop:policy-id": "use-eu",
-                            "asset:prop:id": "offer-code",
+                            "asset:prop:byteSize": null,
+                            "asset:prop:name": "Diagnostic Trouble Code Catalogue Version 2022",
+                            "cx:isFederated": true,
+                            "asset:prop:description": "A sample graph asset/offering referring to a specific diagnosis resource.",
+                            "asset:prop:contenttype": "application/json, application/xml",
+                            "rdfs:isDefinedBy": "https://github.com/catenax-ng/product-knowledge/ontology/diagnosis_ontology.ttl",
+                            "cx:shape": "@prefix : <urn:cx:Graph:oem:Diagnosis2022> .\n@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .\n@prefix cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#> .\n@prefix owl: <http://www.w3.org/2002/07/owl#> .\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n@prefix sh: <http://www.w3.org/ns/shacl#> .\n\nOemDTC rdf:type sh:NodeShape ;\n  sh:targetClass cx-diag:DTC ;\n  sh:property [\n        sh:path cx:provisionedBy ;\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\n    ] ;\n  sh:property [\n        sh:path cx-diag:Version ;\n        sh:hasValue 0^^xsd:long ;\n    ] ;\n  sh:property [\n        sh:path cx-diag:Affects ;\n        sh:class OemDiagnosedParts ;\n    ] ;\n\nOemDiagnosedParts rdf:type sh:NodeShape ;\n  sh:targetClass cx-diag:DiagnosedPart ;\n  sh:property [\n        sh:path cx:provisionedBy ;\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\n    ] ;\n",
+                            "cx:protocol": DataAddressEndpointType.Sparql,
+                            "asset:prop:version": "0.5.5-SNAPSHOT",
+                            "asset:prop:id": "urn:cx:Graph:oem:Diagnosis2022",
+                            "asset:prop:fileName": null,
+                            "rdf:type": "https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#GraphAsset"
                         }
                     },
+                    "assetId": null,
                     "provider": "urn:connector:provider",
                     "consumer": "urn:connector:consumer",
+                    "offerStart": null,
+                    "offerEnd": null,
+                    "contractStart": null,
+                    "contractEnd": null
                 }
-            ]});
+            ]
+        });
     }
 
     //execute
@@ -367,8 +405,8 @@ export class EnvironmentConnectorFactory implements IConnectorFactory {
     private environmentConnector: IConnector;
     
     constructor() {
-        if (process.env.SKILL_CONNECTOR_CONTROL != undefined && process.env.SKILL_CONNECTOR_DATA != undefined && process.env.SKILL_CONNECTOR_CONTROL != "" && process.env.SKILL_CONNECTOR_DATA != "") {
-            this.environmentConnector = new RemoteConnector(process.env.SKILL_CONNECTOR_CONTROL,process.env.SKILL_CONNECTOR_DATA,undefined,process.env.SKILL_PROXY);
+        if (process.env.REACT_APP_SKILL_CONNECTOR_CONTROL != undefined && process.env.REACT_APP_SKILL_CONNECTOR_DATA != undefined && process.env.REACT_APP_SKILL_CONNECTOR_CONTROL != "" && process.env.REACT_APP_SKILL_CONNECTOR_DATA != "") {
+            this.environmentConnector = new RemoteConnector(process.env.REACT_APP_SKILL_CONNECTOR_CONTROL,process.env.REACT_APP_SKILL_CONNECTOR_DATA,undefined,process.env.REACT_APP_SKILL_PROXY);
         } else {
             this.environmentConnector = new MockConnector();
         }
@@ -403,8 +441,8 @@ class EnvironmentRealmMapping implements IRealmMapping {
 
     public getHeaderAnnotation(targetDomain:string) {
         var headers:any={};
-        if(process.env.SKILL_CONNECTOR_AUTH_HEADER_KEY != undefined) {
-            headers[ process.env.SKILL_CONNECTOR_AUTH_HEADER_KEY ?? "" ] =  process.env.SKILL_CONNECTOR_AUTH_HEADER_VALUE;
+        if(process.env.REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY != undefined) {
+            headers[ process.env.REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY ?? "" ] =  process.env.REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_VALUE;
         }
         return headers;
     }
