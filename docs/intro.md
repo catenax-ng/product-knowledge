@@ -3,12 +3,15 @@ sidebar_position: 1
 title: Intro
 ---
 
-Welcome to the documentation of the Catena-X Knowledge Agents (aka Hey Catena!)
+Welcome to Catena-X Knowledge Agents (aka Hey Catena!)
 
 Catena-X Knowledge Agents is 
-* an Extension to the Gaia-X/Dataspace Approach which allows Providers to Offer Federated, But Sovereign Inference Services instead of Plain Data Files
-* a set of reusable UX Components which allow Consumers to Develop/Delegate Ready-Made Inference Skills instead of Ingesting Tons of Raw Data
-* a way of combining a set of Domain Ontologies into a Matchmaking Marketplace.
+* an extension to the [Gaia-X](https://gaia-x.eu/)/[International Data Spaces](https://internationaldataspaces.org/) approach 
+  * which allows Providers to offer Federated, But Sovereign computation *Services* instead of Plain Data Files
+* a set of reusable UX Components 
+  * which allow Consumers and Operators to script distributed peer-to-peer logics (we call them Inference *Skills*) instead of Ingesting and Transforming Tons of Raw Data
+* a method for combining a set of Domain Ontologies into a Matchmaking Marketplace
+  * which allows Consumers, Operators and Providers to form a close-to-optimal platform adopting to ad-hoc conditions and requirements.
 
 Catena-X Knowledge Agents provides
 * Blueprints for the most common provisioning and consuming scenarios
@@ -16,12 +19,14 @@ Catena-X Knowledge Agents provides
 * Consulting for domain-specific modelling and business building.
 
 Catena-X Knowledge Agents was previously in a [spike](spike) phase (0.4.X)
-Catena-X Knowledge Agents is currently in a [pilot](howto) phase (0.5.X)
+Catena-X Knowledge Agents was previously a [pilot](howto) phase (0.5.X)
+Catena-X Knowledge Agents will soon be a [solution](upcoming) phase (0.6.X)
 
-It is planned to switch to the release phase (1.6.X) in Q4 2022
+It is planned to switch to the release phase (1.7.X) in Q1 2023
 
-For inquiries please contact [Tom Buchert](mailto:tom.buchert@t-systems.com) (standin: [Peter Vollmert](mailto:peter.vollmert@t-systems.com))
+For inquiries please contact [Tom Buchert](mailto:tom.buchert@t-systems.com)
 
 * [Architecture](architecture)
 * [Spike](spike)
 * [How-To (Pilot)](howto)
+* [Upcoming](upcoming)
