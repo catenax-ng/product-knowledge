@@ -7,7 +7,7 @@ If you do not want to compile the sources on your own, you may directly start wi
 
 If you are a member of the Catena-X consortium, you could directly start with [Interacting with the Spike APIs and the Portal](#interacting-with-the-spike-apis-and-the-portal).
 
-# Source Repository
+## Source Repository
 
 You will find the source code of the Spike  under [https://github.com/catenax-ng/product-knowledge](https://github.com/catenax-ng/product-knowledge/tree/feature/ART3-375-spike) 
 
@@ -17,7 +17,7 @@ Be sure to initialise the git submodules after cloning the repo
 git submodule update --init --recursive
 ```
 
-# Building Packages and Running Locally
+## Building Packages and Running Locally
 
 You will need a JDK>=11 installed in the JAVA_HOME environment variable.
 You will need Apache Maven installed in the PATH environment variable.
@@ -25,7 +25,7 @@ You will need internet access and (optionally) a proxy installed in the HTTP_PRO
 You will need node.js/npm installed.
 The build process will install a (local) gradle build tool during the run.
 
-## Building under MacOS/M=>1
+### Building under MacOS/M=>1
 
 There is currently [no auto-configurable Java 11 toolchain for gradle](https://github.com/square/okhttp/issues/6943).
 
@@ -46,7 +46,7 @@ you may also
 export DOCKER_PLATFORM=linux/arm64
 ```
 
-## Building/Patching Jena
+### Building/Patching Jena
 
 ```console
 cd jena
@@ -58,7 +58,7 @@ git restore .
 cd ..
 ```
 
-## Building/Patching Eclipse Dataspace Connector
+### Building/Patching Eclipse Dataspace Connector
 
 ```console
 cd DataSpaceConnector
@@ -66,13 +66,13 @@ cd DataSpaceConnector
 cd ..
 ```
 
-## Building Knowledge Agents
+### Building Knowledge Agents
 
 ```console
 ./gradlew $GRADLE_PROPS -Dhttps.proxyHost=${HTTP_PROXY_HOST} -Dhttps.proxyPort=${HTTP_PROXY_PORT} build
 ```
 
-## Running the Spike components
+### Running the Spike components
 
 ```console
 # Run a single backend data plane
@@ -87,7 +87,7 @@ npm install npm@latest --force
 npm start
 ```
 
-# Deployment using Docker 
+## Deployment using Docker 
 
 Once the packages are compiled, the following command will build all docker images
 
@@ -110,14 +110,14 @@ Running the spike via docker is then done via
 docker compose up
 ```
 
-## Using a Helm Chart/Kubernetes Deployment
+### Using a Helm Chart/Kubernetes Deployment
 
 You could mount the [helm folder of the repository](https://github.com/catenax-ng/product-knowledge/tree/feature/ART3-375-spike/helm)  also in Argo CD or 
 an equivalent mechanism. 
 
 Please be aware that this is currently not configurable, e.g. to non-Catena-X environments.
 
-# Interacting with the Spike APIs and the Portal
+## Interacting with the Spike APIs and the Portal
 
 You should now be able to access the APIs via this public Postman Workspace https://www.postman.com/catena-x/workspace/catena-x-knowledge-agents (choose the "Localhost" environment - no additional credentials needed - and the "Hey Catena! Spike" Collection).
 
@@ -132,9 +132,9 @@ And you should use Google Chrome (because of the pre-installed HTML5-speechkit v
 
 If you are a member of the Catena-X consortium, you may also directly login to the [Integration Environment](https://hey.int.demo.catena-x.net/portal) information from [our Catena-x confluence page](https://confluence.catena-x.net/x/1wHrAg). 
 
-# What the demo shows
+## What the demo shows
 
-## Login and Welcome
+### Login and Welcome
 
 After a successful login (for which you will need a login in a Speedboat-compatible Directory Service) you will enter the dashboard which shows your "booked" services and apps.
 
@@ -146,7 +146,7 @@ You will also see that there are several skills (=predefined queries, such as Ma
 
 Both the agents and the skills will appear again in the Knowledge Explorer (linked in the welcome screen and as "knowledge" in the top menu).
 
-## Knowledge Explorer
+### Knowledge Explorer
 
 The Knowledge Explorer starts empty. 
 
@@ -162,7 +162,7 @@ If you dictate, any recognized skill (depending on the phrase that is understood
 
 When there is no skill or the phrase will not lead to any reasonable inference and hence knowledge result, Catena-X may answer "WTF?"
 
-## Part Tracing Skill
+### Part Tracing Skill
 
 Try to dictate "Show me all vehicles which contain glue" - the phrase which contain is the marker for Catena-X to choose the Part Tracing Skill. The following phrase glue will be used as the parameter to the skill and you could try to experiment with other materials such as palladium, copper or cathode material.
 
@@ -173,7 +173,7 @@ After successful execution (remember to press enter in the Ask Me! box), the exp
 
 At the same time, the chosen agent will give you an aggregated summary in speech ("Hi Schorsch! There are 10 vehicles which contain glue." - the username is currently still hardoded, unfortunately).
 
-## Switching Agents and the Material Aggregation Skill
+### Switching Agents and the Material Aggregation Skill
 
 No try to dictate or write "Hi Tina" which is the phrase to let Catena-X switch the underlying agent engine (other options are Cortana, Stefan, Helga). 
 
@@ -183,8 +183,7 @@ When uttering "How much cathode material is in vehicle model a", TINA will then 
 
 ![Spike Material Skill](/img/spike_material_skill.png)
 
-
-## German Speech Output and the Lot Impact Skill
+### German Speech Output and the Lot Impact Skill
 
 Finally, you can switch to a German-Speaking Agent "Helga" by using the Agent Combobox selection.
 
@@ -194,7 +193,7 @@ And Helga will give you a trace of aggregate components (and the material inside
 
 ![Spike Lot Skill](/img/spike_material_skill.png)
 
-## How to I extend skills?
+### How to I extend skills?
 
 [This piece of frontend code](https://github.com/drcgjung/tractusx/blob/dd67f0b99ad8c4c02acc644606908f566076212a/portal/code/tractus-x-portal/src/components/knowledgeagent/data.ts) shows how easy it is to implement new skills and conversations using this approach.
 
