@@ -3,7 +3,7 @@ sidebar_position: 3
 title: How To (Pilot)
 ---
 
-If you do not want to compile the sources on your own, you may directly start with [Deployment](#deployment-packages)
+If you do not want to compile the sources on your own, you may directly start with [Deployment](#deploying-packages)
 
 If you are a member of the Catena-X consortium, you could directly start with [Interacting with the Pilot APIs](#interacting-with-the-pilot-apis-and-the-skill-gym).
 
@@ -96,7 +96,7 @@ Deploying the maven packages can be done with or without docker images
 ./mvnw -s settings.xml publish -Pwith-docker-image
 ```
 
-Deploying the npm packages can be done as follows
+Deploying the npm packages can be done as follows (where the username/password to be entered correspond to above github credentials)
 
 ```console
 cd ux
