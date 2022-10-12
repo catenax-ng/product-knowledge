@@ -165,6 +165,10 @@
             <id>ka-dsc-patches</id>
             <url>https://maven.pkg.github.com/catenax/ka-DataspaceConnector</url>
         </repository>
+        <repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+	    </repository>
     </repositories>
 
     <distributionManagement>
