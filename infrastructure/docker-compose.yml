@@ -120,8 +120,11 @@ services:
   # Configures the tiera backend 
   #
   tiera-backend:
-    image: ghcr.io/catenax-ng/product-knowledge/backend/lifetime-prognosis-mock:latest
-    platform: linux/amd64
+    build:
+      dockerfile: Dockerfile
+      context: ../dataspace/mock/rul
+    image: ghcr.io/catenax-ng/product-knowledge/backend/rul-mock:0.6.1-SNAPSHOT
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "5005:5005" # API
 
