@@ -45,10 +45,12 @@ After this happends, you can start the React app with:
 npm run start:skillgym
 ```
 
-If you want to make changes inside the skill_gym, the server will notice those changes automatically. But if you will make changes insider the skill_modules you need to build the library again with:
+If you want to make changes inside the skill_gym, the server will notice those changes automatically. But if you will make changes inside the skill_modules you need to build the library again with:
+
 
 ```
 npm run build:skillm
 ```
 
-The server now automatically notices this change and will show your changes.
+The server not always notices this change automatically, in order to show the recent changes. If this happens just reload the page again.
+

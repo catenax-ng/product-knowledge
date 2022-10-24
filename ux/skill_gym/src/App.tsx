@@ -1,11 +1,24 @@
-import { AssetView, OntologyView } from "@catenax-ng/skill-modules";
+import { Logo, MainNavigation } from 'cx-portal-shared-components'
+import { NavLink, Outlet } from 'react-router-dom'
+import { Box } from "@mui/material";
 
 export default function App(){
-  const jsonUrl = 'https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/infrastructure/consumer/resources/cx-ontology.json'
+  const menu = [
+    {to: '/skill-gym', title: 'Skill Gym'},
+    {to: '/custom-search', title: 'Custom Search'}
+  ]
+
   return(
-    <>
-      <AssetView />
-      <OntologyView dataUrl={jsonUrl} />
-    </>
+    <Box>
+      <MainNavigation items={menu} component={NavLink}>
+        <Logo
+          altText="Logo CatenaX"
+          variant="text"
+        />
+      </MainNavigation>
+      <Box sx={{marginRight: 10, marginBottom: 10, marginLeft: 10}}>
+        <Outlet />
+      </Box>
+    </Box>
   )
 }

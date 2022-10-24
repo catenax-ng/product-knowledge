@@ -276,7 +276,7 @@ data:
     cx.agent.controlplane.url=http://consumer-control-plane:8181/data
     cx.agent.asset.file=dataspace.ttl
     cx.agent.dataspace.synchronization=60000
-    cx.agent.dataspace.remotes=https://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN,https://knowledge.dev.demo.catena-x.net/tiera-edc-control/BPNL00000003CPIY,https://knowledge.dev.demo.catena-x.net/consumer-edc-control/BPNL00000003CQI9
+    cx.agent.dataspace.remotes=https://{{ .Values.ingress.host}}/oem-edc-control/BPNL00000003COJN,https://{{ .Values.ingress.host}}/tiera-edc-control/BPNL00000003CPIY,https://{{ .Values.ingress.host}}/consumer-edc-control/BPNL00000003CQI9
 
         # edc.api.control.auth.apikey.key=
         # edc.api.control.auth.apikey.value=

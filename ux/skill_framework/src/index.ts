@@ -30,7 +30,7 @@ export interface IConnector {
      */
 
     listAssets: (providerUrl?:string) => Promise<Catalogue>
-    execute: (skill:string, ...queryVariables:any[]) => Promise<BindingSet>
+    execute: (skill:string, queryVariables:any) => Promise<BindingSet>
 }
 
 /**
@@ -471,7 +471,7 @@ class EnvironmentRealmMapping implements IRealmMapping {
  }
 
 
- interface BindingSet {
+export interface BindingSet {
     head: Head,
     results:  Binding
 }
@@ -481,10 +481,10 @@ interface Head {
 }
 
 interface Binding {
-     bindings: Entry[];
+    bindings: Entry[];
 }
 
-interface Entry {
+export interface Entry {
    [key: string]: Value;
 }
 
@@ -549,14 +549,20 @@ class RemoteConnector implements IConnector {
     }
 
     //Execute Query
-    public async execute(skill:string, ...queryVariables:any[]) : Promise<BindingSet>  {
+    public async execute(skill:string, queryVariable:any) : Promise<BindingSet>  {
 
         const start = new Date().getTime();
 
         var skillUrl = '/api/agent?asset=urn:cx:Skill:consumer:' + skill;
         var parameters = "";
         var parametersContainer = "";
+        let queryVariables: any[] = [];
 
+        if(Array.isArray(queryVariable)){
+            queryVariables = queryVariable
+        } else {
+            queryVariables = [queryVariable]
+        }
         
         for(var queryVariable of queryVariables){
             Object.entries(queryVariable).forEach(([key, value]) => parameters = `${parameters}&${key}=${value}`);

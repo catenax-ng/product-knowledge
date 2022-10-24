@@ -102,11 +102,10 @@ describe('testing skill framework', () => {
 
       console.log(`Got connector ${connector}.`);
 
-      var queryVariables = { vin:'WBAAL31029PZ00001', problemArea:'Getriebe', minVersion:1 };
-      var queryVariables_1 = { vin:'WBAAL31029PZ00001', problemArea:'Getriebe', minVersion:1 }
+      var queryVariables = [{ vin:'WBAAL31029PZ00001', problemArea:'Getriebe', minVersion:1 }, { vin:'WBAAL31029PZ00001', problemArea:'Getriebe', minVersion:1 }];
       
 
-      var result = await connector.execute('TroubleCodeSearch', queryVariables, queryVariables_1);
+      var result = await connector.execute('TroubleCodeSearch', queryVariables);
     
       var var_size = result.head.vars.length;
       var vars = result.head.vars;
