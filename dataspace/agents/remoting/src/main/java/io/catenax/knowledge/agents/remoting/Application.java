@@ -6,26 +6,24 @@
 //
 package io.catenax.knowledge.agents.remoting;
 
-import java.util.Arrays;
-
-import org.eclipse.rdf4j.model.*;
-import org.eclipse.rdf4j.model.util.*;
-import org.eclipse.rdf4j.model.vocabulary.*;
-
-import org.eclipse.rdf4j.query.*;
-
+import org.eclipse.rdf4j.common.iteration.Iterations;
+import org.eclipse.rdf4j.query.BindingSet;
+import org.eclipse.rdf4j.query.QueryLanguage;
+import org.eclipse.rdf4j.query.TupleQuery;
+import org.eclipse.rdf4j.query.TupleQueryResult;
 import org.eclipse.rdf4j.repository.Repository;
 import org.eclipse.rdf4j.repository.RepositoryConnection;
-import org.eclipse.rdf4j.repository.RepositoryResult;
 import org.eclipse.rdf4j.repository.sail.SailRepository;
-import org.eclipse.rdf4j.sail.memory.MemoryStore;
-import org.eclipse.rdf4j.common.iteration.Iterations;
 
-import org.eclipse.rdf4j.rio.*;
+import java.util.Arrays;
 
 
 /**
- * The main application for the SparQL endpoint
+ * A sample main application which exposes an RDF4J-SparQL endpoint
+ * with a fixed binding. Just to demonstrate how to build custom servers.
+ * Usually, this library is added to the rdf4j lib path and the
+ * endpoints/repositories using the function binding are then defined
+ * declaratively.
  */
 public class Application {
 
@@ -34,6 +32,11 @@ public class Application {
     public String toString() {
         return super.toString()+"/application";
     }
+
+    /**
+     * main logic sets up the rdf4j server programatically.
+     * @param args command line args
+     */
 
     public static void main(String[] args) {        
         RemotingSailConfig rsc=new RemotingSailConfig(RemotingSailFactory.SAIL_TYPE);
@@ -46,9 +49,12 @@ public class Application {
         ac=new ArgumentConfig();
         ac.argumentName = "arg1";
         ic.arguments.put("https://github.com/catenax-ng/product-knowledge/ontology/prognosis.ttl#input-2",ac);
-        ReturnValueConfig rc=new ReturnValueConfig();
-        ic.outputs.put("https://github.com/catenax-ng/product-knowledge/ontology/prognosis.ttl#output",rc);
-        
+        ReturnValueConfig rvc=new ReturnValueConfig();
+        ResultConfig rc=new ResultConfig();
+        rc.outputs.put("https://github.com/catenax-ng/product-knowledge/ontology/prognosis.ttl#output",rvc);
+        ic.result=rc;
+        ic.resultName="https://github.com/catenax-ng/product-knowledge/ontology/prognosis.ttl#Result";
+
         rsc.validate();
 
         Repository rep = new SailRepository(new RemotingSail(rsc));

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Pom for building the remoting agent
+  Pom for building the mock prognosis service
   See copyright notice in the top folder
   See authors file in the top folder
   See license file in the top folder
@@ -8,18 +8,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>io.catenax.knowledge.dataspace</groupId>
-        <artifactId>agents</artifactId>
+        <artifactId>mock</artifactId>
         <version>0.6.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.catenax.knowledge.dataspace.agents</groupId>
-    <artifactId>provisioning-agent</artifactId>
+    <groupId>io.catenax.knowledge.dataspace.mock</groupId>
+    <artifactId>prognosis</artifactId>
     
-    <name>Catena-X Knowledge Agents Provisioning</name>
-    <description>This container/application binds existing data sources (SQL, Parquet, CSV, JSON) to a SparQL inference engine.</description>
+    <name>Catena-X Knowledge Agents Mock Prognosis</name>
+    <description>This container/application implements some mock services to be provided through the dataspace.</description>
     <url>http://catena-x.net/</url>
 
     <organization>
@@ -28,7 +28,7 @@
     </organization>
 
     <properties>
-        <symbolic.name>io.catenax.knowledge.provisioning-agent</symbolic.name>
+        <symbolic.name>io.catenax.knowledge.mock</symbolic.name>
         <finalName>${symbolic.name}-${project.version}</finalName>
     </properties>
 
