@@ -209,7 +209,7 @@ spec:
               subPath: prognosis.ttl
               readOnly: true
             - name: tiera-remoting-agent-config
-              mountPath: /var/rdf4j/server/repositories/health/health.ttl
+              mountPath: /var/rdf4j/server/repositories/health/config.ttl
               subPath: health.ttl
               readOnly: true
             - name: tiera-remoting-agent-config
