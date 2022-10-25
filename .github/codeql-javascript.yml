@@ -1,0 +1,12 @@
+name: "Javascript CodeQL config"
+
+languages: javascript
+
+queries:
+  - uses: security-and-quality
+
+paths:
+  - '**/src'
+paths-ignore:
+  - '**/node_modules'
+  - '**/dist'
