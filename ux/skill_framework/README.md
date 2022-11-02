@@ -56,11 +56,8 @@ var additionalHeaders = getRealmMappingFactory()
   .getHeaderAnnotation('http://www.example.com');
 ```
 
-<<<<<<< HEAD
-The default realm mapping factory will use a realm mapping implementation which takes a header key from the `REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY` environment variable 
-=======
 The default realm mapping factory will use a realm mapping implementation which takes a header key from the `REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY` environment variable
->>>>>>> main
+
 and the header value from the `REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_VALUE` variable. If the environment variables are unset, the header object will be empty.
 
 ## Interacting with the Dataspace Connector

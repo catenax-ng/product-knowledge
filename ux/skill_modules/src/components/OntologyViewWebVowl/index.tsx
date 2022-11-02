@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 const d3Script = document.createElement("script");
 d3Script.src = "d3.min.js";

@@ -11,11 +11,7 @@ import createHttpsProxyAgent from 'https-proxy-agent';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 
 // issue a module loading message
-<<<<<<< HEAD
-console.log("skill_framework/index: Loading");
-=======
 console.log('skill_framework/index: Loading');
->>>>>>> main
 
 /*
  * a connector factory
@@ -55,52 +51,6 @@ export interface Catalogue {
  * an EDC offer
  */
 export interface ContractOffer {
-<<<<<<< HEAD
-    /**
-     * id of the offer
-     */
-    id: string,
-    /**
-     * optional id of the associated policy
-     */
-    policyId?: string,
-    /**
-     * optional id of the associated artifact/asset
-     */
-    assetId?: string | null,
-    /**
-     * the urn of the provider
-     */
-    provider: string,
-    /**
-     * the urn of the consumer
-     */
-    consumer: string,
-    /**
-     * if this offer is temporarily restricted: the start of the offer
-     */
-    offerStart?: string | null,
-    /**
-     * if this offer is temporarily restricted: the end of the offer
-     */
-    offerEnd?: string | null,
-    /**
-     * if the contract associated to this offer is temporarily restricted: the start of the contract
-     */
-    contractStart?: string | null,
-    /**
-     * if the contract associated to this offer is temporarily restricted: the end of the contract
-     */
-    contractEnd?: string | null,
-    /**
-     * the policy of the offer
-     */
-    policy: Policy,
-    /**
-     * the asset description of the offer
-     */
-    asset: Asset
-=======
   /**
    * id of the offer
    */
@@ -145,35 +95,12 @@ export interface ContractOffer {
    * the asset description of the offer
    */
   asset: Asset;
->>>>>>> main
 }
 
 /**
  * a connector policy
  */
 interface Policy {
-<<<<<<< HEAD
-    /** unique id of the policy */
-    uid?: string | null,
-    /** a set of permissions */
-    permissions: Condition[],
-    /** a set of prohibitions */
-    prohibitions: Condition[],
-    /** a set of obligations */
-    obligations: Condition[],
-    /** this is extensible */
-    extensibleProperties: any,
-    /** policies may inherit from each other, this would be the uid of the parent policy if so */
-    inheritsFrom?: string | null,
-    /** the assigner of the policy */
-    assigner?: string | null,
-    /** the assignee of the policy */
-    assignee?: string | null,
-    /** the target of the policy (if restricted) */
-    target?: string | null,
-    /** the type of the policy */
-    '@type': PolicyTypeObject
-=======
   /** unique id of the policy */
   uid?: string | null;
   /** a set of permissions */
@@ -194,7 +121,6 @@ interface Policy {
   target?: string | null;
   /** the type of the policy */
   '@type': PolicyTypeObject;
->>>>>>> main
 }
 
 /**
@@ -217,37 +143,6 @@ interface PolicyTypeObject {
  * an invividual permission, obligation or prohibition
  */
 interface Condition {
-<<<<<<< HEAD
-    /** 
-     * type of condition
-     * TODO maybe we need an enum here
-     */
-    edctype: string,
-    /**
-     * condition may have a unique identifier
-     */
-    uid?: string | null,
-    /**
-     * a target of the condition
-     */
-    target: string,
-    /**
-     * the action that is permitted/prohibited or obliged
-     */
-    action: Action,
-    /**
-     * assignee of the condition
-     */
-    assignee?: string | null,
-    /**
-     * assigner of the condition
-     */
-    assigner?: string | null,
-    /** a set of constraints on the condition */
-    constraints: Constraint[],
-    /** a set of duties attached to the condition */
-    duties: Constraint[]
-=======
   /**
    * type of condition
    * TODO maybe we need an enum here
@@ -277,7 +172,6 @@ interface Condition {
   constraints: Constraint[];
   /** a set of duties attached to the condition */
   duties: Constraint[];
->>>>>>> main
 }
 
 /**
@@ -293,21 +187,12 @@ export enum ActionType {
  * an action in a condition
  */
 export interface Action {
-<<<<<<< HEAD
-    /** type of action */
-    type: ActionType,
-    /** TODO wtf */
-    includedIn?: string | null,
-    /** an action may also directly have a constraint */
-    constraint?: Constraint | null
-=======
   /** type of action */
   type: ActionType;
   /** TODO wtf */
   includedIn?: string | null;
   /** an action may also directly have a constraint */
   constraint?: Constraint | null;
->>>>>>> main
 }
 
 /**
@@ -336,47 +221,16 @@ export declare enum DataAddressEndpointType {
 /**
  * the different types of endpoints/data planes supported
  */
- export declare enum DataAddressEndpointType {
-    /** http data plane */
-    HttpData = "HttpData",
-    /** Sparql subprotocol */
-    Sparql = "urn:cx:Protocol:w3c:Http#SPARQL"
+export declare enum DataAddressEndpointType {
+  /** http data plane */
+  HttpData = 'HttpData',
+  /** Sparql subprotocol */
+  Sparql = 'urn:cx:Protocol:w3c:Http#SPARQL',
 }
 
 /**
  * the flexible properties of an asset
  */
-<<<<<<< HEAD
- export interface AssetProperties {
-    /** clear name of the asset  */
-    'asset:prop:name'?: string | null;
-    /** content type TODO use enum or media type  */
-    'asset:prop:contenttype': string;
-    /** optional size */
-    'ids:byteSize'?: number | null;
-    /** version of the asset descriptor */
-    'asset:prop:version'?: string | null;
-    /** id of the asset */
-    'asset:prop:id': string;
-    /** optional filename when downloading */
-    'ids:fileName'?: string | null;
-    /** a policy may be referenced directly  */
-    'asset:prop:policy-id'?: string;
-    /** whether its a federated asset */
-    "cx:isFederated"?: boolean | null,
-    /** asset description */
-    "asset:prop:description"?: string | null,
-    /** asset filename */
-    "asset:prop:fileName"?: string | null,
-    /** asset ontology */
-    "rdfs:isDefinedBy"?: string | null,
-    /** asset self-description in SHACL */
-    "cx:shape"?: string | null,
-    /** query subprotocol */
-    "cx:protocol"?: DataAddressEndpointType | null,
-    /** asset type */
-    "rdf:type"?: string | null
-=======
 export interface AssetProperties {
   /** clear name of the asset  */
   'asset:prop:name'?: string | null;
@@ -406,40 +260,25 @@ export interface AssetProperties {
   'cx:protocol'?: DataAddressEndpointType | null;
   /** asset type */
   'rdf:type'?: string | null;
->>>>>>> main
 }
 
 /**
  * this is an artifact (complete description of asset and address part)
  */
 export interface Artifact {
-<<<<<<< HEAD
-    /** links an asset description */
-    asset: Asset;
-    /** with a data address description */
-    dataAddress: DataAddress;
-=======
   /** links an asset description */
   asset: Asset;
   /** with a data address description */
   dataAddress: DataAddress;
->>>>>>> main
 }
 
 /**
  * this is a dataaddress
  */
 export interface DataAddress {
-<<<<<<< HEAD
-    /** just a flexible container of properties */
-    properties: DataAddressProperties;
-}
-
-=======
   /** just a flexible container of properties */
   properties: DataAddressProperties;
 }
->>>>>>> main
 
 /**
  * the flexible properties of a data address
@@ -455,84 +294,6 @@ export interface DataAddressProperties {
  * Implementation of a mock connector
  */
 class MockConnector implements IConnector {
-<<<<<<< HEAD
-    public listAssets(providerUrl?: string): Promise<Catalogue> {
-        return Promise.resolve({
-            "id": "catenax",
-            "contractOffers": [
-                {
-                    "id": "oemOffer:64640ec6-5566-353f-97c2-f82013f6956e",
-                    "policy": {
-                        "permissions": [
-                            {
-                                "edctype": "dataspaceconnector:permission",
-                                "uid": null,
-                                "target": "urn:cx:Graph:oem:Diagnosis2022",
-                                "action": {
-                                    "type": ActionType.USE,
-                                    "includedIn": null,
-                                    "constraint": null
-                                },
-                                "assignee": null,
-                                "assigner": null,
-                                "constraints": [],
-                                "duties": []
-                            }
-                        ],
-                        "prohibitions": [],
-                        "obligations": [],
-                        "extensibleProperties": {},
-                        "inheritsFrom": null,
-                        "assigner": null,
-                        "assignee": null,
-                        "target": "urn:cx:Graph:oem:Diagnosis2022",
-                        "@type": {
-                            "@policytype": PolicyType.set
-                        }
-                    },
-                    "asset": {
-                        "id": "urn:cx:Graph:oem:Diagnosis2022",
-                        "createdAt": 1665051075480,
-                        "properties": {
-                            "asset:prop:byteSize": null,
-                            "asset:prop:name": "Diagnostic Trouble Code Catalogue Version 2022",
-                            "cx:isFederated": true,
-                            "asset:prop:description": "A sample graph asset/offering referring to a specific diagnosis resource.",
-                            "asset:prop:contenttype": "application/json, application/xml",
-                            "rdfs:isDefinedBy": "https://github.com/catenax-ng/product-knowledge/ontology/diagnosis_ontology.ttl",
-                            "cx:shape": "@prefix : <urn:cx:Graph:oem:Diagnosis2022> .\n@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .\n@prefix cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#> .\n@prefix owl: <http://www.w3.org/2002/07/owl#> .\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n@prefix sh: <http://www.w3.org/ns/shacl#> .\n\nOemDTC rdf:type sh:NodeShape ;\n  sh:targetClass cx-diag:DTC ;\n  sh:property [\n        sh:path cx:provisionedBy ;\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\n    ] ;\n  sh:property [\n        sh:path cx-diag:Version ;\n        sh:hasValue 0^^xsd:long ;\n    ] ;\n  sh:property [\n        sh:path cx-diag:Affects ;\n        sh:class OemDiagnosedParts ;\n    ] ;\n\nOemDiagnosedParts rdf:type sh:NodeShape ;\n  sh:targetClass cx-diag:DiagnosedPart ;\n  sh:property [\n        sh:path cx:provisionedBy ;\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\n    ] ;\n",
-                            "cx:protocol": undefined,
-                            "asset:prop:version": "0.5.5-SNAPSHOT",
-                            "asset:prop:id": "urn:cx:Graph:oem:Diagnosis2022",
-                            "asset:prop:fileName": null,
-                            "rdf:type": "https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#GraphAsset"
-                        }
-                    },
-                    "assetId": null,
-                    "provider": "urn:connector:provider",
-                    "consumer": "urn:connector:consumer",
-                    "offerStart": null,
-                    "offerEnd": null,
-                    "contractStart": null,
-                    "contractEnd": null
-                }
-            ]
-        });
-    }
-
-    //execute
-    public execute(): Promise<BindingSet> {
-        return Promise.resolve({
-            "head": {
-                "vars": [
-                    "vin",
-                    "troubleCode",
-                    "description",
-                    "partProg",
-                    "distance",
-                    "time"
-                ]
-=======
   public listAssets(providerUrl?: string): Promise<Catalogue> {
     return Promise.resolve({
       id: 'catenax',
@@ -565,7 +326,6 @@ class MockConnector implements IConnector {
             target: 'urn:cx:Graph:oem:Diagnosis2022',
             '@type': {
               '@policytype': PolicyType.set,
->>>>>>> main
             },
           },
           asset: {
