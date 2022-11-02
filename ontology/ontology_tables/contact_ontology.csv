@@ -1,0 +1,39 @@
+type,identifier,name_en,name_de,definition_en,example_en,note_en,synonyms_en,synonyms_de,parents,is_part_of,relation_from,relation_to,links
+# prefix,cx,,,,,,,,,,,,
+# namespace,https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/,,,,,,,,,,,,
+# title,contact ontology,,,,,,,,,,,,
+# version,0.0.1,,,,,,,,,,,,
+# author,Zazralt Magic,,,,,,,,,,,,
+# contributor,,,,,,,,,,,,,
+# description,,,,,,,,,,,,,
+# import,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+class,contact,,Kontaktdaten,,,,"contact information, business card, contact data","Kontaktinformation, Kontaktdaten, Visitenkarte",information,,,,"https://en.wikipedia.org/wiki/Business_card, https://schema.org/ContactPoint"
+relation,has contact,,,,,,,,,,"person, organisation, product, service",contact,
+relation,has street address,,,,,,,,,,contact,street address,
+relation,has location,,,,,,,,,,contact,place,
+attribute,contact id,,Kontakt Id,,,,,,identifier,,contact,xsd:string,
+attribute,contact name,,Kontakt Name,,,,,,name,,contact,xsd:string,
+attribute,email,Email,Email,,corporate.website@bmwgroup.com,,"email, e-mail, electronic mail (email)",,,,contact,xsd:string,"https://en.wikipedia.org/wiki/Email, https://schema.org/email"
+attribute,mobile number,,Handynummer,,+49-151-601-12345,,,,,,contact,xsd:string,
+attribute,telephone number,,Telefonnummer,,+49 89 382-0,,phone number,Rufnummer,,,contact,xsd:string,"https://en.wikipedia.org/wiki/Telephone_number, https://schema.org/telephone"
+attribute,fax number,,Faxnummer,,+49 89-382-70-25858,,,,,,contact,xsd:string,https://schema.org/faxNumber
+attribute,website,,Webseite,,https://www.bmwgroup.com/,,home page,,,,contact,xsd:string,https://schema.org/WebPage
+attribute,linkedin,LinkedIn,LinkedIn,,https://www.linkedin.com/company/bmw-group/,,,,,,contact,xsd:string,https://www.linkedin.com
+attribute,xing,,Xing,,,,,,,,contact,xsd:string,https://www.xing.com/
+attribute,contact channel,,Kontaktkanal,preference of contact channel,"phone, email",,,Kontaktweg,,,contact,xsd:string,
+attribute,contact hours,,Kontaktzeiten,available contact hours,,,,"Sprechzeiten, Öffnungszeiten",,,contact,xsd:string,"https://schema.org/hoursAvailable, https://en.wikipedia.org/wiki/Business_hours"
+attribute,contact language,,Kontaktsprache,preferred contact language,"en, de",,,,,,contact,xsd:string,https://schema.org/availableLanguage
+class,private contact,,Privatkontakt,Contact for private purposes.,,,,,contact,,,,https://schema.org/homeLocation
+relation,has private address,,,,,,,,,,private contact,private address,
+class,business contact,,Geschäftskontakt,Contact for business purposes.,,,,,contact,,,,https://schema.org/workLocation
+attribute,affiliation,,,,,,,,,,contact,xsd:string,https://schema.org/affiliation
+relation,has business address,,,,,,,,,,business contact,business address,
+,,,,,,,,,,,,,
+class,service contact,,Servicekontakt,,,,,,business contact,,,,
+,,,,,,,,,,,,,
+class,customer service contact,,Kundendienst,,,,,,service contact,,,,
+,,,,,,,,,,,,,
+class,v card,,vCard,,,,Virtual Contact File (VCF),elektronische Visitenkarte,file format,,,,https://en.wikipedia.org/wiki/VCard
+relation,is written in,,,,,,,,,,contact,v card,

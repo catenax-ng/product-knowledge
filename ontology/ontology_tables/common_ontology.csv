@@ -1,0 +1,251 @@
+type,identifier,name_en,name_de,definition_en,example_en,note_en,synonyms_en,synonyms_de,parents,is_part_of,relation_from,relation_to,links
+# prefix,cx,,,,,,,,,,,,
+# namespace,https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/,,,,,,,,,,,,
+# title,common ontology,,,,,,,,,,,,
+# version,0.0.1,,,,,,,,,,,,
+# author,Zazralt Magic,,,,,,,,,,,,
+# contributor,,,,,,,,,,,,,
+# description,"The Catena-X common ontology lists all domain-independent classes, attributes and relations.",,,,,,,,,,,,
+# import,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+class,material thing,,Materielles Ding,"An entity that exists in a physical form (matter, material).","product, object, equipment, substance",top level class,"material entity, physical object, material object, concrete object, tangible, material, physical",,owl:Thing,,,,"https://en.wikipedia.org/wiki/Philosophy_of_matter, https://schema.org/Thing"
+class,immaterial thing,,Immaterielles Ding,"An entity that exists in a non-physical form (mental, intangible).","idea, concept, information,  knowledge, feeling, domain, idea, concept, object, domain, plan",top level class,"immaterial entity, non-physical object, immaterial object, abstract object, intangible, immaterial, mental, non-material",,owl:Thing,,,,"https://en.wikipedia.org/wiki/Non-physical_entity, https://schema.org/Intangible"
+class,action,,Handlung,,,top level class,,,owl:Thing,,,,https://schema.org/Action
+class,event,,Ereignis,has date & location,,top level class,,,owl:Thing,,,,https://schema.org/Event
+class,organisation,,Organisation,,,top level class,,,owl:Thing,,,,https://schema.org/Organization
+class,person,,Person,,,top level class,people,,owl:Thing,,,,https://schema.org/Person
+class,place,,Ort,has location,,top level class,location,,owl:Thing,,,,https://schema.org/Place
+class,process,,Prozess,,,top level class,,,owl:Thing,,,,
+class,product,,Product,,,top level class,,,owl:Thing,,,,https://schema.org/Product
+,,,,,,,,,,,,,
+class,information,,,,,,,,immaterial thing,,,,
+class,concept,,,,,,,,immaterial thing,,,,
+class,role,,Rolle,,,,,,immaterial thing,,,,https://schema.org/Role
+class,service,,Dienstleistung,,,,,,"immaterial thing, product",,,,"https://schema.org/Service, https://en.wikipedia.org/wiki/Service_(economics)"
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+class,company,,Unternehmen,,,,,,organisation,,,,"https://en.wikipedia.org/wiki/Company, https://schema.org/Corporation"
+class,service provider,,Dienstleister,,,,,,organisation,,,,https://en.wikipedia.org/wiki/Service_provider
+class,Small and medium-sized enterprise,,Kleine und mittlere Unternehmen,,,,Small and medium-sized enterprise (SME),Kleine und mittlere Unternehmen (KMU),company,,,,https://en.wikipedia.org/wiki/Small_and_medium-sized_enterprises
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+class,business partner,,Geschäftspartner,A Business Partner is a legal entity that is part of the Catena-X network or that stands in a relevant relation to a Catena-X Business Partner.,"Audi, BMW, Mercedes, Volkswagen",,business partner (BP),,company,,,,https://en.wikipedia.org/wiki/Business_partner
+attribute,business partner number,BPNL,,The (long) Business Partner Number is a unique identifier following the pattern 'BPNL[0-9]{8}[A-Z]{4}'.,,,business partner number long (BPNL),,,,business partner,xsd:string,
+attribute,business partner number type,BPNL Type,,The (long) Business Partner Number Type describes strings following the pattern 'BPNL[0-9]{8}[A-Z]{4}'.,,,,,,,business partner,xsd:string,
+relation,has role,,,,,,,,,,business partner,role,
+relation,has connector,,,,,,,,,,business partner,eclipse dataspace connector,
+,,,,,,,,,,,,,
+class,asset,,,An Asset is any artifact that is provisioned/owned/attributed to some Catena-X Business Partner.,,,,,immaterial thing,,,,
+relation,is provisioned by,,,The provisioned by predicate connects assets to their providing Catena-X Business Partner.,,,,,,,asset,business partner,
+relation,is owned by,,,,,,,,,,asset,business partner,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+class,manufacturer,,Hersteller,,,,,,role,,,,https://schema.org/manufacturer
+relation,produces,,,,,,,,,,manufacturer,product,
+attribute,manufacturer id,,,,,,,,,,manufacturer,xsd:string,
+attribute,manufacturer name,,,,,,,,,,manufacturer,xsd:string,
+class,vehicle manufacturer,,Fahrzeughersteller,,"Audi, BMW, Mercedes, Volkswagen",,original equipment manufacturer (OEM),,manufacturer,,,,
+class,component manufacturer,,,,,,,,manufacturer,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+class,employee,,,,,,,,person,,,,https://schema.org/employee
+,,,,,,,,,,,,,
+class,private customer,,,,,,,,person,,,,https://en.wikipedia.org/wiki/Customer
+class,business customer,,,,,,,,organisation,,,,
+class,final customer,,Endkunde,,,,,,"person, organisation",,,,
+,,,,,,,,,,,,,
+class,supplier,,Lieferant,,,,"vendor, supplier, provider, seller",,role,,,,https://en.wikipedia.org/wiki/Vendor
+attribute,supplier id,,,,,,,,,,supplier,xsd:string,
+attribute,supplier name,,,,,,,,,,supplier,xsd:string,
+class,component supplier,,Komponentlieferant,,,,,,supplier,,,,
+,,,,,,,,,,,,,
+class,reseller,,Wiederverkäufer,,,,,,role,,,,"https://en.wikipedia.org/wiki/Reseller, https://schema.org/broker"
+class,retailer,,Händler,,,,,,role,,,,https://de.wikipedia.org/wiki/Retail
+,,,,,,,,,,,,,
+class,recycler,,,,,,,,role,,,,
+relation,recycles,,,,,,,,,,recycler,product,
+,,,,,,,,,,,,,
+class,offer,,,,,,offering,,event,,,,https://schema.org/Offer
+relation,makes offer,,,,,,,,,,"person, organisation",offer,https://schema.org/makesOffer
+relation,is offered by,,,,,,,,,,offer,"person, organisation",https://schema.org/offeredBy
+class,order,,,,,,,,event,,,,https://schema.org/Order
+class,bill,,,,,,,,information,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+class,product group,,,,,,,,immaterial thing,,,,https://schema.org/ProductGroup
+class,product model,,,,,,,,immaterial thing,,,,https://schema.org/ProductModel
+class,final product,,Endprodukt,,,,finished product,,product,,,,"https://en.wikipedia.org/wiki/Final_product, https://en.wikipedia.org/wiki/Final_good"
+class,intermediate product,,Zwischenprodukt,An intermediate product is a product that is used as a raw material or ingredient in the production of other products.,,,"intermediate goods, producer goods, semi-finished products",,product,,,,https://en.wikipedia.org/wiki/Intermediate_good
+class,financial service,,,,,,financial product,,service,,,,https://schema.org/FinancialProduct
+class,individual product,,,"A single, identifiable product instance (e.g. a laptop with a particular serial number).",,,,,product,,,,https://schema.org/IndividualProduct
+relation,buys,,,,,,,,,,final customer,final product,
+class,component,,Komponent,,,,,,product,,,,
+,,,,,,,,,,,,,
+class,consortium,,,,,,,,organisation,,,,https://schema.org/Consortium
+class,project,,,,,,,,organisation,,,,https://schema.org/Project
+class,contact,,Kontakt,,,,,,immaterial thing,,,,https://schema.org/ContactPoint
+relation,has contact,,,,,,,,,,person,contact,
+class,automobile association,,Automobilclub,,,,,,organisation,,,,https://en.wikipedia.org/wiki/Automobile_associations
+,,,,,,,,,,,,,
+class,brand,,,,,,,,immaterial thing,,,,https://schema.org/Brand
+,,,,,,,,,,,,,
+class,plant,,,,,,,,place,,,,
+class,production,,Produktion,,,,,,process,,,,
+class,assembly,,Montage,,,,,,process,,,,
+class,manufacturing,,Fertigung,,,,,,process,,,,
+class,logistics,,Logistik,,,,,,process,,,,
+,,,,,,,,,,,,,
+class,building,,,,,,,,place,,,,
+class,city,,,,,,,,place,,,,
+class,country,,,,,,,,place,,,,
+,,,,,,,,,,,,,
+class,eclipse dataspace connector,Connector,,,,,eclipse dataspace connector (EDC),,immaterial thing,,,,https://projects.eclipse.org/proposals/eclipse-dataspace-connector
+attribute,eclipse dataspace connector id,Connector Id,,,,,,,,,eclipse dataspace connector,xsd:string,
+attribute,eclipse dataspace connector url,Connector URL,,,,,,,,,eclipse dataspace connector,xsd:string,
+,,,,,,,,,,,,,
+class,dataspace,,,,,,,,immaterial thing,,,,https://en.wikipedia.org/wiki/Dataspaces
+class,international dataspace,,,,,,international data space (IDS),,immaterial thing,,,,https://de.wikipedia.org/wiki/International_Data_Spaces
+,,,,,,,,,,,,,
+class,app,,,,,,,,immaterial thing,,,,
+class,broker,,,,,,,,service,,,,
+,,,,,,,,,,,,,
+class,file format,,,,,,,,information,,,,
+,,,,,,,,,,,,,
+class,catena x,,,,,,,,consortium,,,,
+class,data consumer,,,,ADAC,,,,role,,,,
+class,data provider,,,,BMW,,,,role,,,,
+class,contract,,,,,,,,immaterial thing,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+class,encoding,,,,,,,,immaterial thing,,,,
+,,,,,,,,,,,,,
+class,classification,,,,,,,,immaterial thing,,,,
+class,delivery,,,,,,,,event,,,,
+,,,,,,,,,,,,,
+class,mail,,,,,,,,material thing,,,,
+class,email,,,,,,,,immaterial thing,,,,
+,,,,,,,,,,,,,
+class,vehicle damage,,,,,,,,event,,,,
+class,vehicle accident,,,,,,,,event,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+class,vehicle inspection,,Untersuchung,,,,,,event,,,,
+class,vehicle testing,,,,,,,,event,,,,
+,,,,,,,,,,,,,
+class,vehicle modification,,,,,,,,event,,,,
+class,vehicle maintenance,,,,,,,,event,,,,
+class,vehicle repair,,,,,,,,event,,,,
+,,,,,,,,,,,,,
+class,specification,,,"A specification is a document that outlines the requirements for a product, system, or service.",,,,,information,,,,
+,,,,,,,,,,,,,
+class,technical standard,,,,,,,,immaterial thing,,,,https://en.wikipedia.org/wiki/Technical_standard
+attribute,technical standard standard number,,,,,,,,,,technical standard,xsd:string,
+attribute,technical standard standard name,,,,,,,,,,technical standard,xsd:string,
+,,,,,,,,,,,,,
+class,open standard,,,,,,,,immaterial thing,,,,https://en.wikipedia.org/wiki/Open_standard
+,,,,,,,,,,,,,
+class,DIN standard,,,,,,Deutsches Institut für Normung (DIN),,technical standard,,,,https://de.wikipedia.org/wiki/Deutsches_Institut_f%C3%BCr_Normung
+attribute,,DIN number,,,,,,,,,DIN standard,xsd:string,
+attribute,,DIN name,,,,,,,,,DIN standard,xsd:string,
+,,,,,,,,,,,,,
+class,ISO standard,,,,,,International Organization for Standardization (ISO),,technical standard,,,,https://en.wikipedia.org/wiki/International_Organization_for_Standardization
+attribute,,ISO number,,,,,,,,,ISO standard,xsd:string,
+attribute,,ISO name,,,,,,,,,ISO standard,xsd:string,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+attribute,identifier,,Identifikator,A string that identifies either a unique object or a unique class of objects.,"identifier (ID, Id)",top level attribute,,Kennzeichen,,,,xsd:string,"https://en.wikipedia.org/wiki/Identifier, https://schema.org/identifier"
+attribute,unique identifier,,Unique Identifier,,unique identifier (UID),,,,,,,xsd:string,https://en.wikipedia.org/wiki/Unique_identifier
+attribute,global unique identifier,,Globally Unique Identifier,,"global unique identifier (GUID), universally unique identifier (UUID)",,,,,,,xsd:string,https://en.wikipedia.org/wiki/Universally_unique_identifier
+attribute,name,,Name,,"serial number, part number",top level attribute,,"Benennung, Bezeichnung",,,,xsd:string,"https://en.wikipedia.org/wiki/Name, https://schema.org/name"
+attribute,code,,Code,not source code,,top level attribute,,"Kürzel, Kurzzeichen",,,,xsd:string,https://en.wikipedia.org/wiki/Code
+attribute,number,,Nummer,A number for identification.,"serial number, part number",top level attribute,,,,,,xsd:string,
+attribute,serial number,,Seriennummer,"A unique identifier assigned incrementally or sequentially to an item, to uniquely identify it.",,,,,,,,xsd:string,"https://en.wikipedia.org/wiki/Serial_number, https://schema.org/serialNumber"
+attribute,type,,Typ,,,top level attribute,,,,,,xsd:string,https://schema.org/additionalType
+attribute,category,,Kategorie,,,,,,,,,xsd:string,
+attribute,kind,,Art,,,,,,,,,xsd:string,
+attribute,class,,Klasse,,,,,,,,,xsd:string,
+,,,,,,,,,,,,,
+attribute,date,,Datum,"""YYYY-MM-DD""","„2002-09-24""",top level attribute,,,,,,xsd:date,https://schema.org/Date
+attribute,date time,,Zeitpunkt,"""hh:mm:ss""","„2002-09-24-06:00""",top level attribute,,,,,,"xsd:dateTime, xsd:dateTimeStamp",https://schema.org/DateTime
+attribute,start date,,,,,,,,,,,xsd:date,https://schema.org/startDate
+attribute,end date,,,,,,,,,,,xsd:date,https://schema.org/endDate
+attribute,start time,,,,,,,,,,,xsd:dateTime,https://schema.org/startTime
+attribute,end time,,,,,,,,,,,xsd:dateTime,https://schema.org/endTime
+,,,,,,,,,,,,,
+attribute,title,,Titel,,,top level attribute,,,,,,xsd:string,https://schema.org/title
+attribute,description,,Beschreibung,,,top level attribute,,,,,,xsd:string,"https://en.wikipedia.org/wiki/Definite_description, https://schema.org/description"
+attribute,text,,text,,,top level attribute,,,,,,xsd:string,https://schema.org/Text
+,,,,,,,,,,,,,
+attribute,numeric,,Numerische Zahl,,,top level attribute,,,,,,"xsd:float, xsd:double, xsd:decimal","https://schema.org/Number, https://schema.org/Float"
+attribute,integer,,Ganze Zahl,,,top level attribute,,,,,,"xsd:integer, xsd:int, xsd:long",https://schema.org/Integer
+attribute,boolean,Bool,Bool,,,top level attribute,,,,,,xsd:boolean,https://schema.org/Boolean
+attribute,url,URL,URL,,,top level attribute,,,,,,xsd:anyURI,https://schema.org/URL
+,,,,,,,,,,,,,
+attribute,latitude,,,The latitude of a location.,37.42242,,,,,,place,xsd:float,https://schema.org/latitude
+attribute,longitude,,,The longitude of a location.,-122.08585,,,,,,place,xsd:float,https://schema.org/longitude
+,,,,,,,,,,,,,
+attribute,price,,,,,,,,,,product,xsd:float,https://schema.org/price
+attribute,version,,,,,,,,,,,xsd:string,https://schema.org/version
+,,,,,,,,,,,,,
+class,unit,,,,,,,,immaterial thing,,,,"https://schema.org/unitText, https://schema.org/unitCode"
+class,system of measurement,,Einheitensystem,,,,,,immaterial thing,,,,https://en.wikipedia.org/wiki/System_of_measurement
+class,international system,,,,,,"si system, international system of units",SI System,system of measurement,,,,https://en.wikipedia.org/wiki/International_System_of_Units
+class,si base unit,,,,,,,,unit,,,,https://en.wikipedia.org/wiki/International_System_of_Units#SI_base_units
+class,si derived unit,,,,,,,,unit,,,,https://en.wikipedia.org/wiki/International_System_of_Units#SI_derived_units
+,,,,,,,,,,,,,
+si base unit,second,,,,,"time, duration",s,,,,,,https://en.wikipedia.org/wiki/Second
+si base unit,metre,,,,,length,m,,,,,,https://en.wikipedia.org/wiki/Metre
+si base unit,kilogram,,,,,mass,kg,,,,,,https://en.wikipedia.org/wiki/Kilogram
+si base unit,ampere,,,,,electric current,A,,,,,,https://en.wikipedia.org/wiki/Ampere
+si base unit,kelvin,,,,,thermodynamic temperature,K,,,,,,https://en.wikipedia.org/wiki/Kelvin
+si base unit,mole,,,,,amount of substance,mol,,,,,,https://en.wikipedia.org/wiki/Mole_(unit)
+si base unit,candela,,,,,luminous intensity,cd,,,,,,https://en.wikipedia.org/wiki/Candela
+,,,,,,,,,,,,,
+si derived unit,radian,,,,,plane angle,rad,,,,,,
+si derived unit,steradian,,,,,solid angle,sr,,,,,,
+si derived unit,hertz,,,,,frequency,Hz,,,,,,
+si derived unit,newton,,,,,"force, weight",N,,,,,,
+si derived unit,pascal,,,,,"pressure, stress",Pa,,,,,,
+si derived unit,joule,,,,,"energy, work, heat",J,,,,,,
+si derived unit,watt,,,,,"power, radiant flux",W,,,,,,
+si derived unit,coulomb,,,,,electric charge,C,,,,,,
+si derived unit,volt,,,,,"electrical potential difference (voltage), emf",V,,,,,,
+si derived unit,farad,,,,,capacitance,F,,,,,,
+si derived unit,ohm,,,,,"resistance, impedance, reactance",Ω,,,,,,
+si derived unit,siemens,,,,,electrical conductance,S,,,,,,
+si derived unit,weber,,,,,magnetic flux,Wb,,,,,,
+si derived unit,tesla,,,,,magnetic flux density,T,,,,,,
+si derived unit,henry,,,,,inductance,H,,,,,,
+si derived unit,degree Celsius,,,,,temperature relative to 273.15 K,°C,,,,,,
+si derived unit,lumen,,,,,luminous flux,lm,,,,,,
+si derived unit,lux,,,,,illuminance,lx,,,,,,
+si derived unit,becquerel,,,,,activity referred to a radionuclide (decays per unit time),Bq,,,,,,
+si derived unit,gray,,,,,absorbed dose (of ionising radiation),Gy,,,,,,
+si derived unit,sievert,,,,,equivalent dose (of ionising radiation),Sv,,,,,,
+si derived unit,katal,,,,,catalytic activity,kat,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+transitive relation,is part of,,ist Teil von,component-object relation,"engine-car, finger-hand","part whole relation, meronomy","is part of, composing of, built in, assembled in, fragment of, division of, component-integral relation","verbaut in, montiert in",,,,,"https://www.wikidata.org/wiki/Property:P361, https://schema.org/isPartOf"
+transitive relation,has part,,besteht aus,object-component relation,"bike-pedal, house-door","part whole relation, meronomy","consists of, formed from, assembled from",,,,,,"https://www.wikidata.org/wiki/Property:P527, https://schema.org/hasPart"
+transitive relation,is member of,,ist Mitglied von,"member-collection relation, spatial or social","vehicle-fleet, tree-forest","part whole relation, meronomy","is member of, membership","ist Mitglied von, war Mitglied von",,,,organisation,"https://www.wikidata.org/wiki/Property:P463, https://schema.org/memberOf"
+transitive relation,has member,,hat Mitglied,,,"part whole relation, meronomy",,,,,organisation,,"https://www.wikidata.org/wiki/Q65971553, https://schema.org/member"
+transitive relation,is contained in,,enthalten in,entity located within this entity but not part of it,,"part whole relation, meronomy",contained within,,,,,,"https://www.wikidata.org/wiki/Property:P4330, https://schema.org/containedInPlace"
+transitive relation,contains,,enthält,,,"part whole relation, meronomy",,,,,,,"https://www.wikidata.org/wiki/Property:P4330, https://schema.org/containsPlace"
+transitive relation,is portion of,,Portion von,portion-mass relation,"slice-cake, cm-meter","part whole relation, meronomy",some of,,,,material thing,material thing,
+transitive relation,has portion,,hat Portion,mass-portion relation,,"part whole relation, meronomy",,,,,material thing,material thing,
+transitive relation,is located in,,liegt in,object-location relation (2D),Munich-Germany,"part whole relation, meronomy",,ansässig in,,,,,"https://www.wikidata.org/wiki/Property:P706, https://schema.org/location"
+transitive relation,participates in,,nimmt teil in,object-process relation,,"part whole relation, meronomy",,,,,,"action, process",https://schema.org/participant
+transitive relation,is involved in,,beteiligt in,process-process relation,paying-shopping,"part whole relation, meronomy",feature-activity,,,,"action, process","action, process",
+transitive relation,is made of,,gemacht aus,object-substance relation,car made of steel,"part whole relation, meronomy","made from, is partly, stuff-object",ist aus,,,,material thing,"https://www.wikidata.org/wiki/Property:P186, https://schema.org/material"
+,,,,,,,,,,,,,
+class,skill,,,,,,,,immaterial thing,,,,
+class,language,,,,,,,,skill,,,,
+class,country,,,,,,,,place,,,,
+,,,,,,,,,,,,,
+file format,Automation Markup Language,AutomationML,AutomationML,,,,,,,,,,https://en.wikipedia.org/wiki/AutomationML
+technical standard,ECLASS,ECLASS,ECLASS,,,,,,,,,,https://en.wikipedia.org/wiki/ECLASS
+technical standard,STandard for the Exchange of Product model data,STEP,STEP,,,,ISO 10303,,,,,,https://en.wikipedia.org/wiki/ISO_10303
+technical standard,OPC Unified Architecture,OPC UA,OPC UA,,,,OPC Unified Architecture (OPC UA),,,,,,https://de.wikipedia.org/wiki/OPC_Unified_Architecture
+specification,Asset Administration Shell,,Verwaltungsschale,The AAS is the digital representation of an asset (real or virtual).,,"Asset Administration Shell (AAS), digital twin",Verwaltungsschale (VWS),,,,,,https://www.plattform-i40.de/IP/Redaktion/DE/Downloads/Publikation/Details_of_the_Asset_Administration_Shell_Part1_V3.html
+concept,digital twin,,Digitaler Zwilling,A digital twin is a digital representation of an objects (real or virtual) from the real world. Are intended for data exchange.,,,,,,,,,https://en.wikipedia.org/wiki/Digital_twin
+,,,,,,,,,,,,,

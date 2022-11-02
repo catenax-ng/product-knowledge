@@ -1,6 +1,6 @@
 # Catena-X Skill modules
 
-The skill modules is a set of UI components which allow to define and test new skills for the [Skill Gym](../skill_gym) and the [Knowledge Explorer](../knowledge_explorer)! 
+The skill modules is a set of UI components which allow to define and test new skills for the [Skill Gym](../skill_gym) and the [Knowledge Explorer](../knowledge_explorer)!
 
 The modules uses the [Skill Framework](../skill_framework) and the [Catena-X shared component library](https://www.npmjs.com/package/cx-portal-shared-components).
 
@@ -12,12 +12,9 @@ We are using npm and TypeScript, if you prefer yarn or JavaScript use those.
     npm create react-app sample-skill-app --template typescript
     npm install @catenax-ng/skill-modules
 
-
 Start the development server
 
-    
     npm start
-
 
 Edit `src/index.tsx` and add one of the available modules like "AssetView" to it.
 
@@ -28,12 +25,11 @@ Edit `src/index.tsx` and add one of the available modules like "AssetView" to it
       document.getElementById('app')
     );
 
-
 ## Notice
 
-* see copyright notice in the top folder
-* see license file in the top folder
-* see authors file in the top folder
+- see copyright notice in the top folder
+- see license file in the top folder
+- see authors file in the top folder
 
 ## Available Scripts
 
@@ -41,6 +37,3 @@ Edit `src/index.tsx` and add one of the available modules like "AssetView" to it
 
 Builds the modules and can be published after that to the github packages repository.
 When you work locally and want to see the changes in the knowledge explorer - please call this command as well.
-
-
-

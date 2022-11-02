@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "e2ff36aa-f9de-43c0-9f40-710833cb469c",
-		"name": "Knowledge Agents Pilot",
+		"_postman_id": "b2c2067a-974b-4d30-ac28-56c923cb212c",
+		"name": "MVP (Upcoming Release 0.6)",
 		"description": "A collection of API calls against various services of the Knowledge Agents Pilot.\n\nAlso contains a special integration test subfolder.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "2757771"
@@ -698,6 +698,38 @@
 										"description": "Use the public IDS api to retrieve the business partner view on the catalogue."
 									},
 									"response": []
+								},
+								{
+									"name": "Perform an OEM-Local SparQL",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{oemAgentPlane}}/api/agent?query=SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.}",
+											"host": [
+												"{{oemAgentPlane}}"
+											],
+											"path": [
+												"api",
+												"agent"
+											],
+											"query": [
+												{
+													"key": "asset",
+													"value": "urn:x-arq:DefaultGraph",
+													"description": "the default graph should be compliant",
+													"disabled": true
+												},
+												{
+													"key": "query",
+													"value": "SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object.}",
+													"description": "A local query"
+												}
+											]
+										},
+										"description": "Uses the Agent Extension of the Dataplane to Perform Some Dynamic Query on a Local Graph (here: the federated data catalogue)."
+									},
+									"response": []
 								}
 							],
 							"description": "A Collection of Calls against the EDC control and data planes sitting on top of a data provisioner.",
@@ -795,7 +827,7 @@
 									"response": []
 								},
 								{
-									"name": "Check the Backend Service",
+									"name": "Check the Backend Services",
 									"protocolProfileBehavior": {
 										"disableBodyPruning": true,
 										"disabledSystemHeaders": {}
@@ -821,7 +853,7 @@
 									"response": []
 								},
 								{
-									"name": "Test the Backend Service",
+									"name": "Test the RUL Service",
 									"protocolProfileBehavior": {
 										"disabledSystemHeaders": {}
 									},
@@ -846,6 +878,38 @@
 											"path": [
 												"api",
 												"rul"
+											]
+										},
+										"description": "Invocation of the actual Lifetime Prognosis Service"
+									},
+									"response": []
+								},
+								{
+									"name": "Test the HI Service",
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {}
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "hi_input",
+													"type": "file",
+													"src": "/Users/A29078924/Projects/catenax/product-knowledge/dataspace/mock/rul/tests/data/sample-hi-input.json"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{tierABackend}}/api/hi",
+											"host": [
+												"{{tierABackend}}"
+											],
+											"path": [
+												"api",
+												"hi"
 											]
 										},
 										"description": "Invocation of the actual Lifetime Prognosis Service"
@@ -926,7 +990,7 @@
 									"response": []
 								},
 								{
-									"name": "Query Complex/Backend Binding",
+									"name": "Query Backend/Complex Binding",
 									"protocolProfileBehavior": {
 										"disabledSystemHeaders": {
 											"accept": true
@@ -948,7 +1012,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> \nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \nPREFIX cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\n\nSELECT ?invocation ?distance ?time\nWHERE { \n  ?invocation a cx-lifetime:LifetimePrognosis;\n              cx-lifetime:loadCollectiveFile \"{  \\\"Type\\\": \\\"ZF_load_collective\\\", \\\"Version\\\": \\\"1.7\\\"  }\"^^xsd:string; \n              cx-lifetime:loadCollectiveHeader \"{  \\\"CountingMethod\\\": \\\"ZF_TimeAtLevel\\\",    \\\"CountingUnit\\\": \\\"s\\\",    \\\"Channels\\\": [      {        \\\"Name\\\": \\\"Temp_Oil\\\",        \\\"Type\\\": \\\"Load\\\",        \\\"Unit\\\": \\\"degC\\\",        \\\"LowerLimit\\\": -40,        \\\"UpperLimit\\\": 220,        \\\"NumberOfBins\\\": 52      }  ]  }\"^^xsd:string; \n              cx-lifetime:loadCollectiveBody \"{     \\\"Temp_Oil-class\\\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \\\"Counts\\\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }\"^^xsd:string; \n              cx-lifetime:loadCollectiveComponent \"\\\"GearOil\\\"\"^^xsd:string; \n              cx-lifetime:loadCollectiveMileage \"{ \\\"Value\\\": 82563, \\\"Unit\\\": \\\"km\\\" }\"^^xsd:string; \n              cx-lifetime:loadCollectiveRegistrationDate \"{ \\\"Value\\\": 20171206,  \\\"Unit\\\": \\\"yyyymmdd\\\" }\"^^xsd:string; \n              cx-lifetime:remainingDistance ?distance; \n              cx-lifetime:remainingTime ?time.\n}"
+											"raw": "PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> \nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \nPREFIX json: <https://json-schema.org/draft/2020-12/schema#> \nPREFIX cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\n\nSELECT ?invocation ?distance ?time\nWHERE { \n  ?invocation a cx-lifetime:LifetimePrognosis;\n              cx-lifetime:loadCollectiveFile \"{  \\\"Type\\\": \\\"ZF_load_collective\\\", \\\"Version\\\": \\\"1.7\\\"  }\"^^json:Object; \n              cx-lifetime:loadCollectiveHeader \"{  \\\"CountingMethod\\\": \\\"ZF_TimeAtLevel\\\",    \\\"CountingUnit\\\": \\\"s\\\",    \\\"Channels\\\": [      {        \\\"Name\\\": \\\"Temp_Oil\\\",        \\\"Type\\\": \\\"Load\\\",        \\\"Unit\\\": \\\"degC\\\",        \\\"LowerLimit\\\": -40,        \\\"UpperLimit\\\": 220,        \\\"NumberOfBins\\\": 52      }  ]  }\"^^json:Object; \n              cx-lifetime:loadCollectiveBody \"{     \\\"Temp_Oil-class\\\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \\\"Counts\\\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }\"^^json:Object; \n              cx-lifetime:loadCollectiveComponent \"GearOil\"^^xsd:string; \n              cx-lifetime:loadCollectiveMileage \"{ \\\"Value\\\": 82563, \\\"Unit\\\": \\\"km\\\" }\"^^json:Object; \n              cx-lifetime:loadCollectiveRegistrationDate \"{ \\\"Value\\\": 20171206,  \\\"Unit\\\": \\\"yyyymmdd\\\" }\"^^json:Object; \n              cx-lifetime:remainingDistance ?distance; \n              cx-lifetime:remainingTime ?time.\n}"
 										},
 										"url": {
 											"raw": "{{remotingAgent}}/repositories/prognosis",
@@ -958,6 +1022,45 @@
 											"path": [
 												"repositories",
 												"prognosis"
+											]
+										},
+										"description": "A sample SparQL query with a more complex binding where the input is a json document."
+									},
+									"response": []
+								},
+								{
+									"name": "Query Batch Binding",
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {
+											"accept": true
+										}
+									},
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/sparql-query",
+												"type": "text"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> \nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \nPREFIX json: <https://json-schema.org/draft/2020-12/schema#> \nPREFIX cx-health: <https://github.com/catenax-ng/product-knowledge/ontology/health.ttl#>\n\nSELECT ?invocation ?healthValues\nWHERE { \n  ?invocation a cx-health:HealthIndication;\n              cx-health:requestComponentId <urn:cx:AnonymousSerializedPart#GB4711>;\n              cx-health:classifiedLoadCollectiveFile \"{  \\\"Type\\\": \\\"ZF_load_collective\\\", \\\"Version\\\": \\\"1.7\\\"  }\"^^json:Object; \n              cx-health:classifiedLoadCollectiveHeader \"{  \\\"CountingMethod\\\": \\\"ZF_TimeAtLevel\\\",    \\\"CountingUnit\\\": \\\"s\\\",    \\\"Channels\\\": [      {        \\\"Name\\\": \\\"Temp_Oil\\\",        \\\"Type\\\": \\\"Load\\\",        \\\"Unit\\\": \\\"degC\\\",        \\\"LowerLimit\\\": -40,        \\\"UpperLimit\\\": 220,        \\\"NumberOfBins\\\": 52      }  ]  }\"^^json:Object; \n              cx-health:classifiedLoadCollectiveBody \"{     \\\"Temp_Oil-class\\\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \\\"Counts\\\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }\"^^json:Object; \n              cx-health:adaptionValueVersion \"VER_AV_001\"^^xsd:string; \n              cx-health:adaptionValueTimestamp \"2022-10-12T08:17:18.734Z\"^^xsd:dateTime;\n              cx-health:adaptionValueMileage \"82563.02\"^^xsd:double; \n              cx-health:adaptionValueOperatingTime \"45667765\"^^xsd:long;\n              cx-health:adaptionValueList \"[ 0.543534, 0.543535, 0.543536, 0.543537 ]\"^^json:Object;\n              cx-health:indicatorVersion ?iversion;\n              cx-health:responseComponentId ?component;\n              cx-health:healthIndicatorValues ?healthValues.\n}"
+										},
+										"url": {
+											"raw": "{{remotingAgent}}/repositories/health",
+											"host": [
+												"{{remotingAgent}}"
+											],
+											"path": [
+												"repositories",
+												"health"
 											]
 										},
 										"description": "A sample SparQL query with a more complex binding where the input is a json document."
@@ -1071,7 +1174,56 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Graph:tierA:LifetimeGearbox\",\n      \"asset:prop:name\": \"Lifetime Prognosis Service for Gearboxes\",\n      \"asset:prop:description\": \"A sample graph asset/offering referring to a specific prognosis resource.\",\n      \"asset:prop:version\": \"0.5.5-SNAPSHOT\",\n      \"asset:prop:contenttype\": \"application/json, application/xml\",\n      \"rdf:type\":\"https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#GraphAsset\",\n      \"rdfs:isDefinedBy\": \"https://github.com/catenax-ng/product-knowledge/ontology/prognosis_ontology.ttl\",\n      \"cx:protocol\": \"urn:cx:Protocol:w3c:Http#SPARQL\",\n      \"cx:shape\": \"@prefix : <urn:cx:Graph:tierA:LifetimeGearbox> .\\n@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .\\n@prefix cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#> .\\n@prefix owl: <http://www.w3.org/2002/07/owl#> .\\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\n@prefix sh: <http://www.w3.org/ns/shacl#> .\\n :Tier1LifetimePrognosis rdf:type sh:NodeShape ;\\n  sh:targetClass cx-lifetime:LifetimePrognosis ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003CPIY> ].\\n\",\n      \"cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Graph:tierA:LifetimeGearbox\",\n      \"baseUrl\": \"http://tiera-remoting-agent:8081/rdf4j-server/repositories/prognosis\",\n      \"type\": \"urn:cx:Protocol:w3c:Http#SPARQL\",\n      \"proxyPath\": \"false\",\n      \"proxyMethod\": \"true\",\n      \"proxyQueryParams\": \"true\",\n      \"proxyBody\": \"true\",\n      \"authKey\": \"{{supplierBackendAuthKey}}\",\n      \"authCode\": \"{{supplierBackendAuthCode}}\"\n    }\n  }\n}",
+											"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Graph:tierA:LifetimeGearbox\",\n      \"asset:prop:name\": \"Lifetime Prognosis Service for Gearboxes\",\n      \"asset:prop:description\": \"A sample graph asset/offering referring to a specific prognosis resource.\",\n      \"asset:prop:version\": \"0.5.5-SNAPSHOT\",\n      \"asset:prop:contenttype\": \"application/json, application/xml\",\n      \"rdf:type\":\"https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#GraphAsset\",\n      \"rdfs:isDefinedBy\": \"https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#\",\n      \"cx:protocol\": \"urn:cx:Protocol:w3c:Http#SPARQL\",\n      \"cx:shape\": \"@prefix : <urn:cx:Graph:tierA:LifetimeGearbox> .\\n@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .\\n@prefix cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#> .\\n@prefix owl: <http://www.w3.org/2002/07/owl#> .\\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\n@prefix sh: <http://www.w3.org/ns/shacl#> .\\n :Tier1LifetimePrognosis rdf:type sh:NodeShape ;\\n  sh:targetClass cx-lifetime:LifetimePrognosis ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003CPIY> ].\\n\",\n      \"cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Graph:tierA:LifetimeGearbox\",\n      \"baseUrl\": \"http://tiera-remoting-agent:8081/rdf4j-server/repositories/prognosis\",\n      \"type\": \"urn:cx:Protocol:w3c:Http#SPARQL\",\n      \"proxyPath\": \"false\",\n      \"proxyMethod\": \"true\",\n      \"proxyQueryParams\": \"true\",\n      \"proxyBody\": \"true\",\n      \"authKey\": \"{{supplierBackendAuthKey}}\",\n      \"authCode\": \"{{supplierBackendAuthCode}}\"\n    }\n  }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{tieraEdcControl}}/data/assets",
+											"host": [
+												"{{tieraEdcControl}}"
+											],
+											"path": [
+												"data",
+												"assets"
+											]
+										},
+										"description": "Calls the datamanagement API in order to create a graph asset."
+									},
+									"response": []
+								},
+								{
+									"name": "Create Second Function Graph Asset",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Creation/Existance was successful\", function () {",
+													"    pm.expect(pm.response.code).oneOf([204,409]);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"warning": "This is a duplicate header and will be overridden by the X-Api-Key header generated by Postman.",
+												"key": "X-Api-Key",
+												"value": "{{oemEdcApiKey}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"asset\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Graph:tierA:HealthIndicatorGearbox\",\n      \"asset:prop:name\": \"Health Indications Service for Gearboxes\",\n      \"asset:prop:description\": \"Another sample graph asset/offering referring to a specific prognosis resource.\",\n      \"asset:prop:version\": \"0.6.2-SNAPSHOT\",\n      \"asset:prop:contenttype\": \"application/json, application/xml\",\n      \"rdf:type\":\"https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#GraphAsset\",\n      \"rdfs:isDefinedBy\": \"https://github.com/catenax-ng/product-knowledge/ontology/health.ttl#\",\n      \"cx:protocol\": \"urn:cx:Protocol:w3c:Http#SPARQL\",\n      \"cx:shape\": \"@prefix : <urn:cx:Graph:tierA:HealthIndicatorGearbox> .\\n@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .\\n@prefix cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#> .\\n@prefix owl: <http://www.w3.org/2002/07/owl#> .\\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\n@prefix sh: <http://www.w3.org/ns/shacl#> .\\n :Tier1LifetimePrognosis rdf:type sh:NodeShape ;\\n  sh:targetClass cx-lifetime:LifetimePrognosis ;\\n  sh:property [\\n        sh:path cx:provisionedBy ;\\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003CPIY> ].\\n\",\n      \"cx:isFederated\": true\n    }\n  },\n  \"dataAddress\": {\n    \"properties\": {\n      \"asset:prop:id\": \"urn:cx:Graph:tierA:HealthIndicatorGearbox\",\n      \"baseUrl\": \"http://tiera-remoting-agent:8081/rdf4j-server/repositories/health\",\n      \"type\": \"urn:cx:Protocol:w3c:Http#SPARQL\",\n      \"proxyPath\": \"false\",\n      \"proxyMethod\": \"true\",\n      \"proxyQueryParams\": \"true\",\n      \"proxyBody\": \"true\",\n      \"authKey\": \"{{supplierBackendAuthKey}}\",\n      \"authCode\": \"{{supplierBackendAuthCode}}\"\n    }\n  }\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1731,7 +1883,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{consumerEdcControl}}/data/catalog?providerUrl={{oemEdcIds}}/api/v1/ids/data",
+											"raw": "{{consumerEdcControl}}/data/catalog?providerUrl={{consumerEdcIds}}/api/v1/ids/data",
 											"host": [
 												"{{consumerEdcControl}}"
 											],
@@ -1742,7 +1894,8 @@
 											"query": [
 												{
 													"key": "providerUrl",
-													"value": "{{oemEdcIds}}/api/v1/ids/data"
+													"value": "{{oemEdcIds}}/api/v1/ids/data",
+													"disabled": true
 												},
 												{
 													"key": "providerUrl",
@@ -1751,8 +1904,7 @@
 												},
 												{
 													"key": "providerUrl",
-													"value": "{{consumerEdcIds}}/api/v1/ids/data",
-													"disabled": true
+													"value": "{{consumerEdcIds}}/api/v1/ids/data"
 												}
 											]
 										},
@@ -1895,7 +2047,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> \nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \nPREFIX cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\n\nSELECT ?invocation ?distance ?time\nWHERE { \n    GRAPH <urn:cx:Graph:tierA:LifetimeGearbox> {\n        ?invocation a cx-lifetime:LifetimePrognosis;\n              cx-lifetime:loadCollectiveFile \"{  \\\"Type\\\": \\\"ZF_load_collective\\\", \\\"Version\\\": \\\"1.7\\\"  }\"^^xsd:string; \n              cx-lifetime:loadCollectiveHeader \"{  \\\"CountingMethod\\\": \\\"ZF_TimeAtLevel\\\",    \\\"CountingUnit\\\": \\\"s\\\",    \\\"Channels\\\": [      {        \\\"Name\\\": \\\"Temp_Oil\\\",        \\\"Type\\\": \\\"Load\\\",        \\\"Unit\\\": \\\"degC\\\",        \\\"LowerLimit\\\": -40,        \\\"UpperLimit\\\": 220,        \\\"NumberOfBins\\\": 52      }  ]  }\"^^xsd:string; \n              cx-lifetime:loadCollectiveBody \"{     \\\"Temp_Oil-class\\\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \\\"Counts\\\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }\"^^xsd:string; \n              cx-lifetime:loadCollectiveComponent \"\\\"GearOil\\\"\"^^xsd:string; \n              cx-lifetime:loadCollectiveMileage \"{ \\\"Value\\\": 82563, \\\"Unit\\\": \\\"km\\\" }\"^^xsd:string; \n              cx-lifetime:loadCollectiveRegistrationDate \"{ \\\"Value\\\": 20171206,  \\\"Unit\\\": \\\"yyyymmdd\\\" }\"^^xsd:string; \n              cx-lifetime:remainingDistance ?distance; \n              cx-lifetime:remainingTime ?time.\n    }\n}"
+											"raw": "PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> \nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \nPREFIX json: <https://json-schema.org/draft/2020-12/schema#> \nPREFIX cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\n\nSELECT ?invocation ?distance ?time\nWHERE { \n    GRAPH <urn:cx:Graph:tierA:LifetimeGearbox> {\n        ?invocation a cx-lifetime:LifetimePrognosis;\n              cx-lifetime:loadCollectiveFile \"{  \\\"Type\\\": \\\"ZF_load_collective\\\", \\\"Version\\\": \\\"1.7\\\"  }\"^^json:Object; \n              cx-lifetime:loadCollectiveHeader \"{  \\\"CountingMethod\\\": \\\"ZF_TimeAtLevel\\\",    \\\"CountingUnit\\\": \\\"s\\\",    \\\"Channels\\\": [      {        \\\"Name\\\": \\\"Temp_Oil\\\",        \\\"Type\\\": \\\"Load\\\",        \\\"Unit\\\": \\\"degC\\\",        \\\"LowerLimit\\\": -40,        \\\"UpperLimit\\\": 220,        \\\"NumberOfBins\\\": 52      }  ]  }\"^^json:Object; \n              cx-lifetime:loadCollectiveBody \"{     \\\"Temp_Oil-class\\\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \\\"Counts\\\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }\"^^json:Object; \n              cx-lifetime:loadCollectiveComponent \"GearOil\"^^xsd:string; \n              cx-lifetime:loadCollectiveMileage \"{ \\\"Value\\\": 82563, \\\"Unit\\\": \\\"km\\\" }\"^^json:Object; \n              cx-lifetime:loadCollectiveRegistrationDate \"{ \\\"Value\\\": 20171206,  \\\"Unit\\\": \\\"yyyymmdd\\\" }\"^^json:Object; \n              cx-lifetime:remainingDistance ?distance; \n              cx-lifetime:remainingTime ?time.\n    }\n}"
 										},
 										"url": {
 											"raw": "{{consumerAgentPlane}}/api/agent?asset=https://knowledge.dev.demo.catena-x.net/tiera-edc-control/BPNL00000003CPIY%23urn:cx:Graph:tierA:LifetimeGearbox",
@@ -1929,6 +2081,63 @@
 									"response": []
 								},
 								{
+									"name": "Post Remote SparQL (Batch Function)",
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {
+											"content-type": true,
+											"accept": true
+										}
+									},
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/sparql-query",
+												"type": "text"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> \nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \nPREFIX json: <https://json-schema.org/draft/2020-12/schema#> \nPREFIX cx-health: <https://github.com/catenax-ng/product-knowledge/ontology/health.ttl#>\n\nSELECT ?invocation ?healthValues\nWHERE { \n    GRAPH <urn:cx:Graph:tierA:HealthIndicatorGearbox> {\n        ?invocation a cx-health:HealthIndication;\n                      cx-health:requestComponentId <urn:cx:AnonymousSerializedPart#GB4711>;\n                      cx-health:classifiedLoadCollectiveFile \"{  \\\"Type\\\": \\\"ZF_load_collective\\\", \\\"Version\\\": \\\"1.7\\\"  }\"^^json:Object; \n                      cx-health:classifiedLoadCollectiveHeader \"{  \\\"CountingMethod\\\": \\\"ZF_TimeAtLevel\\\",    \\\"CountingUnit\\\": \\\"s\\\",    \\\"Channels\\\": [      {        \\\"Name\\\": \\\"Temp_Oil\\\",        \\\"Type\\\": \\\"Load\\\",        \\\"Unit\\\": \\\"degC\\\",        \\\"LowerLimit\\\": -40,        \\\"UpperLimit\\\": 220,        \\\"NumberOfBins\\\": 52      }  ]  }\"^^json:Object; \n                      cx-health:classifiedLoadCollectiveBody \"{     \\\"Temp_Oil-class\\\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \\\"Counts\\\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }\"^^json:Object; \n                      cx-health:adaptionValueVersion \"VER_AV_001\"^^xsd:string; \n                      cx-health:adaptionValueTimestamp \"2022-10-12T08:17:18.734Z\"^^xsd:dateTime;\n                      cx-health:adaptionValueMileage \"82563.02\"^^xsd:double; \n                      cx-health:adaptionValueOperatingTime \"45667765\"^^xsd:long;\n                      cx-health:adaptionValueList \"[ 0.543534, 0.543535, 0.543536, 0.543537 ]\"^^json:Object;\n                      cx-health:indicatorVersion ?iversion;\n                      cx-health:responseComponentId ?component;\n                      cx-health:healthIndicatorValues ?healthValues.    \n    }\n}"
+										},
+										"url": {
+											"raw": "{{consumerAgentPlane}}/api/agent?asset=http://tiera-control-plane:8282%23urn:cx:Graph:tierA:HealthIndicatorGearbox",
+											"host": [
+												"{{consumerAgentPlane}}"
+											],
+											"path": [
+												"api",
+												"agent"
+											],
+											"query": [
+												{
+													"key": "asset",
+													"value": "https://knowledge.int.demo.catena-x.net/tiera-edc-control/BPNL00000003CPIY%23urn:cx:Graph:tierA:HealthIndicatorGearbox",
+													"description": "Dataspace Asset",
+													"disabled": true
+												},
+												{
+													"key": "asset",
+													"value": "http://tiera-control-plane:8282%23urn:cx:Graph:tierA:HealthIndicatorGearbox"
+												},
+												{
+													"key": "asset",
+													"value": "https://knowledge.dev.demo.catena-x.net/tiera-edc-control/BPNL00000003CPIY%23urn:cx:Graph:tierA:HealthIndicatorGearbox",
+													"disabled": true
+												}
+											]
+										},
+										"description": "Uses the Agent Extension of the Dataplane to Perform Some Dynamic Query on a Local Graph (here: the federated data catalogue)."
+									},
+									"response": []
+								},
+								{
 									"name": "Post Federated SparQL (Shortcut Over Backends)",
 									"protocolProfileBehavior": {
 										"disabledSystemHeaders": {
@@ -1946,7 +2155,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\nPREFIX cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\nPREFIX cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\n#\n# Sample for a Federated Skill (No Matchmaking) Which\n#  - Uses an OEM connector/agent to infer diagnosis data \n#  - Feeds this data into a Tier A connector/agent to perform a prognosis \n\nSELECT ?vin ?troubleCode ?description ?partProg ?distance ?time WHERE {\n\n    # Actual input parameters, when used as a predefined skill, \n    # these would be the named URL (or body multi-form) parameters\n    # Since you could use them multiple times, there is a combinatorial difference in \n    # defining them as single variables or as combined tuples\n    VALUES (?vin ?troubleCode) { (\"WVA8984323420333\"^^xsd:string \"P0745\"^^xsd:string) }\n\n    # In this place, there would be a to-be-implemented catalogue logic \n    # (so the default \"asset\" would be the catalogue including the CX ontology)\n    # which maps the VIN via regular expressions to the right \n    # business partner and connector\n    # Currently, we chose even not the connector, but the backend directly\n    VALUES (?oemBpn ?oemConnector) { (\"BPNL00000003COJN\"^^xsd:string <{{oemProviderAgent}}/sparql>) }\n\n    # Now we are jumping into the OEM\n    SERVICE ?oemConnector { \n        # Select Business Partner Node\n        ?Oem cx:BPNL ?oemBpn.\n\n        # Unless we have vehicle master data, we directly bind the variables\n        VALUES (?mileage ?registrationDate) { (\n            \"{ \\\"Value\\\": 82563, \\\"Unit\\\": \\\"km\\\" }\"^^xsd:string\n            \"{ \\\"Value\\\": 20171206,  \\\"Unit\\\": \\\"yyyymmdd\\\" }\"^^xsd:string\n        )}\n\n        # Search for troubled parts to forecast\n        ?Dtc rdf:type cx-diag:DTC;\n            cx:provisionedBy ?Oem;\n            cx-diag:PossibleCauses ?reason;\n            cx-diag:Code ?troubleCode;\n            cx-diag:Description ?description.\n        \n        # Unless we have a mapping of diagnosed parts to the prognosed parts\n        VALUES ?partProg { \"\\\"GearOil\\\"\"^^xsd:string }        \n\n        # Next we need to find the appropriate load spectrum associated to the prognosed part\n        VALUES ?loadCollective { \n         \"{ \\\"Temp_Oil-class\\\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \\\"Counts\\\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }\"^^xsd:string\n        }\n\n        # we need to find the right supplier for the trouble part\n        VALUES (?tieraBpn ?tieraConnector) {\n           (\"BPNL00000003CPIY\"^^xsd:string <{{tierARemotingAgent}}/repositories/prognosis>) \n        }       \n\n        \n    }\n\n    # Now we are jumping into the tiera\n    # Notice that ideally, the OEM agent would perform this\n    # as the consumer will have most likely no agreement/contract\n    # for this purpose this SERVICE section would be nested\n    # into the former section\n    SERVICE ?tieraConnector { \n        ?invocation a cx-lifetime:LifetimePrognosis;\n            # Input from the OEM\n            cx-lifetime:loadCollectiveBody ?loadCollective;\n            cx-lifetime:loadCollectiveComponent ?partProg;\n            cx-lifetime:loadCollectiveMileage ?mileage;\n            cx-lifetime:loadCollectiveRegistrationDate ?registrationDate;\n            # Additional info from the Tiera about its measurements\n            cx-lifetime:loadCollectiveFile \"{  \\\"Type\\\": \\\"ZF_load_collective\\\", \\\"Version\\\": \\\"1.7\\\"  }\"^^xsd:string; \n            cx-lifetime:loadCollectiveHeader \"{  \\\"CountingMethod\\\": \\\"ZF_TimeAtLevel\\\",    \\\"CountingUnit\\\": \\\"s\\\",    \\\"Channels\\\": [      {        \\\"Name\\\": \\\"Temp_Oil\\\",        \\\"Type\\\": \\\"Load\\\",        \\\"Unit\\\": \\\"degC\\\",        \\\"LowerLimit\\\": -40,        \\\"UpperLimit\\\": 220,        \\\"NumberOfBins\\\": 52      }  ]  }\"^^xsd:string; \n            # the actual prognosis output\n            cx-lifetime:remainingDistance ?distance; \n            cx-lifetime:remainingTime ?time.\n    }\n\n\n}\n\n",
+											"raw": "PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\nPREFIX cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\nPREFIX cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\nPREFIX json: <https://json-schema.org/draft/2020-12/schema#> \nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\n#\n# Sample for a Federated Skill (No Matchmaking) Which\n#  - Uses an OEM connector/agent to infer diagnosis data \n#  - Feeds this data into a Tier A connector/agent to perform a prognosis \n\nSELECT ?vin ?troubleCode ?description ?partProg ?distance ?time WHERE {\n\n    # Actual input parameters, when used as a predefined skill, \n    # these would be the named URL (or body multi-form) parameters\n    # Since you could use them multiple times, there is a combinatorial difference in \n    # defining them as single variables or as combined tuples\n    VALUES (?vin ?troubleCode) { (\"WVA8984323420333\"^^xsd:string \"P0745\"^^xsd:string) }\n\n    # In this place, there would be a to-be-implemented catalogue logic \n    # (so the default \"asset\" would be the catalogue including the CX ontology)\n    # which maps the VIN via regular expressions to the right \n    # business partner and connector\n    # Currently, we chose even not the connector, but the backend directly\n    VALUES (?oemBpn ?oemConnector) { (\"BPNL00000003COJN\"^^xsd:string <{{oemProviderAgent}}/sparql>) }\n\n    # Now we are jumping into the OEM\n    SERVICE ?oemConnector { \n        # Select Business Partner Node\n        ?Oem cx:BPNL ?oemBpn.\n\n        # Unless we have vehicle master data, we directly bind the variables\n        VALUES (?mileage ?registrationDate) { (\n            \"{ \\\"Value\\\": 82563, \\\"Unit\\\": \\\"km\\\" }\"^^json:Object\n            \"{ \\\"Value\\\": 20171206,  \\\"Unit\\\": \\\"yyyymmdd\\\" }\"^^json:Object\n        )}\n\n        # Search for troubled parts to forecast\n        ?Dtc rdf:type cx-diag:DTC;\n            cx:provisionedBy ?Oem;\n            cx-diag:PossibleCauses ?reason;\n            cx-diag:Code ?troubleCode;\n            cx-diag:Description ?description.\n        \n        # Unless we have a mapping of diagnosed parts to the prognosed parts\n        VALUES ?partProg { \"GearOil\"^^xsd:string }        \n\n        # Next we need to find the appropriate load spectrum associated to the prognosed part\n        VALUES ?loadCollective { \n         \"{ \\\"Temp_Oil-class\\\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \\\"Counts\\\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }\"^^json:Object\n        }\n\n        # we need to find the right supplier for the trouble part\n        VALUES (?tieraBpn ?tieraConnector) {\n           (\"BPNL00000003CPIY\"^^xsd:string <{{tierARemotingAgent}}/repositories/prognosis>) \n        }       \n\n    }\n\n    # Now we are jumping into the tiera\n    # Notice that ideally, the OEM agent would perform this\n    # as the consumer will have most likely no agreement/contract\n    # for this purpose this SERVICE section would be nested\n    # into the former section\n    SERVICE ?tieraConnector { \n        ?invocation a cx-lifetime:LifetimePrognosis;\n            # Input from the OEM\n            cx-lifetime:loadCollectiveBody ?loadCollective;\n            cx-lifetime:loadCollectiveComponent ?partProg;\n            cx-lifetime:loadCollectiveMileage ?mileage;\n            cx-lifetime:loadCollectiveRegistrationDate ?registrationDate;\n            # Additional info from the Tiera about its measurements\n            cx-lifetime:loadCollectiveFile \"{  \\\"Type\\\": \\\"ZF_load_collective\\\", \\\"Version\\\": \\\"1.7\\\"  }\"^^json:Object; \n            cx-lifetime:loadCollectiveHeader \"{  \\\"CountingMethod\\\": \\\"ZF_TimeAtLevel\\\",    \\\"CountingUnit\\\": \\\"s\\\",    \\\"Channels\\\": [      {        \\\"Name\\\": \\\"Temp_Oil\\\",        \\\"Type\\\": \\\"Load\\\",        \\\"Unit\\\": \\\"degC\\\",        \\\"LowerLimit\\\": -40,        \\\"UpperLimit\\\": 220,        \\\"NumberOfBins\\\": 52      }  ]  }\"^^json:Object; \n            # the actual prognosis output\n            cx-lifetime:remainingDistance ?distance; \n            cx-lifetime:remainingTime ?time.\n    }\n\n\n}\n\n",
 											"options": {
 												"raw": {
 													"language": "text"
@@ -1985,7 +2194,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "PREFIX xsd:           <http://www.w3.org/2001/XMLSchema#> \nPREFIX rdf:           <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs:          <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX cx:            <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\nPREFIX cx-diag:       <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\nPREFIX cx-telematics: <https://github.com/catenax-ng/product-knowledge/ontology/telematics.ttl#>\nPREFIX cx-lifetime:   <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\n\n##############################################################################################\n#                  Catena-X Knowledge Agents Sample Federated Skill                          #\n#                         Realizes a 5-Step Business Process                                 #\n#            \"Remaining Useful Life Prognosis based on Diagnosis TroubleCodes\"               #\n##############################################################################################\n# Preconditions:                                                                             #\n# - A Contract Offering from OEM (e.g. BMW) to CONSUMER (e.g. ADAC)                          #\n#   - VIN-VAN Conversion                                                                     #\n#   - DTC Analysis/Resolution (including the READING of PartType and Description)            #\n#   - Serial Part & SUPPLIER Lookup                                                          #\n# - A Contract Offering from SUPPLIER (e.g. ZF) to OEM                                       #\n#   - Telematics data (including the PROPAGATION of LoadSpectrum)                            #\n#   - RUL Prognosis Invocation (including the DISTRIBUTION of RUL results)                   #\n##############################################################################################\n\n####\n# 5. Project the actual output of the Skill on CONSUMER side\n####\nSELECT ?vin ?van ?troubleCode ?description ?serializedPartName ?distance ?time WHERE {\n\n    ####\n    # 1. The CONSUMER detects a trouble code on a car in his fleet\n    ####\n    VALUES (?vin ?troubleCode) { (\"WBAAL31029PZ00001\"^^xsd:string \"P0745\"^^xsd:string) }.\n\n    ####\n    # 2. The CONSUMER looks up the OEM (connector) associated to the VIN \n    #    using the Federated Data Catalogue  (Catalogue=Default Graph)\n    ####\n    ?oem cx:isIssuerOfVehicleIdentificationNumber ?vin;\n         cx:hasConnector ?oemConnector.\n\n    ?oemConnector cx:offersAsset ?diagnoseAsset.\n\n    ####\n    # 3. The CONSUMER delegates the following logic to the OEM (connector)\n    ####\n    SERVICE ?oemConnector { \n\n        ####\n        # 3.1 The OEM (e.g. BMW) anomyzes the VIN into an anomymous (VAN) node\n        #.    and gets some master data with it \n        ####\n        ?van cx:isAnonymousVehicle ?vin;\n             cx:hasRegistration ?registration.\n\n        ####\n        # 3.2 The OEM analyzes the DTC-affected part type (Diagnosis Graph)\n        ####\n        GRAPH ?diagnoseAsset {\n\n           ?Dtc rdf:type cx-diag:DTC; \n                cx-diag:Code ?troubleCode;\n                cx-diag:affects [ cx-diag:EnDenomination ?partType ]; \n                cx-diag:Description ?description.\n        \n        } # OEM#Diagnosis context\n\n        ####\n        # 3.3 The OEM obtains fresh telematics/load-spectrum data for the vehicle\n        #     focussed to the problematic partType (Telematics Graph) \n        ####\n        ?van cx-telematics:latestMileageReceived ?mileage;\n             cx-telematics:latestDetailReceived ?telematicDetail.\n        ?telematicsDetail cx-diag:hasPartType ?partType;\n                          cx-diag:hasLoadSpectrum ?loadSpectrum.\n\n        ####\n        # 3.4 The OEM looks up the serialized part of the VAN (Traceability Graph)\n        #     and the supplier address in the dataspace\n        ####\n        ?serializedPart cx:isComponentOf+ ?van;\n                        cx:hasPartType ?partType;\n                        cx:hasName ?serializedPartName;\n                        cx:hasSupplier [\n                            cx:hasConnector ?tieraConnector\n                        ].           \n\n        ?tieraConnector cx:offersAsset ?prognosisAsset.\n\n        ####\n        # 4. The OEM (and not the CONSUMER) delegates to the SUPPLIER (connector)\n        #    which means that load spectrum data etc is only exchanged using their\n        #    contract and between their connectors.\n        ####\n        SERVICE ?tieraConnector { \n\n            ####\n            # 4.1 The SUPPLIER adds additional measurement information\n            ####\n            ?telematicsDetail cx-telematics:hasFile ?loadSpectrumFile;\n                              cx-telematics:hasHeader ?loadSpectrumHeader.\n\n            ####\n            # 4.2 The SUPPLIER invokes a prognosis model associated the part type using the load-spectrum data\n            ####\n            GRAPH ?prognosisAsset {\n\n                ?invocation rdf:type cx-lifetime:LifetimePrognosis;\n                    \n                    # <--General vehicle info\n                    cx-lifetime:loadCollectiveMileage ?mileage;\n                    cx-lifetime:loadCollectiveRegistrationDate ?registration;\n\n                    # <--Part Info from the OEM\n                    cx-lifetime:loadCollectiveComponent ?serializedPartName;\n                    cx-lifetime:loadCollectiveBody ?loadSpectrum;\n                    \n                    # <--Additional info from the SUPPLIER\n                    cx-lifetime:loadCollectiveFile ?loadSpectrumFile;\n                    cx-lifetime:loadCollectiveHeader ?loadSpectrumHeader; \n                    \n                    # -->the actual prognosis output\n                    cx-lifetime:remainingDistance ?distance; \n                    cx-lifetime:remainingTime ?time.\n            \n            } # SUPPLIER#Prognosis context\n        \n        } # SUPPLIER context\n\n    } # OEM context\n\n   # now we do reporting/operationalising on the CONSUMER side\n} ORDER BY ?remainingDistance LIMIT 5\n\n",
+											"raw": "PREFIX xsd:           <http://www.w3.org/2001/XMLSchema#> \nPREFIX rdf:           <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs:          <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX cx:            <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\nPREFIX cx-diag:       <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\nPREFIX cx-telematics: <https://github.com/catenax-ng/product-knowledge/ontology/telematics.ttl#>\n@prefix cx-health: <https://github.com/catenax-ng/product-knowledge/ontology/health.ttl#>.\n\n##############################################################################################\n#                  Catena-X Knowledge Agents Sample Federated Skill                          #\n#                         Realizes a 5-Step Business Process                                 #\n#            \"Remaining Useful Life Prognosis based on Diagnosis TroubleCodes\"               #\n##############################################################################################\n# Preconditions:                                                                             #\n# - A Contract Offering from OEM (e.g. BMW) to CONSUMER (e.g. ADAC)                          #\n#   - VIN-VAN Conversion                                                                     #\n#   - DTC Analysis/Resolution (including the READING of PartType and Description)            #\n#   - Serial Part & SUPPLIER Lookup                                                          #\n# - A Contract Offering from SUPPLIER (e.g. ZF) to OEM                                       #\n#   - Telematics data (including the PROPAGATION of LoadSpectrum)                            #\n#   - RUL Prognosis Invocation (including the DISTRIBUTION of RUL results)                   #\n##############################################################################################\n\n####\n# 5. Project the actual output of the Skill on CONSUMER side\n####\nSELECT ?vin ?van ?troubleCode ?description ?serializedPartName ?distance ?time WHERE {\n\n    ####\n    # 1. The CONSUMER detects a trouble code on a car in his fleet\n    ####\n    VALUES (?vin ?troubleCode) { (\"WBAAL31029PZ00001\"^^xsd:string \"P0745\"^^xsd:string) }.\n\n    ####\n    # 2. The CONSUMER looks up the OEM (connector) associated to the VIN \n    #    using the Federated Data Catalogue  (Catalogue=Default Graph)\n    ####\n    ?oem cx:isIssuerOfVehicleIdentificationNumber ?vin;\n         cx:hasConnector ?oemConnector.\n\n    ?oemConnector cx:offersAsset ?diagnoseAsset.\n    ?diagnoseAsset rdfs:isDefinedBy \"https://github.com/catenax-ng/product-knowledge/ontology/diagnosis_ontology.ttl\"^^xsd:string.\n\n    ####\n    # 3. The CONSUMER delegates the following logic to the OEM (connector)\n    ####\n    SERVICE ?oemConnector { \n\n        ####\n        # 3.1 The OEM (e.g. BMW) anomyzes the VIN into an anomymous (VAN) node\n        #.    and gets some master data with it \n        ####\n        ?van cx:isAnonymousVehicle ?vin;\n             cx:hasRegistration ?registration.\n\n        ####\n        # 3.2 The OEM analyzes the DTC-affected part type (Diagnosis Graph)\n        ####\n        GRAPH ?diagnoseAsset {\n\n           ?Dtc rdf:type cx-diag:DTC; \n                cx-diag:Code ?troubleCode;\n                cx-diag:affects [ cx-diag:EnDenomination ?partType ]; \n                cx-diag:Description ?description.\n        \n        } # OEM#Diagnosis context\n\n        ####\n        # 3.3 The OEM obtains fresh telematics/load-spectrum data for the vehicle\n        #     focussed to the problematic partType (Telematics Graph) \n        ####\n        ?van cx-telematics:latestMileageReceived ?mileage;\n             cx-telematics:latestDetailReceived ?telematicsDetail.\n        ?telematicsDetail cx-diag:hasPartType ?partType;\n                          cx-diag:hasLoadSpectrum ?loadSpectrum.\n\n        ####\n        # 3.4 The OEM looks up the serialized part of the VAN (Traceability Graph)\n        #     and the supplier address in the dataspace\n        ####\n        ?serializedPart cx:isComponentOf+ ?van;\n                        cx:hasPartType ?partType;\n                        cx:hasName ?serializedPartName;\n                        cx:hasSupplier [\n                            cx:hasConnector ?tieraConnector\n                        ].           \n\n        ?tieraConnector cx:offersAsset ?prognosisAsset.\n        ?prognosisAsset rdfs:isDefinedBy \"https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#\"^^xsd:string.\n\n        ####\n        # 4. The OEM (and not the CONSUMER) delegates to the SUPPLIER (connector)\n        #    which means that load spectrum data etc is only exchanged using their\n        #    contract and between their connectors.\n        ####\n        SERVICE ?tieraConnector { \n\n            ####\n            # 4.1 The SUPPLIER adds additional measurement information\n            ####\n            ?telematicsDetail cx-telematics:hasFile ?loadSpectrumFile;\n                              cx-telematics:hasHeader ?loadSpectrumHeader.\n\n            ####\n            # 4.2 The SUPPLIER invokes a prognosis model associated the part type using the load-spectrum data\n            ####\n            GRAPH ?prognosisAsset {\n\n                ?invocation rdf:type cx-lifetime:LifetimePrognosis;\n                    \n                    # <--General vehicle info\n                    cx-lifetime:loadCollectiveMileage ?mileage;\n                    cx-lifetime:loadCollectiveRegistrationDate ?registration;\n\n                    # <--Part Info from the OEM\n                    cx-lifetime:loadCollectiveComponent ?serializedPartName;\n                    cx-lifetime:loadCollectiveBody ?loadSpectrum;\n                    \n                    # <--Additional info from the SUPPLIER\n                    cx-lifetime:loadCollectiveFile ?loadSpectrumFile;\n                    cx-lifetime:loadCollectiveHeader ?loadSpectrumHeader; \n                    \n                    # -->the actual prognosis output\n                    cx-lifetime:remainingDistance ?distance; \n                    cx-lifetime:remainingTime ?time.\n            \n            } # SUPPLIER#Prognosis context\n        \n        } # SUPPLIER context\n\n    } # OEM context\n\n   # now we do reporting/operationalising on the CONSUMER side\n} ORDER BY ?remainingDistance LIMIT 5\n\n",
 											"options": {
 												"raw": {
 													"language": "text"
@@ -2007,7 +2216,7 @@
 									"response": []
 								},
 								{
-									"name": "Register Skill",
+									"name": "Post Federated Batch SparQL (over Dataspace)",
 									"protocolProfileBehavior": {
 										"disabledSystemHeaders": {
 											"content-type": true
@@ -2024,7 +2233,99 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "PREFIX xsd:           <http://www.w3.org/2001/XMLSchema#> \nPREFIX rdf:           <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs:          <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX cx:            <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\nPREFIX cx-diag:       <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\nPREFIX cx-telematics: <https://github.com/catenax-ng/product-knowledge/ontology/telematics.ttl#>\nPREFIX cx-lifetime:   <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\n\n##############################################################################################\n#                  Catena-X Knowledge Agents Sample Federated Skill                          #\n#                         Realizes a 5-Step Business Process                                 #\n#            \"Remaining Useful Life Prognosis based on Diagnosis TroubleCodes\"               #\n##############################################################################################\n# Preconditions:                                                                             #\n# - A Contract Offering from OEM (e.g. BMW) to CONSUMER (e.g. ADAC)                          #\n#   - VIN-VAN Conversion                                                                     #\n#   - DTC Analysis/Resolution (including the READING of PartType and Description)            #\n#   - Serial Part & SUPPLIER Lookup                                                          #\n# - A Contract Offering from SUPPLIER (e.g. ZF) to OEM                                       #\n#   - Telematics data (including the PROPAGATION of LoadSpectrum)                            #\n#   - RUL Prognosis Invocation (including the DISTRIBUTION of RUL results)                   #\n##############################################################################################\n\n####\n# 5. Project the actual output of the Skill on CONSUMER side\n####\nSELECT ?vin ?van ?troubleCode ?description ?serializedPartName ?distance ?time WHERE {\n\n    ####\n    # 1. The CONSUMER detects a trouble code on a car in his fleet\n    ####\n    VALUES (?vin ?troubleCode) { (\"@vin\"^^xsd:string \"@troubleCode\"^^xsd:string) }.\n\n    ####\n    # 2. The CONSUMER looks up the OEM (connector) associated to the VIN \n    #    using the Federated Data Catalogue  (Catalogue=Default Graph)\n    ####\n    ?oem cx:isIssuerOfVehicleIdentificationNumber ?vin;\n         cx:hasConnector ?oemConnector.\n\n    ?oemConnector cx:offersAsset ?diagnoseAsset.\n\n    ####\n    # 3. The CONSUMER delegates the following logic to the OEM (connector)\n    ####\n    SERVICE ?oemConnector { \n\n        ####\n        # 3.1 The OEM (e.g. BMW) anomyzes the VIN into an anomymous (VAN) node\n        #.    and gets some master data with it \n        ####\n        ?van cx:isAnonymousVehicle ?vin;\n             cx:hasRegistration ?registration.\n\n        ####\n        # 3.2 The OEM analyzes the DTC-affected part type (Diagnosis Graph)\n        ####\n        GRAPH ?diagnoseAsset {\n\n           ?Dtc rdf:type cx-diag:DTC; \n                cx-diag:Code ?troubleCode;\n                cx-diag:affects [ cx-diag:EnDenomination ?partType ]; \n                cx-diag:Description ?description.\n        \n        } # OEM#Diagnosis context\n\n        ####\n        # 3.3 The OEM obtains fresh telematics/load-spectrum data for the vehicle\n        #     focussed to the problematic partType (Telematics Graph) \n        ####\n        ?van cx-telematics:latestMileageReceived ?mileage;\n             cx-telematics:latestDetailReceived ?telematicDetail.\n        ?telematicsDetail cx-diag:hasPartType ?partType;\n                          cx-diag:hasLoadSpectrum ?loadSpectrum.\n\n        ####\n        # 3.4 The OEM looks up the serialized part of the VAN (Traceability Graph)\n        #     and the supplier address in the dataspace\n        ####\n        ?serializedPart cx:isComponentOf+ ?van;\n                        cx:hasPartType ?partType;\n                        cx:hasName ?serializedPartName;\n                        cx:hasSupplier [\n                            cx:hasConnector ?tieraConnector\n                        ].           \n\n        ?tieraConnector cx:offersAsset ?prognosisAsset.\n\n        ####\n        # 4. The OEM (and not the CONSUMER) delegates to the SUPPLIER (connector)\n        #    which means that load spectrum data etc is only exchanged using their\n        #    contract and between their connectors.\n        ####\n        SERVICE ?tieraConnector { \n\n            ####\n            # 4.1 The SUPPLIER adds additional measurement information\n            ####\n            ?telematicsDetail cx-telematics:hasFile ?loadSpectrumFile;\n                              cx-telematics:hasHeader ?loadSpectrumHeader.\n\n            ####\n            # 4.2 The SUPPLIER invokes a prognosis model associated the part type using the load-spectrum data\n            ####\n            GRAPH ?prognosisAsset {\n\n                ?invocation rdf:type cx-lifetime:LifetimePrognosis;\n                    \n                    # <--General vehicle info\n                    cx-lifetime:loadCollectiveMileage ?mileage;\n                    cx-lifetime:loadCollectiveRegistrationDate ?registration;\n\n                    # <--Part Info from the OEM\n                    cx-lifetime:loadCollectiveComponent ?serializedPartName;\n                    cx-lifetime:loadCollectiveBody ?loadSpectrum;\n                    \n                    # <--Additional info from the SUPPLIER\n                    cx-lifetime:loadCollectiveFile ?loadSpectrumFile;\n                    cx-lifetime:loadCollectiveHeader ?loadSpectrumHeader; \n                    \n                    # -->the actual prognosis output\n                    cx-lifetime:remainingDistance ?distance; \n                    cx-lifetime:remainingTime ?time.\n            \n            } # SUPPLIER#Prognosis context\n        \n        } # SUPPLIER context\n\n    } # OEM context\n\n   # now we do reporting/operationalising on the CONSUMER side\n} ORDER BY ?remainingDistance LIMIT 5\n\n",
+											"raw": "PREFIX xsd:           <http://www.w3.org/2001/XMLSchema#> \nPREFIX json:          <https://json-schema.org/draft/2020-12/schema#>\nPREFIX rdf:           <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs:          <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX cx:            <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\nPREFIX cx-diag:       <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\nPREFIX cx-telematics: <https://github.com/catenax-ng/product-knowledge/ontology/telematics.ttl#>\nPREFIX cx-health: <https://github.com/catenax-ng/product-knowledge/ontology/health.ttl#>\n\n##############################################################################################\n#                  Catena-X Knowledge Agents Sample Federated Skill                          #\n#                         Realizes a 5-Step Business Process                                 #\n#                            \"Health Indicator Prognosis\"                                    #\n##############################################################################################\n# Preconditions:                                                                             #\n# - A Contract Offering from OEM (e.g. BMW) to CONSUMER (e.g. ADAC)                          #\n#   - VIN-VAN Conversion                                                                     #\n#   - Serial Part & SUPPLIER Lookup                                                          #\n# - A Contract Offering from SUPPLIER (e.g. ZF) to OEM                                       #\n#   - Telematics data (including the PROPAGATION of LoadSpectrum)                            #\n#   - HI Prognosis Invocation (including the DISTRIBUTION of RUL results)                   #\n##############################################################################################\n\n####\n# 5. Project the actual output of the Skill on CONSUMER side\n####\nSELECT ?vin ?van ?indicatorComponentId ?health WHERE {\n\n    ####\n    # 1. The CONSUMER detects a trouble code on a car in his fleet\n    ####\n    VALUES (?vin ?partType) { (\"WBAAL31029PZ00002\"^^xsd:string \"clutch\"^^xsd:string) }.\n\n    ####\n    # 2. The CONSUMER looks up the OEM (connector) associated to the VIN \n    #    using the Federated Data Catalogue  (Catalogue=Default Graph)\n    ####\n    ?oem cx:isIssuerOfVehicleIdentificationNumber ?vin;\n         cx:hasConnector ?oemConnector.\n\n    ?oemConnector cx:offersAsset ?diagnoseAsset.\n    ?diagnoseAsset rdfs:isDefinedBy \"https://github.com/catenax-ng/product-knowledge/ontology/diagnosis_ontology.ttl\"^^xsd:string.\n\n    ####\n    # 3. The CONSUMER delegates the following logic to the OEM (connector)\n    ####\n    SERVICE ?oemConnector { \n\n        ####\n        # 3.1 The OEM (e.g. BMW) anomyzes the VIN into an anomymous (VAN) node\n        #.    and gets some master data with it \n        ####\n        ?van cx:isAnonymousVehicle ?vin;\n             cx:hasRegistration ?registration.\n        GRAPH ?diagnoseAsset {    \n        } # OEM#Diagnosis context\n\n        ####\n        # 3.2 The OEM obtains fresh telematics/load-spectrum data for the vehicle\n        #     focussed to the problematic partType (Telematics Graph) \n        ####\n        ?van cx-telematics:latestMileage ?mileage;\n             cx-telematics:operatingTime ?operatingTime;\n             cx-telematics:latestDetailReceived ?telematicsDetail.\n\n        ?telematicsDetail cx-diag:hasPartType ?partType;\n                          cx-diag:whenRecorded ?recordedTime;\n                          cx-diag:hasAdaptionValues ?adaptionValues;\n                          cx-diag:hasLoadSpectrum ?loadSpectrum.\n\n        ####\n        # 3.3 The OEM looks up the serialized part of the VAN (Traceability Graph)\n        #     and the supplier address in the dataspace\n        ####\n        ?serializedPart cx:isComponentOf+ ?van;\n                        cx:hasPartType ?partType;\n                        cx:hasSupplier [\n                            cx:hasConnector ?tieraConnector\n                        ].           \n\n        ?tieraConnector cx:offersAsset ?healthAsset.\n        ?healthAsset rdfs:isDefinedBy \"https://github.com/catenax-ng/product-knowledge/ontology/health.ttl#\"^^xsd:string.\n\n        ####\n        # 4. The OEM (and not the CONSUMER) delegates to the SUPPLIER (connector)\n        #    which means that load spectrum data etc is only exchanged using their\n        #    contract and between their connectors.\n        ####\n        SERVICE ?tieraConnector { \n\n            ####\n            # 4.1 The SUPPLIER adds additional measurement information\n            ####\n            ?telematicsDetail cx-telematics:hasFile ?loadSpectrumFile;\n                              cx-telematics:hasAdaptionVersion ?adaptionVersion;\n                              cx-telematics:hasHeader ?loadSpectrumHeader.\n\n            ####\n            # 4.2 The SUPPLIER invokes a prognosis model associated the part type using the load-spectrum data\n            ####\n            GRAPH ?healthAsset {\n                ?invocation rdf:type cx-health:HealthIndication;\n                                     cx-health:requestComponentId ?serializedPart;\n                                     cx-health:classifiedLoadCollectiveFile ?loadSpectrumFile;\n                                     cx-health:classifiedLoadCollectiveHeader ?loadSpectrumHeader;\n                                     cx-health:classifiedLoadCollectiveBody ?loadSpectrum;\n                                     cx-health:adaptionValueVersion ?adaptionVersion; \n                                     cx-health:adaptionValueTimestamp ?recordedTime;\n                                     cx-health:adaptionValueMileage ?mileage; \n                                     cx-health:adaptionValueOperatingTime ?operatingTime;\n                                     cx-health:adaptionValueList ?adaptionValues;\n                                     cx-health:indicatorVersion ?indicatorVersion;\n                                     cx-health:responseComponentId ?indicatorComponentId;\n                                     cx-health:healthIndicatorValues ?health.\n            \n            } # SUPPLIER#Prognosis context\n        \n        } # SUPPLIER context\n\n    } # OEM context\n\n} \n\n",
+											"options": {
+												"raw": {
+													"language": "text"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{consumerAgentPlane}}/api/agent",
+											"host": [
+												"{{consumerAgentPlane}}"
+											],
+											"path": [
+												"api",
+												"agent"
+											]
+										},
+										"description": "Uses the Agent Extension of the Dataplane to Perform Some Dynamic Query on Remote Graphs."
+									},
+									"response": []
+								},
+								{
+									"name": "Post Supply Chain Trace",
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {
+											"content-type": true
+										}
+									},
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/sparql-query",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "PREFIX xsd:           <http://www.w3.org/2001/XMLSchema#> \nPREFIX rdf:           <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs:          <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX cx:            <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\nPREFIX cx-diag:       <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\nPREFIX cx-telematics: <https://github.com/catenax-ng/product-knowledge/ontology/telematics.ttl#>\nPREFIX cx-lifetime:   <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\n\nSELECT ?vin ?van ?troubleCode ?oemConnector ?diagnoseAsset WHERE {\n\n    ####\n    # 1. The CONSUMER detects a trouble code on a car in his fleet\n    ####\n    VALUES (?vin ?troubleCode) { (\"@vin\"^^xsd:string \"@troubleCode\"^^xsd:string) }.\n    \n    ####\n    # 2. The CONSUMER looks up the OEM (connector) associated to the VIN \n    #    using the Federated Data Catalogue  (Catalogue=Default Graph)\n    ####\n    ?oem cx:isIssuerOfVehicleIdentificationNumber ?vin;\n         cx:hasConnector ?oemConnector.\n\n    SERVICE ?oemConnector {\n        VALUES(?van) { str(?vin) }.\n    }\n\n   # now we do reporting/operationalising on the CONSUMER side\n} \n\n",
+											"options": {
+												"raw": {
+													"language": "text"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{consumerAgentPlane}}/api/agent?(vin=WBAAL31029PZ00001)&(vin=WBAAL31029PZ00002)&troubleCode=P0746",
+											"host": [
+												"{{consumerAgentPlane}}"
+											],
+											"path": [
+												"api",
+												"agent"
+											],
+											"query": [
+												{
+													"key": "(vin",
+													"value": "WBAAL31029PZ00001)"
+												},
+												{
+													"key": "(vin",
+													"value": "WBAAL31029PZ00002)"
+												},
+												{
+													"key": "troubleCode",
+													"value": "P0746"
+												}
+											]
+										},
+										"description": "Uses the Agent Extension of the Dataplane to Perform Some Dynamic Query on Remote Graphs."
+									},
+									"response": []
+								},
+								{
+									"name": "Register Lifetime Skill",
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {
+											"content-type": true
+										}
+									},
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/sparql-query",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "PREFIX xsd:           <http://www.w3.org/2001/XMLSchema#> \nPREFIX rdf:           <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs:          <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX cx:            <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\nPREFIX cx-diag:       <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\nPREFIX cx-telematics: <https://github.com/catenax-ng/product-knowledge/ontology/telematics.ttl#>\nPREFIX cx-lifetime:   <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\n\n##############################################################################################\n#                  Catena-X Knowledge Agents Sample Federated Skill                          #\n#                         Realizes a 5-Step Business Process                                 #\n#            \"Remaining Useful Life Prognosis based on Diagnosis TroubleCodes\"               #\n##############################################################################################\n# Preconditions:                                                                             #\n# - A Contract Offering from OEM (e.g. BMW) to CONSUMER (e.g. ADAC)                          #\n#   - VIN-VAN Conversion                                                                     #\n#   - DTC Analysis/Resolution (including the READING of PartType and Description)            #\n#   - Serial Part & SUPPLIER Lookup                                                          #\n# - A Contract Offering from SUPPLIER (e.g. ZF) to OEM                                       #\n#   - Telematics data (including the PROPAGATION of LoadSpectrum)                            #\n#   - RUL Prognosis Invocation (including the DISTRIBUTION of RUL results)                   #\n##############################################################################################\n\n####\n# 5. Project the actual output of the Skill on CONSUMER side\n####\nSELECT ?vin ?van ?troubleCode ?description ?serializedPartName ?distance ?time WHERE {\n\n    ####\n    # 1. The CONSUMER detects a trouble code on a car in his fleet\n    ####\n    VALUES (?vin ?troubleCode) { (\"@vin\"^^xsd:string \"@troubleCode\"^^xsd:string) }.\n    \n    ####\n    # 2. The CONSUMER looks up the OEM (connector) associated to the VIN \n    #    using the Federated Data Catalogue  (Catalogue=Default Graph)\n    ####\n    ?oem cx:isIssuerOfVehicleIdentificationNumber ?vin;\n         cx:hasConnector ?oemConnector.\n\n    ?oemConnector cx:offersAsset ?diagnoseAsset.\n    ?diagnoseAsset rdfs:isDefinedBy \"https://github.com/catenax-ng/product-knowledge/ontology/diagnosis_ontology.ttl\"^^xsd:string.\n\n    ####\n    # 3. The CONSUMER delegates the following logic to the OEM (connector)\n    ####\n    SERVICE ?oemConnector { \n\n        ####\n        # 3.1 The OEM (e.g. BMW) anomyzes the VIN into an anomymous (VAN) node\n        #.    and gets some master data with it \n        ####\n        ?van cx:isAnonymousVehicle ?vin;\n             cx:hasRegistration ?registration.\n\n        ####\n        # 3.2 The OEM analyzes the DTC-affected part type (Diagnosis Graph)\n        ####\n        GRAPH ?diagnoseAsset {\n\n           ?Dtc rdf:type cx-diag:DTC; \n                cx-diag:Code ?troubleCode;\n                cx-diag:affects [ cx-diag:EnDenomination ?partType ]; \n                cx-diag:Description ?description.\n        \n        } # OEM#Diagnosis context\n\n        ####\n        # 3.3 The OEM obtains fresh telematics/load-spectrum data for the vehicle\n        #     focussed to the problematic partType (Telematics Graph) \n        ####\n        ?van cx-telematics:latestMileageReceived ?mileage;\n             cx-telematics:latestDetailReceived ?telematicsDetail.\n        ?telematicsDetail cx-diag:hasPartType ?partType;\n                          cx-diag:hasLoadSpectrum ?loadSpectrum.\n\n        ####\n        # 3.4 The OEM looks up the serialized part of the VAN (Traceability Graph)\n        #     and the supplier address in the dataspace\n        ####\n        ?serializedPart cx:isComponentOf+ ?van;\n                        cx:hasPartType ?partType;\n                        cx:hasName ?serializedPartName;\n                        cx:hasSupplier [\n                            cx:hasConnector ?tieraConnector\n                        ].           \n\n        ?tieraConnector cx:offersAsset ?prognosisAsset.\n        ?prognosisAsset rdfs:isDefinedBy \"https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#\"^^xsd:string.\n\n        ####\n        # 4. The OEM (and not the CONSUMER) delegates to the SUPPLIER (connector)\n        #    which means that load spectrum data etc is only exchanged using their\n        #    contract and between their connectors.\n        ####\n        SERVICE ?tieraConnector { \n\n            ####\n            # 4.1 The SUPPLIER adds additional measurement information\n            ####\n            ?telematicsDetail cx-telematics:hasFile ?loadSpectrumFile;\n                              cx-telematics:hasHeader ?loadSpectrumHeader.\n\n            ####\n            # 4.2 The SUPPLIER invokes a prognosis model associated the part type using the load-spectrum data\n            ####\n            GRAPH ?prognosisAsset {\n\n                ?invocation rdf:type cx-lifetime:LifetimePrognosis;\n                    \n                    # <--General vehicle info\n                    cx-lifetime:loadCollectiveMileage ?mileage;\n                    cx-lifetime:loadCollectiveRegistrationDate ?registration;\n\n                    # <--Part Info from the OEM\n                    cx-lifetime:loadCollectiveComponent ?serializedPartName;\n                    cx-lifetime:loadCollectiveBody ?loadSpectrum;\n                    \n                    # <--Additional info from the SUPPLIER\n                    cx-lifetime:loadCollectiveFile ?loadSpectrumFile;\n                    cx-lifetime:loadCollectiveHeader ?loadSpectrumHeader; \n                    \n                    # -->the actual prognosis output\n                    cx-lifetime:remainingDistance ?distance; \n                    cx-lifetime:remainingTime ?time.\n            \n            } # SUPPLIER#Prognosis context\n        \n        } # SUPPLIER context\n\n    } # OEM context\n\n   # now we do reporting/operationalising on the CONSUMER side\n} ORDER BY ?remainingDistance LIMIT 5\n\n",
 											"options": {
 												"raw": {
 													"language": "text"
@@ -2053,9 +2354,54 @@
 									"response": []
 								},
 								{
+									"name": "Register Health Skill",
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {
+											"content-type": true
+										}
+									},
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/sparql-query",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "PREFIX xsd:           <http://www.w3.org/2001/XMLSchema#> \nPREFIX json:          <https://json-schema.org/draft/2020-12/schema#>\nPREFIX rdf:           <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs:          <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX cx:            <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\nPREFIX cx-diag:       <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\nPREFIX cx-telematics: <https://github.com/catenax-ng/product-knowledge/ontology/telematics.ttl#>\nPREFIX cx-health: <https://github.com/catenax-ng/product-knowledge/ontology/health.ttl#>\n\n##############################################################################################\n#                  Catena-X Knowledge Agents Sample Federated Skill                          #\n#                         Realizes a 5-Step Business Process                                 #\n#                            \"Health Indicator Prognosis\"                                    #\n##############################################################################################\n# Preconditions:                                                                             #\n# - A Contract Offering from OEM (e.g. BMW) to CONSUMER (e.g. ADAC)                          #\n#   - VIN-VAN Conversion                                                                     #\n#   - Serial Part & SUPPLIER Lookup                                                          #\n# - A Contract Offering from SUPPLIER (e.g. ZF) to OEM                                       #\n#   - Telematics data (including the PROPAGATION of LoadSpectrum)                            #\n#   - HI Prognosis Invocation (including the DISTRIBUTION of RUL results)                   #\n##############################################################################################\n\n####\n# 5. Project the actual output of the Skill on CONSUMER side\n####\nSELECT ?vin ?van ?indicatorComponentId ?health WHERE {\n\n    ####\n    # 1. The CONSUMER detects a trouble code on a car in his fleet\n    ####\n    VALUES (?vin ?partType) { (\"@vin\"^^xsd:string \"@aggregate\"^^xsd:string) }.\n\n    ####\n    # 2. The CONSUMER looks up the OEM (connector) associated to the VIN \n    #    using the Federated Data Catalogue  (Catalogue=Default Graph)\n    ####\n    ?oem cx:isIssuerOfVehicleIdentificationNumber ?vin;\n         cx:hasConnector ?oemConnector.\n\n    ?oemConnector cx:offersAsset ?diagnoseAsset.\n    ?diagnoseAsset rdfs:isDefinedBy \"https://github.com/catenax-ng/product-knowledge/ontology/diagnosis_ontology.ttl\"^^xsd:string.\n\n    ####\n    # 3. The CONSUMER delegates the following logic to the OEM (connector)\n    ####\n    SERVICE ?oemConnector { \n\n        ####\n        # 3.1 The OEM (e.g. BMW) anomyzes the VIN into an anomymous (VAN) node\n        #.    and gets some master data with it \n        ####\n        ?van cx:isAnonymousVehicle ?vin;\n             cx:hasRegistration ?registration.\n        GRAPH ?diagnoseAsset {    \n        } # OEM#Diagnosis context\n\n        ####\n        # 3.2 The OEM obtains fresh telematics/load-spectrum data for the vehicle\n        #     focussed to the problematic partType (Telematics Graph) \n        ####\n        ?van cx-telematics:latestMileage ?mileage;\n             cx-telematics:operatingTime ?operatingTime;\n             cx-telematics:latestDetailReceived ?telematicsDetail.\n\n        ?telematicsDetail cx-diag:hasPartType ?partType;\n                          cx-diag:whenRecorded ?recordedTime;\n                          cx-diag:hasAdaptionValues ?adaptionValues;\n                          cx-diag:hasLoadSpectrum ?loadSpectrum.\n\n        ####\n        # 3.3 The OEM looks up the serialized part of the VAN (Traceability Graph)\n        #     and the supplier address in the dataspace\n        ####\n        ?serializedPart cx:isComponentOf+ ?van;\n                        cx:hasPartType ?partType;\n                        cx:hasSupplier [\n                            cx:hasConnector ?tieraConnector\n                        ].           \n\n        ?tieraConnector cx:offersAsset ?healthAsset.\n        ?healthAsset rdfs:isDefinedBy \"https://github.com/catenax-ng/product-knowledge/ontology/health.ttl#\"^^xsd:string.\n\n        ####\n        # 4. The OEM (and not the CONSUMER) delegates to the SUPPLIER (connector)\n        #    which means that load spectrum data etc is only exchanged using their\n        #    contract and between their connectors.\n        ####\n        SERVICE ?tieraConnector { \n\n            ####\n            # 4.1 The SUPPLIER adds additional measurement information\n            ####\n            ?telematicsDetail cx-telematics:hasFile ?loadSpectrumFile;\n                              cx-telematics:hasAdaptionVersion ?adaptionVersion;\n                              cx-telematics:hasHeader ?loadSpectrumHeader.\n\n            ####\n            # 4.2 The SUPPLIER invokes a prognosis model associated the part type using the load-spectrum data\n            ####\n            GRAPH ?healthAsset {\n                ?invocation rdf:type cx-health:HealthIndication;\n                                     cx-health:requestComponentId ?serializedPart;\n                                     cx-health:classifiedLoadCollectiveFile ?loadSpectrumFile;\n                                     cx-health:classifiedLoadCollectiveHeader ?loadSpectrumHeader;\n                                     cx-health:classifiedLoadCollectiveBody ?loadSpectrum;\n                                     cx-health:adaptionValueVersion ?adaptionVersion; \n                                     cx-health:adaptionValueTimestamp ?recordedTime;\n                                     cx-health:adaptionValueMileage ?mileage; \n                                     cx-health:adaptionValueOperatingTime ?operatingTime;\n                                     cx-health:adaptionValueList ?adaptionValues;\n                                     cx-health:indicatorVersion ?indicatorVersion;\n                                     cx-health:responseComponentId ?indicatorComponentId;\n                                     cx-health:healthIndicatorValues ?health.\n            \n            } # SUPPLIER#Prognosis context\n        \n        } # SUPPLIER context\n\n    } # OEM context\n\n} \n\n",
+											"options": {
+												"raw": {
+													"language": "text"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{consumerAgentPlane}}/api/agent/skill?asset=urn:cx:Skill:consumer:Health",
+											"host": [
+												"{{consumerAgentPlane}}"
+											],
+											"path": [
+												"api",
+												"agent",
+												"skill"
+											],
+											"query": [
+												{
+													"key": "asset",
+													"value": "urn:cx:Skill:consumer:Health"
+												}
+											]
+										},
+										"description": "Uses the Agent Extension of the Dataplane to Store a Parameterized Query on Remote Graphs. Not the usage of the @ symbol to introduce a typed embedding of textual URL parameters."
+									},
+									"response": []
+								},
+								{
 									"name": "Show Skill",
 									"protocolProfileBehavior": {
-										"disableBodyPruning": true,
 										"disabledSystemHeaders": {
 											"content-type": true
 										}
@@ -2069,15 +2415,6 @@
 												"type": "text"
 											}
 										],
-										"body": {
-											"mode": "raw",
-											"raw": "PREFIX cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\nPREFIX cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\nPREFIX cx-lifetime: <https://github.com/catenax-ng/product-knowledge/ontology/lifetime.ttl#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\n#\n# Sample for a Federated Skill (No Matchmaking) Which\n#  - Uses an OEM connector/agent to infer diagnosis data \n#  - Feeds this data into a Tier A connector/agent to perform a prognosis \n\nSELECT ?vin ?troubleCode ?description ?partProg ?distance ?time WHERE {\n\n    # Actual input parameters, when used as a predefined skill, \n    # these would be the named URL (or body multi-form) parameters\n    # Since you could use them multiple times, there is a combinatorial difference in \n    # defining them as single variables or as combined tuples\n    VALUES (?vin ?troubleCode) { (\"WVA8984323420333\"^^xsd:string \"P0745\"^^xsd:string) }\n\n    # In this place, there would be a to-be-implemented catalogue logic \n    # (so the default \"asset\" would be the catalogue including the CX ontology)\n    # which maps the VIN via regular expressions to the right \n    # business partner and connector\n    # Currently, we chose even not the connector, but the backend directly\n    VALUES (?oemBpn ?oemConnector) { (\"BPNL00000003COJN\"^^xsd:string <http://{{oemProviderAgent}}:8080/sparql>) }\n\n    # Now we are jumping into the OEM\n    SERVICE ?oemConnector { \n        # Select Business Partner Node\n        ?Oem cx:BPNL ?oemBpn.\n\n        # Unless we have vehicle master data, we directly bind the variables\n        VALUES (?mileage ?registrationDate) { (\n            \"{ \\\"Value\\\": 82563, \\\"Unit\\\": \\\"km\\\" }\"^^xsd:string\n            \"{ \\\"Value\\\": 20171206,  \\\"Unit\\\": \\\"yyyymmdd\\\" }\"^^xsd:string\n        )}\n\n        # Search for troubled parts to forecast\n        ?Dtc rdf:type cx-diag:DTC;\n            cx:provisionedBy ?Oem;\n            cx-diag:PossibleCauses ?reason;\n            cx-diag:Code ?troubleCode;\n            cx-diag:Description ?description.\n        \n        # Unless we have a mapping of diagnosed parts to the prognosed parts\n        VALUES ?partProg { \"\\\"GearOil\\\"\"^^xsd:string }        \n\n        # Next we need to find the appropriate load spectrum associated to the prognosed part\n        VALUES ?loadCollective { \n         \"{ \\\"Temp_Oil-class\\\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \\\"Counts\\\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }\"^^xsd:string\n        }\n\n        # we need to find the right supplier for the trouble part\n        VALUES (?tieraBpn ?tieraConnector) {\n           (\"BPNL00000003CPIY\"^^xsd:string <http://{{tierARemotingAgent}}:8081/rdf4j-server/repositories/prognosis>) \n        }       \n    }\n\n    # Now we are jumping into the tiera\n    # Notice that ideally, the OEM agent would perform this\n    # as the consumer will have most likely no agreement/contract\n    # for this purpose this SERVICE section would be nested\n    # into the former section\n    SERVICE ?tieraConnector { \n        ?invocation a cx-lifetime:LifetimePrognosis;\n            # Input from the OEM\n            cx-lifetime:loadCollectiveBody ?loadCollective;\n            cx-lifetime:loadCollectiveComponent ?partProg;\n            cx-lifetime:loadCollectiveMileage ?mileage;\n            cx-lifetime:loadCollectiveRegistrationDate ?registrationDate;\n            # Additional info from the Tiera about its measurements\n            cx-lifetime:loadCollectiveFile \"{  \\\"Type\\\": \\\"ZF_load_collective\\\", \\\"Version\\\": \\\"1.7\\\"  }\"^^xsd:string; \n            cx-lifetime:loadCollectiveHeader \"{  \\\"CountingMethod\\\": \\\"ZF_TimeAtLevel\\\",    \\\"CountingUnit\\\": \\\"s\\\",    \\\"Channels\\\": [      {        \\\"Name\\\": \\\"Temp_Oil\\\",        \\\"Type\\\": \\\"Load\\\",        \\\"Unit\\\": \\\"degC\\\",        \\\"LowerLimit\\\": -40,        \\\"UpperLimit\\\": 220,        \\\"NumberOfBins\\\": 52      }  ]  }\"^^xsd:string; \n            # the actual prognosis output\n            cx-lifetime:remainingDistance ?distance; \n            cx-lifetime:remainingTime ?time.\n    }\n}\n\n",
-											"options": {
-												"raw": {
-													"language": "text"
-												}
-											}
-										},
 										"url": {
 											"raw": "{{consumerAgentPlane}}/api/agent/skill?asset=urn:cx:Skill:consumer:Lifetime",
 											"host": [
@@ -2100,7 +2437,7 @@
 									"response": []
 								},
 								{
-									"name": "Execute Skill",
+									"name": "Execute Lifetime Skill",
 									"protocolProfileBehavior": {
 										"disabledSystemHeaders": {
 											"content-type": true
@@ -2156,10 +2493,118 @@
 												{
 													"key": "troubleCode",
 													"value": "P0743)"
+												},
+												{
+													"key": "shit",
+													"value": "false",
+													"disabled": true
 												}
 											]
 										},
 										"description": "Uses the Agent Extension of the Dataplane to Invoke a Stored Skill using Parameters. Note the tuple syntax for URL parameters using the \"(\" symbol as the starting character of parameter names to introduce nesting and the \")\" symbol as the ending character in parameter values to close a nested layer."
+									},
+									"response": []
+								},
+								{
+									"name": "Execute Health Indicator Skill",
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {
+											"content-type": true
+										}
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/sparql-query",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{consumerAgentPlane}}/api/agent?asset=urn:cx:Skill:consumer:Health&(vin=WBAAL31029PZ00001&aggregate=engine control module)&(vin=WBAAL31029PZ00002&aggregate=clutch)&(vin=WBAAL31029PZ00003&aggregate=wiring harness)",
+											"host": [
+												"{{consumerAgentPlane}}"
+											],
+											"path": [
+												"api",
+												"agent"
+											],
+											"query": [
+												{
+													"key": "asset",
+													"value": "urn:cx:Skill:consumer:Health"
+												},
+												{
+													"key": "(vin",
+													"value": "WBAAL31029PZ00001"
+												},
+												{
+													"key": "aggregate",
+													"value": "engine control module)"
+												},
+												{
+													"key": "(vin",
+													"value": "WBAAL31029PZ00002"
+												},
+												{
+													"key": "aggregate",
+													"value": "clutch)"
+												},
+												{
+													"key": "(vin",
+													"value": "WBAAL31029PZ00003"
+												},
+												{
+													"key": "aggregate",
+													"value": "wiring harness)"
+												},
+												{
+													"key": "shit",
+													"value": "false",
+													"disabled": true
+												}
+											]
+										},
+										"description": "Uses the Agent Extension of the Dataplane to Invoke a Stored Skill using Parameters. Note the tuple syntax for URL parameters using the \"(\" symbol as the starting character of parameter names to introduce nesting and the \")\" symbol as the ending character in parameter values to close a nested layer."
+									},
+									"response": []
+								},
+								{
+									"name": "Post Federated Search (over Dataspace)",
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {
+											"content-type": true
+										}
+									},
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/sparql-query",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "PREFIX xsd:           <http://www.w3.org/2001/XMLSchema#>\nPREFIX rdf:           <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs:          <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX cx:            <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#>\nPREFIX cx-diag:       <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#>\n\n##############################################################################################\n#              Catena-X Knowledge Agents Sample Federated Search Skill                       #\n#                     Implements Trouble-Code Search based on VINs                           #\n##############################################################################################\n# Preconditions:                                                                             #\n# - A Contract Offering from OEM (e.g. BMW) to CONSUMER (e.g. ADAC)                          #\n#   - VIN-VAN Conversion                                                                     #\n#   - DTC Analysis/Resolution (including the READING of Version and Description)             #\n##############################################################################################\n\nSELECT ?vin ?codeNumber ?description ?version WHERE {\n\n    ####\n    # Three parameters to the custom search\n    ####\n    VALUES (?vin ?problemArea ?minVersion) {(\"WBAAL31029PZ00001\"^^xsd:string \"Getriebe\"^^xsd:string \"1\"^^xsd:long)}\n\n    ####\n    # Lookup the responsible OEM(s)\n    ####\n    ?oem cx:isIssuerOfVehicleIdentificationNumber ?vin;\n         cx:hasConnector ?oemConnector.\n    ?oemConnector cx:offersAsset ?diagnoseAsset.\n    ?diagnoseAsset rdfs:isDefinedBy \"https://github.com/catenax-ng/product-knowledge/ontology/diagnosis_ontology.ttl\"^^xsd:string.\n\n    ####\n    # Delegate to the revelant connector(s) and asset(s)\n    ####\n    SERVICE ?oemConnector {\n        GRAPH ?diagnoseAsset {\n\n            ####\n            # the actual subselect carrying the FILTERs\n            ####\n            SELECT ?codeNumber ?description ?version WHERE {\n\n                    ?Dtc rdf:type cx-diag:DTC;\n                        cx-diag:Code ?codeNumber;\n                        cx-diag:Description ?description;\n                        cx-diag:Version ?version.\n\n                    FILTER ( CONTAINS(?description, ?problemArea) && ?version >= ?minVersion)\n       \n            } # Subselect\n        } # Graph Asset\n    } # Remote Connector\n} # Search",
+											"options": {
+												"raw": {
+													"language": "text"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{consumerAgentPlane}}/api/agent",
+											"host": [
+												"{{consumerAgentPlane}}"
+											],
+											"path": [
+												"api",
+												"agent"
+											]
+										}
 									},
 									"response": []
 								}
@@ -3403,6 +3848,37 @@
 							]
 						},
 						"description": "Uses the Agent Extension of the Dataplane to Perform Some Dynamic Query on a Local Graph (here: the federated data catalogue)."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Portal",
+			"item": [
+				{
+					"name": "Access Ontology Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/semantichub/:model",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"semantichub",
+								":model"
+							],
+							"variable": [
+								{
+									"key": "model",
+									"value": "https%3A%2F%2Fraw.githubusercontent.com%2Fcatenax-ng%2Fproduct-knowledge%2Fmain%2Finfrastructure%2Fconsumer%2Fresources%2Fcx-ontology.json"
+								}
+							]
+						}
 					},
 					"response": []
 				}

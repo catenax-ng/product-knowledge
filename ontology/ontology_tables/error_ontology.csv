@@ -1,0 +1,71 @@
+type,identifier,name_en,name_de,definition_en,example_en,note_en,synonyms_en,synonyms_de,parents,is_part_of,relation_from,relation_to,links
+# prefix,cx,,,,,,,,,,,,
+# namespace,https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/,,,,,,,,,,,,
+# title,error ontology,,,,,,,,,,,,
+# version,0.0.1,,,,,,,,,,,,
+# author,Zazralt Magic,,,,,,,,,,,,
+# description,,,,,,,,,,,,,
+# import,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+class,error,,Fehler,deviation from the expected result,,what,"fault, defect, trouble, failure",,immaterial thing,,,,https://en.wikipedia.org/wiki/Error
+relation,is defined by,,,,,,,,,,error,business partner,
+attribute,error id,,,,"VFCode, P0001",,,,,,error,xsd:string,
+attribute,error name,,,,,,,,,,error,xsd:string,
+attribute,error description,,,,,,,,,,error,xsd:string,
+attribute,error class,,Fehlerklasse,,,,,,,,error,xsd:string,
+attribute,error start date,,,,,when,,,,,error,xsd:date,
+attribute,error end date,,,,,when,,,,,error,xsd:date,
+,,,,,,,,,,,,,
+class,vehicle error,,Fahrzeugfehler,,,,,,error,,,,
+relation,has error,,,,,,,,,,"vehicle, vehicle component, part",vehicle error,
+relation,is involved in,,,,,,,,,,vehicle error,"vehicle, vehicle component, part",
+relation,is involved in,,,,,,,,,,vehicle error,diagnostic trouble code,
+attribute,error mileage,,,,,,,,,,vehicle error,xsd:integer,
+,,,,,,,,,,,,,
+class,error type,,Fehlerart,,,which,,,immaterial thing,,,,
+relation,is typed by,,,,,,,,,,error,error type,
+,,,,,,,,,,,,,
+class,error cause,,Fehlerursache,,,why,,,immaterial thing,,,,
+relation,is caused by,,,,,,,,,,error,error cause,
+,,,,,,,,,,,,,
+class,error location,,Fehlerort,,"component, part",where,,,immaterial thing,,,,
+relation,is located in,,,,,,,,,,error,error location,
+,,,,,,,,,,,,,
+class,error position,,Fehlerposition,,"left, right, top, bottom, front, back",where,,Fehlerlage,immaterial thing,,,,
+relation,is located in,,,,,,,,,,error,error position,
+,,,,,,,,,,,,,
+class,error condition,,Fehlerbedingung,,,,,,immaterial thing,,,,
+relation,is conditioned by,,,,,,,,,,error condition,error,
+,,,,,,,,,,,,,
+class,failure,,Versagen,event of the loss or deviation from expected function,,,malfunction,Fehlfunktion,event,,,,https://en.wikipedia.org/wiki/Failure
+class,breakdown,,Panne,,,,,"Betriebsstörung, Liegenbleiber",event,,,,https://en.wikipedia.org/wiki/Breakdown_(vehicle)
+class,technical failure,,Technischer Defekt,,,,,,event,,,,https://en.wikipedia.org/wiki/Technical_failure
+relation,is caused by,,,,,,,,,,failure,error,
+,,,,,,,,,,,,,
+class,construction error,,Konstruktionsfehler,,,,,,error,,,,https://de.wikipedia.org/wiki/Konstruktionsfehler
+class,production error,,Produktionsfehler,,,,,,error,,,,
+class,usage error,,Nutzungsfehler,,,,,,error,,,,
+class,fatigue error,,Materialermüdungsfehler,,,,,,error,,,,https://en.wikipedia.org/wiki/Fatigue_(material)
+class,programming error,,Programmierfehler,,,,,,error,,,,https://en.wikipedia.org/wiki/Software_bug
+class,electronical error,,Elektronischer Fehler,,,,,Kommunikationsfehler,error,,,,
+class,mechanical error,,Mechanischer Fehler,,,,,,error,,,,
+,,,,,,,,,,,,,
+class,error management,,Fehlermanagement,,,,,,process,,,,https://de.wikipedia.org/wiki/Fehlermanagement
+,,,,,,,,,,,,,
+class,error detection,,Fehlererkennung,,,how,fault detection,Fehlerentdeckung,process,,,,https://en.wikipedia.org/wiki/Fault_detection_and_isolation
+relation,detects,,,,,,,,,,error detection,error,
+,,,,,,,,,,,,,
+class,error diagnosis,,Fehlerdiagnose,,,how,,,process,,,,https://de.wikipedia.org/wiki/Fehlerdiagnose
+,,,,,,,,,,,,,
+class,error analysis,,Fehleranalyse,,,how,fault isolation,Fehlerisolation,process,,,,https://en.wikipedia.org/wiki/Fault_detection_and_isolation
+,,,,,,,,,,,,,
+class,error compensation,,Fehlerkompensation,,,,,,process,,,,
+,,,,,,,,,,,,,
+class,error correction,,Fehlerkorrektur,,,,,,process,,,,https://de.wikipedia.org/wiki/Fehlerkorrekturverfahren
+,,,,,,,,,,,,,
+class,root cause analysis,,Fehler-Ursachen-Analyse,,,how,root cause analysis (RCA),,process,,,,https://en.wikipedia.org/wiki/Root_cause_analysis
+,,,,,,,,,,,,,
+class,error solution,,Fehlerlösung,,,how,,,immaterial thing,,,,
+relation,has solution,,,,,,,,,,error,error solution,
+,,,,,,,,,,,,,
+class,problem solving,,,,,,,,process,,,,https://en.wikipedia.org/wiki/Problem_solving

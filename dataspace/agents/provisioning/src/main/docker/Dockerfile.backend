@@ -21,27 +21,28 @@ MAINTAINER Dremio
 LABEL org.label-schema.name='dremio/dremio-oss'
 LABEL org.label-schema.description='Dremio OSS.'
 
-ARG DOWNLOAD_URL=https://download.dremio.com/community-server/22.0.0-202206221430090603-1fa4049f/dremio-community-22.0.0-202206221430090603-1fa4049f.tar.gz
+ARG DOWNLOAD_URL=https://download.dremio.com/community-server/22.1.1-202208230402290397-a7010f28/dremio-community-22.1.1-202208230402290397-a7010f28.tar.gz
 RUN \
   mkdir -p /opt/dremio \
   && mkdir -p /var/lib/dremio \
   && mkdir -p /var/run/dremio \
   && mkdir -p /var/log/dremio \
   && mkdir -p /opt/dremio/data \
+  && mkdir -p /opt/dremio/log \
   \
-  && groupadd --system dremio \
-  && useradd --base-dir /var/lib/dremio --system --gid dremio dremio \
-  && chown -R dremio:dremio /opt/dremio/data \
+  && groupadd --system -g 30000 dremio \
+  && useradd --base-dir /var/lib/dremio --system -u 10000 --gid dremio dremio \
   && chown -R dremio:dremio /var/run/dremio \
   && chown -R dremio:dremio /var/log/dremio \
   && chown -R dremio:dremio /var/lib/dremio \
   && wget -q "${DOWNLOAD_URL}" -O dremio.tar.gz \
   && tar vxfz dremio.tar.gz -C /opt/dremio --strip-components=1 \
-  && rm -rf dremio.tar.gz
+  && rm -rf dremio.tar.gz \
+  && chown -R dremio:dremio /opt/dremio 
 
-EXPOSE 9047/tcp
-EXPOSE 31010/tcp
-EXPOSE 45678/tcp
+EXPOSE 9047
+EXPOSE 31010
+EXPOSE 45678
 
 USER dremio
 
@@ -53,7 +54,10 @@ ENV DREMIO_HOME /opt/dremio
 ENV DREMIO_PID_DIR /var/run/dremio
 ENV DREMIO_GC_LOGS_ENABLED="no"
 ENV DREMIO_LOG_DIR="/var/log/dremio"
-ENV SERVER_GC_OPTS="-XX:+PrintGCDetails -XX:+PrintGCDateStamps"
+ENV DREMIO_LOG_TO_CONSOLE=1
+ENV DREMIO_MAX_MEMORY_SIZE_MB=4096
+ENV SERVER_GC_OPTS="" 
+#"-XX:+PrintGCDetails -XX:+PrintGCDateStamps"
 
 # TODO Should have a healthcheck
 HEALTHCHECK NONE

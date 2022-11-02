@@ -1,0 +1,48 @@
+type,identifier,name_en,name_de,definition_en,example_en,note_en,synonyms_en,synonyms_de,parents,is_part_of,relation_from,relation_to,links
+# prefix,cx,,,,,,,,,,,,
+# namespace,https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/,,,,,,,,,,,,
+# title,address ontology,,,,,,,,,,,,
+# version,0.0.1,,,,,,,,,,,,
+# author,Zazralt Magic,,,,,,,,,,,,
+# contributor,,,,,,,,,,,,,
+# description,,,,,,,,,,,,,
+# import,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+class,address,Address,Adresse,,,,,,information,,,,
+relation,has address,,,,,,,,,,"person, organisation, place",address,
+class,physical address,,,,,,,,address,,,,
+class,virtual address,,,,"telephone number, email address, network address, website",,,,address,,,,
+class,legal address,,Meldeadresse,,,,"registered address, registration address","juristische Anschrift, offizielle Anschrift, gesetzlicher Wohnsitz, Firmenanschrift",address,,,,
+class,street address,Address,Anschrift,An address is the unique identity of a specific location of a  building.,BMW Group AG,,physical address,"Hausanschrift,  Hausadresse, physische Adresse",physical address,contact,,,"https://en.wikipedia.org/wiki/Address, https://schema.org/streetAddress"
+relation,is located in,,,,,,,,,,building,street address,
+attribute,street name,Street,Straßenname,A street name is an identifying name given to a street or road.,Petuelring,,"street, road, road name, odonym","Straße, Name einer Straße, Strassenname",,,street address,xsd:string,https://en.wikipedia.org/wiki/Street_name
+attribute,house number,Number,Hausnummer,,130.0,,,,,,street address,xsd:string,https://en.wikipedia.org/wiki/House_numbering
+attribute,postal code,,Postleitzahl,,80809.0,,"postcode, post code, zip code",Postleitzahl (PLZ),,,street address,xsd:string,"https://en.wikipedia.org/wiki/Postal_code, https://schema.org/postalCode"
+attribute,city,,Stadt,,Munich,,"town, village, municipality",,,,street address,xsd:string,https://schema.org/City
+attribute,country,,Land,,Germany,,,,,,street address,xsd:string,https://schema.org/addressCountry
+attribute,full street address,,,"Combination of street + number, postal code, city, country","Petuelring 13, 80809, Munich, Germany",,,,,,street address,xsd:string,https://schema.org/streetAddress
+attribute,apartment number,,Wohnungsnummer,,,optional,unit number,,,,street address,xsd:string,
+attribute,building number,,Gebäudenummer,,,optional,,,,,street address,xsd:string,
+attribute,building name,,Gebäudename,,,optional,,,,,street address,xsd:string,
+attribute,level,,Stockwerk,,,optional,floor,,,,street address,xsd:string,
+attribute,district,,Stadtteil,,,optional,,,,,street address,xsd:string,
+attribute,county,,Bundesland,,,optional,"state, province",,,,street address,xsd:string,https://schema.org/addressRegion
+class,private address,,Privatadresse,Address where people live.,,,"residential address, home adress","Privatanschrift, Wohnanschrift, Wohnadresse",street address,,,,
+relation,has private address,,,,,,,,,,person,private address,
+attribute,receiver first name,,Empfänger Vorname,,,,,,,,address,xsd:string,
+attribute,receiver last name,,Empfänger Nachname,,,,,,,,address,xsd:string,
+class,business address,,Geschäftsadresse,Address where organisations are located.,,,job address,"Arbeitsanschrift, Geschäftsanschrift",street address,,,,https://www.wikidata.org/wiki/Q34120414
+relation,has business address,,,,,,,,,,"person, organisation",business address,
+attribute,company name,,Firmenname,,,,,,,,business address,xsd:string,
+class,postal address,,Postanschrift,Address where you can send a mail.,,,"mailing address, post address","Postanschrift, Postadresse",street address,,,,https://schema.org/PostalAddress
+relation,has postal address,,,,,,,,,,mail,postal address,
+class,post office box,,Postfach,uniquely addressable lockable box located on the premises of a post office station,,,"P.O. box, postal box",Postschließfach,physical address,,,,https://en.wikipedia.org/wiki/Post_office_box
+relation,has post office box,,,,,,,,,,"mail, delivery",post office box,
+attribute,post office box number,,Postfachnummer,,,,,,,,post office box,xsd:string,https://schema.org/postOfficeBoxNumber
+class,delivery address,,Lieferadresse,,,,,Lieferanschrift,street address,,,,"https://www.wikidata.org/wiki/Q102188471, https://schema.org/deliveryAddress"
+relation,has delivery address,,,,,,,,,,delivery,delivery address,
+class,return address,,Absenderadresse,,,,,,street address,,,,"https://en.wikipedia.org/wiki/Return_address, https://schema.org/originAddress"
+relation,has return address,,,,,,,,,,"mail, delivery",return address,
+class,billing address,,Rechnungsadresse,,,,invoice address,,street address,,,,https://schema.org/billingAddress
+relation,has billing address,,,,,,,,,,bill,billing address,

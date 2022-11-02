@@ -1,0 +1,321 @@
+@prefix cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix wd: <https://www.wikidata.org/wiki/> .
+@prefix wdt: <https://www.wikidata.org/wiki/Property:> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+cx:Adult a owl:Class ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Adult> ;
+    rdfs:subClassOf cx:Person ;
+    skos:definition "A person with an age above 18."@en ;
+    skos:prefLabel "Erwachsener"@de,
+        "Adult"@en .
+
+cx:Child a owl:Class ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Minor_> ;
+    rdfs:subClassOf cx:Person ;
+    skos:altLabel "minor"@en,
+        "underage"@en ;
+    skos:definition "A person with an age below 18."@en ;
+    skos:prefLabel "Minderjähriger"@de,
+        "Child"@en .
+
+cx:Parent a owl:Class ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Parent> ;
+    rdfs:subClassOf cx:Person ;
+    skos:definition "A person who has at least one child."@en ;
+    skos:prefLabel "Eltern"@de,
+        "Parent"@en .
+
+cx:Relative a owl:Class ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Family> ;
+    rdfs:subClassOf cx:Person ;
+    skos:prefLabel "Verwandter"@de,
+        "Relative"@en .
+
+cx:Sibling a owl:Class ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Sibling> ;
+    rdfs:subClassOf cx:Person ;
+    skos:prefLabel "Geschwister"@de,
+        "Sibling"@en .
+
+cx:Spouse a owl:Class ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Spouse> ;
+    rdfs:subClassOf cx:Person ;
+    skos:prefLabel "Ehepartner"@de,
+        "Spouse"@en .
+
+cx:academicTitle a owl:DatatypeProperty ;
+    rdfs:domain cx:Person ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Title>,
+        schema:honorificPrefix,
+        schema:honorificSuffix ;
+    rdfs:subPropertyOf cx:title ;
+    skos:example "Dr"@en,
+        "MD"@en,
+        "PhD"@en,
+        "Prof"@en ;
+    skos:note "optional"@en ;
+    skos:prefLabel "Titel"@de,
+        "Academic Title"@en .
+
+cx:age a owl:DatatypeProperty ;
+    rdfs:domain cx:Person ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso wd:Q185836 ;
+    skos:definition "Rounded difference of current date and birth date in years."@en ;
+    skos:example "30.0"@en ;
+    skos:note "optional"@en ;
+    skos:prefLabel "Alter"@de,
+        "Age"@en .
+
+cx:birthDate a owl:DatatypeProperty ;
+    rdfs:domain cx:Person ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:birthDate,
+        wd:Q2389905 ;
+    rdfs:subPropertyOf cx:date ;
+    skos:altLabel "date of birth"@en ;
+    skos:definition "The date when a person was born."@en ;
+    skos:example "01.12.1980"@en ;
+    skos:note "optional"@en ;
+    skos:prefLabel "Geburtsdatum"@de,
+        "Birth Date"@en .
+
+cx:birthPlace a owl:DatatypeProperty ;
+    rdfs:domain cx:Person ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:birthPlace,
+        wd:Q1322263 ;
+    rdfs:subPropertyOf cx:location ;
+    skos:altLabel "place of birth"@en ;
+    skos:definition "The place where a person was born."@en ;
+    skos:example "Munich"@en ;
+    skos:note "optional"@en ;
+    skos:prefLabel "Geburtsort"@de,
+        "Birth Place"@en .
+
+cx:deathDate a owl:DatatypeProperty ;
+    rdfs:domain cx:Person ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:deathDate,
+        wd:Q18748141 ;
+    rdfs:subPropertyOf cx:date ;
+    skos:altLabel "date of death"@en ;
+    skos:definition "The date when a person died."@en ;
+    skos:example "31.12.2080"@en ;
+    skos:note "optional"@en ;
+    skos:prefLabel "Todesdatum"@de,
+        "Death Date"@en .
+
+cx:deathPlace a owl:DatatypeProperty ;
+    rdfs:domain cx:Person ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:deathPlace,
+        wd:Q18658526 ;
+    rdfs:subPropertyOf cx:location ;
+    skos:altLabel "place of death"@en ;
+    skos:definition "The place where a person has died."@en ;
+    skos:example "Munich"@en ;
+    skos:note "optional"@en ;
+    skos:prefLabel "Todesort"@de,
+        "Death Place"@en .
+
+cx:firstName a owl:DatatypeProperty ;
+    rdfs:domain cx:Person ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Given_name>,
+        schema:givenName ;
+    rdfs:subPropertyOf cx:name ;
+    skos:altLabel "given name"@en ;
+    skos:example "Max"@en ;
+    skos:prefLabel "Vorname"@de,
+        "First Name"@en .
+
+cx:gender a owl:DatatypeProperty ;
+    rdfs:domain cx:Person ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:gender,
+        wd:Q48277 ;
+    skos:example "divers"@en,
+        "female"@en,
+        "male"@en ;
+    skos:note "optional"@en ;
+    skos:prefLabel "Geschlecht"@de,
+        "Gender"@en .
+
+cx:isChildOf a owl:TransitiveProperty ;
+    rdfs:domain cx:Person ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:range cx:Person ;
+    rdfs:seeAlso schema:children ;
+    skos:prefLabel "is child of"@en .
+
+cx:isCitizenOf a owl:ObjectProperty ;
+    rdfs:domain cx:Person ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:range cx:Country ;
+    rdfs:seeAlso schema:nationality,
+        wdt:P27 ;
+    skos:altLabel "is national of"@en ;
+    skos:prefLabel "is citizen of"@en .
+
+cx:isMarriedTo a owl:SymmetricProperty ;
+    rdfs:domain cx:Person ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:range cx:Person ;
+    rdfs:seeAlso schema:spouse ;
+    skos:prefLabel "is married to"@en .
+
+cx:isParentOf a owl:TransitiveProperty ;
+    rdfs:domain cx:Person ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:range cx:Person ;
+    rdfs:seeAlso schema:parent ;
+    skos:prefLabel "is parent of"@en .
+
+cx:isRelatedTo a owl:SymmetricProperty ;
+    rdfs:domain cx:Person ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:range cx:Person ;
+    rdfs:seeAlso schema:relatedTo ;
+    skos:prefLabel "is related to"@en .
+
+cx:isSiblingOf a owl:SymmetricProperty ;
+    rdfs:domain cx:Person ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:range cx:Person ;
+    rdfs:seeAlso schema:sibling ;
+    skos:prefLabel "is sibling of"@en .
+
+cx:knows a owl:ObjectProperty ;
+    rdfs:domain cx:Person ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:range cx:Person ;
+    skos:prefLabel "knows"@en .
+
+cx:lastName a owl:DatatypeProperty ;
+    rdfs:domain cx:Person ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Surname>,
+        schema:familyName ;
+    rdfs:subPropertyOf cx:name ;
+    skos:altLabel "Familienname"@de,
+        "Geschlechtsname"@de,
+        "Zuname"@de,
+        "family name"@en,
+        "married name"@en,
+        "surname"@en ;
+    skos:example "Mustermann"@en ;
+    skos:prefLabel "Nachname"@de,
+        "Last Name"@en .
+
+cx:maidenName a owl:DatatypeProperty ;
+    rdfs:domain cx:Person ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Maiden_and_married_names> ;
+    rdfs:subPropertyOf cx:name ;
+    skos:altLabel "Ledigname"@de,
+        "Mädchenname"@de,
+        "Taufname"@de,
+        "birth name"@en,
+        "born name"@en,
+        "name at birth"@en ;
+    skos:example "Huber"@en ;
+    skos:note "optional"@en ;
+    skos:prefLabel "Geburtsname"@de,
+        "Maiden Name"@en .
+
+cx:middleName a owl:DatatypeProperty ;
+    rdfs:domain cx:Person ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Middle_name>,
+        schema:additionalName ;
+    rdfs:subPropertyOf cx:name ;
+    skos:altLabel "Zwischenname"@de ;
+    skos:note "optional"@en ;
+    skos:prefLabel "Mittelname"@de,
+        "Middle Name"@en .
+
+cx:nickname a owl:DatatypeProperty ;
+    rdfs:domain cx:Person ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Nickname> ;
+    rdfs:subPropertyOf cx:name ;
+    skos:altLabel "alternative name"@en,
+        "moniker"@en ;
+    skos:example "Mad Max"@en ;
+    skos:note "optional"@en ;
+    skos:prefLabel "Spitzname"@de,
+        "Nickname"@en .
+
+cx:personId a owl:DatatypeProperty ;
+    rdfs:domain cx:Person ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Personal_identity> ;
+    rdfs:subPropertyOf cx:identifier ;
+    skos:altLabel "Personal identity"@en ;
+    skos:definition "the unique numerical identity of a person over time"@en ;
+    skos:prefLabel "Person ID"@de,
+        "Person Id"@en .
+
+cx:personName a owl:DatatypeProperty ;
+    rdfs:domain cx:Person ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Personal_name> ;
+    rdfs:subPropertyOf cx:name ;
+    skos:altLabel "Personenname"@de,
+        "Realname"@de,
+        "Vollständiger Name"@de,
+        "name in full"@en ;
+    skos:definition "combination of first, middle and last name"@en ;
+    skos:example "Max Mustermann"@en ;
+    skos:prefLabel "Volle Name"@de,
+        "Full Name"@en .
+
+cx:speaks a owl:ObjectProperty ;
+    rdfs:domain cx:Person ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:range cx:Language ;
+    rdfs:seeAlso schema:knowsLanguage ;
+    skos:prefLabel "speaks"@en .
+
+cx:person_ontology.ttl a owl:Ontology ;
+    dc:creator "Zazralt Magic" ;
+    dc:date "2022-10-13"^^xsd:date ;
+    dc:title "Person Ontology" ;
+    owl:versionInfo "0.0.1" .
+
+cx:Person a owl:Class ;
+    rdfs:isDefinedBy cx:person_ontology.ttl ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Person>,
+        schema:Person ;
+    rdfs:subClassOf owl:Thing ;
+    skos:prefLabel "Person"@de,
+        "Person"@en .
+

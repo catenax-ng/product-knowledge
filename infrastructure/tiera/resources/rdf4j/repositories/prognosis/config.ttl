@@ -1,5 +1,5 @@
 #
-# Rdf4j configuration for a function repository
+# Rdf4j configuration for prognosis/lifetime remoting
 #
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
@@ -8,6 +8,7 @@
 @prefix sail: <http://www.openrdf.org/config/sail#>.
 @prefix sp: <http://spinrdf.org/sp#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix json: <https://json-schema.org/draft/2020-12/schema#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix cx-fx: <https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl#>.
 @prefix cx-prognosis: <https://github.com/catenax-ng/product-knowledge/ontology/prognosis.ttl#>.
@@ -16,7 +17,7 @@
 
 [] rdf:type rep:Repository ;
    rep:repositoryID "prognosis" ;
-   rdfs:label "Prognosis Function" ;
+   rdfs:label "Prognosis Functions" ;
    rep:repositoryImpl [
       rep:repositoryType "openrdf:SailRepository" ;
       sr:sailImpl [
@@ -31,6 +32,9 @@ cx-rt:Test rdf:type cx-fx:Function;
   cx-fx:targetUri "class:io.catenax.knowledge.agents.remoting.TestFunction#test";
   cx-fx:input cx-rt:input-1;
   cx-fx:input cx-rt:input-2;
+  cx-fx:result cx-rt:TestResult.
+
+cx-rt:TestResult rdf:type cx-fx:Result;
   cx-fx:output cx-rt:output.
 
 cx-rt:input-1 rdf:type cx-fx:Argument;
@@ -49,6 +53,9 @@ cx-prognosis:Prognosis rdf:type cx-fx:Function;
   cx-fx:targetUri "https://api.agify.io";
   cx-fx:input cx-prognosis:name;
   cx-fx:output cx-prognosis:prediction;
+  cx-fx:result cx-prognosis:hasResult.
+
+cx-prognosis:hasResult rdf:type cx-fx:Result;
   cx-fx:output cx-prognosis:support.
 
 cx-prognosis:name rdf:type cx-fx:Argument;
@@ -79,6 +86,11 @@ cx-lifetime:LifetimePrognosis rdf:type cx-fx:Function;
   cx-fx:input cx-lifetime:loadCollectiveComponent;
   cx-fx:input cx-lifetime:loadCollectiveMileage;
   cx-fx:input cx-lifetime:loadCollectiveRegistrationDate;
+  cx-fx:result cx-lifetime:LifetimeResult.
+
+cx-lifetime:LifetimeResult rdf:type cx-fx:Function;
+  dcterms:description "Lifetime Prognosis Result is a RUL projection."@en ;
+  dcterms:title "Lifetime Prognosis Result" ;
   cx-fx:output cx-lifetime:remainingDistance;
   cx-fx:output cx-lifetime:remainingTime.
 
@@ -123,4 +135,3 @@ cx-lifetime:remainingTime rdf:type cx-fx:ReturnValue;
    dcterms:title "Remaining Time" ;
    cx-fx:valuePath "RUL.RUL.remainingTime.Value";
    cx-fx:dataType xsd:int.
-

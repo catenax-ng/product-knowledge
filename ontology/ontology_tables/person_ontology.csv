@@ -1,0 +1,46 @@
+type,identifier,name_en,name_de,definition_en,example_en,note_en,synonyms_en,synonyms_de,parents,is_part_of,relation_from,relation_to,links
+# prefix,cx,,,,,,,,,,,,
+# namespace,https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/,,,,,,,,,,,,
+# title,person ontology,,,,,,,,,,,,
+# version,0.0.1,,,,,,,,,,,,
+# author,Zazralt Magic,,,,,,,,,,,,
+# contributor,,,,,,,,,,,,,
+# description,,,,,,,,,,,,,
+# import,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+class,person,,Person,,,,,,owl:Thing,,,,"https://en.wikipedia.org/wiki/Person, https://schema.org/Person"
+attribute,person id,,Person ID,the unique numerical identity of a person over time,,,Personal identity,,identifier,,person,xsd:string,https://en.wikipedia.org/wiki/Personal_identity
+,,,,,,,,,,,,,
+attribute,person name,Full Name,Volle Name,"combination of first, middle and last name",Max Mustermann,,name in full,"Vollständiger Name, Realname, Personenname",name,,person,xsd:string,https://en.wikipedia.org/wiki/Personal_name
+attribute,first name,,Vorname,,Max,,given name,,name,,person,xsd:string,"https://en.wikipedia.org/wiki/Given_name, https://schema.org/givenName"
+attribute,last name,,Nachname,,Mustermann,,"surname, family name, married name","Familienname, Zuname, Geschlechtsname",name,,person,xsd:string,"https://en.wikipedia.org/wiki/Surname, https://schema.org/familyName"
+attribute,middle name,,Mittelname,,,optional,,Zwischenname,name,,person,xsd:string,"https://en.wikipedia.org/wiki/Middle_name, https://schema.org/additionalName"
+attribute,maiden name,,Geburtsname,,Huber,optional,"birth name,     born name,     name at birth","Taufname, Mädchenname, Ledigname",name,,person,xsd:string,https://en.wikipedia.org/wiki/Maiden_and_married_names
+,,,,,,,,,,,,,
+attribute,academic title,,Titel,,"Dr, Prof, PhD, MD",optional,,,type,,person,xsd:string,"https://en.wikipedia.org/wiki/Title, https://schema.org/honorificPrefix, https://schema.org/honorificSuffix"
+attribute,nickname,,Spitzname,,Mad Max,optional,"moniker, alternative name",,name,,person,xsd:string,https://en.wikipedia.org/wiki/Nickname
+attribute,gender,,Geschlecht,,"male, female, divers",optional,,,,,person,xsd:string,"https://www.wikidata.org/wiki/Q48277, https://schema.org/gender"
+attribute,age,,Alter,Rounded difference of current date and birth date in years.,30.0,optional,,,,,person,xsd:string,https://www.wikidata.org/wiki/Q185836
+,,,,,,,,,,,,,
+attribute,birth date,,Geburtsdatum,The date when a person was born.,01.12.1980,optional,date of birth,,date,,person,xsd:string,"https://www.wikidata.org/wiki/Q2389905, https://schema.org/birthDate"
+attribute,birth place,,Geburtsort,The place where a person was born.,Munich,optional,place of birth,,location,,person,xsd:string,"https://www.wikidata.org/wiki/Q1322263, https://schema.org/birthPlace"
+attribute,death date,,Todesdatum,The date when a person died.,31.12.2080,optional,date of death,,date,,person,xsd:string,"https://www.wikidata.org/wiki/Q18748141, https://schema.org/deathDate"
+attribute,death place,,Todesort,The place where a person has died.,Munich,optional,place of death,,location,,person,xsd:string,"https://www.wikidata.org/wiki/Q18658526, https://schema.org/deathPlace"
+,,,,,,,,,,,,,
+class,adult,,Erwachsener,A person with an age above 18.,,,,,person,,,,https://en.wikipedia.org/wiki/Adult
+,,,,,,,,,,,,,
+class,child,,Minderjähriger,A person with an age below 18.,,,"minor, underage",,person,,,,https://en.wikipedia.org/wiki/Minor_(law)
+transitive relation,is child of,,,,,,,,,,person,person,https://schema.org/children
+class,relative,,Verwandter,,,,,,person,,,,https://en.wikipedia.org/wiki/Family
+symmetric relation,is related to,,,,,,,,,,person,person,https://schema.org/relatedTo
+class,parent,,Eltern,A person who has at least one child.,,,,,person,,,,https://en.wikipedia.org/wiki/Parent
+transitive relation,is parent of,,,,,,,,,,person,person,https://schema.org/parent
+class,sibling,,Geschwister,,,,,,person,,,,https://en.wikipedia.org/wiki/Sibling
+symmetric relation,is sibling of,,,,,,,,,,person,person,https://schema.org/sibling
+class,spouse,,Ehepartner,,,,,,person,,,,https://en.wikipedia.org/wiki/Spouse
+symmetric relation,is married to,,,,,,,,,,person,person,https://schema.org/spouse
+,,,,,,,,,,,,,
+relation,is citizen of,,,,,,is national of,,,,person,country,"https://www.wikidata.org/wiki/Property:P27, https://schema.org/nationality"
+relation,knows,,,,,,,,,,person,person,
+relation,speaks,,,,,,,,,,person,language,https://schema.org/knowsLanguage

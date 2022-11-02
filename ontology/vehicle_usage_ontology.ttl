@@ -1,0 +1,166 @@
+@prefix cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+cx:AggressiveDrivingPattern a owl:Class ;
+    rdfs:isDefinedBy cx:vehicle_usage_ontology.ttl ;
+    rdfs:subClassOf cx:DrivingPattern ;
+    skos:prefLabel "Aggressive Driving Pattern"@en .
+
+cx:ColdTemperatureClimate a cx:VehicleEnvironment ;
+    skos:prefLabel "Cold Temperature Climate"@en .
+
+cx:DryHumidityClimate a cx:VehicleEnvironment ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Precipitation> ;
+    skos:prefLabel "Dry Humidity Climate"@en .
+
+cx:HotTemperatureClimate a cx:VehicleEnvironment ;
+    skos:prefLabel "Hot Temperature Climate"@en .
+
+cx:MildTemperatureClimate a cx:VehicleEnvironment ;
+    skos:prefLabel "Mild Temperature Climate"@en .
+
+cx:VehicleInspection a owl:Class ;
+    rdfs:isDefinedBy cx:vehicle_usage_ontology.ttl ;
+    rdfs:subClassOf cx:Event ;
+    skos:prefLabel "Vehicle Inspection"@en .
+
+cx:VehicleMaintenance a owl:Class ;
+    rdfs:isDefinedBy cx:vehicle_usage_ontology.ttl ;
+    rdfs:subClassOf cx:Maintenance ;
+    skos:prefLabel "Vehicle Maintenance"@en .
+
+cx:VehicleRepair a owl:Class ;
+    rdfs:isDefinedBy cx:vehicle_usage_ontology.ttl ;
+    rdfs:subClassOf cx:Event ;
+    skos:prefLabel "Vehicle Repair"@en .
+
+cx:VehicleRepairShop a owl:Class ;
+    rdfs:isDefinedBy cx:vehicle_usage_ontology.ttl ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Automobile_repair_shop> ;
+    rdfs:subClassOf cx:Place ;
+    skos:prefLabel "Autowerkstatt"@de,
+        "Vehicle Repair Shop"@en .
+
+cx:VehicleService a owl:Class ;
+    rdfs:isDefinedBy cx:vehicle_usage_ontology.ttl ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Service_> ;
+    rdfs:subClassOf cx:Event ;
+    skos:prefLabel "Vehicle Service"@en .
+
+cx:WetHumidityClimate a cx:VehicleEnvironment ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Precipitation> ;
+    skos:prefLabel "Wet Humidity Climate"@en .
+
+cx:fuelConsumption a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleUsage ;
+    rdfs:isDefinedBy cx:vehicle_usage_ontology.ttl ;
+    rdfs:range xsd:double ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Fuel_efficiency> ;
+    rdfs:subPropertyOf cx:numeric ;
+    skos:note "in liters / 100 km"@en ;
+    skos:prefLabel "Fuel Consumption"@en .
+
+cx:gearSwitching a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleUsage ;
+    rdfs:isDefinedBy cx:vehicle_usage_ontology.ttl ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Gear Switching"@en .
+
+cx:isPartOf a owl:ObjectProperty ;
+    rdfs:domain cx:SpeedProfile ;
+    rdfs:isDefinedBy cx:vehicle_usage_ontology.ttl ;
+    rdfs:range cx:DrivingPattern ;
+    skos:prefLabel "is part of"@en .
+
+cx:maintenanceCycle a owl:DatatypeProperty ;
+    rdfs:isDefinedBy cx:vehicle_usage_ontology.ttl ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf cx:integer ;
+    skos:altLabel "xsd:integer"@de,
+        "vehicle"@en ;
+    skos:example "in months"@en ;
+    skos:prefLabel "Wartungszyklus"@de,
+        "Maintenance Cycle"@en .
+
+cx:maxAcceleration a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleUsage ;
+    rdfs:isDefinedBy cx:vehicle_usage_ontology.ttl ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf cx:integer ;
+    skos:prefLabel "Max Acceleration"@en .
+
+cx:maxDeceleration a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleUsage ;
+    rdfs:isDefinedBy cx:vehicle_usage_ontology.ttl ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf cx:integer ;
+    skos:prefLabel "Max Deceleration"@en .
+
+cx:maxRotationalSpeed a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleUsage ;
+    rdfs:isDefinedBy cx:vehicle_usage_ontology.ttl ;
+    rdfs:range xsd:integer ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Rotational_speed> ;
+    rdfs:subPropertyOf cx:integer ;
+    skos:prefLabel "Drehzahl"@de,
+        "Max Rotational Speed"@en .
+
+cx:maxSpeed a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleUsage ;
+    rdfs:isDefinedBy cx:vehicle_usage_ontology.ttl ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf cx:integer ;
+    skos:prefLabel "Max Speed"@en .
+
+cx:mileage a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleUsage ;
+    rdfs:isDefinedBy cx:vehicle_usage_ontology.ttl ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf cx:integer ;
+    skos:example "123.0"@en ;
+    skos:note "in kilometers"@en ;
+    skos:prefLabel "Kilometerstand"@de,
+        "Mileage"@en .
+
+cx:mileageDate a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleUsage ;
+    rdfs:isDefinedBy cx:vehicle_usage_ontology.ttl ;
+    rdfs:range xsd:date ;
+    rdfs:subPropertyOf cx:date ;
+    skos:prefLabel "Mileage Date"@en .
+
+cx:SpeedProfile a owl:Class ;
+    rdfs:isDefinedBy cx:vehicle_usage_ontology.ttl ;
+    rdfs:subClassOf cx:ImmaterialThing ;
+    skos:prefLabel "Speed Profile"@en .
+
+cx:DrivingPattern a owl:Class ;
+    rdfs:isDefinedBy cx:vehicle_usage_ontology.ttl ;
+    rdfs:subClassOf cx:ImmaterialThing ;
+    skos:altLabel "driver behaviour"@en,
+        "driving style"@en ;
+    skos:prefLabel "Fahrmuster"@de,
+        "Driving Pattern"@en .
+
+cx:VehicleEnvironment a owl:Class ;
+    rdfs:isDefinedBy cx:vehicle_usage_ontology.ttl ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/K%C3%B6ppen_climate_classification> ;
+    rdfs:subClassOf cx:ImmaterialThing ;
+    skos:altLabel "climate"@en ;
+    skos:prefLabel "Vehicle Environment"@en .
+
+cx:VehicleUsage a owl:Class ;
+    rdfs:isDefinedBy cx:vehicle_usage_ontology.ttl ;
+    rdfs:subClassOf cx:Event ;
+    skos:prefLabel "Vehicle Usage"@en .
+
+cx:vehicle_usage_ontology.ttl a owl:Ontology ;
+    dc:creator "Zazralt Magic" ;
+    dc:date "2022-10-13"^^xsd:date ;
+    dc:title "Vehicle Usage Ontology" ;
+    owl:versionInfo "0.0.1" .
+

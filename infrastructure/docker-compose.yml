@@ -13,16 +13,18 @@ services:
   #
   # Configures the oem backend 
   #
-  # oem-data-backend:
-  #   build:
-  #     dockerfile: src/main/docker/Dockerfile.backend
-  #     context: ../dataspace/agents/provisioning
-  #   image: ghcr.io/catenax-ng/product-knowledge/backend/sql-virtualize-dremio-oss:22.0
-  #   platform: ${DOCKER_PLATFORM:-linux/amd64}
-  #   ports:
-  #     - "9047:9047" # Web-UI
-  #     - "31010:31010" # Zookeper
-  #     - "45678:45678" # Executor Protocol
+  oem-data-backend:
+    build:
+      dockerfile: src/main/docker/Dockerfile.backend
+      context: ../dataspace/agents/provisioning
+    image: ghcr.io/catenax-ng/product-knowledge/backend/sql-virtualize-dremio-oss:22.1.1
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
+    ports:
+      - "8070:9047" # Web-UI
+      - "8071:31010" # Zookeper
+      - "8072:45678" # Executor Protocol
+    volumes:
+      - ./oem/resources/dremio:/mnt/dremio/backups
 
   #
   # Configures the oem agent 
@@ -31,7 +33,7 @@ services:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/agents/provisioning
-    image: ghcr.io/catenax-ng/product-knowledge/dataspace/provisioning-agent:0.5.5-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/dataspace/provisioning-agent:0.6.2-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8080:8080" # sparql endpoint
@@ -50,7 +52,7 @@ services:
       # If you want to enable multiple portals, simply list them with spaces, like ONTOP_PORTAL_FILE: /input/portal.toml /input/portal2.toml 
       ONTOP_PORTAL_FILE: /input/portal.toml
       # If you want to enable different developer modes, simply list them with spaces, like NTOP_DEV_MODE: true false 
-      ONTOP_DEV_MODE: true
+      ONTOP_DEV_MODE: "true"
     volumes:
       - ./resources/cx-ontology.xml:/input/cx-ontology.xml
       - ./oem/resources/dtc.obda:/input/dtc.obda
@@ -95,7 +97,7 @@ services:
       args:
         JAR: target/agentplane-azure-vault.jar
         LIB: target/lib
-    image: ghcr.io/catenax-ng/product-knowledge/dataspace/agentplane-azure-vault:0.5.5-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/dataspace/agentplane-azure-vault:0.6.2-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8100:8082"  # API/sparql endpoint
@@ -118,8 +120,11 @@ services:
   # Configures the tiera backend 
   #
   tiera-backend:
-    image: ghcr.io/catenax-ng/product-knowledge/backend/lifetime-prognosis-mock:latest
-    platform: linux/amd64
+    build:
+      dockerfile: src/main/docker/Dockerfile
+      context: ../dataspace/mock/prognosis
+    image: ghcr.io/catenax-ng/product-knowledge/dataspace/prognosis:0.6.2-SNAPSHOT
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "5005:5005" # API
 
@@ -130,7 +135,7 @@ services:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/agents/remoting
-    image: ghcr.io/catenax-ng/product-knowledge/dataspace/remoting-agent:0.5.5-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/dataspace/remoting-agent:0.6.2-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8200:8081" # sparql endpoint
@@ -179,7 +184,7 @@ services:
       args:
         JAR: target/agentplane-azure-vault.jar
         LIB: target/lib
-    image: ghcr.io/catenax-ng/product-knowledge/dataspace/agentplane-azure-vault:0.5.5-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/dataspace/agentplane-azure-vault:0.6.2-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8400:8082"  # API/sparql endpoint
@@ -234,7 +239,7 @@ services:
       args:
         JAR: target/agentplane-azure-vault.jar
         LIB: target/lib
-    image: ghcr.io/catenax-ng/product-knowledge/dataspace/agentplane-azure-vault:0.5.5-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/dataspace/agentplane-azure-vault:0.6.2-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8600:8082"  # API/sparql endpoint

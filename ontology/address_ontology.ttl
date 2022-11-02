@@ -1,0 +1,358 @@
+@prefix cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix wd: <https://www.wikidata.org/wiki/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+cx:LegalAddress a owl:Class ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:subClassOf cx:Address ;
+    skos:altLabel "Firmenanschrift"@de,
+        "gesetzlicher Wohnsitz"@de,
+        "juristische Anschrift"@de,
+        "offizielle Anschrift"@de,
+        "registered address"@en,
+        "registration address"@en ;
+    skos:prefLabel "Meldeadresse"@de,
+        "Legal Address"@en .
+
+cx:VirtualAddress a owl:Class ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:subClassOf cx:Address ;
+    skos:example "email address"@en,
+        "network address"@en,
+        "telephone number"@en,
+        "website"@en ;
+    skos:prefLabel "Virtual Address"@en .
+
+cx:apartmentNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:number ;
+    skos:altLabel "unit number"@en ;
+    skos:note "optional"@en ;
+    skos:prefLabel "Wohnungsnummer"@de,
+        "Apartment Number"@en .
+
+cx:buildingName a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:name ;
+    skos:note "optional"@en ;
+    skos:prefLabel "Gebäudename"@de,
+        "Building Name"@en .
+
+cx:buildingNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:number ;
+    skos:note "optional"@en ;
+    skos:prefLabel "Gebäudenummer"@de,
+        "Building Number"@en .
+
+cx:city a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:City ;
+    skos:altLabel "municipality"@en,
+        "town"@en,
+        "village"@en ;
+    skos:example "Munich"@en ;
+    skos:prefLabel "Stadt"@de,
+        "City"@en .
+
+cx:companyName a owl:DatatypeProperty ;
+    rdfs:domain cx:BusinessAddress ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:name ;
+    skos:prefLabel "Firmenname"@de,
+        "Company Name"@en .
+
+cx:country a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:addressCountry ;
+    skos:example "Germany"@en ;
+    skos:prefLabel "Land"@de,
+        "Country"@en .
+
+cx:county a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:addressRegion ;
+    skos:altLabel "province"@en,
+        "state"@en ;
+    skos:note "optional"@en ;
+    skos:prefLabel "Bundesland"@de,
+        "County"@en .
+
+cx:district a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:range xsd:string ;
+    skos:note "optional"@en ;
+    skos:prefLabel "Stadtteil"@de,
+        "District"@en .
+
+cx:fullStreetAddress a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:streetAddress ;
+    skos:definition "Combination of street + number, postal code, city, country"@en ;
+    skos:example "80809"@en,
+        "Germany"@en,
+        "Munich"@en,
+        "Petuelring 13"@en ;
+    skos:prefLabel "Full Street Address"@en .
+
+cx:hasAddress a owl:ObjectProperty ;
+    rdfs:domain cx:Organisation,
+        cx:Person,
+        cx:Place ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:range cx:Address ;
+    skos:prefLabel "has address"@en .
+
+cx:hasBillingAddress a owl:ObjectProperty ;
+    rdfs:domain cx:Bill ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:range cx:BillingAddress ;
+    skos:prefLabel "has billing address"@en .
+
+cx:hasBusinessAddress a owl:ObjectProperty ;
+    rdfs:domain cx:Organisation,
+        cx:Person ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:range cx:BusinessAddress ;
+    skos:prefLabel "has business address"@en .
+
+cx:hasDeliveryAddress a owl:ObjectProperty ;
+    rdfs:domain cx:Delivery ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:range cx:DeliveryAddress ;
+    skos:prefLabel "has delivery address"@en .
+
+cx:hasPostOfficeBox a owl:ObjectProperty ;
+    rdfs:domain cx:Delivery,
+        cx:Mail ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:range cx:PostOfficeBox ;
+    skos:prefLabel "has post office box"@en .
+
+cx:hasPostalAddress a owl:ObjectProperty ;
+    rdfs:domain cx:Mail ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:range cx:PostalAddress ;
+    skos:prefLabel "has postal address"@en .
+
+cx:hasPrivateAddress a owl:ObjectProperty ;
+    rdfs:domain cx:Person ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:range cx:PrivateAddress ;
+    skos:prefLabel "has private address"@en .
+
+cx:hasReturnAddress a owl:ObjectProperty ;
+    rdfs:domain cx:Delivery,
+        cx:Mail ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:range cx:ReturnAddress ;
+    skos:prefLabel "has return address"@en .
+
+cx:houseNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/House_numbering> ;
+    rdfs:subPropertyOf cx:number ;
+    skos:example "130.0"@en ;
+    skos:prefLabel "Hausnummer"@de,
+        "Number"@en .
+
+cx:isLocatedIn a owl:ObjectProperty ;
+    rdfs:domain cx:Building ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:range cx:StreetAddress ;
+    skos:prefLabel "is located in"@en .
+
+cx:level a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:range xsd:string ;
+    skos:altLabel "floor"@en ;
+    skos:note "optional"@en ;
+    skos:prefLabel "Stockwerk"@de,
+        "Level"@en .
+
+cx:postOfficeBoxNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:PostOfficeBox ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:postOfficeBoxNumber ;
+    rdfs:subPropertyOf cx:number ;
+    skos:prefLabel "Postfachnummer"@de,
+        "Post Office Box Number"@en .
+
+cx:postalCode a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Postal_code>,
+        schema:postalCode ;
+    rdfs:subPropertyOf cx:code ;
+    skos:altLabel "PLZ"@de,
+        "Postleitzahl"@de,
+        "post code"@en,
+        "postcode"@en,
+        "zip code"@en ;
+    skos:example "80809.0"@en ;
+    skos:prefLabel "Postleitzahl"@de,
+        "Postal Code"@en .
+
+cx:receiverFirstName a owl:DatatypeProperty ;
+    rdfs:domain cx:Address ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:name ;
+    skos:prefLabel "Empfänger Vorname"@de,
+        "Receiver First Name"@en .
+
+cx:receiverLastName a owl:DatatypeProperty ;
+    rdfs:domain cx:Address ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:name ;
+    skos:prefLabel "Empfänger Nachname"@de,
+        "Receiver Last Name"@en .
+
+cx:streetName a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Street_name> ;
+    rdfs:subPropertyOf cx:name ;
+    skos:altLabel "Name einer Straße"@de,
+        "Strassenname"@de,
+        "Straße"@de,
+        "odonym"@en,
+        "road"@en,
+        "road name"@en,
+        "street"@en ;
+    skos:definition "A street name is an identifying name given to a street or road."@en ;
+    skos:example "Petuelring"@en ;
+    skos:prefLabel "Straßenname"@de,
+        "Street"@en .
+
+cx:BillingAddress a owl:Class ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:seeAlso schema:billingAddress ;
+    rdfs:subClassOf cx:StreetAddress ;
+    skos:altLabel "invoice address"@en ;
+    skos:prefLabel "Rechnungsadresse"@de,
+        "Billing Address"@en .
+
+cx:DeliveryAddress a owl:Class ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:seeAlso schema:deliveryAddress,
+        wd:Q102188471 ;
+    rdfs:subClassOf cx:StreetAddress ;
+    skos:altLabel "Lieferanschrift"@de ;
+    skos:prefLabel "Lieferadresse"@de,
+        "Delivery Address"@en .
+
+cx:PostalAddress a owl:Class ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:seeAlso schema:PostalAddress ;
+    rdfs:subClassOf cx:StreetAddress ;
+    skos:altLabel "Postadresse"@de,
+        "Postanschrift"@de,
+        "mailing address"@en,
+        "post address"@en ;
+    skos:definition "Address where you can send a mail."@en ;
+    skos:prefLabel "Postanschrift"@de,
+        "Postal Address"@en .
+
+cx:PrivateAddress a owl:Class ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:subClassOf cx:StreetAddress ;
+    skos:altLabel "Privatanschrift"@de,
+        "Wohnadresse"@de,
+        "Wohnanschrift"@de,
+        "home adress"@en,
+        "residential address"@en ;
+    skos:definition "Address where people live."@en ;
+    skos:prefLabel "Privatadresse"@de,
+        "Private Address"@en .
+
+cx:ReturnAddress a owl:Class ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Return_address>,
+        schema:originAddress ;
+    rdfs:subClassOf cx:StreetAddress ;
+    skos:prefLabel "Absenderadresse"@de,
+        "Return Address"@en .
+
+cx:BusinessAddress a owl:Class ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:seeAlso wd:Q34120414 ;
+    rdfs:subClassOf cx:StreetAddress ;
+    skos:altLabel "Arbeitsanschrift"@de,
+        "Geschäftsanschrift"@de,
+        "job address"@en ;
+    skos:definition "Address where organisations are located."@en ;
+    skos:prefLabel "Geschäftsadresse"@de,
+        "Business Address"@en .
+
+cx:PhysicalAddress a owl:Class ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:subClassOf cx:Address ;
+    skos:prefLabel "Physical Address"@en .
+
+cx:PostOfficeBox a owl:Class ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Post_office_box> ;
+    rdfs:subClassOf cx:PhysicalAddress ;
+    skos:altLabel "Postschließfach"@de,
+        "P.O. box"@en,
+        "postal box"@en ;
+    skos:definition "uniquely addressable lockable box located on the premises of a post office station"@en ;
+    skos:prefLabel "Postfach"@de,
+        "Post Office Box"@en .
+
+cx:Address a owl:Class ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:subClassOf cx:Information ;
+    skos:prefLabel "Adresse"@de,
+        "Address"@en .
+
+cx:StreetAddress a owl:Class ;
+    rdfs:isDefinedBy cx:address_ontology.ttl ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Address>,
+        schema:streetAddress ;
+    rdfs:subClassOf cx:PhysicalAddress ;
+    skos:altLabel "Hausadresse"@de,
+        "Hausanschrift"@de,
+        "physische Adresse"@de,
+        "physical address"@en ;
+    skos:definition "An address is the unique identity of a specific location of a  building."@en ;
+    skos:example "BMW Group AG"@en ;
+    skos:prefLabel "Anschrift"@de,
+        "Address"@en ;
+    cx:isPartOf cx:Contact .
+
+cx:address_ontology.ttl a owl:Ontology ;
+    dc:creator "Zazralt Magic" ;
+    dc:date "2022-10-13"^^xsd:date ;
+    dc:title "Address Ontology" ;
+    owl:versionInfo "0.0.1" .
+

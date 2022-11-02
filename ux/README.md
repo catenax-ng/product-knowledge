@@ -45,10 +45,43 @@ After this happends, you can start the React app with:
 npm run start:skillgym
 ```
 
-If you want to make changes inside the skill_gym, the server will notice those changes automatically. But if you will make changes insider the skill_modules you need to build the library again with:
+If you want to make changes inside the skill_gym, the server will notice those changes automatically. But if you will make changes inside the skill_modules you need to build the library again with:
+
 
 ```
 npm run build:skillm
 ```
 
-The server now automatically notices this change and will show your changes.
+The server not always notices this change automatically, in order to show the recent changes. If this happens just reload the page again.
+
+## Code Quality
+
+To enforce some coding conventions, we are using eslint and prettier. This rules are integrated to [Github Actions](../.github/workflows/eslint.yaml) and will be checked automatically, when pushing code to the repo. If you are working with VS Code, we are highly recommend you to install the following packages:
+
+
+- [EsLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+
+Those packages will help your IDE to identify errors and warnings. If you like to enable automatic linter fixes onSave in VS Code you can add the following rules in your settings.json:
+
+```
+"editor.formatOnSaveMode": "modificationsIfAvailable",
+"editor.codeActionsOnSave": {
+"source.fixAll": true
+},
+```
+
+Additionally you can run the linter script to check, if you have errors or warnings inside your code:
+
+```
+npm run lint
+```
+
+If the linter shows you errors and warnings, that can be fixed automatically run this command:
+
+```
+npm run lint:fix
+```
+
+...in order to let the engine fix the code for you.
+

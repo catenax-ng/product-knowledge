@@ -1,0 +1,229 @@
+@prefix cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+cx:Aluminium a cx:MetalMaterial ;
+    skos:note "body"@en ;
+    skos:prefLabel "Aluminium"@en .
+
+cx:ArtificialLeather a cx:OrganicMaterial ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Artificial_leather> ;
+    skos:note "interior"@en ;
+    skos:prefLabel "Kunstleder"@de,
+        "Artificial Leather"@en .
+
+cx:Carbon a cx:CompositeMaterial ;
+    skos:note "body"@en ;
+    skos:prefLabel "Carbon"@en .
+
+cx:CeramicMaterial a owl:Class ;
+    rdfs:isDefinedBy cx:material_ontology.ttl ;
+    rdfs:subClassOf cx:Material ;
+    skos:prefLabel "Ceramic Material"@en .
+
+cx:Cobalt a cx:RawMaterial ;
+    skos:note "battery"@en ;
+    skos:prefLabel "Cobalt"@en .
+
+cx:Copper a cx:MetalMaterial ;
+    skos:note "electric"@en ;
+    skos:prefLabel "Copper"@en .
+
+cx:Dysprosium a cx:RawMaterial ;
+    skos:note "electric motor"@en ;
+    skos:prefLabel "Dysprosium"@en .
+
+cx:Graphite a cx:RawMaterial ;
+    skos:note "battery"@en ;
+    skos:prefLabel "Graphite"@en .
+
+cx:Iron a cx:RawMaterial ;
+    skos:note "battery"@en ;
+    skos:prefLabel "Iron"@en .
+
+cx:Leather a cx:OrganicMaterial ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Leather> ;
+    skos:note "interior"@en ;
+    skos:prefLabel "Leder"@de,
+        "Leather"@en .
+
+cx:LiquidMaterial a owl:Class ;
+    rdfs:isDefinedBy cx:material_ontology.ttl ;
+    rdfs:subClassOf cx:Material ;
+    skos:prefLabel "Flüssigkeit"@de,
+        "Liquid Material"@en .
+
+cx:Lithium a cx:RawMaterial ;
+    skos:note "battery"@en ;
+    skos:prefLabel "Lithium"@en .
+
+cx:Manganese a cx:RawMaterial ;
+    skos:note "battery"@en ;
+    skos:prefLabel "Manganese"@en .
+
+cx:MaterialInformation a owl:Class ;
+    rdfs:isDefinedBy cx:material_ontology.ttl ;
+    rdfs:subClassOf cx:Information ;
+    skos:prefLabel "Material Information"@en .
+
+cx:MaterialProperty a owl:Class ;
+    rdfs:isDefinedBy cx:material_ontology.ttl ;
+    rdfs:subClassOf cx:Information ;
+    skos:prefLabel "Material Property"@en .
+
+cx:MaterialStock a owl:Class ;
+    rdfs:isDefinedBy cx:material_ontology.ttl ;
+    rdfs:subClassOf cx:Information ;
+    skos:altLabel "Materialbestand"@de ;
+    skos:prefLabel "Materialvorrat"@de,
+        "Material Stock"@en .
+
+cx:MaterialTesting a owl:Class ;
+    rdfs:isDefinedBy cx:material_ontology.ttl ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Werkstoffpr%C3%BCfung> ;
+    rdfs:subClassOf cx:Process ;
+    skos:prefLabel "Material Testing"@en .
+
+cx:Neodymium a cx:RawMaterial ;
+    skos:note "electric motor"@en ;
+    skos:prefLabel "Neodymium"@en .
+
+cx:Nickel a cx:RawMaterial ;
+    skos:note "battery"@en ;
+    skos:prefLabel "Nickel"@en .
+
+cx:OperatingMaterial a owl:Class ;
+    rdfs:isDefinedBy cx:material_ontology.ttl ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Betriebsstoff> ;
+    rdfs:subClassOf cx:Material ;
+    skos:prefLabel "Betriebsstoff"@de,
+        "Operating Material"@en .
+
+cx:Plastic a cx:PolymerMaterial ;
+    skos:note "interior"@en ;
+    skos:prefLabel "Plastic"@en .
+
+cx:Praseodymium a cx:RawMaterial ;
+    skos:note "electric motor"@en ;
+    skos:prefLabel "Praseodymium"@en .
+
+cx:Steel a cx:MetalMaterial ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Steel> ;
+    skos:note "body"@en ;
+    skos:prefLabel "Steel"@en .
+
+cx:StrategicRawMaterial a owl:Class ;
+    rdfs:isDefinedBy cx:material_ontology.ttl ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Strategic_material> ;
+    rdfs:subClassOf cx:RawMaterial ;
+    skos:prefLabel "Strategic Raw Material"@en .
+
+cx:Substance a owl:Class ;
+    rdfs:isDefinedBy cx:material_ontology.ttl ;
+    rdfs:subClassOf cx:MaterialThing ;
+    skos:prefLabel "Substance"@en .
+
+cx:isStoredIn a owl:ObjectProperty ;
+    rdfs:domain cx:Material ;
+    rdfs:isDefinedBy cx:material_ontology.ttl ;
+    rdfs:range cx:MaterialStorage ;
+    skos:prefLabel "is stored in"@en .
+
+cx:produces a owl:ObjectProperty ;
+    rdfs:domain cx:MaterialManufacturer,
+        cx:RawMaterialManufacturer ;
+    rdfs:isDefinedBy cx:material_ontology.ttl ;
+    rdfs:range cx:Material,
+        cx:RawMaterial ;
+    skos:prefLabel "produces"@en .
+
+cx:supplies a owl:ObjectProperty ;
+    rdfs:domain cx:MaterialSupplier,
+        cx:RawMaterialSupplier ;
+    rdfs:isDefinedBy cx:material_ontology.ttl ;
+    rdfs:range cx:Material,
+        cx:RawMaterial ;
+    skos:prefLabel "supplies"@en .
+
+cx:CompositeMaterial a owl:Class ;
+    rdfs:isDefinedBy cx:material_ontology.ttl ;
+    rdfs:subClassOf cx:Material ;
+    skos:prefLabel "Composite Material"@en .
+
+cx:MaterialManufacturer a owl:Class ;
+    rdfs:isDefinedBy cx:material_ontology.ttl ;
+    rdfs:subClassOf cx:Manufacturer ;
+    skos:prefLabel "Material Manufacturer"@en .
+
+cx:MaterialStorage a owl:Class ;
+    rdfs:isDefinedBy cx:material_ontology.ttl ;
+    rdfs:subClassOf cx:Place ;
+    skos:prefLabel "Material Storage"@en .
+
+cx:MaterialSupplier a owl:Class ;
+    rdfs:isDefinedBy cx:material_ontology.ttl ;
+    rdfs:subClassOf cx:Supplier ;
+    skos:prefLabel "Materiallieferant"@de,
+        "Material Supplier"@en .
+
+cx:PolymerMaterial a owl:Class ;
+    rdfs:isDefinedBy cx:material_ontology.ttl ;
+    rdfs:subClassOf cx:Material ;
+    skos:prefLabel "Polymer Material"@en .
+
+cx:RawMaterialManufacturer a owl:Class ;
+    rdfs:isDefinedBy cx:material_ontology.ttl ;
+    rdfs:subClassOf cx:Manufacturer ;
+    skos:prefLabel "Raw Material Manufacturer"@en .
+
+cx:RawMaterialSupplier a owl:Class ;
+    rdfs:isDefinedBy cx:material_ontology.ttl ;
+    rdfs:subClassOf cx:Supplier ;
+    skos:prefLabel "Rohstofflieferant"@de,
+        "Raw Material Supplier"@en .
+
+cx:OrganicMaterial a owl:Class ;
+    rdfs:isDefinedBy cx:material_ontology.ttl ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Organic_matter> ;
+    rdfs:subClassOf cx:Material ;
+    skos:prefLabel "Organic Material"@en .
+
+cx:MetalMaterial a owl:Class ;
+    rdfs:isDefinedBy cx:material_ontology.ttl ;
+    rdfs:subClassOf cx:Material ;
+    skos:prefLabel "Metal Material"@en .
+
+cx:Material a owl:Class ;
+    rdfs:isDefinedBy cx:material_ontology.ttl ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Werkstoff> ;
+    rdfs:subClassOf cx:Product ;
+    skos:altLabel "engineered material"@en,
+        "engineering material"@en,
+        "technische Werkstoff"@en ;
+    skos:definition "Materials are substances that are used in products."@en ;
+    skos:prefLabel "Werkstoff"@de,
+        "Material"@en .
+
+cx:RawMaterial a owl:Class ;
+    rdfs:isDefinedBy cx:material_ontology.ttl ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Raw_material> ;
+    rdfs:subClassOf cx:Product ;
+    skos:altLabel "Rohmaterial"@de,
+        "commodity"@en,
+        "feedstock"@en,
+        "primary commodity"@en,
+        "unprocessed material"@en ;
+    skos:definition "Raw materials are substances that are used to create other products."@en ;
+    skos:prefLabel "Rohstoff"@de,
+        "Raw Material"@en .
+
+cx:material_ontology.ttl a owl:Ontology ;
+    dc:creator "Zazralt Magic" ;
+    dc:date "2022-10-13"^^xsd:date ;
+    dc:title "Material Ontology" ;
+    owl:imports cx:common_ontology.ttl ;
+    owl:versionInfo "0.0.1" .
+

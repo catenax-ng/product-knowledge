@@ -1,0 +1,355 @@
+type,identifier,name_en,name_de,definition_en,example_en,note_en,synonyms_en,synonyms_de,parents,is_part_of,relation_from,relation_to,links
+# prefix,cx,,,,,,,,,,,,
+# namespace,https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/,,,,,,,,,,,,
+# title,vehicle information ontology,,,,,,,,,,,,
+# version,0.0.1,,,,,,,,,,,,
+# author,Zazralt Magic,,,,,,,,,,,,
+# contributor,"Rolf Bosse, Jörg Schulz",,,,,,,,,,,,
+# description,The vehicle information ontology contains the product master data.,,,,,,,,,,,,
+# import,vehicle ontology,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+class,vehicle information,,Fahrzeuginformation,,,,"vehicle infos, vehicle details, vehicle specs, vehicle configuration, vehicle master data",Fahrzeugspezifikationen,information,,,,
+,,,,,,,,,,,,,
+class,vehicle model,,,,,,general information,,vehicle information,,,,
+relation,has vehicle model,,,,,,,,,,vehicle,vehicle model,
+relation,is variant of,,,,,,,,,,vehicle,vehicle model,https://schema.org/isVariantOf
+attribute,vehicle brand,Make,Marke,,"Audi, BMW, Mercedes",,"make, marque",,,,vehicle model,xsd:string,https://schema.org/brand
+attribute,vehicle model,Model,Fahrzeugmodell,,"320, C220, Golf, Polo",,base model,,,,vehicle model,xsd:string,"https://en.wikipedia.org/wiki/Car_model, https://www.wikidata.org/wiki/Q29048322, https://schema.org/ProductModel"
+attribute,vehicle model series,Model Series,Vertriebsbaureihe,customer series number,"3er, C-Klasse, Golf, Polo",,"model range, series, range, sales series, sales designation","Modell, Modellbaureihe, Baureihe, Verkaufsbezeichnung, Handelsbezeichnung",,,vehicle model,xsd:string,https://schema.org/ProductGroup
+attribute,vehicle model variant,Model Variant,Modellvariante,specification of the vehicle model,"740Li, GLS, GLK, Golf GTI",,"model version, trim level, trim",Modellausführung,,,vehicle model,xsd:string,"https://en.wikipedia.org/wiki/Car_model, https://en.wikipedia.org/wiki/Trim_level_(automobile)"
+attribute,vehicle development series,Development Series,Fahrzeugbaureihe,internal series number,"BMW: G26, Mercedes: W212",,"development series, development model range, e-series, derivative, development code","Entwicklungsbaureihe, E-Baureihe, E-Reihe, Derivat, Entwicklungscode, Entwicklungsbaureihe (EBR), Baureihe, Entwicklungsbezeichnung",,,vehicle model,xsd:string,
+attribute,vehicle model generation,,Fahrzeuggeneration,,"1, 2, 3",,,,,,vehicle model,xsd:integer,
+attribute,vehicle model architecture,,Fahrzeugarchitektur,,,,,,,,vehicle model,xsd:string,
+attribute,vehicle model start of production,,Produktionsbeginn,The release date of a vehicle model (often used to differentiate versions of the same make and model).,,,,,,,vehicle model,xsd:date,https://schema.org/vehicleModelDate
+attribute,vehicle model end of production,,Produktionsende,,present,,,,,,vehicle model,xsd:date,
+attribute,previous vehicle model,,Vorgängermodell,,,,,,,,vehicle model,xsd:string,
+,,,,,,,,,,,,,
+class,vehicle body information,,,,,,,,vehicle information,,,,
+attribute,euro car segment,,,,"A, B, C",,,,,,vehicle body information,xsd:string,https://en.wikipedia.org/wiki/Euro_Car_Segment
+attribute,body style,,,"Indicates the design and body style of the vehicle (e.g. station wagon, hatchback, etc.).","sedan, station wagon, coupe",,body type,Kategorie,,,vehicle body information,xsd:string,https://schema.org/bodyType
+attribute,number of doors,,Anzahl der Türen,The number of doors.,"2, 4",,,,,,vehicle body information,xsd:integer,https://schema.org/numberOfDoors
+attribute,vehicle drag coefficient,,,aerodynamic drag coefficient,0.3,,Cd,,,,vehicle body information,xsd:double,https://en.wikipedia.org/wiki/Automobile_drag_coefficient
+attribute,vehicle exterior color,,,The color of the product.,,,,,,,vehicle body information,xsd:string,https://schema.org/color
+,,,,,,,,,,,,,
+class,vehicle interior information,,,,,,,,vehicle information,,,,
+attribute,number of seats,,Anzahl der Sitze,"The number of persons that can be seated (e.g. in a vehicle), both in terms of the physical space available, and in terms of limitations set by law.","2, 4, 5, 7",,,Anzahl der Sitzplätze,,,vehicle interior information,xsd:integer,"https://schema.org/seatingCapacity, https://schema.org/vehicleSeatingCapacity"
+attribute,number of passengers,,Anzahl der Passagiere,,"2, 4, 5, 7",including driver,passenger capacity,,,,vehicle interior information,xsd:integer,
+attribute,number of standing places,,Anzahl der Stehplätze,,"1, 2, 3",,standing capacity,,,,vehicle interior information,xsd:integer,https://de.wikipedia.org/wiki/Stehplatz
+attribute,number of seat rows,,Anzahl der Sitzreihen,,"2, 3",,,,,,vehicle interior information,xsd:integer,
+attribute,vehicle interior color,,,The color or color combination of the interior of the vehicle.,,,,,,,vehicle interior information,xsd:string,https://schema.org/vehicleInteriorColor
+attribute,vehicle interior type,,,"The type or material of the interior of the vehicle (e.g. synthetic fabric, leather, wood, etc.). While most interior types are characterized by the material used, an interior type can also be based on vehicle usage or target audience.","synthetic fabric, leather, wood",,,,,,vehicle interior information,xsd:string,https://schema.org/vehicleInteriorType
+attribute,air conditioning type,,,,"automatic, manual",,,,,,vehicle interior information,xsd:string,https://en.wikipedia.org/wiki/Air_conditioning
+,,,,,,,,,,,,,
+class,vehicle powertrain information,,,,,,,,vehicle information,,,,
+attribute,powertrain layout,,,is defined by the location of the engine and drive wheels,"rear-engine, front-wheel-drive",,,,,,vehicle powertrain information,xsd:string,https://en.wikipedia.org/wiki/Powertrain_layout
+attribute,vehicle transmission,,,"The type of component used for transmitting the power from a rotating power source to the wheels or other relevant component(s) (""gearbox"" for cars).","automatic, manual",,,,,,vehicle powertrain information,xsd:string,https://schema.org/vehicleTransmission
+attribute,number of forward gears,,Anzahl der Gänge,The total number of forward gears available for the transmission system of the vehicle.,"5, 6, 8",,number of speeds,,,,vehicle powertrain information,xsd:integer,https://schema.org/numberOfForwardGears
+attribute,steering wheel position,,,The position of the steering wheel or similar device (mostly for cars).,"left, right",,,,,,vehicle powertrain information,xsd:string,https://schema.org/steeringPosition
+attribute,steering type,,,,"rack and pinion, power steering",,,,,,vehicle powertrain information,xsd:string,https://en.wikipedia.org/wiki/Steering
+attribute,clutch type,,Kupplungsart,,"wet, centrifugal",,,,,,vehicle powertrain information,xsd:string,https://en.wikipedia.org/wiki/Clutch
+,,,,,,,,,,,,,
+class,vehicle chassis information,,,,,,,,vehicle information,,,,
+attribute,drive wheel type,,,"The drive wheel configuration, i.e. which roadwheels will receive torque from the vehicle's engine via the drivetrain.","front, rear, all",,"drive wheel configuration, driveline",,,,vehicle powertrain information,xsd:string,"https://en.wikipedia.org/wiki/Drive_wheel, https://schema.org/driveWheelConfiguration"
+attribute,number of axles,,Anzahl der Achsen,The number of axles.,"2, 3",,,,,,vehicle chassis information,xsd:integer,https://schema.org/numberOfAxles
+attribute,number of drive axles,,Anzahl der Antriebsachsen,,"1, 2",,,,,,vehicle chassis information,xsd:integer,
+,,,,,,,,,,,,,
+class,vehicle engine information,,,Information about the engine or engines of the vehicle.,,,,,vehicle information,,,,
+attribute,engine name,,Motorbezeichnung,,"3.5L V6 TURBO, 3.0L L6 DOHC 24V",,,,,,vehicle engine information,xsd:string,https://schema.org/vehicleEngine
+attribute,engine type code,,Motortypschlüssel,,,,,,,,vehicle engine information,xsd:string,
+attribute,engine series,,Motorbaureihe,,b38,,,,,,vehicle engine information,xsd:string,
+attribute,engine version,,Motorversion,,,,,Technische Überarbeitung,,,vehicle engine information,xsd:string,
+attribute,engine generation,,Motorgeneration,,"1, 2, 3",,,,,,vehicle engine information,xsd:string,
+attribute,engine manufacturer,,Motorhersteller,,"Audi, BMW, Mercedes, Volkswagen",,,,,,vehicle engine information,xsd:string,
+attribute,engine form,,Motorform,,"straight/inline, V, W, boxer/flat",,,"Bauform, Bauweise",,,vehicle engine information,xsd:string,https://en.wikipedia.org/wiki/Engine_configuration
+attribute,number of cylinders,,Anzahl der Zylinder,,"3, 4, 5, 6, 8, 12",,,Zylinderanzahl,,,vehicle engine information,xsd:integer,
+attribute,number of valves,,,,,,,,,,vehicle engine information,xsd:integer,
+attribute,bore,,,,,in mm,,,,,vehicle engine information,xsd:double,
+attribute,stroke,,,,,in mm,,,,,vehicle engine information,xsd:double,
+attribute,camshaft valvetrain configuration,,,,DOHC,,,,,,vehicle engine information,xsd:string,
+attribute,engine family,,Motorfamilie,,"Inline 4, V6, V12, W8",,,,,,vehicle engine information,xsd:string,
+attribute,engine position,,Motorposition,,"front, mid, rear",,,Motoranordnung,,,vehicle engine information,xsd:string,
+attribute,engine alignment,,Motorausrichtung,,"longitudinal, transverse",,,,,,vehicle engine information,xsd:string,
+attribute,engine performance class,,Motorleistungsklasse,,"low, middle, high",,,,,,vehicle engine information,xsd:string,
+attribute,engine max power,,Leistung,"The power of the vehicle's engine. Typical unit code(s): KWT for kilowatt, BHP for brake horsepower, N12 for metric horsepower (PS, with 1 PS = 735,49875 W)",150.0,in horsepower,,Nennleistung,,,vehicle engine information,xsd:double,https://schema.org/enginePower
+attribute,engine max torque,,Drehmoment,The torque (turning force) of the vehicle's engine.,200.0,in Nm,,,,,vehicle engine information,xsd:double,"https://schema.org/torque, https://en.wikipedia.org/wiki/Torque"
+attribute,engine displacement,,Hubraum,The volume swept by all of the pistons inside the cylinders of an internal combustion engine in a single movement.,,in ccm,engine capacity,,,,vehicle engine information,xsd:double,"https://schema.org/engineDisplacement, https://en.wikipedia.org/wiki/Engine_displacement"
+attribute,engine compression ratio,,Verdichtungsverhältnis,,2022-01-08 00:00:00,,,,,,vehicle engine information,xsd:double,https://en.wikipedia.org/wiki/Compression_ratio
+attribute,engine aspiration,,Ansaugung ,,"natural, turbo",,,,,,vehicle engine information,xsd:string,https://de.wikipedia.org/wiki/Turbolader
+attribute,engine fuel injection,,Kraftstoffeinspritzung,,"direct, indirect",,,,,,vehicle engine information,xsd:string,https://en.wikipedia.org/wiki/Fuel_injection
+,,,,,,,,,,,,,
+class,vehicle fuel information,,,Information about the engine or engines of the vehicle.,,,,,vehicle information,,,,
+attribute,fuel type,,Kraftstoffart,"The type of fuel suitable for the engine or engines of the vehicle. If the vehicle has only one engine, this property can be attached directly to the vehicle.","petrol, diesel",,,,,,vehicle fuel information,xsd:string,https://schema.org/fuelType
+attribute,fuel tank capacity,,Tankinhalt,"The capacity of the fuel tank or in the case of electric cars, the battery. If there are multiple components for storage, this should indicate the total of all storage of the same type.",50.0,in liter,,,,,vehicle fuel information,xsd:double,https://schema.org/fuelCapacity
+attribute,adblue tank capacity,,,,8.0,in liter,,,,,vehicle fuel information,xsd:double,
+attribute,fuel consumption combined,,kombinierter Kraftstoff­verbrauch,The amount of fuel consumed for traveling a particular distance or temporal duration with the given vehicle (e.g. liters per 100 km).,5.0,,"fuel economy combined, mixed consumption",,,,vehicle fuel information,xsd:double,"https://schema.org/fuelConsumption, https://en.wikipedia.org/wiki/Fuel_economy_in_automobiles"
+attribute,fuel consumption city,,Kraftstoff­verbrauch in der Stadt,,8.0,,"fuel economy city, urban consumption",,,,vehicle fuel information,xsd:double,"https://schema.org/fuelConsumption, https://en.wikipedia.org/wiki/Fuel_economy_in_automobiles"
+attribute,fuel consumption highway,,Kraftstoff­verbrauch auf der Autobahn,,4.0,,"fuel economy highway, extra-urban consumption",,,,vehicle fuel information,xsd:double,"https://schema.org/fuelConsumption, https://en.wikipedia.org/wiki/Fuel_economy_in_automobiles"
+attribute,fuel efficiency,,,The distance traveled per unit of fuel used; most commonly miles per gallon (mpg) or kilometers per liter (km/L).,,,,,,,vehicle fuel information,xsd:double,https://schema.org/fuelEfficiency
+attribute,emission class,,Abgasnorm,"The euro emission class is a measure of a vehicle's emissions, calculated using a standard testing procedure. The higher the vehicle euro class, the less emissions the vehicle produces.","Euro 4, Euro 5, Euro 6",,,Euro-Norm,,,vehicle fuel information,xsd:string,https://en.wikipedia.org/wiki/Vehicle_emission_standard
+attribute,EU energy label,,,,"A, B, C, D",,energy efficiency class,"Energieeffizienzklasse, Energieverbrauchskennzeichnung, Kennzeichnung des Energieverbrauchs",,,vehicle fuel information,xsd:string,https://en.wikipedia.org/wiki/European_Union_energy_label#Cars
+attribute,CO2 emissions,,,"The CO2 emissions in g/km. When used in combination with a QuantitativeValue, put ""g/km"" into the unitText property of that value, since there is no UN/CEFACT Common Code for ""g/km"".",130.0,in g/km,,,,,vehicle fuel information,xsd:integer,https://schema.org/emissionsCO2
+attribute,CO2 emissions WLTP,,,"The CO2 emissions in g/km. When used in combination with a QuantitativeValue, put ""g/km"" into the unitText property of that value, since there is no UN/CEFACT Common Code for ""g/km"".",130.0,in g/km,,,,,vehicle fuel information,xsd:integer,https://schema.org/emissionsCO2
+,,,,,,,,,,,,,
+class,vehicle battery information,,,,,,,,vehicle information,,,,
+attribute,battery type,,,,Li-Ion,,,,,,vehicle battery information,xsd:string,
+attribute,battery weight,,,,250.0,in kilogramms,,,,,vehicle battery information,xsd:integer,
+attribute,battery capacity,,,,,in kWhs,,,,,vehicle battery information,xsd:integer,
+attribute,electric power,,,,,in kW,,Nennleistung,,,vehicle battery information,xsd:integer,
+attribute,electric consumption,,,,,,,,,,vehicle battery information,xsd:double,
+attribute,charging time,,,,,in hours,,,,,vehicle battery information,xsd:double,
+,,,,,,,,,,,,,
+class,vehicle performance information,,,,,,,,vehicle information,,,,
+attribute,vehicle max speed,,Höchst­geschwindigkeit,"The speed range of the vehicle. If the vehicle is powered by an engine, the upper limit of the speed range (indicated by maxValue should be the maximum speed achievable under regular conditions.",250.0,in km/h,top speed,,,,vehicle performance information,xsd:integer,https://schema.org/speed
+attribute,vehicle acceleration,,Beschleunigung,The time needed to accelerate the vehicle from 0 to 100 km/h.,5.0,in seconds,,,,,vehicle performance information,xsd:integer,"https://schema.org/accelerationTime, https://en.wikipedia.org/wiki/0_to_60_mph"
+attribute,vehicle breaking,,Bremsung,The time needed to decelerate the vehicle from 100 to 0 km/h.,5.0,in seconds,,,,,vehicle performance information,xsd:integer,https://en.wikipedia.org/wiki/Brake
+attribute,vehicle range,,Reichweite,,650.0,in kilometers,,,,,vehicle performance information,xsd:integer,https://www.wikidata.org/wiki/Property:P2073
+attribute,vehicle range WLTP,,,,650.0,in kilometers,,,,,vehicle performance information,xsd:integer,
+attribute,electric range,,Elektrische Reichweite,,,in kilometers,,,,,vehicle performance information,xsd:integer,
+attribute,electric range WLTP,,Elektrische Reichweite,,,in kilometers,,,,,vehicle performance information,xsd:integer,
+attribute,stationary noise,,Standgeräusch,,71.0,in dB(A),,,,,vehicle performance information,xsd:integer,https://de.wikipedia.org/wiki/Fahrger%C3%A4usch
+attribute,road noise,,Fahrgeräusch,,71.0,in dB(A),,,,,vehicle performance information,xsd:integer,https://de.wikipedia.org/wiki/Fahrger%C3%A4usch
+,,,,,,,,,,,,,
+class,vehicle lifetime information,,,,,,,,vehicle information,,,,
+attribute,expected lifetime mileage,,Laufleistung,,150000.0,in kilometers,,,,,vehicle lifetime information,xsd:integer,
+attribute,expected lifetime,,Lebensdauer,,12.0,in years,,,,,vehicle lifetime information,xsd:integer,
+,,,,,,,,,,,,,
+class,vehicle suspension information,,,,,,,,vehicle information,,,,
+attribute,front suspension,,Forderradaufhängung,,independent,,,,,,vehicle suspension information,xsd:string,https://en.wikipedia.org/wiki/Independent_suspension
+attribute,rear suspension,,Hinterradaufhängung,,independent,,,,,,vehicle suspension information,xsd:string,https://en.wikipedia.org/wiki/Independent_suspension
+attribute,front spring type,,,,coil,,,,,,vehicle suspension information,xsd:string,
+attribute,rear spring type,,,,coil,,,,,,vehicle suspension information,xsd:string,
+attribute,front brake disc diameter,,,,,in mm,,,,,vehicle dimension information,xsd:double,
+attribute,front brake disc diameter,,,,,in mm,,,,,vehicle dimension information,xsd:double,
+,,,,,,,,,,,,,
+class,vehicle tire information,,,,,,,,vehicle information,,,,
+attribute,tire,,,,225/45R17,,tyre,Bereifung,,,vehicle suspension information,xsd:string,https://en.wikipedia.org/wiki/Tire
+attribute,rim,,,,,,,,,,vehicle suspension information,xsd:string,https://en.wikipedia.org/wiki/Rim_(wheel)
+,,,,,,,,,,,,,
+class,vehicle lighting information,,,,,,,,vehicle information,,,,
+attribute,has automatic head lights,,,,,,,,,,vehicle lighting information,xsd:boolean,
+attribute,has fog lights,,,,,,,,,,vehicle lighting information,xsd:boolean,
+,,,,,,,,,,,,,
+class,vehicle safety information,,,,,,,,vehicle information,,,,
+attribute,number of airbags,,Anzahl der Airbags,The number or type of airbags in the vehicle.,"1, 2, 3",,,,,,vehicle safety information,xsd:integer,https://schema.org/numberOfAirbags
+attribute,assistance system,,,,,,,,,,vehicle suspension information,xsd:string,
+,,,,,,,,,,,,,
+class,vehicle dimension information,Dimensions,,,,,,,vehicle information,,,,
+relation,has vehicle dimensions,,,,,,,,,,vehicle,vehicle dimension information,
+attribute,vehicle length,,,,,in cm,,,,,vehicle dimension information,xsd:double,https://schema.org/depth
+attribute,vehicle width,,,,,in cm,,,,,vehicle dimension information,xsd:double,https://schema.org/width
+attribute,vehicle height,,,,,in cm,,,,,vehicle dimension information,xsd:double,https://schema.org/height
+attribute,vehicle wheelbase,,Radstand,The distance between the centers of the front and rear wheels.,,in cm,wheel base,,,,vehicle dimension information,xsd:double,"https://schema.org/wheelbase, https://en.wikipedia.org/wiki/Wheelbase"
+attribute,vehicle turning radius,,,,,in meters,turning diameter,,,,vehicle dimension information,xsd:double,https://en.wikipedia.org/wiki/Turning_radius
+attribute,vehicle ground clearance,,Bodenabstand,,,in cm,,Bodenfreiheit,,,vehicle dimension information,xsd:double,
+attribute,vehicle weight,,Fahrzeuggewicht,,1500.0,in kilogramms,,,,,vehicle dimension information,xsd:double,"https://schema.org/weight, https://en.wikipedia.org/wiki/Vehicle_weight"
+attribute,vehicle curb weight,,Leergewicht,"The total mass of a vehicle with standard equipment and all necessary operating consumables such as motor oil, transmission oil, brake fluid, coolant, air conditioning refrigerant, and sometimes a full tank of fuel, while not loaded with either passengers or cargo.",1500.0,in kilogramms,kerb weight,Leermasse,,,vehicle dimension information,xsd:double,https://en.wikipedia.org/wiki/Vehicle_weight#Curb_weight
+attribute,vehicle dry weight,,,"Dry weight is the weight of a vehicle without any consumables, passengers, or cargo.",,,,,,,vehicle dimension information,xsd:double,https://en.wikipedia.org/wiki/Vehicle_weight#Dry_weight
+,,,,,,,,,,,,,
+class,vehicle cargo information,,,,,,,,vehicle information,,,,
+relation,has vehicle cargo,,,,,,,,,,vehicle,vehicle cargo information,
+attribute,passenger volume,,,,,in liters,,,,,vehicle cargo information,xsd:double,
+attribute,trunk volume,,,,,in liters,trunk capacity,,,,vehicle cargo information,xsd:double,
+attribute,cargo volume,,,"The available volume for cargo or luggage. For automobiles, this is usually the trunk volume.",500.0,in liters,cargo capacity,,,,vehicle cargo information,xsd:double,https://schema.org/cargoVolume
+attribute,max payload,,,"The permitted weight of passengers and cargo, EXCLUDING the weight of the empty vehicle.",100.0,in kilogramms,,,,,vehicle cargo information,xsd:double,https://schema.org/payload
+attribute,tongue weight,,Anhängelast,The permitted vertical load (TWR) of a trailer attached to the vehicle. Also referred to as Tongue Load Rating (TLR) or Vertical Load Rating (VLR),,in kilogramms,,,,,vehicle cargo information,xsd:double,"https://schema.org/tongueWeight, https://de.wikipedia.org/wiki/Anh%C3%A4ngelast"
+attribute,trailer weight,,,The permitted weight of a trailer attached to the vehicle.,,in kilogramms,,,,,vehicle cargo information,xsd:double,https://schema.org/trailerWeight
+attribute,weight total,,,"The permitted total weight of the loaded vehicle, including passengers and cargo and the weight of the empty vehicle.",,in kilogramms,,,,,vehicle cargo information,xsd:double,https://schema.org/weightTotal
+attribute,max axle load,,max. Achslast,,,in kilogramms,,,,,vehicle cargo information,xsd:double,https://en.wikipedia.org/wiki/Axle_load
+attribute,max towing capacity,,Anhängelast ,,1300.0,in kilogramms,,,,,vehicle cargo information,xsd:double,https://de.wikipedia.org/wiki/Anh%C3%A4ngelast
+attribute,gross vehicle mass,,zulässiges Gesamtgewicht,,1300.0,in kilogramms,"gross vehicle mass (GVM), Gross Vehicle Weight Rating (GVWR)","Zulässige Gesamtmasse, höchstzulässiges Gesamtgewicht",,,vehicle cargo information,xsd:double,https://en.wikipedia.org/wiki/Vehicle_weight#Gross_vehicle_weight_rating
+,,,,,,,,,,,,,
+class,vehicle infotainment information,,,,,,,,vehicle information,,,,
+attribute,has radio,,,,yes,,,,,,vehicle infotainment information,xsd:boolean,
+attribute,has navigation,,,,yes,,,,,,vehicle infotainment information,xsd:boolean,
+,,,,,,,,,,,,,
+class,vehicle communication information,,,,,,,,vehicle information,,,,
+attribute,has modem,,,,,,,,,,vehicle communication information,xsd:boolean,
+,,,,,,,,,,,,,
+class,vehicle production information,,,,,,,,vehicle information,,,,
+attribute,vehicle order date,,Bestelldatum,The date the vehicle was ordered by the owner.,,,,,,,vehicle production information,xsd:date,
+attribute,vehicle purchase date,,Kaufdatum,The date the vehicle was purchased by the owner.,,,,,,,vehicle production information,xsd:date,https://schema.org/purchaseDate
+attribute,vehicle production date,,Produktionsdatum,The date of production of the vehicle.,,,,,,,vehicle production information,xsd:date,https://schema.org/productionDate
+attribute,vehicle production year,,Baujahr,,,,,,,,vehicle production information,xsd:integer,
+attribute,vehicle assembly plant,,Montagewerk,,,,,,,,vehicle production information,xsd:string,
+attribute,vehicle assembly country,,Montageland,The place where the product was assembled.,,,,,,,vehicle production information,xsd:string,https://schema.org/countryOfAssembly
+attribute,vehicle country option,,Länderausführung,,"EUR, US, CN",,national-market version,,,,vehicle production information,xsd:string,
+attribute,vehicle delivery country,,Auslieferland,,,,,,,,vehicle production information,xsd:string,
+attribute,vehicle delivery date,,Auslieferdatum,,,,,,,,vehicle production information,xsd:date,
+,,,,,,,,,,,,,
+class,vehicle pricing information,,,,,,,,vehicle information,,,,
+attribute,list price,,Listenpreis,,,,manufacturer's suggested retail price (MSRP),"unverbindlicher Verkaufspreis (UVP), unverbindliche Preisempfehlung (UPE)",,,vehicle production information,xsd:integer,https://de.wikipedia.org/wiki/Unverbindliche_Preisempfehlung
+attribute,purchase price,,Kaufpreis,,,,,,,,vehicle production information,xsd:integer,
+attribute,delivery price,,Lieferpreis,,,,,,,,vehicle production information,xsd:integer,
+,,,,,,,,,,,,,
+class,vehicle warranty information,,,,,,,,vehicle information,,,,
+attribute,warranty max duration,,,,48.0,in months,,,,,vehicle warranty information,xsd:integer,
+attribute,warranty max mileage,,,,50000.0,in kilometers,,,,,vehicle warranty information,xsd:integer,
+,,,,,,,,,,,,,
+class,vehicle registration information,,,,,EU directive 1999/37/EC,,,vehicle information,,,,"https://en.wikipedia.org/wiki/Vehicle_register, https://en.wikipedia.org/wiki/Vehicle_registration_certificate, https://en.wikipedia.org/wiki/Motor_vehicle_registration"
+attribute,vehicle registration owner,,,Full name of owner.,,,,,,,vehicle registration information,xsd:string,https://en.wikipedia.org/wiki/Vehicle_title
+attribute,vehicle registration authority,,,,,,,,,,vehicle registration information,xsd:string,
+attribute,vehicle registration plate,License plate,Kennzeichen,,,,"number plate, license plate, licence plate, vehicle registration number","Nummernschild, Kraftfahrzeugkennzeichen, Kfz-Kennzeichen",,,vehicle registration information,xsd:string,https://en.wikipedia.org/wiki/Vehicle_registration_plate
+attribute,vehicle registration date,,,The date of the first registration of the vehicle with the respective public authorities.,,,,,,,vehicle registration information,xsd:date,https://schema.org/dateVehicleFirstRegistered
+attribute,vehicle registration location,,,,,,,,,,vehicle registration information,xsd:string,
+attribute,manufacturer key number,,Herstellerschlüsselnummer,4-digit numeric code to identify the vehicle manufacturer that is given in the vehicle license.,BMW: 0005,,,Herstellerschlüsselnummer (HSN),,,vehicle registration information,xsd:string,https://de.wikipedia.org/wiki/Herstellerschl%C3%BCsselnummer
+attribute,vehicle type code number,,Typschlüsselnummer,8-digit alphanumeric code to identify the vehicle model that is given in the vehicle license.,,,,Typschlüsselnummer (TSN),,,vehicle registration information,xsd:string,https://de.wikipedia.org/wiki/Typschl%C3%BCsselnummer
+,,,,,,,,,,,,,
+class,vehicle current state,,,,,,,,vehicle information,,,,
+attribute,vehicle current mileage,,Kilometerstand,The current mileage of the vehicle in km.,1000.0,in kilometers,,,,,vehicle current state,xsd:integer,https://schema.org/mileageFromOdometer
+attribute,vehicle current age,,Fahrzeugalter,The current age of the vehicle in years.,3.0,in years,,,,,vehicle current state,xsd:integer,
+attribute,vehicle current location,,Fahrzeugstandort,,,,,,,,vehicle current state,xsd:string,
+,,,,,,,,,,,,,
+class,transmission type,,,,,,,,vehicle information,,,,
+relation,has transmission type,,,,,,,,,,vehicle,transmission type,
+transmission type,automatic transmission,,Automatikgetrieb,,,,"automatic transmission (AT), auto, automatic",,,,,,https://en.wikipedia.org/wiki/Automatic_transmission
+transmission type,manual transmission,,,,,,"manual transmission (MT), manual gearbox, standard transmission, stick shift",,,,,,https://en.wikipedia.org/wiki/Manual_transmission
+transmission type,semi-automatic transmission,,Halbautomatisch,,,,,,,,,,https://en.wikipedia.org/wiki/Semi-automatic_transmission
+,,,,,,,,,,,,,
+class,steering wheel position,,Lenkerausführung,,,,,,vehicle information,,,,https://en.wikipedia.org/wiki/Left-_and_right-hand_traffic
+steering wheel position,left hand drive,,Linkslenker,cars for for right-hand traffic,"DE, US",,left hand drive (LHD),Linkslenker (LL),,,,,
+steering wheel position,right hand drive,,Rechtslenker,cars for for left-hand traffic,"UK, JP",,right hand drive (RHD),Rechtslenker (RL),,,,,
+,,,,,,,,,,,,,
+class,number of doors,,Anzahl der Türen,"Number of doors always including hatch, excluding trunk.",,,,"Türenzahl, Türenanzahl",vehicle information,,,,
+number of doors,two doors,,2 Türer,,,,2 doors,,,,,,
+number of doors,three doors,,3 Türer,,,,3 doors,,,,,,
+number of doors,four doors,,4 Türer,,,,4 doors,,,,,,
+number of doors,five doors,,5 Türer,,,,5 doors,,,,,,
+number of doors,six doors,,6 Türer,,,,6 doors,,,,,,
+,,,,,,,,,,,,,
+class,engine position,,Motoranordnung,,,,location of the engine,,vehicle information,,,,
+engine position,front engine,,Frontmotor,,,most common,front-engine design,,,,,,https://de.wikipedia.org/wiki/Frontmotor
+engine position,mid engine,,Mittelmotor,,,,mid-engine design,,,,,,https://en.wikipedia.org/wiki/Mid-engine_design
+engine position,rear engine,,Heckmotor,,"Porsche 911, VW Bus T1",,rear-engine design,,,,,,https://en.wikipedia.org/wiki/Rear-engine_design
+,,,,,,,,,,,,,
+class,engine alignment,,,,,,,,vehicle information,,,,
+engine alignment,longitudinal engine,,Längsmotor,,,,,,,,,,https://en.wikipedia.org/wiki/Longitudinal_engine
+engine alignment,transverse engine,,Quermotor,,,,,,,,,,https://en.wikipedia.org/wiki/Transverse_engine
+,,,,,,,,,,,,,
+class,drive wheel type,,Antriebsart,,,,,,vehicle information,,,,https://en.wikipedia.org/wiki/Drive_wheel
+drive wheel type,Front-wheel drive,,Frontantrieb,,,,Front-wheel drive (FWD),,,,,,https://en.wikipedia.org/wiki/Front-wheel_drive
+drive wheel type,Rear-wheel drive,,Hinterradantrieb,,,,Rear-wheel drive (RWD),,,,,,https://en.wikipedia.org/wiki/Rear-wheel_drive
+drive wheel type,all-wheel drive,,Allradantrieb,,,,all-wheel drive (AWD),Allrad,,,,,https://en.wikipedia.org/wiki/All-wheel_drive
+drive wheel type,four-wheel drive,,Vierradantrieb,4WD refers to a two-axled vehicle drivetrain capable of providing torque to all of its wheels simultaneously.,,,"four-wheel drive (4WD), 4x4",,,,,,https://en.wikipedia.org/wiki/Four-wheel_drive
+drive wheel type,six-wheel drive,,Sechsradantrieb,6WD refers to a three-axled vehicle drivetrain capable of providing torque to all of its wheels simultaneously.,,,"six-wheel drive (6WD), 6x6",,,,,,https://en.wikipedia.org/wiki/Six-wheel_drive
+drive wheel type,six-by-four-wheel drive,,,,,,,,,,,,https://en.wikipedia.org/wiki/6%C3%974_(drivetrain)
+drive wheel type,eight-wheel drive,,Achtradantrieb,8WD refers to a four-axled vehicle drivetrain capable of providing torque to all of its wheels simultaneously.,,,"eight-wheel drive (8WD), 8x8",,,,,,https://en.wikipedia.org/wiki/Eight-wheel_drive
+,,,,,,,,,,,,,
+class,vehicle dealer,,Fahrzeughändler,,,,,,"place, vehicle information",,,,
+class,authorized dealer,,,,,,,,vehicle dealer,,,,
+class,independent dealer,,,,,,,,vehicle dealer,,,,
+class,used car dealer,,,,,,,,vehicle dealer,,,,
+relation,sells,,,,,,,,,,vehicle dealer,vehicle,
+relation,is sold at,,,,,,,,,,vehicle,vehicle dealer,
+,,,,,,,,,,,,,
+class,vehicle brand,,,,,,,,"vehicle information, brand",,,,
+relation,has vehicle brand,,,,,,,,,,vehicle,vehicle brand,
+vehicle brand,BMW,BMW,BMW,,,,,,,,,,https://en.wikipedia.org/wiki/BMW
+vehicle brand,Mini,Mini,Mini,,,,MINI,,,,,,https://en.wikipedia.org/wiki/Mini_(marque)
+vehicle brand,BMW Motorrad,BMW Motorrad,BMW Motorrad,,,,,,,,,,https://en.wikipedia.org/wiki/BMW_Motorrad
+vehicle brand,BMW M,BMW M,BMW M,,,,,,,,,,https://en.wikipedia.org/wiki/BMW_M
+vehicle brand,BMW i,BMW i,BMW i,,,,,,,,,,https://en.wikipedia.org/wiki/BMW_i
+vehicle brand,Rolls-Royce,Rolls-Royce,Rolls-Royce,,,,Rolls-Royce Motor Cars,,,,,,https://en.wikipedia.org/wiki/Rolls-Royce_Motor_Cars
+,,,,,,,,,,,,,
+class,body style,,,,sedan,,"body design, body type, body category","Karosserie, Karosserieversion",vehicle information,,,,https://en.wikipedia.org/wiki/Car_body_style
+relation,has body style,,,,,,,,,,vehicle,body style,
+body style,sedan,,Limousine,,,,"saloon, limousine",,,,,,https://en.wikipedia.org/wiki/Sedan_(automobile)
+body style,station wagon,,Kombi,,,,"wagon, estate car, estate, touring",Kombinationskraftwagen,,,,,https://en.wikipedia.org/wiki/Station_wagon
+body style,hatchback,,Schrägheck-Limousinen,,,,,,,,,,https://en.wikipedia.org/wiki/Hatchback
+body style,coupe,,Coupé,A car with a sloping or truncated rear roofline and two doors.,,,coupé,"Kupee, Zweitürer",,,,,https://en.wikipedia.org/wiki/Coupe
+body style,convertible,,Cabriolet,A car that can be driven with or without a roof in place.,,,cabriolet,Cabrio,,,,,https://en.wikipedia.org/wiki/Convertible
+body style,roadster,,Roadster,An open two-seat car with emphasis on sporting appearance or character,,,"spider, spyder",,,,,,https://en.wikipedia.org/wiki/Roadster_(automobile)
+body style,minivan,Van,Van,,,,Multi Purpose Vehicle (MPV),,,,,,https://en.wikipedia.org/wiki/Minivan
+body style,sports utility vehicle,SUV,SUV,"A car combined with elements of road and off-road cars, such as raised ground clearance and four-wheel drive.",,,sports utility vehicle (SUV),,,,,,https://en.wikipedia.org/wiki/Sport_utility_vehicle
+body style,off-road vehicle,,Geländewagen,A car that is capable of driving on and off paved or gravel surface.,,,"overland, adventure vehicle",,,,,,https://en.wikipedia.org/wiki/Off-road_vehicle
+,,,,,,,,,,,,,
+class,engine aspiration,,,,,,,,vehicle information,,,,
+engine aspiration,naturally aspirated engine,,,,,,,,,,,,https://en.wikipedia.org/wiki/Naturally_aspirated_engine
+engine aspiration,Turbocharger,,Turbolader,,,,,Abgasturbolader (ATL),,,,,https://en.wikipedia.org/wiki/Turbocharger
+engine aspiration,Supercharger,,,,,,,,,,,,https://en.wikipedia.org/wiki/Supercharger
+,,,,,,,,,,,,,
+class,vehicle equipment,,Fahrzeugausstattung,,"Avantgarde, M-Paket",,,,vehicle information,,,,
+,,,,,,,,,,,,,
+class,vehicle optional equipment,,Sonderausstattung,,,,,,vehicle information,,,,
+,,,,,,,,,,,,,
+class,fuel type,,Kraftstoff,,,,,,immaterial thing,,,,"https://en.wikipedia.org/wiki/Fuel, https://de.wikipedia.org/wiki/Kraftstoffcode"
+fuel type,diesel fuel,,Dieselkraftstoff,,,diesel,,Diesel,,,,,https://en.wikipedia.org/wiki/Diesel_fuel
+fuel type,petrol fuel,,Benzin,,,gasoline,,,,,,,https://en.wikipedia.org/wiki/Gasoline
+fuel type,compressed natural gas,,CNG-Kraftstoff,,,,compressed natural gas (CNG),,,,,,https://en.wikipedia.org/wiki/Compressed_natural_gas
+fuel type,liquefied natural gas,,LNG-Kraftstoff,,,,liquefied natural gas (LNG),,,,,,https://en.wikipedia.org/wiki/Liquefied_natural_gas
+fuel type,liquefied petroleum gas,,LPG-Kraftstoff,,,,liquefied petroleum gas (LPG),,,,,,
+fuel type,biodiesel,,Biodiesel,,,,,,,,,,
+fuel type,methanol,,Methanol,,,,,,,,,,
+fuel type,ethanol,,Ethanol,,,,,,,,,,
+fuel type,hydrogen,,Wasserstoff,,,,,,,,,,
+,,,,,,,,,,,,,
+class,battery type,,,by cathode material,,,,,immaterial thing,,,,
+battery type,lithium nickel manganese cobalt oxide,,,,,,lithium-nickel-manganese-cobalt oxide (LiNMC),,,,,,
+battery type,lithium iron phosphate,,,,,,lithium-iron-phosphate (LiFePO4),,,,,,
+battery type,lithium manganese oxide,,,,,,lithium-manganese oxide (LMO),,,,,,
+battery type,lithium cobalt oxide,,,,,,lithium-cobalt oxide (LCO),,,,,,
+battery type,lithium nickel cobalt aluminium oxide,,,,,,lithium-nickel-cobalt-aluminium oxide (LiNCA),,,,,,
+,,,,,,,,,,,,,
+class,vehicle manufacturer,,,,,,make,,vehicle information,,,,https://en.wikipedia.org/wiki/Vehicle_identification_number#World_manufacturer_identifier
+relation,has vehicle manufacturer,,,,,,,,,,vehicle,vehicle manufacturer,
+vehicle manufacturer,Acura,,,,,,,,,,,,
+vehicle manufacturer,Alfa Romeo,,,,,,,,,,,,
+vehicle manufacturer,Aston Martin,,,,,,,,,,,,
+vehicle manufacturer,Audi,,Audi,,,,,,,,,,https://en.wikipedia.org/wiki/Audi
+vehicle manufacturer,Bentley,,,,,,,,,,,,
+vehicle manufacturer,BMW,,BMW,,,,,,,,,,https://en.wikipedia.org/wiki/BMW
+vehicle manufacturer,Buick,,,,,,,,,,,,
+vehicle manufacturer,Cadillac,,,,,,,,,,,,
+vehicle manufacturer,Chevrolet,,,,,,,,,,,,
+vehicle manufacturer,Chrysler,,,,,,,,,,,,
+vehicle manufacturer,Daewoo,,,,,,,,,,,,
+vehicle manufacturer,Dodge,,,,,,,,,,,,
+vehicle manufacturer,Ferrari,,,,,,,,,,,,
+vehicle manufacturer,Fiat,,,,,,,,,,,,
+vehicle manufacturer,Ford,,Ford,,,,,,,,,,https://en.wikipedia.org/wiki/Ford_Motor_Company
+vehicle manufacturer,GMC,,,,,,,,,,,,
+vehicle manufacturer,Harley Davidson,,,,,,,,,,,,
+vehicle manufacturer,Honda,,,,,,,,,,,,
+vehicle manufacturer,HUMMER,,,,,,,,,,,,
+vehicle manufacturer,Hyundai,,,,,,,,,,,,
+vehicle manufacturer,Infinity,,,,,,,,,,,,
+vehicle manufacturer,Jaguar,,,,,,,,,,,,
+vehicle manufacturer,Jeep,,,,,,,,,,,,
+vehicle manufacturer,Kawasaki,,,,,,,,,,,,
+vehicle manufacturer,KIA,,,,,,,,,,,,
+vehicle manufacturer,Lamborghini,,,,,,,,,,,,
+vehicle manufacturer,Land Rover,,,,,,,,,,,,
+vehicle manufacturer,Lexus,,,,,,,,,,,,
+vehicle manufacturer,Lincoln,,,,,,,,,,,,
+vehicle manufacturer,Lotus,,,,,,,,,,,,
+vehicle manufacturer,Mack,,,,,,,,,,,,
+vehicle manufacturer,Mazda,,,,,,,,,,,,
+vehicle manufacturer,Mercedes-Benz,Mercedes,Mercedes,,,,,,,,,,https://en.wikipedia.org/wiki/Mercedes-Benz
+vehicle manufacturer,MINI,,,,,,,,,,,,
+vehicle manufacturer,Mitsubishi,,,,,,,,,,,,
+vehicle manufacturer,Nissan,,,,,,,,,,,,
+vehicle manufacturer,Opel,,Opel,,,,,,,,,,https://en.wikipedia.org/wiki/Opel
+vehicle manufacturer,Peugeot,,,,,,,,,,,,
+vehicle manufacturer,Pontiac,,,,,,,,,,,,
+vehicle manufacturer,Porsche,,Porsche,,,,,,,,,,https://en.wikipedia.org/wiki/Porsche
+vehicle manufacturer,Renault,,Renault,,,,,,,,,,
+vehicle manufacturer,Rolls Royce,,,,,,,,,,,,
+vehicle manufacturer,Saab,,,,,,,,,,,,
+vehicle manufacturer,Skoda,,Skoda,,,,,,,,,,
+vehicle manufacturer,Smart,,,,,,,,,,,,
+vehicle manufacturer,Subaru,,,,,,,,,,,,
+vehicle manufacturer,Suzuki,,,,,,,,,,,,
+vehicle manufacturer,Tesla,,,,,,,,,,,,
+vehicle manufacturer,Toyota,,Toyota,,,,,,,,,,
+vehicle manufacturer,Volkswagen,,Volkswagen,,,,,Volkswagen (VW),,,,,https://en.wikipedia.org/wiki/Volkswagen
+vehicle manufacturer,Volvo,,,,,,,,,,,,
+vehicle manufacturer,Yamaha,,,,,,,,,,,,
+,,,,,,,,,,,,,
+class,world manufacturer identifier,,,The company that produced the vehicle encoded in the VIN.,,,,,vehicle information,,,,
+relation,has world manufacturer identifier,,,,,,,,,,vehicle,world manufacturer identifier,
+attribute,world manufacturer id,,,The first 3 digits of the VIN that uniquely identifies the manufacturer of a vehicle.,,,world manufacturer identifier (WMI),,,,world manufacturer identifier,xsd:string,
+attribute,world manufacturer name,,,,"Audi, BMW, Mercedes",,,,,,world manufacturer identifier,xsd:string,
+attribute,world manufacturer region,,,The first digit of the VIN.,"Europe, North America",,,,,,world manufacturer identifier,xsd:string,
+attribute,world manufacturer country,,,The first 2 digits of the VIN.,Germany,,,,,,world manufacturer identifier,xsd:string,
+relation,same as,,,,,,,,,,world manufacturer identifier,business partner,
+iso standard,world manufacturer identifier code,,,,,ISO 3780:2009,,,,,,,https://www.iso.org/standard/45844.html

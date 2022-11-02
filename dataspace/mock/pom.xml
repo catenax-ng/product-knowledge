@@ -1,0 +1,21 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>io.catenax.knowledge.dataspace</groupId>
+    <artifactId>mock</artifactId>
+    <packaging>pom</packaging>
+    <parent>
+        <groupId>io.catenax.knowledge</groupId>
+        <artifactId>dataspace</artifactId>
+        <version>0.6.2-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>    
+    </parent>
+    <name>Catena-X Knowledge Agents Dataspace Mock Services</name>
+    <description>Project for all Dataspace-Related Mock Services</description>
+    <dependencies>
+    </dependencies>
+    <properties>
+    </properties>
+    <modules>
+        <module>prognosis</module>
+    </modules>
+</project>

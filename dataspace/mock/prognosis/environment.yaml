@@ -1,0 +1,17 @@
+name: rul
+channels:
+  - defaults
+dependencies:
+  - python=3.8
+  - pip
+  - pip:
+    - fastapi==0.70.0
+    - gunicorn==20.1.0
+    - python-dateutil==2.8.1
+    - python-multipart==0.0.5
+    - uvicorn==0.15.0
+    - isort==5.10.1
+    - pylint==2.14.3
+    - pytest==6.2.5
+    - pytest-cov==3.0.0
+    - requests

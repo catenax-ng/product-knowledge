@@ -1,6 +1,7 @@
 # path settings
 ontology_path = 'ontology'
 tables_path = 'ontology/ontology_tables'
+numbers_path = 'ontology/ontology_numbers'
 tools_path = 'ontology/ontology_tools'
 
 # namespace settigns

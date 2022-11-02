@@ -4,7 +4,7 @@ import typescript from '@rollup/plugin-typescript';
 import { terser } from 'rollup-plugin-terser';
 import sass from 'rollup-plugin-sass';
 import external from 'rollup-plugin-peer-deps-external';
-import dts from "rollup-plugin-dts";
+import dts from 'rollup-plugin-dts';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import pkg from './package.json';
 
@@ -14,14 +14,14 @@ export default [
     output: [
       {
         file: pkg.main,
-        format: "cjs",
-        sourcemap: true
+        format: 'cjs',
+        sourcemap: true,
       },
       {
         file: pkg.module,
-        format: "esm",
-        sourcemap: true
-      }
+        format: 'esm',
+        sourcemap: true,
+      },
     ],
     plugins: [
       peerDepsExternal(),
@@ -29,14 +29,15 @@ export default [
       resolve(),
       commonjs(),
       sass({}),
-      typescript({ tsconfig: './tsconfig.build.json' })
+      terser(),
+      typescript({ tsconfig: './tsconfig.build.json' }),
     ],
-    external: [...Object.keys(pkg.peerDependencies || {}), 'node-fetch']
+    external: [...Object.keys(pkg.peerDependencies || {}), 'node-fetch'],
   },
   {
     input: 'dist/index.d.ts',
-    output: [{ file: 'dist/index.d.ts', format: "esm" }],
-    external: [/\.s?ass$/,/\.css$/],
+    output: [{ file: 'dist/index.d.ts', format: 'esm' }],
+    external: [/\.s?ass$/, /\.css$/],
     plugins: [dts()],
   },
-]
+];

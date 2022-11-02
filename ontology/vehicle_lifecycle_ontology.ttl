@@ -1,0 +1,98 @@
+@prefix cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+cx:CircularEconomy a owl:Class ;
+    rdfs:isDefinedBy cx:vehicle_lifecycle_ontology.ttl ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Circular_economy> ;
+    rdfs:subClassOf cx:ImmaterialThing ;
+    skos:prefLabel "Circular Economy"@en .
+
+cx:CradleToCradle a cx:VehicleLifecycleStage ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Cradle-to-cradle_design> ;
+    skos:prefLabel "Cradle To Cradle"@en .
+
+cx:CradleToGate a cx:VehicleLifecycleStage ;
+    skos:prefLabel "Cradle To Gate"@en .
+
+cx:CradleToGrave a cx:VehicleLifecycleStage ;
+    skos:prefLabel "Cradle To Grave"@en .
+
+cx:GateToGate a cx:VehicleLifecycleStage ;
+    skos:prefLabel "Gate To Gate"@en .
+
+cx:RawMaterialMining a cx:VehicleLifecycleStage ;
+    skos:altLabel "extraction"@en ;
+    skos:prefLabel "Raw Material Mining"@en .
+
+cx:RawMaterialProcessing a cx:VehicleLifecycleStage ;
+    skos:prefLabel "Raw Material Processing"@en .
+
+cx:TankToWheel a cx:FuelCycle ;
+    skos:prefLabel "Tank To Wheel"@en .
+
+cx:VehicleComponentManfacturing a cx:VehicleLifecycleStage ;
+    skos:prefLabel "Vehicle Component Manfacturing"@en .
+
+cx:VehicleDisposal a cx:VehicleLifecycleStage ;
+    skos:prefLabel "Vehicle Disposal"@en .
+
+cx:VehicleEndOfLife a cx:VehicleLifecycleStage ;
+    skos:prefLabel "Vehicle End Of Life"@en .
+
+cx:VehicleProduction a cx:VehicleLifecycleStage ;
+    skos:prefLabel "Vehicle Production"@en .
+
+cx:VehicleRecovery a cx:VehicleLifecycleStage ;
+    skos:definition "The reclamation of metals and metal compounds, inorganic materials and components used for pollution abatement and reuse of oil."@en ;
+    skos:note "Annex IIB to Directive 75/442/EEC"@en ;
+    skos:prefLabel "Vehicle Recovery"@en .
+
+cx:VehicleRecycling a cx:VehicleLifecycleStage ;
+    skos:definition "The reprocessing of waste materials, for either the original purpose or a different purpose."@en ;
+    skos:prefLabel "Vehicle Recycling"@en .
+
+cx:VehicleReuse a cx:VehicleLifecycleStage ;
+    skos:definition "The end-of-life vehicle component is used for the same purpose for which it was originally made."@en ;
+    skos:prefLabel "Vehicle Reuse"@en .
+
+cx:VehicleUse a cx:VehicleLifecycleStage ;
+    skos:prefLabel "Vehicle Use"@en .
+
+cx:WellToTank a cx:FuelCycle ;
+    skos:prefLabel "Well To Tank"@en .
+
+cx:WellToWheel a cx:FuelCycle ;
+    skos:prefLabel "Well To Wheel"@en .
+
+cx:isPartOf a owl:ObjectProperty ;
+    rdfs:domain cx:VehicleLifecycleStage ;
+    rdfs:isDefinedBy cx:vehicle_lifecycle_ontology.ttl ;
+    rdfs:range cx:VehicleLifecycle ;
+    skos:prefLabel "is part of"@en .
+
+cx:VehicleLifecycle a owl:Class ;
+    rdfs:isDefinedBy cx:vehicle_lifecycle_ontology.ttl ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Product_lifecycle> ;
+    rdfs:subClassOf cx:ImmaterialThing ;
+    skos:prefLabel "Vehicle Lifecycle"@en .
+
+cx:FuelCycle a owl:Class ;
+    rdfs:isDefinedBy cx:vehicle_lifecycle_ontology.ttl ;
+    rdfs:subClassOf cx:ImmaterialThing ;
+    skos:prefLabel "Fuel Cycle"@en .
+
+cx:vehicle_lifecycle_ontology.ttl a owl:Ontology ;
+    dc:creator "Zazralt Magic" ;
+    dc:date "2022-10-13"^^xsd:date ;
+    dc:title "Vehicle Lifecycle Ontology" ;
+    owl:versionInfo "0.0.1" .
+
+cx:VehicleLifecycleStage a owl:Class ;
+    rdfs:isDefinedBy cx:vehicle_lifecycle_ontology.ttl ;
+    rdfs:subClassOf cx:ImmaterialThing ;
+    skos:prefLabel "Vehicle Lifecycle Stage"@en .
+

@@ -8,6 +8,9 @@ def extract_header(df, header, first_string=False):
     sel = df['type'].str.startswith('#') & df['type'].str.contains(header)
     result = [x.strip() for x in df[sel]['identifier']]     # extract to list
     result = [x for x in result if x != '']                 # remove empty strings
+    # if result[0].__contains__(','):                         # split comma separated values
+    #     result = [x.split(',') for x in result if x.__contains__(',')][0]
+    #     result = [x.strip() for x in result]
     if first_string & (result != []):                       # select first element
         result = result[0]
     return result
@@ -29,9 +32,11 @@ def extract_abbreviations(df, col='synonyms_en'):
 
 # df needs to be strings only
 def convert_df2graph(df=None, mapping=None, ontology_name='', csv_file='', ttl_file='', prefix = '',
-                     write_simple = False, empty_parents=False, write_csv=''):
+                     write_simple = False, empty_parents=False, write_csv='', verbose=True):
     # empty_inverse, misspelled inverse_of relations
     # check for relations as strings, vsso
+
+    ontology_domain = ontology_name.replace('_ontology', '')
 
     # clean mapping
     for col in mapping.columns:
@@ -44,6 +49,13 @@ def convert_df2graph(df=None, mapping=None, ontology_name='', csv_file='', ttl_f
 
     # check if mandatory columns exist
     #mandatory_cols = mapping.loc[mapping['mandatory'] == 'yes', 'simple_name'].to_list()
+    missing_parents = df[(df['type'] == 'class') & (df['parents'] == '')]['identifier'].to_list()
+    missing_datatype = df[(df['type'] == 'attribute') & (df['relation_to'] == '')]['identifier'].to_list()
+    if verbose:
+        if (len(missing_parents) > 0):
+            print('- missing parents in classes:', len(missing_parents))
+        if (len(missing_datatype) > 0):
+            print('- missing data type in attributes:', len(missing_datatype))
 
     # add namespaces for prefixes
     namespace_manager = NamespaceManager(Graph())
@@ -61,6 +73,7 @@ def convert_df2graph(df=None, mapping=None, ontology_name='', csv_file='', ttl_f
 
     # extract header
     authors = extract_header(df, 'author')
+    contributors = extract_header(df, 'contributor')
     title = extract_header(df, 'title', first_string=True)
     prefix = extract_header(df, 'prefix', first_string=True)
     ns_url = extract_header(df, 'namespace', first_string=True)
@@ -87,6 +100,12 @@ def convert_df2graph(df=None, mapping=None, ontology_name='', csv_file='', ttl_f
         sel = df['type'].str.lower() == str(row['simple_name']).lower()
         df.loc[sel, 'type'] = str(row['rdf_name'])
 
+    # rename datatypes to xsd
+    for index, row in mapping[mapping['usage'] == 'relation_to'].iterrows():
+        sel = df['type'].str.lower().str.strip() == str(row['simple_name']).lower().strip()
+        df.loc[sel, 'type'] = str(row['rdf_name'])
+    #df.to_csv('ontology/test.csv')
+
     # copy name_en from identifier & vice versa
     sel = (df['name_en'] == '') & (df['identifier'] != '')
     df.loc[sel, 'name_en'] = df.loc[sel, 'identifier'].str.title()
@@ -111,9 +130,26 @@ def convert_df2graph(df=None, mapping=None, ontology_name='', csv_file='', ttl_f
     # add provenance
     df['is_defined_by'] = ''
     sel = df['type'].str.contains('Class') | df['type'].str.contains('Property')
-    if ontology_name.__contains__('_'):
-        ontology_name = ontology_name.replace('_', ' ') # e.g plant_ontology > plant ontology
-    df.loc[sel, 'is_defined_by'] = ontology_name
+    # if ontology_name.__contains__('_'):
+    #     ontology_name = ontology_name.replace('_', ' ') # e.g plant_ontology > plant ontology
+    # df.loc[sel, 'is_defined_by'] = ontology_name
+    df.loc[sel, 'is_defined_by'] = ns_url+ontology_name+'.ttl'
+
+    # add attribute_parents based on attribute identifier ending (identifier, name, type, ...)
+    attribute_suffix = mapping[(mapping['usage'] == 'attribute_suffix') & mapping['simple_name'].notnull()] \
+        [['simple_name', 'type']].drop_duplicates()
+    for index, row in attribute_suffix.iterrows():
+        sel = (df['type'] == 'owl:DatatypeProperty') & \
+              df['identifier'].str.lower().str.endswith(row['simple_name'])
+        df.loc[sel, 'attribute_parents'] = row['type']
+
+    # add attribute_parents based on attribute data type (date, date time, int, float, ...)
+    attribute_type = mapping[(mapping['usage'] == 'relation_to') & mapping['type'].notnull()] \
+        [['rdf_name', 'type']].drop_duplicates().sort_values('rdf_name')
+    for index, row in attribute_type.iterrows():
+        sel = (df['type'] == 'owl:DatatypeProperty') & (df['identifier'] != 'date time') & \
+              df['relation_to'].str.lower().str.contains(row['rdf_name'])
+        df.loc[sel, 'attribute_parents'] = row['type']
 
     # # part_of
     # if sum(df['is_part_of'] != '') > 0:
@@ -144,10 +180,6 @@ def convert_df2graph(df=None, mapping=None, ontology_name='', csv_file='', ttl_f
             # add prefix
             df.loc[sel, col] = prefix+':'+df.loc[sel, col]
 
-    # add rdfs labels
-    # df['label_en'] = df['name_en']
-    # df['label_de'] = df['name_de']
-
     # extract abbreviations, syntax: word/phrase (abbrev.)
     aa_en = extract_abbreviations(df, col='synonyms_en')
     aa_de = extract_abbreviations(df, col='synonyms_de')
@@ -168,7 +200,7 @@ def convert_df2graph(df=None, mapping=None, ontology_name='', csv_file='', ttl_f
         #df = df[['type', 'name_en', 'name_de', 'parents']]
         df = df[['type', 'name_en', 'name_de', 'parents', 'relation_from', 'relation_to']]
 
-    # rename from simple to rdf
+    # rename column names from simple to rdf
     for index, row in mapping[mapping['usage'] == 'schema'].iterrows():
         df = df.rename(columns={row['simple_name']: row['rdf_name']})
 
@@ -195,6 +227,9 @@ def convert_df2graph(df=None, mapping=None, ontology_name='', csv_file='', ttl_f
     if len(authors) > 0:
         for author in authors:
             g = g.add((ns[ontology_uri], DC.creator, Literal(author)))
+    if len(contributors) > 0:
+        for contributor in contributors:
+            g = g.add((ns[ontology_uri], DC.contributor, Literal(contributor)))
     if len(description) > 0:
         for x in description:
             g = g.add((ns[ontology_uri], DC.description, Literal(x)))

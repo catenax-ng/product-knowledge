@@ -123,6 +123,7 @@ spec:
   type: ClusterIP
   ports:
     - port: 8080
+      name: web
       targetPort: 8080
   selector:
     app: oem-provider-agent
@@ -165,3 +166,163 @@ spec:
                 name: oem-provider-agent
                 port:
                   number: 8080
+---
+apiVersion: v1
+data:
+  azurestorageaccountname: {{ .Values.security.backupsName }} 
+  azurestorageaccountkey: {{ .Values.security.backupsKey }} 
+kind: {{ .Values.security.htpasswdtype }}
+metadata:
+  name: oem-backend-storage
+  namespace: {{ .Values.namespace }}
+type: Opaque
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oem-backend
+  namespace: {{ .Values.namespace }}
+  annotations:
+    container.apparmor.security.beta.kubernetes.io/oem-provider-agent: default
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: oem-backend
+  template:
+    metadata:
+      labels:
+        app: oem-backend
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsUser: 10000
+        runAsGroup: 30000
+        fsGroup: 30000
+        seccompProfile:
+           type: RuntimeDefault
+      containers:
+        - name: oem-backend
+          image: ghcr.io/catenax-ng/product-knowledge/backend/sql-virtualize-dremio-oss:22.1.1
+          imagePullPolicy: Always
+          securityContext:
+            capabilities:
+              drop:
+                - all
+              add: ['NET_BIND_SERVICE']
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+          ports:
+            - containerPort: 9047   # Web
+            - containerPort: 31010  # ZK
+            - containerPort: 45678 # Dremio Exec
+          resources:
+           requests:
+            cpu: 0.5
+            memory: "4Gi"
+           limits:
+            cpu: 0.5
+            memory: "4Gi"
+          startupProbe:
+            failureThreshold: 18
+            httpGet:
+              path: /
+              port: 9047
+              scheme: HTTP
+            initialDelaySeconds: 120
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 5
+          livenessProbe:
+            failureThreshold: 2
+            httpGet:
+              path: /
+              port: 9047
+              scheme: HTTP
+            periodSeconds: 300
+            successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            failureThreshold: 2
+            httpGet:
+              path: /
+              port: 9047
+              scheme: HTTP
+            periodSeconds: 60
+            successThreshold: 1
+            timeoutSeconds: 5        
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "" #"-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090"
+          volumeMounts:
+            - name: backups
+              mountPath: /opt/dremio/data
+      volumes:
+        - name: backups
+          csi:
+             driver: file.csi.azure.com
+             readOnly: false
+             volumeAttributes:
+                secretName: oem-backend-storage  # required
+                shareName: {{ .Values.security.backupsShare }} # required
+                mountOptions: "dir_mode=0777,file_mode=0777,cache=strict,actimeo=30,uid=10000,gid=30000"  # optional
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: oem-backend
+  namespace: {{ .Values.namespace }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9047
+      name: web
+      targetPort: 9047
+    - port: 31010
+      name: zookeeper
+      targetPort: 31010
+    - port: 45678
+      name: execute
+      targetPort: 45678
+  selector:
+    app: oem-backend
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: oem-backend-ingress
+  namespace: {{ .Values.namespace }}
+  annotations:
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.issuer }}
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "http://localhost:3000"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, PUT, POST, DELETE, PATCH, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-headers: "Host,DNT,X-Api-Key,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization"
+    nginx.ingress.kubernetes.io/x-forwarded-prefix: "/oem-backend"
+    nginx.org/mergeable-ingress-type: master
+    # type of authentication
+    #nginx.ingress.kubernetes.io/auth-type: basic
+    # name of the secret that contains the user/password definitions
+    #nginx.ingress.kubernetes.io/{{ .Values.security.authType }}: oem-provider-auth
+    # message to display with an appropriate context why the authentication is required
+    #nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - OEM'
+spec:
+  tls:
+    - hosts:
+        - {{ .Values.ingress.oemHost }}
+      secretName: tls-knowledge-oem
+  rules:
+    - host: {{ .Values.ingress.oemHost }}
+      http:
+        paths:
+          - path: /(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: oem-backend
+                port:
+                  number: 9047

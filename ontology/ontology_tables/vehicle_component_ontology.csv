@@ -1,0 +1,505 @@
+type,identifier,name_en,name_de,definition_en,example_en,note_en,synonyms_en,synonyms_de,parents,is_part_of,relation_from,relation_to,links
+# prefix,cx,,,,,,,,,,,,
+# namespace,https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/,,,,,,,,,,,,
+# title,vehicle component ontology,,,,,,,,,,,,
+# version,0.0.1,,,,,,,,,,,,
+# author,Zazralt Magic,,,,,,,,,,,,
+# contributor,,,,,,,,,,,,,
+# description,,,,,,,,,,,,,
+# import,,common ontology,,,,,,,,,,,
+class,vehicle component,,Fahrzeugkomponente,A component that is assembled into a vehicle or a vehicle component.,"engine, body, chassis",,"part, component","Fahrzeug Bauteil, Fahrzeugteil, Komponente, Bauteil, Teil",component,vehicle,,,
+,,,,,,,,,,,,,
+class,main component,,Hauptkomponente,,,,,,component,,,,
+class,generic component,,Allgemeine Komponente,,,,,,component,,,,
+class,structural component,,Strukturkomponente,,Fahrwerk,,,Mechanische Komponente,component,,,,
+class,electrical component,,Elektrokomponente,,,,,,component,,,,
+class,functional component,,Funktionskomponente,,,,,,component,,,,
+class,safety component,,Fahrzeugsicherheitskomponente,,,,,,component,,,,https://en.wikipedia.org/wiki/Automotive_safety
+,,,,,,,,,,,,,
+class,body,,Karosserie,,,,"carrosserie, body work, bodywork, coachwork, coach work",,"vehicle component, main component",vehicle,,,https://de.wikipedia.org/wiki/Karosserie
+class,powertrain,,Antriebsstrang,,,,"power train, drive, drivetrain, drive train, driveline","Antrieb, Antriebstrang","vehicle component, main component",vehicle,,,https://en.wikipedia.org/wiki/Drivetrain
+class,chassis,,Fahrwerk,,,,"frame, base frame, undercarriage, vehicle frame, rolling chassis","Fahrgestell, Chassis, Untergestell, Rahmen","vehicle component, main component",vehicle,,,https://en.wikipedia.org/wiki/Chassis
+class,vehicle electrical system,,Elektrosystem,,,,electronics,,"vehicle component, main component, vehicle system",vehicle,,,https://en.wikipedia.org/wiki/Automotive_electronics
+,,,,,,,,,,,,,
+class,electric powertrain,,Elektrischer Antriebsstrang,,,,"e-powertrain, electric drive, e-drive",Elektrischer Antrieb,"vehicle component, main component",vehicle,,,
+class,high voltage system,,Hochvolt System,,,,high-voltage system,,"vehicle component, vehicle system",vehicle,,,
+class,hybrid vehicle drivetrain,,Hybridantrieb,,,,,,vehicle component,powertrain,,,https://en.wikipedia.org/wiki/Hybrid_vehicle_drivetrain
+,,,,,,,,,,,,,
+class,vehicle system,,Fahrzeugsystem,,,,,,vehicle component,,,,
+class,mechatronic component,,,,,,,,vehicle component,,,,
+,,,,,,,,,,,,,
+class,vehicle sensor,,Fahrzeugsensor,,,,,,vehicle component,,,,
+class,vehicle actuator,,Fahrzeugaktuator,,,,,Aktor,vehicle component,,,,https://de.wikipedia.org/wiki/Aktor
+class,vehicle instrument,,Fahrzeuginstrument,,,,,,vehicle component,interior,,,
+class,vehicle control,,Fahrzeugsteuerung,,,,,,vehicle component,interior,,,
+class,vehicle switch,,Fahrzeugschalter,,,,,,vehicle component,,,,
+,,,,,,,,,,,,,
+class,pipe,,Rohr,,,,,,generic component,,,,
+class,hose,,Schlauch,,,,,,generic component,,,,
+class,line,,Leitung,,,,,,generic component,,,,
+class,gasket,,Flachdichtung,,,,,,generic component,,,,
+class,seal,,Dichtung,,,,,,generic component,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+class,hood,,Motorhaube,,,,bonnet,Kühlerhaube,vehicle component,exterior,,,https://en.wikipedia.org/wiki/Hood_(car)
+class,trunk,,Kofferraum,,,,"boot, dickie, dicky, diggy",,vehicle component,exterior,,,https://en.wikipedia.org/wiki/Trunk_(car)
+class,hatch,,Heckklappe,,,,tailgate,,vehicle component,exterior,,,https://de.wikipedia.org/wiki/Heckklappe
+class,bumper,,Stoßstange,,,,,,"vehicle component, functional component",exterior,,,https://en.wikipedia.org/wiki/Bumper_(car)
+class,grille,,Kühlergrill,,,,,,"vehicle component, functional component",exterior,,,https://en.wikipedia.org/wiki/Grille_(car)
+class,paint,,Autolack,,,,,Lack,"vehicle component, functional component",exterior,,,https://en.wikipedia.org/wiki/Automotive_paint
+class,wheel housing,,Radkasten,,,,"wheel house, wheel case, wheel well, bucket","Radhaus, Radeinbau","vehicle component, functional component",exterior,,,https://de.wikipedia.org/wiki/Radkasten
+class,side rocker,,Seitenschweller,,,,"rocker panel, sill",,"vehicle component, functional component",exterior,,,https://de.wikipedia.org/wiki/Seitenschweller
+class,fender,,Kotflügel,,,,wheel cover,"Schutzblech, Radabdeckung","vehicle component, functional component",exterior,,,https://en.wikipedia.org/wiki/Fender_(vehicle)
+class,hood scoop,,Lufthutze,,,,"bonnet scoop, bonnet airdam, air dam",,"vehicle component, functional component",exterior,,,https://en.wikipedia.org/wiki/Hood_scoop
+class,spoiler,,Spoiler,,,,"rear spoiler, air dams, wing",,"vehicle component, functional component",exterior,,,https://en.wikipedia.org/wiki/Spoiler_(car)
+class,diffuser,,Diffusor,,,,,,"vehicle component, functional component",exterior,,,https://en.wikipedia.org/wiki/Diffuser_(automotive)
+class,gas pressure spring,,Gasdruckfeder,,,,gas spring,,"vehicle component, functional component",exterior,,,https://en.wikipedia.org/wiki/Gas_spring
+class,reflector,,Reflektor,,,,retroreflector,"Retroreflektor, Rückstrahler","vehicle component, safety component",exterior,,,https://en.wikipedia.org/wiki/Retroreflector
+class,door,,Autotür,,,,car door,Tür,"vehicle component, functional component",body,,,https://en.wikipedia.org/wiki/Car_door
+class,door panel,,Türverkleidung,,,,door card,,vehicle component,door,,,https://en.wikipedia.org/wiki/Door_card
+class,door handle,,Türgriff,,,,doorknob,Türklinke,vehicle component,door,,,https://en.wikipedia.org/wiki/Door_handle
+class,door seal,,Dichtung,,,,,,"vehicle component, seal",door,,,https://en.wikipedia.org/wiki/Seal_(mechanical)
+class,door hinge,,Scharnier,,,,,,vehicle component,door,,,https://en.wikipedia.org/wiki/Hinge
+class,door lock,,Schloss,,,,,,vehicle component,door,,,https://en.wikipedia.org/wiki/Lock_and_key
+class,child safety lock,,Kindersicherung,,,,,,vehicle component,door,,,https://en.wikipedia.org/wiki/Child_safety_lock
+class,door switch,,Türschalter,,,,,,"vehicle component, vehicle switch",door,,,
+class,window,,Autofenster,,,,,Fenster,vehicle component,door,,,https://en.wikipedia.org/wiki/Window
+class,window shade,,Autofensterrollo,,,,,,vehicle component,door,,,https://de.wikipedia.org/wiki/Rollo_(Sonnenschutz)
+class,power window,,Fensterheber,,,,electric windows,,"vehicle component, electrical component",door,,,https://en.wikipedia.org/wiki/Power_window
+class,door contact,,Türkontakt,,,,,,"vehicle component, electrical component",door,,,
+class,power window switch,,Fensterheberschalter,,,,,,"vehicle component, electrical component, vehicle switch",door,,,
+class,side view mirror,,Seitenspiegel,,,,"side mirror, wing mirror",Außenspiegel,vehicle component,door,,,https://en.wikipedia.org/wiki/Side-view_mirror
+class,power side view mirror,,elektrischer Seitenspiegel,,,,"power side mirror, power wing mirror, power mirror)",,"vehicle component, electrical component",door,,,https://en.wikipedia.org/wiki/Power_side-view_mirror
+class,blind spot monitor,,Totwinkel-Assistent,,,,active blind spot detection,"Spurwechselwarnung, Spurwechselassistent, Spurwechselunterstützung","vehicle component, electrical component, vehicle sensor",door,,,https://en.wikipedia.org/wiki/Blind_spot_monitor
+class,roof,,Autodach,,,,,,"vehicle component, functional component",body,,,https://en.wikipedia.org/wiki/Automobile_roof
+class,hardtop,,Hardtop,,,,hard top,,vehicle component,roof,,,https://en.wikipedia.org/wiki/Hardtop
+class,softtop,,Verdeck,,,,"retractable softtop, soft top",,vehicle component,roof,,,
+class,sun roof,,Schiebedach,,,,,,vehicle component,roof,,,https://en.wikipedia.org/wiki/Sunroof
+class,sun roof shade,,Schiebedachsonnenschutz,,,,,,vehicle component,roof,,,
+class,roof rack,,Autogepäckträger,,,,,,vehicle component,roof,,,https://en.wikipedia.org/wiki/Roof_rack
+class,convertible roof,,Cabriolet,,,,,,vehicle component,roof,,,https://en.wikipedia.org/wiki/Convertible
+class,retractable hardtop,,Cabrioverdeck,,,,,,vehicle component,roof,,,https://en.wikipedia.org/wiki/Retractable_hardtop
+class,detachable hardtop,,Cabrioverdeck,,,,,,vehicle component,roof,,,https://en.wikipedia.org/wiki/Convertible#Detachable_hardtop
+class,windshield,,Windschutzscheibe,,,,windscreen,,"vehicle component, functional component",body,,,https://en.wikipedia.org/wiki/Windshield
+class,glass,,Autoglas,,,,car glass,,vehicle component,windshield,,,https://en.wikipedia.org/wiki/Car_glass
+class,laminated glass,,Verbundsicherheitsglas,,,,,VSG,"vehicle component, safety component",windshield,,,https://en.wikipedia.org/wiki/Laminated_glass
+class,window wash system,,Fensterwaschanlage,,,,window wipe system,,"vehicle component, vehicle system",windshield,,,
+class,wiper,,Scheibenwischer,,,,"windscreen wiper, windshield wiper, wiper blade, windscreen washer",,vehicle component,window wash system,,,https://en.wikipedia.org/wiki/Windscreen_wiper
+class,wiper motor,,Scheibenwischermotor,,,,,,vehicle component,window wash system,,,
+class,rain sensor,,Regensensor,,,,,,"vehicle component, vehicle sensor",window wash system,,,https://en.wikipedia.org/wiki/Rain_sensor
+class,washer nozzle,,Waschdüse,,,,,,"vehicle component, vehicle sensor",window wash system,,,
+class,windshield washer fluid,,Scheibenwaschwasser,,,,"windshield wiper fluid, wiper fluid, screen wash, washer fluid",Scheibenwischwasser,vehicle component,window wash system,,,https://en.wikipedia.org/wiki/Windshield_washer_fluid
+class,rear window,,Heckscheibe,,,,"back window, back glass",,"vehicle component, functional component",body,,,https://de.wikipedia.org/wiki/Heckscheibe
+class,rear window heater,,Heckscheibenheizung,,,,"defogger, demister, defroster",,vehicle component,rear window,,,https://en.wikipedia.org/wiki/Defogger
+class,rear window shade,,Heckscheibensonnenschutz,,,,,,vehicle component,rear window,,,
+class,interior,,Fahrzeuginterieur,,,,"vehicle interior, cabin, passenger compartment, passenger cell","Innenausstattung, Fahrgastraum, Innenraum",vehicle component,body,,,https://de.wikipedia.org/wiki/Fahrzeuginterieur
+class,seat,,Autositz,,,,,,vehicle component,interior,,,https://en.wikipedia.org/wiki/Car_seat
+class,seat occupancy mat,,,,,,seat occupancy detection,,"vehicle component, safety component, vehicle sensor",interior,,,
+class,bucket seat,,Schalensitz,,,,,Sportsitz,vehicle component,interior,,,https://en.wikipedia.org/wiki/Bucket_seat
+class,power seat,,,,,,,,vehicle component,interior,,,https://en.wikipedia.org/wiki/Power_seat
+class,power seat switch,,,,,,,,vehicle component,interior,,,
+class,seat belt,,Sicherheitsgurt,,,,"safety belt, seatbelt",Anschnallgurt,"vehicle component, safety component",interior,,,https://en.wikipedia.org/wiki/Seat_belt
+class,seat belt buckle,,Gürtelschnalle,,,,,,"vehicle component, safety component",seat belt,,,
+class,seat belt strap,,Gurtband,,,,strap,,"vehicle component, safety component",seat belt,,,
+class,seat belt tensioner,,Gurtstraffer,,,,"belt tensioner, retractor tension, seat belt buckle tensioner, tightener",,"vehicle component, safety component",seat belt,,,
+class,seat belt reel,,Aufrollmechanismus,,,,"electromotive automatic reel, electromotive reel, reversible electromotive reel",,"vehicle component, safety component",seat belt,,,
+class,head restraint,,Kopfstütze,,,,"headrest, headrests",,"vehicle component, safety component",interior,,,https://en.wikipedia.org/wiki/Head_restraint
+class,seat bracket,,Sitzkonsole,,,,,,vehicle component,interior,,,https://de.wikipedia.org/wiki/Sitzkonsole
+class,seat rail,,Sitzschiene,,,,,,vehicle component,interior,,,https://de.wikipedia.org/wiki/Sitzschiene
+class,armrest,,Armlehne,,,,,,vehicle component,interior,,,https://en.wikipedia.org/wiki/Armrest
+class,interior light,,Innenbeleuchtung,,,,,Innenleuchte,vehicle component,interior,,,
+class,glove compartment,,Handschuhfach,,,,"glove box, jockey box",,vehicle component,interior,,,https://en.wikipedia.org/wiki/Glove_compartment
+class,grab handle,,Haltegriff,,,,,,vehicle component,interior,,,
+class,cup holder,,Getränkehalter,,,,,,vehicle component,interior,,,https://en.wikipedia.org/wiki/Cup_holder
+class,rear view mirror,,Rückspiegel,,,,rearview mirror,,vehicle component,interior,,,https://en.wikipedia.org/wiki/Rear-view_mirror
+class,sun visor,,Sonnenblende,,,,,Blende,vehicle component,interior,,,https://en.wikipedia.org/wiki/Sun_visor
+class,floor,,Fussboden,,,,,,vehicle component,interior,,,
+class,floor mat,,Bodenmatte,,,,"vehicle mat, floormat","Fußmatte, Fussmatte",vehicle component,floor,,,https://en.wikipedia.org/wiki/Vehicle_mat
+class,molded carpet,,geformter Teppich,,,,,,vehicle component,floor,,,https://en.wikipedia.org/wiki/Molded_carpet
+class,roof liner,,Innenverdeck,,,,,"Dachhimmel, Innenhimmel",vehicle component,interior,,,https://de.wikipedia.org/wiki/Innenverdeck
+class,heating and air conditioning system,,Klimatechnik,,,,"heating, ventilation, air conditioning, HVAC",,"vehicle component, vehicle system",interior,,,"https://en.wikipedia.org/wiki/Heating,_ventilation,_and_air_conditioning"
+class,blower motor,,Lüftungsmotor,,,,,,vehicle component,heating and air conditioning system,,,
+class,interior air filter,,Luftfilter,,,,,,vehicle component,heating and air conditioning system,,,
+class,interior filter,,Innenraumfilter,,,,,,vehicle component,heating and air conditioning system,,,
+class,interior electric heater,,elektrische Heizung,,,,electric auxiliary heater,,vehicle component,heating and air conditioning system,,,
+class,air conditioning,,Klimatisierung,,,,"AC, limate control",,vehicle component,heating and air conditioning system,,,
+class,air conditioning compressor,,Klimakompressor,,,,,,vehicle component,heating and air conditioning system,,,
+class,air conditioning condenser,,Klimakondensator,,,,,,vehicle component,heating and air conditioning system,,,
+class,temperature sensor,,Temperatursensor,,,,,Temperaturfühler,vehicle component,heating and air conditioning system,,,
+class,evaporator,,Verdampfer,,,,,,vehicle component,heating and air conditioning system,,,
+class,air duct,,Lüftungskanal,,,,,,vehicle component,interior,,,
+class,air flap,,Luftklappe,,,,,,vehicle component,interior,,,
+class,car control,,Fahrzeugsteuerung,,,,user interface,,"vehicle component, vehicle control",interior,,,https://en.wikipedia.org/wiki/Car_controls
+class,ignition switch,,Zündschalter,,,,"starter switch, start switch",Zündschloss,"vehicle component, vehicle control, vehicle switch",car control,,,https://en.wikipedia.org/wiki/Ignition_switch
+class,steering wheel,,Lenkrad,,,,"steering, wheel, driving wheel, hand wheel",Steuerrad,"vehicle component, vehicle control",car control,,,https://en.wikipedia.org/wiki/Steering_wheel
+class,horn,,Hupe,,,,hooter,Hörner,"vehicle component, vehicle control",steering wheel,,,https://en.wikipedia.org/wiki/Vehicle_horn
+class,steering column,,Lenksäule,,,,steering post,,"vehicle component, vehicle control",steering wheel,,,
+class,steering column switch,,,,,,,,"vehicle component, vehicle switch",steering wheel,,,
+class,turn indicator,,Fahrtrichtungsanzeiger,,,,,,"vehicle component, vehicle switch",car control,,,
+class,high beam switch,,Fernlicht,,,,Aufblendlicht,,"vehicle component, vehicle switch",car control,,,
+class,wash switch,,,,,,,,"vehicle component, vehicle switch",car control,,,
+class,accelerator pedal,,Gaspedal,accelerating,,,throttle,Fahrpedal,"vehicle component, vehicle control",car control,,,
+class,electronic throttle control,,elektronische Drosselklappensteuerung,,,,ETC,,"vehicle component, vehicle control",car control,,,https://en.wikipedia.org/wiki/Electronic_throttle_control
+class,brake pedal,,Bremspedal,braking,,,,Fußbremse,"vehicle component, vehicle control",car control,,,https://en.wikipedia.org/wiki/Brake
+class,parking brake,,Feststellbremse,,,,"handbrake, emergency brake","Handbremse, Parkbremse","vehicle component, vehicle control",car control,,,https://en.wikipedia.org/wiki/Parking_brake
+class,clutch pedal,,Kupplungspedal,,,,clutch lever,,"vehicle component, vehicle control",car control,,,
+class,gear stick,,Schalthebel,,,,"gear lever, gearshift, shifter, transmission lever, gear selector","Schaltknüppel, Schaltknauf, Ganghebel, Wählhebel, Gangwahlhebel, Handschalthebel, Gangwahlschalter","vehicle component, vehicle control",car control,,,https://en.wikipedia.org/wiki/Gear_stick
+class,cruise control switch,,Tempomat,,,,,Geschwindigkeitsregelanlage,"vehicle component, vehicle control",car control,,,https://en.wikipedia.org/wiki/Cruise_control
+class,switch panel,,Bedienungsfeld,,,,,Schalttafel,"vehicle component, vehicle control",car control,,,
+class,voice control,,Sprachsteuerung,,,,,,"vehicle component, vehicle control",car control,,,
+class,heating control,,Heizungssteuerung,,,,,,"vehicle component, vehicle control",car control,,,
+class,automatic climate control,,Klimaautomatik,,,,,Klimatisierungsautomatik,"vehicle component, vehicle control",car control,,,
+class,dashboard,,Armaturenbrett,,,,"dash, fascia",Armaturentafel,vehicle component,interior,,,https://en.wikipedia.org/wiki/Dashboard
+class,central information display,,,,,,"CID, multifunctional display, MFD",,vehicle component,dashboard,,,
+class,head up display,,Head-up-Display,,,,"head-up display, heads-up display, HUD",,vehicle component,dashboard,,,https://en.wikipedia.org/wiki/Automotive_head-up_display
+class,head unit,,Headunit,,,,,,vehicle component,dashboard,,,https://en.wikipedia.org/wiki/Automotive_head_unit
+class,controller,,Steuerung,,,,,,vehicle component,dashboard,,,
+class,center console,,Mittelkonsole,,,,,,vehicle component,dashboard,,,https://en.wikipedia.org/wiki/Center_console_(automobile)
+class,instrument panel,,Instrumententafel,,,,"digital instrument panel, electronic instrument cluster",,vehicle component,dashboard,,,https://en.wikipedia.org/wiki/Electronic_instrument_cluster
+class,speedometer,,Tachometer,,,,speed meter,,"vehicle component, vehicle instrument",instrument panel,,,https://en.wikipedia.org/wiki/Speedometer
+class,tachometer,,Drehzahlmesser,,,,rev counters,,"vehicle component, vehicle instrument",instrument panel,,,https://en.wikipedia.org/wiki/Tachometer
+class,odometer,,Hodometer,,,,"odograph, mileometer, milometer",,"vehicle component, vehicle instrument",instrument panel,,,https://en.wikipedia.org/wiki/Odometer
+class,fuel gauge,,Kraftstoffanzeige,,,,,"Tankanzeige, Tankuhr oder Benzinuhr","vehicle component, vehicle instrument",instrument panel,,,https://en.wikipedia.org/wiki/Fuel_gauge
+class,engine temperature gauge,,Kühlung,,,,,,"vehicle component, vehicle instrument",instrument panel,,,https://en.wikipedia.org/wiki/Internal_combustion_engine_cooling
+class,manometer,,Druckmesser,,,,oil pressure gauge,,"vehicle component, vehicle instrument",instrument panel,,,https://en.wikipedia.org/wiki/Oil_pressure
+class,tire pressure gauge,,Reifendruckmesser,,,,tyre pressure gauge,,"vehicle component, vehicle instrument",instrument panel,,,https://en.wikipedia.org/wiki/Tire-pressure_gauge
+class,warning light,,Kontrollleuchte,,,,"tell tale, indicator light",,vehicle component,instrument panel,,,https://en.wikipedia.org/wiki/Tell-tale_(automotive)
+class,check engine light,,Motorkontrollleuchte,,,,"malfunction indicator lamp, MIL",,vehicle component,instrument panel,,,https://en.wikipedia.org/wiki/Check_engine_light
+class,body component,,Karosseriekomponente,,,,,,component,body component,,,
+class,body in white,,Rohkarosserie,,,,"BIW, bodyshell, body shell","Rohbau, Rohbaukarosserie, RK","body component, vehicle component, structural component",body,,,https://en.wikipedia.org/wiki/Body_in_white
+class,body panel,,Karosserieteil,,,,,,"body component, vehicle component, structural component",body,,,
+class,self supporting body,,Selbsttragende Karosserie,,,,self-supporting body,,"body component, vehicle component, structural component",body,,,
+class,unibody,,Unibody,,,,"unit-body, unitary body, unitized body, unitary construction, integrated body",,"body component, vehicle component, structural component",body,,,https://en.wikipedia.org/wiki/Vehicle_frame#Unibody
+class,monocoque,,Monocoque,,,,,,"body component, vehicle component, structural component",body,,,https://en.wikipedia.org/wiki/Monocoque
+class,subframe,,Achsträger,,,,"chassis subframe, underframe",,"body component, vehicle component, structural component",body,,,https://en.wikipedia.org/wiki/Subframe
+class,floorpan,,Bodengruppe,,,,floor panel,,"body component, vehicle component, structural component",body,,,https://en.wikipedia.org/wiki/Floorpan
+class,crumple zone,,Knautschzone,,,,"crush zones, crash zones",,"body component, vehicle component, structural component, safety component",body,,,https://en.wikipedia.org/wiki/Crumple_zone
+class,safety cell,,Sicherheitszelle,,,,,"Fahrgastzelle, Sicherheitsfahrgastzelle","body component, vehicle component, structural component, safety component",body,,,https://de.wikipedia.org/wiki/Fahrgastzelle
+class,roll cage,,Überrollvorrichtung,,,,,Überrollkäfig,"body component, vehicle component, structural component, safety component",body,,,https://en.wikipedia.org/wiki/Roll_cage
+class,strut bar,,Domstrebe,,,,"strut brace, or strut tower brace, STB",,"body component, vehicle component, structural component",body,,,https://en.wikipedia.org/wiki/Strut_bar
+class,underbody,,Boden,,,,,,"body component, vehicle component, structural component",body,,,
+class,underseal,,Unterbodenschutz,,,,undercoating,,"body component, vehicle component, functional component",body,,,https://en.wikipedia.org/wiki/Underseal
+class,pillar,,Fahrzeugsäule,,,,,Säule,"body component, vehicle component, structural component, safety component",body,,,https://en.wikipedia.org/wiki/Pillar_(car)
+class,a pillar,,A Säule,,,,a-pillar,A-Säule,"body component, vehicle component, structural component, safety component",body,,,https://en.wikipedia.org/wiki/Pillar_(car)
+class,b pillar,,B Säule,,,,b-pillar,B-Säule,"body component, vehicle component, structural component, safety component",body,,,https://en.wikipedia.org/wiki/Pillar_(car)
+class,c pillar,,C Säule,,,,c-pillar,C-Säule,"body component, vehicle component, structural component, safety component",body,,,https://en.wikipedia.org/wiki/Pillar_(car)
+class,d pillar,,D Säule,,,,d-pillar,D-Säule,"body component, vehicle component, structural component, safety component",body,,,https://en.wikipedia.org/wiki/Pillar_(car)
+class,side impact protection system,,Seitenaufprallschutz,,,,SIPS,,"body component, vehicle component, safety component, vehicle system",body,,,https://en.wikipedia.org/wiki/Side_Impact_Protection_System
+class,exterior,,Fahrzeugexterieur,,,,vehicle exterior,Fahrzeugaußenseite,"body component, vehicle component",body,,,https://de.wikipedia.org/wiki/Exterieur
+class,chassis component,,Fahrwerkskomponente,,,,,,component,chassis,,,
+class,body on frame,,Karosserie in Rahmenbauweise,,,,"body-on-frame, ladder frame construction, frame construction",,"chassis component, vehicle component",chassis,,,https://en.wikipedia.org/wiki/Body-on-frame
+class,brake system,,Bremsanlage,,,,"brake, braking, braking system","Bremssystem, Bremse","chassis component, vehicle component, functional component, vehicle system",chassis,,,https://en.wikipedia.org/wiki/Brake
+class,brake lining,,Bremsbelag,,,,,,"chassis component, vehicle component",brake system,,,https://en.wikipedia.org/wiki/Brake_lining
+class,disc brake,,Scheibenbremse,,,,,,"chassis component, vehicle component",brake system,,,https://en.wikipedia.org/wiki/Disc_brake
+class,brake shoe,,Bremsklotz,,,,,,"chassis component, vehicle component",brake system,,,https://en.wikipedia.org/wiki/Brake_shoe
+class,brake pad,,Bremsbelag,,,,,,"chassis component, vehicle component",brake system,,,https://en.wikipedia.org/wiki/Brake_pad
+class,brake caliper,,Bremssattel,,,,caliper,Bremszange,"chassis component, vehicle component",brake system,,,https://de.wikipedia.org/wiki/Bremssattel
+class,brake fluid,,Bremsflüssigkeit,,,,,,"chassis component, vehicle component",brake system,,,https://en.wikipedia.org/wiki/Brake_fluid
+class,electronic parking brake,,Elektrische Feststellbremse,,,,"electric parking brake, electric park brake, EPB",,"chassis component, vehicle component",brake system,,,https://en.wikipedia.org/wiki/Electronic_parking_brake
+class,active rollover protection,,Überschlagschutzsystem,,,,"ARP, rollover protection",,"chassis component, vehicle component, electrical component",brake system,,,https://en.wikipedia.org/wiki/Active_rollover_protection
+class,combined braking system,,Bremsanlage,,,,"CBS, linked braking system, LBS",,"chassis component, vehicle component, vehicle system",brake system,,,https://en.wikipedia.org/wiki/Combined_braking_system
+class,suspension system,,"Radaufhängung, Federungssystem, Achsen",,,,"suspension, damper",,"chassis component, vehicle component, functional component, vehicle system",chassis,,,https://de.wikipedia.org/wiki/Radaufh%C3%A4ngung
+class,axle,,Achse,,,,drive axle,,"chassis component, vehicle component",suspension system,,,https://en.wikipedia.org/wiki/Axle
+class,front axle,,Vorderachse,,,,,,"chassis component, vehicle component",suspension system,,,
+class,rear axle,,Hinterachse,,,,,,"chassis component, vehicle component",suspension system,,,
+class,transaxle,,Transaxle,,,,,,"chassis component, vehicle component",suspension system,,,https://en.wikipedia.org/wiki/Transaxle
+class,coil spring,,Schraubenfeder,,,,,"Feder, Fahrwerksfeder","chassis component, vehicle component",suspension system,,,https://en.wikipedia.org/wiki/Coil_spring
+class,air spring,,Luftfeder,,,,,,"chassis component, vehicle component",suspension system,,,https://en.wikipedia.org/wiki/Air_suspension
+class,coilover,,Federbein,,,,,,"chassis component, vehicle component",suspension system,,,https://en.wikipedia.org/wiki/Coilover
+class,wishbone,,Querlenker,,,,,,"chassis component, vehicle component",suspension system,,,
+class,anti roll bar,,Stabilisator,,,,"roll bar, anti-sway bar, sway bar, stabilizer bar",Rollstabilisierung,"chassis component, vehicle component",suspension system,,,https://en.wikipedia.org/wiki/Anti-roll_bar
+class,car suspension,,Federung,,,,suspension,,"chassis component, vehicle component",suspension system,,,https://en.wikipedia.org/wiki/Car_suspension
+class,shock absorber,,Stoßdämpfer,,,,damper,Dämpfer,"chassis component, vehicle component",suspension system,,,https://en.wikipedia.org/wiki/Shock_absorber
+class,hydraulic shock absorber,,hydraulische Stoßdämpfer,,,,,,"chassis component, vehicle component",suspension system,,,
+class,wheel suspension,,Radaufhängung,,,,,Radführung,"chassis component, vehicle component",suspension system,,,https://de.wikipedia.org/wiki/Radaufh%C3%A4ngung
+class,wheel flange,,Radträger,,,,,Radflansch,"chassis component, vehicle component",suspension system,,,
+class,strut bearing,,Federbeinlager,,,,,Domlager,"chassis component, vehicle component",suspension system,,,https://de.wikipedia.org/wiki/Domlager
+class,strut tower,,Federbeindom,,,,,,"chassis component, vehicle component",suspension system,,,
+class,wheel hub,,Radnabe,,,,,,"chassis component, vehicle component",rear axle,,,
+class,swivel bearing,,Schwenklager,,,,,,"chassis component, vehicle component",suspension system,,,
+class,steering,,Lenkung,,,,,,"chassis component, vehicle component",chassis,,,https://en.wikipedia.org/wiki/Steering
+class,mechanical steering,,mechanische Lenkung,,,,,,"chassis component, vehicle component",steering,,,
+class,power steering,,Servolenkung,,,,,,"chassis component, vehicle component",steering,,,https://en.wikipedia.org/wiki/Power_steering
+class,hydraulic power steering,,hydraulische Servolenkung,,,,,,"chassis component, vehicle component",steering,,,
+class,Electromechanical power steering,,elektromechanische Servolenkung,,,,EPS,,"chassis component, vehicle component",steering,,,
+class,bearing,,Lager,,,,,,"chassis component, vehicle component",chassis,,,
+class,wheel bearing,,Radlager,,,,,,"chassis component, vehicle component",bearing,,,
+class,axle bearing,,Achslager,,,,,,"chassis component, vehicle component",bearing,,,
+class,wheel speed sensor,,Raddrehzahlsensor,,,,,,"chassis component, vehicle component",bearing,,,
+class,integrated chassis management,,,,,,ICM,,"chassis component, vehicle component",chassis,,,
+class,kingpin,,Königszapfen,,,,"king pin, coupling pin",,"chassis component, vehicle component",steering,,,https://en.wikipedia.org/wiki/Kingpin_(automotive_part)
+class,tow hitch,,Anhängerkupplung,,,,"tow bar, trailer hitch",,"chassis component, vehicle component",chassis,,,https://en.wikipedia.org/wiki/Tow_hitch
+class,wheel,,Rad,,,,,,"chassis component, vehicle component",chassis,,,https://en.wikipedia.org/wiki/Drive_wheel
+class,tire,,Reifen,,,,tyre,Autoreifen,"chassis component, vehicle component",wheel,,,https://en.wikipedia.org/wiki/Tire
+class,tire pressure sensor,,Reifendrucksensor,,,,RDC,,"chassis component, vehicle component",wheel,,,
+class,rim,,Felge,,,,alloy wheel,Autofelge,"chassis component, vehicle component",wheel,,,https://en.wikipedia.org/wiki/Rim_(wheel)
+class,hubcap,,Radkappe,,,,hub cap,,"chassis component, vehicle component",wheel,,,https://en.wikipedia.org/wiki/Hubcap
+class,nut,,Radschraube,,,,"wheel nut, lug nut",,"chassis component, vehicle component",wheel,,,https://en.wikipedia.org/wiki/Lug_nut
+class,tire valve,,Reifenventil,,,,tyre valve,,"chassis component, vehicle component",wheel,,,
+,,,,,,,,,,,,,
+class,electric powertrain component,,Elektrische Antriebsstrangskomponente,,,,,,component,electric powertrain,,,
+class,high voltage battery,,Hochvoltspeicher,,,,"battery, battery pack, high-voltage battery, high-voltage battery unit, high-voltage storage, HVS, HVB, traction battery, lithium-ion battery, HV battery, electric vehicle battery","Speicher, Hochvoltspeicher, HVS, Antriebsbatterie, Traktionsbatterie","electric powertrain component, vehicle component, functional component",electric powertrain,,,https://en.wikipedia.org/wiki/Electric_vehicle_battery
+class,safety box,,Sicherheitsbox,,,,"S-box, s-box, s box",,"electric powertrain component, vehicle component",high voltage battery,,,
+class,battery management system,,Batteriemanagementsystem,,,,"BMS, SME, battery management electronics, BME","BMS, Batteriemanagement","electric powertrain component, vehicle component, vehicle system",high voltage battery,,,https://en.wikipedia.org/wiki/Battery_management_system
+class,cell supervision circuit,,Zellüberwachung,,,,CSC,,"electric powertrain component, vehicle component",high voltage battery,,,
+class,high voltage connection,,Hochvoltstecker,,,,,,"electric powertrain component, vehicle component",high voltage battery,,,
+class,coolant connection,,Kühlmittelanschluss,,,,,,"electric powertrain component, vehicle component",high voltage battery,,,
+class,heating and cooling system,,,,,,,,"electric powertrain component, vehicle component, vehicle system",high voltage battery,,,
+class,battery cooling system,,Kühlkreislauf,,,,,,"electric powertrain component, vehicle component",high voltage battery,,,
+class,cell module,,Zellmodul,,,,"battery module, dual-cell module, single-cell module",,"electric powertrain component, vehicle component",high voltage battery,,,
+class,venting unit,,Entlüftung,,,,,,"electric powertrain component, vehicle component",high voltage battery,,,
+class,lithium ion cell,,Lithium-Ionen Zelle,,,,"battery cell, li-ion cell, lithium-ion cell","Zelle, Lithium-Ionen-Akkumulator","electric powertrain component, vehicle component",cell module,,,https://en.wikipedia.org/wiki/Lithium-ion_battery#Cells
+class,module connector,,Modulstecker,,,,MC,,"electric powertrain component, vehicle component",cell module,,,
+class,cell contacting system,,Zellkontaktierung,,,,CCS,Zellkontaktierungssystem,"electric powertrain component, vehicle component, vehicle system",cell module,,,
+class,pressure plate,,Druckplatte,,,,PP,DP,"electric powertrain component, vehicle component",cell module,,,
+class,tension plate,,Zuganker,,,,,ZA,"electric powertrain component, vehicle component",cell module,,,
+class,cooling plate,,Wärrmeleitblech,,,,CP,WLB,"electric powertrain component, vehicle component",cell module,,,
+class,heat exchanger,,Wärmetauscher,,,,,,"electric powertrain component, vehicle component",cell module,,,
+class,heat shield,,Wärmeschutz,,,,,,"electric powertrain component, vehicle component",cell module,,,
+class,battery temperature sensor,,Temperatursensor,,,,"thermistor, NTC",,"electric powertrain component, vehicle component, vehicle sensor",cell module,,,
+class,electric compressor,,elektrischer Kompressor,,,,"electric A/C compressor, EKK",,"electric powertrain component, vehicle component",high voltage system,,,
+class,electric heater,,Elektroerhitzer,,,,,,"electric powertrain component, vehicle component",high voltage system,,,
+class,heat pump,,Wärmepumpe,,,,,,"electric powertrain component, vehicle component",high voltage system,,,
+class,electric motor,,Elektromotor,,,,"electro motor, traction motor, HEAT, electrical machine, e-motor, electric drive unit","EM, E-Motor, E-Maschine, HEAT","electric powertrain component, vehicle component, functional component",electric powertrain,,,https://en.wikipedia.org/wiki/Electric_motor
+class,electric drive,,Elektroantrieb,,,,electric drive unit,,"electric powertrain component, vehicle component, functional component",electric powertrain,,,
+class,electric motor transmission,,Elektromaschinen-Getriebe,,,,,,"electric powertrain component, vehicle component",electric powertrain,,,
+class,inverter,,Inverter,,,,"DC/DC converter, electrical machine electronics, EME",Wechselrichter,"electric powertrain component, vehicle component",electric powertrain,,,
+class,high voltage connection,,Hochvoltstecker,,,,,,"electric powertrain component, vehicle component",electric powertrain,,,
+class,charging system,,Ladegerät,,,,,,"electric powertrain component, vehicle component, vehicle system",electric powertrain,,,https://en.wikipedia.org/wiki/Battery_charger
+class,charging port,,Ladebuchse,,,,,,"electric powertrain component, vehicle component",charging system,,,
+class,charging unit,,Ladeelektronik,,,,"combined charging unit, CCU",,"electric powertrain component, vehicle component",charging system,,,
+class,high voltage connection,,Hochvoltstecker,,,,high-voltage connection,,"electric powertrain component, vehicle component",charging system,,,
+class,fuel cell stack,,Brennstoffzellenstack,,,,,,"electric powertrain component, vehicle component",electric powertrain,,,
+class,fuel cell,,Brennstoffzelle,,,,,,"electric powertrain component, vehicle component",electric powertrain,,,https://en.wikipedia.org/wiki/Fuel_cell
+,,,,,,,,,,,,,
+class,engine component,,Motorkomponente,,,,,,component,powertrain,,,
+class,drive unit,,"Antrieb, Antriebseinheit","engine, electromotor",,,"propulsion, propulsion system, powerplant",,"engine component, vehicle component",powertrain,,,https://en.wikipedia.org/wiki/Propulsion
+class,engine,,Motor,,,,"internal combustion engine (ICE), internal combustion (IC) engine",Verbrennungsmotor,"engine component, vehicle component, final product",powertrain,,,https://en.wikipedia.org/wiki/Internal_combustion_engine
+class,diesel engine,,,,,,,,engine,,,,https://en.wikipedia.org/wiki/Diesel_engine
+class,petrol engine,,,,,,,,engine,,,,https://en.wikipedia.org/wiki/Petrol_engine
+class,engine control unit,,Motorsteuerung,,,,ECU,Motorsteuergerät,"engine component, vehicle component",engine,,,https://en.wikipedia.org/wiki/Engine_control_unit
+class,head gasket,,Zylinderkopfdichtung,,,,,ZKD,"engine component, vehicle component, gasket, seal",engine,,,https://en.wikipedia.org/wiki/Head_gasket
+class,balance shaft,,Ausgleichswelle,,,,,,"engine component, vehicle component",engine,,,https://en.wikipedia.org/wiki/Balance_shaft
+class,starter motor,,Motoranlasser,,,,starter,"Anlasser, Starter","engine component, vehicle component, electrical component",engine,,,https://en.wikipedia.org/wiki/Starter_(engine)
+class,starter battery,,Starterbatterie,,,,"automotive battery, car battery",,"engine component, vehicle component, electrical component",engine,,,https://en.wikipedia.org/wiki/Automotive_battery
+class,starter battery terminal,,Starterbatterieklemme,,,,safety battery terminal,,"engine component, vehicle component, electrical component",starter battery,,,
+class,alternator,,Lichtmaschine,,,,,,"engine component, vehicle component, electrical component",engine,,,https://en.wikipedia.org/wiki/Alternator_(automotive)
+class,electric generator,,Elektrischer Generator,,,,generator,,"engine component, vehicle component, electrical component",engine,,,https://en.wikipedia.org/wiki/Electric_generator
+class,coolant temperature sensor,,Kühlwassertemperatursensor,,,,,,"engine component, vehicle component, vehicle sensor",engine,,,
+class,knock sensor,,Klopfsensor,,,,,,"engine component, vehicle component, vehicle sensor",engine,,,
+class,engine block,,Motorblock,,,,"short block, cylinder block",,"engine component, vehicle component",engine,,,https://en.wikipedia.org/wiki/Engine_block
+class,cylinder,,Zylinder,,,,,,"engine component, vehicle component",engine block,,,https://en.wikipedia.org/wiki/Cylinder_(engine)
+class,piston,,Kolben,,,,,,"engine component, vehicle component",engine block,,,https://en.wikipedia.org/wiki/Piston
+class,piston ring,,Kolbenring,,,,,,"engine component, vehicle component",engine block,,,https://en.wikipedia.org/wiki/Piston_ring
+class,connecting rod,,Pleuel,,,,"rod, conrod con rod",,"engine component, vehicle component",engine block,,,https://en.wikipedia.org/wiki/Connecting_rod
+class,crankcase,,Kurbelgehäuse,,,,crank case,,"engine component, vehicle component",engine block,,,https://en.wikipedia.org/wiki/Crankcase
+class,crankshaft,,Kurbelwelle,,,,crank shaft,,"engine component, vehicle component",engine block,,,https://en.wikipedia.org/wiki/Crankshaft
+class,crankshaft position sensor,,Kurbelwellensensor,,,,,,"engine component, vehicle component, vehicle sensor",engine block,,,
+class,crankpin,,Kurbelzapfen,,,,crank pin,,"engine component, vehicle component",engine block,,,https://en.wikipedia.org/wiki/Crankpin
+class,main bearing,,Kurbelwellenlager,,,,,,"engine component, vehicle component",engine block,,,https://en.wikipedia.org/wiki/Main_bearing
+class,starter ring gear,,Starterzahnkranz,,,,,,"engine component, vehicle component",engine block,,,https://en.wikipedia.org/wiki/Starter_ring_gear
+class,block heater,,Standheizung,,,,,Zuheizer,"engine component, vehicle component, electrical component",engine block,,,https://en.wikipedia.org/wiki/Block_heater
+class,cylinder head,,Zylinderkopf,,,,head,,"engine component, vehicle component",engine,,,https://en.wikipedia.org/wiki/Cylinder_head
+class,air intake,,Lufteinlass,,,,,,"engine component, vehicle component",cylinder head,,,
+class,valvetrain,,Ventilsteuerung,,,,valve train,Ventiltrieb,"engine component, vehicle component",cylinder head,,,https://en.wikipedia.org/wiki/Valvetrain
+class,camshaft,,Nockenwelle,,,,cam shaft,,"engine component, vehicle component",valvetrain,,,https://en.wikipedia.org/wiki/Camshaft
+class,camshaft position sensor,,Nockenwellensensor,,,,camshaft sensor,,"engine component, vehicle component, vehicle sensor",valvetrain,,,
+class,variable valve timing controller,,Nockenwellenverstellung,,,,"VVT, Valvetronic, VANOS",,"engine component, vehicle component",valvetrain,,,https://en.wikipedia.org/wiki/Variable_valve_timing
+class,cam,,Kurvenscheibe,,,,,,"engine component, vehicle component",valvetrain,,,https://en.wikipedia.org/wiki/Cam
+class,timing belt,,Steuerkette,,,,"timing chain, cambelt",,"engine component, vehicle component",valvetrain,,,https://en.wikipedia.org/wiki/Timing_belt_(camshaft)
+class,pushrod,,Schubstange,,,,push rod,,"engine component, vehicle component",valvetrain,,,
+class,rocker arm,,Kipphebel,,,,bucket tappet,,"engine component, vehicle component",valvetrain,,,https://en.wikipedia.org/wiki/Rocker_arm
+class,poppet valve,,Tellerventil,,,,mushroom valve,,"engine component, vehicle component",valvetrain,,,https://en.wikipedia.org/wiki/Poppet_valve
+class,valve guide,,Ventilführung,,,,,,"engine component, vehicle component",valvetrain,,,https://en.wikipedia.org/wiki/Valve_guide
+class,valve seat,,Ventilsitz,,,,,,"engine component, vehicle component",valvetrain,,,https://en.wikipedia.org/wiki/Valve_seat
+class,tappet,,Nocke,,,,,Stößel,"engine component, vehicle component",valvetrain,,,https://en.wikipedia.org/wiki/Tappet
+class,hydraulic tappet,,Hydrostößel,,,,"hydraulic valve lifter, hydraulic lash adjuster",,"engine component, vehicle component",valvetrain,,,https://en.wikipedia.org/wiki/Hydraulic_tappet
+class,discrete variable valve lift,,diskret variable Ventilsteuerung,,,,DVVL,,"engine component, vehicle component",valvetrain,,,https://en.wikipedia.org/wiki/DVVL
+class,intake system,,Luftansaugung,,,,,,"engine component, vehicle component, vehicle system",engine,,,
+class,airbox,,Airbox,,,,,Luftkiste,"engine component, vehicle component",intake system,,,https://en.wikipedia.org/wiki/Airbox
+class,engine air filter,,Luftfilter,,,,,,"engine component, vehicle component",intake system,,,https://en.wikipedia.org/wiki/Air_filter#Internal_combustion_engine_air_filters
+class,idle air control actuator,,Leerlaufregler,,,,"idle air control valve, IAC actuator",,"engine component, vehicle component",intake system,,,https://en.wikipedia.org/wiki/Idle_air_control_actuator
+class,intake manifold,,Ansaugstutzen,,,,inlet manifold,,"engine component, vehicle component",intake system,,,https://en.wikipedia.org/wiki/Inlet_manifold
+class,throttle,,Drosselklappe,,,,,,"engine component, vehicle component",intake system,,,https://en.wikipedia.org/wiki/Throttle
+class,manifold absolute pressure sensor,,MAP-Sensor,,,,MAP sensor,,"engine component, vehicle component, vehicle sensor",intake system,,,https://en.wikipedia.org/wiki/MAP_sensor
+class,mass airflow sensor,,Luftmassenmesser,,,,"MAF sensor, mass flow sensor",,"engine component, vehicle component, vehicle sensor",intake system,,,https://en.wikipedia.org/wiki/Mass_flow_sensor
+class,throttle position sensor,,Drosselklappensensor,,,,"TPS, throttle-valve sensor",,"engine component, vehicle component, vehicle sensor",intake system,,,https://en.wikipedia.org/wiki/Throttle_position_sensor
+class,boost controller,,Booststeuerung,,,,turbo boost controller,,"engine component, vehicle component, electrical component",intake system,,,https://en.wikipedia.org/wiki/Boost_controller
+class,turbocharger,,Turbolader,,,,"turbo, turbosupercharger, forced induction","Abgasturbolader, ATL","engine component, vehicle component",engine,,,https://en.wikipedia.org/wiki/Turbocharger
+class,supercharger,,Drehkolbenlader,,,,,,"engine component, vehicle component",engine,,,https://en.wikipedia.org/wiki/Supercharger
+class,intercooler,,Ladeluftkühler,,,,,,"engine component, vehicle component",turbocharger,,,https://en.wikipedia.org/wiki/Intercooler
+class,twincharger,,Twincharger,,,,,,"engine component, vehicle component",turbocharger,,,https://en.wikipedia.org/wiki/Twincharger
+class,twin turbo,,Twinturbo,,,,bi turbo,,"engine component, vehicle component",turbocharger,,,https://en.wikipedia.org/wiki/Twin-turbo
+class,blowoff valve,,Umluftventil,,,,,,"engine component, vehicle component",turbocharger,,,https://en.wikipedia.org/wiki/Blowoff_valve
+class,exhaust system,,Abgasanlage,,,,,Auspuff,"engine component, vehicle component, vehicle system",engine,,,https://en.wikipedia.org/wiki/Exhaust_system
+class,exhaust manifold,,Abgaskrümmer,,,,,,"engine component, vehicle component",exhaust system,,,https://en.wikipedia.org/wiki/Exhaust_manifold
+class,y pipe,,Hosenrohr,,,,,,"engine component, vehicle component, pipe",exhaust system,,,
+class,catalytic converter,,Fahrzeugkatalysator,,,,,,"engine component, vehicle component",exhaust system,,,https://en.wikipedia.org/wiki/Catalytic_converter
+class,muffler,,Schalldämpfer,,,,silencer,,"engine component, vehicle component",exhaust system,,,https://en.wikipedia.org/wiki/Muffler
+class,tailpipe,,Endrohr,,,,exhaust,,"engine component, vehicle component, pipe",exhaust system,,,
+class,diesel particulate filter,,Dieselrußpartikelfilter,diesel engine,,,DPF,"Dieselrußpartikelfilter, DRPF, Dieselpartikelfilter, DPF, Rußpartikelfilter, RPF, Partikelfilter","engine component, vehicle component",exhaust system,,,https://en.wikipedia.org/wiki/Diesel_particulate_filter
+class,gasoline particulate filter,,Ottopartikelfilter,,,,"petrol particulate filter, OPF",OPF,"engine component, vehicle component",exhaust system,,,
+class,lambda sensor,,Lambdasonde,,,,oxygen sensor,"Breitbandsonde, Sprungsonde","engine component, vehicle component, vehicle sensor",exhaust system,,,https://en.wikipedia.org/wiki/Oxygen_sensor#Automotive_applications
+class,exhaust gas temperature gauge,,Abgastemperatursensor,,,,"EGT gauge, EGT sensor",Abgastemperatur,"engine component, vehicle component, vehicle sensor",exhaust system,,,https://en.wikipedia.org/wiki/Exhaust_gas_temperature_gauge
+class,oil system,,Motoröl,,,,"lubricant, lubrication",,"engine component, vehicle component, vehicle system",engine,,,https://en.wikipedia.org/wiki/Motor_oil
+class,oil tank,,Öltank,,,,,,"engine component, vehicle component",oil system,,,
+class,oil filter,,Ölfilter,,,,,,"engine component, vehicle component",oil system,,,https://en.wikipedia.org/wiki/Oil_filter
+class,oil pump,,Ölpumpe,,,,,,"engine component, vehicle component",oil system,,,https://en.wikipedia.org/wiki/Oil_pump_(internal_combustion_engine)
+class,oil pan,,Sumpf,,,,sump,,"engine component, vehicle component",oil system,,,https://en.wikipedia.org/wiki/Sump
+class,wet sump,,Nasssumpfschmierung,,,,,,"engine component, vehicle component",oil system,,,https://en.wikipedia.org/wiki/Wet_sump
+class,dry sump,,Trockensumpfschmierung,,,,,,"engine component, vehicle component",oil system,,,https://en.wikipedia.org/wiki/Dry_sump
+class,oil level sensor,,Ölstandsgeber,,,,,,"engine component, vehicle component, vehicle sensor",oil system,,,
+class,oil pressure sensor,,Öldrucksensor,,,,,,"engine component, vehicle component, vehicle sensor",oil system,,,
+class,fuel system,,Kraftstoffversorgung,,,,"fuel supply, fuel supply system",,"engine component, vehicle component, vehicle system",engine,,,https://en.wikipedia.org/wiki/Fuel_system
+class,fuel tank,,Kraftstofftank,,,,"petrol tank, gas tank",,"engine component, vehicle component",fuel system,,,https://en.wikipedia.org/wiki/Fuel_tank
+class,fuel pump,,Kraftstoffpumpe,,,,,,"engine component, vehicle component",fuel system,,,https://en.wikipedia.org/wiki/Fuel_pump
+class,fuel filter,,Kraftstofffilter,,,,,,"engine component, vehicle component",fuel system,,,https://en.wikipedia.org/wiki/Fuel_filter
+class,fuel line,,Kraftstoffleitung,,,,,,"engine component, vehicle component, line",fuel system,,,https://en.wikipedia.org/wiki/Fuel_line
+class,fuel injection,,Kraftstoffeinspritzung,,,,,,"engine component, vehicle component",fuel system,,,https://en.wikipedia.org/wiki/Fuel_injection
+class,injection pump,,Einspritzpumpe,diesel engine,,,,,"engine component, vehicle component",fuel system,,,https://en.wikipedia.org/wiki/Injection_pump
+class,injector,,Injektor,,,,,,"engine component, vehicle component",fuel system,,,https://en.wikipedia.org/wiki/Injector
+class,carburetor,,Vergaser,,,,carburettor,,"engine component, vehicle component",fuel system,,,https://en.wikipedia.org/wiki/Carburetor
+class,fuel level sensor,,Kraftstoffsensor,,,,,,"engine component, vehicle component, vehicle sensor",fuel system,,,
+class,fuel pressure sensor,,Kraftstoffdrucksensor,,,,,,"engine component, vehicle component, vehicle sensor",fuel system,,,
+class,ignition system,,Zündung,,,,,,"engine component, vehicle component, vehicle system",engine,,,https://en.wikipedia.org/wiki/Ignition_system
+class,distributor,,Zündverteiler,,,,,,"engine component, vehicle component",ignition system,,,https://en.wikipedia.org/wiki/Distributor
+class,distributor cap,,Verteilerkappe,,,,,,"engine component, vehicle component",ignition system,,,
+class,ignition controller,,Zündsteuerung,,,,ignition box,,"engine component, vehicle component",ignition system,,,
+class,ignition coil,,Zündspule,,,,,,"engine component, vehicle component",ignition system,,,https://en.wikipedia.org/wiki/Ignition_coil
+class,ignition coil connector,,Zündspulenverbinder,,,,,,"engine component, vehicle component",ignition system,,,
+class,ignition magneto,,Magnetzündung,,,,high-tension magneto,,"engine component, vehicle component",ignition system,,,https://en.wikipedia.org/wiki/Ignition_magneto
+class,spark plug,,Zündkerze,,,,"sparking plug, plug",,"engine component, vehicle component",ignition system,,,https://en.wikipedia.org/wiki/Spark_plug
+class,spark plug wire,,Zündkerzenkabel,,,,"sparking cable, high tension leads, high tension cables, spark plug wires, spark plug cables, HT leads",,"engine component, vehicle component",ignition system,,,https://en.wikipedia.org/wiki/High_tension_leads
+class,glow plug,,Glühkerze,,,,glowplug,,"engine component, vehicle component",ignition system,,,https://en.wikipedia.org/wiki/Glowplug
+class,cooling system,,Kühlung,,,,,,"engine component, vehicle component, vehicle system",powertrain,,,https://en.wikipedia.org/wiki/Internal_combustion_engine_cooling
+class,air cooling,,Luftkühlung,,,,,,"engine component, vehicle component",cooling system,,,https://en.wikipedia.org/wiki/Air_cooling
+class,water cooling,,Wasserkühlung,,,,,,"engine component, vehicle component",cooling system,,,https://en.wikipedia.org/wiki/Water_cooling
+class,fan,,Ventilator,,,,,,"engine component, vehicle component",cooling system,,,https://en.wikipedia.org/wiki/Fan_(machine)
+class,fan clutch,,Lüfterkupplung,,,,,,"engine component, vehicle component",cooling system,,,https://en.wikipedia.org/wiki/Fan_clutch
+class,radiator,,Autokühler,,,,,,"engine component, vehicle component",cooling system,,,https://en.wikipedia.org/wiki/Radiator_(engine_cooling)
+class,thermostat,,Temperaturregler,,,,,,"engine component, vehicle component",cooling system,,,https://en.wikipedia.org/wiki/Thermostat
+,,,,,,,,,,,,,
+class,powertrain component,,Antriebsstrangskomponente,,,,,,component,powertrain,,,
+class,transmission,,Getriebe,,,,"gearbox, gear box",Fahrzeuggetriebe,"powertrain component, vehicle component",powertrain,,,https://en.wikipedia.org/wiki/Transmission_(mechanics)
+class,manual transmission,,Schaltgetriebe,,,,"MT, manual gearbox, standard transmission, stick shift, stick",,"transmission, vehicle component",powertrain,,,https://en.wikipedia.org/wiki/Manual_transmission
+class,automatic transmission,,Automatikgetriebe,,,,"AT, auto",Automatisierte Schaltgetriebe,"transmission, vehicle component",powertrain,,,https://en.wikipedia.org/wiki/Automatic_transmission
+class,semi automatic transmission,,Automatisches Kupplungssystem,,,,semi-automatic transmission,AKS,"transmission, vehicle component",powertrain,,,https://en.wikipedia.org/wiki/Semi-automatic_transmission
+class,flywheel,,Schwungrad,,,,,Schwungmasse,"powertrain component, vehicle component",transmission,,,https://en.wikipedia.org/wiki/Flywheel
+class,torque converter,,Drehmomentwandler,,,,,,"powertrain component, vehicle component",transmission,,,https://en.wikipedia.org/wiki/Torque_converter
+class,drive chain,,Kettengetriebe,,,,transmission chain,,"powertrain component, vehicle component",transmission,,,https://en.wikipedia.org/wiki/Chain_drive
+class,transmission control unit,,Getriebesteuerung,,,,"TCU, transmission control module, TCM, gearbox control unit, GCU",,"powertrain component, vehicle component",transmission,,,https://en.wikipedia.org/wiki/Transmission_control_unit
+class,clutch,,Kupplung,,,,,,"powertrain component, vehicle component",manual transmission,,,https://en.wikipedia.org/wiki/Clutch
+class,friction drive,,Wälzkörpergetriebe,,,,dry clutch,,"powertrain component, vehicle component",manual transmission,,,https://en.wikipedia.org/wiki/Friction_drive
+class,fluid coupling,,hydraulische Kupplung,,,,"hydraulic clutch, hydraulic coupling",,"powertrain component, vehicle component",manual transmission,,,https://en.wikipedia.org/wiki/Fluid_coupling
+class,dual clutch transmission,,Doppelkupplungsgetriebe,,,,"dual-clutch transmission, DCT, twin-clutch transmission",,"powertrain component, vehicle component",manual transmission,,,https://en.wikipedia.org/wiki/Dual-clutch_transmission
+class,transmission speed sensor,,Getriebedrehzahlsensor,,,,automatic transmission speed sensor,Getriebegeschwindigkeitssensor,"powertrain component, vehicle component, vehicle sensor",transmission,,,
+class,transfer box,,Verteilergetriebe,,,,"transfer case, intermediate transmission",,"powertrain component, vehicle component",powertrain,,,https://en.wikipedia.org/wiki/Transfer_case
+class,drive shaft,,Antriebswelle,,,,"driveshaft, driving shaft, tailshaft, propeller shaft, prop shaft",,"powertrain component, vehicle component",powertrain,,,https://en.wikipedia.org/wiki/Drive_shaft
+class,cardan shaft,,Gelenkwelle,,,,"cardan joint, universal joint, universal coupling",Kardanwelle,"powertrain component, vehicle component",drive shaft,,,https://en.wikipedia.org/wiki/Universal_joint
+class,differential,,Differential,,,,"final drive, axle final drive","Differentialgetriebe, Differenzialgetriebe, Ausgleichsgetriebe, Achsdifferential","powertrain component, vehicle component",powertrain,,,https://en.wikipedia.org/wiki/Differential_(mechanical_device)
+class,locking differential,,Sperrdifferential,,,,,Selbstsperrdifferentialgetriebe,"powertrain component, vehicle component",powertrain,,,https://en.wikipedia.org/wiki/Locking_differential
+class,rear axle differential,,Hinterachsgetriebe,,,,,HAG,"powertrain component, vehicle component",powertrain,,,
+class,output shaft,,Ausgangswelle,,,,final drive shaft,Abtriebswelle,"powertrain component, vehicle component",powertrain,,,
+,,,,,,,,,,,,,
+class,vehicle electrical component,,Elektronische Fahrzeugkomponente,,,,,,component,vehicle electrical system,,,
+class,lighting system,,Fahrzeugbeleuchtung,,,,lighting,Beleuchtung,"vehicle electrical component, vehicle component, vehicle system",electrical system,,,https://en.wikipedia.org/wiki/Automotive_lighting
+class,front light,,,,,,,,"vehicle electrical component, vehicle component, vehicle sensor",lighting system,,,
+class,rear light,,,,,,,,"vehicle electrical component, vehicle component, vehicle sensor",lighting system,,,
+class,turn signal,,Fahrtrichtungsanzeiger,,,,"blinker, directional signals, directional, indicator",,"vehicle electrical component, vehicle component",lighting system,,,https://en.wikipedia.org/wiki/Automotive_lighting#Turn_signals
+class,light sensor,,Lichtsensor,,,,,,"vehicle electrical component, vehicle component, vehicle sensor",lighting system,,,
+class,light switch,,Lichtschalter,,,,,,"vehicle electrical component, vehicle component, vehicle switch",car control,,,
+class,head light,,Scheinwerfer,,,,"head lamp, headlamp",Fahrzeugscheinwerfer,"vehicle electrical component, vehicle component",front light,,,https://en.wikipedia.org/wiki/Headlamp
+class,low beam,,Abblendlicht,,,,"dipped beam, passing beam, meeting beam",,"vehicle electrical component, vehicle component",front light,,,
+class,high beam,,Fernlicht,,,,"main beam, driving beam, full beam",Aufblendlicht,"vehicle electrical component, vehicle component",front light,,,
+class,daytime running light,,Tagfahrlicht,,,,,,"vehicle electrical component, vehicle component",front light,,,https://en.wikipedia.org/wiki/Daytime_running_lamp
+class,parking light,,Standlicht,,,,,Begrenzungslicht,"vehicle electrical component, vehicle component",front light,,,https://de.wikipedia.org/wiki/Standlicht
+class,adaptive front light,,Kurvenlicht,,,,,,"vehicle electrical component, vehicle component",front light,,,
+class,fog light,,Nebelscheinwerfer,,,,,,"vehicle electrical component, vehicle component",front light,,,https://en.wikipedia.org/wiki/Automotive_lighting#Front_fog_lamps
+class,brake light,,Bremslicht,,,,,Bremsleuchte,"vehicle electrical component, vehicle component",rear light,,,https://en.wikipedia.org/wiki/Automotive_lighting#Stop_lamps_(brake_lights)
+class,reversing light,,Rückfahrscheinwerfer,,,,,Rückfahrlicht,"vehicle electrical component, vehicle component",rear light,,,
+class,side marker light,,Seitenmarkierungsleuchten,,,,,,"vehicle electrical component, vehicle component",lighting system,,,
+class,tail light,,Rücklicht,,,,,Schlussleuchte,"vehicle electrical component, vehicle component",rear light,,,https://en.wikipedia.org/wiki/Automotive_lighting#Rear_position_lamps_(tail_lamps)
+class,rear fog light,,Nebelschlussleuchte,,,,,,"vehicle electrical component, vehicle component",rear light,,,
+class,engine bay light,,Motorraumlicht,,,,,,"vehicle electrical component, vehicle component",lighting system,,,
+class,airbag system,,Airbagsystem,,,,,,"vehicle electrical component, vehicle component, safety component, electrical component, vehicle system",electrical system,,,
+class,airbag,,Airbag,,,,,Aufprallkissen,"vehicle electrical component, vehicle component, safety component, electrical component",airbag system,,,https://de.wikipedia.org/wiki/Airbag
+class,airbag sensor,,Airbagsensor,,,,,,"vehicle electrical component, vehicle component, safety component, electrical component, vehicle sensor",airbag system,,,
+class,driver airbag,,Fahrerairbag,,,,,,"vehicle electrical component, vehicle component, safety component, electrical component",airbag system,,,
+class,passenger airbag,,Beifahrerairbag,,,,front passenger airbag,,"vehicle electrical component, vehicle component, safety component, electrical component",airbag system,,,
+class,knee airbag,,Knieairbag,,,,,,"vehicle electrical component, vehicle component, safety component, electrical component",airbag system,,,
+class,side airbag,,Seitenairbag,,,,side head airbag,,"vehicle electrical component, vehicle component, safety component, electrical component",airbag system,,,
+class,head airbag,,Kopfairbag,,,,,,"vehicle electrical component, vehicle component, safety component, electrical component",airbag system,,,
+class,center airbag,,Center Airbag,,,,centre airbag,,"vehicle electrical component, vehicle component, safety component, electrical component",airbag system,,,
+class,electronic control unit,,Steuergerät,,,,"ecu, electronic control module, control unit",,"vehicle electrical component, vehicle component, electrical component",electrical system,,,https://en.wikipedia.org/wiki/Electronic_control_unit
+class,infotainment,,Infotainment,,,,"in vehicle infotainment, in car entertainment",,"vehicle electrical component, vehicle component, electrical component",electrical system,,,https://en.wikipedia.org/wiki/In-car_entertainment
+class,vehicle audio,,Autoradio,,,,"radio, car radio, car audio, speaker system",,"vehicle electrical component, vehicle component, electrical component",infotainment,,,https://en.wikipedia.org/wiki/Vehicle_audio
+class,antenna,,Antenne,,,,"whip antenna, aerial system",,"vehicle electrical component, vehicle component, electrical component",infotainment,,,https://en.wikipedia.org/wiki/Whip_antenna
+class,in car entertainment,,,,,,"in-car entertainment, in-vehicle infotainment, IVI, rear-seat entertainment",,"vehicle electrical component, vehicle component, electrical component",infotainment,,,https://en.wikipedia.org/wiki/In-car_entertainment
+class,backup camera,,Rückfahrkamera,,,,"reversing camera, rear-view camera",Rückfahrsystem,"vehicle electrical component, vehicle component, electrical component",electrical system,,,https://en.wikipedia.org/wiki/Backup_camera
+class,surround view,,Rundumsicht,,,,omniview,,"vehicle electrical component, vehicle component, electrical component",electrical system,,,https://en.wikipedia.org/wiki/Omniview_technology
+class,parking sensor,,Einparkhilfe,,,,"park distance control, PDC",,"vehicle electrical component, vehicle component, electrical component, vehicle sensor",electrical system,,,https://en.wikipedia.org/wiki/Parking_sensor
+class,radar sensor,,Radarsensor,,,,,,"vehicle electrical component, vehicle component, electrical component, vehicle sensor",electrical system,,,
+class,ultrasonic sensor,,Ultraschallsensor,,,,,,"vehicle electrical component, vehicle component, electrical component, vehicle sensor",electrical system,,,
+class,automobile auxiliary power outlet,,Bordspannungssteckdose,,,,"car outlet, automotive power socket, automobile outlet, vehicular outlet, cigarette lighter receptacle, cigar lighter receptacle, CLR, cigar lighter socket",Automobilsteckdose,"vehicle electrical component, vehicle component, electrical component",electrical system,,,https://en.wikipedia.org/wiki/Automobile_auxiliary_power_outlet
+class,on board diagnostics,,On-Board-Diagnose,,,,"on-board diagnostics, OBD",ODB,"vehicle electrical component, vehicle component",,,,https://en.wikipedia.org/wiki/On-board_diagnostics
+class,carputer,,Car-PC,,,,,,"vehicle electrical component, vehicle component",,,,https://en.wikipedia.org/wiki/Carputer
+class,alarm,,Kfz-Alarmanlage,,,,car alarm,,"vehicle electrical component, vehicle component, safety component, electrical component",electrical system,,,https://en.wikipedia.org/wiki/Car_alarm
+class,anti theft system,,Antidiebstahlsystem,,,,,,"vehicle electrical component, vehicle component, safety component, electrical component, vehicle system",electrical system,,,
+class,immobiliser,,Wegfahrsperre,,,,"immobilizer, electronic immobiliser, EWS",,"vehicle electrical component, vehicle component, safety component, electrical component",electrical system,,,https://en.wikipedia.org/wiki/Immobiliser
+class,vehicle tracking,,Fahrzeugtracking,,,,,,"vehicle electrical component, vehicle component, safety component, electrical component",electrical system,,,
+class,car access system,,,,,,,,"vehicle electrical component, vehicle component, safety component, vehicle system",electrical system,,,
+class,central locking,,Zentralverriegelung,,,,power door locks,,"vehicle electrical component, vehicle component, safety component, electrical component",car access system,,,https://en.wikipedia.org/wiki/Power_door_locks
+class,key,,Autoschlüssel,,,,,,"vehicle electrical component, vehicle component, safety component",car access system,,,https://en.wikipedia.org/wiki/Car_key
+class,smart key,,Keyless Go,,,,keyless go,,"vehicle electrical component, vehicle component, safety component, electrical component",car access system,,,https://en.wikipedia.org/wiki/Smart_key
+class,comfort access,,,,,,contactless tailgate activation,,"vehicle electrical component, vehicle component, electrical component",car access system,,,
+class,remote keyless system,,,,,,"RKS, keyless entry, remote central locking",,"vehicle electrical component, vehicle component, safety component, electrical component, vehicle system",car access system,,,https://en.wikipedia.org/wiki/Remote_keyless_system
+class,cable harness,,Kabelbaum,,,,"wire harness, wiring harness, cable assembly, wiring assembly, wiring loom",Kabelstrang,"vehicle electrical component, vehicle component, electrical component",electrical system,,,https://en.wikipedia.org/wiki/Cable_harness
+class,air conditioning harness,,Klimatisierungskabelbaum,,,,,,"vehicle electrical component, vehicle component, electrical component",cable harness,,,
+class,engine compartment harness,,Motorkabelbaum,,,,,,"vehicle electrical component, vehicle component, electrical component",cable harness,,,
+class,interior harness,,Innenraumkabelbaum,,,,,,"vehicle electrical component, vehicle component, electrical component",cable harness,,,
+class,floor harness,,Bodenkabelbaum,,,,,,"vehicle electrical component, vehicle component, electrical component",cable harness,,,
+class,main harness,,Hauptkabelbaum,,,,main wiring harness,Hauptkabelstrang,"vehicle electrical component, vehicle component, electrical component",cable harness,,,
+class,control harness,,Steuerungskabelbaum,,,,,,"vehicle electrical component, vehicle component, electrical component",cable harness,,,
+class,fuse box,,Elektrischer Verteiler,,,,"distribution board, panelboard, breaker panel, electric panel, DB board, DB box, power distribution box",,"vehicle electrical component, vehicle component, electrical component",electrical system,,,https://en.wikipedia.org/wiki/Distribution_board
+class,fuse,,Sicherung,,,,,,"vehicle electrical component, vehicle component, electrical component",fuse box,,,https://en.wikipedia.org/wiki/Fuse_(automotive)
+class,telematics,,Telematik,,,,,,"vehicle electrical component, vehicle component, electrical component",electrical system,,,https://en.wikipedia.org/wiki/Telematics
+class,navigation system,,Navigationssystem,,,,GPS,,"vehicle electrical component, vehicle component, electrical component, vehicle system",infotainment,,,https://en.wikipedia.org/wiki/Automotive_navigation_system
+class,trip computer,,Bordcomputer,,,,,,"vehicle electrical component, vehicle component, electrical component",electrical system,,,https://en.wikipedia.org/wiki/Trip_computer
+class,driver assistance system,,Fahrerassistenzsystem,,,,"advanced driver assistance system, ADAS, driving assistance, driver assistance, advanced driver-assistance systems",FAS,"vehicle electrical component, vehicle component, electrical component, vehicle system",electrical system,,,https://en.wikipedia.org/wiki/Advanced_driver-assistance_systems
+class,cruise control,,Tempomat,,,,"speed control, cruise command, autocruise, tempomat",Geschwindigkeitsregelanlage,"vehicle electrical component, vehicle component, electrical component",driver assistance system,,,https://en.wikipedia.org/wiki/Cruise_control
+class,adaptive cruise control,,Abstandsregeltempomat,,,,ACC,,"vehicle electrical component, vehicle component, electrical component",driver assistance system,,,https://en.wikipedia.org/wiki/Adaptive_cruise_control
+class,intelligent speed assistance,,Intelligent Speed Adaption,,,,"ISA, intelligent speed adaptation",,"vehicle electrical component, vehicle component, electrical component",driver assistance system,,,https://en.wikipedia.org/wiki/Intelligent_speed_assistance
+class,automatic parking,,Autonomes Parken,,,,,,"vehicle electrical component, vehicle component, electrical component",driver assistance system,,,https://en.wikipedia.org/wiki/Automatic_parking
+class,intelligent parking assist system,,,,,,IPAS,,"vehicle electrical component, vehicle component, electrical component, vehicle system",driver assistance system,,,https://en.wikipedia.org/wiki/Intelligent_Parking_Assist_System
+class,torque vectoring,,Drehmomentverteilung,,,,,,"vehicle electrical component, vehicle component, electrical component",driver assistance system,,,https://en.wikipedia.org/wiki/Torque_vectoring
+class,electronic stability control,,Fahrdynamikregelung,,,,"ESC, electronic stability program, ESP, dynamic stability control, DSC, driving dynamics control",FDR,"vehicle electrical component, vehicle component, safety component, electrical component",driver assistance system,,,https://en.wikipedia.org/wiki/Electronic_stability_control
+class,traction control system,,Antriebsschlupfregelung,,,,TCS,ASR,"vehicle electrical component, vehicle component, safety component, electrical component, vehicle system",driver assistance system,,,https://en.wikipedia.org/wiki/Traction_control_system
+class,anti lock braking system,,Antiblockiersystem,,,,"anti-lock braking system, ABS",ABS,"vehicle electrical component, vehicle component, safety component, electrical component, vehicle system",driver assistance system,,,https://en.wikipedia.org/wiki/Anti-lock_braking_system
+class,lane departure warning system,,Spurhalteassistent,,,,"LDWS, lane departure warning",,"vehicle electrical component, vehicle component, safety component, electrical component, vehicle system",driver assistance system,,,https://en.wikipedia.org/wiki/Lane_departure_warning_system
+class,collision avoidance system,,Notbremsassistent,,,,CAS,,"vehicle electrical component, vehicle component, safety component, electrical component, vehicle system",driver assistance system,,,https://en.wikipedia.org/wiki/Collision_avoidance_system
+class,driver drowsiness detection,,Aufmerksamkeitsassistent,,,,"DDD, Active Driving Assistant, Attention Assistant",,"vehicle electrical component, vehicle component, safety component, electrical component",driver assistance system,,,https://en.wikipedia.org/wiki/Driver_drowsiness_detection
+class,automotive night vision,,Nachtsicht-Assistent,,,,,,"vehicle electrical component, vehicle component, safety component, electrical component",driver assistance system,,,https://en.wikipedia.org/wiki/Automotive_night_vision
+class,high beam assistant,,Fernlicht Assistent,,,,,FLA,"vehicle electrical component, vehicle component, safety component, electrical component",driver assistance system,,,
+class,pedestrian protection,,Fußgängerschutz,,,,active pedestrian protection,,"vehicle electrical component, vehicle component, safety component, electrical component",driver assistance system,,,
+class,crossing traffic warning,,,,,,,,"vehicle electrical component, vehicle component, safety component, electrical component",driver assistance system,,,
+class,emergency call system,,Notrufsystem,,,,,,"vehicle electrical component, vehicle component, safety component, electrical component, vehicle system",electrical system,,,
+class,restraint system,,Rückhaltesystem,,,,,,"vehicle electrical component, vehicle component, safety component, electrical component, vehicle system",electrical system,,,
+class,crash detection sensor,,,,,,,,"vehicle electrical component, vehicle component, safety component, electrical component",electrical system,,,
+class,can bus,CAN bus,,,,,Controller Area Network (CAN),,"vehicle electrical component, vehicle component",electrical system,,,https://en.wikipedia.org/wiki/CAN_bus
+class,error memory,,Fehlerspeicher,,,is stored in the EEPROM,fault memory,,"vehicle electrical component, vehicle component",electronic control unit,,,https://de.wikipedia.org/wiki/Fehlerspeicher
+,,,,,,,,,,,,,
+class,operating liquid,,Betriebsflüssigkeit,,,,,,"operating material, liquid material",,,,
+class,lubricant,,Schmierstoff,,,,,,operating liquid,,,,
+class,brake fluid,,Bremsflüssigkeit,,,,,,operating liquid,,,,
+class,additive,,Additiv,,,,,,operating liquid,,,,
+class,battery acid,,Batteriesäure,,,,,,operating liquid,,,,
+class,automatic transmission fluid,,Automatikgetriebeöl,,,,,,operating liquid,,,,
+class,hydraulic fluid,,Hydraulikflüssigkeit,,,,,,operating liquid,,,,
+class,washer fluid,,Waschwasser,,,,,,operating liquid,,,,
+class,refrigerant,,Kältemittel,,,,,,operating liquid,,,,
+class,transmission oil,,Getriebeöl,,,,,,operating liquid,,,,
+class,reductant,,Reduktionsmittel,,,,,,operating liquid,,,,
+class,coolant,,Kühlmittel,,,,,,operating liquid,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,

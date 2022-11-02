@@ -1,0 +1,63 @@
+type,identifier,name_en,name_de,definition_en,example_en,note_en,synonyms_en,synonyms_de,parents,is_part_of,relation_from,relation_to,links
+# prefix,cx,,,,,,,,,,,,
+# namespace,https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/,,,,,,,,,,,,
+# title,part ontology,,,,,,,,,,,,
+# version,0.0.1,,,,,,,,,,,,
+# author,Zazralt Magic,,,,,,,,,,,,
+# contributor,,,,,,,,,,,,,
+# description,"In the automative production, parts are manufactured and assembled into vehicle components and ultimately vehicles.",,,,,,,,,,,,
+# import,common ontology,,,,,,,,,,,,
+,,,,,,,,,,,,,
+class,part,,Bauteil,"A part in the automotive context is a component of a vehicle, such as the engine, brakes, or transmission.",,non-physical object,component,"Teil, Komponente",product,,,,https://de.wikipedia.org/wiki/Bauteil_(Technik)
+relation,is part of,,,,,,,,,,part,vehicle,
+relation,is part of,,,,,,,,,,part,part,
+attribute,part id,,Bauteil Id,,,,,,,,part,xsd:string,
+attribute,part name,,Bauteilname,,,,,"Teilname, Teilebezeichnung",,,part,xsd:string,
+attribute,part series,,Baureihe,,,,,,,,part,xsd:string,
+attribute,part production date,,,,,,,,,,part,xsd:date,
+attribute,part production date time,,,,,,,,,,part,xsd:dateTime,
+,,,,,,,,,,,,,
+class,construction part,,Konstruktionsbauteil,A part that has a part number.,,non-physical object,,,"part, immaterial thing",,,,
+attribute,part number,,Sachnummer,,,,"part number (PN), component number",Bauteilnummer,,,construction part,xsd:string,https://en.wikipedia.org/wiki/Part_number
+attribute,part version,,Bauteil Version,,,,,"Änderungsindex, Versionsstand",,,construction part,xsd:string,
+,,,,,,,,,,,,,
+class,batch,,,,,,lot,,immaterial thing,,,,https://en.wikipedia.org/wiki/Batch_production
+class,batch part,,Chargenbauteil,A part that has a unique batch number.,,unique physical object,lot part,,"part, material thing",,,,
+attribute,batch number,,Chargennummer,,,,lot number,,,,batch part,xsd:string,https://en.wikipedia.org/wiki/Lot_number
+attribute,batch production date,,,,,,,,,,batch part,xsd:date,
+attribute,batch production date time,,,,,,,,,,batch part,xsd:dateTime,
+,,,,,,,,,,,,,
+class,serialized part,,Serienbauteil,A part that has a unique serial number.,,unique identifiable physical object,,,"part, material thing",,,,
+attribute,serial number,,Seriennummer,,,,,,,,serialized part,xsd:string,
+,,,,,,,,,,,,,
+class,electronic part,,Elektronisches Bauteil,A part that has electronics components.,,unique physical object,,,"serialized part, material thing",,,,https://en.wikipedia.org/wiki/Electronic_component
+attribute,part generation,,Generationsstand,,,,,,,,serialized part,xsd:string,
+,,,,,,,,,,,,,
+class,part manufacturer,,Bauteilhersteller,A manufacturer of a part.,,,,,manufacturer,,,,
+relation,produces,,,,,,,,,,part manufacturer,part,
+relation,is produced by,,,,,,,,,,part,part manufacturer,
+,,,,,,,,,,,,,
+class,part supplier,,Bauteillieferant,A supplier of a part.,,,,,supplier,,,,
+relation,supplies,,,,,,,,,,part supplier,part,
+relation,is supplied by,,,,,,,,,,manufacturer,part supplier,
+,,,,,,,,,,,,,
+iso standard,ISO 18542-2,Terminology for repair maintenance information,Terminologie für Reparatur- und Wartungsinformationen,,,,repair maintenance information (RMI),,,,,,https://www.iso.org/standard/58101.html
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+class,spare part,,Ersatzteil,A part that is replaced in a vehicle.,,,service part,,"part, final product",,,,https://en.wikipedia.org/wiki/Spare_part
+,,,,,,,,,,,,,
+class,assembly group,,Baugruppe,A part that is composed of other parts.,,,,,part,,,,https://de.wikipedia.org/wiki/Baugruppe
+class,sub assembly,,Unterbaugruppe,A sub assembly is a subset of the components that make up a larger assembly.,,,,,part,,,,
+class,assembly part,,Zusammenbau,A part that is composed of other parts.,,,,Zusammenbau (ZB),part,,,,https://de.wikipedia.org/wiki/Zusammenbau
+class,modular assembly part,,Modularer Zusammenbau,,,,,Modularer Zusammenbau (MZ),assembly part,,,,
+class,interstage part,,Zwischenzustand,A part that is unfinished component.,,,"intermediate state, interstage part","Zwischenzustand (ZZ), unfertige Komponente",part,,,,
+class,semi-finished part,,Halbzeug,,,,semi-finished product,,part,,,,https://de.wikipedia.org/wiki/Halbzeug
+class,raw part,,Rohteil,,"cast part, smith part",,,,part,,,,
+,,,,,,,,,,,,,
+class,scope of supply,,Lieferumfang,A part that is composed of other parts.,,,scope of delivery,Lieferumfang (LU),part,,,,
+class,directed part,,Setzteil,,,,,,part,,,,
+class,production part,,Produktionsteil,,,,,,part,,,,
+,,,,,,,,,,,,,
+class,plattform part,,Gleichteil,,,,interchangeable part,,part,,,,https://de.wikipedia.org/wiki/Gleichteil
+class,norm part,,Normteil,,,,,,part,,,,https://de.wikipedia.org/wiki/Normteil
+class,solitary part,,Neuteil,,,,new part,Solitärteil,part,,,,

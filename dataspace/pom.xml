@@ -6,7 +6,7 @@
     <parent>
         <groupId>io.catenax</groupId>
         <artifactId>knowledge</artifactId>
-        <version>0.5.5-SNAPSHOT</version>
+        <version>0.6.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>    
     </parent>
     <name>Catena-X Knowledge Agents Dataspace</name>
@@ -18,5 +18,6 @@
     <modules>
         <module>agents</module>
         <module>edc</module>
+        <module>mock</module>
     </modules>
 </project>

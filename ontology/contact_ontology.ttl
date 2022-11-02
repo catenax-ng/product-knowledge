@@ -1,0 +1,234 @@
+@prefix cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+cx:CustomerServiceContact a owl:Class ;
+    rdfs:isDefinedBy cx:contact_ontology.ttl ;
+    rdfs:subClassOf cx:ServiceContact ;
+    skos:prefLabel "Kundendienst"@de,
+        "Customer Service Contact"@en .
+
+cx:affiliation a owl:DatatypeProperty ;
+    rdfs:domain cx:Contact ;
+    rdfs:isDefinedBy cx:contact_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:affiliation ;
+    skos:prefLabel "Affiliation"@en .
+
+cx:contactChannel a owl:DatatypeProperty ;
+    rdfs:domain cx:Contact ;
+    rdfs:isDefinedBy cx:contact_ontology.ttl ;
+    rdfs:range xsd:string ;
+    skos:altLabel "Kontaktweg"@de ;
+    skos:definition "preference of contact channel"@en ;
+    skos:example "email"@en,
+        "phone"@en ;
+    skos:prefLabel "Kontaktkanal"@de,
+        "Contact Channel"@en .
+
+cx:contactHours a owl:DatatypeProperty ;
+    rdfs:domain cx:Contact ;
+    rdfs:isDefinedBy cx:contact_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Business_hours>,
+        schema:hoursAvailable ;
+    skos:altLabel "Sprechzeiten"@de,
+        "Öffnungszeiten"@de ;
+    skos:definition "available contact hours"@en ;
+    skos:prefLabel "Kontaktzeiten"@de,
+        "Contact Hours"@en .
+
+cx:contactId a owl:DatatypeProperty ;
+    rdfs:domain cx:Contact ;
+    rdfs:isDefinedBy cx:contact_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:identifier ;
+    skos:prefLabel "Kontakt Id"@de,
+        "Contact Id"@en .
+
+cx:contactLanguage a owl:DatatypeProperty ;
+    rdfs:domain cx:Contact ;
+    rdfs:isDefinedBy cx:contact_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:availableLanguage ;
+    skos:definition "preferred contact language"@en ;
+    skos:example "de"@en,
+        "en"@en ;
+    skos:prefLabel "Kontaktsprache"@de,
+        "Contact Language"@en .
+
+cx:contactName a owl:DatatypeProperty ;
+    rdfs:domain cx:Contact ;
+    rdfs:isDefinedBy cx:contact_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:name ;
+    skos:prefLabel "Kontakt Name"@de,
+        "Contact Name"@en .
+
+cx:email a owl:DatatypeProperty ;
+    rdfs:domain cx:Contact ;
+    rdfs:isDefinedBy cx:contact_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Email>,
+        schema:email ;
+    skos:altLabel "e-mail"@en,
+        "electronic mail"@en,
+        "email"@en ;
+    skos:example "corporate.website@bmwgroup.com"@en ;
+    skos:prefLabel "Email"@de,
+        "Email"@en .
+
+cx:faxNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:Contact ;
+    rdfs:isDefinedBy cx:contact_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:faxNumber ;
+    rdfs:subPropertyOf cx:number ;
+    skos:example "+49 89-382-70-25858"@en ;
+    skos:prefLabel "Faxnummer"@de,
+        "Fax Number"@en .
+
+cx:hasBusinessAddress a owl:ObjectProperty ;
+    rdfs:domain cx:BusinessContact ;
+    rdfs:isDefinedBy cx:contact_ontology.ttl ;
+    rdfs:range cx:BusinessAddress ;
+    skos:prefLabel "has business address"@en .
+
+cx:hasContact a owl:ObjectProperty ;
+    rdfs:domain cx:Organisation,
+        cx:Person,
+        cx:Product,
+        cx:Service ;
+    rdfs:isDefinedBy cx:contact_ontology.ttl ;
+    rdfs:range cx:Contact ;
+    skos:prefLabel "has contact"@en .
+
+cx:hasLocation a owl:ObjectProperty ;
+    rdfs:domain cx:Contact ;
+    rdfs:isDefinedBy cx:contact_ontology.ttl ;
+    rdfs:range cx:Place ;
+    skos:prefLabel "has location"@en .
+
+cx:hasPrivateAddress a owl:ObjectProperty ;
+    rdfs:domain cx:PrivateContact ;
+    rdfs:isDefinedBy cx:contact_ontology.ttl ;
+    rdfs:range cx:PrivateAddress ;
+    skos:prefLabel "has private address"@en .
+
+cx:hasStreetAddress a owl:ObjectProperty ;
+    rdfs:domain cx:Contact ;
+    rdfs:isDefinedBy cx:contact_ontology.ttl ;
+    rdfs:range cx:StreetAddress ;
+    skos:prefLabel "has street address"@en .
+
+cx:isWrittenIn a owl:ObjectProperty ;
+    rdfs:domain cx:Contact ;
+    rdfs:isDefinedBy cx:contact_ontology.ttl ;
+    rdfs:range cx:VCard ;
+    skos:prefLabel "is written in"@en .
+
+cx:linkedin a owl:DatatypeProperty ;
+    rdfs:domain cx:Contact ;
+    rdfs:isDefinedBy cx:contact_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://www.linkedin.com> ;
+    skos:example "https://www.linkedin.com/company/bmw-group/"@en ;
+    skos:prefLabel "LinkedIn"@de,
+        "LinkedIn"@en .
+
+cx:mobileNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:Contact ;
+    rdfs:isDefinedBy cx:contact_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:number ;
+    skos:example "+49-151-601-12345"@en ;
+    skos:prefLabel "Handynummer"@de,
+        "Mobile Number"@en .
+
+cx:telephoneNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:Contact ;
+    rdfs:isDefinedBy cx:contact_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Telephone_number>,
+        schema:telephone ;
+    rdfs:subPropertyOf cx:number ;
+    skos:altLabel "Rufnummer"@de,
+        "phone number"@en ;
+    skos:example "+49 89 382-0"@en ;
+    skos:prefLabel "Telefonnummer"@de,
+        "Telephone Number"@en .
+
+cx:website a owl:DatatypeProperty ;
+    rdfs:domain cx:Contact ;
+    rdfs:isDefinedBy cx:contact_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:WebPage ;
+    skos:altLabel "home page"@en ;
+    skos:example "https://www.bmwgroup.com/"@en ;
+    skos:prefLabel "Webseite"@de,
+        "Website"@en .
+
+cx:xing a owl:DatatypeProperty ;
+    rdfs:domain cx:Contact ;
+    rdfs:isDefinedBy cx:contact_ontology.ttl ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://www.xing.com/> ;
+    skos:prefLabel "Xing"@de,
+        "Xing"@en .
+
+cx:PrivateContact a owl:Class ;
+    rdfs:isDefinedBy cx:contact_ontology.ttl ;
+    rdfs:seeAlso schema:homeLocation ;
+    rdfs:subClassOf cx:Contact ;
+    skos:definition "Contact for private purposes."@en ;
+    skos:prefLabel "Privatkontakt"@de,
+        "Private Contact"@en .
+
+cx:ServiceContact a owl:Class ;
+    rdfs:isDefinedBy cx:contact_ontology.ttl ;
+    rdfs:subClassOf cx:BusinessContact ;
+    skos:prefLabel "Servicekontakt"@de,
+        "Service Contact"@en .
+
+cx:VCard a owl:Class ;
+    rdfs:isDefinedBy cx:contact_ontology.ttl ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/VCard> ;
+    rdfs:subClassOf cx:FileFormat ;
+    skos:altLabel "elektronische Visitenkarte"@de,
+        "VCF"@en,
+        "Virtual Contact File"@en ;
+    skos:prefLabel "vCard"@de,
+        "V Card"@en .
+
+cx:BusinessContact a owl:Class ;
+    rdfs:isDefinedBy cx:contact_ontology.ttl ;
+    rdfs:seeAlso schema:workLocation ;
+    rdfs:subClassOf cx:Contact ;
+    skos:definition "Contact for business purposes."@en ;
+    skos:prefLabel "Geschäftskontakt"@de,
+        "Business Contact"@en .
+
+cx:Contact a owl:Class ;
+    rdfs:isDefinedBy cx:contact_ontology.ttl ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Business_card>,
+        schema:ContactPoint ;
+    rdfs:subClassOf cx:Information ;
+    skos:altLabel "Kontaktdaten"@de,
+        "Kontaktinformation"@de,
+        "Visitenkarte"@de,
+        "business card"@en,
+        "contact data"@en,
+        "contact information"@en ;
+    skos:prefLabel "Kontaktdaten"@de,
+        "Contact"@en .
+
+cx:contact_ontology.ttl a owl:Ontology ;
+    dc:creator "Zazralt Magic" ;
+    dc:date "2022-10-13"^^xsd:date ;
+    dc:title "Contact Ontology" ;
+    owl:versionInfo "0.0.1" .
+

@@ -1,0 +1,41 @@
+type,identifier,name_en,name_de,definition_en,example_en,note_en,synonyms_en,synonyms_de,parents,is_part_of,relation_from,relation_to,links
+# prefix,cx,,,,,,,,,,,,
+# namespace,https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/,,,,,,,,,,,,
+# title,vehicle usage ontology,,,,,,,,,,,,
+# version,0.0.1,,,,,,,,,,,,
+# author,Zazralt Magic,,,,,,,,,,,,
+# contributor,,,,,,,,,,,,,
+# description,,,,,,,,,,,,,
+# import,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+class,vehicle usage,,,,,,,,event,,,,
+attribute,mileage,,Kilometerstand,,123.0,in kilometers,,,,,vehicle usage,xsd:integer,
+attribute,mileage date,,,,,,,,,,vehicle usage,xsd:date,
+attribute,max speed,,,,,,,,,,vehicle usage,xsd:integer,
+attribute,max rotational speed,,Drehzahl,,,,,,,,vehicle usage,xsd:integer,https://en.wikipedia.org/wiki/Rotational_speed
+attribute,max acceleration,,,,,,,,,,vehicle usage,xsd:integer,
+attribute,max deceleration,,,,,,,,,,vehicle usage,xsd:integer,
+attribute,gear switching,,,,,,,,,,vehicle usage,xsd:string,
+attribute,fuel consumption,,,,,in liters / 100 km,,,,,vehicle usage,xsd:double,https://en.wikipedia.org/wiki/Fuel_efficiency
+,,,,,,,,,,,,,
+class,vehicle inspection,,,,,,,,event,,,,
+class,vehicle maintenance,,,,,,,,maintenance,,,,
+class,vehicle service,,,,,,,,event,,,,https://en.wikipedia.org/wiki/Service_(motor_vehicle)
+class,vehicle repair,,,,,,,,event,,,,
+class,vehicle repair shop,,Autowerkstatt,,,,,,place,,,,https://en.wikipedia.org/wiki/Automobile_repair_shop
+attribute,maintenance cycle,,Wartungszyklus,,in months,,vehicle,xsd:integer,,,,xsd:integer,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+class,driving pattern,,Fahrmuster,,,,"driving style, driver behaviour",,immaterial thing,,,,
+class,aggressive driving pattern,,,,,,,,driving pattern,,,,
+,,,,,,,,,,,,,
+class,speed profile,,,,,,,,immaterial thing,,,,
+relation,is part of,,,,,,,,,,speed profile,driving pattern,
+,,,,,,,,,,,,,
+class,vehicle environment,,,,,,climate,,immaterial thing,,,,https://en.wikipedia.org/wiki/K%C3%B6ppen_climate_classification
+vehicle environment,hot temperature climate,,,,,,,,,,,,
+vehicle environment,mild temperature climate,,,,,,,,,,,,
+vehicle environment,cold temperature climate,,,,,,,,,,,,
+vehicle environment,wet humidity climate,,,,,,,,,,,,https://en.wikipedia.org/wiki/Precipitation
+vehicle environment,dry humidity climate,,,,,,,,,,,,https://en.wikipedia.org/wiki/Precipitation

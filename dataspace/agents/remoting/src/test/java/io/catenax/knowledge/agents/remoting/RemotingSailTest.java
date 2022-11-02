@@ -56,8 +56,13 @@ public class RemotingSailTest {
         ac=new ArgumentConfig();
         ac.argumentName = "arg1";
         ic.arguments.put("https://github.com/catenax-ng/product-knowledge/ontology/prognosis.ttl#input-2",ac);
-        ReturnValueConfig rc=new ReturnValueConfig();
-        ic.outputs.put("https://github.com/catenax-ng/product-knowledge/ontology/prognosis.ttl#output",rc);
+        ResultConfig rc=new ResultConfig();
+        ic.result=rc;
+        ic.resultName="https://github.com/catenax-ng/product-knowledge/ontology/prognosis.ttl#Result";
+
+        ReturnValueConfig rvc=new ReturnValueConfig();
+
+        rc.outputs.put("https://github.com/catenax-ng/product-knowledge/ontology/prognosis.ttl#output",rvc);
         rsc.validate();
 
         Repository rep = new SailRepository(new RemotingSail(rsc));
@@ -73,6 +78,7 @@ public class RemotingSailTest {
             "            prognosis:input-1 \"1\"^^xsd:string; "+
             "            prognosis:input-2 \"2\"^^xsd:string; "+
             "            prognosis:output ?output. "+
+            //"            prognosis:hasResult [ prognosis:output ?output ]. "+
             "}");
             final TupleQueryResult result = query.evaluate();
 		    final String[] names = result.getBindingNames().toArray(new String[0]);
@@ -103,14 +109,17 @@ public class RemotingSailTest {
         ArgumentConfig ac=new ArgumentConfig();
         ac.argumentName = "name";
         ic.arguments.put("https://github.com/catenax-ng/product-knowledge/ontology/prognosis.ttl#name",ac);
-        ReturnValueConfig rc=new ReturnValueConfig();
-        rc.path="age";
-        rc.dataType="http://www.w3.org/2001/XMLSchema#int";
-        ic.outputs.put("https://github.com/catenax-ng/product-knowledge/ontology/prognosis.ttl#prediction",rc);
-        rc=new ReturnValueConfig();
-        rc.path="count";
-        rc.dataType="http://www.w3.org/2001/XMLSchema#int";
-        ic.outputs.put("https://github.com/catenax-ng/product-knowledge/ontology/prognosis.ttl#count",rc);
+        ReturnValueConfig rvc=new ReturnValueConfig();
+        rvc.path="age";
+        rvc.dataType="http://www.w3.org/2001/XMLSchema#int";
+        ResultConfig rc=new ResultConfig();
+        ic.result=rc;
+        ic.resultName="https://github.com/catenax-ng/product-knowledge/ontology/prognosis.ttl#Result";
+        rc.outputs.put("https://github.com/catenax-ng/product-knowledge/ontology/prognosis.ttl#prediction",rvc);
+        rvc=new ReturnValueConfig();
+        rvc.path="count";
+        rvc.dataType="http://www.w3.org/2001/XMLSchema#int";
+        rc.outputs.put("https://github.com/catenax-ng/product-knowledge/ontology/prognosis.ttl#count",rvc);
         rsc.validate();
 
         Repository rep = new SailRepository(new RemotingSail(rsc));

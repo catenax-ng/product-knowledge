@@ -30,16 +30,24 @@ public class InvocationConfig {
     /** a matcher for the targetUri containing regex groups/bindings */
     protected Matcher matcher = null;
 
+    /** the maximal batch size */
+    protected long batch = 1;
+
+    /** prefix to attach to all properties */
+    protected String inputProperty;
+    
+    /** whether and where to put a unique invocation id */
+    protected String invocationIdProperty;
+
     /**
      * map of arguments
      */
     protected Map<String, ArgumentConfig> arguments = new java.util.HashMap<String, ArgumentConfig>();
 
-    /**
-     * map of outputs
-     */
-    protected Map<String, ReturnValueConfig> outputs = new java.util.HashMap<String, ReturnValueConfig>();
-
+    /** the result */
+    String resultName=null;
+    ResultConfig result=null;
+    
     @Override
     public String toString() {
         return super.toString()+"/service";
@@ -86,8 +94,10 @@ public class InvocationConfig {
         for (Map.Entry<String, ArgumentConfig> arg : arguments.entrySet()) {
             arg.getValue().validate(arg.getKey());
         }
-        for (Map.Entry<String, ReturnValueConfig> arg : outputs.entrySet()) {
-            arg.getValue().validate(arg.getKey());
+        if(resultName==null || result==null) {
+            throw new SailConfigException(String.format(
+                "There was no result configured for the invocation."));
+
         }
     }
 }

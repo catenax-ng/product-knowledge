@@ -25,7 +25,7 @@ spec:
            type: RuntimeDefault
       containers:
         - name: tiera-backend
-          image: ghcr.io/catenax-ng/product-knowledge/backend/lifetime-prognosis-mock:latest
+          image: ghcr.io/catenax-ng/product-knowledge/dataspace/prognosis:{{.Values.version}}
           imagePullPolicy: Always
           securityContext:
             capabilities:
@@ -122,6 +122,8 @@ metadata:
   name: tiera-remoting-agent-config
   namespace: {{ .Values.namespace }}
 data:
+  health.ttl: |-
+{{- .Files.Get "tiera/resources/rdf4j/repositories/health/config.ttl" | nindent 4 }}
   prognosis.ttl: |-
 {{- .Files.Get "tiera/resources/rdf4j/repositories/prognosis/config.ttl" | nindent 4 }}
   logback.xml: |-
@@ -205,6 +207,10 @@ spec:
             - name: tiera-remoting-agent-config
               mountPath: /var/rdf4j/server/repositories/prognosis/config.ttl
               subPath: prognosis.ttl
+              readOnly: true
+            - name: tiera-remoting-agent-config
+              mountPath: /var/rdf4j/server/repositories/health/config.ttl
+              subPath: health.ttl
               readOnly: true
             - name: tiera-remoting-agent-config
               mountPath: /var/rdf4j/server/conf/logback.xml

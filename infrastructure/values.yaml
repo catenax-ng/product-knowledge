@@ -2,7 +2,7 @@ edc:
   repo: ghcr.io/catenax-ng/product-knowledge/dataspace
   version: 0.1.1-KA-SNAPSHOT
 
-version: 0.5.5-SNAPSHOT
+version: 0.6.2-SNAPSHOT
 
 dataspace:
   bpnOem: BPNL00000003COJN
@@ -22,6 +22,7 @@ dataspace:
 
 ingress:
   host: knowledge.int.demo.catena-x.net
+  oemHost: knowledge-oem.int.demo.catena-x.net
   issuer: letsencrypt-prod
 
 namespace: "product-knowledge"
@@ -29,6 +30,9 @@ namespace: "product-knowledge"
 security:
   htpasswd: ""
   htpasswdtype: ""
+  backupsName: ""
+  backupsKey: ""
+  backupsShare: ""
   authType: ""
   xApiKey: ""
   dapsUrl: "https://daps1.int.demo.catena-x.net"
