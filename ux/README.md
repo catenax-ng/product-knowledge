@@ -56,7 +56,7 @@ The server not always notices this change automatically, in order to show the re
 
 ## Code Quality
 
-To enforce some coding conventions, we are using eslint and prettier. This rules are integrated to [Github Actions](../.github/workflows/eslint.yaml) and will be checked automatically, when pushing code to the repo. If you are working with VS Code, we are highly recommend you to install the following packages:
+To enforce some coding conventions, we are using eslint and prettier. This rules are integrated to [Github Actions](https://github.com/catenax-ng/product-knowledge/blob/main/.github/workflows/eslint.yml) and will be checked automatically, when pushing code to the repo. If you are working with VS Code, we are highly recommend you to install the following packages:
 
 
 - [EsLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
