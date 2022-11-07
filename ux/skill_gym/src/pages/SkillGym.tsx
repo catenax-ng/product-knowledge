@@ -1,4 +1,4 @@
-import { AssetView, OntologyView } from '@catenax-ng/skill-modules';
+import { AssetView, OntologyView, OntologyViewWebVowl } from '@catenax-ng/skill-modules';
 
 export default function SkillGym() {
   const jsonUrl =
@@ -7,7 +7,8 @@ export default function SkillGym() {
   return (
     <>
       <AssetView />
-      <OntologyView dataUrl={jsonUrl} />
+      {/* <OntologyView dataUrl={jsonUrl} /> */}
+      <OntologyViewWebVowl dataUrl='https://raw.githubusercontent.com/catenax-ng/product-knowledge/feature/KA-125-ontology-hub/ontology/cx.json'/>
     </>
   );
 }
