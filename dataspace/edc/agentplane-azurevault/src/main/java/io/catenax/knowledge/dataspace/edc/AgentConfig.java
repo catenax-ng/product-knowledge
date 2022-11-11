@@ -38,6 +38,9 @@ public class AgentConfig {
     public static long DEFAULT_DATASPACE_SYNCINTERVAL = -1;
     public static String DATASPACE_SYNCCONNECTORS_PROPERTY = "cx.agent.dataspace.remotes";
 
+    public static String FEDERATION_SERVICE_BATCH_SIZE = "cx.agent.federation.batch.max";
+    public static long DEFAULT_FEDERATION_SERVICE_BATCH_SIZE = Long.MAX_VALUE;
+
     /**
      * references to EDC services
      */
@@ -140,4 +143,10 @@ public class AgentConfig {
         return config.getBoolean(VERBOSE_PROPERTY,DEFAULT_VERBOSE_PROPERTY);
     }
 
+    /**
+     * @return maximal batch size for remote service calls
+     */
+    public long getFederationServiceBatchSize() {
+        return config.getLong(FEDERATION_SERVICE_BATCH_SIZE,DEFAULT_FEDERATION_SERVICE_BATCH_SIZE);
+    }
 }

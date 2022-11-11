@@ -41,7 +41,6 @@ import java.util.regex.Matcher;
  * graphs=assets).
  * TODO deal with remote skills
  * TODO exchange fixed store by configurable options
- * TODO implement a synchronized data catalogue for the default graph asset
  * TODO generalize sub-protocols from SparQL
  */
 @Path("/agent")
@@ -49,7 +48,7 @@ public class AgentController {
 
     // EDC services
     protected final Monitor monitor;
-    protected final AgreementController agreementController;
+    protected final IAgreementController agreementController;
     protected final OkHttpClient client;
     protected final AgentConfig config;
     protected final SkillStore skillStore;
@@ -65,7 +64,7 @@ public class AgentController {
      * @param client http client
      * @param processor sparql processor
      */
-    public AgentController(Monitor monitor, AgreementController agreementController, AgentConfig config, OkHttpClient client, SparqlQueryProcessor processor, SkillStore skillStore) {
+    public AgentController(Monitor monitor, IAgreementController agreementController, AgentConfig config, OkHttpClient client, SparqlQueryProcessor processor, SkillStore skillStore) {
         this.monitor = monitor;
         this.agreementController = agreementController;
         this.client=client;

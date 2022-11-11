@@ -38,6 +38,8 @@ import java.util.regex.Pattern;
 
 import org.apache.jena.query.QueryExecException;
 import org.apache.jena.query.Query;
+import org.apache.jena.sparql.ARQConstants;
+import org.apache.jena.sparql.algebra.optimize.RewriteFactory;
 import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.atlas.lib.Pair;
 import org.apache.jena.sparql.engine.http.QueryExceptionHTTP;
@@ -66,6 +68,8 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
      */
     protected final OperationRegistry operationRegistry= OperationRegistry.createEmpty();
     protected final DataAccessPointRegistry dataAccessPointRegistry=new DataAccessPointRegistry(MetricsProviderRegistry.get().getMeterRegistry());
+    protected final RewriteFactory optimizerFactory=new OptimizerFactory();
+
     // map EDC monitor to SLF4J (better than the builtin MonitorProvider)
     private final MonitorWrapper monitorWrapper;
     // some state to set when interacting with Fuseki
@@ -133,6 +137,7 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
         // Should we check whether this already has been done? the context should be quite static
         action.setRequest(rdfStore.getDataAccessPoint(), rdfStore.getDataService());
         ServiceExecutorRegistry.set(action.getContext(),registry);
+        action.getContext().set(ARQConstants.sysOptimizerFactory,optimizerFactory);
         try {
             execute(action);
         } catch(ActionErrorException e) {
@@ -165,6 +170,7 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
         action.getContext().set(DataspaceServiceExecutor.targetUrl,request);
         action.getContext().set(DataspaceServiceExecutor.authKey,authKey);
         action.getContext().set(DataspaceServiceExecutor.authCode,authCode);
+        action.getContext().set(ARQConstants.sysOptimizerFactory,optimizerFactory);
         if(skill!=null) {
             action.getContext().set(DataspaceServiceExecutor.asset,skill);
         } else if(graph!=null) {

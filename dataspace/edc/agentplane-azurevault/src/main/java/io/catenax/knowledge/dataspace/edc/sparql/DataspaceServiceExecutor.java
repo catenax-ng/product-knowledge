@@ -7,38 +7,38 @@
 package io.catenax.knowledge.dataspace.edc.sparql;
 
 import io.catenax.knowledge.dataspace.edc.AgentConfig;
-import io.catenax.knowledge.dataspace.edc.AgreementController;
+import io.catenax.knowledge.dataspace.edc.IAgreementController;
 import io.catenax.knowledge.dataspace.edc.http.HttpClientAdapter;
 import jakarta.ws.rs.WebApplicationException;
 import okhttp3.OkHttpClient;
+import org.apache.jena.atlas.io.IndentedWriter;
 import org.apache.jena.atlas.logging.Log;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.NodeFactory;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecException;
-import org.apache.jena.riot.out.NodeFmtLib;
 import org.apache.jena.sparql.algebra.Op;
 import org.apache.jena.sparql.algebra.OpAsQuery;
-import org.apache.jena.sparql.algebra.OpVars;
-import org.apache.jena.sparql.algebra.op.Op1;
-import org.apache.jena.sparql.algebra.op.Op2;
-import org.apache.jena.sparql.algebra.op.OpGraph;
-import org.apache.jena.sparql.algebra.op.OpService;
+import org.apache.jena.sparql.algebra.op.*;
+import org.apache.jena.sparql.algebra.table.TableData;
 import org.apache.jena.sparql.core.Var;
 import org.apache.jena.sparql.engine.ExecutionContext;
 import org.apache.jena.sparql.engine.QueryIterator;
-import org.apache.jena.sparql.engine.Rename;
 import org.apache.jena.sparql.engine.binding.Binding;
 import org.apache.jena.sparql.engine.binding.BindingBuilder;
 import org.apache.jena.sparql.engine.http.HttpParams;
 import org.apache.jena.sparql.engine.iterator.QueryIter;
-import org.apache.jena.sparql.engine.iterator.QueryIterCommonParent;
+import org.apache.jena.sparql.engine.iterator.QueryIter1;
 import org.apache.jena.sparql.engine.iterator.QueryIterPlainWrapper;
-import org.apache.jena.sparql.engine.iterator.QueryIterSingleton;
+import org.apache.jena.sparql.engine.iterator.QueryIteratorBase;
 import org.apache.jena.sparql.engine.main.QC;
 import org.apache.jena.sparql.exec.RowSet;
 import org.apache.jena.sparql.exec.http.*;
-import org.apache.jena.sparql.service.single.ServiceExecutorHttp;
+import org.apache.jena.sparql.graph.NodeTransformLib;
+import org.apache.jena.sparql.serializer.SerializationContext;
+import org.apache.jena.sparql.service.bulk.ChainingServiceExecutorBulk;
+import org.apache.jena.sparql.service.bulk.ServiceExecutorBulk;
+import org.apache.jena.sparql.service.single.ServiceExecutor;
 import org.apache.jena.sparql.util.Context;
 import org.apache.jena.sparql.util.Symbol;
 import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
@@ -51,16 +51,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * A service executor which replaces outgoing http calls
- * by appropriate dataspace agreements/calls
+ * A service executor (single and bulk mode) which replaces outgoing http calls
+ * by appropriate dataspace agreements/calls.
+ * Register in the ServiceExecutorRegistry via
+ * - add(...) for single execution
+ * - addBulkLink(...) for multiple execution
  */
-public class DataspaceServiceExecutor extends ServiceExecutorHttp {
+public class DataspaceServiceExecutor implements ServiceExecutor, ChainingServiceExecutorBulk {
 
     /**
      * EDC services
      */
     final Monitor monitor;
-    final AgreementController agreementController;
+    final IAgreementController agreementController;
     final AgentConfig config;
     final HttpClient client;
 
@@ -80,7 +83,7 @@ public class DataspaceServiceExecutor extends ServiceExecutorHttp {
      * @param monitor    logging subsystem
      * @param controller dataspace agreement
      */
-    public DataspaceServiceExecutor(Monitor monitor, AgreementController controller, AgentConfig config, OkHttpClient client) {
+    public DataspaceServiceExecutor(Monitor monitor, IAgreementController controller, AgentConfig config, OkHttpClient client) {
         this.monitor = monitor;
         this.agreementController = controller;
         this.config = config;
@@ -92,20 +95,30 @@ public class DataspaceServiceExecutor extends ServiceExecutorHttp {
      * @param operator embedding operator
      * @return unique graph asset found, null if there is none
      */
-    protected String getUniqueGraph(Op operator, Binding binding) {
+    protected String getUniqueGraph(Op operator, List<Binding> bindings) {
         if(operator instanceof OpGraph) {
             Node graphNode = ((OpGraph) operator).getNode();
             if(graphNode.isVariable()) {
-                graphNode=binding.get((Var) graphNode);
+                Var var = (Var) graphNode;
+                Node resolveNode=null;
+                for(Binding binding : bindings) {
+                    Node resolveNode2=binding.get(var);
+                    if(resolveNode!=null && !resolveNode.equals(resolveNode2)) {
+                        throw new QueryExecException(String.format("got two different graph bindings for %s. Found %s and %s.", var, resolveNode,resolveNode2));
+                    } else {
+                        resolveNode = resolveNode2;
+                    }
+                }
+                graphNode=resolveNode;
             }
-            if(!graphNode.isURI()) {
-                throw new QueryExecException(String.format("Could not derive asset name from graph operator %s which is not an uri.",operator));
+            if(graphNode==null || !graphNode.isURI()) {
+                throw new QueryExecException(String.format("Could not derive asset name from graph operator %s which is not bound to an uri.",operator));
             } else {
                 return graphNode.getURI();
             }
         } else if(operator instanceof Op2) {
-            String asset=getUniqueGraph(((Op2) operator).getLeft(),binding);
-            String asset2=getUniqueGraph(((Op2) operator).getRight(),binding);
+            String asset=getUniqueGraph(((Op2) operator).getLeft(),bindings);
+            String asset2=getUniqueGraph(((Op2) operator).getRight(),bindings);
             if(asset!=null) {
                 if(asset2!=null) {
                     if(!(asset.equals(asset2))) {
@@ -119,43 +132,167 @@ public class DataspaceServiceExecutor extends ServiceExecutorHttp {
             // currently, we need to stop looking for graphes
             // in remote services
             if(!(operator instanceof OpService))
-                return getUniqueGraph(((Op1) operator).getSubOp(),binding);
+                return getUniqueGraph(((Op1) operator).getSubOp(),bindings);
         }
         return null;
     }
 
     /**
-     * (re-) implements the http service execution
-     *
+     * bulk execution call
+     * @param opService bound operator
+     * @param queryIterator incoming bindings (may set service uri and input params)
+     * @param executionContext context
+     * @param serviceExecutorBulk bulk executor
+     * @return binding generating iterator
+     * TODO enable asynchronous/parallel queries to the different services
+     */
+    @Override
+    public QueryIterator createExecution(OpService opService, QueryIterator queryIterator, ExecutionContext executionContext, ServiceExecutorBulk serviceExecutorBulk) {
+        Node serviceNode=opService.getService();
+        Set<String> boundVars=new HashSet<>();
+        long batchSize=config.getFederationServiceBatchSize();
+        // return an iterator over batches
+        return new QueryIter1(queryIterator,executionContext) {
+
+            // the iterator over the current batch
+            private QueryIterator batchIterator;
+
+            @Override
+            protected boolean hasNextBinding() {
+                return (batchIterator!=null && batchIterator.hasNext()) || hasNextResultBinding();
+            }
+
+            public boolean hasNextResultBinding() {
+                // do we have additional input bindings
+                if(this.getInput().hasNext()) {
+                    // yes then read the next batch
+                    Map<String,List<Binding>> bindings=new HashMap<>();
+                    int batchLength=0;
+                    while(this.getInput().hasNext() && batchLength++<batchSize) {
+                        Binding binding = this.getInput().next();
+                        Iterator<Var> vars=binding.vars();
+                        while(vars.hasNext()) {
+                            boundVars.add(vars.next().getVarName());
+                        }
+                        // detect the service uri under the current binding
+                        Node keyNode = serviceNode;
+                        if (keyNode.isVariable())
+                            keyNode = binding.get((Var) keyNode);
+                        if (keyNode.isURI()) {
+                            String key = keyNode.getURI();
+                            if (!bindings.containsKey(key)) {
+                                bindings.put(key, new ArrayList<>());
+                            }
+                            bindings.get(key).add(binding);
+                        } else {
+                            monitor.warning(String.format("Omitting a call because of lacking service binding"));
+                        }
+                    }
+                    ExecutionContext ctx=this.getExecContext();
+                    // each service in the batch is called iteratively and the results are merged
+                    batchIterator=new QueryIteratorBase() {
+
+                        final Iterator<Map.Entry<String,List<Binding>>> baseIterator=bindings.entrySet().iterator();
+                        QueryIterator currentIterator;
+                        @Override
+                        public void output(IndentedWriter indentedWriter, SerializationContext serializationContext) {
+                        }
+
+                        @Override
+                        protected boolean hasNextBinding() {
+                            return (currentIterator!=null && currentIterator.hasNext()) || hasNextInternalBinding();
+                        }
+
+                        boolean hasNextInternalBinding() {
+                            if(baseIterator.hasNext()) {
+                                Map.Entry<String,List<Binding>> nextService=baseIterator.next();
+                                currentIterator=createExecution(opService, nextService.getKey(), boundVars, nextService.getValue(),ctx);
+                                return hasNextBinding();
+                            }
+                            return false;
+                        }
+
+                        @Override
+                        protected Binding moveToNextBinding() {
+                            return currentIterator.next();
+                        }
+
+                        @Override
+                        protected void closeIterator() {
+                        }
+
+                        @Override
+                        protected void requestCancel() {
+                        }
+
+                    };
+                    return hasNextBinding();
+                } else {
+                    return false;
+                }
+            }
+
+            @Override
+            protected Binding moveToNextBinding() {
+                return batchIterator.next();
+            }
+
+            @Override
+            protected void requestSubCancel() {
+
+            }
+
+            @Override
+            protected void closeSubIterator() {
+
+            }
+
+        };
+    }
+
+    /**
+     * single execution mode
      * @param opExecute  the bound operator (if variable is used in service description)
      * @param opOriginal the unbound operator
      * @param binding    the current binding
      * @param execCxt    the execution context
      * @return a set of query results
-     * TODO check what happens with "multiple" bindings of service URI and variables
      */
     @Override
-    public QueryIterator createExecution(OpService opExecute, OpService opOriginal, Binding binding,
-                                         ExecutionContext execCxt) {
-
-        // it maybe that a subselect has "masked" some input
-        // variables
-        BindingBuilder bb=Binding.builder();
-        binding.forEach( (var,node)-> bb.add(Var.alloc("/"+var.getVarName()),node));
-        opExecute= (OpService) QC.substitute(opExecute,bb.build());
-
-        Context context = execCxt.getContext();
-        if (!opExecute.getService().isURI())
+    public QueryIterator createExecution(OpService opExecute, OpService opOriginal, Binding binding, ExecutionContext execCxt) {
+        // it maybe that a subselect has "masked" some input variables
+        Node serviceNode=opExecute.getService();
+        if(serviceNode.isVariable()) {
+            serviceNode=binding.get((Var) serviceNode);
+        }
+        if (!serviceNode.isURI())
             throw new QueryExecException("Service URI not bound: " + opExecute.getService());
-
-        boolean silent = opExecute.getSilent();
-
         // check whether we need to route over EDC
-        String target = opExecute.getService().getURI();
-        Matcher edcMatcher = EDC_TARGET_ADDRESS.matcher(target);
-        if (edcMatcher.matches()) {
+        String target = serviceNode.getURI();
+        Set<String> allowedVars=new HashSet<>();
+        Iterator<Var> allAllowedVars = binding.vars();
+        while(allAllowedVars.hasNext()) {
+            allowedVars.add(allAllowedVars.next().getVarName());
+        }
+        return createExecution(opOriginal,target,allowedVars,List.of(binding),execCxt);
+    }
 
-            monitor.info(String.format("About to execute edc target %s via dataspace", target));
+    /**
+     * (re-) implements the http service execution
+     * @param opOriginal the unbound operator
+     * @param serviceURL uri of the target service
+     * @param boundVars a set of all bound variables
+     * @param bindings   the current bindings
+     * @param execCxt    the execution context
+     * @return a set of query results
+     */
+     public QueryIterator createExecution(OpService opOriginal, String serviceURL, Set<String> boundVars, List<Binding> bindings, ExecutionContext execCxt) {
+        Context context = execCxt.getContext();
+        boolean silent = opOriginal.getSilent();
+
+        Matcher edcMatcher = EDC_TARGET_ADDRESS.matcher(serviceURL);
+        if (edcMatcher.matches()) {
+            monitor.info(String.format("About to execute edc target %s via dataspace", serviceURL));
             String remoteUrl = edcMatcher.group("connector");
             if (remoteUrl == null || remoteUrl.length() == 0) {
                 remoteUrl = config.getControlPlaneIdsUrl();
@@ -168,9 +305,9 @@ public class DataspaceServiceExecutor extends ServiceExecutorHttp {
             }
             String asset = edcMatcher.group("asset");
             if (asset == null || asset.length() == 0) {
-                asset=getUniqueGraph(opExecute.getSubOp(),binding);
+                asset=getUniqueGraph(opOriginal.getSubOp(),bindings);
                 if(asset==null) {
-                    throw new QueryExecException("There is no graph asset under EDC-based service: " + target);
+                    throw new QueryExecException("There is no graph asset under EDC-based service: " + serviceURL);
                 }
             }
             EndpointDataReference endpoint = agreementController.get(asset);
@@ -180,77 +317,77 @@ public class DataspaceServiceExecutor extends ServiceExecutorHttp {
                 } catch (WebApplicationException e) {
                     if (silent) {
                         monitor.warning(String.format("Could not get an agreement from connector %s to asset %s", remoteUrl, asset), e.getCause());
-                        return QueryIterSingleton.create(binding, execCxt);
+                        return QueryIterPlainWrapper.create(bindings.iterator(), execCxt);
                     }
                     throw e;
                 }
             }
             // put the endpoint information into a new service operator
-            String targetUrl = endpoint.getEndpoint();
+            serviceURL = endpoint.getEndpoint();
             if (edcMatcher.group("params") != null) {
-                targetUrl = targetUrl + "?" + edcMatcher.group("params");
+                serviceURL = serviceURL + "?" + edcMatcher.group("params");
             }
-            Node newServiceNode = NodeFactory.createURI(targetUrl);
             Map<String, Map<String, List<String>>> allServiceParams = context.get(Service.serviceParams);
             if (allServiceParams == null) {
                 allServiceParams = new HashMap<>();
                 context.put(Service.serviceParams, allServiceParams);
             }
-            Map<String, List<String>> serviceParams = allServiceParams.computeIfAbsent(targetUrl, k -> new HashMap<>());
+            Map<String, List<String>> serviceParams = allServiceParams.computeIfAbsent(serviceURL, k -> new HashMap<>());
             serviceParams.put("cx_accept",List.of("application/json"));
-            opExecute = new OpService(newServiceNode, opExecute.getSubOp(), opExecute.getServiceElement(), silent);
             execCxt.getContext().put(authKey, endpoint.getAuthKey());
             execCxt.getContext().put(authCode, endpoint.getAuthCode());
         } else {
-            monitor.info(String.format("About to execute http target %s without dataspace", target));
+            monitor.info(String.format("About to execute http target %s without dataspace", serviceURL));
         }
 
         // http execute with headers and such
         try {
             // [QExec] Add getSubOpUnmodified();
-            String serviceURL = opExecute.getService().getURI();
-
-            Op opRemote = opExecute.getSubOp();
-
-            // This relies on the observation that the query was originally correct,
-            // so reversing the scope renaming is safe (it merely restores the
-            // algebra expression).
-            //
-            // Any variables that reappear should be internal ones that were hidden
-            // by renaming in the first place.
-            //
-            // Any substitution is also safe because it replaces variables by
-            // values.
-            //
-            // It is safer to rename/unrename than skipping SERVICE during rename
-            // to avoid substituting hidden variables.
-
-            Op opRestored = Rename.reverseVarRename(opRemote, true);
-            Query query = OpAsQuery.asQuery(opRestored);
-            // Transforming: Same object means "no change"
-            boolean requiresRemapping = false;
-            Map<Var, Var> varMapping = null;
-            if (!opRestored.equals(opRemote)) {
-                varMapping = new HashMap<>();
-                Set<Var> originalVars = OpVars.visibleVars(opExecute);
-                Set<Var> remoteVars = OpVars.visibleVars(opRestored);
-
-                for (Var v : originalVars) {
-                    if (v.getName().contains("/")) {
-                        // A variable which was scope renamed so has a different name
-                        String origName = v.getName().substring(v.getName().lastIndexOf('/') + 1);
-                        Var remoteVar = Var.alloc(origName);
-                        if (remoteVars.contains(remoteVar)) {
-                            varMapping.put(remoteVar, v);
-                            requiresRemapping = true;
-                        }
-                    } else {
-                        // A variable which does not have a different name
-                        if (remoteVars.contains(v))
-                            varMapping.put(v, v);
-                    }
+            Op opRemote = opOriginal.getSubOp();
+            int hashCode=Math.abs(opRemote.hashCode());
+            String bindingVarName="binding"+hashCode;
+            Var idVar= Var.alloc(bindingVarName);
+            VariableDetector vd = new VariableDetector(boundVars);
+            opRemote=NodeTransformLib.transform(vd,opRemote);
+            List<Var> neededVars=vd.getVariables();
+            Map<String,Binding> resultingBindings=new HashMap<>();
+            Map<Node,List<Binding>> newBindings=new HashMap<>();
+            for(Binding originalBinding : bindings) {
+                StringBuilder keyBuilder = new StringBuilder();
+                BindingBuilder bb=BindingBuilder.create();
+                for(Var neededVar : neededVars) {
+                    Node node=originalBinding.get(neededVar);
+                    keyBuilder.append(neededVar.getVarName());
+                    keyBuilder.append("#");
+                    keyBuilder.append(node.toString());
+                    bb.add(neededVar,node);
                 }
+                String key=keyBuilder.toString();
+                Node keyNode;
+                if(resultingBindings.containsKey(key)) {
+                    Binding existingBinding=resultingBindings.get(key);
+                    keyNode=existingBinding.get(idVar);
+                    bb.add(idVar,keyNode);
+                } else {
+                    keyNode=NodeFactory.createLiteral(String.valueOf(resultingBindings.size()));
+                    bb.add(idVar,keyNode);
+                    newBindings.put(keyNode,new ArrayList<>());
+                    Binding newBinding=bb.build();
+                    bb=BindingBuilder.create(newBinding);
+                    resultingBindings.put(key,newBinding);
+                }
+                final BindingBuilder bb2=bb;
+                originalBinding.forEach(bb2::add);
+                newBindings.get(keyNode).add(bb.build());
             }
+            neededVars.add(idVar);
+            TableData table = new TableData(neededVars,new ArrayList<>(resultingBindings.values()));
+            OpTable opTable = OpTable.create(table);
+            Op join = OpJoin.create(opTable,opRemote);
+            Query query = OpAsQuery.asQuery(join);
+            //query.addProjectVars(List.of(idVar));
+
+            monitor.debug(String.format("Prepared target %s for query %s",serviceURL,query));
 
             // -- Setup
             //boolean withCompression = context.isTrueOrUndef(httpQueryCompression);
@@ -284,16 +421,14 @@ public class DataspaceServiceExecutor extends ServiceExecutorHttp {
                 // Detach from the network stream.
                 RowSet rowSet = qExec.select().materialize();
                 QueryIterator qIter = QueryIterPlainWrapper.create(rowSet);
-                if (requiresRemapping)
-                    qIter = QueryIter.map(qIter, varMapping);
                 qIter = QueryIter.makeTracked(qIter, execCxt);
-                return new QueryIterCommonParent(qIter, binding, execCxt);
+                return new QueryIterJoin(qIter, newBindings, idVar, execCxt);
             }
         } catch (RuntimeException ex) {
             if (silent) {
-                Log.warn(this, "SERVICE " + NodeFmtLib.strTTL(opExecute.getService()) + " : " + ex.getMessage());
+                Log.warn(this, "SERVICE " + serviceURL + " : " + ex.getMessage());
                 // Return the input
-                return QueryIterSingleton.create(binding, execCxt);
+                return QueryIterPlainWrapper.create(bindings.iterator(), execCxt);
             }
             throw ex;
         }
