@@ -32,7 +32,7 @@ public class OntologyMergerTest {
     public void testMerger() throws Exception {
         ByteArrayOutputStream out=new ByteArrayOutputStream();
         String[] fileList=Files.list(Path.of("../"))
-            .filter( path -> path.toFile().getName().endsWith("_ontology.ttl"))
+            .filter( path -> path.toFile().getName().endsWith("_ontology.ttl") && !path.toFile().getName().endsWith("cx_ontology.ttl"))
             .map( path -> path.toFile().getAbsolutePath())
             .collect(Collectors.toList()).toArray(new String[0]);
         merger.run(fileList,out);
