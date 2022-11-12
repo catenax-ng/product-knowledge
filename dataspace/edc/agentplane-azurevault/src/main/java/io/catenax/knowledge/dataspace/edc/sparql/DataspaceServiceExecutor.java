@@ -167,7 +167,7 @@ public class DataspaceServiceExecutor implements ServiceExecutor, ChainingServic
                 if(this.getInput().hasNext()) {
                     // yes then read the next batch
                     Map<String,List<Binding>> bindings=new HashMap<>();
-                    int batchLength=0;
+                    long batchLength=0;
                     while(this.getInput().hasNext() && batchLength++<batchSize) {
                         Binding binding = this.getInput().next();
                         Iterator<Var> vars=binding.vars();
