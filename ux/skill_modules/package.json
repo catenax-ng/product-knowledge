@@ -1,6 +1,6 @@
 {
   "name": "@catenax-ng/skill-modules",
-  "version": "0.5.3",
+  "version": "0.5.5",
   "main": "./dist/index.js",
   "module": "./dist/index.es.js",
   "source": "src/index.ts",
@@ -65,12 +65,6 @@
     "dist"
   ],
   "types": "dist/index.d.ts",
-  "dependencies": {
-    "@types/react-cytoscapejs": "^1.2.2",
-    "cytoscape": "^3.22.1",
-    "cytoscape-dagre": "^2.4.0",
-    "react-cytoscapejs": "^1.2.1"
-  },
   "browser": {
     "net": false,
     "tls": false,

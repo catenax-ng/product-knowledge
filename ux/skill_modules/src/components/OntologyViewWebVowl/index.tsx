@@ -1,22 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 
-const d3Script = document.createElement('script');
-d3Script.src = 'd3.min.js';
-d3Script.async = true;
-document.body.appendChild(d3Script);
-
-const webvowlScript = document.createElement('script');
-webvowlScript.src = 'webvowl.js';
-webvowlScript.async = true;
-document.body.appendChild(webvowlScript);
-
-const webvowlCss = document.createElement('link');
-webvowlCss.href = 'vowl.css';
-webvowlCss.type = 'text/css';
-webvowlCss.rel = 'stylesheet';
-document.head.append(webvowlCss);
-
 interface OntologyViewType {
   dataUrl: string;
 }
@@ -387,7 +371,7 @@ export const OntologyViewWebVowl = ({ dataUrl }: OntologyViewType) => {
           </Box>
         )}
         <Box mt={2} border="1px solid #ccc">
-          <div id="graph"></div>
+          <div id="graph" style={{ overflow: 'hidden' }}></div>
           <a
             style={{ padding: '0 8px 5px 8px' }}
             draggable="false"
