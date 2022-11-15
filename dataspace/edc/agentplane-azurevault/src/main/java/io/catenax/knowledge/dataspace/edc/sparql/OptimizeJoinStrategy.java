@@ -10,7 +10,6 @@ import org.apache.jena.sparql.algebra.Op;
 import org.apache.jena.sparql.algebra.op.OpJoin;
 import org.apache.jena.sparql.algebra.op.OpSequence;
 import org.apache.jena.sparql.algebra.op.OpService;
-import org.apache.jena.sparql.algebra.op.OpTable;
 import org.apache.jena.sparql.algebra.optimize.TransformJoinStrategy;
 import org.apache.jena.sparql.engine.main.JoinClassifier;
 
@@ -20,6 +19,7 @@ import org.apache.jena.sparql.engine.main.JoinClassifier;
  */
 public class OptimizeJoinStrategy extends TransformJoinStrategy {
 
+    @Override
     public Op transform(OpJoin opJoin, Op left, Op right) {
         boolean canDoLinear = JoinClassifier.isLinear(opJoin);
         if (canDoLinear) {

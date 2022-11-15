@@ -60,7 +60,11 @@ public class HttpServletRequestAdapter implements HttpServletRequest {
 
     @Override
     public int getIntHeader(String name) {
-        return Integer.parseInt(request.header(name));
+        try {
+            return Integer.parseInt(request.header(name));
+        } catch(NumberFormatException nfe) {
+            throw new RuntimeException(nfe);
+        }
     }
 
     @Override

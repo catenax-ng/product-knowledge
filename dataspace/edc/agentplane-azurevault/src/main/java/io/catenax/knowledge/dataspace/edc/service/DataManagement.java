@@ -258,7 +258,7 @@ public class DataManagement {
             }
 
             var process = objectMapper.readValue(body.string(), TransferProcess.class);
-            monitor.info(format("Transfer %s is in state '%s' (dataDestination: %s)", transferProcessId, process.getState(), String.valueOf(process.getDataDestination())));
+            monitor.info(format("Transfer %s is in state '%s'", transferProcessId, process.getState()));
 
             return process;
         } catch (Exception e) {

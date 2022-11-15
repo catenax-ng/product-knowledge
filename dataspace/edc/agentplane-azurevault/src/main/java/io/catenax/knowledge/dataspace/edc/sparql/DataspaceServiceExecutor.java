@@ -411,6 +411,9 @@ public class DataspaceServiceExecutor implements ServiceExecutor, ChainingServic
      * @return http client
      */
     protected HttpClient chooseHttpClient(String serviceURL, Context context) {
+        if(context==null) {
+            monitor.warning(String.format("Context is null when obtaining http client for %s",serviceURL));
+        }
         return client;
     }
 
@@ -423,6 +426,12 @@ public class DataspaceServiceExecutor implements ServiceExecutor, ChainingServic
      * @return decided send mode
      */
     protected QuerySendMode chooseQuerySendMode(String serviceURL, Context context, QuerySendMode dftValue) {
+        if(dftValue!=QuerySendMode.asPost) {
+            monitor.warning(String.format("Default send mode %s for %s is not post",dftValue,serviceURL));
+        }
+        if(context==null) {
+            monitor.warning(String.format("Context is null when obtaining send mode for %s",serviceURL));
+        }
         return QuerySendMode.asPost;
     }
 

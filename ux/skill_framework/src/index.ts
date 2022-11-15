@@ -559,9 +559,9 @@ class RemoteConnector implements IConnector {
         let queryVariables: any[] = [];
 
         if(Array.isArray(queryVariable)){
-            queryVariables = queryVariable
+            queryVariables = queryVariable;
         } else {
-            queryVariables = [queryVariable]
+            queryVariables = [queryVariable];
         }
         
         for(var queryVariable of queryVariables){

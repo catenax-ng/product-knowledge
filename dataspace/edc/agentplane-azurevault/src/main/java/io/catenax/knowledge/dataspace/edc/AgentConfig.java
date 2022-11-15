@@ -140,7 +140,7 @@ public class AgentConfig {
      */
     public String[] getDataspaceSynchronizationConnectors() {
         String[] connectors= config.getString(DATASPACE_SYNCCONNECTORS_PROPERTY,"").split(",");
-        if(connectors.length==1 && "".equals(connectors[0])) {
+        if(connectors.length==1 && (connectors[0]==null || connectors[0].length()==0)) {
             return null;
         }
         return connectors;

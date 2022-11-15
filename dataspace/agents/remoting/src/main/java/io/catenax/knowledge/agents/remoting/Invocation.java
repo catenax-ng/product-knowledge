@@ -86,10 +86,9 @@ public class Invocation {
     public Object result = null;
 
     public static ObjectMapper objectMapper=new ObjectMapper();
-    public static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'");
 
     static {
-        objectMapper.setDateFormat(df);
+        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'"));
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 
@@ -131,16 +130,32 @@ public class Invocation {
                     case "http://www.w3.org/2001/XMLSchema#string":
                         return (Target) objectMapper.getNodeFactory().textNode(binding.stringValue());
                     case "http://www.w3.org/2001/XMLSchema#int":
-                        return (Target) objectMapper.getNodeFactory().numberNode(Integer.valueOf(binding.stringValue()));
+                        try {
+                            return (Target) objectMapper.getNodeFactory().numberNode(Integer.valueOf(binding.stringValue()));
+                        } catch(NumberFormatException nfe) {
+                            throw new SailException(String.format("Could not convert %s to datatype %s.", binding.stringValue(),dataTypeName),nfe);
+                        }
                     case "http://www.w3.org/2001/XMLSchema#long":
-                        return (Target) objectMapper.getNodeFactory().numberNode(Long.valueOf(binding.stringValue()));
+                        try {
+                            return (Target) objectMapper.getNodeFactory().numberNode(Long.valueOf(binding.stringValue()));
+                        } catch(NumberFormatException nfe) {
+                            throw new SailException(String.format("Could not convert %s to datatype %s.", binding.stringValue(),dataTypeName),nfe);
+                        }
                     case "http://www.w3.org/2001/XMLSchema#double":
-                        return (Target) objectMapper.getNodeFactory().numberNode(Double.valueOf(binding.stringValue()));
+                        try {
+                            return (Target) objectMapper.getNodeFactory().numberNode(Double.valueOf(binding.stringValue()));
+                        } catch(NumberFormatException nfe) {
+                            throw new SailException(String.format("Could not convert %s to datatype %s.", binding.stringValue(),dataTypeName),nfe);
+                        }
                     case "http://www.w3.org/2001/XMLSchema#float":
-                        return (Target) objectMapper.getNodeFactory().numberNode(Float.valueOf(binding.stringValue()));
+                        try {
+                            return (Target) objectMapper.getNodeFactory().numberNode(Float.valueOf(binding.stringValue()));
+                        } catch(NumberFormatException nfe) {
+                            throw new SailException(String.format("Could not convert %s to datatype %s.", binding.stringValue(),dataTypeName),nfe);
+                        }
                     case "http://www.w3.org/2001/XMLSchema#dateTime":
                         try {
-                            return (Target) objectMapper.getNodeFactory().textNode(df.format(df.parse(binding.stringValue())));
+                            return (Target) objectMapper.getNodeFactory().textNode(objectMapper.getDateFormat().format(objectMapper.getDateFormat().parse(binding.stringValue())));
                         } catch(ParseException pe) {
                             throw new SailException(String.format("Could not convert %s of to json date.", binding),pe);
                         }
@@ -246,11 +261,23 @@ public class Invocation {
         }
         if(resultKey!=null && resultKey.length()>0) {
             if(target.getClass().isArray()) {
-                target=Array.get(target,Integer.parseInt(resultKey));
+                try {
+                    target=Array.get(target,Integer.parseInt(resultKey));
+                } catch(NumberFormatException nfwe) {
+                    throw new SailException(String.format("Could not access index %s of target %s which should be integer.",resultKey,target));
+                }
             } else if(target instanceof ArrayNode) {
-                target=((ArrayNode) target).get(Integer.parseInt(resultKey));
+                try {
+                    target=((ArrayNode) target).get(Integer.parseInt(resultKey));
+                } catch(NumberFormatException nfwe) {
+                    throw new SailException(String.format("Could not access index %s of target %s which should be integer.",resultKey,target));
+                }
             } else if(target instanceof Element){
-                target=((Element) target).getChildNodes().item(Integer.parseInt(resultKey));
+                try {
+                    target=((Element) target).getChildNodes().item(Integer.parseInt(resultKey));
+                } catch(NumberFormatException nfwe) {
+                    throw new SailException(String.format("Could not access index %s of target %s which should be integer.",resultKey,target));
+                }
             }
         }
         String[] path = new String[0];

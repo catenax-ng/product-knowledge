@@ -27,9 +27,13 @@
        <mockito.version>4.6.1</mockito.version>
        <edc.version>0.1.1-KA-SNAPSHOT</edc.version>
 
-        <!-- REPO -->
-        <repo>ghcr.io/catenax-ng/product-knowledge/dataspace/</repo>
-        <platform>linux/amd64</platform>
+       <!-- Source characteristics -->
+       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+       <!-- REPO -->
+       <repo>ghcr.io/catenax-ng/product-knowledge/dataspace/</repo>
+       <platform>linux/amd64</platform>
+
     </properties>
 
     <modules>
@@ -146,6 +150,11 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
             </plugin>
       </plugins>
     </pluginManagement>
