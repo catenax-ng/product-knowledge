@@ -106,7 +106,7 @@ jobs:
 
       - name: Build/Deploy Java via Maven
         run: |
-          if [[ "$GITHUB_REPOS" != "catenax-ng/product-knowledge" ]] || ; [[ "$GITHUB_BRCH" != "main" ]] then
+          if [[ "$GITHUB_REPOS" != "catenax-ng/product-knowledge" ]] || [[ "$GITHUB_BRCH" != "main" ]]; then
             mvn -s settings.xml install
           else
             mvn -s settings.xml deploy -Pwith-docker-image
