@@ -33,7 +33,7 @@ services:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/agents/provisioning
-    image: ghcr.io/catenax-ng/product-knowledge/dataspace/provisioning-agent:0.6.2-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/dataspace/provisioning-agent:0.6.3-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8080:8080" # sparql endpoint
@@ -97,7 +97,7 @@ services:
       args:
         JAR: target/agentplane-azure-vault.jar
         LIB: target/lib
-    image: ghcr.io/catenax-ng/product-knowledge/dataspace/agentplane-azure-vault:0.6.2-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/dataspace/agentplane-azure-vault:0.6.3-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8100:8082"  # API/sparql endpoint
@@ -123,7 +123,7 @@ services:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/mock/prognosis
-    image: ghcr.io/catenax-ng/product-knowledge/dataspace/prognosis:0.6.2-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/dataspace/prognosis:0.6.3-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "5005:5005" # API
@@ -135,7 +135,7 @@ services:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/agents/remoting
-    image: ghcr.io/catenax-ng/product-knowledge/dataspace/remoting-agent:0.6.2-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/dataspace/remoting-agent:0.6.3-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8200:8081" # sparql endpoint
@@ -184,7 +184,7 @@ services:
       args:
         JAR: target/agentplane-azure-vault.jar
         LIB: target/lib
-    image: ghcr.io/catenax-ng/product-knowledge/dataspace/agentplane-azure-vault:0.6.2-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/dataspace/agentplane-azure-vault:0.6.3-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8400:8082"  # API/sparql endpoint
@@ -239,7 +239,7 @@ services:
       args:
         JAR: target/agentplane-azure-vault.jar
         LIB: target/lib
-    image: ghcr.io/catenax-ng/product-knowledge/dataspace/agentplane-azure-vault:0.6.2-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/dataspace/agentplane-azure-vault:0.6.3-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8600:8082"  # API/sparql endpoint

@@ -106,7 +106,7 @@ jobs:
 
       - name: Build Java via Maven
         run: |
-          mvn -s settings.xml install
+          mvn -s settings.xml deploy -Pwith-docker-image
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
