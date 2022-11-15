@@ -31,9 +31,15 @@ public class ReturnValueConfig {
                 break;
             case "http://www.w3.org/2001/XMLSchema#int":
                 break;
+            case "http://www.w3.org/2001/XMLSchema#float":
+                break;
             case "http://www.w3.org/2001/XMLSchema#long":
                 break;
             case "http://www.w3.org/2001/XMLSchema#string":
+                break;
+            case "http://www.w3.org/2001/XMLSchema#dateTime":
+                break;
+            case "https://json-schema.org/draft/2020-12/schema#Object":
                 break;
             default:
                 throw new SailConfigException(String.format("Data type %s is not supported in return value %s.",dataType,context));
