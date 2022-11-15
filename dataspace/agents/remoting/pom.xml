@@ -48,15 +48,15 @@
         <version>1.7.36</version>
       </dependency>
 
-       <dependency>
+      <dependency>
          <groupId>org.junit.jupiter</groupId>
          <artifactId>junit-jupiter-engine</artifactId>
          <scope>test</scope>
-       </dependency>
+      </dependency>
 
-		  <dependency>
-			  <groupId>org.apache.httpcomponents</groupId>
-		  	<artifactId>httpclient</artifactId>
+      <dependency>
+		<groupId>org.apache.httpcomponents</groupId>
+		<artifactId>httpclient</artifactId>
         <version>4.5.13</version>
         <exclusions>
 					<exclusion>
@@ -69,20 +69,19 @@
 						<artifactId>commons-codec</artifactId>
 					</exclusion>
 				</exclusions>
-		  </dependency>
+	 </dependency>
 
-		  <dependency>
-			  <groupId>com.fasterxml.jackson.core</groupId>
-		  	<artifactId>jackson-core</artifactId>
-        <version>2.12.6</version>
-		  </dependency>
+	 <dependency>
+         <groupId>com.fasterxml.jackson.core</groupId>
+		 <artifactId>jackson-core</artifactId>
+         <version>2.13.4</version>
+     </dependency>
 
-		  <dependency>
-			  <groupId>com.fasterxml.jackson.core</groupId>
-		  	<artifactId>jackson-databind</artifactId>
-        <version>2.12.6.1</version>
-		  </dependency>
-
+     <dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-databind</artifactId>
+        <version>2.13.4.2</version>
+     </dependency>
     </dependencies>
 
     <dependencyManagement>
