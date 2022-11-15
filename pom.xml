@@ -66,13 +66,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-          <dependency>
-              <groupId>org.eclipse.rdf4j</groupId>
-              <artifactId>rdf4j-storage</artifactId>
-              <version>${rdf4j.version}</version>
-              <type>pom</type>
-              <scope>import</scope>
-          </dependency>
       </dependencies>
     </dependencyManagement>
 
