@@ -44,17 +44,19 @@ setConnectorFactory(new MyConnectorFactory());
 
 ## Realm Mapping
 
-The skill framework has the ability to perform a realm mapping of the actually executing user of the skill framework 
+The skill framework has the ability to perform a realm mapping of the actually executing user of the skill framework
 to a target domain. By calling the `getHeaderAnnotation` method, you would be returned with a header object that
 should be joined/extended in order to attach to any outgoing request to that domain.
 
 ```typescript
-import {getRealmMappingFactory} from '@knowledge-agents-ux/skill_framework';
+import { getRealmMappingFactory } from '@knowledge-agents-ux/skill_framework';
 
-var additionalHeaders=getRealmMappingFactory().create().getHeaderAnnotation('http://www.example.com');
+var additionalHeaders = getRealmMappingFactory()
+  .create()
+  .getHeaderAnnotation('http://www.example.com');
 ```
 
-The default realm mapping factory will use a realm mapping implementation which takes a header key from the `REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY` environment variable 
+The default realm mapping factory will use a realm mapping implementation which takes a header key from the `REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY` environment variable
 and the header value from the `REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_VALUE` variable. If the environment variables are unset, the header object will be empty.
 
 ## Interacting with the Dataspace Connector
@@ -69,8 +71,8 @@ import {getConnectorFactory, Catalogue} from '@knowledge-agents-ux/skill_framewo
 var catalogue:Catalogue = await getConnectorFactory().create().listAssets();
 ```
 
-The default connector factory will inspect the `REACT_APP_SKILL_CONNECTOR_CONTROL`,`REACT_APP_SKILL_CONNECTOR_DATA`,`REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY`, `REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_VALUE` and `REACT_APP_SKILL_PROXY` environment variables. 
-If they are unset or empty, it will use a mock connector implementation. 
+The default connector factory will inspect the `REACT_APP_SKILL_CONNECTOR_CONTROL`,`REACT_APP_SKILL_CONNECTOR_DATA`,`REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY`, `REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_VALUE` and `REACT_APP_SKILL_PROXY` environment variables.
+If they are unset or empty, it will use a mock connector implementation.
 
 Otherwise, it will use a connector implementation that uses the given string as the connector URL.
 
@@ -90,3 +92,4 @@ export REACT_APP_SKILL_PROXY=YOURPROXY
 
 
 
+```

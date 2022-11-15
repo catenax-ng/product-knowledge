@@ -1,36 +1,36 @@
 export const Layouts: Record<string, any> = {
   random: {
-    name: "random",
+    name: 'random',
     animate: true,
-    label: 'Random'
+    label: 'Random',
   },
   grid: {
-    name: "grid",
+    name: 'grid',
     animate: true,
     nodeDimensionsIncludeLabels: true,
-    label: 'Grid'
+    label: 'Grid',
   },
   circle: {
-    name: "circle",
+    name: 'circle',
     animate: true,
-    label: 'Circle'
+    label: 'Circle',
   },
   concentric: {
-    name: "concentric",
+    name: 'concentric',
     animate: true,
     nodeDimensionsIncludeLabels: true,
-    label: 'Concentric'
+    label: 'Concentric',
   },
   dagre: {
-    name: "dagre",
+    name: 'dagre',
     animate: true,
-    label: 'Hierarchy (Dagre)'
+    label: 'Hierarchy (Dagre)',
   },
   breadthfirst: {
-    name: "breadthfirst",
+    name: 'breadthfirst',
     animate: true,
     grid: true,
     label: 'efficient Hierarchy',
-    padding: 50
+    padding: 50,
   },
 };

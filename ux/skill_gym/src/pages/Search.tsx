@@ -16,7 +16,12 @@ export default function Search(){
   return(
     <>
       <Typography
-        sx={{ mt: 3, mb: 3, fontFamily: 'LibreFranklin-Light', textAlign: 'center' }}
+        sx={{
+          mt: 3,
+          mb: 3,
+          fontFamily: 'LibreFranklin-Light',
+          textAlign: 'center',
+        }}
         variant="h4"
         className="section-title"
       >
@@ -33,5 +38,5 @@ export default function Search(){
         }
       </Grid>
     </>
-  )
+  );
 }

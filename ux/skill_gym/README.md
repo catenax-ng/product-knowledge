@@ -6,9 +6,9 @@ The skill gym uses the [Ontology Viewer](../skill_modules/src/components/Ontolog
 
 ## Notice
 
-* see copyright notice in the top folder
-* see license file in the top folder
-* see authors file in the top folder
+- see copyright notice in the top folder
+- see license file in the top folder
+- see authors file in the top folder
 
 ## Available Scripts
 

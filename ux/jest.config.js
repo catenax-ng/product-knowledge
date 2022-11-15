@@ -8,9 +8,8 @@ module.exports = {
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
   },
-  transform: {'^.+\\.ts?$': 'ts-jest'},
+  transform: { '^.+\\.ts?$': 'ts-jest' },
   testEnvironment: 'node',
   testRegex: '.*/test/.*\\.(ts|tsx)$',
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node']
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
 };
-

@@ -1,19 +1,18 @@
-import { Box, Chip } from "@mui/material";
-import React, { useState } from "react";
+import { Box, Chip } from '@mui/material';
+import React, { useState } from 'react';
 
 export interface ChipData {
   key: number;
   label: string;
 }
 
-interface ChipListProps{
-  chipData: ChipData[],
-  onChipDelete: (deleteChip: ChipData) => void
+interface ChipListProps {
+  chipData: ChipData[];
+  onChipDelete: (deleteChip: ChipData) => void;
 }
 
-export const ChipList = ({chipData, onChipDelete}: ChipListProps) => {
-
-  return(
+export const ChipList = ({ chipData, onChipDelete }: ChipListProps) => {
+  return (
     <Box mb={1}>
       {chipData.map((data) => {
         return (
@@ -23,10 +22,10 @@ export const ChipList = ({chipData, onChipDelete}: ChipListProps) => {
             label={data.label}
             onDelete={() => onChipDelete(data)}
             clickable={true}
-            sx={{mr: 1}}
+            sx={{ mr: 1 }}
           />
         );
       })}
     </Box>
-  )
-}
+  );
+};

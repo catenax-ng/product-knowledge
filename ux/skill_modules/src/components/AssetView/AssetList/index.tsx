@@ -1,14 +1,30 @@
-import {getConnectorFactory, AssetProperties} from '@knowledge-agents-ux/skill_framework/dist/src'
-import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
+import {
+  getConnectorFactory,
+  AssetProperties,
+} from '@knowledge-agents-ux/skill_framework/dist/src';
+import {
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+} from '@mui/material';
 import React, { useEffect, useState } from 'react';
 
 function AssetList() {
-  const [assetList, setAssetList] = useState<AssetProperties[]>([])
+  const [assetList, setAssetList] = useState<AssetProperties[]>([]);
 
   useEffect(() => {
     const connector = getConnectorFactory().create();
-    connector.listAssets().then(catalogue => setAssetList(catalogue.contractOffers.map(offer => offer.asset.properties)));
-  }, [])
+    connector
+      .listAssets()
+      .then((catalogue) =>
+        setAssetList(
+          catalogue.contractOffers.map((offer) => offer.asset.properties)
+        )
+      );
+  }, []);
 
   const columns = [
     { key: 'asset:prop:id', name: 'ID', flex: 3 },
@@ -17,7 +33,7 @@ function AssetList() {
     { key: 'asset:prop:version', name: 'Version', flex: 2 },
     { key: 'ids:fileName', name: 'Filename', flex: 2 },
     { key: 'asset:prop:contenttype', name: 'Content Type', flex: 2 },
-    { key: 'asset:prop:policy-id', name: 'Policy ID', flex: 3},
+    { key: 'asset:prop:policy-id', name: 'Policy ID', flex: 3 },
   ];
 
   return (

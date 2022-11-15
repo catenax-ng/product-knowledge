@@ -1,20 +1,18 @@
 {
-    "compilerOptions": {
-        "incremental": true,
-        "target": "es2019",
-        "module": "ES6",
-        "declaration": true,
-        "sourceMap": true,
-        "strict": true,
-        "moduleResolution": "node",
-        "esModuleInterop": true,
-        "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true,
-        "rootDirs": ["./src","./test"],
-        "outDir": "./dist",
-        "composite": true
-    },
-    "include": [
-        "src/**/*"
-    ]
+  "compilerOptions": {
+    "incremental": true,
+    "target": "es2019",
+    "module": "ES6",
+    "declaration": true,
+    "sourceMap": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "rootDirs": ["./src", "./test"],
+    "outDir": "./dist",
+    "composite": true
+  },
+  "include": ["src/**/*"]
 }
