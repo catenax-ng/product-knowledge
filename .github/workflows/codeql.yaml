@@ -104,21 +104,18 @@ jobs:
           java-version: '17'
           cache: 'maven'
 
-      - if: ${{ github.repository != 'catenax-ng/product-knowledge' }} || ${{ github.branch != 'main' }}
-        name: Build Java via Maven
+      - name: Build/Deploy Java via Maven
         run: |
-          mvn -s settings.xml install
+          if [[ "$GITHUB_REPOS" != "catenax-ng/product-knowledge" ]] || ; [[ "$GITHUB_BRCH" != "main" ]] then
+            mvn -s settings.xml install
+          else
+            mvn -s settings.xml deploy -Pwith-docker-image
+          fi
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - if: ${{ github.repository == 'catenax-ng/product-knowledge' }} && ${{ github.branch == 'main' }}
-        name: Deploy Java via Maven
-        run: |
-          mvn -s settings.xml deploy -Pwith-docker-image
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOS: ${{ github.repository }}
+          GITHUB_BRNCH: ${{ github.branch }}
 
       - if: success() || failure()
         name: Java Test Report
