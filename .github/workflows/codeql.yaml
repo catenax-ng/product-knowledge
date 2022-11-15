@@ -104,7 +104,16 @@ jobs:
           java-version: '17'
           cache: 'maven'
 
-      - name: Build Java via Maven
+      - if: ${{ github.repository != 'catenax-ng/product-knowledge' }} || ${{ github.branch != 'main' }}
+        name: Build Java via Maven
+        run: |
+          mvn -s settings.xml install
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - if: ${{ github.repository == 'catenax-ng/product-knowledge' }} && ${{ github.branch == 'main' }}
+        name: Deploy Java via Maven
         run: |
           mvn -s settings.xml deploy -Pwith-docker-image
         env:
