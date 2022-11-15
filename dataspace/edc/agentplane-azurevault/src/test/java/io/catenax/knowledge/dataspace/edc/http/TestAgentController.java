@@ -45,6 +45,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Tests the agent controller
@@ -54,12 +56,13 @@ public class TestAgentController {
     ConsoleMonitor monitor=new ConsoleMonitor();
     TestConfig config=new TestConfig();
     AgentConfig agentConfig=new AgentConfig(monitor,config);
-    ServiceExecutorRegistry reg=new ServiceExecutorRegistry();
+    ServiceExecutorRegistry serviceExecutorReg=new ServiceExecutorRegistry();
     OkHttpClient client=new OkHttpClient();
     IAgreementController mockController = new MockAgreementController();
-    DataspaceServiceExecutor exec=new DataspaceServiceExecutor(monitor,mockController,agentConfig,client);
+    ExecutorService threadedExecutor= Executors.newSingleThreadExecutor();
+    DataspaceServiceExecutor exec=new DataspaceServiceExecutor(monitor,mockController,agentConfig,client,threadedExecutor);
     RDFStore store = new RDFStore(agentConfig,monitor);
-    SparqlQueryProcessor processor=new SparqlQueryProcessor(reg,monitor,agentConfig,store);
+    SparqlQueryProcessor processor=new SparqlQueryProcessor(serviceExecutorReg,monitor,agentConfig,store);
     SkillStore skillStore=new SkillStore();
 
 
@@ -70,8 +73,8 @@ public class TestAgentController {
     @BeforeEach
     public void setUp()  {
         mocks=MockitoAnnotations.openMocks(this);
-        reg.addBulkLink(exec);
-        //reg.add(exec);
+        //serviceExecutorReg.add(exec);
+        serviceExecutorReg.addBulkLink(exec);
     }
 
     @AfterEach
@@ -79,7 +82,8 @@ public class TestAgentController {
         if(mocks!=null) {
             mocks.close();
             mocks=null;
-            reg.remove(exec);
+            serviceExecutorReg.remove(exec);
+            serviceExecutorReg.removeBulkLink(exec);
         }
     }
     
@@ -420,8 +424,6 @@ public class TestAgentController {
                 "  } "+
                 "  SERVICE ?chain1 { " +
                 "    BIND(?what as ?output) "+
-                //"    VALUES() {()}" +
-                //"    { SELECT ?output WHERE { BIND(?what AS ?output) } }"+
                 "  } "+
                 "}";
         Request.Builder builder=new Request.Builder();

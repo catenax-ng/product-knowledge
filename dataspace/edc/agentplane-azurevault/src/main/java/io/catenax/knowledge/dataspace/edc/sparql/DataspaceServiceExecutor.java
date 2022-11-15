@@ -11,7 +11,6 @@ import io.catenax.knowledge.dataspace.edc.IAgreementController;
 import io.catenax.knowledge.dataspace.edc.http.HttpClientAdapter;
 import jakarta.ws.rs.WebApplicationException;
 import okhttp3.OkHttpClient;
-import org.apache.jena.atlas.io.IndentedWriter;
 import org.apache.jena.atlas.logging.Log;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.NodeFactory;
@@ -30,12 +29,9 @@ import org.apache.jena.sparql.engine.http.HttpParams;
 import org.apache.jena.sparql.engine.iterator.QueryIter;
 import org.apache.jena.sparql.engine.iterator.QueryIter1;
 import org.apache.jena.sparql.engine.iterator.QueryIterPlainWrapper;
-import org.apache.jena.sparql.engine.iterator.QueryIteratorBase;
-import org.apache.jena.sparql.engine.main.QC;
 import org.apache.jena.sparql.exec.RowSet;
 import org.apache.jena.sparql.exec.http.*;
 import org.apache.jena.sparql.graph.NodeTransformLib;
-import org.apache.jena.sparql.serializer.SerializationContext;
 import org.apache.jena.sparql.service.bulk.ChainingServiceExecutorBulk;
 import org.apache.jena.sparql.service.bulk.ServiceExecutorBulk;
 import org.apache.jena.sparql.service.single.ServiceExecutor;
@@ -46,9 +42,12 @@ import org.eclipse.dataspaceconnector.spi.types.domain.edr.EndpointDataReference
 
 import java.net.http.HttpClient;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * A service executor (single and bulk mode) which replaces outgoing http calls
@@ -66,6 +65,7 @@ public class DataspaceServiceExecutor implements ServiceExecutor, ChainingServic
     final IAgreementController agreementController;
     final AgentConfig config;
     final HttpClient client;
+    final ExecutorService executor;
 
 
     /**
@@ -83,11 +83,12 @@ public class DataspaceServiceExecutor implements ServiceExecutor, ChainingServic
      * @param monitor    logging subsystem
      * @param controller dataspace agreement
      */
-    public DataspaceServiceExecutor(Monitor monitor, IAgreementController controller, AgentConfig config, OkHttpClient client) {
+    public DataspaceServiceExecutor(Monitor monitor, IAgreementController controller, AgentConfig config, OkHttpClient client, ExecutorService executor) {
         this.monitor = monitor;
         this.agreementController = controller;
         this.config = config;
         this.client=new HttpClientAdapter(client);
+        this.executor=executor;
     }
 
     /**
@@ -144,7 +145,7 @@ public class DataspaceServiceExecutor implements ServiceExecutor, ChainingServic
      * @param executionContext context
      * @param serviceExecutorBulk bulk executor
      * @return binding generating iterator
-     * TODO enable asynchronous/parallel queries to the different services
+     * TODO implement batch size per service and not globally
      */
     @Override
     public QueryIterator createExecution(OpService opService, QueryIterator queryIterator, ExecutionContext executionContext, ServiceExecutorBulk serviceExecutorBulk) {
@@ -189,43 +190,11 @@ public class DataspaceServiceExecutor implements ServiceExecutor, ChainingServic
                         }
                     }
                     ExecutionContext ctx=this.getExecContext();
-                    // each service in the batch is called iteratively and the results are merged
-                    batchIterator=new QueryIteratorBase() {
 
-                        final Iterator<Map.Entry<String,List<Binding>>> baseIterator=bindings.entrySet().iterator();
-                        QueryIterator currentIterator;
-                        @Override
-                        public void output(IndentedWriter indentedWriter, SerializationContext serializationContext) {
-                        }
+                    List<Future<QueryIterator>> futureBindings=bindings.entrySet().stream().map(serviceSpec -> executor.submit(() ->
+                            createExecution(opService, serviceSpec.getKey(), boundVars, serviceSpec.getValue(), ctx))).collect(Collectors.toList());
 
-                        @Override
-                        protected boolean hasNextBinding() {
-                            return (currentIterator!=null && currentIterator.hasNext()) || hasNextInternalBinding();
-                        }
-
-                        boolean hasNextInternalBinding() {
-                            if(baseIterator.hasNext()) {
-                                Map.Entry<String,List<Binding>> nextService=baseIterator.next();
-                                currentIterator=createExecution(opService, nextService.getKey(), boundVars, nextService.getValue(),ctx);
-                                return hasNextBinding();
-                            }
-                            return false;
-                        }
-
-                        @Override
-                        protected Binding moveToNextBinding() {
-                            return currentIterator.next();
-                        }
-
-                        @Override
-                        protected void closeIterator() {
-                        }
-
-                        @Override
-                        protected void requestCancel() {
-                        }
-
-                    };
+                    batchIterator=new QueryIterFutures(config,monitor,futureBindings);
                     return hasNextBinding();
                 } else {
                     return false;

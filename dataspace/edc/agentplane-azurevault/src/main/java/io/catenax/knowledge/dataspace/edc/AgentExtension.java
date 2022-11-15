@@ -106,12 +106,13 @@ public class AgentExtension implements ServiceExtension {
 
         RDFStore rdfStore=new RDFStore(config,monitor);
 
-        ServiceExecutorRegistry reg = new ServiceExecutorRegistry();
-        reg.add(new DataspaceServiceExecutor(monitor,agreementController,config,httpClient));
-        SparqlQueryProcessor processor=new SparqlQueryProcessor(reg,monitor,config,rdfStore);
-
-        executorService= Executors.newSingleThreadScheduledExecutor();
+        executorService= Executors.newScheduledThreadPool(config.getThreadPoolSize());
         synchronizer=new DataspaceSynchronizer(executorService,config,catalogService,rdfStore,monitor);
+
+        ServiceExecutorRegistry reg = new ServiceExecutorRegistry();
+        reg.addBulkLink(new DataspaceServiceExecutor(monitor,agreementController,config,httpClient,executorService));
+        //reg.add(new DataspaceServiceExecutor(monitor,agreementController,config,httpClient));
+        SparqlQueryProcessor processor=new SparqlQueryProcessor(reg,monitor,config,rdfStore);
 
         SkillStore skillStore=new SkillStore();
 

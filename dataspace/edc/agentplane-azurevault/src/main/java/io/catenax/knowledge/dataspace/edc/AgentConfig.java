@@ -41,6 +41,9 @@ public class AgentConfig {
     public static String FEDERATION_SERVICE_BATCH_SIZE = "cx.agent.federation.batch.max";
     public static long DEFAULT_FEDERATION_SERVICE_BATCH_SIZE = Long.MAX_VALUE;
 
+    public static String THREAD_POOL_SIZE = "cx.agent.threadpool.size";
+    public static int DEFAULT_THREAD_POOL_SIZE = 4;
+
     /**
      * references to EDC services
      */
@@ -109,6 +112,13 @@ public class AgentConfig {
      */
     public long getNegotiationTimeout() {
         return config.getLong(NEGOTIATION_TIMEOUT_PROPERTY,DEFAULT_NEGOTIATION_TIMEOUT);
+    }
+
+    /**
+     * @return the thread pool size of the agent executors
+     */
+    public int getThreadPoolSize() {
+        return config.getInteger(THREAD_POOL_SIZE,DEFAULT_THREAD_POOL_SIZE);
     }
 
     /**
