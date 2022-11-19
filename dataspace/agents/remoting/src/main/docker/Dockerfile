@@ -25,16 +25,16 @@ RUN if [[ -n "${HTTP_PROXY}"  ]]; then \
     addgroup --system --gid 30000 tomcat && \
     adduser --disabled-password --gecos "" --ingroup tomcat --uid 10000 tomcat && \
     rm -rf /usr/local/tomcat/webapps/* && \
-    if [[ -n "${HTTP_PROXY}"  ]]; then rm -f /etc/apt/apt.conf.d/proxy.conf; fi
-
-COPY repo/rdf4j-server.war repo/rdf4j-workbench.war /usr/local/tomcat/webapps/
+    if [[ -n "${HTTP_PROXY}"  ]]; then rm -f /etc/apt/apt.conf.d/proxy.conf; fi && \
+    wget -q -O /tmp/rdf4j.zip "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/rdf4j/eclipse-rdf4j-4.2.1-sdk.zip" && \
+    unzip -d /tmp /tmp/rdf4j.zip eclipse-rdf4j-4.2.1/war/rdf4j-server.war  eclipse-rdf4j-4.2.1/war/rdf4j-workbench.war && \
+    rm /tmp/rdf4j.zip
 
 RUN	mkdir -p /var/rdf4j/server/conf && \
     mkdir -p /var/rdf4j/server/repositories && \
-    unzip /usr/local/tomcat/webapps/rdf4j-server.war -d /usr/local/tomcat/webapps/rdf4j-server && \
-	unzip /usr/local/tomcat/webapps/rdf4j-workbench.war -d /usr/local/tomcat/webapps/rdf4j-workbench && \
-    rm /usr/local/tomcat/webapps/rdf4j-server.war && \
-    rm /usr/local/tomcat/webapps/rdf4j-workbench.war && \
+    unzip /tmp/eclipse-rdf4j-4.2.1/war/rdf4j-server.war -d /usr/local/tomcat/webapps/rdf4j-server && \
+	unzip /tmp/eclipse-rdf4j-4.2.1/war/rdf4j-workbench.war -d /usr/local/tomcat/webapps/rdf4j-workbench && \
+    rm -rf /tmp/eclipse-rdf4j-4.2.1 && \
     wget -q "https://repo1.maven.org/maven2/org/apache/httpcomponents/httpmime/4.5.13/httpmime-4.5.13.jar" -O /usr/local/tomcat/webapps/rdf4j-server/WEB-INF/lib/httpmime-4.5.13.jar && \
     chown -R tomcat:tomcat /var/rdf4j /usr/local/tomcat && \
 	chmod 775 /usr/local/tomcat /usr/local/tomcat/bin /usr/local/tomcat/bin/catalina.sh /var/rdf4j/server 
