@@ -56,6 +56,10 @@ public class AgentSourceRequestParamsSupplier extends HttpSourceRequestParamsSup
         DataAddress superAddress = super.selectAddress(request);
         // is it an ordinary transfer?
         if(AgentSourceFactory.isTransferRequest(request)) {
+            // cater for the api/public jetty/jakarta slash drama
+            if(!superAddress.getProperty("baseUrl").endsWith("/")) {
+                superAddress=HttpDataAddress.Builder.newInstance().copyFrom(superAddress).baseUrl(superAddress.getProperty("baseUrl")+"/").build();
+            }
             return superAddress;
         }
         // no, manipulate the endpoint address with additional

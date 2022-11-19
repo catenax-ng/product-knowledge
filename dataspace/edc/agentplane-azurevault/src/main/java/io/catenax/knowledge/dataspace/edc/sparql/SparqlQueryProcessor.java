@@ -142,12 +142,7 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
             if (action.getRequestMethod().equals("GET")) {
                 this.executeWithParameter(action);
             } else {
-                ContentType ct = ActionLib.getContentType(action);
-                if (ct != null && !WebContent.isHtmlForm(ct)) {
-                    this.executeBody(action);
-                } else {
-                    this.executeWithParameter(action);
-                }
+                this.executeBody(action);
             }
         } catch(ActionErrorException e) {
             throw new BadRequestException(e.getMessage(),e.getCause());

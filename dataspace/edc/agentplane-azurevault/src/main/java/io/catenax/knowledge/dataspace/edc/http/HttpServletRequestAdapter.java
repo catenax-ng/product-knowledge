@@ -232,7 +232,14 @@ public class HttpServletRequestAdapter implements HttpServletRequest {
 
     @Override
     public String getContentType() {
-        return request.body().contentType().toString();
+        var body=request.body();
+        if(body!=null) {
+            var contentType=body.contentType();
+            if(contentType!=null) {
+                return contentType.toString();
+            }
+        }
+        return null;
     }
 
     @Override

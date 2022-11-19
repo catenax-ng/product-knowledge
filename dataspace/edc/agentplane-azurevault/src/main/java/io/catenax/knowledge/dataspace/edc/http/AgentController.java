@@ -254,8 +254,13 @@ public class AgentController {
     protected HttpUrl getUrl(String connectorUrl, String subUrl, HttpServletRequest original) throws UnsupportedEncodingException {
         var url = connectorUrl;
 
+        // EDC public api slash problem
+        if(!url.endsWith("/")) {
+            url = url + "/";
+        }
+
         if (subUrl != null && !subUrl.isEmpty()) {
-            url = url + "/" + subUrl;
+            url = url + subUrl;
         }
 
         HttpUrl.Builder httpBuilder = Objects.requireNonNull(HttpUrl.parse(url)).newBuilder();

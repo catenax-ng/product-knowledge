@@ -298,7 +298,11 @@ public class DataspaceServiceExecutor implements ServiceExecutor, ChainingServic
                 }
             }
             // put the endpoint information into a new service operator
+            // and cater for the EDC public api slash problem
             serviceURL = endpoint.getEndpoint();
+            if(!serviceURL.endsWith("/")) {
+                serviceURL=serviceURL+"/";
+            }
             if (edcMatcher.group("params") != null) {
                 serviceURL = serviceURL + "?" + edcMatcher.group("params");
             }

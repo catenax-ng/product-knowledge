@@ -392,7 +392,7 @@ public class RemotingQueryModelVisitor implements QueryModelVisitor<SailExceptio
 	public void meet(ProjectionElem node) throws SailException {
 		logger.debug(String.format("Visiting a projection element"));
         bindings.forEach( binding -> {
-            if(!node.getSourceName().equals(node.getTargetName())) {
+            if(node.getTargetName()!= null && !node.getTargetName().equals(node.getSourceName())) {
                 if (!binding.hasBinding(node.getTargetName())) {
                     if (!binding.hasBinding(node.getSourceName())) {
                         logger.warn(String.format("Could not bind source var %s to target var %s. Leaving unbound.", node.getSourceName(), node.getTargetName()));
