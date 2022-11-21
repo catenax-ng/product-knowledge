@@ -12,6 +12,9 @@ import io.catenax.knowledge.dataspace.edc.rdf.RDFStore;
 import io.catenax.knowledge.dataspace.edc.service.DataspaceSynchronizer;
 import io.catenax.knowledge.dataspace.edc.sparql.DataspaceServiceExecutor;
 import io.catenax.knowledge.dataspace.edc.sparql.SparqlQueryProcessor;
+import io.catenax.knowledge.dataspace.edc.sparql.SparqlQuerySerializerFactory;
+import org.apache.jena.query.Syntax;
+import org.apache.jena.sparql.serializer.*;
 import org.apache.jena.sparql.service.ServiceExecutorRegistry;
 import org.eclipse.dataspaceconnector.dataplane.http.pipeline.HttpSinkRequestParamsSupplier;
 import org.eclipse.dataspaceconnector.dataplane.spi.pipeline.DataTransferExecutorServiceContainer;
@@ -109,13 +112,23 @@ public class AgentExtension implements ServiceExtension {
         executorService= Executors.newScheduledThreadPool(config.getThreadPoolSize());
         synchronizer=new DataspaceSynchronizer(executorService,config,catalogService,rdfStore,monitor);
 
+        // EDC Remoting Support
         ServiceExecutorRegistry reg = new ServiceExecutorRegistry();
         reg.addBulkLink(new DataspaceServiceExecutor(monitor,agreementController,config,httpClient,executorService));
         //reg.add(new DataspaceServiceExecutor(monitor,agreementController,config,httpClient));
+
+        // Ontop and other deep nesting-afraid providers/optimizers
+        // should be supported by not relying on the Fuseki syntax graph
+        SparqlQuerySerializerFactory arqQuerySerializerFactory = new SparqlQuerySerializerFactory();
+        SerializerRegistry.get().addQuerySerializer(Syntax.syntaxARQ, arqQuerySerializerFactory);
+        SerializerRegistry.get().addQuerySerializer(Syntax.syntaxSPARQL_10, arqQuerySerializerFactory);
+        SerializerRegistry.get().addQuerySerializer(Syntax.syntaxSPARQL_11, arqQuerySerializerFactory);
+
+        // the actual sparql engine inside the EDC
         SparqlQueryProcessor processor=new SparqlQueryProcessor(reg,monitor,config,rdfStore);
 
+        // stored procedure store and transport endpoint
         SkillStore skillStore=new SkillStore();
-
         AgentController agentController=new AgentController(monitor,agreementController,config,httpClient,processor,skillStore);
         monitor.debug(String.format("Registering agent controller %s",agentController));
         webService.registerResource(DEFAULT_CONTEXT_ALIAS, agentController);
