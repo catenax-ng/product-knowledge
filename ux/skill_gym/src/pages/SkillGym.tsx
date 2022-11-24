@@ -1,14 +1,11 @@
-import { AssetView, OntologyView, OntologyViewWebVowl } from '@catenax-ng/skill-modules';
+import { AssetView, OntologyView } from '@catenax-ng/skill-modules';
 
 export default function SkillGym() {
-  const jsonUrl =
-    'https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/infrastructure/consumer/resources/cx-ontology.json';
-
   return (
     <>
       <AssetView />
       {/* <OntologyView dataUrl={jsonUrl} /> */}
-      <OntologyViewWebVowl dataUrl='https://raw.githubusercontent.com/catenax-ng/product-knowledge/feature/KA-125-ontology-hub/ontology/cx.json'/>
+      <iframe title="WebVowl" width="100%" height={700} src="https://service.tib.eu/webvowl/#url=https://raw.githubusercontent.com/catenax-ng/product-knowledge/feature/KA-125-ontology-hub/ontology/address_ontology_vowl.json" />;
     </>
   );
 }
