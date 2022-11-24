@@ -6,6 +6,7 @@
 //
 
 import { getConnectorFactory } from '../src/index';
+import { getOntologyHubFactory } from '../src/ontology_hub';
 import { jest } from '@jest/globals';
 
 /**
@@ -126,5 +127,21 @@ describe('testing skill framework', () => {
         console.log(entry[elem].value);
       });
     });
+  });
+});
+
+/**
+ * test: get Ontologies URLs from github
+ */
+describe('testing skill framework', () => {
+  jest.setTimeout(60000);
+  test('get Ontologie URLs from github ', async () => {
+    //const result = await getOntologies();
+
+    const ontologyHub = getOntologyHubFactory().create();
+    console.log(ontologyHub.constructor.name);
+    const result = await ontologyHub.getOntologies();
+    expect(result.length).toBeGreaterThan(0);
+    console.log(result);
   });
 });

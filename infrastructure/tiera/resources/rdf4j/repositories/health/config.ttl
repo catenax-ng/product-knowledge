@@ -48,7 +48,8 @@ cx-health:HealthIndicator rdf:type cx-fx:Result;
   dcterms:description "Health Indicator is part of a indicator batch."@en ;
   dcterms:title "Health Indicator" ;
   cx-fx:outputProperty "healthIndicatorOutputs";
-  cx-fx:resultIdProperty "requestRefId";
+  cx-fx:resultIdProperty "componentId";
+  cx-fx:correlationInput cx-health:requestComponentId;
   cx-fx:output cx-health:indicatorVersion;
   cx-fx:output cx-health:responseComponentId;
   cx-fx:output cx-health:healthIndicatorValues.

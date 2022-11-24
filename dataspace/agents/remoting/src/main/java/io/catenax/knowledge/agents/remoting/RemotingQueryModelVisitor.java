@@ -6,6 +6,8 @@
 //
 package io.catenax.knowledge.agents.remoting;
 
+import org.eclipse.rdf4j.query.BindingSet;
+import org.eclipse.rdf4j.query.MutableBindingSet;
 import org.eclipse.rdf4j.query.algebra.*;
 import org.eclipse.rdf4j.sail.SailException;
 import org.eclipse.rdf4j.model.IRI;
@@ -15,20 +17,20 @@ import org.eclipse.rdf4j.model.Value;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * The query processing is done while visiting 
  */
-public class RemotingQueryModelVisitor implements QueryModelVisitor<SailException> {
+public class RemotingQueryModelVisitor implements QueryModelVisitor<SailException>, IBindingHost {
 
 	/** the state */
 	protected Map<Value,Invocation> invocations=new HashMap<Value,Invocation>();
 
-    /** the result */
-    protected MapBindingSet bindings=new MapBindingSet();
-	
+    /** bindings and results */
+    final protected Set<String> variables=new HashSet<>();
+    final protected Collection<MutableBindingSet> bindings= new ArrayList<>();
+
     /** the logger */
     protected Logger logger = LoggerFactory.getLogger(getClass());
 	/** the connection */
@@ -41,6 +43,7 @@ public class RemotingQueryModelVisitor implements QueryModelVisitor<SailExceptio
 	public RemotingQueryModelVisitor(RemotingSailConnection connection) {
 		this.connection=connection;        
 	}
+
 
     @Override
     public String toString() {
@@ -73,9 +76,39 @@ public class RemotingQueryModelVisitor implements QueryModelVisitor<SailExceptio
         throw new SailException(String.format("No support for %s",node));
     }
 
+    /**
+     * convert a binding set to a mutable version
+     * @param bs
+     * @return mutable binding set
+     */
+    protected MutableBindingSet makeMutable(BindingSet bs) {
+        if(bs instanceof MutableBindingSet) {
+            return (MutableBindingSet) bs;
+        } else {
+            MutableBindingSet mbs=new MapBindingSet();
+            for(String binding : bs.getBindingNames()) {
+                mbs.addBinding(bs.getBinding(binding));
+            }
+            return mbs;
+        }
+    }
+
     @Override
 	public void meet(BindingSetAssignment node) throws SailException {
-        throw new SailException(String.format("No support for %s",node));
+        variables.addAll(node.getBindingNames());
+        if(bindings.isEmpty()) {
+            node.getBindingSets().forEach( binding -> {
+                bindings.add(makeMutable(binding));
+            });
+        } else {
+            bindings.forEach( binding -> {
+                node.getBindingSets().forEach( joinBindings -> {
+                   joinBindings.forEach( joinBinding -> {
+                       binding.addBinding(joinBinding);
+                   });
+                });
+            });
+        }
     }
 
     @Override
@@ -350,12 +383,7 @@ public class RemotingQueryModelVisitor implements QueryModelVisitor<SailExceptio
 		logger.debug(String.format("Visiting a projection"));
 		node.getArg().visit(this);
         for(Invocation invocation : invocations.values()) {
-            invocation.execute(connection);
-            for(String result : invocation.getResults()) {
-                for(Map.Entry<Var,IRI> output : invocation.outputs.entrySet()) {
-                    bindings.addBinding(output.getKey().getName(),invocation.convertOutputToValue(connection.remotingSail.config.vf,result,output.getValue()));
-                }
-            }
+            invocation.execute(connection,this);
         }
 		node.getProjectionElemList().visit(this);
     }
@@ -363,12 +391,16 @@ public class RemotingQueryModelVisitor implements QueryModelVisitor<SailExceptio
     @Override
 	public void meet(ProjectionElem node) throws SailException {
 		logger.debug(String.format("Visiting a projection element"));
-        if(!bindings.hasBinding(node.getTargetName())) {
-            if(!bindings.hasBinding(node.getSourceName())) {
-                throw new SailException(String.format("Could not bind source var %s to target var %s. It has not been bound",node.getSourceName(),node.getTargetName()));
+        bindings.forEach( binding -> {
+            if(node.getTargetName()!= null && !node.getTargetName().equals(node.getSourceName())) {
+                if (!binding.hasBinding(node.getTargetName())) {
+                    if (!binding.hasBinding(node.getSourceName())) {
+                        logger.warn(String.format("Could not bind source var %s to target var %s. Leaving unbound.", node.getSourceName(), node.getTargetName()));
+                    }
+                    binding.addBinding(node.getTargetName(), binding.getValue(node.getSourceName()));
+                }
             }
-            bindings.addBinding(node.getTargetName(),bindings.getValue(node.getSourceName()));
-        } 
+        });
     }
 
     @Override
@@ -416,6 +448,9 @@ public class RemotingQueryModelVisitor implements QueryModelVisitor<SailExceptio
 	public void meet(StatementPattern statement) throws SailException {
         Var predicate=statement.getPredicateVar();
         Var object = statement.getObjectVar();
+        if(bindings.isEmpty()) {
+            bindings.add(new MapBindingSet());
+        }
         if(!predicate.hasValue() || !predicate.getValue().isIRI()) {
             throw new SailException(String.format("No support for non-IRI predicate binding %s",predicate));
         } else if("http://www.w3.org/1999/02/22-rdf-syntax-ns#type".equals(predicate.getValue().stringValue())) {
@@ -427,7 +462,9 @@ public class RemotingQueryModelVisitor implements QueryModelVisitor<SailExceptio
             Var subject = statement.getSubjectVar();
             if(!subject.hasValue() ) {
                 IRI invocationIri=connection.remotingSail.getValueFactory().createIRI(objectIRI.getNamespace(),String.valueOf(invocations.size()));
-                bindings.addBinding(subject.getName(),invocationIri);
+                for(MutableBindingSet binding : bindings) {
+                    binding.addBinding(subject.getName(),invocationIri);
+                }
                 subject=new Var(subject.getName(),invocationIri);
             } else {
                 if(!subject.getValue().isIRI()) {
@@ -447,44 +484,31 @@ public class RemotingQueryModelVisitor implements QueryModelVisitor<SailExceptio
                     throw new SailException(String.format("Could not rebind invocation %s with type %s to type %s",subject.getValue(),invocation.service,object.getValue()));
                 }
             } else {
-                invocation=new Invocation();
+                invocation=new Invocation(connection);
                 invocation.service=ic;
-                invocation.key=(IRI) bindings.getBinding(subject.getName()).getValue();
+                invocation.key=(IRI) bindings.stream().findFirst().get().getBinding(subject.getName()).getValue();
                 logger.debug(String.format("Registering a new invocation %s for service type %s",subject.getValue(),invocation.service));
                 invocations.put(subject.getValue(),invocation);
             }
         } else {
             Var subject = statement.getSubjectVar();
             if(!subject.hasValue()) {
-                if(!bindings.hasBinding(subject.getName())) {
+                if(!bindings.stream().findFirst().get().hasBinding(subject.getName())) {
                     throw new SailException(String.format("Subject variable %s not bound to invocation or result.",subject.getName()));
                 } 
-                subject=new Var(subject.getName(),bindings.getValue(subject.getName()));
+                subject=new Var(subject.getName(),bindings.stream().findFirst().get().getValue(subject.getName()));
             }
             if(!invocations.containsKey(subject.getValue())) {
                 throw new SailException(String.format("Trying to bind argument predicate %s to non existant invocation %s. Maybe you need to switch statement order such that rdf:type precedes any other bindings.",predicate.getValue().stringValue(),subject));
             }
             Invocation invocation=invocations.get(subject.getValue());
             IRI argument=(IRI) predicate.getValue();
-            // input or output binding
-            if(!object.hasValue()) {
-                if(!invocation.service.result.outputs.containsKey(argument.stringValue())) {
-                    throw new SailException(String.format("Predicate %s is no output predicate for invocation %s",argument,subject));
-                }
-                if(invocation.outputs.containsKey(object)) {
-                    throw new SailException(String.format("Could not bind output predicate %s twice to invocation %s",argument,subject));
-                }
-                logger.debug(String.format("Binding output %s of invocation %s to var %s",argument,subject,object));
+            if(invocation.service.result.outputs.containsKey(argument.stringValue())) {
                 invocation.outputs.put(object,argument);
+            } else if(invocation.service.arguments.containsKey(argument.stringValue())) {
+                invocation.inputs.put(argument.stringValue(),object);
             } else {
-                if(!invocation.service.arguments.containsKey(argument.stringValue())) {
-                    throw new SailException(String.format("Predicate %s is no input predicate for invocation %s",argument,subject));
-                }
-                if(invocation.inputs.containsKey(argument)) {
-                    throw new SailException(String.format("Could not bind input predicate %s twice to invocation %s",argument,subject));
-                }
-                logger.debug(String.format("Binding input %s of invocation %s to value %s",argument,subject,object.getValue()));
-                invocation.inputs.put(argument,object.getValue());
+                throw new SailException(String.format("Predicate %s is neither output nor input predicate for invocation %s",argument,subject));
             }
         }
     }
@@ -547,5 +571,15 @@ public class RemotingQueryModelVisitor implements QueryModelVisitor<SailExceptio
     @Override
 	public void meetOther(QueryModelNode node) throws SailException {
         throw new SailException(String.format("No support for %s",node));
+    }
+
+    @Override
+    public Set<String> getVariables() {
+        return variables;
+    }
+
+    @Override
+    public Collection<MutableBindingSet> getBindings() {
+        return bindings;
     }
 }

@@ -84,6 +84,11 @@ public class RemotingSailConfig extends AbstractSailImplConfig {
     /**
      * constant
      */
+    public static String CORRELATION_INPUT_ATTRIBUTE="correlationInput";
+
+    /**
+     * constant
+     */
     public static String OUTPUT_PROPERTY_ATTRIBUTE="outputProperty";
 
     /**
@@ -138,6 +143,7 @@ public class RemotingSailConfig extends AbstractSailImplConfig {
     protected IRI BATCH_PREDICATE=vf.createIRI(CONFIG_NAMESPACE, BATCH_ATTRIBUTE);
     protected IRI INVOCATION_ID_PREDICATE=vf.createIRI(CONFIG_NAMESPACE, INVOCATION_ID_ATTRIBUTE);
     protected IRI RESULT_ID_PREDICATE=vf.createIRI(CONFIG_NAMESPACE, RESULT_ID_ATTRIBUTE);
+    protected IRI CORRELATION_INPUT_PREDICATE=vf.createIRI(CONFIG_NAMESPACE, CORRELATION_INPUT_ATTRIBUTE);
     protected IRI INPUT_PROPERTY_PREDICATE=vf.createIRI(CONFIG_NAMESPACE, INPUT_PROPERTY_ATTRIBUTE);
     protected IRI OUTPUT_PROPERTY_PREDICATE=vf.createIRI(CONFIG_NAMESPACE, OUTPUT_PROPERTY_ATTRIBUTE);
     protected IRI DATA_TYPE_PREDICATE=vf.createIRI(CONFIG_NAMESPACE, TYPE_RELATION);
@@ -228,6 +234,9 @@ public class RemotingSailConfig extends AbstractSailImplConfig {
             if(result.resultIdProperty!=null) {
                 model.add(functionNode,INVOCATION_ID_PREDICATE,vf.createLiteral(result.resultIdProperty));
             }
+            if(result.correlationInput!=null) {
+                model.add(functionNode,CORRELATION_INPUT_PREDICATE,vf.createLiteral(result.correlationInput));
+            }
             for(Map.Entry<String,ReturnValueConfig> arg: result.outputs.entrySet()) {
                 IRI argumentNode = vf.createIRI(arg.getKey());
                 model.add(functionNode,OUTPUT_PREDICATE,argumentNode);
@@ -296,6 +305,8 @@ public class RemotingSailConfig extends AbstractSailImplConfig {
                     ifPresent(op -> rc.outputProperty=op.stringValue());
                     Models.objectLiteral(model.filter(resultNode,RESULT_ID_PREDICATE,null)).
                     ifPresent(rid -> rc.resultIdProperty=rid.stringValue());
+                    Models.objectIRI(model.filter(resultNode,CORRELATION_INPUT_PREDICATE,null)).
+                            ifPresent(rid -> rc.correlationInput=rid.stringValue());
                     model.getStatements(resultNode,OUTPUT_PREDICATE,null).forEach(
                         outputStatement -> {
                             if(logger.isDebugEnabled()) {

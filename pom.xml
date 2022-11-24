@@ -10,7 +10,7 @@
     <groupId>io.catenax</groupId>
     <artifactId>knowledge</artifactId>
     <packaging>pom</packaging>
-    <version>0.6.2-SNAPSHOT</version>
+    <version>0.6.4-SNAPSHOT</version>
     <name>Catena-X Knowledge Agents</name>
     <description>Top Level Project for all Knowledge Agents Modules</description>
 
@@ -25,11 +25,16 @@
        <com.azure.sdk.bom.version>1.2.2</com.azure.sdk.bom.version>
        <junit.version>5.9.0</junit.version>
        <mockito.version>4.6.1</mockito.version>
-       <edc.version>0.1.1-KA-SNAPSHOT</edc.version>
+       <edc.version>0.1.2-KA-SNAPSHOT</edc.version>
+       <rdf4j.version>4.2.0</rdf4j.version>
 
-        <!-- REPO -->
-        <repo>ghcr.io/catenax-ng/product-knowledge/dataspace/</repo>
-        <platform>linux/amd64</platform>
+       <!-- Source characteristics -->
+       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+       <!-- REPO -->
+       <repo>ghcr.io/catenax-ng/product-knowledge/</repo>
+       <platform>linux/amd64</platform>
+
     </properties>
 
     <modules>
@@ -147,6 +152,11 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+            </plugin>
       </plugins>
     </pluginManagement>
     </build>
@@ -165,10 +175,14 @@
             <id>ka-dsc-patches</id>
             <url>https://maven.pkg.github.com/catenax/ka-DataspaceConnector</url>
         </repository>
-        <repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
-	    </repository>
+        <repository> <!-- webvowl -->
+		      <id>jitpack.io</id>
+		      <url>https://jitpack.io</url>
+	      </repository>
+        <repository> <!-- runtime meta-model -->
+            <id>oss</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
     </repositories>
 
     <distributionManagement>

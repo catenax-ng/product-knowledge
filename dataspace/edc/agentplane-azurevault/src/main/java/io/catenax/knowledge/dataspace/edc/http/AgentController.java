@@ -41,7 +41,6 @@ import java.util.regex.Matcher;
  * graphs=assets).
  * TODO deal with remote skills
  * TODO exchange fixed store by configurable options
- * TODO implement a synchronized data catalogue for the default graph asset
  * TODO generalize sub-protocols from SparQL
  */
 @Path("/agent")
@@ -49,7 +48,7 @@ public class AgentController {
 
     // EDC services
     protected final Monitor monitor;
-    protected final AgreementController agreementController;
+    protected final IAgreementController agreementController;
     protected final OkHttpClient client;
     protected final AgentConfig config;
     protected final SkillStore skillStore;
@@ -65,7 +64,7 @@ public class AgentController {
      * @param client http client
      * @param processor sparql processor
      */
-    public AgentController(Monitor monitor, AgreementController agreementController, AgentConfig config, OkHttpClient client, SparqlQueryProcessor processor, SkillStore skillStore) {
+    public AgentController(Monitor monitor, IAgreementController agreementController, AgentConfig config, OkHttpClient client, SparqlQueryProcessor processor, SkillStore skillStore) {
         this.monitor = monitor;
         this.agreementController = agreementController;
         this.client=client;
@@ -83,16 +82,16 @@ public class AgentController {
     }
 
     /**
-     * endpoint for posting a query
+     * endpoint for posting a sparql query (maybe as a stored skill with a bindingset)
      * @param request context
      * @param response context
      * @param asset can be a named graph for executing a query or a skill asset
      * @return response
      */
     @POST
-    @Consumes({"application/sparql-query"})
-    public Response postQuery(@Context HttpServletRequest request,@Context HttpServletResponse response, @QueryParam("asset") String asset) {
-        monitor.debug(String.format("Received a POST request %s for asset %s",request,asset));
+    @Consumes({"application/sparql-query","application/sparql-results+json"})
+    public Response postSparqlQuery(@Context HttpServletRequest request,@Context HttpServletResponse response, @QueryParam("asset") String asset) {
+        monitor.debug(String.format("Received a SparQL POST request %s for asset %s",request,asset));
         return executeQuery(request,response,asset);
     }
 
@@ -255,8 +254,13 @@ public class AgentController {
     protected HttpUrl getUrl(String connectorUrl, String subUrl, HttpServletRequest original) throws UnsupportedEncodingException {
         var url = connectorUrl;
 
+        // EDC public api slash problem
+        if(!url.endsWith("/")) {
+            url = url + "/";
+        }
+
         if (subUrl != null && !subUrl.isEmpty()) {
-            url = url + "/" + subUrl;
+            url = url + subUrl;
         }
 
         HttpUrl.Builder httpBuilder = Objects.requireNonNull(HttpUrl.parse(url)).newBuilder();

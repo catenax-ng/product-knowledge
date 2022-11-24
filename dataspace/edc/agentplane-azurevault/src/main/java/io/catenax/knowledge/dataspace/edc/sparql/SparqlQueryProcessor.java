@@ -19,13 +19,12 @@ import jakarta.ws.rs.InternalServerErrorException;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.http.HttpStatus;
+import org.apache.jena.atlas.web.ContentType;
 import org.apache.jena.fuseki.Fuseki;
 import org.apache.jena.fuseki.metrics.MetricsProviderRegistry;
 import org.apache.jena.fuseki.server.DataAccessPointRegistry;
 import org.apache.jena.fuseki.server.OperationRegistry;
-import org.apache.jena.fuseki.servlets.ActionErrorException;
-import org.apache.jena.fuseki.servlets.HttpAction;
-import org.apache.jena.fuseki.servlets.SPARQL_QueryGeneral;
+import org.apache.jena.fuseki.servlets.*;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -38,6 +37,9 @@ import java.util.regex.Pattern;
 
 import org.apache.jena.query.QueryExecException;
 import org.apache.jena.query.Query;
+import org.apache.jena.riot.WebContent;
+import org.apache.jena.sparql.ARQConstants;
+import org.apache.jena.sparql.algebra.optimize.RewriteFactory;
 import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.atlas.lib.Pair;
 import org.apache.jena.sparql.engine.http.QueryExceptionHTTP;
@@ -66,6 +68,8 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
      */
     protected final OperationRegistry operationRegistry= OperationRegistry.createEmpty();
     protected final DataAccessPointRegistry dataAccessPointRegistry=new DataAccessPointRegistry(MetricsProviderRegistry.get().getMeterRegistry());
+    protected final RewriteFactory optimizerFactory=new OptimizerFactory();
+
     // map EDC monitor to SLF4J (better than the builtin MonitorProvider)
     private final MonitorWrapper monitorWrapper;
     // some state to set when interacting with Fuseki
@@ -133,8 +137,13 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
         // Should we check whether this already has been done? the context should be quite static
         action.setRequest(rdfStore.getDataAccessPoint(), rdfStore.getDataService());
         ServiceExecutorRegistry.set(action.getContext(),registry);
+        action.getContext().set(ARQConstants.sysOptimizerFactory,optimizerFactory);
         try {
-            execute(action);
+            if (action.getRequestMethod().equals("GET")) {
+                this.executeWithParameter(action);
+            } else {
+                this.executeBody(action);
+            }
         } catch(ActionErrorException e) {
             throw new BadRequestException(e.getMessage(),e.getCause());
         } catch(QueryExecException e) {
@@ -165,6 +174,7 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
         action.getContext().set(DataspaceServiceExecutor.targetUrl,request);
         action.getContext().set(DataspaceServiceExecutor.authKey,authKey);
         action.getContext().set(DataspaceServiceExecutor.authCode,authCode);
+        action.getContext().set(ARQConstants.sysOptimizerFactory,optimizerFactory);
         if(skill!=null) {
             action.getContext().set(DataspaceServiceExecutor.asset,skill);
         } else if(graph!=null) {
@@ -207,12 +217,6 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
     }
 
     /**
-     * regexes to deal with url parameters
-     */
-    public static String URL_PARAM_REGEX = "(?<key>[^=&]+)=(?<value>[^&]+)"; 
-    public static Pattern URL_PARAM_PATTERN=Pattern.compile(URL_PARAM_REGEX);
-
-    /**
      * general (URL-parameterized) query execution
      * @param queryString the resolved query
      * @param action the http action containing the parameters
@@ -220,45 +224,7 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
      */
     @Override
     protected void execute(String queryString, HttpAction action) {
-        String params="";
-        String uriParams=action.getRequest().getQueryString();
-        if(uriParams!=null) {
-            params = URLDecoder.decode(uriParams, UTF_8);
-        }
-        Matcher paramMatcher=URL_PARAM_PATTERN.matcher(params);
-        Stack<TupleSet> ts=new Stack<>();
-        ts.push(new TupleSet());
-        while(paramMatcher.find()) {
-            String key=paramMatcher.group("key");
-            String value=paramMatcher.group("value");
-            while(key.startsWith("(")) {
-                key=key.substring(1);
-                ts.push(new TupleSet());
-            }
-            if(key.length()<=0) {
-                action.getResponse().setStatus(HttpStatus.SC_BAD_REQUEST);
-                return;    
-            }
-            String realValue=value.replace(")","");
-            if(value.length()<=0) {
-                action.getResponse().setStatus(HttpStatus.SC_BAD_REQUEST);
-                return;    
-            }
-            try {
-                if(!"asset".equals(key) && !"query".equals(key)) {
-                    ts.peek().add(key,realValue);
-                }
-            } catch(Exception e) {
-                action.getResponse().setStatus(HttpStatus.SC_BAD_REQUEST);
-                return;    
-            }
-            while(value.endsWith(")")) {
-                TupleSet set1=ts.pop();
-                ts.peek().merge(set1);
-                value=value.substring(0,value.length()-1);
-            }
-        }
-        
+        TupleSet ts = ((AgentHttpAction) action).getInputBindings();
         Pattern tuplePattern = Pattern.compile("\\([^()]*\\)");
         Pattern variablePattern = Pattern.compile("@(?<name>[a-zA-Z0-9]+)");
         Matcher tupleMatcher=tuplePattern.matcher(queryString);
@@ -275,7 +241,7 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
             if(variables.size()>0) {
                 try {
                     boolean isFirst=true;
-                    Collection<Tuple> tuples = ts.peek().getTuples(variables.toArray(new String[0]));
+                    Collection<Tuple> tuples = ts.getTuples(variables.toArray(new String[0]));
                     for(Tuple rtuple : tuples) {
                         if(isFirst) {
                             isFirst=false;
@@ -307,7 +273,7 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
             variables.add(variableMatcher.group("name"));
         }
         try {
-            Collection<Tuple> tuples=ts.peek().getTuples(variables.toArray(new String[0]));
+            Collection<Tuple> tuples=ts.getTuples(variables.toArray(new String[0]));
             if(tuples.size()<=0 && variables.size()>0) {
                 throw new BadRequestException(String.format("Error: Got variables %s on top-level but no bindings.",Arrays.toString(variables.toArray())));
             } else if(tuples.size()>0) {

@@ -1,7 +1,9 @@
 import pandas as pd
 import rdfpandas
-from rdflib import Graph, URIRef, Literal, Namespace
+from rdflib import Graph, URIRef, Literal, Namespace, BNode
 from rdflib.namespace import NamespaceManager, RDF, RDFS, SKOS, OWL, DC
+from rdflib.collection import Collection
+
 from datetime import date
 
 def extract_header(df, header, first_string=False):
@@ -29,6 +31,29 @@ def extract_abbreviations(df, col='synonyms_en'):
         aa['key'] = aa['key'].str.strip()
         #aa['value'] = aa['value'].str.lower()
     return aa
+
+# some, value, only -> owl:someValuesFrom, owl:hasValue, owl:allValuesFrom
+def add_class_restriction(graph, property, domain, range, ns, data_type=''):
+    XSD = Namespace('http://www.w3.org/2001/XMLSchema#')
+    bn = BNode()
+    graph.add((ns[domain], RDFS.subClassOf, bn))
+    graph.add((bn, RDF.type, OWL.Restriction))
+    graph.add((bn, OWL.onProperty, ns[property]))
+    if (data_type == ''):
+        graph.add((bn, OWL.someValuesFrom, ns[range]))
+    else:
+        graph.add((bn, OWL.someValuesFrom, XSD[data_type]))
+    #graph.add((bn, OWL.allValuesFrom, CX[range]))
+    return graph
+
+# def add_property_range(graph, property, range):
+#     bn = BNode()
+#     cn = BNode()
+#     Collection(self, cn, [self.map_string_to_uri(property_range) for property_range in property_ranges])
+#     graph.add((CX['property'], RDFS.range, bn))
+#     graph.add((bn, RDF.type, OWL.Class))
+#     graph.add((bn, OWL.unionOf, cn))
+#     return graph
 
 # df needs to be strings only
 def convert_df2graph(df=None, mapping=None, ontology_name='', csv_file='', ttl_file='', prefix = '',
@@ -71,17 +96,35 @@ def convert_df2graph(df=None, mapping=None, ontology_name='', csv_file='', ttl_f
         print('- found empty column names')
         df = df.loc[:, df.columns.notna()]
 
+    # check for empty identifier
+    empty_identifier = ((df['identifier'] == '') & ~df['type'].str.startswith('#'))
+    if (empty_identifier.sum() > 0):
+        print('- missing identifiers: ', empty_identifier.sum())
+
+    # remove is_part_of
+    if ('is_part_of' in df.columns):
+        df = df.drop(columns=['is_part_of'])
+
     # extract header
     authors = extract_header(df, 'author')
     contributors = extract_header(df, 'contributor')
     title = extract_header(df, 'title', first_string=True)
     prefix = extract_header(df, 'prefix', first_string=True)
     ns_url = extract_header(df, 'namespace', first_string=True)
-    ns = Namespace(ns_url)
     version = extract_header(df, 'version', first_string=True)
     description = extract_header(df, 'description')
     dependency = extract_header(df, 'import')
     namespace_manager.bind(prefix, ns_url)
+
+    # check header
+    if (title == []):
+        print('- ontology title is emtpy -> stop')
+        return('stop')
+
+    # rename types to owl
+    for index, row in mapping[mapping['usage'] == 'type'].iterrows():
+        sel = df['type'].str.lower() == str(row['simple_name']).lower()
+        df.loc[sel, 'type'] = str(row['rdf_name'])
 
     # split columns separated with comma
     for index, row in mapping[mapping['split'] == 'yes'].iterrows():
@@ -90,21 +133,16 @@ def convert_df2graph(df=None, mapping=None, ontology_name='', csv_file='', ttl_f
             df[col] = df[col].str.split(',')
             df = df.explode(col)
             df[col] = df[col].str.strip()
+    #df.to_csv('ontology/test.csv')
 
     # add empty_parents
     if empty_parents:
         df.loc[(df['parents'] == '') & (df['type'] == 'class'), 'parents'] = 'empty_parents'
 
-    # rename types to owl
-    for index, row in mapping[mapping['usage'] == 'type'].iterrows():
-        sel = df['type'].str.lower() == str(row['simple_name']).lower()
-        df.loc[sel, 'type'] = str(row['rdf_name'])
-
     # rename datatypes to xsd
     for index, row in mapping[mapping['usage'] == 'relation_to'].iterrows():
         sel = df['type'].str.lower().str.strip() == str(row['simple_name']).lower().strip()
         df.loc[sel, 'type'] = str(row['rdf_name'])
-    #df.to_csv('ontology/test.csv')
 
     # copy name_en from identifier & vice versa
     sel = (df['name_en'] == '') & (df['identifier'] != '')
@@ -114,6 +152,12 @@ def convert_df2graph(df=None, mapping=None, ontology_name='', csv_file='', ttl_f
 
     # remove empty identifier, commented lines
     df = df[(df['identifier'] != '') & (df['type'].str[0:1] != '#')]
+
+    # add class to individuals
+    separator = '_'
+    sel = ~df['type'].str.startswith('#') & ~df['type'].str.contains(':')
+    df.loc[sel, 'identifier'] = df.loc[sel, 'type'] + separator + df.loc[sel, 'identifier']
+    #df.to_csv('ontology/test.csv')
 
     # split parents between class and attribute
     df['attribute_parents'] = ''
@@ -133,7 +177,7 @@ def convert_df2graph(df=None, mapping=None, ontology_name='', csv_file='', ttl_f
     # if ontology_name.__contains__('_'):
     #     ontology_name = ontology_name.replace('_', ' ') # e.g plant_ontology > plant ontology
     # df.loc[sel, 'is_defined_by'] = ontology_name
-    df.loc[sel, 'is_defined_by'] = ns_url+ontology_name+'.ttl'
+    df.loc[sel, 'is_defined_by'] = ns_url.replace('cx_ontology.ttl#', '')+ontology_name+'.ttl'
 
     # add attribute_parents based on attribute identifier ending (identifier, name, type, ...)
     attribute_suffix = mapping[(mapping['usage'] == 'attribute_suffix') & mapping['simple_name'].notnull()] \
@@ -217,7 +261,21 @@ def convert_df2graph(df=None, mapping=None, ontology_name='', csv_file='', ttl_f
     # convert and write turtle file
     g = rdfpandas.to_graph(df, namespace_manager = namespace_manager)
 
+    # add class restrictions
+    ns = Namespace(ns_url)
+    for index, row in df[df['rdf:type'].str.endswith('Property')].iterrows():
+        if (row['rdfs:domain'] != None) & (row['rdfs:range'] != None):
+            property = index.replace('cx:', '')
+            domain = row['rdfs:domain'].replace('cx:', '')
+            range = row['rdfs:range'].replace('cx:', '')
+            if row['rdfs:range'].startswith('xsd:'):
+                data_type = row['rdfs:range'].replace('xsd:', '')
+            else :
+                data_type = ''
+            g = add_class_restriction(g, property, domain, range, ns, data_type=data_type)
+
     # add metadata
+    ns = Namespace(ns_url.replace('cx_ontology.ttl#', ''))
     ontology_uri = title.lower().replace(' ', '_')+'.ttl'
     g = g.add((ns[ontology_uri], RDF.type, OWL.Ontology))
     g = g.add((ns[ontology_uri], DC.title, Literal(title.title())))

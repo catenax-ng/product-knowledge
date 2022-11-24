@@ -33,7 +33,7 @@ services:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/agents/provisioning
-    image: ghcr.io/catenax-ng/product-knowledge/dataspace/provisioning-agent:0.6.2-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/provisioning-agent:0.6.4-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8080:8080" # sparql endpoint
@@ -65,7 +65,7 @@ services:
   # Configures the oem control plane
   #
   oem-control-plane:
-    image: ghcr.io/catenax-ng/product-knowledge/dataspace/edc-controlplane-memory:0.1.1-KA-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/edc-controlplane-memory:0.1.2-KA-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8090:8080" # API
@@ -79,7 +79,7 @@ services:
       # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
       EDC_FS_CONFIG: /app/configuration.properties      
       # Uncomment to enable for debugging, please choose a different port for each endpoint
-      #JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
     volumes:
       - ./oem/resources/controlplane.properties:/app/configuration.properties
       - ./resources/opentelemetry.properties:/app/opentelemetry.properties
@@ -97,7 +97,7 @@ services:
       args:
         JAR: target/agentplane-azure-vault.jar
         LIB: target/lib
-    image: ghcr.io/catenax-ng/product-knowledge/dataspace/agentplane-azure-vault:0.6.2-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/agentplane-azure-vault:0.6.4-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8100:8082"  # API/sparql endpoint
@@ -123,7 +123,7 @@ services:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/mock/prognosis
-    image: ghcr.io/catenax-ng/product-knowledge/dataspace/prognosis:0.6.2-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/prognosis:0.6.4-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "5005:5005" # API
@@ -135,7 +135,7 @@ services:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/agents/remoting
-    image: ghcr.io/catenax-ng/product-knowledge/dataspace/remoting-agent:0.6.2-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/remoting-agent:0.6.4-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8200:8081" # sparql endpoint
@@ -143,7 +143,7 @@ services:
     environment:
       # dummy environment var
       FOO: bar
-      #JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
     volumes:
       - ./tiera/resources/rdf4j/conf:/var/rdf4j/server/conf
       - ./tiera/resources/rdf4j/repositories:/var/rdf4j/server/repositories
@@ -152,7 +152,7 @@ services:
   # Configures the tiera control plane
   #
   tiera-control-plane:
-    image: ghcr.io/catenax-ng/product-knowledge/dataspace/edc-controlplane-memory:0.1.1-KA-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/edc-controlplane-memory:0.1.2-KA-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8300:8080" # API
@@ -166,7 +166,7 @@ services:
       # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
       EDC_FS_CONFIG: /app/configuration.properties
       # Uncomment to enable for debugging, please choose a different port for each endpoint
-      #JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
     volumes:
       - ./tiera/resources/controlplane.properties:/app/configuration.properties
       - ./resources/opentelemetry.properties:/app/opentelemetry.properties
@@ -184,7 +184,7 @@ services:
       args:
         JAR: target/agentplane-azure-vault.jar
         LIB: target/lib
-    image: ghcr.io/catenax-ng/product-knowledge/dataspace/agentplane-azure-vault:0.6.2-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/agentplane-azure-vault:0.6.4-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8400:8082"  # API/sparql endpoint
@@ -207,7 +207,7 @@ services:
   # Configures the consumer control plane
   #
   consumer-control-plane:
-    image: ghcr.io/catenax-ng/product-knowledge/dataspace/edc-controlplane-memory:0.1.1-KA-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/edc-controlplane-memory:0.1.2-KA-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8500:8080" # API
@@ -221,7 +221,7 @@ services:
       # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
       EDC_FS_CONFIG: /app/configuration.properties
       # Uncomment to enable for debugging, please choose a different port for each endpoint
-      #JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
     volumes:
       - ./consumer/resources/controlplane.properties:/app/configuration.properties
       - ./resources/opentelemetry.properties:/app/opentelemetry.properties
@@ -239,7 +239,7 @@ services:
       args:
         JAR: target/agentplane-azure-vault.jar
         LIB: target/lib
-    image: ghcr.io/catenax-ng/product-knowledge/dataspace/agentplane-azure-vault:0.6.2-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/agentplane-azure-vault:0.6.4-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8600:8082"  # API/sparql endpoint
@@ -251,7 +251,7 @@ services:
       # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
       EDC_FS_CONFIG: /app/configuration.properties      
       # Uncomment to enable for debugging, please choose a different port for each endpoint
-      #JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
     volumes:
       - ./consumer/resources/dataplane.properties:/app/configuration.properties
       - ./resources/dataspace_local.ttl:/app/dataspace.ttl

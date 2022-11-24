@@ -32,7 +32,7 @@ import org.eclipse.dataspaceconnector.spi.types.domain.transfer.TransferType;
  */
 @Consumes({MediaType.APPLICATION_JSON})
 @Path("/endpoint-data-reference")
-public class AgreementController {
+public class AgreementController implements IAgreementController {
 
     /**
      * EDC service references
@@ -107,6 +107,7 @@ public class AgreementController {
      * @param assetId id of the agreed asset
      * @return endpoint found, null if not found or invalid
      */
+    @Override
     public EndpointDataReference get(String assetId) {
         synchronized (activeAssets) {
             if (!activeAssets.contains(assetId)) {
@@ -192,14 +193,15 @@ public class AgreementController {
         }
     }
 
-        /**
-         * creates a new agreement (asynchronously)
-         * and waits for the result
-         *
-         * @param remoteUrl ids endpoint url of the remote connector
-         * @param asset     name of the asset to agree upon
-         *                                                    TODO make this federation aware: multiple assets, different policies
-         */
+    /**
+     * creates a new agreement (asynchronously)
+     * and waits for the result
+     *
+     * @param remoteUrl ids endpoint url of the remote connector
+     * @param asset     name of the asset to agree upon
+     * TODO make this federation aware: multiple assets, different policies
+     */
+    @Override
     public EndpointDataReference createAgreement(String remoteUrl, String asset) throws WebApplicationException {
         monitor.debug(String.format("About to create an agreement for asset %s at connector %s",asset,remoteUrl));
 

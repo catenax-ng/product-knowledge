@@ -1,48 +1,64 @@
-type,identifier,name_en,name_de,definition_en,example_en,note_en,synonyms_en,synonyms_de,parents,is_part_of,relation_from,relation_to,links
+type,identifier,parents,relation_from,relation_to,name_en,name_de,definition_en,example_en,note_en,synonyms_en,synonyms_de,is_part_of,links
 # prefix,cx,,,,,,,,,,,,
-# namespace,https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/,,,,,,,,,,,,
+# namespace,https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#,,,,,,,,,,,,
 # title,address ontology,,,,,,,,,,,,
 # version,0.0.1,,,,,,,,,,,,
 # author,Zazralt Magic,,,,,,,,,,,,
 # contributor,,,,,,,,,,,,,
 # description,,,,,,,,,,,,,
-# import,,,,,,,,,,,,,
+# import,common ontology,,,,,,,,,,,,
 ,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
-class,address,Address,Adresse,,,,,,information,,,,
-relation,has address,,,,,,,,,,"person, organisation, place",address,
-class,physical address,,,,,,,,address,,,,
-class,virtual address,,,,"telephone number, email address, network address, website",,,,address,,,,
-class,legal address,,Meldeadresse,,,,"registered address, registration address","juristische Anschrift, offizielle Anschrift, gesetzlicher Wohnsitz, Firmenanschrift",address,,,,
-class,street address,Address,Anschrift,An address is the unique identity of a specific location of a  building.,BMW Group AG,,physical address,"Hausanschrift,  Hausadresse, physische Adresse",physical address,contact,,,"https://en.wikipedia.org/wiki/Address, https://schema.org/streetAddress"
-relation,is located in,,,,,,,,,,building,street address,
-attribute,street name,Street,Straßenname,A street name is an identifying name given to a street or road.,Petuelring,,"street, road, road name, odonym","Straße, Name einer Straße, Strassenname",,,street address,xsd:string,https://en.wikipedia.org/wiki/Street_name
-attribute,house number,Number,Hausnummer,,130.0,,,,,,street address,xsd:string,https://en.wikipedia.org/wiki/House_numbering
-attribute,postal code,,Postleitzahl,,80809.0,,"postcode, post code, zip code",Postleitzahl (PLZ),,,street address,xsd:string,"https://en.wikipedia.org/wiki/Postal_code, https://schema.org/postalCode"
-attribute,city,,Stadt,,Munich,,"town, village, municipality",,,,street address,xsd:string,https://schema.org/City
-attribute,country,,Land,,Germany,,,,,,street address,xsd:string,https://schema.org/addressCountry
-attribute,full street address,,,"Combination of street + number, postal code, city, country","Petuelring 13, 80809, Munich, Germany",,,,,,street address,xsd:string,https://schema.org/streetAddress
-attribute,apartment number,,Wohnungsnummer,,,optional,unit number,,,,street address,xsd:string,
-attribute,building number,,Gebäudenummer,,,optional,,,,,street address,xsd:string,
-attribute,building name,,Gebäudename,,,optional,,,,,street address,xsd:string,
-attribute,level,,Stockwerk,,,optional,floor,,,,street address,xsd:string,
-attribute,district,,Stadtteil,,,optional,,,,,street address,xsd:string,
-attribute,county,,Bundesland,,,optional,"state, province",,,,street address,xsd:string,https://schema.org/addressRegion
-class,private address,,Privatadresse,Address where people live.,,,"residential address, home adress","Privatanschrift, Wohnanschrift, Wohnadresse",street address,,,,
-relation,has private address,,,,,,,,,,person,private address,
-attribute,receiver first name,,Empfänger Vorname,,,,,,,,address,xsd:string,
-attribute,receiver last name,,Empfänger Nachname,,,,,,,,address,xsd:string,
-class,business address,,Geschäftsadresse,Address where organisations are located.,,,job address,"Arbeitsanschrift, Geschäftsanschrift",street address,,,,https://www.wikidata.org/wiki/Q34120414
-relation,has business address,,,,,,,,,,"person, organisation",business address,
-attribute,company name,,Firmenname,,,,,,,,business address,xsd:string,
-class,postal address,,Postanschrift,Address where you can send a mail.,,,"mailing address, post address","Postanschrift, Postadresse",street address,,,,https://schema.org/PostalAddress
-relation,has postal address,,,,,,,,,,mail,postal address,
-class,post office box,,Postfach,uniquely addressable lockable box located on the premises of a post office station,,,"P.O. box, postal box",Postschließfach,physical address,,,,https://en.wikipedia.org/wiki/Post_office_box
-relation,has post office box,,,,,,,,,,"mail, delivery",post office box,
-attribute,post office box number,,Postfachnummer,,,,,,,,post office box,xsd:string,https://schema.org/postOfficeBoxNumber
-class,delivery address,,Lieferadresse,,,,,Lieferanschrift,street address,,,,"https://www.wikidata.org/wiki/Q102188471, https://schema.org/deliveryAddress"
-relation,has delivery address,,,,,,,,,,delivery,delivery address,
-class,return address,,Absenderadresse,,,,,,street address,,,,"https://en.wikipedia.org/wiki/Return_address, https://schema.org/originAddress"
-relation,has return address,,,,,,,,,,"mail, delivery",return address,
-class,billing address,,Rechnungsadresse,,,,invoice address,,street address,,,,https://schema.org/billingAddress
-relation,has billing address,,,,,,,,,,bill,billing address,
+class,address,information,,,,Adresse,,,,,,,
+relation,has address,,"person, organisation, place",address,,,,,,,,,
+,,,,,,,,,,,,,
+class,physical address,address,,,,,,,,,,,
+class,virtual address,address,,,,,,"telephone number, email address, network address, website",,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+class,street address,physical address,,,,Anschrift,An address that is a unique identifier for a specific location of a building.,"Musterstr. 1, 12345 Musterstadt",,physical address,"Hausanschrift,  Hausadresse, physische Adresse",contact,"https://en.wikipedia.org/wiki/Address, https://schema.org/streetAddress"
+relation,is located in,,place,street address,,,,,,,,,
+relation,is located in,,street address,"city, country",,,,,,,,,
+attribute,receiver full name,,street address,xsd:string,,Empfänger vollständiger Name,,Max Mustermann,,,,,
+attribute,receiver first name,,street address,xsd:string,,Empfänger Vorname,,Max,,,,,
+attribute,receiver last name,,street address,xsd:string,,Empfänger Nachname,,Mustermann,,,,,
+,,,,,,,,,,,,,
+attribute,full street address,,street address,xsd:string,,,"Combination of street + number, postal code, city, country","Musterstr. 1, 12345 Musterstadt",,,,,https://schema.org/streetAddress
+attribute,street name,,street address,xsd:string,Street,Straßenname,A street name is an identifying name given to a street or road.,Musterstr.,,"street, road, road name, odonym","Straße, Name einer Straße, Strassenname",,https://en.wikipedia.org/wiki/Street_name
+attribute,house number,,street address,xsd:string,Number,Hausnummer,,1.0,,,,,https://en.wikipedia.org/wiki/House_numbering
+attribute,postal code,,street address,xsd:string,,Postleitzahl,,12345.0,,"postcode, post code, zip code",Postleitzahl (PLZ),,"https://en.wikipedia.org/wiki/Postal_code, https://schema.org/postalCode"
+attribute,city,,street address,xsd:string,,Stadt,,Musterstadt,,"town, village, municipality",,,https://schema.org/City
+attribute,country,,street address,xsd:string,,Land,,Germany,,,,,https://schema.org/addressCountry
+,,,,,,,,,,,,,
+attribute,apartment number,,street address,xsd:string,,Wohnungsnummer,,123.0,optional,unit number,,,
+attribute,building number,,street address,xsd:string,,Gebäudenummer,,123.0,optional,,,,
+attribute,building name,,street address,xsd:string,,Gebäudename,,building a,optional,,,,
+attribute,building level,,street address,xsd:string,,Stockwerk,,2.0,optional,"floor, story","Etage, Geschoß",,https://en.wikipedia.org/wiki/Storey
+attribute,district,,street address,xsd:string,,Stadtteil,,,optional,,,,
+attribute,county,,street address,xsd:string,,Bundesland,,Bayern,optional,"state, province",,,https://schema.org/addressRegion
+,,,,,,,,,,,,,
+class,private address,street address,,,,Privatadresse,An address where a person lives.,,,"residential address, home adress","Privatanschrift, Wohnanschrift, Wohnadresse",,
+relation,has private address,,person,private address,,,,,,,,,
+,,,,,,,,,,,,,
+class,business address,street address,,,,Geschäftsadresse,An address where a person works or an organisations is located.,,,job address,"Arbeitsanschrift, Geschäftsanschrift",,https://www.wikidata.org/wiki/Q34120414
+relation,has business address,,"person, organisation",business address,,,,,,,,,
+attribute,company name,,business address,xsd:string,,Firmenname,,,,,,,
+,,,,,,,,,,,,,
+class,postal address,street address,,,,Postanschrift,An address where you can send mail.,,,"mailing address, post address","Postanschrift, Postadresse",,https://schema.org/PostalAddress
+relation,has postal address,,mail,postal address,,,,,,,,,
+,,,,,,,,,,,,,
+class,post office box,physical address,,,,Postfach,An uniquely addressable lockable box located on the premises of a post office station.,,,"P.O. box, postal box",Postschließfach,,https://en.wikipedia.org/wiki/Post_office_box
+relation,has post office box,,"mail, delivery",post office box,,,,,,,,,
+attribute,post office box number,,post office box,xsd:string,,Postfachnummer,,,,,,,https://schema.org/postOfficeBoxNumber
+,,,,,,,,,,,,,
+class,delivery address,street address,,,,Lieferadresse,An address where a mail or delivery is shipped to.,,,,"Lieferanschrift, Empfängeraddresse, Empfängeranschrift",,"https://www.wikidata.org/wiki/Q102188471, https://schema.org/deliveryAddress"
+relation,has delivery address,,delivery,delivery address,,,,,,,,,
+,,,,,,,,,,,,,
+class,return address,street address,,,,Absenderadresse,An address of the person or organisation sending the mail or delivery.,,,shipper’s address,"Anschrift des Absenders, Antwortadresse, Rücklieferadresse, Rücksendeadresse",,"https://en.wikipedia.org/wiki/Return_address, https://schema.org/originAddress"
+relation,has return address,,"mail, delivery",return address,,,,,,,,,
+,,,,,,,,,,,,,
+class,billing address,street address,,,,Rechnungsadresse,An address for billing an order.,,,invoice address,,,https://schema.org/billingAddress
+relation,has billing address,,bill,billing address,,,,,,,,,
+,,,,,,,,,,,,,
+class,legal address,"street address, post office box",,,,Meldeadresse,An address for the registration of a person or organisation from a legal standpoint.,,,"registered address, registration address","juristische Anschrift, offizielle Anschrift, gesetzlicher Wohnsitz, Firmenanschrift",,https://en.wikipedia.org/wiki/Primary_residence
+,,,,,,,,,,,,,

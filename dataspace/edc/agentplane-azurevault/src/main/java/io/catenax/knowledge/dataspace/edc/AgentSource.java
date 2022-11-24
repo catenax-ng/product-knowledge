@@ -116,6 +116,11 @@ public class AgentSource implements DataSource {
         }
     }
 
+    @Override
+    public String toString() {
+        return String.format("AgentSource(%s,%s)",requestId,name);
+    }
+
     /**
      * the agent source builder
      */

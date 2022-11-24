@@ -25,7 +25,7 @@ spec:
            type: RuntimeDefault
       containers:
         - name: tiera-backend
-          image: ghcr.io/catenax-ng/product-knowledge/dataspace/prognosis:{{.Values.version}}
+          image: ghcr.io/catenax-ng/product-knowledge/prognosis:{{.Values.version}}
           imagePullPolicy: Always
           securityContext:
             capabilities:
@@ -154,7 +154,7 @@ spec:
            type: RuntimeDefault
       containers:
         - name: tiera-remoting-agent
-          image: ghcr.io/catenax-ng/product-knowledge/dataspace/remoting-agent:{{.Values.version}}
+          image: ghcr.io/catenax-ng/product-knowledge/remoting-agent:{{.Values.version}}
           imagePullPolicy: Always
           securityContext:
             capabilities:

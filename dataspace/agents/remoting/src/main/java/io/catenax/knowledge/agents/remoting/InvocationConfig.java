@@ -98,6 +98,8 @@ public class InvocationConfig {
             throw new SailConfigException(String.format(
                 "There was no result configured for the invocation."));
 
+        } else {
+            result.validate(resultName);
         }
     }
 }

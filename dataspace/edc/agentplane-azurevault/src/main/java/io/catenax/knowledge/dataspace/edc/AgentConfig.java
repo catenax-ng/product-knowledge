@@ -38,6 +38,12 @@ public class AgentConfig {
     public static long DEFAULT_DATASPACE_SYNCINTERVAL = -1;
     public static String DATASPACE_SYNCCONNECTORS_PROPERTY = "cx.agent.dataspace.remotes";
 
+    public static String FEDERATION_SERVICE_BATCH_SIZE = "cx.agent.federation.batch.max";
+    public static long DEFAULT_FEDERATION_SERVICE_BATCH_SIZE = Long.MAX_VALUE;
+
+    public static String THREAD_POOL_SIZE = "cx.agent.threadpool.size";
+    public static int DEFAULT_THREAD_POOL_SIZE = 4;
+
     /**
      * references to EDC services
      */
@@ -109,6 +115,13 @@ public class AgentConfig {
     }
 
     /**
+     * @return the thread pool size of the agent executors
+     */
+    public int getThreadPoolSize() {
+        return config.getInteger(THREAD_POOL_SIZE,DEFAULT_THREAD_POOL_SIZE);
+    }
+
+    /**
      * @return the default overall timeout when waiting for a negotation result
      */
     public long getNegotiationPollInterval() {
@@ -127,7 +140,7 @@ public class AgentConfig {
      */
     public String[] getDataspaceSynchronizationConnectors() {
         String[] connectors= config.getString(DATASPACE_SYNCCONNECTORS_PROPERTY,"").split(",");
-        if(connectors.length==1 && "".equals(connectors[0])) {
+        if(connectors.length==1 && (connectors[0]==null || connectors[0].length()==0)) {
             return null;
         }
         return connectors;
@@ -140,4 +153,10 @@ public class AgentConfig {
         return config.getBoolean(VERBOSE_PROPERTY,DEFAULT_VERBOSE_PROPERTY);
     }
 
+    /**
+     * @return maximal batch size for remote service calls
+     */
+    public long getFederationServiceBatchSize() {
+        return config.getLong(FEDERATION_SERVICE_BATCH_SIZE,DEFAULT_FEDERATION_SERVICE_BATCH_SIZE);
+    }
 }

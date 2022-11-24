@@ -6,6 +6,7 @@
 //
 package io.catenax.knowledge.agents.remoting;
 
+import org.eclipse.rdf4j.query.*;
 import org.eclipse.rdf4j.sail.helpers.AbstractSailConnection;
 import org.eclipse.rdf4j.common.iteration.CloseableIteration;
 import org.eclipse.rdf4j.sail.SailException;
@@ -16,10 +17,6 @@ import org.eclipse.rdf4j.query.algebra.QueryRoot;
 import org.eclipse.rdf4j.query.algebra.StatementPattern;
 import org.eclipse.rdf4j.query.algebra.TupleExpr;
 import org.eclipse.rdf4j.query.algebra.Var;
-import org.eclipse.rdf4j.query.BindingSet;
-import org.eclipse.rdf4j.query.Dataset;
-import org.eclipse.rdf4j.query.Query;
-import org.eclipse.rdf4j.query.QueryEvaluationException;
 import org.eclipse.rdf4j.common.iteration.AbstractCloseableIteration;
 import org.eclipse.rdf4j.model.impl.SimpleNamespace;
 
@@ -158,7 +155,7 @@ public class RemotingSailConnection extends AbstractSailConnection {
 
                 return new AbstractCloseableIteration<BindingSet,QueryEvaluationException>() {
                     
-                    java.util.Iterator<BindingSet> allBindings=java.util.List.of((BindingSet) visitor.bindings).iterator();
+                    java.util.Iterator<MutableBindingSet> allBindings=visitor.bindings.iterator();
 
                     @Override
                     public void remove() {

@@ -1,67 +1,129 @@
-type,identifier,name_en,name_de,definition_en,example_en,note_en,synonyms_en,synonyms_de,parents,is_part_of,relation_from,relation_to,links
-# prefix,cx,,,,,,,,,,,,
-# namespace,https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/,,,,,,,,,,,,
-# title,material ontology,,,,,,,,,,,,
-# version,0.0.1,,,,,,,,,,,,
-# author,Zazralt Magic,,,,,,,,,,,,
-# contributor,,,,,,,,,,,,,
-# description,,,,,,,,,,,,,
-# import,common ontology,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-class,material,,Werkstoff,Materials are substances that are used in products.,,,"engineering material, engineered material, technische Werkstoff",,product,,,,https://de.wikipedia.org/wiki/Werkstoff
-class,material supplier,,Materiallieferant,,,,,,supplier,,,,
-relation,supplies,,,,,,,,,,material supplier,material,
-class,material manufacturer,,,,,,,,manufacturer,,,,
-relation,produces,,,,,,,,,,material manufacturer,material,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-class,raw material,,Rohstoff,Raw materials are substances that are used to create other products.,,,"commodity, feedstock, unprocessed material, primary commodity",Rohmaterial,product,,,,https://en.wikipedia.org/wiki/Raw_material
-class,raw material supplier,,Rohstofflieferant,,,,,,supplier,,,,
-relation,supplies,,,,,,,,,,raw material supplier,raw material,
-class,raw material manufacturer,,,,,,,,manufacturer,,,,
-relation,produces,,,,,,,,,,raw material manufacturer,raw material,
-,,,,,,,,,,,,,
-class,substance,,,,,,,,material thing,,,,
-,,,,,,,,,,,,,
-class,metal material,,,,,,,,material,,,,
-class,composite material,,,,,,,,material,,,,
-class,ceramic material,,,,,,,,material,,,,
-class,polymer material,,,,,,,,material,,,,
-class,organic material,,,,,,,,material,,,,https://en.wikipedia.org/wiki/Organic_matter
-class,operating material,,Betriebsstoff,,,,,,material,,,,https://de.wikipedia.org/wiki/Betriebsstoff
-class,liquid material,,Flüssigkeit,,,,,,material,,,,
-,,,,,,,,,,,,,
-class,strategic raw material,,,,,,,,raw material,,,,https://en.wikipedia.org/wiki/Strategic_material
-,,,,,,,,,,,,,
-class,material storage,,,,,,,,place,,,,
-relation,is stored in,,,,,,,,,,material,material storage,
-,,,,,,,,,,,,,
-class,material stock,,Materialvorrat,,,,,Materialbestand,information,,,,
-,,,,,,,,,,,,,
-class,material testing,,,,,,,,process,,,,https://de.wikipedia.org/wiki/Werkstoffpr%C3%BCfung
-,,,,,,,,,,,,,
-class,material property,,,,,,,,information,,,,
-class,material information,,,,,,,,information,,,,
-,,,,,,,,,,,,,
-metal material,steel,,,,,body,,,,,,,https://en.wikipedia.org/wiki/Steel
-metal material,aluminium,,,,,body,,,,,,,
-composite material,carbon,,,,,body,,,,,,,
-polymer material,plastic,,,,,interior,,,,,,,
-,,,,,,,,,,,,,
-metal material,copper,,,,,electric,,,,,,,
-,,,,,,,,,,,,,
-raw material,graphite,,,,,battery,,,,,,,
-raw material,lithium,,,,,battery,,,,,,,
-raw material,manganese,,,,,battery,,,,,,,
-raw material,cobalt,,,,,battery,,,,,,,
-raw material,nickel,,,,,battery,,,,,,,
-raw material,iron,,,,,battery,,,,,,,
-,,,,,,,,,,,,,
-raw material,neodymium,,,,,electric motor,,,,,,,
-raw material,dysprosium,,,,,electric motor,,,,,,,
-raw material,praseodymium,,,,,electric motor,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-organic material,leather,,Leder,,,interior,,,,,,,https://en.wikipedia.org/wiki/Leather
-organic material,Artificial leather,,Kunstleder,,,interior,,,,,,,https://en.wikipedia.org/wiki/Artificial_leather
+type,identifier,parents,relation_from,relation_to,name_en,name_de,definition_en,example_en,note_en,synonyms_en,synonyms_de,links
+# prefix,cx,,,,,,,,,,,
+# namespace,https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#,,,,,,,,,,,
+# title,material ontology,,,,,,,,,,,
+# version,0.0.1,,,,,,,,,,,
+# author,Zazralt Magic,,,,,,,,,,,
+# contributor,,,,,,,,,,,,
+# description,Material ontology in the context of supply and value chain of the automotive industry. Exchange of material information and knowledge.,,,,,,,,,,,
+# import,common ontology,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+class,material,intermediate product,,,,Material,Things that are used for the production of a product.,rubber,,,Stoff,https://de.wikipedia.org/wiki/Material_(Betriebswirtschaft)
+attribute,material id,,material,xsd:string,,,,,,material number,Materialnummer,
+attribute,material name,,material,xsd:string,,,,,,,,
+relation,has material property,,material,material property,,,,,,,,
+,,,,,,,,,,,,
+class,raw material,intermediate product,,,,Rohstoff,,"aluminium, natural rubber",,"commodity, feedstock, unprocessed material, primary commodity",Rohmaterial,https://en.wikipedia.org/wiki/Raw_material
+relation,is made of,,product,raw material,,,,,,,,
+relation,participates in,,raw material,process,,,,,,,,
+relation,contains,,raw material,substance,,,,,,,,
+class,primary raw material,raw material,,,,,Raw material that are yielded from natural resources.,crude oil,,,,
+class,secondary raw material,raw material,,,,,Raw material that yielded from recycling of waste.,"glas, paper, metal",,"recycling product, recyclate","Recyclingrohstoffe, Rezyklate, Recycling-Produkt",https://de.wikipedia.org/wiki/Sekund%C3%A4rrohstoff
+,,,,,,,,,,,,
+class,engineering material,intermediate product,,,,Werkstoff,A material that is used in the production of a product and becomes part of the product.,aluminium alloy,,"engineering material, engineered material, technische Werkstoff",,"https://de.wikipedia.org/wiki/Werkstoff, https://en.wikipedia.org/wiki/Factors_of_production"
+relation,is part of,,engineering material,product,,,,,,,,
+relation,is made of,,engineering material,raw material,,,,,,,,
+relation,contains,,engineering material,raw material,,,,,,,,
+relation,participates in,,engineering material,process,,,,,,,,
+attribute,engineering material number,,engineering material,xsd:string,,Werkstoffnummer,,,,,,https://de.wikipedia.org/wiki/Werkstoffnummer
+attribute,engineering material name,,engineering material,xsd:string,,Werkstoffbezeichnung,,,,,,
+,,,,,,,,,,,,
+class,material supplier,supplier,,,,Materiallieferant,,,,,,
+relation,supplies,,material supplier,material,,,,,,,,
+,,,,,,,,,,,,
+class,material manufacturer,manufacturer,,,,Materialhersteller,,,,,,
+relation,produces,,material manufacturer,material,,,,,,,,
+,,,,,,,,,,,,
+class,raw material supplier,supplier,,,,Rohstofflieferant,,small farmer,,,,
+relation,supplies,,raw material supplier,raw material,,,,,,,,
+,,,,,,,,,,,,
+class,raw material manufacturer,manufacturer,,,,Rohstoffhersteller,,,,,,
+relation,produces,,raw material manufacturer,raw material,,,,,,,,
+,,,,,,,,,,,,
+class,additive,material,,,,Additiv,A material that is used in small amounts in the production of a product and becomes part of the product.,lubricant,,,"Hilfsstoff, Zusatzstoff",https://www.wikidata.org/wiki/Q350176
+class,filler,material,,,,Füllstoff,,,,,,https://en.wikipedia.org/wiki/Filler_(materials)
+class,operating material,material,,,,Betriebsstoff,A material that is used for production and does not become part of the product.,,,,Betriebsmittel,https://de.wikipedia.org/wiki/Betriebsstoff
+class,liquid material,material,,,,Flüssigkeit,,,,,,
+,,,,,,,,,,,,
+class,Building material,material,,,,Baustoff,,,,,,https://en.wikipedia.org/wiki/Building_material
+relation,is part of,,building material,building,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+class,metal material,engineering material,,,,Metallmaterial,,,,,,https://en.wikipedia.org/wiki/Metal
+class,ceramic material,engineering material,,,,Keramisches Material,,,,,anorganisch-nichtmetallischer Werkstoff,
+class,organic material,engineering material,,,,Organisches Material,,"wood, fiber, paper",,,Organischer Werkstoff,https://en.wikipedia.org/wiki/Organic_matter
+class,semiconductor material,engineering material,,,,Halbleiter Material,,,,,,https://en.wikipedia.org/wiki/Semiconductor
+class,composite material,engineering material,,,,Verbundwerkstoff,mixture of materials,,,,,https://en.wikipedia.org/wiki/Composite_material
+class,polymer material,engineering material,,,,Kunststoff,,,,,,"https://en.wikipedia.org/wiki/Polymer, https://en.wikipedia.org/wiki/Plastic"
+,,,,,,,,,,,,
+class,heavy metal,metal material,,,,Schwermetall,density above 5 g/cm³,,,,,https://en.wikipedia.org/wiki/Heavy_metals
+class,light metal,metal material,,,,Leichtmetall,density below 5 g/cm³,,,,,https://en.wikipedia.org/wiki/Light_metal
+class,native metal,metal material,,,,Reinmetal,,,,,,https://en.wikipedia.org/wiki/Native_metal
+class,alloy,metal material,,,,Legierung,,,,,,https://en.wikipedia.org/wiki/Alloy
+class,mineral material,material,,,,Mineralstoff,,,,,,https://en.wikipedia.org/wiki/Mineral
+,,,,,,,,,,,,
+class,nano material,material,,,,Nanomaterial,,,,,,https://en.wikipedia.org/wiki/Nanomaterials
+,,,,,,,,,,,,
+class,strategic raw material,raw material,,,,,,,,,,https://en.wikipedia.org/wiki/Strategic_material
+,,,,,,,,,,,,
+class,material storage,place,,,,Materiallager,,,,,,
+relation,is stored in,,material,material storage,,,,,,,,
+,,,,,,,,,,,,
+class,material stock,information,,,,Materialvorrat,,,,,Materialbestand,
+,,,,,,,,,,,,
+class,material testing,process,,,,Materialprüfung,,,,,,https://de.wikipedia.org/wiki/Werkstoffpr%C3%BCfung
+,,,,,,,,,,,,
+class,material property,information,,,,,,,,,,
+class,mechanical property,material property,,,,,,,,,,
+class,chemical property,material property,,,,,,,,,,
+class,thermal property,material property,,,,,,,,,,
+class,electrical property,material property,,,,,,,,,,
+class,optical property,material property,,,,,,,,,,
+class,magnetic property,material property,,,,,,,,,,
+,,,,,,,,,,,,
+class,material information,information,,,,,,,,,,
+attribute,information source,,material information,xsd:string,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+metal material,steel,,,,,,,,body,,DIN EN 10027,https://en.wikipedia.org/wiki/Steel
+metal material,aluminium,,,,,,,,body,,DIN EN 573,
+composite material,carbon,,,,,,,,body,,DIN EN 14598,
+polymer material,plastic,,,,,,,,interior,,DIN EN ISO 1043,
+,,,,,,,,,,,,
+metal material,copper,,,,,,,,electric,,"DIN EN 1412, DIN EN 1173",
+,,,,,,,,,,,,
+raw material,graphite,,,,,,,,battery,,,
+raw material,lithium,,,,,,,,battery,,,
+raw material,manganese,,,,,,,,battery,,,
+raw material,cobalt,,,,,,,,battery,,,
+raw material,nickel,,,,,,,,battery,,,
+raw material,iron,,,,,,,,battery,,,
+,,,,,,,,,,,,
+raw material,neodymium,,,,,,,,electric motor,,,
+raw material,dysprosium,,,,,,,,electric motor,,,
+raw material,praseodymium,,,,,,,,electric motor,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+organic material,leather,,,,,Leder,,,interior,,,https://en.wikipedia.org/wiki/Leather
+organic material,Artificial leather,,,,,Kunstleder,,,interior,,,https://en.wikipedia.org/wiki/Artificial_leather
+,,,,,,,,,,,,
+law,Supply Chain Act,,,,,Lieferkettengesetz,,,,"Lieferkettensorgfaltspflichtengesetz (LKSG, LkSG)",,"https://de.wikipedia.org/wiki/Lieferkettensorgfaltspflichtengesetz, https://en.wikipedia.org/wiki/Supply_Chain_Act"
+regulation,EU deforestation regulation,,,,,Verordnung zur Entwaldung,Regulation on deforestation-free products.,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+class,substance,material thing,,,,Substanz,anything that has mass and takes up space,,,,Stoff,https://en.wikipedia.org/wiki/Substance
+class,pure substance,substance,,,,Reinstoff,,,,,chemischer Stoff,https://de.wikipedia.org/wiki/Reinstoff
+class,chemical element,pure substance,,,,Element,,,,,,https://en.wikipedia.org/wiki/Chemical_element
+class,chemical compound,pure substance,,,,Verbindung,,,,,,https://en.wikipedia.org/wiki/Chemical_compound
+class,chemical mixture,substance,,,,Gemisch,,,,,,https://en.wikipedia.org/wiki/Mixture
+class,chemical solution,chemical mixture,,,,Lösung,,,,,,https://en.wikipedia.org/wiki/Solution_(chemistry)
+class,chemical dispersion,chemical mixture,,,,Dispersion,,,,,,https://en.wikipedia.org/wiki/Dispersion_(chemistry)
+class,aerosol,chemical dispersion,,,,Aerosol,,"fog, smoke",,,,https://en.wikipedia.org/wiki/Aerosol
+class,liquid,chemical dispersion,,,,Flüssigkeit,,"foam, emulsion, suspension",,,,https://en.wikipedia.org/wiki/Liquid
+class,solid,chemical dispersion,,,,Feststoff,,,,,,https://en.wikipedia.org/wiki/Solid

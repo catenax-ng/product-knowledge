@@ -1,4 +1,4 @@
-@prefix cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/> .
+@prefix cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -6,7 +6,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 cx:AutomotiveSafetyIntegrityLevel a owl:Class ;
-    rdfs:isDefinedBy cx:vehicle_safety_ontology.ttl ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_safety_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Automotive_Safety_Integrity_Level> ;
     rdfs:subClassOf cx:Classification ;
     skos:altLabel "ASIL"@en,
@@ -14,12 +14,17 @@ cx:AutomotiveSafetyIntegrityLevel a owl:Class ;
     skos:note "ISO 26262"@en ;
     skos:prefLabel "Automotive Safety Integrity Level"@en .
 
-cx:Iso26262 a cx:IsoStandard ;
+cx:CyberSecurity a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_safety_ontology.ttl> ;
+    rdfs:subClassOf cx:Information ;
+    skos:prefLabel "Cyber Security"@en .
+
+cx:IsoStandard_Iso26262 a cx:IsoStandard ;
     rdfs:seeAlso <https://de.wikipedia.org/wiki/ISO_26262> ;
     skos:prefLabel "Functional safety"@en .
 
 cx:VehicleFunctionalSafety a owl:Class ;
-    rdfs:isDefinedBy cx:vehicle_safety_ontology.ttl ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_safety_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Functional_safety>,
         <https://en.wikipedia.org/wiki/ISO_26262> ;
     rdfs:subClassOf cx:Information ;
@@ -29,9 +34,10 @@ cx:VehicleFunctionalSafety a owl:Class ;
         "Functional Safety"@en ;
     skos:prefLabel "Vehicle Functional Safety"@en .
 
-cx:vehicle_safety.ttl a owl:Ontology ;
+<https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_safety.ttl> a owl:Ontology ;
     dc:creator "Zazralt Magic" ;
-    dc:date "2022-10-13"^^xsd:date ;
+    dc:date "2022-11-10"^^xsd:date ;
     dc:title "Vehicle Safety" ;
+    owl:imports <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
     owl:versionInfo "0.0.1" .
 

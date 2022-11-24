@@ -101,7 +101,7 @@ public class HttpUtils {
                 break;
             default:
                 builder.type("text/plain");
-                builder.entity(message+":"+cause.getMessage());
+                builder.entity(message+(cause!=null ? ":"+cause.getMessage() : ""));
         }
         return builder.build();
      }

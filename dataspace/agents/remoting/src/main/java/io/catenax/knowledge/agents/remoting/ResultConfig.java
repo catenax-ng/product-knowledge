@@ -25,7 +25,8 @@ public class ResultConfig {
     String outputProperty=null;
     /** where the id of the result can be found */
     String resultIdProperty=null;
-
+    String correlationInput=null;
+    
     @Override
     public String toString() {
         return super.toString()+"/service";
@@ -36,6 +37,9 @@ public class ResultConfig {
      * @throws SailConfigException
      */
     public void validate(String context) throws SailConfigException {
+        if(context==null) {
+            throw new SailConfigException("Result Config must have a context");
+        }
         for (Map.Entry<String, ReturnValueConfig> arg : outputs.entrySet()) {
             arg.getValue().validate(arg.getKey());
         }

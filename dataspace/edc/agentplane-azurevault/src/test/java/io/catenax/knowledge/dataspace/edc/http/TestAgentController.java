@@ -6,9 +6,7 @@
 //
 package io.catenax.knowledge.dataspace.edc.http;
 
-import io.catenax.knowledge.dataspace.edc.AgentConfig;
-import io.catenax.knowledge.dataspace.edc.SkillStore;
-import io.catenax.knowledge.dataspace.edc.TestConfig;
+import io.catenax.knowledge.dataspace.edc.*;
 import io.catenax.knowledge.dataspace.edc.rdf.RDFStore;
 import io.catenax.knowledge.dataspace.edc.sparql.DataspaceServiceExecutor;
 import io.catenax.knowledge.dataspace.edc.sparql.SparqlQueryProcessor;
@@ -47,6 +45,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Tests the agent controller
@@ -56,20 +56,25 @@ public class TestAgentController {
     ConsoleMonitor monitor=new ConsoleMonitor();
     TestConfig config=new TestConfig();
     AgentConfig agentConfig=new AgentConfig(monitor,config);
-    ServiceExecutorRegistry reg=new ServiceExecutorRegistry();
+    ServiceExecutorRegistry serviceExecutorReg=new ServiceExecutorRegistry();
     OkHttpClient client=new OkHttpClient();
-    DataspaceServiceExecutor exec=new DataspaceServiceExecutor(monitor,null,agentConfig,client);
+    IAgreementController mockController = new MockAgreementController();
+    ExecutorService threadedExecutor= Executors.newSingleThreadExecutor();
+    DataspaceServiceExecutor exec=new DataspaceServiceExecutor(monitor,mockController,agentConfig,client,threadedExecutor);
     RDFStore store = new RDFStore(agentConfig,monitor);
-    SparqlQueryProcessor processor=new SparqlQueryProcessor(reg,monitor,agentConfig,store);
+    SparqlQueryProcessor processor=new SparqlQueryProcessor(serviceExecutorReg,monitor,agentConfig,store);
     SkillStore skillStore=new SkillStore();
-    AgentController agentController=new AgentController(monitor,null,agentConfig,null,processor,skillStore);
+
+
+    AgentController agentController=new AgentController(monitor,mockController,agentConfig,null,processor,skillStore);
 
     AutoCloseable mocks=null;
 
     @BeforeEach
     public void setUp()  {
         mocks=MockitoAnnotations.openMocks(this);
-        reg.add(exec);
+        //serviceExecutorReg.add(exec);
+        serviceExecutorReg.addBulkLink(exec);
     }
 
     @AfterEach
@@ -77,7 +82,8 @@ public class TestAgentController {
         if(mocks!=null) {
             mocks.close();
             mocks=null;
-            reg.remove(exec);
+            serviceExecutorReg.remove(exec);
+            serviceExecutorReg.removeBulkLink(exec);
         }
     }
     
@@ -375,8 +381,28 @@ public class TestAgentController {
                 "GRAPH <urn:cx:Graph:4711> { VALUES (?what) { (\"42\"^^xsd:int)} } } }";
         Request.Builder builder=new Request.Builder();
         builder.url("http://localhost:8080");
+        builder.addHeader("Accept","application/json");
         builder.put(RequestBody.create(query, MediaType.parse("application/sparql-query")));
         Response response=processor.execute(builder.build(),null,null,null,null);
+        JsonNode root=mapper.readTree(response.body().string());
+        JsonNode whatBinding0=root.get("results").get("bindings").get(0).get("what");
+        assertEquals("42",whatBinding0.get("value").asText(),"Correct binding");
+    }
+
+    /**
+     * test federation call - will only work with a local oem provider running
+     * @throws IOException in case of an error
+     */
+    @Test
+    @Tag("online")
+    public void testFederatedServiceChain() throws IOException {
+        String query="PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT ?what WHERE { VALUES (?chain1) { (<http://localhost:8080/sparql#urn:cx:Graph:1>)} SERVICE ?chain1 { " +
+                "VALUES (?chain2) { (<http://localhost:8080/sparql>)} SERVICE ?chain2 { VALUES (?what) { (\"42\"^^xsd:int)} } } }";
+        Request.Builder builder=new Request.Builder();
+        builder.url("http://localhost:8080");
+        builder.put(RequestBody.create(query, MediaType.parse("application/sparql-query")));
+        Response response=processor.execute(builder.build(),null,null,null,null);
+        assertEquals(true,response.isSuccessful(),"Response was successful");
         JsonNode root=mapper.readTree(response.body().string());
         JsonNode whatBinding0=root.get("results").get("bindings").get(0).get("what");
         assertEquals("84",whatBinding0.get("value").asText(),"Correct binding");
@@ -388,16 +414,33 @@ public class TestAgentController {
      */
     @Test
     @Tag("online")
-    public void testFederatedServiceChain() throws IOException {
-        String query="PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT ?what WHERE { VALUES (?chain1) { (<http://localhost:8080/sparql#urn:cs:Graph:1>)} SERVICE ?chain1 { " +
-                "VALUES (?chain2) { (<http://localhost:8080/sparql>)} SERVICE ?chain2 { VALUES (?what) { (\"42\"^^xsd:int)} } } }";
+    public void testBatchFederation() throws IOException {
+        String query="PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> "+
+                "SELECT ?chain1 ?what ?output WHERE { " +
+                "  VALUES (?chain1 ?what) { "+
+                "   (<http://localhost:8080/sparql#urn:cx:Graph:1> \"42\"^^xsd:int) "+
+                "   (<http://localhost:8080/sparql#urn:cx:Graph:2> \"21\"^^xsd:int) "+
+                "   (<http://localhost:8080/sparql#urn:cx:Graph:1> \"84\"^^xsd:int) "+
+                "  } "+
+                "  SERVICE ?chain1 { " +
+                "    BIND(?what as ?output) "+
+                "  } "+
+                "}";
         Request.Builder builder=new Request.Builder();
         builder.url("http://localhost:8080");
+        builder.addHeader("Accept","application/json");
         builder.put(RequestBody.create(query, MediaType.parse("application/sparql-query")));
         Response response=processor.execute(builder.build(),null,null,null,null);
+        assertEquals(true,response.isSuccessful(),"Successful result");
         JsonNode root=mapper.readTree(response.body().string());
-        JsonNode whatBinding0=root.get("results").get("bindings").get(0).get("what");
-        assertEquals("84",whatBinding0.get("value").asText(),"Correct binding");
+        JsonNode bindings=root.get("results").get("bindings");
+        assertEquals(3,bindings.size(),"Correct number of result bindings.");
+        JsonNode whatBinding0=bindings.get(0).get("output");
+        assertEquals("21",whatBinding0.get("value").asText(),"Correct binding");
+        JsonNode whatBinding1=bindings.get(1).get("output");
+        assertEquals("42",whatBinding1.get("value").asText(),"Correct binding");
+        JsonNode whatBinding2=bindings.get(2).get("output");
+        assertEquals("84",whatBinding2.get("value").asText(),"Correct binding");
     }
 
 }

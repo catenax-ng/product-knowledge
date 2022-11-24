@@ -1,7 +1,7 @@
 DROP SCHEMA IF EXISTS "dtc" CASCADE;
-CREATE SCHEMA "dtc";
+CREATE SCHEMA IF NOT EXISTS "dtc";
 
-CREATE TABLE "dtc"."meta" (
+CREATE TABLE IF NOT EXISTS "dtc"."meta" (
   "bpnl" varchar(17) NOT NULL,
   "first" BOOLEAN NOT NULL,
   "last" BOOLEAN NOT NULL,
@@ -12,23 +12,21 @@ CREATE TABLE "dtc"."meta" (
   "total_pages" INT NOT NULL,
   PRIMARY KEY ("bpnl", "number")
 );
-INSERT INTO "dtc"."meta" ("bpnl","first","last","number","number_of_elements","size","total_elements","total_pages") VALUES
+MERGE INTO "dtc"."meta" VALUES
   ('BPNL00000003COJN',true,true,0,2555,30000,2555,1);
 
-CREATE TABLE "dtc"."content" (
+CREATE TABLE IF NOT EXISTS "dtc"."content" (
   "bpnl" varchar(17) NOT NULL,
   "number" INT NOT NULL,
   "id" VARCHAR(64) NOT NULL PRIMARY KEY,
   "code" VARCHAR(10) NOT NULL,
   "description" VARCHAR(256) NOT NULL,
   "possible_causes" VARCHAR(256) NOT NULL,
-  "make" VARCHAR(256) NULL,
   "created_at" VARCHAR(64) NOT NULL,
-  "updated_at" VARCHAR(64) NULL,
-  "lock_version" INT NOT NULL
+  "lock_version" INT NOT NULL,
+  FOREIGN KEY ("bpnl","number") REFERENCES "dtc"."meta"("bpnl","number")
 );
-ALTER TABLE "dtc"."content" ADD FOREIGN KEY ("bpnl","number") REFERENCES "dtc"."meta"("bpnl","number");
-INSERT INTO "dtc"."content" ("bpnl","number","id","code","description","possible_causes","created_at","lock_version") VALUES
+MERGE INTO  "dtc"."content" VALUES
   ('BPNL00000003COJN',0,'aafbc999-1157-44aa-a395-d1a62ddf93d5','P0000','Keinen Fehler gefunden','-','2022-05-11T11:16:13.724169Z',0),
   ('BPNL00000003COJN',0,'9573c2a6-9c2e-4983-818b-89bd76032735','P0001','Steuerkreis Kraftstoffvolumenregler - offener Stromkreis','Kabelbaum, Regelmagnetventil','2022-05-11T11:16:13.913631Z',0),
   ('BPNL00000003COJN',0,'2be3578e-2b51-4b8d-92b6-2fc752314a13','P0002','Steuerkreis Kraftstoffvolumenregler - Bereichs-/Funktionsfehler Stromkreis','Kabelbaum, Regelmagnetventil','2022-05-11T11:16:13.927145Z',0),
@@ -2585,17 +2583,17 @@ INSERT INTO "dtc"."content" ("bpnl","number","id","code","description","possible
   ('BPNL00000003COJN',0,'df0027d1-8a90-4220-9861-eb6233a20e23','P1290','Außentemperatursensor - zeitweilige Stromkreisunterbrechungen ','Kabelbaum, schlechte Kontaktierung, Außentemperatursensor, Motorsteuergerät','2022-05-11T11:16:28.668948Z',0),
   ('BPNL00000003COJN',0,'e625c4fb-52dd-48fb-b7c9-d5e7a1d5b230','P1246','Turbo-/Kompressorlader B - Bereichs-/Funktionsfehler Stromkreis ','Kabelbaum, Turbolader-/Motoraufladungskompressor-Bypassventil','2022-05-11T11:16:28.673580Z',0);
 
-CREATE TABLE "dtc"."part" (
+CREATE TABLE IF NOT EXISTS "dtc"."part" (
   "bpnl" varchar(17) NOT NULL,
   "number" INT NOT NULL,
   "entityGuid" VARCHAR(64) NOT NULL PRIMARY KEY,
   "enDenomination" VARCHAR(256) NOT NULL,
   "classification" VARCHAR(256) NOT NULL,
   "category" VARCHAR(256) NOT NULL,
-  "enDaClass" VARCHAR(256) NOT NULL
+  "enDaClass" VARCHAR(256) NOT NULL,
+  FOREIGN KEY ("bpnl","number") REFERENCES "dtc"."meta"("bpnl","number")
 );
-ALTER TABLE "dtc"."part" ADD FOREIGN KEY ("bpnl","number") REFERENCES "dtc"."meta"("bpnl","number");
-INSERT INTO "dtc"."part" ("bpnl","number","entityGuid","enDenomination","classification","category","enDaClass") VALUES
+MERGE INTO "dtc"."part" VALUES
  ('BPNL00000003COJN',0,'2eb7f6a1-f7fa-48e4-bb76-f73c73597b28','fuel','General information.Liquids','Operating fluid','General information')
 ,('BPNL00000003COJN',0,'ddd15703-21c8-4eac-b6f4-8c640c6180da','wiring harness','Electrical.Wiring harness','Other','Electrical')
 ,('BPNL00000003COJN',0,'b0443218-47e1-4b2d-b4fb-1272a39b8499','camshaft','Powertrain.Engine & emissions control','Part','Powertrain')
@@ -2670,13 +2668,13 @@ INSERT INTO "dtc"."part" ("bpnl","number","entityGuid","enDenomination","classif
 ,('BPNL00000003COJN',0,'e837e90d-d57f-4271-a606-3965b0e9f9b9','hydraulic pump','General information.Others','Part','General information')
 ,('BPNL00000003COJN',0,'4c9fd1f7-7a2c-4bea-ba8d-18ef93e7888d','manual transmission','Powertrain.Transmission','Part','Powertrain')
 ;
-CREATE TABLE "dtc"."content_part" (
+CREATE TABLE IF NOT EXISTS "dtc"."content_part" (
   "part_entityGuid" VARCHAR(64) NOT NULL,
-  "dtc_id" VARCHAR(64) NOT NULL
+  "dtc_id" VARCHAR(64) NOT NULL,
+  FOREIGN KEY ("dtc_id") REFERENCES "dtc"."content"("id"),
+  FOREIGN KEY ("part_entityGuid") REFERENCES "dtc"."part"("entityGuid")
 );
-ALTER TABLE "dtc"."content_part" ADD FOREIGN KEY ("dtc_id") REFERENCES "dtc"."content"("id");
-ALTER TABLE "dtc"."content_part" ADD FOREIGN KEY ("part_entityGuid") REFERENCES "dtc"."part"("entityGuid");
-INSERT INTO "dtc"."content_part" ("part_entityGuid","dtc_id") VALUES
+MERGE INTO "dtc"."content_part" KEY ("dtc_id","part_entityGuid") VALUES
  ('2eb7f6a1-f7fa-48e4-bb76-f73c73597b28','9573c2a6-9c2e-4983-818b-89bd76032735')
 ,('ddd15703-21c8-4eac-b6f4-8c640c6180da','9573c2a6-9c2e-4983-818b-89bd76032735')
 ,('2eb7f6a1-f7fa-48e4-bb76-f73c73597b28','2be3578e-2b51-4b8d-92b6-2fc752314a13')

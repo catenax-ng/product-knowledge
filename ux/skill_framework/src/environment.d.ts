@@ -13,6 +13,7 @@ declare global {
       REACT_APP_SKILL_CONNECTOR_DATA?: string;
       REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY?: string;
       REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_VALUE?: string;
+      REACT_APP_SKILL_GITHUB_ONTOLOGYHUB?: string;
     }
   }
 }

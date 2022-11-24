@@ -60,7 +60,11 @@ public class HttpServletRequestAdapter implements HttpServletRequest {
 
     @Override
     public int getIntHeader(String name) {
-        return Integer.parseInt(request.header(name));
+        try {
+            return Integer.parseInt(request.header(name));
+        } catch(NumberFormatException nfe) {
+            throw new RuntimeException(nfe);
+        }
     }
 
     @Override
@@ -228,7 +232,14 @@ public class HttpServletRequestAdapter implements HttpServletRequest {
 
     @Override
     public String getContentType() {
-        return request.body().contentType().toString();
+        var body=request.body();
+        if(body!=null) {
+            var contentType=body.contentType();
+            if(contentType!=null) {
+                return contentType.toString();
+            }
+        }
+        return null;
     }
 
     @Override
