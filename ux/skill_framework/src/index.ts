@@ -207,17 +207,6 @@ export interface Asset {
   /** just a flexible property container */
   properties: AssetProperties;
 }
-
-/**
- * the different types of endpoints/data planes supported
- */
-export declare enum DataAddressEndpointType {
-  /** http data plane */
-  HttpData = 'HttpData',
-  /** Sparql subprotocol */
-  Sparql = 'urn:cx:Protocol:w3c:Http#SPARQL',
-}
-
 /**
  * the different types of endpoints/data planes supported
  */
