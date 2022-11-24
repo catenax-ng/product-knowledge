@@ -82,6 +82,8 @@ export REACT_APP_SKILL_CONNECTOR_DATA=https://knowledge.int.demo.catena-x.net/oe
 export REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY=X-Api-Key
 export REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_VALUE=YOURAPIKEY
 export REACT_APP_SKILL_PROXY=YOURPROXY
+export REACT_APP_SKILL_GITHUB_ONTOLOGYHUB=https://api.github.com/repos/catenax-ng/product-knowledge/contents/ontology
+
 ## Notice
 
 * see copyright notice in the top folder
