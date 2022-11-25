@@ -29,7 +29,6 @@ RUN \
   && mkdir -p /var/log/dremio \
   && mkdir -p /opt/dremio/data \
   && mkdir -p /opt/dremio/log \
-  \
   && groupadd --system -g 30000 dremio \
   && useradd --base-dir /var/lib/dremio --system -u 10000 --gid dremio dremio \
   && chown -R dremio:dremio /var/run/dremio \
@@ -38,7 +37,10 @@ RUN \
   && wget -q "${DOWNLOAD_URL}" -O dremio.tar.gz \
   && tar vxfz dremio.tar.gz -C /opt/dremio --strip-components=1 \
   && rm -rf dremio.tar.gz \
-  && chown -R dremio:dremio /opt/dremio 
+  && rm -f /opt/dremio/jars/3rdparty/rocksdbjni-5.14.2.jar \
+  && wget -q https://repo1.maven.org/maven2/org/rocksdb/rocksdbjni/7.7.3/rocksdbjni-7.7.3-linux64.jar -O /opt/dremio/jars/3rdparty/rocksdbjni.jar \
+  && wget -q https://repo1.maven.org/maven2/org/rocksdb/rocksdbjni/7.7.3/rocksdbjni-7.7.3-linux64.jar -O /opt/dremio/jars/3rdparty/rocksdbjni.jar \
+  && chown -R dremio:dremio /opt/dremio
 
 EXPOSE 9047
 EXPOSE 31010

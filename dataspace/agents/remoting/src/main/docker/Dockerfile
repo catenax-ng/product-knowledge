@@ -15,7 +15,7 @@ ARG JAVA_TOOL_OPTIONS ""
 HEALTHCHECK NONE
 
 ARG HTTP_PROXY=""
-RUN if [[ -n "${HTTP_PROXY}"  ]]; then \
+RUN if [ "${HTTP_PROXY}" != ""  ]; then \
         echo "Acquire::http::Proxy \"${HTTP_PROXY}\"" >> /etc/apt/apt.conf.d/proxy.conf; \
         echo "Acquire::https::Proxy \"${HTTP_PROXY}\"" >> /etc/apt/apt.conf.d/proxy.conf; \
     fi && \
@@ -25,7 +25,7 @@ RUN if [[ -n "${HTTP_PROXY}"  ]]; then \
     addgroup --system --gid 30000 tomcat && \
     adduser --disabled-password --gecos "" --ingroup tomcat --uid 10000 tomcat && \
     rm -rf /usr/local/tomcat/webapps/* && \
-    if [[ -n "${HTTP_PROXY}"  ]]; then rm -f /etc/apt/apt.conf.d/proxy.conf; fi && \
+    if [ "${HTTP_PROXY}" != ""  ]; then rm -f /etc/apt/apt.conf.d/proxy.conf; fi && \
     wget -q -O /tmp/rdf4j.zip "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/rdf4j/eclipse-rdf4j-4.2.1-sdk.zip" && \
     unzip -d /tmp /tmp/rdf4j.zip eclipse-rdf4j-4.2.1/war/rdf4j-server.war  eclipse-rdf4j-4.2.1/war/rdf4j-workbench.war && \
     rm /tmp/rdf4j.zip
