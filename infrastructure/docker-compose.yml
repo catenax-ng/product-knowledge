@@ -64,7 +64,7 @@ services:
       # If you want to enable multiple mappings, simply list them with spaces, like ONTOP_MAPPING_FILE: /input/dtc.obda /input/loadspectrum.obda 
       ONTOP_MAPPING_FILE: /input/dtc.obda /input/hi.obda
       # If you want to enable multiple settings, simply list them with spaces, like ONTOP_PROPERTIES_FILE: /input/settings.properties /input/settings.dremio.properties
-      ONTOP_PROPERTIES_FILE: /input/settings.local.properties /input/settings.druid.properties
+      ONTOP_PROPERTIES_FILE: /input/settings.local.properties /input/settings.dremio.properties
       # If you want to enable multiple portals, simply list them with spaces, like ONTOP_PORTAL_FILE: /input/portal.toml /input/portal2.toml 
       ONTOP_PORTAL_FILE: /input/portal.toml /input/portal.toml
       # If you want to enable different developer modes, simply list them with spaces, like NTOP_DEV_MODE: true false 
