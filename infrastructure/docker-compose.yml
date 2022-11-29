@@ -13,11 +13,11 @@ services:
   #
   # https://download.ontotext.com/owlim/71864e00-43b9-11ed-9c34-42843b1b6b38/ontorefine-1.1.0-dist.zip
   #
-  data-backend:
+  data-backend2:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/virtualize/druid
-    image: ghcr.io/catenax-ng/product-knowledge/druid:0.6.4-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/virtualizer-druid:0.6.4-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8888:8888" # http
@@ -27,18 +27,17 @@ services:
       - ./resources/druid.runtime.properties:/opt/druid/conf/druid/single-server/micro-quickstart/_common/common.runtime.properties
       - ./resources/data:/opt/druid/data
 
-  data-backend2:
+  data-backend:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/virtualize/dremio
-    image: ghcr.io/catenax-ng/product-knowledge/dremio:0.6.4-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/virtualizer-dremio:0.6.4-SNAPSHOT
     platform: linux/amd64
     ports:
       - "9047:9047" # http
       - "31010:31010" # jdbc
     profiles: ["backend"]
     volumes:
-      - ./resources/data/CX_RUL_Testdata_v1.0.0.ndjson:/opt/dremio/local/CX_RUL_Testdata_v1.0.0.ndjson
       - ./resources/dremio:/opt/dremio/data
 
   #
@@ -138,7 +137,7 @@ services:
   #
   # Configures the tiera backend 
   #
-  tiera-backend:
+  service-backend:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/mock/prognosis
@@ -150,7 +149,7 @@ services:
   #
   # Configures the tier1 agent 
   #
-  tiera-remoting-agent:
+  remoting-agent:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/agents/remoting

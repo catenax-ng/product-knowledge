@@ -99,6 +99,11 @@ public class RemotingSailConfig extends AbstractSailImplConfig {
     /**
      * constant
      */
+    public static String MANDATORY_ATTRIBUTE="mandatory";
+
+    /**
+     * constant
+     */
     public static String PATH_ATTRIBUTE="valuePath";
 
     /**
@@ -139,6 +144,7 @@ public class RemotingSailConfig extends AbstractSailImplConfig {
     protected IRI OUTPUT_PREDICATE=vf.createIRI(CONFIG_NAMESPACE, OUTPUT_ATTRIBUTE);
     protected IRI RESULT_PREDICATE=vf.createIRI(CONFIG_NAMESPACE, RESULT_ATTRIBUTE);
     protected IRI ARGUMENT_NAME_PREDICATE=vf.createIRI(CONFIG_NAMESPACE, ARGUMENT_ATTRIBUTE);
+    protected IRI MANDATORY_PREDICATE=vf.createIRI(CONFIG_NAMESPACE, MANDATORY_ATTRIBUTE);
     protected IRI RETURN_PATH_PREDICATE=vf.createIRI(CONFIG_NAMESPACE, PATH_ATTRIBUTE);
     protected IRI BATCH_PREDICATE=vf.createIRI(CONFIG_NAMESPACE, BATCH_ATTRIBUTE);
     protected IRI INVOCATION_ID_PREDICATE=vf.createIRI(CONFIG_NAMESPACE, INVOCATION_ID_ATTRIBUTE);
@@ -223,6 +229,7 @@ public class RemotingSailConfig extends AbstractSailImplConfig {
                 model.add(functionNode,INPUT_PREDICATE,argumentNode);
                 model.add(argumentNode,A_PREDICATE,ARGUMENT_CLASS);
                 model.add(argumentNode,ARGUMENT_NAME_PREDICATE,vf.createLiteral(arg.getValue().argumentName));
+                model.add(argumentNode,MANDATORY_PREDICATE,vf.createLiteral(arg.getValue().mandatory));
             }
             IRI resultNode = vf.createIRI(func.getValue().resultName);
             model.add(functionNode,RESULT_PREDICATE,resultNode);
@@ -290,6 +297,8 @@ public class RemotingSailConfig extends AbstractSailImplConfig {
                         ic.arguments.put(argumentNode.stringValue(),ac);
                         Models.objectLiteral(model.filter(argumentNode,ARGUMENT_NAME_PREDICATE,null)).
                         ifPresent(argumentName -> ac.argumentName=argumentName.stringValue());
+                        Models.objectLiteral(model.filter(argumentNode,MANDATORY_PREDICATE,null)).
+                        ifPresent(mandatory -> ac.mandatory=Boolean.parseBoolean(mandatory.stringValue()));
                     }
                 );
             Models.objectIRI(model.filter(functionNode,RESULT_PREDICATE,null)).
