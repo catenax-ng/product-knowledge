@@ -14,6 +14,7 @@ import org.eclipse.rdf4j.sail.config.SailConfigException;
 public class ArgumentConfig {
      /** name of the argument */
      protected String argumentName;
+     protected boolean mandatory=true;
      
      public void validate(String context) throws SailConfigException {
          if (argumentName==null || argumentName.length()==0) {
@@ -23,7 +24,7 @@ public class ArgumentConfig {
 
      @Override
      public String toString() {
-         return super.toString()+"/argument";
+         return super.toString()+"/argument("+String.valueOf(mandatory)+")";
      }
  
 }

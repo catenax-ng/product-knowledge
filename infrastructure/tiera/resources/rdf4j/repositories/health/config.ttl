@@ -28,15 +28,20 @@
 cx-health:HealthIndication rdf:type cx-fx:Function;
   dcterms:description "Health Indication is an evaluation function operating on batches of load collectives and adaptive values."@en ;
   dcterms:title "Health Indication" ;
-  cx-fx:targetUri "http://tiera-backend:5005/api/hi";
+  cx-fx:targetUri "http://service-backend:5005/api/hi";
   cx-fx:invocationMethod "POST-JSON-MF";
   cx-fx:batch "100"^^xsd:long;
   cx-fx:inputProperty "hi_input.healthIndicatorInputs";
   cx-fx:invocationIdProperty "requestRefId";
   cx-fx:input cx-health:requestComponentId;
-  cx-fx:input cx-health:classifiedLoadCollectiveFile;
-  cx-fx:input cx-health:classifiedLoadCollectiveHeader;
-  cx-fx:input cx-health:classifiedLoadCollectiveBody;
+  cx-fx:input cx-health:classifiedLoadCollectiveProjectDescription;
+  cx-fx:input cx-health:classifiedLoadCollectiveComponentDescription;
+  cx-fx:input cx-health:classifiedLoadCollectiveCountingValue;
+  cx-fx:input cx-health:classifiedLoadCollectiveCountingMethod;
+  cx-fx:input cx-health:classifiedLoadCollectiveCountingUnit;
+  cx-fx:input cx-health:classifiedLoadCollectiveChannels;
+  cx-fx:input cx-health:classifiedLoadCollectiveCounts;
+  cx-fx:input cx-health:classifiedLoadCollectiveClasses;
   cx-fx:input cx-health:adaptionValueVersion;
   cx-fx:input cx-health:adaptionValueTimestamp;
   cx-fx:input cx-health:adaptionValueMileage;
@@ -59,20 +64,47 @@ cx-health:requestComponentId rdf:type cx-fx:Argument;
   dcterms:title "Health Indicator Component Id";
   cx-fx:argumentName "componentId".
 
-cx-health:classifiedLoadCollectiveFile rdf:type cx-fx:Argument;
-  dcterms:description "A Load Collective has a file description."@en ;
-  dcterms:title "Classified Load Collective File";
-  cx-fx:argumentName "classifiedLoadCollective.File".
+cx-health:classifiedLoadCollectiveProjectDescription rdf:type cx-fx:Argument;
+  dcterms:description "A Load Collective has a project description."@en ;
+  dcterms:title "Classified Load Collective Project Description";
+  cx-fx:mandatory "false"^^xsd:boolean;
+  cx-fx:argumentName "classifiedLoadCollective.metadata.projectDescription".
 
-cx-health:classifiedLoadCollectiveHeader rdf:type cx-fx:Argument;
-  dcterms:description "A Load Collective has a header which describes the gathered data and dimensions."@en ;
-  dcterms:title "Classified Load Collective Header";
-  cx-fx:argumentName "classifiedLoadCollective.Header".
+cx-health:classifiedLoadCollectiveComponentDescription rdf:type cx-fx:Argument;
+  dcterms:description "A Load Collective has a component description."@en ;
+  dcterms:title "Classified Load Collective Component Description";
+  cx-fx:argumentName "classifiedLoadCollective.metadata.componentDescription".
 
-cx-health:classifiedLoadCollectiveBody rdf:type cx-fx:Argument;
+cx-health:classifiedLoadCollectiveCountingValue rdf:type cx-fx:Argument;
+  dcterms:description "A Load Collective has a value for the counting dimension."@en ;
+  dcterms:title "Classified Load Collective Counting Value";
+  cx-fx:mandatory "false"^^xsd:boolean;
+  cx-fx:argumentName "classifiedLoadCollective.header.countingValue".
+
+cx-health:classifiedLoadCollectiveCountingUnit rdf:type cx-fx:Argument;
+  dcterms:description "A Load Collective has a unit for the counting dimension."@en ;
+  dcterms:title "Classified Load Collective Counting Unit";
+  cx-fx:argumentName "classifiedLoadCollective.header.countingUnit".
+
+cx-health:classifiedLoadCollectiveCountingMethod rdf:type cx-fx:Argument;
+  dcterms:description "A Load Collective has a method for the counting dimension."@en ;
+  dcterms:title "Classified Load Collective Counting Method";
+  cx-fx:argumentName "classifiedLoadCollective.header.countingMethod".
+
+cx-health:classifiedLoadCollectiveChannels rdf:type cx-fx:Argument;
+  dcterms:description "A Load Collective has descriptors for all channels."@en ;
+  dcterms:title "Classified Load Collective Channels";
+  cx-fx:argumentName "classifiedLoadCollective.header.channels".
+
+cx-health:classifiedLoadCollectiveCounts rdf:type cx-fx:Argument;
   dcterms:description "A Load Collective has a body with the raw measurements."@en ;
-  dcterms:title "Classified Load Collective Body";
-  cx-fx:argumentName "classifiedLoadCollective.Body".
+  dcterms:title "Classified Load Collective Counts";
+  cx-fx:argumentName "classifiedLoadCollective.body.counts".
+
+cx-health:classifiedLoadCollectiveClasses rdf:type cx-fx:Argument;
+  dcterms:description "A Load Collective has a body with the class indices."@en ;
+  dcterms:title "Classified Load Collective Classes";
+  cx-fx:argumentName "classifiedLoadCollective.body.classes".
 
 cx-health:adaptionValueVersion rdf:type cx-fx:Argument;
   dcterms:description "A Health Indicator Adaption needs a version."@en ;

@@ -11,25 +11,39 @@ version: "3.9"
 services:
 
   #
-  # Configures the oem backend 
+  # https://download.ontotext.com/owlim/71864e00-43b9-11ed-9c34-42843b1b6b38/ontorefine-1.1.0-dist.zip
   #
-  oem-data-backend:
+  data-backend2:
     build:
-      dockerfile: src/main/docker/Dockerfile.backend
-      context: ../dataspace/agents/provisioning
-    image: ghcr.io/catenax-ng/product-knowledge/backend/sql-virtualize-dremio-oss:22.1.1
+      dockerfile: src/main/docker/Dockerfile
+      context: ../dataspace/virtualize/druid
+    image: ghcr.io/catenax-ng/product-knowledge/virtualizer-druid:0.6.4-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
-      - "8070:9047" # Web-UI
-      - "8071:31010" # Zookeper
-      - "8072:45678" # Executor Protocol
+      - "8888:8888" # http
+      - "8889:8082" # jdbc
+    profiles: ["backend"]
     volumes:
-      - ./oem/resources/dremio:/mnt/dremio/backups
+      - ./resources/druid.runtime.properties:/opt/druid/conf/druid/single-server/micro-quickstart/_common/common.runtime.properties
+      - ./resources/data:/opt/druid/data
+
+  data-backend:
+    build:
+      dockerfile: src/main/docker/Dockerfile
+      context: ../dataspace/virtualize/dremio
+    image: ghcr.io/catenax-ng/product-knowledge/virtualizer-dremio:0.6.4-SNAPSHOT
+    platform: linux/amd64
+    ports:
+      - "9047:9047" # http
+      - "31010:31010" # jdbc
+    profiles: ["backend"]
+    volumes:
+      - ./resources/dremio:/opt/dremio/data
 
   #
-  # Configures the oem agent 
+  # Configures the provider agent
   #
-  oem-provider-agent:
+  provider-agent:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/agents/provisioning
@@ -37,27 +51,31 @@ services:
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8080:8080" # sparql endpoint
-      #- "8082:8082" # possible second, third, ... sparql endpoint
+      - "8081:8081" # possible second, third, ... sparql endpoint
+      - "4039:4040" # DEBUG
     environment:
       # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
-      ONTOP_PORT: 8080
+      ONTOP_PORT: 8080 8081
       # Uncomment to enable for debugging, please choose a different port for each endpoint
-      #JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090 -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8092
+      #JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040 #-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:4040
       # If you want to enable multiple ontologies, simply list them with spaces, like ONTOP_ONTOLOGY_FILE: /input/cx-ontology.xml /input/cx-ontology2.xml 
-      ONTOP_ONTOLOGY_FILE: /input/cx-ontology.xml 
+      ONTOP_ONTOLOGY_FILE: /input/cx-ontology.xml /input/cx-ontology.ttl
       # If you want to enable multiple mappings, simply list them with spaces, like ONTOP_MAPPING_FILE: /input/dtc.obda /input/loadspectrum.obda 
-      ONTOP_MAPPING_FILE: /input/dtc.obda 
+      ONTOP_MAPPING_FILE: /input/dtc.obda /input/hi.obda
       # If you want to enable multiple settings, simply list them with spaces, like ONTOP_PROPERTIES_FILE: /input/settings.properties /input/settings.dremio.properties
-      ONTOP_PROPERTIES_FILE: /input/settings.properties
+      ONTOP_PROPERTIES_FILE: /input/settings.local.properties /input/settings.dremio.properties
       # If you want to enable multiple portals, simply list them with spaces, like ONTOP_PORTAL_FILE: /input/portal.toml /input/portal2.toml 
-      ONTOP_PORTAL_FILE: /input/portal.toml
+      ONTOP_PORTAL_FILE: /input/portal.toml /input/portal.toml
       # If you want to enable different developer modes, simply list them with spaces, like NTOP_DEV_MODE: true false 
-      ONTOP_DEV_MODE: "true"
+      ONTOP_DEV_MODE: true true
     volumes:
       - ./resources/cx-ontology.xml:/input/cx-ontology.xml
+      - ./resources/cx-ontology.ttl:/input/cx-ontology.ttl
       - ./oem/resources/dtc.obda:/input/dtc.obda
-      - ./oem/resources/settings.properties:/input/settings.properties
+      - ./oem/resources/hi.obda:/input/hi.obda
+      - ./oem/resources/settings.local.properties:/input/settings.local.properties
       - ./oem/resources/settings.dremio.properties:/input/settings.dremio.properties
+      - ./oem/resources/settings.druid.properties:/input/settings.druid.properties
       - ./oem/resources/portal.toml:/input/portal.toml
       - ./oem/resources/logback.xml:/opt/ontop/log/logback.xml
 
@@ -119,7 +137,7 @@ services:
   #
   # Configures the tiera backend 
   #
-  tiera-backend:
+  service-backend:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/mock/prognosis
@@ -131,7 +149,7 @@ services:
   #
   # Configures the tier1 agent 
   #
-  tiera-remoting-agent:
+  remoting-agent:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/agents/remoting

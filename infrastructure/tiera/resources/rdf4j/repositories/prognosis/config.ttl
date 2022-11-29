@@ -78,7 +78,7 @@ cx-prognosis:support rdf:type cx-fx:ReturnValue;
 cx-lifetime:LifetimePrognosis rdf:type cx-fx:Function;
   dcterms:description "Lifetime Prognosis is a simulation function operating on load collectives."@en ;
   dcterms:title "Lifetime Prognosis" ;
-  cx-fx:targetUri "http://tiera-backend:5005/api/rul";
+  cx-fx:targetUri "http://service-backend:5005/api/rul";
   cx-fx:invocationMethod "POST-JSON-MF";
   cx-fx:input cx-lifetime:loadCollectiveFile;
   cx-fx:input cx-lifetime:loadCollectiveHeader;

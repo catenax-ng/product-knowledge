@@ -174,7 +174,7 @@ public class Invocation {
                             throw new SailException(String.format("Could not convert %s of to json object.", binding),jpe);
                         }
                     default:
-                        throw new SailException(String.format("Could not convert %s of data type %s integer.", binding,dataTypeName));
+                        throw new SailException(String.format("Could not convert %s of data type %s.", binding,dataTypeName));
                 }
             } else if(binding.isIRI()) {
                 return (Target) objectMapper.getNodeFactory().textNode(binding.stringValue());
@@ -507,12 +507,14 @@ public class Invocation {
                                     logger.trace(String.format("About to process argument %s %s", argument.getKey(), argument.getValue()));
                                 }
                                 Var var = inputs.get(argument.getKey());
-                                Value value;
-                                if (var.hasValue()) {
-                                    value = var.getValue();
-                                } else {
-                                    value = binding.getValue(var.getName());
-                                }
+                                Value value=null;
+                                if(var!=null) {
+                                    if (var.hasValue()) {
+                                     value = var.getValue();
+                                    } else {
+                                     value = binding.getValue(var.getName());
+                                    }
+                                } 
                                 if(value!=null) {
                                     JsonNode render = convertToObject(value, JsonNode.class);
                                     String pathName = argument.getValue().argumentName;
@@ -540,9 +542,11 @@ public class Invocation {
                                         depth++;
                                     } // set argument in input
                                 } else {
-                                    // TODO optional arguments
-                                    logger.warn(String.format("Argument %s has no binding. Leaving the hole tuple.", argument.getKey()));
-                                    isCorrect=false;
+                                    if(argument.getValue().mandatory) {
+                                      // TODO optional arguments
+                                      logger.warn(String.format("Mandatory argument %s has no binding. Leaving the hole tuple.", argument.getKey()));
+                                      isCorrect=false;
+                                    }                                
                                 }
                             }
                             if(isCorrect) {

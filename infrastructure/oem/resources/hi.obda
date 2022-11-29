@@ -1,0 +1,38 @@
+[PrefixDeclaration]
+uuid:		urn:uuid:
+bpnl:		bpn:long:
+cx:			https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#
+owl:		http://www.w3.org/2002/07/owl#
+rdf:		http://www.w3.org/1999/02/22-rdf-syntax-ns#
+xml:		http://www.w3.org/XML/1998/namespace
+xsd:		http://www.w3.org/2001/XMLSchema#
+obda:		https://w3id.org/obda/vocabulary#
+rdfs:		http://www.w3.org/2000/01/rdf-schema#
+
+[MappingDeclaration] @collection [[
+mappingId	vehicles
+target		uuid:{catenaXId} rdf:type cx:Vehicle ; cx:partId {localIdentifiers_partInstanceId}^^xsd:string; cx:partName {partTypeInformation_nameAtManufacturer}^^xsd:string; cx:partSeries {partTypeInformation_manufacturerPartId}^^xsd:string; cx:isProducedBy bpnl:{localIdentifiers_manufacturerId}; cx:partProductionDate {manufacturingInformation_date}^^xsd:date; cx:vehicleIdentificationNumber {localIdentifiers_van}^^xsd:string .
+source		SELECT "catenaXId", "localIdentifiers_partInstanceId", "partTypeInformation_nameAtManufacturer", "partTypeInformation_manufacturerPartId", "localIdentifiers_manufacturerId", "manufacturingInformation_date", "localIdentifiers_van" FROM "CX_RUL_SerialPartTypization_Vehicle" vehicles
+
+mappingId	parts
+target		uuid:{catenaXId} rdf:type cx:AssemblyGroup ; cx:partId {localIdentifiers_partInstanceId}^^xsd:string; cx:partName {partTypeInformation_nameAtManufacturer}^^xsd:string; cx:partSeries {partTypeInformation_manufacturerPartId}^^xsd:string; cx:isProducedBy bpnl:{localIdentifiers_manufacturerId}; cx:partProductionDate {manufacturingInformation_date}^^xsd:date .
+source		SELECT "catenaXId", "localIdentifiers_partInstanceId", "partTypeInformation_nameAtManufacturer", "partTypeInformation_manufacturerPartId", "localIdentifiers_manufacturerId", "manufacturingInformation_date" FROM "CX_RUL_SerialPartTypization_Component" parts 
+
+mappingId	vehicleparts
+target		uuid:{childCatenaXId} cx:isPartOf uuid:{catenaXId} .
+source		SELECT "catenaXId", "childCatenaXId" FROM "CX_RUL_AssemblyPartRelationship" vehicleparts
+
+mappingId   loadspectrum
+target      uuid:{catenaXId}/{targetComponentId}/{metadata_componentDescription} rdf:type cx:LoadSpectrum; cx:loadSpectrumId {metadata_projectDescription}^^xsd:string; cx:loadSpectrumName {header_countingValue}^^xsd:string; cx:loadSpectrumDescription {metadata_componentDescription}^^xsd:string; rdf:type cx:VehicleCurrentState; cx:vehicleOperatingHours {metadata_status_operatingTime}^^xsd:int; cx:vehicleCurrentStateDateTime {metadata_status_date}^^xsd:dateTime; cx:vehicleCurrentMileage {metadata_status_mileage}^^xsd:int; cx:loadSpectrumType {header_channels}^^xsd:string; cx:hasLoadSpectrumValues uuid:{catenaXId}/{targetComponentId}/{metadata_componentDescription}/0.
+source		SELECT "catenaXId", "targetComponentId", "metadata_projectDescription", "metadata_componentDescription", "metadata_status_operatingTime", "metadata_status_date", "metadata_status_mileage", "header_countingValue", "header_channels" FROM "CX_RUL_LoadCollective" loadspectrum
+
+mappingId   partLoadSpectrum
+target		uuid:{targetComponentId} cx:hasLoadSpectrum uuid:{catenaXId}/{targetComponentId}/{metadata_componentDescription} .
+source		SELECT "catenaXId", "targetComponentId", "metadata_componentDescription" FROM "CX_RUL_LoadCollective" loadspectrum
+
+mappingId   loadspectrumChannel
+target      uuid:{catenaXId}/{targetComponentId}/{metadata_componentDescription}/0 rdf:type cx:LoadSpectrumValues; cx:loadSpectrumChannelIndex {body_classes}^^xsd:string; cx:loadSpectrumCountingUnit {header_countingUnit}^^xsd:string; cx:loadSpectrumCountingMethod {header_countingMethod}^^xsd:string; cx:loadSpectrumChannelValues {body_counts}^^xsd:string.
+source		SELECT "catenaXId", "targetComponentId", "metadata_componentDescription", "header_countingUnit", "header_countingMethod", "body_counts", "body_classes" FROM "CX_RUL_LoadCollective" loadspectrumchannel
+
+]]
+

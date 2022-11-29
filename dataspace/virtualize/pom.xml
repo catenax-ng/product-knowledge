@@ -1,0 +1,22 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>io.catenax.knowledge.dataspace</groupId>
+    <artifactId>virtualize</artifactId>
+    <packaging>pom</packaging>
+    <parent>
+        <groupId>io.catenax.knowledge</groupId>
+        <artifactId>dataspace</artifactId>
+        <version>0.6.4-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>    
+    </parent>
+    <name>Catena-X Knowledge Agents Dataspace Data Virtualization</name>
+    <description>Project for all Dataspace-Related Virtualization Services</description>
+    <dependencies>
+    </dependencies>
+    <properties>
+    </properties>
+    <modules>
+        <module>dremio</module>
+        <module>druid</module>
+    </modules>
+</project>

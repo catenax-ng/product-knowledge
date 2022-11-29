@@ -10,13 +10,16 @@ FROM ontop/ontop-endpoint:4.2.1
 #start script needs special root treatmnt
 COPY resources/entrypoint.sh /opt/ontop/.
 
-# run with docker --build-arg jdbcDriver=path_to_my_driver to establish a different driver
-ARG jdbcDriver=https://search.maven.org/remotecontent?filepath=com/h2database/h2/2.1.214/h2-2.1.214.jar
+COPY target/provisioning-agent-*.jar /opt/ontop/lib/.
+
+# run with docker --build-arg jdbcDrivers=path_to_my_driver to establish a different driver
+ARG jdbcDrivers="https://repo1.maven.org/maven2/org/apache/calcite/avatica/avatica/1.22.0/avatica-1.22.0.jar https://search.maven.org/remotecontent?filepath=com/h2database/h2/2.1.214/h2-2.1.214.jar https://download.dremio.com/jdbc-driver/dremio-jdbc-driver-LATEST.jar"
 
 # Security issue A1SLDT-828
 RUN groupadd -g 30000 ontop && \
     useradd -u 10000 -g ontop -ms /bin/sh ontop && \
     mkdir /opt/ontop/jdbc && \
+    for jdbcDriver in "$jdbcDrivers"; do wget -q -P /opt/ontop/jdbc ${jdbcDriver} ; done && \
     chown -R ontop:ontop /opt/ontop && \
     mkdir /data && \
     chown -R ontop:ontop /data && \
@@ -25,12 +28,7 @@ RUN groupadd -g 30000 ontop && \
     mkdir /database && \
     chown -R ontop:ontop /database && \
     chmod 775 /database && \
-    chmod 755 /opt/ontop/entrypoint.sh && \
-    wget -q -P /opt/ontop/jdbc ${jdbcDriver}
-
-# run with docker --build-arg dremioDownload=download_url to establish a different driver
-#ARG dremioDownload=https://download.dremio.com/jdbc-driver/dremio-jdbc-driver-LATEST.jar
-#RUN wget -q "${dremioDownload}" -O /opt/ontop/jdbc/dremio-jdbc-driver-LATEST.jar
+    chmod 755 /opt/ontop/entrypoint.sh
 
 WORKDIR /opt/ontop
 USER ontop
