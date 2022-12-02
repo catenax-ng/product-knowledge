@@ -319,14 +319,14 @@ cx:partVersion a owl:DatatypeProperty ;
 cx:BatchPart a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
     rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cx:batchProductionDate ;
+            owl:someValuesFrom xsd:date ],
+        [ a owl:Restriction ;
             owl:onProperty cx:batchNumber ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
             owl:onProperty cx:batchProductionDateTime ;
             owl:someValuesFrom xsd:dateTime ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:batchProductionDate ;
-            owl:someValuesFrom xsd:date ],
         cx:MaterialThing,
         cx:Part ;
     skos:altLabel "lot part"@en ;
@@ -341,13 +341,13 @@ cx:ConstructionPart a owl:Class ;
             owl:onProperty cx:partNumber ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
-            owl:onProperty cx:partVersion ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
             owl:onProperty cx:partCadFile ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
             owl:onProperty cx:partNumber ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:partVersion ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
             owl:onProperty cx:partVersion ;
@@ -367,10 +367,10 @@ cx:ElectronicPart a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Electronic_component> ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty cx:partGeneration ;
+            owl:onProperty cx:hardwareVersion ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
-            owl:onProperty cx:hardwareVersion ;
+            owl:onProperty cx:partGeneration ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
             owl:onProperty cx:softwareVersion ;
@@ -419,6 +419,9 @@ cx:Part a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
     rdfs:seeAlso <https://de.wikipedia.org/wiki/Bauteil_> ;
     rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cx:isProducedBy ;
+            owl:someValuesFrom cx:PartManufacturer ],
+        [ a owl:Restriction ;
             owl:onProperty cx:isPartOf ;
             owl:someValuesFrom cx:Part ],
         [ a owl:Restriction ;
@@ -428,22 +431,19 @@ cx:Part a owl:Class ;
             owl:onProperty cx:partName ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
-            owl:onProperty cx:isProducedBy ;
-            owl:someValuesFrom cx:PartManufacturer ],
-        [ a owl:Restriction ;
             owl:onProperty cx:isPartOf ;
             owl:someValuesFrom cx:Vehicle ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:partName ;
-            owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
             owl:onProperty cx:partProductionDate ;
             owl:someValuesFrom xsd:date ],
         [ a owl:Restriction ;
+            owl:onProperty cx:partSeries ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
             owl:onProperty cx:partId ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
-            owl:onProperty cx:partSeries ;
+            owl:onProperty cx:partName ;
             owl:someValuesFrom xsd:string ],
         cx:Product ;
     skos:altLabel "Komponente"@de,
@@ -456,7 +456,7 @@ cx:Part a owl:Class ;
 
 <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> a owl:Ontology ;
     dc:creator "Zazralt Magic" ;
-    dc:date "2022-11-28"^^xsd:date ;
+    dc:date "2022-12-02"^^xsd:date ;
     dc:description "In the automative production, parts are manufactured and assembled into vehicle components and ultimately vehicles." ;
     dc:title "Part Ontology" ;
     owl:imports <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;

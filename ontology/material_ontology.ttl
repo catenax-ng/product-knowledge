@@ -128,6 +128,12 @@ cx:MagneticProperty a owl:Class ;
     rdfs:subClassOf cx:MaterialProperty ;
     skos:prefLabel "Magnetic Property"@en .
 
+cx:MaterialFlow a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/material_ontology.ttl> ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Material_flow> ;
+    rdfs:subClassOf cx:Flow ;
+    skos:prefLabel "Material Flow"@en .
+
 cx:MaterialStock a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/material_ontology.ttl> ;
     rdfs:subClassOf cx:Information ;
@@ -222,6 +228,12 @@ cx:PrimaryRawMaterial a owl:Class ;
     skos:definition "Raw material that are yielded from natural resources."@en ;
     skos:example "crude oil"@en ;
     skos:prefLabel "Primary Raw Material"@en .
+
+cx:RawMaterialFlow a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/material_ontology.ttl> ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Material_flow> ;
+    rdfs:subClassOf cx:Flow ;
+    skos:prefLabel "Raw Material Flow"@en .
 
 cx:RawMaterial_Cobalt a cx:RawMaterial ;
     skos:note "battery"@en ;
@@ -426,6 +438,20 @@ cx:materialName a owl:DatatypeProperty ;
     rdfs:subPropertyOf cx:name ;
     skos:prefLabel "Material Name"@en .
 
+cx:rawMaterialId a owl:DatatypeProperty ;
+    rdfs:domain cx:RawMaterial ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/material_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:identifier ;
+    skos:prefLabel "Raw Material Id"@en .
+
+cx:rawMaterialName a owl:DatatypeProperty ;
+    rdfs:domain cx:RawMaterial ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/material_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:name ;
+    skos:prefLabel "Raw Material Name"@en .
+
 cx:ChemicalMixture a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/material_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Mixture> ;
@@ -544,16 +570,16 @@ cx:EngineeringMaterial a owl:Class ;
             owl:onProperty cx:isPartOf ;
             owl:someValuesFrom cx:Product ],
         [ a owl:Restriction ;
-            owl:onProperty cx:contains ;
-            owl:someValuesFrom cx:RawMaterial ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:engineeringMaterialNumber ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
             owl:onProperty cx:participatesIn ;
             owl:someValuesFrom cx:Process ],
         [ a owl:Restriction ;
             owl:onProperty cx:engineeringMaterialName ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:contains ;
+            owl:someValuesFrom cx:RawMaterial ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:engineeringMaterialNumber ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
             owl:onProperty cx:isMadeOf ;
@@ -571,16 +597,16 @@ cx:Material a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/material_ontology.ttl> ;
     rdfs:seeAlso <https://de.wikipedia.org/wiki/Material_> ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty cx:hasMaterialProperty ;
-            owl:someValuesFrom cx:MaterialProperty ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:materialName ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
             owl:onProperty cx:isStoredIn ;
             owl:someValuesFrom cx:MaterialStorage ],
         [ a owl:Restriction ;
+            owl:onProperty cx:hasMaterialProperty ;
+            owl:someValuesFrom cx:MaterialProperty ],
+        [ a owl:Restriction ;
             owl:onProperty cx:materialId ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:materialName ;
             owl:someValuesFrom xsd:string ],
         cx:IntermediateProduct ;
     skos:altLabel "Stoff"@de ;
@@ -593,11 +619,17 @@ cx:RawMaterial a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/material_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Raw_material> ;
     rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cx:rawMaterialId ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
             owl:onProperty cx:contains ;
             owl:someValuesFrom cx:Substance ],
         [ a owl:Restriction ;
             owl:onProperty cx:participatesIn ;
             owl:someValuesFrom cx:Process ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:rawMaterialName ;
+            owl:someValuesFrom xsd:string ],
         cx:IntermediateProduct ;
     skos:altLabel "Rohmaterial"@de,
         "commodity"@en,
@@ -611,7 +643,7 @@ cx:RawMaterial a owl:Class ;
 
 <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/material_ontology.ttl> a owl:Ontology ;
     dc:creator "Zazralt Magic" ;
-    dc:date "2022-11-28"^^xsd:date ;
+    dc:date "2022-12-02"^^xsd:date ;
     dc:description "Material ontology in the context of supply and value chain of the automotive industry. Exchange of material information and knowledge." ;
     dc:title "Material Ontology" ;
     owl:imports <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;

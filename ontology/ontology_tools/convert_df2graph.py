@@ -267,13 +267,14 @@ def convert_df2graph(df=None, mapping=None, ontology_name='', csv_file='', ttl_f
     df = df.replace('', None) # necessary
 
     # convert and write turtle file
-    g = rdfpandas.to_graph(df, namespace_manager = namespace_manager)
+    g = rdfpandas.to_graph(df[[col for col in df.columns if not col.__contains__('*')]], namespace_manager = namespace_manager)
 
     # add class restrictions
     ns = Namespace(ns_url)
     for index, row in df[df['rdf:type'].str.endswith('Property')].iterrows():
         if (row['rdfs:domain'] != None) & (row['rdfs:range'] != None):
             property = index.replace('cx:', '')
+            # different prefix & namespaces, allow or not
             domain = row['rdfs:domain'].replace('cx:', '')
             range = row['rdfs:range'].replace('cx:', '')
             if row['rdfs:range'].startswith('xsd:'):
@@ -281,6 +282,18 @@ def convert_df2graph(df=None, mapping=None, ontology_name='', csv_file='', ttl_f
             else :
                 data_type = ''
             g = add_class_restriction(g, property, domain, range, ns, data_type=data_type)
+
+    # add properties with * as relations
+    relation_columns = [col for col in df.columns if col.__contains__('*')]
+    if relation_columns != []:
+        print('# found relation columns:', relation_columns)
+        for col in relation_columns:
+            for index, row in df[(df[col] != '') & (df[col].notnull())].iterrows():
+                subject = index.replace('cx:','')
+                predicate = col.replace('*', '').replace('cx:','')
+                object = row[col].title().replace('_', '').replace(' ', '')
+                #print(subject, predicate, object)
+                g = add_class_restriction(g, predicate, subject, object, ns)
 
     # add metadata
     ns = Namespace(ns_url.replace('cx_ontology.ttl#', ''))

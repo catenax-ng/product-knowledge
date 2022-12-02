@@ -1393,7 +1393,7 @@ cx:Person rdfs:subClassOf [ a owl:Restriction ;
 
 <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/language_ontology.ttl> a owl:Ontology ;
     dc:creator "Zazralt Magic" ;
-    dc:date "2022-11-28"^^xsd:date ;
+    dc:date "2022-12-02"^^xsd:date ;
     dc:description "List of all languages with their ISO codes." ;
     dc:title "Language Ontology" ;
     owl:versionInfo "0.0.1" .
@@ -1404,8 +1404,8 @@ cx:Language a owl:Class ;
     rdfs:range xsd:string ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Language> ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty cx:languageCode2 ;
-            owl:someValuesFrom xsd:string ],
+            owl:onProperty cx:languageCode3 ;
+            owl:someValuesFrom xsd:anyURI ],
         [ a owl:Restriction ;
             owl:onProperty cx:isUnderstoodBy ;
             owl:someValuesFrom cx:Person ],
@@ -1413,8 +1413,8 @@ cx:Language a owl:Class ;
             owl:onProperty cx:languageName ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
-            owl:onProperty cx:languageCode3 ;
-            owl:someValuesFrom xsd:anyURI ],
+            owl:onProperty cx:languageCode2 ;
+            owl:someValuesFrom xsd:string ],
         cx:Skill ;
     skos:definition "Communication using words structured with grammar."@en ;
     skos:prefLabel "Sprache"@de,

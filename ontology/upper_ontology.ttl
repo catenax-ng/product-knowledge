@@ -568,13 +568,13 @@ cx:Action a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/upper_ontology.ttl> ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty cx:isInvolvedIn ;
+            owl:someValuesFrom cx:Action ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:isInvolvedIn ;
+            owl:someValuesFrom cx:Action ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:isInvolvedIn ;
             owl:someValuesFrom cx:Process ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:isInvolvedIn ;
-            owl:someValuesFrom cx:Action ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:isInvolvedIn ;
-            owl:someValuesFrom cx:Action ],
         [ a owl:Restriction ;
             owl:onProperty cx:isInvolvedIn ;
             owl:someValuesFrom cx:Process ],
@@ -598,10 +598,10 @@ cx:Process a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/upper_ontology.ttl> ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty cx:isInvolvedIn ;
-            owl:someValuesFrom cx:Process ],
+            owl:someValuesFrom cx:Action ],
         [ a owl:Restriction ;
             owl:onProperty cx:isInvolvedIn ;
-            owl:someValuesFrom cx:Action ],
+            owl:someValuesFrom cx:Process ],
         [ a owl:Restriction ;
             owl:onProperty cx:isInvolvedIn ;
             owl:someValuesFrom cx:Process ],
@@ -633,7 +633,7 @@ cx:MaterialThing a owl:Class ;
             owl:onProperty cx:isPortionOf ;
             owl:someValuesFrom cx:MaterialThing ],
         [ a owl:Restriction ;
-            owl:onProperty cx:hasPortion ;
+            owl:onProperty cx:isPortionOf ;
             owl:someValuesFrom cx:MaterialThing ],
         [ a owl:Restriction ;
             owl:onProperty cx:hasPortion ;
@@ -642,7 +642,7 @@ cx:MaterialThing a owl:Class ;
             owl:onProperty cx:isPortionOf ;
             owl:someValuesFrom cx:MaterialThing ],
         [ a owl:Restriction ;
-            owl:onProperty cx:isPortionOf ;
+            owl:onProperty cx:hasPortion ;
             owl:someValuesFrom cx:MaterialThing ],
         owl:Thing ;
     owl:disjointWith cx:Action,
@@ -671,7 +671,7 @@ cx:MaterialThing a owl:Class ;
 
 <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/upper_ontology.ttl> a owl:Ontology ;
     dc:creator "Zazralt Magic" ;
-    dc:date "2022-11-28"^^xsd:date ;
+    dc:date "2022-12-02"^^xsd:date ;
     dc:title "Upper Ontology" ;
     owl:versionInfo "0.0.1" .
 

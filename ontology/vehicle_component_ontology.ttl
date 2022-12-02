@@ -3,6 +3,7 @@
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vsso: <https://github.com/danielwilms/vsso-demo/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 cx:APillar a owl:Class ;
@@ -15,7 +16,8 @@ cx:APillar a owl:Class ;
     skos:altLabel "A-Säule"@de,
         "a-pillar"@en ;
     skos:prefLabel "A Säule"@de,
-        "A Pillar"@en .
+        "A Pillar"@en ;
+    "cx:isPartOf*" "body" .
 
 cx:AcceleratorPedal a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -25,7 +27,8 @@ cx:AcceleratorPedal a owl:Class ;
         "throttle"@en ;
     skos:definition "accelerating"@en ;
     skos:prefLabel "Gaspedal"@de,
-        "Accelerator Pedal"@en .
+        "Accelerator Pedal"@en ;
+    "cx:isPartOf*" "car control" .
 
 cx:ActiveRolloverProtection a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -36,7 +39,8 @@ cx:ActiveRolloverProtection a owl:Class ;
     skos:altLabel "ARP"@en,
         "rollover protection"@en ;
     skos:prefLabel "Überschlagschutzsystem"@de,
-        "Active Rollover Protection"@en .
+        "Active Rollover Protection"@en ;
+    "cx:isPartOf*" "brake system" .
 
 cx:AdaptiveCruiseControl a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -46,14 +50,16 @@ cx:AdaptiveCruiseControl a owl:Class ;
         cx:VehicleElectricalComponent ;
     skos:altLabel "ACC"@en ;
     skos:prefLabel "Abstandsregeltempomat"@de,
-        "Adaptive Cruise Control"@en .
+        "Adaptive Cruise Control"@en ;
+    "cx:isPartOf*" "driver assistance system" .
 
 cx:AdaptiveFrontLight a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent,
         cx:VehicleElectricalComponent ;
     skos:prefLabel "Kurvenlicht"@de,
-        "Adaptive Front Light"@en .
+        "Adaptive Front Light"@en ;
+    "cx:isPartOf*" "front light" .
 
 cx:Additive a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -67,19 +73,22 @@ cx:AirConditioning a owl:Class ;
     skos:altLabel "AC"@en,
         "limate control"@en ;
     skos:prefLabel "Klimatisierung"@de,
-        "Air Conditioning"@en .
+        "Air Conditioning"@en ;
+    "cx:isPartOf*" "heating and air conditioning system" .
 
 cx:AirConditioningCompressor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Klimakompressor"@de,
-        "Air Conditioning Compressor"@en .
+        "Air Conditioning Compressor"@en ;
+    "cx:isPartOf*" "heating and air conditioning system" .
 
 cx:AirConditioningCondenser a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Klimakondensator"@de,
-        "Air Conditioning Condenser"@en .
+        "Air Conditioning Condenser"@en ;
+    "cx:isPartOf*" "heating and air conditioning system" .
 
 cx:AirConditioningHarness a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -87,7 +96,8 @@ cx:AirConditioningHarness a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleElectricalComponent ;
     skos:prefLabel "Klimatisierungskabelbaum"@de,
-        "Air Conditioning Harness"@en .
+        "Air Conditioning Harness"@en ;
+    "cx:isPartOf*" "cable harness" .
 
 cx:AirCooling a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -95,26 +105,30 @@ cx:AirCooling a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Luftkühlung"@de,
-        "Air Cooling"@en .
+        "Air Cooling"@en ;
+    "cx:isPartOf*" "cooling system" .
 
 cx:AirDuct a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Lüftungskanal"@de,
-        "Air Duct"@en .
+        "Air Duct"@en ;
+    "cx:isPartOf*" "interior" .
 
 cx:AirFlap a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Luftklappe"@de,
-        "Air Flap"@en .
+        "Air Flap"@en ;
+    "cx:isPartOf*" "interior" .
 
 cx:AirIntake a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Lufteinlass"@de,
-        "Air Intake"@en .
+        "Air Intake"@en ;
+    "cx:isPartOf*" "cylinder head" .
 
 cx:AirSpring a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -122,7 +136,8 @@ cx:AirSpring a owl:Class ;
     rdfs:subClassOf cx:ChassisComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Luftfeder"@de,
-        "Air Spring"@en .
+        "Air Spring"@en ;
+    "cx:isPartOf*" "suspension system" .
 
 cx:Airbag a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -133,7 +148,8 @@ cx:Airbag a owl:Class ;
         cx:VehicleElectricalComponent ;
     skos:altLabel "Aufprallkissen"@de ;
     skos:prefLabel "Airbag"@de,
-        "Airbag"@en .
+        "Airbag"@en ;
+    "cx:isPartOf*" "airbag system" .
 
 cx:AirbagSensor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -143,7 +159,8 @@ cx:AirbagSensor a owl:Class ;
         cx:VehicleElectricalComponent,
         cx:VehicleSensor ;
     skos:prefLabel "Airbagsensor"@de,
-        "Airbag Sensor"@en .
+        "Airbag Sensor"@en ;
+    "cx:isPartOf*" "airbag system" .
 
 cx:AirbagSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -153,7 +170,8 @@ cx:AirbagSystem a owl:Class ;
         cx:VehicleElectricalComponent,
         cx:VehicleSystem ;
     skos:prefLabel "Airbagsystem"@de,
-        "Airbag System"@en .
+        "Airbag System"@en ;
+    "cx:isPartOf*" "vehicle electrical system" .
 
 cx:Airbox a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -162,7 +180,8 @@ cx:Airbox a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "Luftkiste"@de ;
     skos:prefLabel "Airbox"@de,
-        "Airbox"@en .
+        "Airbox"@en ;
+    "cx:isPartOf*" "intake system" .
 
 cx:Alarm a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -173,7 +192,8 @@ cx:Alarm a owl:Class ;
         cx:VehicleElectricalComponent ;
     skos:altLabel "car alarm"@en ;
     skos:prefLabel "Kfz-Alarmanlage"@de,
-        "Alarm"@en .
+        "Alarm"@en ;
+    "cx:isPartOf*" "vehicle electrical system" .
 
 cx:Alternator a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -182,7 +202,8 @@ cx:Alternator a owl:Class ;
         cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Lichtmaschine"@de,
-        "Alternator"@en .
+        "Alternator"@en ;
+    "cx:isPartOf*" "engine" .
 
 cx:Antenna a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -193,7 +214,8 @@ cx:Antenna a owl:Class ;
     skos:altLabel "aerial system"@en,
         "whip antenna"@en ;
     skos:prefLabel "Antenne"@de,
-        "Antenna"@en .
+        "Antenna"@en ;
+    "cx:isPartOf*" "infotainment" .
 
 cx:AntiLockBrakingSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -207,7 +229,8 @@ cx:AntiLockBrakingSystem a owl:Class ;
         "ABS"@en,
         "anti-lock braking system"@en ;
     skos:prefLabel "Antiblockiersystem"@de,
-        "Anti Lock Braking System"@en .
+        "Anti Lock Braking System"@en ;
+    "cx:isPartOf*" "driver assistance system" .
 
 cx:AntiRollBar a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -220,7 +243,8 @@ cx:AntiRollBar a owl:Class ;
         "stabilizer bar"@en,
         "sway bar"@en ;
     skos:prefLabel "Stabilisator"@de,
-        "Anti Roll Bar"@en .
+        "Anti Roll Bar"@en ;
+    "cx:isPartOf*" "suspension system" .
 
 cx:AntiTheftSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -230,14 +254,16 @@ cx:AntiTheftSystem a owl:Class ;
         cx:VehicleElectricalComponent,
         cx:VehicleSystem ;
     skos:prefLabel "Antidiebstahlsystem"@de,
-        "Anti Theft System"@en .
+        "Anti Theft System"@en ;
+    "cx:isPartOf*" "vehicle electrical system" .
 
 cx:Armrest a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Armrest> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Armlehne"@de,
-        "Armrest"@en .
+        "Armrest"@en ;
+    "cx:isPartOf*" "interior" .
 
 cx:AutomaticClimateControl a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -245,7 +271,8 @@ cx:AutomaticClimateControl a owl:Class ;
         cx:VehicleControl ;
     skos:altLabel "Klimatisierungsautomatik"@de ;
     skos:prefLabel "Klimaautomatik"@de,
-        "Automatic Climate Control"@en .
+        "Automatic Climate Control"@en ;
+    "cx:isPartOf*" "car control" .
 
 cx:AutomaticParking a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -254,7 +281,8 @@ cx:AutomaticParking a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleElectricalComponent ;
     skos:prefLabel "Autonomes Parken"@de,
-        "Automatic Parking"@en .
+        "Automatic Parking"@en ;
+    "cx:isPartOf*" "driver assistance system" .
 
 cx:AutomaticTransmission a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -265,7 +293,8 @@ cx:AutomaticTransmission a owl:Class ;
         "AT"@en,
         "auto"@en ;
     skos:prefLabel "Automatikgetriebe"@de,
-        "Automatic Transmission"@en .
+        "Automatic Transmission"@en ;
+    "cx:isPartOf*" "powertrain" .
 
 cx:AutomaticTransmissionFluid a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -289,7 +318,8 @@ cx:AutomobileAuxiliaryPowerOutlet a owl:Class ;
         "cigarette lighter receptacle"@en,
         "vehicular outlet"@en ;
     skos:prefLabel "Bordspannungssteckdose"@de,
-        "Automobile Auxiliary Power Outlet"@en .
+        "Automobile Auxiliary Power Outlet"@en ;
+    "cx:isPartOf*" "vehicle electrical system" .
 
 cx:AutomotiveNightVision a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -299,7 +329,8 @@ cx:AutomotiveNightVision a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleElectricalComponent ;
     skos:prefLabel "Nachtsicht-Assistent"@de,
-        "Automotive Night Vision"@en .
+        "Automotive Night Vision"@en ;
+    "cx:isPartOf*" "driver assistance system" .
 
 cx:Axle a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -308,14 +339,17 @@ cx:Axle a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "drive axle"@en ;
     skos:prefLabel "Achse"@de,
-        "Axle"@en .
+        "Axle"@en ;
+    cx:isSameInVsso vsso:ChassisAxle ;
+    "cx:isPartOf*" "suspension system" .
 
 cx:AxleBearing a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:ChassisComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Achslager"@de,
-        "Axle Bearing"@en .
+        "Axle Bearing"@en ;
+    "cx:isPartOf*" "bearing" .
 
 cx:BPillar a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -327,7 +361,8 @@ cx:BPillar a owl:Class ;
     skos:altLabel "B-Säule"@de,
         "b-pillar"@en ;
     skos:prefLabel "B Säule"@de,
-        "B Pillar"@en .
+        "B Pillar"@en ;
+    "cx:isPartOf*" "body" .
 
 cx:BackupCamera a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -339,7 +374,8 @@ cx:BackupCamera a owl:Class ;
         "rear-view camera"@en,
         "reversing camera"@en ;
     skos:prefLabel "Rückfahrkamera"@de,
-        "Backup Camera"@en .
+        "Backup Camera"@en ;
+    "cx:isPartOf*" "vehicle electrical system" .
 
 cx:BalanceShaft a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -347,7 +383,8 @@ cx:BalanceShaft a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Ausgleichswelle"@de,
-        "Balance Shaft"@en .
+        "Balance Shaft"@en ;
+    "cx:isPartOf*" "engine" .
 
 cx:BatteryAcid a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -360,7 +397,8 @@ cx:BatteryCoolingSystem a owl:Class ;
     rdfs:subClassOf cx:ElectricPowertrainComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Kühlkreislauf"@de,
-        "Battery Cooling System"@en .
+        "Battery Cooling System"@en ;
+    "cx:isPartOf*" "high voltage battery" .
 
 cx:BatteryManagementSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -375,7 +413,8 @@ cx:BatteryManagementSystem a owl:Class ;
         "SME"@en,
         "battery management electronics"@en ;
     skos:prefLabel "Batteriemanagementsystem"@de,
-        "Battery Management System"@en .
+        "Battery Management System"@en ;
+    "cx:isPartOf*" "high voltage battery" .
 
 cx:BatteryTemperatureSensor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -385,14 +424,16 @@ cx:BatteryTemperatureSensor a owl:Class ;
     skos:altLabel "NTC"@en,
         "thermistor"@en ;
     skos:prefLabel "Temperatursensor"@de,
-        "Battery Temperature Sensor"@en .
+        "Battery Temperature Sensor"@en ;
+    "cx:isPartOf*" "cell module" .
 
 cx:Bearing a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:ChassisComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Lager"@de,
-        "Bearing"@en .
+        "Bearing"@en ;
+    "cx:isPartOf*" "chassis" .
 
 cx:BlindSpotMonitor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -405,7 +446,8 @@ cx:BlindSpotMonitor a owl:Class ;
         "Spurwechselwarnung"@de,
         "active blind spot detection"@en ;
     skos:prefLabel "Totwinkel-Assistent"@de,
-        "Blind Spot Monitor"@en .
+        "Blind Spot Monitor"@en ;
+    "cx:isPartOf*" "door" .
 
 cx:BlockHeater a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -415,13 +457,15 @@ cx:BlockHeater a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "Zuheizer"@de ;
     skos:prefLabel "Standheizung"@de,
-        "Block Heater"@en .
+        "Block Heater"@en ;
+    "cx:isPartOf*" "engine block" .
 
 cx:BlowerMotor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Lüftungsmotor"@de,
-        "Blower Motor"@en .
+        "Blower Motor"@en ;
+    "cx:isPartOf*" "heating and air conditioning system" .
 
 cx:BlowoffValve a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -429,7 +473,8 @@ cx:BlowoffValve a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Umluftventil"@de,
-        "Blowoff Valve"@en .
+        "Blowoff Valve"@en ;
+    "cx:isPartOf*" "turbocharger" .
 
 cx:Body a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -442,7 +487,8 @@ cx:Body a owl:Class ;
         "coach work"@en,
         "coachwork"@en ;
     skos:prefLabel "Karosserie"@de,
-        "Body"@en .
+        "Body"@en ;
+    "cx:isPartOf*" "vehicle" .
 
 cx:BodyInWhite a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -457,7 +503,8 @@ cx:BodyInWhite a owl:Class ;
         "body shell"@en,
         "bodyshell"@en ;
     skos:prefLabel "Rohkarosserie"@de,
-        "Body In White"@en .
+        "Body In White"@en ;
+    "cx:isPartOf*" "body" .
 
 cx:BodyOnFrame a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -468,7 +515,8 @@ cx:BodyOnFrame a owl:Class ;
         "frame construction"@en,
         "ladder frame construction"@en ;
     skos:prefLabel "Karosserie in Rahmenbauweise"@de,
-        "Body On Frame"@en .
+        "Body On Frame"@en ;
+    "cx:isPartOf*" "chassis" .
 
 cx:BodyPanel a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -476,7 +524,8 @@ cx:BodyPanel a owl:Class ;
         cx:StructuralComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Karosserieteil"@de,
-        "Body Panel"@en .
+        "Body Panel"@en ;
+    "cx:isPartOf*" "body" .
 
 cx:BoostController a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -486,7 +535,8 @@ cx:BoostController a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "turbo boost controller"@en ;
     skos:prefLabel "Booststeuerung"@de,
-        "Boost Controller"@en .
+        "Boost Controller"@en ;
+    "cx:isPartOf*" "intake system" .
 
 cx:BrakeCaliper a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -496,7 +546,8 @@ cx:BrakeCaliper a owl:Class ;
     skos:altLabel "Bremszange"@de,
         "caliper"@en ;
     skos:prefLabel "Bremssattel"@de,
-        "Brake Caliper"@en .
+        "Brake Caliper"@en ;
+    "cx:isPartOf*" "brake system" .
 
 cx:BrakeFluid a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -505,7 +556,8 @@ cx:BrakeFluid a owl:Class ;
         cx:OperatingLiquid,
         cx:VehicleComponent ;
     skos:prefLabel "Bremsflüssigkeit"@de,
-        "Brake Fluid"@en .
+        "Brake Fluid"@en ;
+    "cx:isPartOf*" "brake system" .
 
 cx:BrakeLight a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -514,7 +566,8 @@ cx:BrakeLight a owl:Class ;
         cx:VehicleElectricalComponent ;
     skos:altLabel "Bremsleuchte"@de ;
     skos:prefLabel "Bremslicht"@de,
-        "Brake Light"@en .
+        "Brake Light"@en ;
+    "cx:isPartOf*" "rear light" .
 
 cx:BrakeLining a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -522,7 +575,8 @@ cx:BrakeLining a owl:Class ;
     rdfs:subClassOf cx:ChassisComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Bremsbelag"@de,
-        "Brake Lining"@en .
+        "Brake Lining"@en ;
+    "cx:isPartOf*" "brake system" .
 
 cx:BrakePad a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -530,7 +584,8 @@ cx:BrakePad a owl:Class ;
     rdfs:subClassOf cx:ChassisComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Bremsbelag"@de,
-        "Brake Pad"@en .
+        "Brake Pad"@en ;
+    "cx:isPartOf*" "brake system" .
 
 cx:BrakePedal a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -540,7 +595,8 @@ cx:BrakePedal a owl:Class ;
     skos:altLabel "Fußbremse"@de ;
     skos:definition "braking"@en ;
     skos:prefLabel "Bremspedal"@de,
-        "Brake Pedal"@en .
+        "Brake Pedal"@en ;
+    "cx:isPartOf*" "car control" .
 
 cx:BrakeShoe a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -548,7 +604,8 @@ cx:BrakeShoe a owl:Class ;
     rdfs:subClassOf cx:ChassisComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Bremsklotz"@de,
-        "Brake Shoe"@en .
+        "Brake Shoe"@en ;
+    "cx:isPartOf*" "brake system" .
 
 cx:BrakeSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -563,7 +620,9 @@ cx:BrakeSystem a owl:Class ;
         "braking"@en,
         "braking system"@en ;
     skos:prefLabel "Bremsanlage"@de,
-        "Brake System"@en .
+        "Brake System"@en ;
+    cx:isSameInVsso vsso:WheelBrake ;
+    "cx:isPartOf*" "chassis" .
 
 cx:BucketSeat a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -571,7 +630,8 @@ cx:BucketSeat a owl:Class ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:altLabel "Sportsitz"@de ;
     skos:prefLabel "Schalensitz"@de,
-        "Bucket Seat"@en .
+        "Bucket Seat"@en ;
+    "cx:isPartOf*" "interior" .
 
 cx:Bumper a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -579,7 +639,8 @@ cx:Bumper a owl:Class ;
     rdfs:subClassOf cx:FunctionalComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Stoßstange"@de,
-        "Bumper"@en .
+        "Bumper"@en ;
+    "cx:isPartOf*" "exterior" .
 
 cx:CPillar a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -591,7 +652,8 @@ cx:CPillar a owl:Class ;
     skos:altLabel "C-Säule"@de,
         "c-pillar"@en ;
     skos:prefLabel "C Säule"@de,
-        "C Pillar"@en .
+        "C Pillar"@en ;
+    "cx:isPartOf*" "body" .
 
 cx:CableHarness a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -606,7 +668,8 @@ cx:CableHarness a owl:Class ;
         "wiring harness"@en,
         "wiring loom"@en ;
     skos:prefLabel "Kabelbaum"@de,
-        "Cable Harness"@en .
+        "Cable Harness"@en ;
+    "cx:isPartOf*" "vehicle electrical system" .
 
 cx:Cam a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -614,7 +677,8 @@ cx:Cam a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Kurvenscheibe"@de,
-        "Cam"@en .
+        "Cam"@en ;
+    "cx:isPartOf*" "valvetrain" .
 
 cx:Camshaft a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -623,7 +687,8 @@ cx:Camshaft a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "cam shaft"@en ;
     skos:prefLabel "Nockenwelle"@de,
-        "Camshaft"@en .
+        "Camshaft"@en ;
+    "cx:isPartOf*" "valvetrain" .
 
 cx:CamshaftPositionSensor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -632,7 +697,8 @@ cx:CamshaftPositionSensor a owl:Class ;
         cx:VehicleSensor ;
     skos:altLabel "camshaft sensor"@en ;
     skos:prefLabel "Nockenwellensensor"@de,
-        "Camshaft Position Sensor"@en .
+        "Camshaft Position Sensor"@en ;
+    "cx:isPartOf*" "valvetrain" .
 
 cx:CanBus a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -641,7 +707,8 @@ cx:CanBus a owl:Class ;
         cx:VehicleElectricalComponent ;
     skos:altLabel "CAN"@en,
         "Controller Area Network"@en ;
-    skos:prefLabel "CAN bus"@en .
+    skos:prefLabel "CAN bus"@en ;
+    "cx:isPartOf*" "vehicle electrical system" .
 
 cx:CarAccessSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -649,7 +716,8 @@ cx:CarAccessSystem a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleElectricalComponent,
         cx:VehicleSystem ;
-    skos:prefLabel "Car Access System"@en .
+    skos:prefLabel "Car Access System"@en ;
+    "cx:isPartOf*" "vehicle electrical system" .
 
 cx:CarControl a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -658,7 +726,8 @@ cx:CarControl a owl:Class ;
         cx:VehicleControl ;
     skos:altLabel "user interface"@en ;
     skos:prefLabel "Fahrzeugsteuerung"@de,
-        "Car Control"@en .
+        "Car Control"@en ;
+    "cx:isPartOf*" "interior" .
 
 cx:CarSuspension a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -667,7 +736,8 @@ cx:CarSuspension a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "suspension"@en ;
     skos:prefLabel "Federung"@de,
-        "Car Suspension"@en .
+        "Car Suspension"@en ;
+    "cx:isPartOf*" "suspension system" .
 
 cx:Carburetor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -676,7 +746,8 @@ cx:Carburetor a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "carburettor"@en ;
     skos:prefLabel "Vergaser"@de,
-        "Carburetor"@en .
+        "Carburetor"@en ;
+    "cx:isPartOf*" "fuel system" .
 
 cx:CardanShaft a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -688,7 +759,8 @@ cx:CardanShaft a owl:Class ;
         "universal coupling"@en,
         "universal joint"@en ;
     skos:prefLabel "Gelenkwelle"@de,
-        "Cardan Shaft"@en .
+        "Cardan Shaft"@en ;
+    "cx:isPartOf*" "drive shaft" .
 
 cx:Carputer a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -704,7 +776,8 @@ cx:CatalyticConverter a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Fahrzeugkatalysator"@de,
-        "Catalytic Converter"@en .
+        "Catalytic Converter"@en ;
+    "cx:isPartOf*" "exhaust system" .
 
 cx:CellContactingSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -714,7 +787,8 @@ cx:CellContactingSystem a owl:Class ;
     skos:altLabel "Zellkontaktierungssystem"@de,
         "CCS"@en ;
     skos:prefLabel "Zellkontaktierung"@de,
-        "Cell Contacting System"@en .
+        "Cell Contacting System"@en ;
+    "cx:isPartOf*" "cell module" .
 
 cx:CellModule a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -724,7 +798,8 @@ cx:CellModule a owl:Class ;
         "dual-cell module"@en,
         "single-cell module"@en ;
     skos:prefLabel "Zellmodul"@de,
-        "Cell Module"@en .
+        "Cell Module"@en ;
+    "cx:isPartOf*" "high voltage battery" .
 
 cx:CellSupervisionCircuit a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -732,7 +807,8 @@ cx:CellSupervisionCircuit a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "CSC"@en ;
     skos:prefLabel "Zellüberwachung"@de,
-        "Cell Supervision Circuit"@en .
+        "Cell Supervision Circuit"@en ;
+    "cx:isPartOf*" "high voltage battery" .
 
 cx:CenterAirbag a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -742,14 +818,16 @@ cx:CenterAirbag a owl:Class ;
         cx:VehicleElectricalComponent ;
     skos:altLabel "centre airbag"@en ;
     skos:prefLabel "Center Airbag"@de,
-        "Center Airbag"@en .
+        "Center Airbag"@en ;
+    "cx:isPartOf*" "airbag system" .
 
 cx:CenterConsole a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Center_console_> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Mittelkonsole"@de,
-        "Center Console"@en .
+        "Center Console"@en ;
+    "cx:isPartOf*" "dashboard" .
 
 cx:CentralInformationDisplay a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -757,7 +835,8 @@ cx:CentralInformationDisplay a owl:Class ;
     skos:altLabel "CID"@en,
         "MFD"@en,
         "multifunctional display"@en ;
-    skos:prefLabel "Central Information Display"@en .
+    skos:prefLabel "Central Information Display"@en ;
+    "cx:isPartOf*" "dashboard" .
 
 cx:CentralLocking a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -768,14 +847,16 @@ cx:CentralLocking a owl:Class ;
         cx:VehicleElectricalComponent ;
     skos:altLabel "power door locks"@en ;
     skos:prefLabel "Zentralverriegelung"@de,
-        "Central Locking"@en .
+        "Central Locking"@en ;
+    "cx:isPartOf*" "car access system" .
 
 cx:ChargingPort a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:ElectricPowertrainComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Ladebuchse"@de,
-        "Charging Port"@en .
+        "Charging Port"@en ;
+    "cx:isPartOf*" "charging system" .
 
 cx:ChargingSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -784,7 +865,8 @@ cx:ChargingSystem a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleSystem ;
     skos:prefLabel "Ladegerät"@de,
-        "Charging System"@en .
+        "Charging System"@en ;
+    "cx:isPartOf*" "electric powertrain" .
 
 cx:ChargingUnit a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -793,7 +875,8 @@ cx:ChargingUnit a owl:Class ;
     skos:altLabel "CCU"@en,
         "combined charging unit"@en ;
     skos:prefLabel "Ladeelektronik"@de,
-        "Charging Unit"@en .
+        "Charging Unit"@en ;
+    "cx:isPartOf*" "charging system" .
 
 cx:Chassis a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -810,7 +893,8 @@ cx:Chassis a owl:Class ;
         "undercarriage"@en,
         "vehicle frame"@en ;
     skos:prefLabel "Fahrwerk"@de,
-        "Chassis"@en .
+        "Chassis"@en ;
+    "cx:isPartOf*" "vehicle" .
 
 cx:CheckEngineLight a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -819,14 +903,16 @@ cx:CheckEngineLight a owl:Class ;
     skos:altLabel "MIL"@en,
         "malfunction indicator lamp"@en ;
     skos:prefLabel "Motorkontrollleuchte"@de,
-        "Check Engine Light"@en .
+        "Check Engine Light"@en ;
+    "cx:isPartOf*" "instrument panel" .
 
 cx:ChildSafetyLock a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Child_safety_lock> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Kindersicherung"@de,
-        "Child Safety Lock"@en .
+        "Child Safety Lock"@en ;
+    "cx:isPartOf*" "door" .
 
 cx:Clutch a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -834,7 +920,8 @@ cx:Clutch a owl:Class ;
     rdfs:subClassOf cx:PowertrainComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Kupplung"@de,
-        "Clutch"@en .
+        "Clutch"@en ;
+    "cx:isPartOf*" "manual transmission" .
 
 cx:ClutchPedal a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -842,7 +929,8 @@ cx:ClutchPedal a owl:Class ;
         cx:VehicleControl ;
     skos:altLabel "clutch lever"@en ;
     skos:prefLabel "Kupplungspedal"@de,
-        "Clutch Pedal"@en .
+        "Clutch Pedal"@en ;
+    "cx:isPartOf*" "car control" .
 
 cx:CoilSpring a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -852,7 +940,8 @@ cx:CoilSpring a owl:Class ;
     skos:altLabel "Fahrwerksfeder"@de,
         "Feder"@de ;
     skos:prefLabel "Schraubenfeder"@de,
-        "Coil Spring"@en .
+        "Coil Spring"@en ;
+    "cx:isPartOf*" "suspension system" .
 
 cx:Coilover a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -860,7 +949,8 @@ cx:Coilover a owl:Class ;
     rdfs:subClassOf cx:ChassisComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Federbein"@de,
-        "Coilover"@en .
+        "Coilover"@en ;
+    "cx:isPartOf*" "suspension system" .
 
 cx:CollisionAvoidanceSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -872,7 +962,8 @@ cx:CollisionAvoidanceSystem a owl:Class ;
         cx:VehicleSystem ;
     skos:altLabel "CAS"@en ;
     skos:prefLabel "Notbremsassistent"@de,
-        "Collision Avoidance System"@en .
+        "Collision Avoidance System"@en ;
+    "cx:isPartOf*" "driver assistance system" .
 
 cx:CombinedBrakingSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -884,7 +975,8 @@ cx:CombinedBrakingSystem a owl:Class ;
         "LBS"@en,
         "linked braking system"@en ;
     skos:prefLabel "Bremsanlage"@de,
-        "Combined Braking System"@en .
+        "Combined Braking System"@en ;
+    "cx:isPartOf*" "brake system" .
 
 cx:ComfortAccess a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -892,7 +984,8 @@ cx:ComfortAccess a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleElectricalComponent ;
     skos:altLabel "contactless tailgate activation"@en ;
-    skos:prefLabel "Comfort Access"@en .
+    skos:prefLabel "Comfort Access"@en ;
+    "cx:isPartOf*" "car access system" .
 
 cx:ComponentManufacturer a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -907,7 +1000,8 @@ cx:ConnectingRod a owl:Class ;
     skos:altLabel "conrod con rod"@en,
         "rod"@en ;
     skos:prefLabel "Pleuel"@de,
-        "Connecting Rod"@en .
+        "Connecting Rod"@en ;
+    "cx:isPartOf*" "engine block" .
 
 cx:ControlHarness a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -915,20 +1009,23 @@ cx:ControlHarness a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleElectricalComponent ;
     skos:prefLabel "Steuerungskabelbaum"@de,
-        "Control Harness"@en .
+        "Control Harness"@en ;
+    "cx:isPartOf*" "cable harness" .
 
 cx:Controller a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Steuerung"@de,
-        "Controller"@en .
+        "Controller"@en ;
+    "cx:isPartOf*" "dashboard" .
 
 cx:ConvertibleRoof a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Convertible> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Cabriolet"@de,
-        "Convertible Roof"@en .
+        "Convertible Roof"@en ;
+    "cx:isPartOf*" "roof" .
 
 cx:Coolant a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -941,7 +1038,8 @@ cx:CoolantConnection a owl:Class ;
     rdfs:subClassOf cx:ElectricPowertrainComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Kühlmittelanschluss"@de,
-        "Coolant Connection"@en .
+        "Coolant Connection"@en ;
+    "cx:isPartOf*" "high voltage battery" .
 
 cx:CoolantTemperatureSensor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -949,7 +1047,8 @@ cx:CoolantTemperatureSensor a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleSensor ;
     skos:prefLabel "Kühlwassertemperatursensor"@de,
-        "Coolant Temperature Sensor"@en .
+        "Coolant Temperature Sensor"@en ;
+    "cx:isPartOf*" "engine" .
 
 cx:CoolingPlate a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -958,7 +1057,8 @@ cx:CoolingPlate a owl:Class ;
     skos:altLabel "WLB"@de,
         "CP"@en ;
     skos:prefLabel "Wärrmeleitblech"@de,
-        "Cooling Plate"@en .
+        "Cooling Plate"@en ;
+    "cx:isPartOf*" "cell module" .
 
 cx:CoolingSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -967,7 +1067,8 @@ cx:CoolingSystem a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleSystem ;
     skos:prefLabel "Kühlung"@de,
-        "Cooling System"@en .
+        "Cooling System"@en ;
+    "cx:isPartOf*" "powertrain" .
 
 cx:Crankcase a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -976,7 +1077,8 @@ cx:Crankcase a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "crank case"@en ;
     skos:prefLabel "Kurbelgehäuse"@de,
-        "Crankcase"@en .
+        "Crankcase"@en ;
+    "cx:isPartOf*" "engine block" .
 
 cx:Crankpin a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -985,7 +1087,8 @@ cx:Crankpin a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "crank pin"@en ;
     skos:prefLabel "Kurbelzapfen"@de,
-        "Crankpin"@en .
+        "Crankpin"@en ;
+    "cx:isPartOf*" "engine block" .
 
 cx:Crankshaft a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -994,7 +1097,8 @@ cx:Crankshaft a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "crank shaft"@en ;
     skos:prefLabel "Kurbelwelle"@de,
-        "Crankshaft"@en .
+        "Crankshaft"@en ;
+    "cx:isPartOf*" "engine block" .
 
 cx:CrankshaftPositionSensor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1002,7 +1106,8 @@ cx:CrankshaftPositionSensor a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleSensor ;
     skos:prefLabel "Kurbelwellensensor"@de,
-        "Crankshaft Position Sensor"@en .
+        "Crankshaft Position Sensor"@en ;
+    "cx:isPartOf*" "engine block" .
 
 cx:CrashDetectionSensor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1010,7 +1115,8 @@ cx:CrashDetectionSensor a owl:Class ;
         cx:SafetyComponent,
         cx:VehicleComponent,
         cx:VehicleElectricalComponent ;
-    skos:prefLabel "Crash Detection Sensor"@en .
+    skos:prefLabel "Crash Detection Sensor"@en ;
+    "cx:isPartOf*" "vehicle electrical system" .
 
 cx:CrossingTrafficWarning a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1018,7 +1124,8 @@ cx:CrossingTrafficWarning a owl:Class ;
         cx:SafetyComponent,
         cx:VehicleComponent,
         cx:VehicleElectricalComponent ;
-    skos:prefLabel "Crossing Traffic Warning"@en .
+    skos:prefLabel "Crossing Traffic Warning"@en ;
+    "cx:isPartOf*" "driver assistance system" .
 
 cx:CruiseControl a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1032,7 +1139,8 @@ cx:CruiseControl a owl:Class ;
         "speed control"@en,
         "tempomat"@en ;
     skos:prefLabel "Tempomat"@de,
-        "Cruise Control"@en .
+        "Cruise Control"@en ;
+    "cx:isPartOf*" "driver assistance system" .
 
 cx:CruiseControlSwitch a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1041,7 +1149,8 @@ cx:CruiseControlSwitch a owl:Class ;
         cx:VehicleControl ;
     skos:altLabel "Geschwindigkeitsregelanlage"@de ;
     skos:prefLabel "Tempomat"@de,
-        "Cruise Control Switch"@en .
+        "Cruise Control Switch"@en ;
+    "cx:isPartOf*" "car control" .
 
 cx:CrumpleZone a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1053,14 +1162,16 @@ cx:CrumpleZone a owl:Class ;
     skos:altLabel "crash zones"@en,
         "crush zones"@en ;
     skos:prefLabel "Knautschzone"@de,
-        "Crumple Zone"@en .
+        "Crumple Zone"@en ;
+    "cx:isPartOf*" "body" .
 
 cx:CupHolder a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Cup_holder> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Getränkehalter"@de,
-        "Cup Holder"@en .
+        "Cup Holder"@en ;
+    "cx:isPartOf*" "interior" .
 
 cx:Cylinder a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1068,7 +1179,8 @@ cx:Cylinder a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Zylinder"@de,
-        "Cylinder"@en .
+        "Cylinder"@en ;
+    "cx:isPartOf*" "engine block" .
 
 cx:CylinderHead a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1077,7 +1189,8 @@ cx:CylinderHead a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "head"@en ;
     skos:prefLabel "Zylinderkopf"@de,
-        "Cylinder Head"@en .
+        "Cylinder Head"@en ;
+    "cx:isPartOf*" "engine" .
 
 cx:DPillar a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1089,7 +1202,8 @@ cx:DPillar a owl:Class ;
     skos:altLabel "D-Säule"@de,
         "d-pillar"@en ;
     skos:prefLabel "D Säule"@de,
-        "D Pillar"@en .
+        "D Pillar"@en ;
+    "cx:isPartOf*" "body" .
 
 cx:Dashboard a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1099,7 +1213,8 @@ cx:Dashboard a owl:Class ;
         "dash"@en,
         "fascia"@en ;
     skos:prefLabel "Armaturenbrett"@de,
-        "Dashboard"@en .
+        "Dashboard"@en ;
+    "cx:isPartOf*" "interior" .
 
 cx:DaytimeRunningLight a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1107,14 +1222,16 @@ cx:DaytimeRunningLight a owl:Class ;
     rdfs:subClassOf cx:VehicleComponent,
         cx:VehicleElectricalComponent ;
     skos:prefLabel "Tagfahrlicht"@de,
-        "Daytime Running Light"@en .
+        "Daytime Running Light"@en ;
+    "cx:isPartOf*" "front light" .
 
 cx:DetachableHardtop a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Convertible#Detachable_hardtop> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Cabrioverdeck"@de,
-        "Detachable Hardtop"@en .
+        "Detachable Hardtop"@en ;
+    "cx:isPartOf*" "roof" .
 
 cx:DieselEngine a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1137,7 +1254,8 @@ cx:DieselParticulateFilter a owl:Class ;
         "DPF"@en ;
     skos:definition "diesel engine"@en ;
     skos:prefLabel "Dieselrußpartikelfilter"@de,
-        "Diesel Particulate Filter"@en .
+        "Diesel Particulate Filter"@en ;
+    "cx:isPartOf*" "exhaust system" .
 
 cx:Differential a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1151,7 +1269,8 @@ cx:Differential a owl:Class ;
         "axle final drive"@en,
         "final drive"@en ;
     skos:prefLabel "Differential"@de,
-        "Differential"@en .
+        "Differential"@en ;
+    "cx:isPartOf*" "powertrain" .
 
 cx:Diffuser a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1159,7 +1278,8 @@ cx:Diffuser a owl:Class ;
     rdfs:subClassOf cx:FunctionalComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Diffusor"@de,
-        "Diffuser"@en .
+        "Diffuser"@en ;
+    "cx:isPartOf*" "exterior" .
 
 cx:DiscBrake a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1167,7 +1287,8 @@ cx:DiscBrake a owl:Class ;
     rdfs:subClassOf cx:ChassisComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Scheibenbremse"@de,
-        "Disc Brake"@en .
+        "Disc Brake"@en ;
+    "cx:isPartOf*" "brake system" .
 
 cx:DiscreteVariableValveLift a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1176,7 +1297,8 @@ cx:DiscreteVariableValveLift a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "DVVL"@en ;
     skos:prefLabel "diskret variable Ventilsteuerung"@de,
-        "Discrete Variable Valve Lift"@en .
+        "Discrete Variable Valve Lift"@en ;
+    "cx:isPartOf*" "valvetrain" .
 
 cx:Distributor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1184,14 +1306,16 @@ cx:Distributor a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Zündverteiler"@de,
-        "Distributor"@en .
+        "Distributor"@en ;
+    "cx:isPartOf*" "ignition system" .
 
 cx:DistributorCap a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Verteilerkappe"@de,
-        "Distributor Cap"@en .
+        "Distributor Cap"@en ;
+    "cx:isPartOf*" "ignition system" .
 
 cx:Door a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1201,14 +1325,16 @@ cx:Door a owl:Class ;
     skos:altLabel "Tür"@de,
         "car door"@en ;
     skos:prefLabel "Autotür"@de,
-        "Door"@en .
+        "Door"@en ;
+    "cx:isPartOf*" "body" .
 
 cx:DoorContact a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:ElectricalComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Türkontakt"@de,
-        "Door Contact"@en .
+        "Door Contact"@en ;
+    "cx:isPartOf*" "door" .
 
 cx:DoorHandle a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1217,21 +1343,24 @@ cx:DoorHandle a owl:Class ;
     skos:altLabel "Türklinke"@de,
         "doorknob"@en ;
     skos:prefLabel "Türgriff"@de,
-        "Door Handle"@en .
+        "Door Handle"@en ;
+    "cx:isPartOf*" "door" .
 
 cx:DoorHinge a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Hinge> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Scharnier"@de,
-        "Door Hinge"@en .
+        "Door Hinge"@en ;
+    "cx:isPartOf*" "door" .
 
 cx:DoorLock a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Lock_and_key> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Schloss"@de,
-        "Door Lock"@en .
+        "Door Lock"@en ;
+    "cx:isPartOf*" "door" .
 
 cx:DoorPanel a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1239,7 +1368,8 @@ cx:DoorPanel a owl:Class ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:altLabel "door card"@en ;
     skos:prefLabel "Türverkleidung"@de,
-        "Door Panel"@en .
+        "Door Panel"@en ;
+    "cx:isPartOf*" "door" .
 
 cx:DoorSeal a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1247,14 +1377,16 @@ cx:DoorSeal a owl:Class ;
     rdfs:subClassOf cx:Seal,
         cx:VehicleComponent ;
     skos:prefLabel "Dichtung"@de,
-        "Door Seal"@en .
+        "Door Seal"@en ;
+    "cx:isPartOf*" "door" .
 
 cx:DoorSwitch a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent,
         cx:VehicleSwitch ;
     skos:prefLabel "Türschalter"@de,
-        "Door Switch"@en .
+        "Door Switch"@en ;
+    "cx:isPartOf*" "door" .
 
 cx:DriveChain a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1263,7 +1395,8 @@ cx:DriveChain a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "transmission chain"@en ;
     skos:prefLabel "Kettengetriebe"@de,
-        "Drive Chain"@en .
+        "Drive Chain"@en ;
+    "cx:isPartOf*" "transmission" .
 
 cx:DriveShaft a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1276,7 +1409,8 @@ cx:DriveShaft a owl:Class ;
         "propeller shaft"@en,
         "tailshaft"@en ;
     skos:prefLabel "Antriebswelle"@de,
-        "Drive Shaft"@en .
+        "Drive Shaft"@en ;
+    "cx:isPartOf*" "powertrain" .
 
 cx:DriveUnit a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1288,7 +1422,8 @@ cx:DriveUnit a owl:Class ;
         "propulsion system"@en ;
     skos:definition "engine, electromotor"@en ;
     skos:prefLabel "Antrieb, Antriebseinheit"@de,
-        "Drive Unit"@en .
+        "Drive Unit"@en ;
+    "cx:isPartOf*" "powertrain" .
 
 cx:DriverAirbag a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1297,7 +1432,8 @@ cx:DriverAirbag a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleElectricalComponent ;
     skos:prefLabel "Fahrerairbag"@de,
-        "Driver Airbag"@en .
+        "Driver Airbag"@en ;
+    "cx:isPartOf*" "airbag system" .
 
 cx:DriverAssistanceSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1313,7 +1449,8 @@ cx:DriverAssistanceSystem a owl:Class ;
         "driver assistance"@en,
         "driving assistance"@en ;
     skos:prefLabel "Fahrerassistenzsystem"@de,
-        "Driver Assistance System"@en .
+        "Driver Assistance System"@en ;
+    "cx:isPartOf*" "vehicle electrical system" .
 
 cx:DriverDrowsinessDetection a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1326,7 +1463,8 @@ cx:DriverDrowsinessDetection a owl:Class ;
         "Attention Assistant"@en,
         "DDD"@en ;
     skos:prefLabel "Aufmerksamkeitsassistent"@de,
-        "Driver Drowsiness Detection"@en .
+        "Driver Drowsiness Detection"@en ;
+    "cx:isPartOf*" "driver assistance system" .
 
 cx:DrySump a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1334,7 +1472,8 @@ cx:DrySump a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Trockensumpfschmierung"@de,
-        "Dry Sump"@en .
+        "Dry Sump"@en ;
+    "cx:isPartOf*" "oil system" .
 
 cx:DualClutchTransmission a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1345,7 +1484,8 @@ cx:DualClutchTransmission a owl:Class ;
         "dual-clutch transmission"@en,
         "twin-clutch transmission"@en ;
     skos:prefLabel "Doppelkupplungsgetriebe"@de,
-        "Dual Clutch Transmission"@en .
+        "Dual Clutch Transmission"@en ;
+    "cx:isPartOf*" "manual transmission" .
 
 cx:ElectricCompressor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1354,7 +1494,8 @@ cx:ElectricCompressor a owl:Class ;
     skos:altLabel "EKK"@en,
         "electric A/C compressor"@en ;
     skos:prefLabel "elektrischer Kompressor"@de,
-        "Electric Compressor"@en .
+        "Electric Compressor"@en ;
+    "cx:isPartOf*" "high voltage system" .
 
 cx:ElectricDrive a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1363,7 +1504,8 @@ cx:ElectricDrive a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "electric drive unit"@en ;
     skos:prefLabel "Elektroantrieb"@de,
-        "Electric Drive"@en .
+        "Electric Drive"@en ;
+    "cx:isPartOf*" "electric powertrain" .
 
 cx:ElectricGenerator a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1373,14 +1515,16 @@ cx:ElectricGenerator a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "generator"@en ;
     skos:prefLabel "Elektrischer Generator"@de,
-        "Electric Generator"@en .
+        "Electric Generator"@en ;
+    "cx:isPartOf*" "engine" .
 
 cx:ElectricHeater a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:ElectricPowertrainComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Elektroerhitzer"@de,
-        "Electric Heater"@en .
+        "Electric Heater"@en ;
+    "cx:isPartOf*" "high voltage system" .
 
 cx:ElectricMotor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1399,14 +1543,16 @@ cx:ElectricMotor a owl:Class ;
         "electro motor"@en,
         "traction motor"@en ;
     skos:prefLabel "Elektromotor"@de,
-        "Electric Motor"@en .
+        "Electric Motor"@en ;
+    "cx:isPartOf*" "electric powertrain" .
 
 cx:ElectricMotorTransmission a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:ElectricPowertrainComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Elektromaschinen-Getriebe"@de,
-        "Electric Motor Transmission"@en .
+        "Electric Motor Transmission"@en ;
+    "cx:isPartOf*" "electric powertrain" .
 
 cx:ElectricPowertrain a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1417,7 +1563,8 @@ cx:ElectricPowertrain a owl:Class ;
         "e-powertrain"@en,
         "electric drive"@en ;
     skos:prefLabel "Elektrischer Antriebsstrang"@de,
-        "Electric Powertrain"@en .
+        "Electric Powertrain"@en ;
+    "cx:isPartOf*" "vehicle" .
 
 cx:ElectromechanicalPowerSteering a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1425,7 +1572,8 @@ cx:ElectromechanicalPowerSteering a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "EPS"@en ;
     skos:prefLabel "elektromechanische Servolenkung"@de,
-        "Electromechanical Power Steering"@en .
+        "Electromechanical Power Steering"@en ;
+    "cx:isPartOf*" "steering" .
 
 cx:ElectronicControlUnit a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1437,7 +1585,8 @@ cx:ElectronicControlUnit a owl:Class ;
         "ecu"@en,
         "electronic control module"@en ;
     skos:prefLabel "Steuergerät"@de,
-        "Electronic Control Unit"@en .
+        "Electronic Control Unit"@en ;
+    "cx:isPartOf*" "vehicle electrical system" .
 
 cx:ElectronicParkingBrake a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1448,7 +1597,8 @@ cx:ElectronicParkingBrake a owl:Class ;
         "electric park brake"@en,
         "electric parking brake"@en ;
     skos:prefLabel "Elektrische Feststellbremse"@de,
-        "Electronic Parking Brake"@en .
+        "Electronic Parking Brake"@en ;
+    "cx:isPartOf*" "brake system" .
 
 cx:ElectronicStabilityControl a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1465,7 +1615,8 @@ cx:ElectronicStabilityControl a owl:Class ;
         "dynamic stability control"@en,
         "electronic stability program"@en ;
     skos:prefLabel "Fahrdynamikregelung"@de,
-        "Electronic Stability Control"@en .
+        "Electronic Stability Control"@en ;
+    "cx:isPartOf*" "driver assistance system" .
 
 cx:ElectronicThrottleControl a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1474,7 +1625,8 @@ cx:ElectronicThrottleControl a owl:Class ;
         cx:VehicleControl ;
     skos:altLabel "ETC"@en ;
     skos:prefLabel "elektronische Drosselklappensteuerung"@de,
-        "Electronic Throttle Control"@en .
+        "Electronic Throttle Control"@en ;
+    "cx:isPartOf*" "car control" .
 
 cx:EmergencyCallSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1484,7 +1636,8 @@ cx:EmergencyCallSystem a owl:Class ;
         cx:VehicleElectricalComponent,
         cx:VehicleSystem ;
     skos:prefLabel "Notrufsystem"@de,
-        "Emergency Call System"@en .
+        "Emergency Call System"@en ;
+    "cx:isPartOf*" "vehicle electrical system" .
 
 cx:EngineAirFilter a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1492,14 +1645,16 @@ cx:EngineAirFilter a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Luftfilter"@de,
-        "Engine Air Filter"@en .
+        "Engine Air Filter"@en ;
+    "cx:isPartOf*" "intake system" .
 
 cx:EngineBayLight a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent,
         cx:VehicleElectricalComponent ;
     skos:prefLabel "Motorraumlicht"@de,
-        "Engine Bay Light"@en .
+        "Engine Bay Light"@en ;
+    "cx:isPartOf*" "lighting system" .
 
 cx:EngineBlock a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1509,7 +1664,8 @@ cx:EngineBlock a owl:Class ;
     skos:altLabel "cylinder block"@en,
         "short block"@en ;
     skos:prefLabel "Motorblock"@de,
-        "Engine Block"@en .
+        "Engine Block"@en ;
+    "cx:isPartOf*" "engine" .
 
 cx:EngineCompartmentHarness a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1517,7 +1673,8 @@ cx:EngineCompartmentHarness a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleElectricalComponent ;
     skos:prefLabel "Motorkabelbaum"@de,
-        "Engine Compartment Harness"@en .
+        "Engine Compartment Harness"@en ;
+    "cx:isPartOf*" "cable harness" .
 
 cx:EngineControlUnit a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1527,7 +1684,8 @@ cx:EngineControlUnit a owl:Class ;
     skos:altLabel "Motorsteuergerät"@de,
         "ECU"@en ;
     skos:prefLabel "Motorsteuerung"@de,
-        "Engine Control Unit"@en .
+        "Engine Control Unit"@en ;
+    "cx:isPartOf*" "engine" .
 
 cx:EngineTemperatureGauge a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1535,7 +1693,8 @@ cx:EngineTemperatureGauge a owl:Class ;
     rdfs:subClassOf cx:VehicleComponent,
         cx:VehicleInstrument ;
     skos:prefLabel "Kühlung"@de,
-        "Engine Temperature Gauge"@en .
+        "Engine Temperature Gauge"@en ;
+    "cx:isPartOf*" "instrument panel" .
 
 cx:ErrorMemory a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1545,13 +1704,15 @@ cx:ErrorMemory a owl:Class ;
     skos:altLabel "fault memory"@en ;
     skos:note "is stored in the EEPROM"@en ;
     skos:prefLabel "Fehlerspeicher"@de,
-        "Error Memory"@en .
+        "Error Memory"@en ;
+    "cx:isPartOf*" "electronic control unit" .
 
 cx:Evaporator a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Verdampfer"@de,
-        "Evaporator"@en .
+        "Evaporator"@en ;
+    "cx:isPartOf*" "heating and air conditioning system" .
 
 cx:ExhaustGasTemperatureGauge a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1563,7 +1724,8 @@ cx:ExhaustGasTemperatureGauge a owl:Class ;
         "EGT gauge"@en,
         "EGT sensor"@en ;
     skos:prefLabel "Abgastemperatursensor"@de,
-        "Exhaust Gas Temperature Gauge"@en .
+        "Exhaust Gas Temperature Gauge"@en ;
+    "cx:isPartOf*" "exhaust system" .
 
 cx:ExhaustManifold a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1571,7 +1733,8 @@ cx:ExhaustManifold a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Abgaskrümmer"@de,
-        "Exhaust Manifold"@en .
+        "Exhaust Manifold"@en ;
+    "cx:isPartOf*" "exhaust system" .
 
 cx:ExhaustSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1581,7 +1744,8 @@ cx:ExhaustSystem a owl:Class ;
         cx:VehicleSystem ;
     skos:altLabel "Auspuff"@de ;
     skos:prefLabel "Abgasanlage"@de,
-        "Exhaust System"@en .
+        "Exhaust System"@en ;
+    "cx:isPartOf*" "engine" .
 
 cx:Exterior a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1591,7 +1755,8 @@ cx:Exterior a owl:Class ;
     skos:altLabel "Fahrzeugaußenseite"@de,
         "vehicle exterior"@en ;
     skos:prefLabel "Fahrzeugexterieur"@de,
-        "Exterior"@en .
+        "Exterior"@en ;
+    "cx:isPartOf*" "body" .
 
 cx:Fan a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1599,7 +1764,8 @@ cx:Fan a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Ventilator"@de,
-        "Fan"@en .
+        "Fan"@en ;
+    "cx:isPartOf*" "cooling system" .
 
 cx:FanClutch a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1607,7 +1773,8 @@ cx:FanClutch a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Lüfterkupplung"@de,
-        "Fan Clutch"@en .
+        "Fan Clutch"@en ;
+    "cx:isPartOf*" "cooling system" .
 
 cx:Fender a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1618,13 +1785,15 @@ cx:Fender a owl:Class ;
         "Schutzblech"@de,
         "wheel cover"@en ;
     skos:prefLabel "Kotflügel"@de,
-        "Fender"@en .
+        "Fender"@en ;
+    "cx:isPartOf*" "exterior" .
 
 cx:Floor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Fussboden"@de,
-        "Floor"@en .
+        "Floor"@en ;
+    "cx:isPartOf*" "interior" .
 
 cx:FloorHarness a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1632,7 +1801,8 @@ cx:FloorHarness a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleElectricalComponent ;
     skos:prefLabel "Bodenkabelbaum"@de,
-        "Floor Harness"@en .
+        "Floor Harness"@en ;
+    "cx:isPartOf*" "cable harness" .
 
 cx:FloorMat a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1643,7 +1813,8 @@ cx:FloorMat a owl:Class ;
         "floormat"@en,
         "vehicle mat"@en ;
     skos:prefLabel "Bodenmatte"@de,
-        "Floor Mat"@en .
+        "Floor Mat"@en ;
+    "cx:isPartOf*" "floor" .
 
 cx:Floorpan a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1653,7 +1824,8 @@ cx:Floorpan a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "floor panel"@en ;
     skos:prefLabel "Bodengruppe"@de,
-        "Floorpan"@en .
+        "Floorpan"@en ;
+    "cx:isPartOf*" "body" .
 
 cx:FluidCoupling a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1663,7 +1835,8 @@ cx:FluidCoupling a owl:Class ;
     skos:altLabel "hydraulic clutch"@en,
         "hydraulic coupling"@en ;
     skos:prefLabel "hydraulische Kupplung"@de,
-        "Fluid Coupling"@en .
+        "Fluid Coupling"@en ;
+    "cx:isPartOf*" "manual transmission" .
 
 cx:Flywheel a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1672,7 +1845,8 @@ cx:Flywheel a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "Schwungmasse"@de ;
     skos:prefLabel "Schwungrad"@de,
-        "Flywheel"@en .
+        "Flywheel"@en ;
+    "cx:isPartOf*" "transmission" .
 
 cx:FogLight a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1680,7 +1854,8 @@ cx:FogLight a owl:Class ;
     rdfs:subClassOf cx:VehicleComponent,
         cx:VehicleElectricalComponent ;
     skos:prefLabel "Nebelscheinwerfer"@de,
-        "Fog Light"@en .
+        "Fog Light"@en ;
+    "cx:isPartOf*" "front light" .
 
 cx:FrictionDrive a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1689,21 +1864,24 @@ cx:FrictionDrive a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "dry clutch"@en ;
     skos:prefLabel "Wälzkörpergetriebe"@de,
-        "Friction Drive"@en .
+        "Friction Drive"@en ;
+    "cx:isPartOf*" "manual transmission" .
 
 cx:FrontAxle a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:ChassisComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Vorderachse"@de,
-        "Front Axle"@en .
+        "Front Axle"@en ;
+    "cx:isPartOf*" "suspension system" .
 
 cx:FrontLight a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent,
         cx:VehicleElectricalComponent,
         cx:VehicleSensor ;
-    skos:prefLabel "Front Light"@en .
+    skos:prefLabel "Front Light"@en ;
+    "cx:isPartOf*" "lighting system" .
 
 cx:FuelCell a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1711,14 +1889,16 @@ cx:FuelCell a owl:Class ;
     rdfs:subClassOf cx:ElectricPowertrainComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Brennstoffzelle"@de,
-        "Fuel Cell"@en .
+        "Fuel Cell"@en ;
+    "cx:isPartOf*" "electric powertrain" .
 
 cx:FuelCellStack a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:ElectricPowertrainComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Brennstoffzellenstack"@de,
-        "Fuel Cell Stack"@en .
+        "Fuel Cell Stack"@en ;
+    "cx:isPartOf*" "electric powertrain" .
 
 cx:FuelFilter a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1726,7 +1906,8 @@ cx:FuelFilter a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Kraftstofffilter"@de,
-        "Fuel Filter"@en .
+        "Fuel Filter"@en ;
+    "cx:isPartOf*" "fuel system" .
 
 cx:FuelGauge a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1736,7 +1917,8 @@ cx:FuelGauge a owl:Class ;
     skos:altLabel "Tankanzeige"@de,
         "Tankuhr oder Benzinuhr"@de ;
     skos:prefLabel "Kraftstoffanzeige"@de,
-        "Fuel Gauge"@en .
+        "Fuel Gauge"@en ;
+    "cx:isPartOf*" "instrument panel" .
 
 cx:FuelInjection a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1744,7 +1926,8 @@ cx:FuelInjection a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Kraftstoffeinspritzung"@de,
-        "Fuel Injection"@en .
+        "Fuel Injection"@en ;
+    "cx:isPartOf*" "fuel system" .
 
 cx:FuelLevelSensor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1752,7 +1935,8 @@ cx:FuelLevelSensor a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleSensor ;
     skos:prefLabel "Kraftstoffsensor"@de,
-        "Fuel Level Sensor"@en .
+        "Fuel Level Sensor"@en ;
+    "cx:isPartOf*" "fuel system" .
 
 cx:FuelLine a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1761,7 +1945,8 @@ cx:FuelLine a owl:Class ;
         cx:Line,
         cx:VehicleComponent ;
     skos:prefLabel "Kraftstoffleitung"@de,
-        "Fuel Line"@en .
+        "Fuel Line"@en ;
+    "cx:isPartOf*" "fuel system" .
 
 cx:FuelPressureSensor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1769,7 +1954,8 @@ cx:FuelPressureSensor a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleSensor ;
     skos:prefLabel "Kraftstoffdrucksensor"@de,
-        "Fuel Pressure Sensor"@en .
+        "Fuel Pressure Sensor"@en ;
+    "cx:isPartOf*" "fuel system" .
 
 cx:FuelPump a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1777,7 +1963,8 @@ cx:FuelPump a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Kraftstoffpumpe"@de,
-        "Fuel Pump"@en .
+        "Fuel Pump"@en ;
+    "cx:isPartOf*" "fuel system" .
 
 cx:FuelSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1788,7 +1975,8 @@ cx:FuelSystem a owl:Class ;
     skos:altLabel "fuel supply"@en,
         "fuel supply system"@en ;
     skos:prefLabel "Kraftstoffversorgung"@de,
-        "Fuel System"@en .
+        "Fuel System"@en ;
+    "cx:isPartOf*" "engine" .
 
 cx:FuelTank a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1798,7 +1986,8 @@ cx:FuelTank a owl:Class ;
     skos:altLabel "gas tank"@en,
         "petrol tank"@en ;
     skos:prefLabel "Kraftstofftank"@de,
-        "Fuel Tank"@en .
+        "Fuel Tank"@en ;
+    "cx:isPartOf*" "fuel system" .
 
 cx:Fuse a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1807,7 +1996,8 @@ cx:Fuse a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleElectricalComponent ;
     skos:prefLabel "Sicherung"@de,
-        "Fuse"@en .
+        "Fuse"@en ;
+    "cx:isPartOf*" "fuse box" .
 
 cx:FuseBox a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1823,7 +2013,8 @@ cx:FuseBox a owl:Class ;
         "panelboard"@en,
         "power distribution box"@en ;
     skos:prefLabel "Elektrischer Verteiler"@de,
-        "Fuse Box"@en .
+        "Fuse Box"@en ;
+    "cx:isPartOf*" "vehicle electrical system" .
 
 cx:GasPressureSpring a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1832,7 +2023,8 @@ cx:GasPressureSpring a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "gas spring"@en ;
     skos:prefLabel "Gasdruckfeder"@de,
-        "Gas Pressure Spring"@en .
+        "Gas Pressure Spring"@en ;
+    "cx:isPartOf*" "exterior" .
 
 cx:GasolineParticulateFilter a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1842,7 +2034,8 @@ cx:GasolineParticulateFilter a owl:Class ;
         "OPF"@en,
         "petrol particulate filter"@en ;
     skos:prefLabel "Ottopartikelfilter"@de,
-        "Gasoline Particulate Filter"@en .
+        "Gasoline Particulate Filter"@en ;
+    "cx:isPartOf*" "exhaust system" .
 
 cx:GearStick a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1862,7 +2055,8 @@ cx:GearStick a owl:Class ;
         "shifter"@en,
         "transmission lever"@en ;
     skos:prefLabel "Schalthebel"@de,
-        "Gear Stick"@en .
+        "Gear Stick"@en ;
+    "cx:isPartOf*" "car control" .
 
 cx:Glass a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1870,7 +2064,8 @@ cx:Glass a owl:Class ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:altLabel "car glass"@en ;
     skos:prefLabel "Autoglas"@de,
-        "Glass"@en .
+        "Glass"@en ;
+    "cx:isPartOf*" "windshield" .
 
 cx:GloveCompartment a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1879,7 +2074,8 @@ cx:GloveCompartment a owl:Class ;
     skos:altLabel "glove box"@en,
         "jockey box"@en ;
     skos:prefLabel "Handschuhfach"@de,
-        "Glove Compartment"@en .
+        "Glove Compartment"@en ;
+    "cx:isPartOf*" "interior" .
 
 cx:GlowPlug a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1888,13 +2084,15 @@ cx:GlowPlug a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "glowplug"@en ;
     skos:prefLabel "Glühkerze"@de,
-        "Glow Plug"@en .
+        "Glow Plug"@en ;
+    "cx:isPartOf*" "ignition system" .
 
 cx:GrabHandle a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Haltegriff"@de,
-        "Grab Handle"@en .
+        "Grab Handle"@en ;
+    "cx:isPartOf*" "interior" .
 
 cx:Grille a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1902,7 +2100,8 @@ cx:Grille a owl:Class ;
     rdfs:subClassOf cx:FunctionalComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Kühlergrill"@de,
-        "Grille"@en .
+        "Grille"@en ;
+    "cx:isPartOf*" "exterior" .
 
 cx:Hardtop a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1910,7 +2109,8 @@ cx:Hardtop a owl:Class ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:altLabel "hard top"@en ;
     skos:prefLabel "Hardtop"@de,
-        "Hardtop"@en .
+        "Hardtop"@en ;
+    "cx:isPartOf*" "roof" .
 
 cx:Hatch a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1918,7 +2118,8 @@ cx:Hatch a owl:Class ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:altLabel "tailgate"@en ;
     skos:prefLabel "Heckklappe"@de,
-        "Hatch"@en .
+        "Hatch"@en ;
+    "cx:isPartOf*" "exterior" .
 
 cx:HeadAirbag a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1927,7 +2128,8 @@ cx:HeadAirbag a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleElectricalComponent ;
     skos:prefLabel "Kopfairbag"@de,
-        "Head Airbag"@en .
+        "Head Airbag"@en ;
+    "cx:isPartOf*" "airbag system" .
 
 cx:HeadGasket a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1938,7 +2140,8 @@ cx:HeadGasket a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "ZKD"@de ;
     skos:prefLabel "Zylinderkopfdichtung"@de,
-        "Head Gasket"@en .
+        "Head Gasket"@en ;
+    "cx:isPartOf*" "engine" .
 
 cx:HeadLight a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1949,7 +2152,8 @@ cx:HeadLight a owl:Class ;
         "head lamp"@en,
         "headlamp"@en ;
     skos:prefLabel "Scheinwerfer"@de,
-        "Head Light"@en .
+        "Head Light"@en ;
+    "cx:isPartOf*" "front light" .
 
 cx:HeadRestraint a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1959,14 +2163,16 @@ cx:HeadRestraint a owl:Class ;
     skos:altLabel "headrest"@en,
         "headrests"@en ;
     skos:prefLabel "Kopfstütze"@de,
-        "Head Restraint"@en .
+        "Head Restraint"@en ;
+    "cx:isPartOf*" "interior" .
 
 cx:HeadUnit a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Automotive_head_unit> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Headunit"@de,
-        "Head Unit"@en .
+        "Head Unit"@en ;
+    "cx:isPartOf*" "dashboard" .
 
 cx:HeadUpDisplay a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -1976,28 +2182,32 @@ cx:HeadUpDisplay a owl:Class ;
         "head-up display"@en,
         "heads-up display"@en ;
     skos:prefLabel "Head-up-Display"@de,
-        "Head Up Display"@en .
+        "Head Up Display"@en ;
+    "cx:isPartOf*" "dashboard" .
 
 cx:HeatExchanger a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:ElectricPowertrainComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Wärmetauscher"@de,
-        "Heat Exchanger"@en .
+        "Heat Exchanger"@en ;
+    "cx:isPartOf*" "cell module" .
 
 cx:HeatPump a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:ElectricPowertrainComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Wärmepumpe"@de,
-        "Heat Pump"@en .
+        "Heat Pump"@en ;
+    "cx:isPartOf*" "high voltage system" .
 
 cx:HeatShield a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:ElectricPowertrainComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Wärmeschutz"@de,
-        "Heat Shield"@en .
+        "Heat Shield"@en ;
+    "cx:isPartOf*" "cell module" .
 
 cx:HeatingAndAirConditioningSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2011,21 +2221,24 @@ cx:HeatingAndAirConditioningSystem a owl:Class ;
         "heating"@en,
         "ventilation"@en ;
     skos:prefLabel "Klimatechnik"@de,
-        "Heating And Air Conditioning System"@en .
+        "Heating And Air Conditioning System"@en ;
+    "cx:isPartOf*" "interior" .
 
 cx:HeatingAndCoolingSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:ElectricPowertrainComponent,
         cx:VehicleComponent,
         cx:VehicleSystem ;
-    skos:prefLabel "Heating And Cooling System"@en .
+    skos:prefLabel "Heating And Cooling System"@en ;
+    "cx:isPartOf*" "high voltage battery" .
 
 cx:HeatingControl a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent,
         cx:VehicleControl ;
     skos:prefLabel "Heizungssteuerung"@de,
-        "Heating Control"@en .
+        "Heating Control"@en ;
+    "cx:isPartOf*" "car control" .
 
 cx:HighBeam a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2036,7 +2249,8 @@ cx:HighBeam a owl:Class ;
         "full beam"@en,
         "main beam"@en ;
     skos:prefLabel "Fernlicht"@de,
-        "High Beam"@en .
+        "High Beam"@en ;
+    "cx:isPartOf*" "front light" .
 
 cx:HighBeamAssistant a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2046,7 +2260,8 @@ cx:HighBeamAssistant a owl:Class ;
         cx:VehicleElectricalComponent ;
     skos:altLabel "FLA"@de ;
     skos:prefLabel "Fernlicht Assistent"@de,
-        "High Beam Assistant"@en .
+        "High Beam Assistant"@en ;
+    "cx:isPartOf*" "driver assistance system" .
 
 cx:HighBeamSwitch a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2054,7 +2269,8 @@ cx:HighBeamSwitch a owl:Class ;
         cx:VehicleSwitch ;
     skos:altLabel "Aufblendlicht"@en ;
     skos:prefLabel "Fernlicht"@de,
-        "High Beam Switch"@en .
+        "High Beam Switch"@en ;
+    "cx:isPartOf*" "car control" .
 
 cx:HighVoltageBattery a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2079,7 +2295,8 @@ cx:HighVoltageBattery a owl:Class ;
         "lithium-ion battery"@en,
         "traction battery"@en ;
     skos:prefLabel "Hochvoltspeicher"@de,
-        "High Voltage Battery"@en .
+        "High Voltage Battery"@en ;
+    "cx:isPartOf*" "electric powertrain" .
 
 cx:HighVoltageConnection a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2087,7 +2304,10 @@ cx:HighVoltageConnection a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "high-voltage connection"@en ;
     skos:prefLabel "Hochvoltstecker"@de,
-        "High Voltage Connection"@en .
+        "High Voltage Connection"@en ;
+    "cx:isPartOf*" "charging system",
+        "electric powertrain",
+        "high voltage battery" .
 
 cx:HighVoltageSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2095,7 +2315,8 @@ cx:HighVoltageSystem a owl:Class ;
         cx:VehicleSystem ;
     skos:altLabel "high-voltage system"@en ;
     skos:prefLabel "Hochvolt System"@de,
-        "High Voltage System"@en .
+        "High Voltage System"@en ;
+    "cx:isPartOf*" "vehicle" .
 
 cx:Hood a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2104,7 +2325,8 @@ cx:Hood a owl:Class ;
     skos:altLabel "Kühlerhaube"@de,
         "bonnet"@en ;
     skos:prefLabel "Motorhaube"@de,
-        "Hood"@en .
+        "Hood"@en ;
+    "cx:isPartOf*" "exterior" .
 
 cx:HoodScoop a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2115,7 +2337,8 @@ cx:HoodScoop a owl:Class ;
         "bonnet airdam"@en,
         "bonnet scoop"@en ;
     skos:prefLabel "Lufthutze"@de,
-        "Hood Scoop"@en .
+        "Hood Scoop"@en ;
+    "cx:isPartOf*" "exterior" .
 
 cx:Horn a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2125,7 +2348,8 @@ cx:Horn a owl:Class ;
     skos:altLabel "Hörner"@de,
         "hooter"@en ;
     skos:prefLabel "Hupe"@de,
-        "Horn"@en .
+        "Horn"@en ;
+    "cx:isPartOf*" "steering wheel" .
 
 cx:Hose a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2140,14 +2364,16 @@ cx:Hubcap a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "hub cap"@en ;
     skos:prefLabel "Radkappe"@de,
-        "Hubcap"@en .
+        "Hubcap"@en ;
+    "cx:isPartOf*" "wheel" .
 
 cx:HybridVehicleDrivetrain a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Hybrid_vehicle_drivetrain> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Hybridantrieb"@de,
-        "Hybrid Vehicle Drivetrain"@en .
+        "Hybrid Vehicle Drivetrain"@en ;
+    "cx:isPartOf*" "powertrain" .
 
 cx:HydraulicFluid a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2160,14 +2386,16 @@ cx:HydraulicPowerSteering a owl:Class ;
     rdfs:subClassOf cx:ChassisComponent,
         cx:VehicleComponent ;
     skos:prefLabel "hydraulische Servolenkung"@de,
-        "Hydraulic Power Steering"@en .
+        "Hydraulic Power Steering"@en ;
+    "cx:isPartOf*" "steering" .
 
 cx:HydraulicShockAbsorber a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:ChassisComponent,
         cx:VehicleComponent ;
     skos:prefLabel "hydraulische Stoßdämpfer"@de,
-        "Hydraulic Shock Absorber"@en .
+        "Hydraulic Shock Absorber"@en ;
+    "cx:isPartOf*" "suspension system" .
 
 cx:HydraulicTappet a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2177,7 +2405,8 @@ cx:HydraulicTappet a owl:Class ;
     skos:altLabel "hydraulic lash adjuster"@en,
         "hydraulic valve lifter"@en ;
     skos:prefLabel "Hydrostößel"@de,
-        "Hydraulic Tappet"@en .
+        "Hydraulic Tappet"@en ;
+    "cx:isPartOf*" "valvetrain" .
 
 cx:IdleAirControlActuator a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2187,7 +2416,8 @@ cx:IdleAirControlActuator a owl:Class ;
     skos:altLabel "IAC actuator"@en,
         "idle air control valve"@en ;
     skos:prefLabel "Leerlaufregler"@de,
-        "Idle Air Control Actuator"@en .
+        "Idle Air Control Actuator"@en ;
+    "cx:isPartOf*" "intake system" .
 
 cx:IgnitionCoil a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2195,14 +2425,16 @@ cx:IgnitionCoil a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Zündspule"@de,
-        "Ignition Coil"@en .
+        "Ignition Coil"@en ;
+    "cx:isPartOf*" "ignition system" .
 
 cx:IgnitionCoilConnector a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Zündspulenverbinder"@de,
-        "Ignition Coil Connector"@en .
+        "Ignition Coil Connector"@en ;
+    "cx:isPartOf*" "ignition system" .
 
 cx:IgnitionController a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2210,7 +2442,8 @@ cx:IgnitionController a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "ignition box"@en ;
     skos:prefLabel "Zündsteuerung"@de,
-        "Ignition Controller"@en .
+        "Ignition Controller"@en ;
+    "cx:isPartOf*" "ignition system" .
 
 cx:IgnitionMagneto a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2219,7 +2452,8 @@ cx:IgnitionMagneto a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "high-tension magneto"@en ;
     skos:prefLabel "Magnetzündung"@de,
-        "Ignition Magneto"@en .
+        "Ignition Magneto"@en ;
+    "cx:isPartOf*" "ignition system" .
 
 cx:IgnitionSwitch a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2231,7 +2465,8 @@ cx:IgnitionSwitch a owl:Class ;
         "start switch"@en,
         "starter switch"@en ;
     skos:prefLabel "Zündschalter"@de,
-        "Ignition Switch"@en .
+        "Ignition Switch"@en ;
+    "cx:isPartOf*" "car control" .
 
 cx:IgnitionSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2240,7 +2475,8 @@ cx:IgnitionSystem a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleSystem ;
     skos:prefLabel "Zündung"@de,
-        "Ignition System"@en .
+        "Ignition System"@en ;
+    "cx:isPartOf*" "engine" .
 
 cx:Immobiliser a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2253,7 +2489,8 @@ cx:Immobiliser a owl:Class ;
         "electronic immobiliser"@en,
         "immobilizer"@en ;
     skos:prefLabel "Wegfahrsperre"@de,
-        "Immobiliser"@en .
+        "Immobiliser"@en ;
+    "cx:isPartOf*" "vehicle electrical system" .
 
 cx:InCarEntertainment a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2265,7 +2502,8 @@ cx:InCarEntertainment a owl:Class ;
         "in-car entertainment"@en,
         "in-vehicle infotainment"@en,
         "rear-seat entertainment"@en ;
-    skos:prefLabel "In Car Entertainment"@en .
+    skos:prefLabel "In Car Entertainment"@en ;
+    "cx:isPartOf*" "infotainment" .
 
 cx:Infotainment a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2276,7 +2514,8 @@ cx:Infotainment a owl:Class ;
     skos:altLabel "in car entertainment"@en,
         "in vehicle infotainment"@en ;
     skos:prefLabel "Infotainment"@de,
-        "Infotainment"@en .
+        "Infotainment"@en ;
+    "cx:isPartOf*" "vehicle electrical system" .
 
 cx:InjectionPump a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2285,7 +2524,8 @@ cx:InjectionPump a owl:Class ;
         cx:VehicleComponent ;
     skos:definition "diesel engine"@en ;
     skos:prefLabel "Einspritzpumpe"@de,
-        "Injection Pump"@en .
+        "Injection Pump"@en ;
+    "cx:isPartOf*" "fuel system" .
 
 cx:Injector a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2293,7 +2533,8 @@ cx:Injector a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Injektor"@de,
-        "Injector"@en .
+        "Injector"@en ;
+    "cx:isPartOf*" "fuel system" .
 
 cx:InstrumentPanel a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2302,7 +2543,8 @@ cx:InstrumentPanel a owl:Class ;
     skos:altLabel "digital instrument panel"@en,
         "electronic instrument cluster"@en ;
     skos:prefLabel "Instrumententafel"@de,
-        "Instrument Panel"@en .
+        "Instrument Panel"@en ;
+    "cx:isPartOf*" "dashboard" .
 
 cx:IntakeManifold a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2311,7 +2553,8 @@ cx:IntakeManifold a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "inlet manifold"@en ;
     skos:prefLabel "Ansaugstutzen"@de,
-        "Intake Manifold"@en .
+        "Intake Manifold"@en ;
+    "cx:isPartOf*" "intake system" .
 
 cx:IntakeSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2319,14 +2562,16 @@ cx:IntakeSystem a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleSystem ;
     skos:prefLabel "Luftansaugung"@de,
-        "Intake System"@en .
+        "Intake System"@en ;
+    "cx:isPartOf*" "engine" .
 
 cx:IntegratedChassisManagement a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:ChassisComponent,
         cx:VehicleComponent ;
     skos:altLabel "ICM"@en ;
-    skos:prefLabel "Integrated Chassis Management"@en .
+    skos:prefLabel "Integrated Chassis Management"@en ;
+    "cx:isPartOf*" "chassis" .
 
 cx:IntelligentParkingAssistSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2336,7 +2581,8 @@ cx:IntelligentParkingAssistSystem a owl:Class ;
         cx:VehicleElectricalComponent,
         cx:VehicleSystem ;
     skos:altLabel "IPAS"@en ;
-    skos:prefLabel "Intelligent Parking Assist System"@en .
+    skos:prefLabel "Intelligent Parking Assist System"@en ;
+    "cx:isPartOf*" "driver assistance system" .
 
 cx:IntelligentSpeedAssistance a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2347,7 +2593,8 @@ cx:IntelligentSpeedAssistance a owl:Class ;
     skos:altLabel "ISA"@en,
         "intelligent speed adaptation"@en ;
     skos:prefLabel "Intelligent Speed Adaption"@de,
-        "Intelligent Speed Assistance"@en .
+        "Intelligent Speed Assistance"@en ;
+    "cx:isPartOf*" "driver assistance system" .
 
 cx:Intercooler a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2355,7 +2602,8 @@ cx:Intercooler a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Ladeluftkühler"@de,
-        "Intercooler"@en .
+        "Intercooler"@en ;
+    "cx:isPartOf*" "turbocharger" .
 
 cx:Interior a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2369,26 +2617,30 @@ cx:Interior a owl:Class ;
         "passenger compartment"@en,
         "vehicle interior"@en ;
     skos:prefLabel "Fahrzeuginterieur"@de,
-        "Interior"@en .
+        "Interior"@en ;
+    "cx:isPartOf*" "body" .
 
 cx:InteriorAirFilter a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Luftfilter"@de,
-        "Interior Air Filter"@en .
+        "Interior Air Filter"@en ;
+    "cx:isPartOf*" "heating and air conditioning system" .
 
 cx:InteriorElectricHeater a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:altLabel "electric auxiliary heater"@en ;
     skos:prefLabel "elektrische Heizung"@de,
-        "Interior Electric Heater"@en .
+        "Interior Electric Heater"@en ;
+    "cx:isPartOf*" "heating and air conditioning system" .
 
 cx:InteriorFilter a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Innenraumfilter"@de,
-        "Interior Filter"@en .
+        "Interior Filter"@en ;
+    "cx:isPartOf*" "heating and air conditioning system" .
 
 cx:InteriorHarness a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2396,14 +2648,16 @@ cx:InteriorHarness a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleElectricalComponent ;
     skos:prefLabel "Innenraumkabelbaum"@de,
-        "Interior Harness"@en .
+        "Interior Harness"@en ;
+    "cx:isPartOf*" "cable harness" .
 
 cx:InteriorLight a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:altLabel "Innenleuchte"@de ;
     skos:prefLabel "Innenbeleuchtung"@de,
-        "Interior Light"@en .
+        "Interior Light"@en ;
+    "cx:isPartOf*" "interior" .
 
 cx:Inverter a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2414,7 +2668,8 @@ cx:Inverter a owl:Class ;
         "EME"@en,
         "electrical machine electronics"@en ;
     skos:prefLabel "Inverter"@de,
-        "Inverter"@en .
+        "Inverter"@en ;
+    "cx:isPartOf*" "electric powertrain" .
 
 cx:Key a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2423,7 +2678,8 @@ cx:Key a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleElectricalComponent ;
     skos:prefLabel "Autoschlüssel"@de,
-        "Key"@en .
+        "Key"@en ;
+    "cx:isPartOf*" "car access system" .
 
 cx:Kingpin a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2433,7 +2689,8 @@ cx:Kingpin a owl:Class ;
     skos:altLabel "coupling pin"@en,
         "king pin"@en ;
     skos:prefLabel "Königszapfen"@de,
-        "Kingpin"@en .
+        "Kingpin"@en ;
+    "cx:isPartOf*" "steering" .
 
 cx:KneeAirbag a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2442,7 +2699,8 @@ cx:KneeAirbag a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleElectricalComponent ;
     skos:prefLabel "Knieairbag"@de,
-        "Knee Airbag"@en .
+        "Knee Airbag"@en ;
+    "cx:isPartOf*" "airbag system" .
 
 cx:KnockSensor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2450,7 +2708,8 @@ cx:KnockSensor a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleSensor ;
     skos:prefLabel "Klopfsensor"@de,
-        "Knock Sensor"@en .
+        "Knock Sensor"@en ;
+    "cx:isPartOf*" "engine" .
 
 cx:LambdaSensor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2462,7 +2721,8 @@ cx:LambdaSensor a owl:Class ;
         "Sprungsonde"@de,
         "oxygen sensor"@en ;
     skos:prefLabel "Lambdasonde"@de,
-        "Lambda Sensor"@en .
+        "Lambda Sensor"@en ;
+    "cx:isPartOf*" "exhaust system" .
 
 cx:LaminatedGlass a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2471,7 +2731,8 @@ cx:LaminatedGlass a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "VSG"@de ;
     skos:prefLabel "Verbundsicherheitsglas"@de,
-        "Laminated Glass"@en .
+        "Laminated Glass"@en ;
+    "cx:isPartOf*" "windshield" .
 
 cx:LaneDepartureWarningSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2484,7 +2745,8 @@ cx:LaneDepartureWarningSystem a owl:Class ;
     skos:altLabel "LDWS"@en,
         "lane departure warning"@en ;
     skos:prefLabel "Spurhalteassistent"@de,
-        "Lane Departure Warning System"@en .
+        "Lane Departure Warning System"@en ;
+    "cx:isPartOf*" "driver assistance system" .
 
 cx:LightSensor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2492,7 +2754,8 @@ cx:LightSensor a owl:Class ;
         cx:VehicleElectricalComponent,
         cx:VehicleSensor ;
     skos:prefLabel "Lichtsensor"@de,
-        "Light Sensor"@en .
+        "Light Sensor"@en ;
+    "cx:isPartOf*" "lighting system" .
 
 cx:LightSwitch a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2500,7 +2763,8 @@ cx:LightSwitch a owl:Class ;
         cx:VehicleElectricalComponent,
         cx:VehicleSwitch ;
     skos:prefLabel "Lichtschalter"@de,
-        "Light Switch"@en .
+        "Light Switch"@en ;
+    "cx:isPartOf*" "car control" .
 
 cx:LightingSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2511,7 +2775,8 @@ cx:LightingSystem a owl:Class ;
     skos:altLabel "Beleuchtung"@de,
         "lighting"@en ;
     skos:prefLabel "Fahrzeugbeleuchtung"@de,
-        "Lighting System"@en .
+        "Lighting System"@en ;
+    "cx:isPartOf*" "vehicle electrical system" .
 
 cx:LiquidSeal a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2530,7 +2795,8 @@ cx:LithiumIonCell a owl:Class ;
         "li-ion cell"@en,
         "lithium-ion cell"@en ;
     skos:prefLabel "Lithium-Ionen Zelle"@de,
-        "Lithium Ion Cell"@en .
+        "Lithium Ion Cell"@en ;
+    "cx:isPartOf*" "cell module" .
 
 cx:LockingDifferential a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2539,7 +2805,8 @@ cx:LockingDifferential a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "Selbstsperrdifferentialgetriebe"@de ;
     skos:prefLabel "Sperrdifferential"@de,
-        "Locking Differential"@en .
+        "Locking Differential"@en ;
+    "cx:isPartOf*" "powertrain" .
 
 cx:LowBeam a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2549,7 +2816,8 @@ cx:LowBeam a owl:Class ;
         "meeting beam"@en,
         "passing beam"@en ;
     skos:prefLabel "Abblendlicht"@de,
-        "Low Beam"@en .
+        "Low Beam"@en ;
+    "cx:isPartOf*" "front light" .
 
 cx:Lubricant a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2563,7 +2831,8 @@ cx:MainBearing a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Kurbelwellenlager"@de,
-        "Main Bearing"@en .
+        "Main Bearing"@en ;
+    "cx:isPartOf*" "engine block" .
 
 cx:MainHarness a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2573,7 +2842,8 @@ cx:MainHarness a owl:Class ;
     skos:altLabel "Hauptkabelstrang"@de,
         "main wiring harness"@en ;
     skos:prefLabel "Hauptkabelbaum"@de,
-        "Main Harness"@en .
+        "Main Harness"@en ;
+    "cx:isPartOf*" "cable harness" .
 
 cx:ManifoldAbsolutePressureSensor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2583,7 +2853,8 @@ cx:ManifoldAbsolutePressureSensor a owl:Class ;
         cx:VehicleSensor ;
     skos:altLabel "MAP sensor"@en ;
     skos:prefLabel "MAP-Sensor"@de,
-        "Manifold Absolute Pressure Sensor"@en .
+        "Manifold Absolute Pressure Sensor"@en ;
+    "cx:isPartOf*" "intake system" .
 
 cx:Manometer a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2592,7 +2863,8 @@ cx:Manometer a owl:Class ;
         cx:VehicleInstrument ;
     skos:altLabel "oil pressure gauge"@en ;
     skos:prefLabel "Druckmesser"@de,
-        "Manometer"@en .
+        "Manometer"@en ;
+    "cx:isPartOf*" "instrument panel" .
 
 cx:ManualTransmission a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2605,7 +2877,8 @@ cx:ManualTransmission a owl:Class ;
         "stick"@en,
         "stick shift"@en ;
     skos:prefLabel "Schaltgetriebe"@de,
-        "Manual Transmission"@en .
+        "Manual Transmission"@en ;
+    "cx:isPartOf*" "powertrain" .
 
 cx:MassAirflowSensor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2616,14 +2889,16 @@ cx:MassAirflowSensor a owl:Class ;
     skos:altLabel "MAF sensor"@en,
         "mass flow sensor"@en ;
     skos:prefLabel "Luftmassenmesser"@de,
-        "Mass Airflow Sensor"@en .
+        "Mass Airflow Sensor"@en ;
+    "cx:isPartOf*" "intake system" .
 
 cx:MechanicalSteering a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:ChassisComponent,
         cx:VehicleComponent ;
     skos:prefLabel "mechanische Lenkung"@de,
-        "Mechanical Steering"@en .
+        "Mechanical Steering"@en ;
+    "cx:isPartOf*" "steering" .
 
 cx:MechatronicComponent a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2636,14 +2911,16 @@ cx:ModuleConnector a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "MC"@en ;
     skos:prefLabel "Modulstecker"@de,
-        "Module Connector"@en .
+        "Module Connector"@en ;
+    "cx:isPartOf*" "cell module" .
 
 cx:MoldedCarpet a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Molded_carpet> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "geformter Teppich"@de,
-        "Molded Carpet"@en .
+        "Molded Carpet"@en ;
+    "cx:isPartOf*" "floor" .
 
 cx:Monocoque a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2652,7 +2929,8 @@ cx:Monocoque a owl:Class ;
         cx:StructuralComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Monocoque"@de,
-        "Monocoque"@en .
+        "Monocoque"@en ;
+    "cx:isPartOf*" "body" .
 
 cx:Muffler a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2661,7 +2939,8 @@ cx:Muffler a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "silencer"@en ;
     skos:prefLabel "Schalldämpfer"@de,
-        "Muffler"@en .
+        "Muffler"@en ;
+    "cx:isPartOf*" "exhaust system" .
 
 cx:NavigationSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2672,7 +2951,8 @@ cx:NavigationSystem a owl:Class ;
         cx:VehicleSystem ;
     skos:altLabel "GPS"@en ;
     skos:prefLabel "Navigationssystem"@de,
-        "Navigation System"@en .
+        "Navigation System"@en ;
+    "cx:isPartOf*" "infotainment" .
 
 cx:Nut a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2682,7 +2962,8 @@ cx:Nut a owl:Class ;
     skos:altLabel "lug nut"@en,
         "wheel nut"@en ;
     skos:prefLabel "Radschraube"@de,
-        "Nut"@en .
+        "Nut"@en ;
+    "cx:isPartOf*" "wheel" .
 
 cx:Odometer a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2693,7 +2974,8 @@ cx:Odometer a owl:Class ;
         "milometer"@en,
         "odograph"@en ;
     skos:prefLabel "Hodometer"@de,
-        "Odometer"@en .
+        "Odometer"@en ;
+    "cx:isPartOf*" "instrument panel" .
 
 cx:OilFilter a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2701,7 +2983,8 @@ cx:OilFilter a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Ölfilter"@de,
-        "Oil Filter"@en .
+        "Oil Filter"@en ;
+    "cx:isPartOf*" "oil system" .
 
 cx:OilLevelSensor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2709,7 +2992,8 @@ cx:OilLevelSensor a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleSensor ;
     skos:prefLabel "Ölstandsgeber"@de,
-        "Oil Level Sensor"@en .
+        "Oil Level Sensor"@en ;
+    "cx:isPartOf*" "oil system" .
 
 cx:OilPan a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2718,7 +3002,8 @@ cx:OilPan a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "sump"@en ;
     skos:prefLabel "Sumpf"@de,
-        "Oil Pan"@en .
+        "Oil Pan"@en ;
+    "cx:isPartOf*" "oil system" .
 
 cx:OilPressureSensor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2726,7 +3011,8 @@ cx:OilPressureSensor a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleSensor ;
     skos:prefLabel "Öldrucksensor"@de,
-        "Oil Pressure Sensor"@en .
+        "Oil Pressure Sensor"@en ;
+    "cx:isPartOf*" "oil system" .
 
 cx:OilPump a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2734,7 +3020,8 @@ cx:OilPump a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Ölpumpe"@de,
-        "Oil Pump"@en .
+        "Oil Pump"@en ;
+    "cx:isPartOf*" "oil system" .
 
 cx:OilSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2745,14 +3032,16 @@ cx:OilSystem a owl:Class ;
     skos:altLabel "lubricant"@en,
         "lubrication"@en ;
     skos:prefLabel "Motoröl"@de,
-        "Oil System"@en .
+        "Oil System"@en ;
+    "cx:isPartOf*" "engine" .
 
 cx:OilTank a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Öltank"@de,
-        "Oil Tank"@en .
+        "Oil Tank"@en ;
+    "cx:isPartOf*" "oil system" .
 
 cx:OnBoardDiagnostics a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2772,7 +3061,8 @@ cx:OutputShaft a owl:Class ;
     skos:altLabel "Abtriebswelle"@de,
         "final drive shaft"@en ;
     skos:prefLabel "Ausgangswelle"@de,
-        "Output Shaft"@en .
+        "Output Shaft"@en ;
+    "cx:isPartOf*" "powertrain" .
 
 cx:Paint a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2781,7 +3071,8 @@ cx:Paint a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "Lack"@de ;
     skos:prefLabel "Autolack"@de,
-        "Paint"@en .
+        "Paint"@en ;
+    "cx:isPartOf*" "exterior" .
 
 cx:ParkingBrake a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2793,7 +3084,8 @@ cx:ParkingBrake a owl:Class ;
         "emergency brake"@en,
         "handbrake"@en ;
     skos:prefLabel "Feststellbremse"@de,
-        "Parking Brake"@en .
+        "Parking Brake"@en ;
+    "cx:isPartOf*" "car control" .
 
 cx:ParkingLight a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2802,7 +3094,8 @@ cx:ParkingLight a owl:Class ;
         cx:VehicleElectricalComponent ;
     skos:altLabel "Begrenzungslicht"@de ;
     skos:prefLabel "Standlicht"@de,
-        "Parking Light"@en .
+        "Parking Light"@en ;
+    "cx:isPartOf*" "front light" .
 
 cx:ParkingSensor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2814,7 +3107,8 @@ cx:ParkingSensor a owl:Class ;
     skos:altLabel "PDC"@en,
         "park distance control"@en ;
     skos:prefLabel "Einparkhilfe"@de,
-        "Parking Sensor"@en .
+        "Parking Sensor"@en ;
+    "cx:isPartOf*" "vehicle electrical system" .
 
 cx:PassengerAirbag a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2824,7 +3118,8 @@ cx:PassengerAirbag a owl:Class ;
         cx:VehicleElectricalComponent ;
     skos:altLabel "front passenger airbag"@en ;
     skos:prefLabel "Beifahrerairbag"@de,
-        "Passenger Airbag"@en .
+        "Passenger Airbag"@en ;
+    "cx:isPartOf*" "airbag system" .
 
 cx:PedestrianProtection a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2834,7 +3129,8 @@ cx:PedestrianProtection a owl:Class ;
         cx:VehicleElectricalComponent ;
     skos:altLabel "active pedestrian protection"@en ;
     skos:prefLabel "Fußgängerschutz"@de,
-        "Pedestrian Protection"@en .
+        "Pedestrian Protection"@en ;
+    "cx:isPartOf*" "driver assistance system" .
 
 cx:PetrolEngine a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2851,7 +3147,8 @@ cx:Pillar a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "Säule"@de ;
     skos:prefLabel "Fahrzeugsäule"@de,
-        "Pillar"@en .
+        "Pillar"@en ;
+    "cx:isPartOf*" "body" .
 
 cx:Piston a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2859,7 +3156,8 @@ cx:Piston a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Kolben"@de,
-        "Piston"@en .
+        "Piston"@en ;
+    "cx:isPartOf*" "engine block" .
 
 cx:PistonRing a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2867,7 +3165,8 @@ cx:PistonRing a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Kolbenring"@de,
-        "Piston Ring"@en .
+        "Piston Ring"@en ;
+    "cx:isPartOf*" "engine block" .
 
 cx:PoppetValve a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2876,18 +3175,21 @@ cx:PoppetValve a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "mushroom valve"@en ;
     skos:prefLabel "Tellerventil"@de,
-        "Poppet Valve"@en .
+        "Poppet Valve"@en ;
+    "cx:isPartOf*" "valvetrain" .
 
 cx:PowerSeat a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Power_seat> ;
     rdfs:subClassOf cx:VehicleComponent ;
-    skos:prefLabel "Power Seat"@en .
+    skos:prefLabel "Power Seat"@en ;
+    "cx:isPartOf*" "interior" .
 
 cx:PowerSeatSwitch a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent ;
-    skos:prefLabel "Power Seat Switch"@en .
+    skos:prefLabel "Power Seat Switch"@en ;
+    "cx:isPartOf*" "interior" .
 
 cx:PowerSideViewMirror a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2898,7 +3200,8 @@ cx:PowerSideViewMirror a owl:Class ;
         "power side mirror"@en,
         "power wing mirror"@en ;
     skos:prefLabel "elektrischer Seitenspiegel"@de,
-        "Power Side View Mirror"@en .
+        "Power Side View Mirror"@en ;
+    "cx:isPartOf*" "door" .
 
 cx:PowerSteering a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2906,7 +3209,8 @@ cx:PowerSteering a owl:Class ;
     rdfs:subClassOf cx:ChassisComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Servolenkung"@de,
-        "Power Steering"@en .
+        "Power Steering"@en ;
+    "cx:isPartOf*" "steering" .
 
 cx:PowerWindow a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2915,7 +3219,8 @@ cx:PowerWindow a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "electric windows"@en ;
     skos:prefLabel "Fensterheber"@de,
-        "Power Window"@en .
+        "Power Window"@en ;
+    "cx:isPartOf*" "door" .
 
 cx:PowerWindowSwitch a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2923,7 +3228,8 @@ cx:PowerWindowSwitch a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleSwitch ;
     skos:prefLabel "Fensterheberschalter"@de,
-        "Power Window Switch"@en .
+        "Power Window Switch"@en ;
+    "cx:isPartOf*" "door" .
 
 cx:Powertrain a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2938,7 +3244,8 @@ cx:Powertrain a owl:Class ;
         "drivetrain"@en,
         "power train"@en ;
     skos:prefLabel "Antriebsstrang"@de,
-        "Powertrain"@en .
+        "Powertrain"@en ;
+    "cx:isPartOf*" "vehicle" .
 
 cx:PressurePlate a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2947,7 +3254,8 @@ cx:PressurePlate a owl:Class ;
     skos:altLabel "DP"@de,
         "PP"@en ;
     skos:prefLabel "Druckplatte"@de,
-        "Pressure Plate"@en .
+        "Pressure Plate"@en ;
+    "cx:isPartOf*" "cell module" .
 
 cx:Pushrod a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2955,7 +3263,8 @@ cx:Pushrod a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "push rod"@en ;
     skos:prefLabel "Schubstange"@de,
-        "Pushrod"@en .
+        "Pushrod"@en ;
+    "cx:isPartOf*" "valvetrain" .
 
 cx:RadarSensor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2964,7 +3273,8 @@ cx:RadarSensor a owl:Class ;
         cx:VehicleElectricalComponent,
         cx:VehicleSensor ;
     skos:prefLabel "Radarsensor"@de,
-        "Radar Sensor"@en .
+        "Radar Sensor"@en ;
+    "cx:isPartOf*" "vehicle electrical system" .
 
 cx:Radiator a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2972,7 +3282,8 @@ cx:Radiator a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Autokühler"@de,
-        "Radiator"@en .
+        "Radiator"@en ;
+    "cx:isPartOf*" "cooling system" .
 
 cx:RainSensor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2980,14 +3291,16 @@ cx:RainSensor a owl:Class ;
     rdfs:subClassOf cx:VehicleComponent,
         cx:VehicleSensor ;
     skos:prefLabel "Regensensor"@de,
-        "Rain Sensor"@en .
+        "Rain Sensor"@en ;
+    "cx:isPartOf*" "window wash system" .
 
 cx:RearAxle a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:ChassisComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Hinterachse"@de,
-        "Rear Axle"@en .
+        "Rear Axle"@en ;
+    "cx:isPartOf*" "suspension system" .
 
 cx:RearAxleDifferential a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -2995,21 +3308,24 @@ cx:RearAxleDifferential a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "HAG"@de ;
     skos:prefLabel "Hinterachsgetriebe"@de,
-        "Rear Axle Differential"@en .
+        "Rear Axle Differential"@en ;
+    "cx:isPartOf*" "powertrain" .
 
 cx:RearFogLight a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent,
         cx:VehicleElectricalComponent ;
     skos:prefLabel "Nebelschlussleuchte"@de,
-        "Rear Fog Light"@en .
+        "Rear Fog Light"@en ;
+    "cx:isPartOf*" "rear light" .
 
 cx:RearLight a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent,
         cx:VehicleElectricalComponent,
         cx:VehicleSensor ;
-    skos:prefLabel "Rear Light"@en .
+    skos:prefLabel "Rear Light"@en ;
+    "cx:isPartOf*" "lighting system" .
 
 cx:RearViewMirror a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3017,7 +3333,8 @@ cx:RearViewMirror a owl:Class ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:altLabel "rearview mirror"@en ;
     skos:prefLabel "Rückspiegel"@de,
-        "Rear View Mirror"@en .
+        "Rear View Mirror"@en ;
+    "cx:isPartOf*" "interior" .
 
 cx:RearWindow a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3027,7 +3344,8 @@ cx:RearWindow a owl:Class ;
     skos:altLabel "back glass"@en,
         "back window"@en ;
     skos:prefLabel "Heckscheibe"@de,
-        "Rear Window"@en .
+        "Rear Window"@en ;
+    "cx:isPartOf*" "body" .
 
 cx:RearWindowHeater a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3037,13 +3355,15 @@ cx:RearWindowHeater a owl:Class ;
         "defroster"@en,
         "demister"@en ;
     skos:prefLabel "Heckscheibenheizung"@de,
-        "Rear Window Heater"@en .
+        "Rear Window Heater"@en ;
+    "cx:isPartOf*" "rear window" .
 
 cx:RearWindowShade a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Heckscheibensonnenschutz"@de,
-        "Rear Window Shade"@en .
+        "Rear Window Shade"@en ;
+    "cx:isPartOf*" "rear window" .
 
 cx:Reductant a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3060,7 +3380,8 @@ cx:Reflector a owl:Class ;
         "Rückstrahler"@de,
         "retroreflector"@en ;
     skos:prefLabel "Reflektor"@de,
-        "Reflector"@en .
+        "Reflector"@en ;
+    "cx:isPartOf*" "exterior" .
 
 cx:Refrigerant a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3079,7 +3400,8 @@ cx:RemoteKeylessSystem a owl:Class ;
     skos:altLabel "RKS"@en,
         "keyless entry"@en,
         "remote central locking"@en ;
-    skos:prefLabel "Remote Keyless System"@en .
+    skos:prefLabel "Remote Keyless System"@en ;
+    "cx:isPartOf*" "car access system" .
 
 cx:RestraintSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3089,14 +3411,16 @@ cx:RestraintSystem a owl:Class ;
         cx:VehicleElectricalComponent,
         cx:VehicleSystem ;
     skos:prefLabel "Rückhaltesystem"@de,
-        "Restraint System"@en .
+        "Restraint System"@en ;
+    "cx:isPartOf*" "vehicle electrical system" .
 
 cx:RetractableHardtop a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Retractable_hardtop> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Cabrioverdeck"@de,
-        "Retractable Hardtop"@en .
+        "Retractable Hardtop"@en ;
+    "cx:isPartOf*" "roof" .
 
 cx:ReversingLight a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3104,7 +3428,8 @@ cx:ReversingLight a owl:Class ;
         cx:VehicleElectricalComponent ;
     skos:altLabel "Rückfahrlicht"@de ;
     skos:prefLabel "Rückfahrscheinwerfer"@de,
-        "Reversing Light"@en .
+        "Reversing Light"@en ;
+    "cx:isPartOf*" "rear light" .
 
 cx:Rim a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3114,7 +3439,8 @@ cx:Rim a owl:Class ;
     skos:altLabel "Autofelge"@de,
         "alloy wheel"@en ;
     skos:prefLabel "Felge"@de,
-        "Rim"@en .
+        "Rim"@en ;
+    "cx:isPartOf*" "wheel" .
 
 cx:RockerArm a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3123,7 +3449,8 @@ cx:RockerArm a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "bucket tappet"@en ;
     skos:prefLabel "Kipphebel"@de,
-        "Rocker Arm"@en .
+        "Rocker Arm"@en ;
+    "cx:isPartOf*" "valvetrain" .
 
 cx:RollCage a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3134,7 +3461,8 @@ cx:RollCage a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "Überrollkäfig"@de ;
     skos:prefLabel "Überrollvorrichtung"@de,
-        "Roll Cage"@en .
+        "Roll Cage"@en ;
+    "cx:isPartOf*" "body" .
 
 cx:Roof a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3142,7 +3470,8 @@ cx:Roof a owl:Class ;
     rdfs:subClassOf cx:FunctionalComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Autodach"@de,
-        "Roof"@en .
+        "Roof"@en ;
+    "cx:isPartOf*" "body" .
 
 cx:RoofLiner a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3151,14 +3480,16 @@ cx:RoofLiner a owl:Class ;
     skos:altLabel "Dachhimmel"@de,
         "Innenhimmel"@de ;
     skos:prefLabel "Innenverdeck"@de,
-        "Roof Liner"@en .
+        "Roof Liner"@en ;
+    "cx:isPartOf*" "interior" .
 
 cx:RoofRack a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Roof_rack> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Autogepäckträger"@de,
-        "Roof Rack"@en .
+        "Roof Rack"@en ;
+    "cx:isPartOf*" "roof" .
 
 cx:SafetyBox a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3168,7 +3499,8 @@ cx:SafetyBox a owl:Class ;
         "s box"@en,
         "s-box"@en ;
     skos:prefLabel "Sicherheitsbox"@de,
-        "Safety Box"@en .
+        "Safety Box"@en ;
+    "cx:isPartOf*" "high voltage battery" .
 
 cx:SafetyCell a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3180,14 +3512,16 @@ cx:SafetyCell a owl:Class ;
     skos:altLabel "Fahrgastzelle"@de,
         "Sicherheitsfahrgastzelle"@de ;
     skos:prefLabel "Sicherheitszelle"@de,
-        "Safety Cell"@en .
+        "Safety Cell"@en ;
+    "cx:isPartOf*" "body" .
 
 cx:Seat a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Car_seat> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Autositz"@de,
-        "Seat"@en .
+        "Seat"@en ;
+    "cx:isPartOf*" "interior" .
 
 cx:SeatBelt a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3198,14 +3532,16 @@ cx:SeatBelt a owl:Class ;
         "safety belt"@en,
         "seatbelt"@en ;
     skos:prefLabel "Sicherheitsgurt"@de,
-        "Seat Belt"@en .
+        "Seat Belt"@en ;
+    "cx:isPartOf*" "interior" .
 
 cx:SeatBeltBuckle a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:SafetyComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Gürtelschnalle"@de,
-        "Seat Belt Buckle"@en .
+        "Seat Belt Buckle"@en ;
+    "cx:isPartOf*" "seat belt" .
 
 cx:SeatBeltReel a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3215,7 +3551,8 @@ cx:SeatBeltReel a owl:Class ;
         "electromotive reel"@en,
         "reversible electromotive reel"@en ;
     skos:prefLabel "Aufrollmechanismus"@de,
-        "Seat Belt Reel"@en .
+        "Seat Belt Reel"@en ;
+    "cx:isPartOf*" "seat belt" .
 
 cx:SeatBeltStrap a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3223,7 +3560,8 @@ cx:SeatBeltStrap a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "strap"@en ;
     skos:prefLabel "Gurtband"@de,
-        "Seat Belt Strap"@en .
+        "Seat Belt Strap"@en ;
+    "cx:isPartOf*" "seat belt" .
 
 cx:SeatBeltTensioner a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3234,14 +3572,16 @@ cx:SeatBeltTensioner a owl:Class ;
         "seat belt buckle tensioner"@en,
         "tightener"@en ;
     skos:prefLabel "Gurtstraffer"@de,
-        "Seat Belt Tensioner"@en .
+        "Seat Belt Tensioner"@en ;
+    "cx:isPartOf*" "seat belt" .
 
 cx:SeatBracket a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:seeAlso <https://de.wikipedia.org/wiki/Sitzkonsole> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Sitzkonsole"@de,
-        "Seat Bracket"@en .
+        "Seat Bracket"@en ;
+    "cx:isPartOf*" "interior" .
 
 cx:SeatOccupancyMat a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3249,14 +3589,16 @@ cx:SeatOccupancyMat a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleSensor ;
     skos:altLabel "seat occupancy detection"@en ;
-    skos:prefLabel "Seat Occupancy Mat"@en .
+    skos:prefLabel "Seat Occupancy Mat"@en ;
+    "cx:isPartOf*" "interior" .
 
 cx:SeatRail a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:seeAlso <https://de.wikipedia.org/wiki/Sitzschiene> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Sitzschiene"@de,
-        "Seat Rail"@en .
+        "Seat Rail"@en ;
+    "cx:isPartOf*" "interior" .
 
 cx:SelfSupportingBody a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3265,7 +3607,8 @@ cx:SelfSupportingBody a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "self-supporting body"@en ;
     skos:prefLabel "Selbsttragende Karosserie"@de,
-        "Self Supporting Body"@en .
+        "Self Supporting Body"@en ;
+    "cx:isPartOf*" "body" .
 
 cx:SemiAutomaticTransmission a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3275,7 +3618,8 @@ cx:SemiAutomaticTransmission a owl:Class ;
     skos:altLabel "AKS"@de,
         "semi-automatic transmission"@en ;
     skos:prefLabel "Automatisches Kupplungssystem"@de,
-        "Semi Automatic Transmission"@en .
+        "Semi Automatic Transmission"@en ;
+    "cx:isPartOf*" "powertrain" .
 
 cx:ShockAbsorber a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3285,7 +3629,8 @@ cx:ShockAbsorber a owl:Class ;
     skos:altLabel "Dämpfer"@de,
         "damper"@en ;
     skos:prefLabel "Stoßdämpfer"@de,
-        "Shock Absorber"@en .
+        "Shock Absorber"@en ;
+    "cx:isPartOf*" "suspension system" .
 
 cx:SideAirbag a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3295,7 +3640,8 @@ cx:SideAirbag a owl:Class ;
         cx:VehicleElectricalComponent ;
     skos:altLabel "side head airbag"@en ;
     skos:prefLabel "Seitenairbag"@de,
-        "Side Airbag"@en .
+        "Side Airbag"@en ;
+    "cx:isPartOf*" "airbag system" .
 
 cx:SideImpactProtectionSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3306,14 +3652,16 @@ cx:SideImpactProtectionSystem a owl:Class ;
         cx:VehicleSystem ;
     skos:altLabel "SIPS"@en ;
     skos:prefLabel "Seitenaufprallschutz"@de,
-        "Side Impact Protection System"@en .
+        "Side Impact Protection System"@en ;
+    "cx:isPartOf*" "body" .
 
 cx:SideMarkerLight a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent,
         cx:VehicleElectricalComponent ;
     skos:prefLabel "Seitenmarkierungsleuchten"@de,
-        "Side Marker Light"@en .
+        "Side Marker Light"@en ;
+    "cx:isPartOf*" "lighting system" .
 
 cx:SideRocker a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3323,7 +3671,8 @@ cx:SideRocker a owl:Class ;
     skos:altLabel "rocker panel"@en,
         "sill"@en ;
     skos:prefLabel "Seitenschweller"@de,
-        "Side Rocker"@en .
+        "Side Rocker"@en ;
+    "cx:isPartOf*" "exterior" .
 
 cx:SideViewMirror a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3333,7 +3682,8 @@ cx:SideViewMirror a owl:Class ;
         "side mirror"@en,
         "wing mirror"@en ;
     skos:prefLabel "Seitenspiegel"@de,
-        "Side View Mirror"@en .
+        "Side View Mirror"@en ;
+    "cx:isPartOf*" "door" .
 
 cx:SmartKey a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3344,7 +3694,8 @@ cx:SmartKey a owl:Class ;
         cx:VehicleElectricalComponent ;
     skos:altLabel "keyless go"@en ;
     skos:prefLabel "Keyless Go"@de,
-        "Smart Key"@en .
+        "Smart Key"@en ;
+    "cx:isPartOf*" "car access system" .
 
 cx:Softtop a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3352,7 +3703,8 @@ cx:Softtop a owl:Class ;
     skos:altLabel "retractable softtop"@en,
         "soft top"@en ;
     skos:prefLabel "Verdeck"@de,
-        "Softtop"@en .
+        "Softtop"@en ;
+    "cx:isPartOf*" "roof" .
 
 cx:SparkPlug a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3362,7 +3714,8 @@ cx:SparkPlug a owl:Class ;
     skos:altLabel "plug"@en,
         "sparking plug"@en ;
     skos:prefLabel "Zündkerze"@de,
-        "Spark Plug"@en .
+        "Spark Plug"@en ;
+    "cx:isPartOf*" "ignition system" .
 
 cx:SparkPlugWire a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3376,7 +3729,8 @@ cx:SparkPlugWire a owl:Class ;
         "spark plug wires"@en,
         "sparking cable"@en ;
     skos:prefLabel "Zündkerzenkabel"@de,
-        "Spark Plug Wire"@en .
+        "Spark Plug Wire"@en ;
+    "cx:isPartOf*" "ignition system" .
 
 cx:Speedometer a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3385,7 +3739,8 @@ cx:Speedometer a owl:Class ;
         cx:VehicleInstrument ;
     skos:altLabel "speed meter"@en ;
     skos:prefLabel "Tachometer"@de,
-        "Speedometer"@en .
+        "Speedometer"@en ;
+    "cx:isPartOf*" "instrument panel" .
 
 cx:Spoiler a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3396,7 +3751,8 @@ cx:Spoiler a owl:Class ;
         "rear spoiler"@en,
         "wing"@en ;
     skos:prefLabel "Spoiler"@de,
-        "Spoiler"@en .
+        "Spoiler"@en ;
+    "cx:isPartOf*" "exterior" .
 
 cx:StarterBattery a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3407,7 +3763,8 @@ cx:StarterBattery a owl:Class ;
     skos:altLabel "automotive battery"@en,
         "car battery"@en ;
     skos:prefLabel "Starterbatterie"@de,
-        "Starter Battery"@en .
+        "Starter Battery"@en ;
+    "cx:isPartOf*" "engine" .
 
 cx:StarterBatteryTerminal a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3416,7 +3773,8 @@ cx:StarterBatteryTerminal a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "safety battery terminal"@en ;
     skos:prefLabel "Starterbatterieklemme"@de,
-        "Starter Battery Terminal"@en .
+        "Starter Battery Terminal"@en ;
+    "cx:isPartOf*" "starter battery" .
 
 cx:StarterMotor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3428,7 +3786,8 @@ cx:StarterMotor a owl:Class ;
         "Starter"@de,
         "starter"@en ;
     skos:prefLabel "Motoranlasser"@de,
-        "Starter Motor"@en .
+        "Starter Motor"@en ;
+    "cx:isPartOf*" "engine" .
 
 cx:StarterRingGear a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3436,7 +3795,8 @@ cx:StarterRingGear a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Starterzahnkranz"@de,
-        "Starter Ring Gear"@en .
+        "Starter Ring Gear"@en ;
+    "cx:isPartOf*" "engine block" .
 
 cx:Steering a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3444,7 +3804,8 @@ cx:Steering a owl:Class ;
     rdfs:subClassOf cx:ChassisComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Lenkung"@de,
-        "Steering"@en .
+        "Steering"@en ;
+    "cx:isPartOf*" "chassis" .
 
 cx:SteeringColumn a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3452,13 +3813,15 @@ cx:SteeringColumn a owl:Class ;
         cx:VehicleControl ;
     skos:altLabel "steering post"@en ;
     skos:prefLabel "Lenksäule"@de,
-        "Steering Column"@en .
+        "Steering Column"@en ;
+    "cx:isPartOf*" "steering wheel" .
 
 cx:SteeringColumnSwitch a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent,
         cx:VehicleSwitch ;
-    skos:prefLabel "Steering Column Switch"@en .
+    skos:prefLabel "Steering Column Switch"@en ;
+    "cx:isPartOf*" "steering wheel" .
 
 cx:SteeringWheel a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3471,7 +3834,8 @@ cx:SteeringWheel a owl:Class ;
         "steering"@en,
         "wheel"@en ;
     skos:prefLabel "Lenkrad"@de,
-        "Steering Wheel"@en .
+        "Steering Wheel"@en ;
+    "cx:isPartOf*" "car control" .
 
 cx:StrutBar a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3483,7 +3847,8 @@ cx:StrutBar a owl:Class ;
         "or strut tower brace"@en,
         "strut brace"@en ;
     skos:prefLabel "Domstrebe"@de,
-        "Strut Bar"@en .
+        "Strut Bar"@en ;
+    "cx:isPartOf*" "body" .
 
 cx:StrutBearing a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3492,14 +3857,16 @@ cx:StrutBearing a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "Domlager"@de ;
     skos:prefLabel "Federbeinlager"@de,
-        "Strut Bearing"@en .
+        "Strut Bearing"@en ;
+    "cx:isPartOf*" "suspension system" .
 
 cx:StrutTower a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:ChassisComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Federbeindom"@de,
-        "Strut Tower"@en .
+        "Strut Tower"@en ;
+    "cx:isPartOf*" "suspension system" .
 
 cx:Subframe a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3510,20 +3877,23 @@ cx:Subframe a owl:Class ;
     skos:altLabel "chassis subframe"@en,
         "underframe"@en ;
     skos:prefLabel "Achsträger"@de,
-        "Subframe"@en .
+        "Subframe"@en ;
+    "cx:isPartOf*" "body" .
 
 cx:SunRoof a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Sunroof> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Schiebedach"@de,
-        "Sun Roof"@en .
+        "Sun Roof"@en ;
+    "cx:isPartOf*" "roof" .
 
 cx:SunRoofShade a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Schiebedachsonnenschutz"@de,
-        "Sun Roof Shade"@en .
+        "Sun Roof Shade"@en ;
+    "cx:isPartOf*" "roof" .
 
 cx:SunVisor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3531,7 +3901,8 @@ cx:SunVisor a owl:Class ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:altLabel "Blende"@de ;
     skos:prefLabel "Sonnenblende"@de,
-        "Sun Visor"@en .
+        "Sun Visor"@en ;
+    "cx:isPartOf*" "interior" .
 
 cx:Supercharger a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3539,7 +3910,8 @@ cx:Supercharger a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Drehkolbenlader"@de,
-        "Supercharger"@en .
+        "Supercharger"@en ;
+    "cx:isPartOf*" "engine" .
 
 cx:SurroundView a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3549,7 +3921,8 @@ cx:SurroundView a owl:Class ;
         cx:VehicleElectricalComponent ;
     skos:altLabel "omniview"@en ;
     skos:prefLabel "Rundumsicht"@de,
-        "Surround View"@en .
+        "Surround View"@en ;
+    "cx:isPartOf*" "vehicle electrical system" .
 
 cx:SuspensionSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3561,7 +3934,8 @@ cx:SuspensionSystem a owl:Class ;
     skos:altLabel "damper"@en,
         "suspension"@en ;
     skos:prefLabel "Radaufhängung, Federungssystem, Achsen"@de,
-        "Suspension System"@en .
+        "Suspension System"@en ;
+    "cx:isPartOf*" "chassis" .
 
 cx:SwitchPanel a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3569,14 +3943,16 @@ cx:SwitchPanel a owl:Class ;
         cx:VehicleControl ;
     skos:altLabel "Schalttafel"@de ;
     skos:prefLabel "Bedienungsfeld"@de,
-        "Switch Panel"@en .
+        "Switch Panel"@en ;
+    "cx:isPartOf*" "car control" .
 
 cx:SwivelBearing a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:ChassisComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Schwenklager"@de,
-        "Swivel Bearing"@en .
+        "Swivel Bearing"@en ;
+    "cx:isPartOf*" "suspension system" .
 
 cx:Tachometer a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3585,7 +3961,8 @@ cx:Tachometer a owl:Class ;
         cx:VehicleInstrument ;
     skos:altLabel "rev counters"@en ;
     skos:prefLabel "Drehzahlmesser"@de,
-        "Tachometer"@en .
+        "Tachometer"@en ;
+    "cx:isPartOf*" "instrument panel" .
 
 cx:TailLight a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3594,7 +3971,8 @@ cx:TailLight a owl:Class ;
         cx:VehicleElectricalComponent ;
     skos:altLabel "Schlussleuchte"@de ;
     skos:prefLabel "Rücklicht"@de,
-        "Tail Light"@en .
+        "Tail Light"@en ;
+    "cx:isPartOf*" "rear light" .
 
 cx:Tailpipe a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3603,7 +3981,8 @@ cx:Tailpipe a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "exhaust"@en ;
     skos:prefLabel "Endrohr"@de,
-        "Tailpipe"@en .
+        "Tailpipe"@en ;
+    "cx:isPartOf*" "exhaust system" .
 
 cx:Tappet a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3612,7 +3991,8 @@ cx:Tappet a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "Stößel"@de ;
     skos:prefLabel "Nocke"@de,
-        "Tappet"@en .
+        "Tappet"@en ;
+    "cx:isPartOf*" "valvetrain" .
 
 cx:Telematics a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3621,14 +4001,16 @@ cx:Telematics a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleElectricalComponent ;
     skos:prefLabel "Telematik"@de,
-        "Telematics"@en .
+        "Telematics"@en ;
+    "cx:isPartOf*" "vehicle electrical system" .
 
 cx:TemperatureSensor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:altLabel "Temperaturfühler"@de ;
     skos:prefLabel "Temperatursensor"@de,
-        "Temperature Sensor"@en .
+        "Temperature Sensor"@en ;
+    "cx:isPartOf*" "heating and air conditioning system" .
 
 cx:TensionPlate a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3636,7 +4018,8 @@ cx:TensionPlate a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "ZA"@de ;
     skos:prefLabel "Zuganker"@de,
-        "Tension Plate"@en .
+        "Tension Plate"@en ;
+    "cx:isPartOf*" "cell module" .
 
 cx:Thermostat a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3644,7 +4027,8 @@ cx:Thermostat a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Temperaturregler"@de,
-        "Thermostat"@en .
+        "Thermostat"@en ;
+    "cx:isPartOf*" "cooling system" .
 
 cx:Throttle a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3652,7 +4036,8 @@ cx:Throttle a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Drosselklappe"@de,
-        "Throttle"@en .
+        "Throttle"@en ;
+    "cx:isPartOf*" "intake system" .
 
 cx:ThrottlePositionSensor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3663,7 +4048,8 @@ cx:ThrottlePositionSensor a owl:Class ;
     skos:altLabel "TPS"@en,
         "throttle-valve sensor"@en ;
     skos:prefLabel "Drosselklappensensor"@de,
-        "Throttle Position Sensor"@en .
+        "Throttle Position Sensor"@en ;
+    "cx:isPartOf*" "intake system" .
 
 cx:TimingBelt a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3673,7 +4059,8 @@ cx:TimingBelt a owl:Class ;
     skos:altLabel "cambelt"@en,
         "timing chain"@en ;
     skos:prefLabel "Steuerkette"@de,
-        "Timing Belt"@en .
+        "Timing Belt"@en ;
+    "cx:isPartOf*" "valvetrain" .
 
 cx:Tire a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3683,7 +4070,9 @@ cx:Tire a owl:Class ;
     skos:altLabel "Autoreifen"@de,
         "tyre"@en ;
     skos:prefLabel "Reifen"@de,
-        "Tire"@en .
+        "Tire"@en ;
+    cx:isSameInVsso vsso:WheelTire ;
+    "cx:isPartOf*" "wheel" .
 
 cx:TirePressureGauge a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3692,7 +4081,8 @@ cx:TirePressureGauge a owl:Class ;
         cx:VehicleInstrument ;
     skos:altLabel "tyre pressure gauge"@en ;
     skos:prefLabel "Reifendruckmesser"@de,
-        "Tire Pressure Gauge"@en .
+        "Tire Pressure Gauge"@en ;
+    "cx:isPartOf*" "instrument panel" .
 
 cx:TirePressureSensor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3700,7 +4090,8 @@ cx:TirePressureSensor a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "RDC"@en ;
     skos:prefLabel "Reifendrucksensor"@de,
-        "Tire Pressure Sensor"@en .
+        "Tire Pressure Sensor"@en ;
+    "cx:isPartOf*" "wheel" .
 
 cx:TireValve a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3708,7 +4099,8 @@ cx:TireValve a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "tyre valve"@en ;
     skos:prefLabel "Reifenventil"@de,
-        "Tire Valve"@en .
+        "Tire Valve"@en ;
+    "cx:isPartOf*" "wheel" .
 
 cx:TorqueConverter a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3716,7 +4108,8 @@ cx:TorqueConverter a owl:Class ;
     rdfs:subClassOf cx:PowertrainComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Drehmomentwandler"@de,
-        "Torque Converter"@en .
+        "Torque Converter"@en ;
+    "cx:isPartOf*" "transmission" .
 
 cx:TorqueVectoring a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3725,7 +4118,8 @@ cx:TorqueVectoring a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleElectricalComponent ;
     skos:prefLabel "Drehmomentverteilung"@de,
-        "Torque Vectoring"@en .
+        "Torque Vectoring"@en ;
+    "cx:isPartOf*" "driver assistance system" .
 
 cx:TowHitch a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3735,7 +4129,8 @@ cx:TowHitch a owl:Class ;
     skos:altLabel "tow bar"@en,
         "trailer hitch"@en ;
     skos:prefLabel "Anhängerkupplung"@de,
-        "Tow Hitch"@en .
+        "Tow Hitch"@en ;
+    "cx:isPartOf*" "chassis" .
 
 cx:TractionControlSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3748,7 +4143,8 @@ cx:TractionControlSystem a owl:Class ;
     skos:altLabel "ASR"@de,
         "TCS"@en ;
     skos:prefLabel "Antriebsschlupfregelung"@de,
-        "Traction Control System"@en .
+        "Traction Control System"@en ;
+    "cx:isPartOf*" "driver assistance system" .
 
 cx:Transaxle a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3756,7 +4152,8 @@ cx:Transaxle a owl:Class ;
     rdfs:subClassOf cx:ChassisComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Transaxle"@de,
-        "Transaxle"@en .
+        "Transaxle"@en ;
+    "cx:isPartOf*" "suspension system" .
 
 cx:TransferBox a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3766,7 +4163,8 @@ cx:TransferBox a owl:Class ;
     skos:altLabel "intermediate transmission"@en,
         "transfer case"@en ;
     skos:prefLabel "Verteilergetriebe"@de,
-        "Transfer Box"@en .
+        "Transfer Box"@en ;
+    "cx:isPartOf*" "powertrain" .
 
 cx:TransmissionControlUnit a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3779,7 +4177,8 @@ cx:TransmissionControlUnit a owl:Class ;
         "gearbox control unit"@en,
         "transmission control module"@en ;
     skos:prefLabel "Getriebesteuerung"@de,
-        "Transmission Control Unit"@en .
+        "Transmission Control Unit"@en ;
+    "cx:isPartOf*" "transmission" .
 
 cx:TransmissionOil a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3795,7 +4194,8 @@ cx:TransmissionSpeedSensor a owl:Class ;
     skos:altLabel "Getriebegeschwindigkeitssensor"@de,
         "automatic transmission speed sensor"@en ;
     skos:prefLabel "Getriebedrehzahlsensor"@de,
-        "Transmission Speed Sensor"@en .
+        "Transmission Speed Sensor"@en ;
+    "cx:isPartOf*" "transmission" .
 
 cx:TripComputer a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3804,7 +4204,8 @@ cx:TripComputer a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleElectricalComponent ;
     skos:prefLabel "Bordcomputer"@de,
-        "Trip Computer"@en .
+        "Trip Computer"@en ;
+    "cx:isPartOf*" "vehicle electrical system" .
 
 cx:Trunk a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3815,7 +4216,8 @@ cx:Trunk a owl:Class ;
         "dicky"@en,
         "diggy"@en ;
     skos:prefLabel "Kofferraum"@de,
-        "Trunk"@en .
+        "Trunk"@en ;
+    "cx:isPartOf*" "exterior" .
 
 cx:Turbocharger a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3828,14 +4230,16 @@ cx:Turbocharger a owl:Class ;
         "turbo"@en,
         "turbosupercharger"@en ;
     skos:prefLabel "Turbolader"@de,
-        "Turbocharger"@en .
+        "Turbocharger"@en ;
+    "cx:isPartOf*" "engine" .
 
 cx:TurnIndicator a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent,
         cx:VehicleSwitch ;
     skos:prefLabel "Fahrtrichtungsanzeiger"@de,
-        "Turn Indicator"@en .
+        "Turn Indicator"@en ;
+    "cx:isPartOf*" "car control" .
 
 cx:TurnSignal a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3847,7 +4251,8 @@ cx:TurnSignal a owl:Class ;
         "directional signals"@en,
         "indicator"@en ;
     skos:prefLabel "Fahrtrichtungsanzeiger"@de,
-        "Turn Signal"@en .
+        "Turn Signal"@en ;
+    "cx:isPartOf*" "lighting system" .
 
 cx:TwinTurbo a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3856,7 +4261,8 @@ cx:TwinTurbo a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "bi turbo"@en ;
     skos:prefLabel "Twinturbo"@de,
-        "Twin Turbo"@en .
+        "Twin Turbo"@en ;
+    "cx:isPartOf*" "turbocharger" .
 
 cx:Twincharger a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3864,7 +4270,8 @@ cx:Twincharger a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Twincharger"@de,
-        "Twincharger"@en .
+        "Twincharger"@en ;
+    "cx:isPartOf*" "turbocharger" .
 
 cx:UltrasonicSensor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3873,7 +4280,8 @@ cx:UltrasonicSensor a owl:Class ;
         cx:VehicleElectricalComponent,
         cx:VehicleSensor ;
     skos:prefLabel "Ultraschallsensor"@de,
-        "Ultrasonic Sensor"@en .
+        "Ultrasonic Sensor"@en ;
+    "cx:isPartOf*" "vehicle electrical system" .
 
 cx:Underbody a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3881,7 +4289,8 @@ cx:Underbody a owl:Class ;
         cx:StructuralComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Boden"@de,
-        "Underbody"@en .
+        "Underbody"@en ;
+    "cx:isPartOf*" "body" .
 
 cx:Underseal a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3891,7 +4300,8 @@ cx:Underseal a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "undercoating"@en ;
     skos:prefLabel "Unterbodenschutz"@de,
-        "Underseal"@en .
+        "Underseal"@en ;
+    "cx:isPartOf*" "body" .
 
 cx:Unibody a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3905,7 +4315,8 @@ cx:Unibody a owl:Class ;
         "unitary construction"@en,
         "unitized body"@en ;
     skos:prefLabel "Unibody"@de,
-        "Unibody"@en .
+        "Unibody"@en ;
+    "cx:isPartOf*" "body" .
 
 cx:ValveGuide a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3913,7 +4324,8 @@ cx:ValveGuide a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Ventilführung"@de,
-        "Valve Guide"@en .
+        "Valve Guide"@en ;
+    "cx:isPartOf*" "valvetrain" .
 
 cx:ValveSeat a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3921,7 +4333,8 @@ cx:ValveSeat a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Ventilsitz"@de,
-        "Valve Seat"@en .
+        "Valve Seat"@en ;
+    "cx:isPartOf*" "valvetrain" .
 
 cx:Valvetrain a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3931,7 +4344,8 @@ cx:Valvetrain a owl:Class ;
     skos:altLabel "Ventiltrieb"@de,
         "valve train"@en ;
     skos:prefLabel "Ventilsteuerung"@de,
-        "Valvetrain"@en .
+        "Valvetrain"@en ;
+    "cx:isPartOf*" "cylinder head" .
 
 cx:VariableValveTimingController a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3942,7 +4356,8 @@ cx:VariableValveTimingController a owl:Class ;
         "VVT"@en,
         "Valvetronic"@en ;
     skos:prefLabel "Nockenwellenverstellung"@de,
-        "Variable Valve Timing Controller"@en .
+        "Variable Valve Timing Controller"@en ;
+    "cx:isPartOf*" "valvetrain" .
 
 cx:VehicleActuator a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3963,7 +4378,8 @@ cx:VehicleAudio a owl:Class ;
         "radio"@en,
         "speaker system"@en ;
     skos:prefLabel "Autoradio"@de,
-        "Vehicle Audio"@en .
+        "Vehicle Audio"@en ;
+    "cx:isPartOf*" "infotainment" .
 
 cx:VehicleElectricalSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3973,7 +4389,8 @@ cx:VehicleElectricalSystem a owl:Class ;
         cx:VehicleSystem ;
     skos:altLabel "electronics"@en ;
     skos:prefLabel "Elektrosystem"@de,
-        "Vehicle Electrical System"@en .
+        "Vehicle Electrical System"@en ;
+    "cx:isPartOf*" "vehicle" .
 
 cx:VehicleTracking a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -3982,21 +4399,24 @@ cx:VehicleTracking a owl:Class ;
         cx:VehicleComponent,
         cx:VehicleElectricalComponent ;
     skos:prefLabel "Fahrzeugtracking"@de,
-        "Vehicle Tracking"@en .
+        "Vehicle Tracking"@en ;
+    "cx:isPartOf*" "vehicle electrical system" .
 
 cx:VentingUnit a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:ElectricPowertrainComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Entlüftung"@de,
-        "Venting Unit"@en .
+        "Venting Unit"@en ;
+    "cx:isPartOf*" "high voltage battery" .
 
 cx:VoiceControl a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent,
         cx:VehicleControl ;
     skos:prefLabel "Sprachsteuerung"@de,
-        "Voice Control"@en .
+        "Voice Control"@en ;
+    "cx:isPartOf*" "car control" .
 
 cx:WarningLight a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -4005,13 +4425,15 @@ cx:WarningLight a owl:Class ;
     skos:altLabel "indicator light"@en,
         "tell tale"@en ;
     skos:prefLabel "Kontrollleuchte"@de,
-        "Warning Light"@en .
+        "Warning Light"@en ;
+    "cx:isPartOf*" "instrument panel" .
 
 cx:WashSwitch a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent,
         cx:VehicleSwitch ;
-    skos:prefLabel "Wash Switch"@en .
+    skos:prefLabel "Wash Switch"@en ;
+    "cx:isPartOf*" "car control" .
 
 cx:WasherFluid a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -4024,7 +4446,8 @@ cx:WasherNozzle a owl:Class ;
     rdfs:subClassOf cx:VehicleComponent,
         cx:VehicleSensor ;
     skos:prefLabel "Waschdüse"@de,
-        "Washer Nozzle"@en .
+        "Washer Nozzle"@en ;
+    "cx:isPartOf*" "window wash system" .
 
 cx:WaterCooling a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -4032,7 +4455,8 @@ cx:WaterCooling a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Wasserkühlung"@de,
-        "Water Cooling"@en .
+        "Water Cooling"@en ;
+    "cx:isPartOf*" "cooling system" .
 
 cx:WetSump a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -4040,7 +4464,8 @@ cx:WetSump a owl:Class ;
     rdfs:subClassOf cx:EngineComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Nasssumpfschmierung"@de,
-        "Wet Sump"@en .
+        "Wet Sump"@en ;
+    "cx:isPartOf*" "oil system" .
 
 cx:Wheel a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -4048,14 +4473,17 @@ cx:Wheel a owl:Class ;
     rdfs:subClassOf cx:ChassisComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Rad"@de,
-        "Wheel"@en .
+        "Wheel"@en ;
+    cx:isSameInVsso vsso:AxleWheel ;
+    "cx:isPartOf*" "chassis" .
 
 cx:WheelBearing a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:ChassisComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Radlager"@de,
-        "Wheel Bearing"@en .
+        "Wheel Bearing"@en ;
+    "cx:isPartOf*" "bearing" .
 
 cx:WheelFlange a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -4063,7 +4491,8 @@ cx:WheelFlange a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "Radflansch"@de ;
     skos:prefLabel "Radträger"@de,
-        "Wheel Flange"@en .
+        "Wheel Flange"@en ;
+    "cx:isPartOf*" "suspension system" .
 
 cx:WheelHousing a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -4077,21 +4506,24 @@ cx:WheelHousing a owl:Class ;
         "wheel house"@en,
         "wheel well"@en ;
     skos:prefLabel "Radkasten"@de,
-        "Wheel Housing"@en .
+        "Wheel Housing"@en ;
+    "cx:isPartOf*" "exterior" .
 
 cx:WheelHub a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:ChassisComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Radnabe"@de,
-        "Wheel Hub"@en .
+        "Wheel Hub"@en ;
+    "cx:isPartOf*" "rear axle" .
 
 cx:WheelSpeedSensor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:ChassisComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Raddrehzahlsensor"@de,
-        "Wheel Speed Sensor"@en .
+        "Wheel Speed Sensor"@en ;
+    "cx:isPartOf*" "bearing" .
 
 cx:WheelSuspension a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -4100,7 +4532,8 @@ cx:WheelSuspension a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "Radführung"@de ;
     skos:prefLabel "Radaufhängung"@de,
-        "Wheel Suspension"@en .
+        "Wheel Suspension"@en ;
+    "cx:isPartOf*" "suspension system" .
 
 cx:Window a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -4108,14 +4541,16 @@ cx:Window a owl:Class ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:altLabel "Fenster"@de ;
     skos:prefLabel "Autofenster"@de,
-        "Window"@en .
+        "Window"@en ;
+    "cx:isPartOf*" "door" .
 
 cx:WindowShade a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:seeAlso <https://de.wikipedia.org/wiki/Rollo_> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Autofensterrollo"@de,
-        "Window Shade"@en .
+        "Window Shade"@en ;
+    "cx:isPartOf*" "door" .
 
 cx:WindowWashSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -4123,7 +4558,8 @@ cx:WindowWashSystem a owl:Class ;
         cx:VehicleSystem ;
     skos:altLabel "window wipe system"@en ;
     skos:prefLabel "Fensterwaschanlage"@de,
-        "Window Wash System"@en .
+        "Window Wash System"@en ;
+    "cx:isPartOf*" "windshield" .
 
 cx:Windshield a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -4132,7 +4568,8 @@ cx:Windshield a owl:Class ;
         cx:VehicleComponent ;
     skos:altLabel "windscreen"@en ;
     skos:prefLabel "Windschutzscheibe"@de,
-        "Windshield"@en .
+        "Windshield"@en ;
+    "cx:isPartOf*" "body" .
 
 cx:WindshieldWasherFluid a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -4144,7 +4581,8 @@ cx:WindshieldWasherFluid a owl:Class ;
         "windshield wiper fluid"@en,
         "wiper fluid"@en ;
     skos:prefLabel "Scheibenwaschwasser"@de,
-        "Windshield Washer Fluid"@en .
+        "Windshield Washer Fluid"@en ;
+    "cx:isPartOf*" "window wash system" .
 
 cx:Wiper a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -4155,20 +4593,23 @@ cx:Wiper a owl:Class ;
         "windshield wiper"@en,
         "wiper blade"@en ;
     skos:prefLabel "Scheibenwischer"@de,
-        "Wiper"@en .
+        "Wiper"@en ;
+    "cx:isPartOf*" "window wash system" .
 
 cx:WiperMotor a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Scheibenwischermotor"@de,
-        "Wiper Motor"@en .
+        "Wiper Motor"@en ;
+    "cx:isPartOf*" "window wash system" .
 
 cx:Wishbone a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:ChassisComponent,
         cx:VehicleComponent ;
     skos:prefLabel "Querlenker"@de,
-        "Wishbone"@en .
+        "Wishbone"@en ;
+    "cx:isPartOf*" "suspension system" .
 
 cx:YPipe a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -4176,7 +4617,8 @@ cx:YPipe a owl:Class ;
         cx:Pipe,
         cx:VehicleComponent ;
     skos:prefLabel "Hosenrohr"@de,
-        "Y Pipe"@en .
+        "Y Pipe"@en ;
+    "cx:isPartOf*" "exhaust system" .
 
 cx:Gasket a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -4202,7 +4644,8 @@ cx:Engine a owl:Class ;
         "internal combustion"@en,
         "internal combustion engine"@en ;
     skos:prefLabel "Motor"@de,
-        "Engine"@en .
+        "Engine"@en ;
+    "cx:isPartOf*" "powertrain" .
 
 cx:Pipe a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -4225,7 +4668,8 @@ cx:Transmission a owl:Class ;
         "gear box"@en,
         "gearbox"@en ;
     skos:prefLabel "Getriebe"@de,
-        "Transmission"@en .
+        "Transmission"@en ;
+    "cx:isPartOf*" "powertrain" .
 
 cx:GenericComponent a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -4243,7 +4687,8 @@ cx:VehicleInstrument a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Fahrzeuginstrument"@de,
-        "Vehicle Instrument"@en .
+        "Vehicle Instrument"@en ;
+    "cx:isPartOf*" "interior" .
 
 cx:VehicleSwitch a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -4262,13 +4707,15 @@ cx:VehicleControl a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:VehicleComponent ;
     skos:prefLabel "Fahrzeugsteuerung"@de,
-        "Vehicle Control"@en .
+        "Vehicle Control"@en ;
+    "cx:isPartOf*" "interior" .
 
 cx:PowertrainComponent a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:Component ;
     skos:prefLabel "Antriebsstrangskomponente"@de,
-        "Powertrain Component"@en .
+        "Powertrain Component"@en ;
+    "cx:isPartOf*" "powertrain" .
 
 cx:StructuralComponent a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -4282,7 +4729,8 @@ cx:BodyComponent a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:Component ;
     skos:prefLabel "Karosseriekomponente"@de,
-        "Body Component"@en .
+        "Body Component"@en ;
+    "cx:isPartOf*" "body component" .
 
 cx:FunctionalComponent a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -4300,7 +4748,8 @@ cx:ElectricPowertrainComponent a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:Component ;
     skos:prefLabel "Elektrische Antriebsstrangskomponente"@de,
-        "Electric Powertrain Component"@en .
+        "Electric Powertrain Component"@en ;
+    "cx:isPartOf*" "electric powertrain" .
 
 cx:VehicleSystem a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -4312,7 +4761,8 @@ cx:ChassisComponent a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:Component ;
     skos:prefLabel "Fahrwerkskomponente"@de,
-        "Chassis Component"@en .
+        "Chassis Component"@en ;
+    "cx:isPartOf*" "chassis" .
 
 cx:SafetyComponent a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -4331,13 +4781,15 @@ cx:VehicleElectricalComponent a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:Component ;
     skos:prefLabel "Elektronische Fahrzeugkomponente"@de,
-        "Vehicle Electrical Component"@en .
+        "Vehicle Electrical Component"@en ;
+    "cx:isPartOf*" "vehicle electrical system" .
 
 cx:EngineComponent a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
     rdfs:subClassOf cx:Component ;
     skos:prefLabel "Motorkomponente"@de,
-        "Engine Component"@en .
+        "Engine Component"@en ;
+    "cx:isPartOf*" "powertrain" .
 
 cx:VehicleComponent a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> ;
@@ -4354,11 +4806,13 @@ cx:VehicleComponent a owl:Class ;
         "chassis"@en,
         "engine"@en ;
     skos:prefLabel "Fahrzeugkomponente"@de,
-        "Vehicle Component"@en .
+        "Vehicle Component"@en ;
+    "cx:isPartOf*" "vehicle" .
 
 <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_component_ontology.ttl> a owl:Ontology ;
     dc:creator "Zazralt Magic" ;
-    dc:date "2022-11-28"^^xsd:date ;
+    dc:date "2022-12-02"^^xsd:date ;
+    dc:description "Meronomy of vehicle components." ;
     dc:title "Vehicle Component Ontology" ;
     owl:imports <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
     owl:versionInfo "0.0.1" .

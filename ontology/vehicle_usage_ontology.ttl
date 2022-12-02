@@ -180,20 +180,11 @@ cx:VehicleEnvironment a owl:Class ;
 cx:VehicleUsage a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_usage_ontology.ttl> ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty cx:maxDeceleration ;
-            owl:someValuesFrom xsd:integer ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:mileage ;
-            owl:someValuesFrom xsd:integer ],
-        [ a owl:Restriction ;
             owl:onProperty cx:maxSpeed ;
             owl:someValuesFrom xsd:integer ],
         [ a owl:Restriction ;
             owl:onProperty cx:maxAcceleration ;
             owl:someValuesFrom xsd:integer ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:fuelConsumption ;
-            owl:someValuesFrom xsd:double ],
         [ a owl:Restriction ;
             owl:onProperty cx:gearSwitching ;
             owl:someValuesFrom xsd:string ],
@@ -201,14 +192,23 @@ cx:VehicleUsage a owl:Class ;
             owl:onProperty cx:maxRotationalSpeed ;
             owl:someValuesFrom xsd:integer ],
         [ a owl:Restriction ;
+            owl:onProperty cx:mileage ;
+            owl:someValuesFrom xsd:integer ],
+        [ a owl:Restriction ;
             owl:onProperty cx:mileageDate ;
             owl:someValuesFrom xsd:date ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:maxDeceleration ;
+            owl:someValuesFrom xsd:integer ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:fuelConsumption ;
+            owl:someValuesFrom xsd:double ],
         cx:Event ;
     skos:prefLabel "Vehicle Usage"@en .
 
 <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_usage_ontology.ttl> a owl:Ontology ;
     dc:creator "Zazralt Magic" ;
-    dc:date "2022-11-28"^^xsd:date ;
+    dc:date "2022-12-02"^^xsd:date ;
     dc:title "Vehicle Usage Ontology" ;
     owl:imports <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
     owl:versionInfo "0.0.1" .

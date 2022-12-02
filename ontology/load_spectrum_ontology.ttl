@@ -183,31 +183,31 @@ cx:hasLoadSpectrum a owl:ObjectProperty ;
 cx:LoadSpectrumValues a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/load_spectrum_ontology.ttl> ;
     rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cx:loadSpectrumChannelIndex ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
             owl:onProperty cx:loadSpectrumChannelValues ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:loadSpectrumCountingUnit ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:loadSpectrumChannelIndex ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:loadSpectrumChannelIndex ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:loadSpectrumChannelIndex ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:loadSpectrumCountingUnit ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
             owl:onProperty cx:loadSpectrumCountingMethod ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
+            owl:onProperty cx:loadSpectrumChannelIndex ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
             owl:onProperty cx:loadSpectrumChannelValues ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
             owl:onProperty cx:loadSpectrumChannelValues ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:loadSpectrumCountingUnit ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:loadSpectrumCountingUnit ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:loadSpectrumChannelIndex ;
             owl:someValuesFrom xsd:string ],
         cx:ImmaterialThing ;
     skos:altLabel "body"@en ;
@@ -220,19 +220,13 @@ cx:LoadSpectrumChannel a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/load_spectrum_ontology.ttl> ;
     rdfs:range xsd:string ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty cx:loadSpectrumChannelUpperLimit ;
-            owl:someValuesFrom xsd:float ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:loadSpectrumChannelName ;
+            owl:onProperty cx:loadSpectrumChannelUnit ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
             owl:onProperty cx:loadSpectrumChannelName ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
             owl:onProperty cx:loadSpectrumChannelType ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:loadSpectrumChannelUnit ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
             owl:onProperty cx:loadSpectrumChannelLowerLimit ;
@@ -244,11 +238,17 @@ cx:LoadSpectrumChannel a owl:Class ;
             owl:onProperty cx:loadSpectrumChannelUnit ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
+            owl:onProperty cx:loadSpectrumChannelNumberOfBins ;
+            owl:someValuesFrom xsd:integer ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:loadSpectrumChannelName ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
             owl:onProperty cx:loadSpectrumChannelUnit ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
-            owl:onProperty cx:loadSpectrumChannelNumberOfBins ;
-            owl:someValuesFrom xsd:integer ],
+            owl:onProperty cx:loadSpectrumChannelUpperLimit ;
+            owl:someValuesFrom xsd:float ],
         cx:ImmaterialThing ;
     skos:altLabel "header"@en ;
     skos:definition "The channel contains information about the axis of the 1d or 2d histogram."@en ;
@@ -260,35 +260,35 @@ cx:LoadSpectrum a owl:Class ;
     rdfs:seeAlso <https://de.wikipedia.org/wiki/Lastkollektiv>,
         <https://en.wikipedia.org/wiki/Mechanical_load> ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty cx:hasLoadSpectrumChannel ;
-            owl:someValuesFrom cx:LoadSpectrumChannel ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:loadSpectrumDescription ;
+            owl:onProperty cx:loadSpectrumName ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
             owl:onProperty cx:loadSpectrumId ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
-            owl:onProperty cx:loadSpectrumStartDatetime ;
-            owl:someValuesFrom xsd:dateTime ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:loadSpectrumType ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:loadSpectrumName ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:loadSpectrumEndDatetime ;
-            owl:someValuesFrom xsd:dateTime ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:hasLoadSpectrumValues ;
-            owl:someValuesFrom cx:LoadSpectrumValues ],
-        [ a owl:Restriction ;
             owl:onProperty cx:loadSpectrumDescription ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
             owl:onProperty cx:loadSpectrumType ;
             owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:loadSpectrumType ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:loadSpectrumDescription ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:hasLoadSpectrumChannel ;
+            owl:someValuesFrom cx:LoadSpectrumChannel ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:hasLoadSpectrumValues ;
+            owl:someValuesFrom cx:LoadSpectrumValues ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:loadSpectrumStartDatetime ;
+            owl:someValuesFrom xsd:dateTime ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:loadSpectrumEndDatetime ;
+            owl:someValuesFrom xsd:dateTime ],
         cx:ImmaterialThing ;
     skos:altLabel "load collective"@en ;
     skos:definition "Load spectrum is a 2d histogram that contains the load history of a vehicle, i.e. how a vehicle was used, for a given time period."@en ;
@@ -301,7 +301,7 @@ cx:LoadSpectrum a owl:Class ;
 <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/load_spectrum_ontology.ttl> a owl:Ontology ;
     dc:contributor "Jörg Schulz, Rolf Bosse" ;
     dc:creator "Zazralt Magic" ;
-    dc:date "2022-11-28"^^xsd:date ;
+    dc:date "2022-12-02"^^xsd:date ;
     dc:title "Load Spectrum Ontology" ;
     owl:imports <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
     owl:versionInfo "0.0.1" .

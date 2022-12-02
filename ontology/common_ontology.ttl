@@ -40,7 +40,8 @@ cx:Broker a owl:Class ;
 cx:Building a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
     rdfs:subClassOf cx:Place ;
-    skos:prefLabel "Building"@en .
+    skos:prefLabel "Gebäude"@de,
+        "Building"@en .
 
 cx:BusinessCustomer a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
@@ -93,11 +94,6 @@ cx:Cost a owl:Class ;
     rdfs:subClassOf cx:Information ;
     skos:prefLabel "Cost"@en .
 
-cx:Country a owl:Class ;
-    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
-    rdfs:subClassOf cx:Place ;
-    skos:prefLabel "Country"@en .
-
 cx:DataConsumer a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
     rdfs:subClassOf cx:Role ;
@@ -138,10 +134,21 @@ cx:Encoding a owl:Class ;
     rdfs:subClassOf cx:ImmaterialThing ;
     skos:prefLabel "Encoding"@en .
 
+cx:Engineer a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:subClassOf cx:Role ;
+    skos:prefLabel "Entwickler"@de,
+        "Engineer"@en .
+
 cx:FileFormat_AutomationMarkupLanguage a cx:FileFormat ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/AutomationML> ;
     skos:prefLabel "AutomationML"@de,
         "AutomationML"@en .
+
+cx:FinalCustomerOrder a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:subClassOf cx:Order ;
+    skos:prefLabel "Final Customer Order"@en .
 
 cx:FinancialService a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
@@ -149,6 +156,16 @@ cx:FinancialService a owl:Class ;
     rdfs:subClassOf cx:Service ;
     skos:altLabel "financial product"@en ;
     skos:prefLabel "Financial Service"@en .
+
+cx:Flow a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:subClassOf cx:Process ;
+    skos:prefLabel "Flow"@en .
+
+cx:Goal a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:subClassOf cx:ImmaterialThing ;
+    skos:prefLabel "Goal"@en .
 
 cx:IndividualProduct a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
@@ -176,15 +193,6 @@ cx:InternationalDataspace a owl:Class ;
         "international data space"@en ;
     skos:prefLabel "International Dataspace"@en .
 
-cx:InternationalSystem a owl:Class ;
-    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
-    rdfs:seeAlso <https://en.wikipedia.org/wiki/International_System_of_Units> ;
-    rdfs:subClassOf cx:SystemOfMeasurement ;
-    skos:altLabel "SI System"@de,
-        "international system of units"@en,
-        "si system"@en ;
-    skos:prefLabel "International System"@en .
-
 cx:Language a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
     rdfs:subClassOf cx:Skill ;
@@ -207,12 +215,6 @@ cx:OpenStandard a owl:Class ;
     rdfs:subClassOf cx:ImmaterialThing ;
     skos:prefLabel "Open Standard"@en .
 
-cx:Order a owl:Class ;
-    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
-    rdfs:seeAlso schema:Order ;
-    rdfs:subClassOf cx:Event ;
-    skos:prefLabel "Order"@en .
-
 cx:PrivateCustomer a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Customer> ;
@@ -232,6 +234,12 @@ cx:ProductModel a owl:Class ;
     rdfs:subClassOf cx:ImmaterialThing ;
     skos:prefLabel "Product Model"@en .
 
+cx:ProductionOrder a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Production_order> ;
+    rdfs:subClassOf cx:Order ;
+    skos:prefLabel "Production Order"@en .
+
 cx:Regulation a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Regulation_> ;
@@ -248,158 +256,6 @@ cx:ServiceProvider a owl:Class ;
     rdfs:subClassOf cx:Organisation ;
     skos:prefLabel "Dienstleister"@de,
         "Service Provider"@en .
-
-cx:SiBaseUnit_Ampere a cx:SiBaseUnit ;
-    rdfs:seeAlso <https://en.wikipedia.org/wiki/Ampere> ;
-    skos:altLabel "A"@en ;
-    skos:note "electric current"@en ;
-    skos:prefLabel "Ampere"@en .
-
-cx:SiBaseUnit_Candela a cx:SiBaseUnit ;
-    rdfs:seeAlso <https://en.wikipedia.org/wiki/Candela> ;
-    skos:altLabel "cd"@en ;
-    skos:note "luminous intensity"@en ;
-    skos:prefLabel "Candela"@en .
-
-cx:SiBaseUnit_Kelvin a cx:SiBaseUnit ;
-    rdfs:seeAlso <https://en.wikipedia.org/wiki/Kelvin> ;
-    skos:altLabel "K"@en ;
-    skos:note "thermodynamic temperature"@en ;
-    skos:prefLabel "Kelvin"@en .
-
-cx:SiBaseUnit_Kilogram a cx:SiBaseUnit ;
-    rdfs:seeAlso <https://en.wikipedia.org/wiki/Kilogram> ;
-    skos:altLabel "kg"@en ;
-    skos:note "mass"@en ;
-    skos:prefLabel "Kilogram"@en .
-
-cx:SiBaseUnit_Metre a cx:SiBaseUnit ;
-    rdfs:seeAlso <https://en.wikipedia.org/wiki/Metre> ;
-    skos:altLabel "m"@en ;
-    skos:note "length"@en ;
-    skos:prefLabel "Metre"@en .
-
-cx:SiBaseUnit_Mole a cx:SiBaseUnit ;
-    rdfs:seeAlso <https://en.wikipedia.org/wiki/Mole_> ;
-    skos:altLabel "mol"@en ;
-    skos:note "amount of substance"@en ;
-    skos:prefLabel "Mole"@en .
-
-cx:SiBaseUnit_Second a cx:SiBaseUnit ;
-    rdfs:seeAlso <https://en.wikipedia.org/wiki/Second> ;
-    skos:altLabel "s"@en ;
-    skos:note "time, duration"@en ;
-    skos:prefLabel "Second"@en .
-
-cx:SiDerivedUnit_Becquerel a cx:SiDerivedUnit ;
-    skos:altLabel "Bq"@en ;
-    skos:note "activity referred to a radionuclide"@en ;
-    skos:prefLabel "Becquerel"@en .
-
-cx:SiDerivedUnit_Coulomb a cx:SiDerivedUnit ;
-    skos:altLabel "C"@en ;
-    skos:note "electric charge"@en ;
-    skos:prefLabel "Coulomb"@en .
-
-cx:SiDerivedUnit_DegreeCelsius a cx:SiDerivedUnit ;
-    skos:altLabel "°C"@en ;
-    skos:note "temperature relative to 273.15 K"@en ;
-    skos:prefLabel "Degree Celsius"@en .
-
-cx:SiDerivedUnit_Farad a cx:SiDerivedUnit ;
-    skos:altLabel "F"@en ;
-    skos:note "capacitance"@en ;
-    skos:prefLabel "Farad"@en .
-
-cx:SiDerivedUnit_Gray a cx:SiDerivedUnit ;
-    skos:altLabel "Gy"@en ;
-    skos:note "absorbed dose"@en ;
-    skos:prefLabel "Gray"@en .
-
-cx:SiDerivedUnit_Henry a cx:SiDerivedUnit ;
-    skos:altLabel "H"@en ;
-    skos:note "inductance"@en ;
-    skos:prefLabel "Henry"@en .
-
-cx:SiDerivedUnit_Hertz a cx:SiDerivedUnit ;
-    skos:altLabel "Hz"@en ;
-    skos:note "frequency"@en ;
-    skos:prefLabel "Hertz"@en .
-
-cx:SiDerivedUnit_Joule a cx:SiDerivedUnit ;
-    skos:altLabel "J"@en ;
-    skos:note "energy, work, heat"@en ;
-    skos:prefLabel "Joule"@en .
-
-cx:SiDerivedUnit_Katal a cx:SiDerivedUnit ;
-    skos:altLabel "kat"@en ;
-    skos:note "catalytic activity"@en ;
-    skos:prefLabel "Katal"@en .
-
-cx:SiDerivedUnit_Lumen a cx:SiDerivedUnit ;
-    skos:altLabel "lm"@en ;
-    skos:note "luminous flux"@en ;
-    skos:prefLabel "Lumen"@en .
-
-cx:SiDerivedUnit_Lux a cx:SiDerivedUnit ;
-    skos:altLabel "lx"@en ;
-    skos:note "illuminance"@en ;
-    skos:prefLabel "Lux"@en .
-
-cx:SiDerivedUnit_Newton a cx:SiDerivedUnit ;
-    skos:altLabel "N"@en ;
-    skos:note "force, weight"@en ;
-    skos:prefLabel "Newton"@en .
-
-cx:SiDerivedUnit_Ohm a cx:SiDerivedUnit ;
-    skos:altLabel "Ω"@en ;
-    skos:note "resistance, impedance, reactance"@en ;
-    skos:prefLabel "Ohm"@en .
-
-cx:SiDerivedUnit_Pascal a cx:SiDerivedUnit ;
-    skos:altLabel "Pa"@en ;
-    skos:note "pressure, stress"@en ;
-    skos:prefLabel "Pascal"@en .
-
-cx:SiDerivedUnit_Radian a cx:SiDerivedUnit ;
-    skos:altLabel "rad"@en ;
-    skos:note "plane angle"@en ;
-    skos:prefLabel "Radian"@en .
-
-cx:SiDerivedUnit_Siemens a cx:SiDerivedUnit ;
-    skos:altLabel "S"@en ;
-    skos:note "electrical conductance"@en ;
-    skos:prefLabel "Siemens"@en .
-
-cx:SiDerivedUnit_Sievert a cx:SiDerivedUnit ;
-    skos:altLabel "Sv"@en ;
-    skos:note "equivalent dose"@en ;
-    skos:prefLabel "Sievert"@en .
-
-cx:SiDerivedUnit_Steradian a cx:SiDerivedUnit ;
-    skos:altLabel "sr"@en ;
-    skos:note "solid angle"@en ;
-    skos:prefLabel "Steradian"@en .
-
-cx:SiDerivedUnit_Tesla a cx:SiDerivedUnit ;
-    skos:altLabel "T"@en ;
-    skos:note "magnetic flux density"@en ;
-    skos:prefLabel "Tesla"@en .
-
-cx:SiDerivedUnit_Volt a cx:SiDerivedUnit ;
-    skos:altLabel "V"@en ;
-    skos:note "electrical potential difference , emf"@en ;
-    skos:prefLabel "Volt"@en .
-
-cx:SiDerivedUnit_Watt a cx:SiDerivedUnit ;
-    skos:altLabel "W"@en ;
-    skos:note "power, radiant flux"@en ;
-    skos:prefLabel "Watt"@en .
-
-cx:SiDerivedUnit_Weber a cx:SiDerivedUnit ;
-    skos:altLabel "Wb"@en ;
-    skos:note "magnetic flux"@en ;
-    skos:prefLabel "Weber"@en .
 
 cx:SmallAndMediumSizedEnterprise a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
@@ -439,6 +295,23 @@ cx:TechnicalStandard_StandardForTheExchangeOfProductModelData a cx:TechnicalStan
     skos:prefLabel "STEP"@de,
         "STEP"@en .
 
+cx:contextNote a owl:AnnotationProperty ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    skos:prefLabel "Kontextnotiz"@de,
+        "Context Note"@en .
+
+cx:longName a owl:AnnotationProperty ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    skos:prefLabel "Langname"@de,
+        "Long Name"@en .
+
+cx:shortName a owl:AnnotationProperty ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    skos:definition "Unique short name that can be used for visualations."@en ;
+    skos:example "VIN"@en ;
+    skos:prefLabel "Kurzname"@de,
+        "Short Name"@en .
+
 cx:Assembly a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
     rdfs:subClassOf [ a owl:Restriction ;
@@ -461,6 +334,15 @@ cx:Disposer a owl:Class ;
         cx:Role ;
     skos:prefLabel "Entsorger"@de,
         "Disposer"@en .
+
+cx:Engineering a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cx:develops ;
+            owl:someValuesFrom cx:Product ],
+        cx:Process ;
+    skos:prefLabel "Entwicklung"@de,
+        "Engineering"@en .
 
 cx:FileFormat a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
@@ -496,14 +378,6 @@ cx:Manufacturing a owl:Class ;
         cx:Process ;
     skos:prefLabel "Fertigung"@de,
         "Manufacturing"@en .
-
-cx:Plant a owl:Class ;
-    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty cx:produces ;
-            owl:someValuesFrom cx:Product ],
-        cx:Place ;
-    skos:prefLabel "Plant"@en .
 
 cx:Production a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
@@ -546,13 +420,6 @@ cx:Specification a owl:Class ;
     skos:definition "A specification is a document that outlines the requirements for a product, system, or service."@en ;
     skos:prefLabel "Specification"@en .
 
-cx:SystemOfMeasurement a owl:Class ;
-    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
-    rdfs:seeAlso <https://en.wikipedia.org/wiki/System_of_measurement> ;
-    rdfs:subClassOf cx:ImmaterialThing ;
-    skos:prefLabel "Einheitensystem"@de,
-        "System Of Measurement"@en .
-
 cx:actionId a owl:DatatypeProperty ;
     rdfs:domain cx:Event ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
@@ -566,6 +433,13 @@ cx:actionName a owl:DatatypeProperty ;
     rdfs:range xsd:string ;
     rdfs:subPropertyOf cx:name ;
     skos:prefLabel "Action Name"@en .
+
+cx:brandName a owl:DatatypeProperty ;
+    rdfs:domain cx:Brand ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:name ;
+    skos:prefLabel "Brand Name"@en .
 
 cx:businessPartnerNumberType a owl:DatatypeProperty ;
     rdfs:domain cx:BusinessPartner ;
@@ -581,6 +455,19 @@ cx:companyName a owl:DatatypeProperty ;
     rdfs:range xsd:string ;
     rdfs:subPropertyOf cx:name ;
     skos:prefLabel "Company Name"@en .
+
+cx:cost a owl:DatatypeProperty ;
+    rdfs:domain cx:Product ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:range xsd:float ;
+    rdfs:subPropertyOf cx:numeric ;
+    skos:prefLabel "Cost"@en .
+
+cx:develops a owl:ObjectProperty ;
+    rdfs:domain cx:Engineering ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:range cx:Product ;
+    skos:prefLabel "develops"@en .
 
 cx:dinName a owl:DatatypeProperty ;
     rdfs:domain cx:DinStandard ;
@@ -710,6 +597,18 @@ cx:hasRole a owl:ObjectProperty ;
     rdfs:range cx:Role ;
     skos:prefLabel "has role"@en .
 
+cx:hasStreetAddress a owl:ObjectProperty ;
+    rdfs:domain cx:Plant ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:range cx:StreetAddress ;
+    skos:prefLabel "has street address"@en .
+
+cx:isOrderedFrom a owl:ObjectProperty ;
+    rdfs:domain cx:Order ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:range cx:Country ;
+    skos:prefLabel "is ordered from"@en .
+
 cx:isOwnedBy a owl:ObjectProperty ;
     rdfs:domain cx:Asset ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
@@ -756,6 +655,67 @@ cx:manufacturerName a owl:DatatypeProperty ;
     rdfs:range xsd:string ;
     rdfs:subPropertyOf cx:name ;
     skos:prefLabel "Manufacturer Name"@en .
+
+cx:orderCost a owl:DatatypeProperty ;
+    rdfs:domain cx:Order ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:range xsd:decimal ;
+    rdfs:subPropertyOf cx:numeric ;
+    skos:prefLabel "Order Cost"@en .
+
+cx:orderCurrency a owl:DatatypeProperty ;
+    rdfs:domain cx:Order ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Order Currency"@en .
+
+cx:orderDatetime a owl:DatatypeProperty ;
+    rdfs:domain cx:Order ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:range xsd:dateTime ;
+    rdfs:subPropertyOf cx:date ;
+    skos:prefLabel "Order Datetime"@en .
+
+cx:orderId a owl:DatatypeProperty ;
+    rdfs:domain cx:Order ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:identifier ;
+    skos:prefLabel "Order Id"@en .
+
+cx:orderPrice a owl:DatatypeProperty ;
+    rdfs:domain cx:Order ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:range xsd:decimal ;
+    rdfs:subPropertyOf cx:numeric ;
+    skos:prefLabel "Order Price"@en .
+
+cx:orderQuantity a owl:DatatypeProperty ;
+    rdfs:domain cx:Order ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:range xsd:decimal ;
+    rdfs:subPropertyOf cx:numeric ;
+    skos:prefLabel "Order Quantity"@en .
+
+cx:orderUnit a owl:DatatypeProperty ;
+    rdfs:domain cx:Order ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Order Unit"@en .
+
+cx:plantId a owl:DatatypeProperty ;
+    rdfs:domain cx:Plant ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:identifier ;
+    skos:prefLabel "Plant Id"@en .
+
+cx:plantName a owl:DatatypeProperty ;
+    rdfs:domain cx:Plant ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:name ;
+    skos:prefLabel "Plant Name"@en .
 
 cx:price a owl:DatatypeProperty ;
     rdfs:domain cx:Product ;
@@ -832,10 +792,10 @@ cx:worksFor a owl:ObjectProperty ;
 cx:Asset a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty cx:isProvisionedBy ;
+            owl:onProperty cx:isOwnedBy ;
             owl:someValuesFrom cx:BusinessPartner ],
         [ a owl:Restriction ;
-            owl:onProperty cx:isOwnedBy ;
+            owl:onProperty cx:isProvisionedBy ;
             owl:someValuesFrom cx:BusinessPartner ],
         cx:ImmaterialThing ;
     skos:definition "An Asset is any artifact that is provisioned/owned/attributed to some Catena-X Business Partner."@en ;
@@ -848,12 +808,6 @@ cx:AutomobileAssociation a owl:Class ;
     skos:prefLabel "Automobilclub"@de,
         "Automobile Association"@en .
 
-cx:Brand a owl:Class ;
-    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
-    rdfs:seeAlso schema:Brand ;
-    rdfs:subClassOf cx:ImmaterialThing ;
-    skos:prefLabel "Brand"@en .
-
 cx:Contact a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
     rdfs:seeAlso schema:ContactPoint ;
@@ -861,26 +815,19 @@ cx:Contact a owl:Class ;
     skos:prefLabel "Kontakt"@de,
         "Contact"@en .
 
-cx:Customer a owl:Class ;
+cx:Country a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty cx:purchases ;
-            owl:someValuesFrom cx:Product ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:purchasesFrom ;
-            owl:someValuesFrom cx:Seller ],
-        cx:Person ;
-    skos:prefLabel "Kunde"@de,
-        "Customer"@en .
+    rdfs:subClassOf cx:Place ;
+    skos:prefLabel "Country"@en .
 
 cx:DinStandard a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
     rdfs:seeAlso <https://de.wikipedia.org/wiki/Deutsches_Institut_f%C3%BCr_Normung> ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty cx:dinName ;
+            owl:onProperty cx:dinNumber ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
-            owl:onProperty cx:dinNumber ;
+            owl:onProperty cx:dinName ;
             owl:someValuesFrom xsd:string ],
         cx:TechnicalStandard ;
     skos:altLabel "DIN"@en,
@@ -904,31 +851,16 @@ cx:EuropeanNorm a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/European_Standard> ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty cx:enNumber ;
+            owl:onProperty cx:enName ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
-            owl:onProperty cx:enName ;
+            owl:onProperty cx:enNumber ;
             owl:someValuesFrom xsd:string ],
         cx:TechnicalStandard ;
     skos:altLabel "EN"@en,
         "European Norm"@en ;
     skos:prefLabel "Europäische Norm"@de,
         "European Norm"@en .
-
-cx:FinalCustomer a owl:Class ;
-    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty cx:finalCustomerId ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:purchases ;
-            owl:someValuesFrom cx:FinalProduct ],
-        cx:Organisation,
-        cx:Person ;
-    skos:altLabel "Endnutzer"@de,
-        "end user"@en ;
-    skos:prefLabel "Endkunde"@de,
-        "Final Customer"@en .
 
 cx:FinalProduct a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
@@ -973,13 +905,6 @@ cx:Retailer a owl:Class ;
     skos:prefLabel "Einzelhändler"@de,
         "Retailer"@en .
 
-cx:Unit a owl:Class ;
-    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
-    rdfs:seeAlso schema:unitCode,
-        schema:unitText ;
-    rdfs:subClassOf cx:ImmaterialThing ;
-    skos:prefLabel "Unit"@en .
-
 cx:Wholesaler a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Wholesaling> ;
@@ -1002,6 +927,13 @@ cx:businessPartnerNumber a owl:DatatypeProperty ;
     skos:definition "The  Business Partner Number is a unique identifier following the pattern 'BPNL{8}{4}'."@en ;
     skos:prefLabel "BPNL"@en .
 
+cx:isDeliveredBy a owl:ObjectProperty ;
+    rdfs:domain cx:Order ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:range cx:Manufacturer,
+        cx:Supplier ;
+    skos:prefLabel "is delivered by"@en .
+
 cx:isMemberOf a owl:ObjectProperty ;
     rdfs:domain cx:Organisation,
         cx:Person ;
@@ -1018,6 +950,13 @@ cx:isOfferedBy a owl:ObjectProperty ;
     rdfs:seeAlso schema:offeredBy ;
     skos:prefLabel "is offered by"@en .
 
+cx:isOrderedBy a owl:ObjectProperty ;
+    rdfs:domain cx:Order ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:range cx:Customer,
+        cx:FinalCustomer ;
+    skos:prefLabel "is ordered by"@en .
+
 cx:makesOffer a owl:ObjectProperty ;
     rdfs:domain cx:Organisation,
         cx:Person ;
@@ -1033,6 +972,15 @@ cx:purchases a owl:ObjectProperty ;
     rdfs:range cx:FinalProduct,
         cx:Product ;
     skos:prefLabel "purchases"@en .
+
+cx:Brand a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:seeAlso schema:Brand ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cx:brandName ;
+            owl:someValuesFrom xsd:string ],
+        cx:ImmaterialThing ;
+    skos:prefLabel "Brand"@en .
 
 cx:Company a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
@@ -1075,6 +1023,18 @@ cx:Service a owl:Class ;
     skos:prefLabel "Dienstleistung"@de,
         "Service"@en .
 
+cx:Customer a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cx:purchases ;
+            owl:someValuesFrom cx:Product ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:purchasesFrom ;
+            owl:someValuesFrom cx:Seller ],
+        cx:Person ;
+    skos:prefLabel "Kunde"@de,
+        "Customer"@en .
+
 cx:EclipseDataspaceConnector a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
     rdfs:seeAlso <https://projects.eclipse.org/proposals/eclipse-dataspace-connector> ;
@@ -1089,6 +1049,21 @@ cx:EclipseDataspaceConnector a owl:Class ;
         "eclipse dataspace connector"@en ;
     skos:prefLabel "Connector"@en .
 
+cx:FinalCustomer a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cx:finalCustomerId ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:purchases ;
+            owl:someValuesFrom cx:FinalProduct ],
+        cx:Organisation,
+        cx:Person ;
+    skos:altLabel "Endnutzer"@de,
+        "end user"@en ;
+    skos:prefLabel "Endkunde"@de,
+        "Final Customer"@en .
+
 cx:Information a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
     rdfs:subClassOf cx:ImmaterialThing ;
@@ -1099,13 +1074,30 @@ cx:Offer a owl:Class ;
     rdfs:seeAlso schema:Offer ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty cx:isOfferedBy ;
-            owl:someValuesFrom cx:Person ],
+            owl:someValuesFrom cx:Organisation ],
         [ a owl:Restriction ;
             owl:onProperty cx:isOfferedBy ;
-            owl:someValuesFrom cx:Organisation ],
+            owl:someValuesFrom cx:Person ],
         cx:Event ;
     skos:altLabel "offering"@en ;
     skos:prefLabel "Offer"@en .
+
+cx:Plant a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cx:plantId ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:hasStreetAddress ;
+            owl:someValuesFrom cx:StreetAddress ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:plantName ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:produces ;
+            owl:someValuesFrom cx:Product ],
+        cx:Place ;
+    skos:prefLabel "Plant"@en .
 
 cx:sells a owl:ObjectProperty ;
     rdfs:domain cx:Reseller,
@@ -1126,54 +1118,6 @@ cx:produces a owl:ObjectProperty ;
     rdfs:range cx:Product ;
     skos:prefLabel "produces"@en .
 
-cx:Manufacturer a owl:Class ;
-    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
-    rdfs:seeAlso schema:manufacturer ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty cx:produces ;
-            owl:someValuesFrom cx:Product ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:isSuppliedBy ;
-            owl:someValuesFrom cx:Supplier ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:manufacturerId ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:manufacturerName ;
-            owl:someValuesFrom xsd:string ],
-        cx:Role ;
-    skos:prefLabel "Hersteller"@de,
-        "Manufacturer"@en .
-
-cx:SiBaseUnit a owl:Class ;
-    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
-    rdfs:seeAlso <https://en.wikipedia.org/wiki/International_System_of_Units#SI_base_units> ;
-    rdfs:subClassOf cx:Unit ;
-    skos:prefLabel "Si Base Unit"@en .
-
-cx:Supplier a owl:Class ;
-    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
-    rdfs:seeAlso <https://en.wikipedia.org/wiki/Vendor> ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty cx:suppliesTo ;
-            owl:someValuesFrom cx:Manufacturer ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:supplierId ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:supplies ;
-            owl:someValuesFrom cx:Product ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:supplierName ;
-            owl:someValuesFrom xsd:string ],
-        cx:Role ;
-    skos:altLabel "provider"@en,
-        "seller"@en,
-        "supplier"@en,
-        "vendor"@en ;
-    skos:prefLabel "Lieferant"@de,
-        "Supplier"@en .
-
 cx:BusinessPartner a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Business_partner> ;
@@ -1181,17 +1125,17 @@ cx:BusinessPartner a owl:Class ;
             owl:onProperty cx:businessPartnerNumber ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
-            owl:onProperty cx:hasRole ;
-            owl:someValuesFrom cx:Role ],
-        [ a owl:Restriction ;
             owl:onProperty cx:businessPartnerNumber ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:businessPartnerNumberType ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
             owl:onProperty cx:hasConnector ;
             owl:someValuesFrom cx:EclipseDataspaceConnector ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:businessPartnerNumberType ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:hasRole ;
+            owl:someValuesFrom cx:Role ],
         cx:Company ;
     skos:altLabel "BP"@en,
         "business partner"@en ;
@@ -1203,59 +1147,143 @@ cx:BusinessPartner a owl:Class ;
     skos:prefLabel "Geschäftspartner"@de,
         "Business Partner"@en .
 
+cx:Manufacturer a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:seeAlso schema:manufacturer ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cx:isSuppliedBy ;
+            owl:someValuesFrom cx:Supplier ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:produces ;
+            owl:someValuesFrom cx:Product ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:manufacturerName ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:manufacturerId ;
+            owl:someValuesFrom xsd:string ],
+        cx:Role ;
+    skos:prefLabel "Hersteller"@de,
+        "Manufacturer"@en .
+
 cx:TechnicalStandard a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Technical_standard> ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty cx:technicalStandardStandardName ;
+            owl:onProperty cx:technicalStandardStandardNumber ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
-            owl:onProperty cx:technicalStandardStandardNumber ;
+            owl:onProperty cx:technicalStandardStandardName ;
             owl:someValuesFrom xsd:string ],
         cx:ImmaterialThing ;
     skos:prefLabel "Technical Standard"@en .
 
 cx:Person rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty cx:hasContact ;
-            owl:someValuesFrom cx:Contact ],
-        [ a owl:Restriction ;
             owl:onProperty cx:isMemberOf ;
             owl:someValuesFrom cx:Project ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:hasContact ;
+            owl:someValuesFrom cx:Contact ],
         [ a owl:Restriction ;
             owl:onProperty cx:makesOffer ;
             owl:someValuesFrom cx:Offer ] .
 
-cx:Event rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty cx:eventName ;
+cx:Supplier a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Vendor> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cx:suppliesTo ;
+            owl:someValuesFrom cx:Manufacturer ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:supplierId ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
+            owl:onProperty cx:supplierName ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:supplies ;
+            owl:someValuesFrom cx:Product ],
+        cx:Role ;
+    skos:altLabel "provider"@en,
+        "seller"@en,
+        "supplier"@en,
+        "vendor"@en ;
+    skos:prefLabel "Lieferant"@de,
+        "Supplier"@en .
+
+cx:Event rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty cx:eventDate ;
             owl:someValuesFrom xsd:date ],
         [ a owl:Restriction ;
+            owl:onProperty cx:actionId ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
             owl:onProperty cx:actionName ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:eventName ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:eventType ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:eventLocation ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
             owl:onProperty cx:eventId ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
             owl:onProperty cx:eventDuration ;
-            owl:someValuesFrom xsd:integer ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:eventLocation ;
+            owl:someValuesFrom xsd:integer ] .
+
+cx:Order a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
+    rdfs:seeAlso schema:Order ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cx:orderUnit ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
-            owl:onProperty cx:actionId ;
+            owl:onProperty cx:isOrderedFrom ;
+            owl:someValuesFrom cx:Country ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:isDeliveredBy ;
+            owl:someValuesFrom cx:Manufacturer ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:isDeliveredBy ;
+            owl:someValuesFrom cx:Supplier ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:isOrderedBy ;
+            owl:someValuesFrom cx:FinalCustomer ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:orderCost ;
+            owl:someValuesFrom xsd:decimal ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:orderQuantity ;
+            owl:someValuesFrom xsd:decimal ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:orderCurrency ;
             owl:someValuesFrom xsd:string ],
         [ a owl:Restriction ;
-            owl:onProperty cx:eventType ;
-            owl:someValuesFrom xsd:string ] .
+            owl:onProperty cx:orderId ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:isOrderedBy ;
+            owl:someValuesFrom cx:Customer ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:orderDatetime ;
+            owl:someValuesFrom xsd:dateTime ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:orderPrice ;
+            owl:someValuesFrom xsd:decimal ],
+        cx:Event ;
+    skos:prefLabel "Order"@en .
 
 cx:Organisation rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty cx:isMemberOf ;
-            owl:someValuesFrom cx:Consortium ],
-        [ a owl:Restriction ;
             owl:onProperty cx:makesOffer ;
-            owl:someValuesFrom cx:Offer ] .
+            owl:someValuesFrom cx:Offer ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:isMemberOf ;
+            owl:someValuesFrom cx:Consortium ] .
 
 cx:Role a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
@@ -1264,22 +1292,19 @@ cx:Role a owl:Class ;
     skos:prefLabel "Rolle"@de,
         "Role"@en .
 
-cx:SiDerivedUnit a owl:Class ;
-    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
-    rdfs:seeAlso <https://en.wikipedia.org/wiki/International_System_of_Units#SI_derived_units> ;
-    rdfs:subClassOf cx:Unit ;
-    skos:prefLabel "Si Derived Unit"@en .
-
 cx:Product rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty cx:hasBrand ;
-            owl:someValuesFrom cx:Brand ],
+            owl:onProperty cx:cost ;
+            owl:someValuesFrom xsd:float ],
         [ a owl:Restriction ;
             owl:onProperty cx:price ;
-            owl:someValuesFrom xsd:float ] .
+            owl:someValuesFrom xsd:float ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:hasBrand ;
+            owl:someValuesFrom cx:Brand ] .
 
 <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> a owl:Ontology ;
     dc:creator "Zazralt Magic" ;
-    dc:date "2022-11-28"^^xsd:date ;
+    dc:date "2022-12-02"^^xsd:date ;
     dc:description "The Catena-X common ontology contains all domain-independent classes, attributes and relations." ;
     dc:title "Common Ontology" ;
     owl:imports <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/upper_ontology.ttl> ;
