@@ -52,27 +52,29 @@ services:
     ports:
       - "8080:8080" # sparql endpoint
       - "8081:8081" # possible second, third, ... sparql endpoint
+      - "8082:8082" # possible second, third, ... sparql endpoint
       - "4039:4040" # DEBUG
     environment:
       # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
-      ONTOP_PORT: 8080 8081
+      ONTOP_PORT: 8080 8081 8082
       # Uncomment to enable for debugging, please choose a different port for each endpoint
       #JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040 #-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:4040
       # If you want to enable multiple ontologies, simply list them with spaces, like ONTOP_ONTOLOGY_FILE: /input/cx-ontology.xml /input/cx-ontology2.xml 
-      ONTOP_ONTOLOGY_FILE: /input/cx-ontology.xml /input/cx-ontology.ttl
+      ONTOP_ONTOLOGY_FILE: /input/cx-ontology.xml /input/cx-ontology.ttl /input/cx-ontology.ttl
       # If you want to enable multiple mappings, simply list them with spaces, like ONTOP_MAPPING_FILE: /input/dtc.obda /input/loadspectrum.obda 
-      ONTOP_MAPPING_FILE: /input/dtc.obda /input/hi.obda
+      ONTOP_MAPPING_FILE: /input/dtc.obda /input/hi.obda/input/trace.obda
       # If you want to enable multiple settings, simply list them with spaces, like ONTOP_PROPERTIES_FILE: /input/settings.properties /input/settings.dremio.properties
-      ONTOP_PROPERTIES_FILE: /input/settings.local.properties /input/settings.dremio.properties
+      ONTOP_PROPERTIES_FILE: /input/settings.local.properties /input/settings.dremio.properties /input/settings.dremio.properties
       # If you want to enable multiple portals, simply list them with spaces, like ONTOP_PORTAL_FILE: /input/portal.toml /input/portal2.toml 
-      ONTOP_PORTAL_FILE: /input/portal.toml /input/portal.toml
+      ONTOP_PORTAL_FILE: /input/portal.toml /input/portal.toml /input/portal.toml
       # If you want to enable different developer modes, simply list them with spaces, like NTOP_DEV_MODE: true false 
-      ONTOP_DEV_MODE: true true
+      ONTOP_DEV_MODE: true true true
     volumes:
       - ./resources/cx-ontology.xml:/input/cx-ontology.xml
       - ./resources/cx-ontology.ttl:/input/cx-ontology.ttl
       - ./oem/resources/dtc.obda:/input/dtc.obda
       - ./oem/resources/hi.obda:/input/hi.obda
+      - ./oem/resources/trace.obda:/input/trace.obda
       - ./oem/resources/settings.local.properties:/input/settings.local.properties
       - ./oem/resources/settings.dremio.properties:/input/settings.dremio.properties
       - ./oem/resources/settings.druid.properties:/input/settings.druid.properties

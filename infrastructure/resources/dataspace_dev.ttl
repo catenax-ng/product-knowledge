@@ -7,6 +7,7 @@
 
 @prefix : <urn:cx:Graph:local:Dataspace> .
 @prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .
+@prefix cx-common: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#> .
 @prefix cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#> .
 @prefix cx-telematics: <https://github.com/catenax-ng/product-knowledge/ontology/telematics.ttl#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -15,21 +16,61 @@
 @prefix json: <https://json-schema.org/draft/2020-12/schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix bpnl: <bpn:legal:> .
+@prefix bpns: <bpn:site:> .
+
 @base <urn:cx:Graph:local:Dataspace> .
 
-<bpn:long:BPNL00000003AYRE> cx:hasLongBusinessPartnerNumber "BPNL00000003COJN"^^xsd:string;
-                             cx:hasLongBusinessPartnerNumber "BPNL00000003AYRE"^^xsd:string;
-                             cx:isIssuerOfVehicleIdentificationNumber "WBAAL31029PZ00001"^^xsd:string;
-                             cx:isIssuerOfVehicleIdentificationNumber "WBAAL31029PZ00002"^^xsd:string;
-                             cx:isIssuerOfVehicleIdentificationNumber "WBAAL31029PZ00003"^^xsd:string;
-                             cx:hasConnector <edcs://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN>.
+bpnl:BPNL00000003AYRE cx:hasBusinessPartnerNumber "BPNL00000003COJN"^^xsd:string;
+                      cx:hasBusinessPartnerNumber "BPNL00000003AYRE"^^xsd:string;
+                      cx:isIssuerOfVehicleIdentificationNumber "WBAAL31029PZ00001"^^xsd:string;
+                      cx:isIssuerOfVehicleIdentificationNumber "WBAAL31029PZ00002"^^xsd:string;
+                      cx:isIssuerOfVehicleIdentificationNumber "WBAAL31029PZ00003"^^xsd:string;
+                      cx:hasConnector <edcs://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN>.
 
-<bpn:long:BPNL00000003B2OM> cx:hasLongBusinessPartnerNumber "BPNL00000003CPIY"^^xsd:string;
-                            cx:hasLongBusinessPartnerNumber "BPNL00000003B2OM"^^xsd:string;
-                            cx:hasConnector <edcs://knowledge.dev.demo.catena-x.net/tiera-edc-control/BPNL00000003CPIY>.
+bpnl:BPNL00000003B2OM cx:hasBusinessPartnerNumber "BPNL00000003CPIY"^^xsd:string;
+                      cx:hasBusinessPartnerNumber "BPNL00000003B2OM"^^xsd:string;
+                      cx:hasConnector <edcs://knowledge.dev.demo.catena-x.net/tiera-edc-control/BPNL00000003CPIY>.
 
-<bpn:long:BPNL00000003CQI9>  cx:hasLongBusinessPartnerNumber "BPNL00000003CQI9"^^xsd:string;
-                             cx:hasConnector <edcs://knowledge.dev.demo.catena-x.net/consumer-edc-control/BPNL00000003CQI9>.
+bpnl:BPNL00000003CQI9 cx:hasBusinessPartnerNumber "BPNL00000003CQI9"^^xsd:string;
+                      cx:hasConnector <edcs://knowledge.dev.demo.catena-x.net/consumer-edc-control/BPNL00000003CQI9>.
+
+bpnl:BPNL00000003AXS3 cx-common:hasSite bpns:BPNS00000003AXS3.
+bpnl:BPNL00000003B0Q0 cx-common:hasSite bpns:BPNS00000003B0Q0.
+bpnl:BPNL00000003B3NX cx-common:hasSite bpns:BPNS00000003B3NX.
+bpnl:BPNL00000003AYRE cx-common:hasSite bpns:BPNS000004711DMY.
+bpnl:BPNL00000003AZQP cx-common:hasSite bpns:BPNS000001111DMY.
+bpnl:BPNL00000003B5MJ cx-common:hasSite bpns:BPNS00000003B5MJ.
+bpnl:BPNL00000003AVTH cx-common:hasSite bpns:BPNS000000815DMY.
+bpnl:BPNL00000003B2OM cx-common:hasSite bpns:BPNS00000003B2OM.
+
+bpnl:BPNL00000003B0Q0 cx-common:hasConnector <http://oem-provider-agent:8082/sparql>.
+
+bpns:BPNS00000003AXS3 cx-common:hasGeoInformation <geo:BPNS00000003AXS3>.
+bpns:BPNS00000003B0Q0 cx-common:hasGeoInformation <geo:BPNS00000003B0Q0>.
+bpns:BPNS00000003B3NX cx-common:hasGeoInformation <geo:BPNS00000003B3NX>.
+bpns:BPNS000004711DMY cx-common:hasGeoInformation <geo:BPNS000004711DMY>.
+bpns:BPNS000001111DMY cx-common:hasGeoInformation <geo:BPNS000001111DMY>.
+bpns:BPNS00000003B5MJ cx-common:hasGeoInformation <geo:BPNS00000003B5MJ>.
+bpns:BPNS000000815DMY cx-common:hasGeoInformation <geo:BPNS000000815DMY>.
+bpns:BPNS00000003B2OM cx-common:hasGeoInformation <geo:BPNS00000003B2OM>.
+
+<geo:BPNS00000003AXS3> cx-common:hasLatitude "35.62306268137165"^^xsd:double;
+                       cx-common:hasLongitude "139.7498516425976"^^xsd:double.
+<geo:BPNS00000003B0Q0> cx-common:hasLatitude "12.992287272083951"^^xsd:double;
+                       cx-common:hasLongitude "74.84030406238573"^^xsd:double.
+<geo:BPNS00000003B3NX> cx-common:hasLatitude "34.90316856022901"^^xsd:double;
+                       cx-common:hasLongitude "-82.10778890159467"^^xsd:double.
+<geo:BPNS000004711DMY> cx-common:hasLatitude "48.648900476926926"^^xsd:double;
+                       cx-common:hasLongitude "12.465527980565177"^^xsd:double.
+<geo:BPNS000001111DMY> cx-common:hasLatitude "-25.632334804928544"^^xsd:double;
+                       cx-common:hasLongitude "28.084500971267506"^^xsd:double.
+<geo:BPNS00000003B5MJ> cx-common:hasLatitude "-22.4775436688588"^^xsd:double;
+                       cx-common:hasLongitude "-47.024968046462206"^^xsd:double.
+<geo:BPNS000000815DMY> cx-common:hasLatitude "41.09474775381091"^^xsd:double;
+                       cx-common:hasLongitude "28.63504885821439"^^xsd:double.
+<geo:BPNS00000003B2OM> cx-common:hasLatitude "31.889668725991893"^^xsd:double;
+                       cx-common:hasLongitude "119.9591474486991"^^xsd:double.
 
 <urn:cx:AnonymousVehicle#10000ZP92013LAABW> cx:isAnonymousVehicle "WBAAL31029PZ00001"^^xsd:string;
                                             cx:hasRegistration "{ \"Value\": 20220624,  \"Unit\": \"yyyymmdd\" }"^^json:Object;
@@ -69,17 +110,17 @@
 
 <urn:cx:AnonymousSerializedPart#GB4711> cx:isComponentOf <urn:cx:AnonymousVehicle#10000ZP92013LAABW>;
                                         cx:hasPartType "engine control module"^^xsd:string;
-                                        cx:hasSupplier <bpn:long:BPNL00000003B2OM>;
+                                        cx:hasSupplier bpnl:BPNL00000003B2OM;
                                         cx:hasName "Gear Box"^^xsd:string.
 
 <urn:cx:AnonymousSerializedPart#GB4712> cx:isComponentOf <urn:cx:AnonymousVehicle#20000ZP92013LAABW>;
                                         cx:hasPartType "clutch"^^xsd:string;
-                                        cx:hasSupplier <bpn:long:BPNL00000003B2OM>;
+                                        cx:hasSupplier bpnl:BPNL00000003B2OM;
                                         cx:hasName "Gear Oil"^^xsd:string.
 
 <urn:cx:AnonymousSerializedPart#GB4713> cx:isComponentOf <urn:cx:AnonymousVehicle#30000ZP92013LAABW>;
                                         cx:hasPartType "wiring harness"^^xsd:string;
-                                        cx:hasSupplier <bpn:long:BPNL00000003B2OM>;
+                                        cx:hasSupplier bpnl:BPNL00000003B2OM;
                                         cx:hasName "Wiring Harness"^^xsd:string.
 
 <urn:cx:LoadCollective#30000ZP92013LAABW> cx-telematics:hasFile "{  \"Type\": \"ZF_load_collective\", \"Version\": \"1.7\"  }"^^json:Object;

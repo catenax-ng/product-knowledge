@@ -252,9 +252,7 @@ export class EnvironmentOntologyHubFactory implements IOntologyHubFactory {
   private environmentOntologyHub: IOntologyHub;
 
   constructor() {
-    if (
-      process.env.REACT_APP_SKILL_GITHUB_ONTOLOGYHUB != undefined
-    ) {
+    if (process.env.REACT_APP_SKILL_GITHUB_ONTOLOGYHUB != undefined) {
       this.environmentOntologyHub = new OntologyHub(
         process.env.REACT_APP_SKILL_GITHUB_ONTOLOGYHUB,
         process.env.REACT_APP_SKILL_PROXY
