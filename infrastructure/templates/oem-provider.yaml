@@ -19,6 +19,8 @@ data:
 {{- .Files.Get "oem/resources/dtc.obda" | nindent 4 }}
   hi.obda: |-
 {{- .Files.Get "oem/resources/hi.obda" | nindent 4 }}
+  trace.obda: |-
+{{- .Files.Get "oem/resources/trace.obda" | nindent 4 }}
   cx-ontology.xml: |-
 {{- .Files.Get "resources/cx-ontology.xml" | nindent 4 }}
   cx-ontology.ttl: |-
@@ -72,13 +74,14 @@ spec:
           ports:
             - containerPort: 8080 # DTC
             - containerPort: 8081 # HI
+            - containerPort: 8082 # TRACE
           resources:
            requests:
             cpu: 0.5
-            memory: "1Gi"
+            memory: "1.5Gi"
            limits:
             cpu: 0.5
-            memory: "1Gi"
+            memory: "1.5Gi"
           startupProbe:
             failureThreshold: 18
             httpGet:
@@ -111,17 +114,17 @@ spec:
             - name: JAVA_TOOL_OPTIONS
               value: "" #"-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090"
             - name: ONTOP_ONTOLOGY_FILE 
-              value: "/input/cx-ontology.ttl /input/cx-ontology.xml"
+              value: "/input/cx-ontology.ttl /input/cx-ontology.ttl /input/cx-ontology.xml"
             - name: ONTOP_MAPPING_FILE 
-              value: "/input/hi.obda /input/dtc.obda"
+              value: "/input/hi.obda /input/trace.obda /input/dtc.obda"
             - name: ONTOP_PROPERTIES_FILE
-              value: "/input/settings.dremio.properties /input/settings.local.properties"
+              value: "/input/settings.dremio.properties /input/settings.dremio.properties /input/settings.local.properties"
             - name: ONTOP_PORTAL_FILE
-              value: "/input/portal.toml /input/portal.toml"
+              value: "/input/portal.toml /input/portal.toml /input/portal.toml"
             - name: ONTOP_DEV_MODE
-              value: "false false"
+              value: "false false false"
             - name: ONTOP_PORT
-              value: "8081 8080"
+              value: "8081 8082 8080"
           volumeMounts:
             - name: oem-provider-agent-config
               mountPath: /input
@@ -144,6 +147,9 @@ spec:
     - port: 8081
       name: healthindicator
       targetPort: 8081
+    - port: 8082
+      name: traceability
+      targetPort: 8082
   selector:
     app: oem-provider-agent
 ---
@@ -192,6 +198,13 @@ spec:
                 name: oem-provider-agent
                 port:
                   number: 8081
+          - path: /oem-provider-agent3(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: oem-provider-agent
+                port:
+                  number: 8082
 ---
 apiVersion: v1
 data:
