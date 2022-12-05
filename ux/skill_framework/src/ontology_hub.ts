@@ -35,9 +35,10 @@ class OntologyHub implements IOntologyHub {
   constructor(url: string, proxy?: string) {
     this.url = url;
     if (proxy) {
+      const url = new URL(proxy);
       this.proxy = createHttpsProxyAgent({
-        host: 'sia-lb.telekom.de',
-        port: 8080,
+        host: url.hostname,
+        port: url.port,
       });
     }
   }
