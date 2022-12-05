@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import './leaflet.css';
 import {
   BrowserRouter as Router,
   Routes,
@@ -9,6 +10,7 @@ import {
 } from 'react-router-dom';
 import Search from './pages/Search';
 import SkillGym from './pages/SkillGym';
+import Home from './pages/Home';
 import App from './App';
 import {
   SharedThemeProvider,
@@ -22,7 +24,8 @@ ReactDOM.render(
       <Router>
         <Routes>
           <Route element={<App />}>
-            <Route path="/" element={<Navigate replace to="/skill-gym" />} />
+            <Route path="/" element={<Navigate replace to="/home" />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/skill-gym" element={<SkillGym />} />
             <Route path="/custom-search" element={<Search />} />
           </Route>

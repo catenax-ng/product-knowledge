@@ -5,9 +5,8 @@ import { GridColDef } from '@mui/x-data-grid';
 import { Box } from '@mui/material';
 import ErrorTwoToneIcon from '@mui/icons-material/ErrorTwoTone';
 
-export const DataList = ({ vin, data }: { vin: string; data: BindingSet }) => {
-  const tableTitle = `Results for ${vin}`;
-
+export const DataList = ({ search, id, data }: { search: string; id:string; data: BindingSet }) => {
+  const tableTitle = `Results for ${search}`;
   const resultToColumns = (result: string[]): Array<GridColDef> =>
     result.map((item) => ({
       field: item,
@@ -24,7 +23,7 @@ export const DataList = ({ vin, data }: { vin: string; data: BindingSet }) => {
           rowsCount={data.results.bindings.length}
           columns={resultToColumns(data.head.vars)}
           rows={data.results.bindings}
-          getRowId={(row) => row.codeNumber.value}
+          getRowId={(row) => row[id].value}
         />
       ) : (
         <Box textAlign="center" maxWidth="500px" ml="auto" mr="auto">

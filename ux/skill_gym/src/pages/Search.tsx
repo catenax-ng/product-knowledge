@@ -6,11 +6,13 @@ import { BindingSet } from "@catenax-ng/skill-framework/dist/src"
 
 export default function Search(){
   const [searchResult, setSearchResult] = useState<BindingSet>()
-  const [searchVin, setSearchVin] = useState<string>('')
+  const [search, setSearch] = useState<string>('')
+  const [searchKey, setSearchKey] = useState<string>('')
 
-  const onSearch = (vin: string, result: BindingSet) => {
+  const onSearch = (search: string, id:string, result: BindingSet) => {
+    setSearch(search);
+    setSearchKey(id);
     setSearchResult(result);
-    setSearchVin(vin);
   }
 
   return(
@@ -25,7 +27,7 @@ export default function Search(){
         variant="h4"
         className="section-title"
       >
-        Execute Skills
+        Perform Skills
       </Typography>
       <Grid container justifyContent="center"spacing={3}>
         <Grid item xs={5}>
@@ -33,7 +35,7 @@ export default function Search(){
         </Grid>
         {searchResult &&
           <Grid item xs={12}>
-            <DataList vin={searchVin} data={searchResult} />
+            <DataList search={search} id={searchKey} data={searchResult} />
           </Grid>
         }
       </Grid>

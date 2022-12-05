@@ -13,8 +13,12 @@ const defaultSkills = [
     value: 'TroubleCodeSearch',
   },
   {
-    title: 'Example Skill',
-    value: 'example',
+    title: 'Material Incident Search',
+    value: 'MaterialIncidentSearch',
+  },
+  {
+    title: 'Remaining Useful Life',
+    value: 'Lifetime',
   },
 ];
 
