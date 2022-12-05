@@ -24,13 +24,6 @@ node in this folder.
 
 * See [this guide](https://www.testim.io/blog/typescript-unit-testing-101/) on how we setup jest in this folder.
 
-For initialisation, you will need to run
-
-```
-npm install -g jest
-npm run init:dev
-```
-
 ## Developer Workflow for the UI
 
 At the moment the skill_gym is calling the skill_modules locally and the skill_modules implements the skill_framework. Normally the skill_modules would be built and published as a package and implemented as external npm package inside the skill_gym. To make the development progress more easy, we are linking the skill_framework and the skill_modules via npm link commands, so that those packages can be used locally. This is automatically happening when using the command:

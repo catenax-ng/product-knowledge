@@ -12,6 +12,8 @@ import { SkillSelect } from './components/SkillSelect';
 import { MapContainer, TileLayer, useMapEvents, Marker, Rectangle, Pane } from 'react-leaflet';
 import { LatLngTuple, LatLng } from 'leaflet';
 
+import styles from './leaflet.scss';
+
 interface CustomSearchProps {
   onSearch: (search: string, key:string, result: BindingSet) => void;
 }
