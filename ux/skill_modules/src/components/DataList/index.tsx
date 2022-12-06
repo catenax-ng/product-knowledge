@@ -1,12 +1,16 @@
 import { BindingSet, Entry } from '@catenax-ng/skill-framework/dist/src';
 import { Table, Typography } from 'cx-portal-shared-components';
 import React from 'react';
-import { GridColDef, GridRowId, GridRowModel, GridRenderCellParams } from '@mui/x-data-grid';
+import {
+  GridColDef,
+  GridRowId,
+  GridRowModel,
+  GridRenderCellParams,
+} from '@mui/x-data-grid';
 import { Box } from '@mui/material';
 import ErrorTwoToneIcon from '@mui/icons-material/ErrorTwoTone';
 import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
-
 
 interface GridCellExpandProps {
   value: string;
@@ -21,7 +25,7 @@ function isOverflown(element: Element): boolean {
 }
 
 const GridCellExpand = React.memo(function GridCellExpand(
-  props: GridCellExpandProps,
+  props: GridCellExpandProps
 ) {
   const { width, value } = props;
   const wrapper = React.useRef<HTMLDivElement | null>(null);
@@ -87,7 +91,11 @@ const GridCellExpand = React.memo(function GridCellExpand(
       />
       <Box
         ref={cellValue}
-        sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+        sx={{
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+        }}
       >
         {value}
       </Box>
@@ -113,11 +121,22 @@ const GridCellExpand = React.memo(function GridCellExpand(
 
 export const renderCellExpand = (params: GridRenderCellParams<string>) => {
   return (
-    <GridCellExpand value={params.value || ''} width={params.colDef.computedWidth} />
+    <GridCellExpand
+      value={params.value || ''}
+      width={params.colDef.computedWidth}
+    />
   );
-}
+};
 
-export const DataList = ({ search, id, data }: { search: string; id:string; data: BindingSet }) => {
+export const DataList = ({
+  search,
+  id,
+  data,
+}: {
+  search: string;
+  id: string;
+  data: BindingSet;
+}) => {
   const tableTitle = `Results for ${search}`;
   const resultToColumns = (result: string[]): Array<GridColDef> =>
     result.map((item) => ({
@@ -128,11 +147,11 @@ export const DataList = ({ search, id, data }: { search: string; id:string; data
         row[item].value ? row[item].value : 'No Value',
     }));
 
-  const rowId = (row: GridRowModel) : GridRowId => {
-    if(id != undefined && row[id] != undefined) {
-      return String(row[id].value)
+  const rowId = (row: GridRowModel): GridRowId => {
+    if (id != undefined && row[id] != undefined) {
+      return String(row[id].value);
     } else {
-      return JSON.stringify(row)
+      return JSON.stringify(row);
     }
   };
 

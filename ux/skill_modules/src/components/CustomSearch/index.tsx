@@ -9,11 +9,18 @@ import React from 'react';
 import { ChipData, ChipList } from './components/ChipList';
 import { SkillSelect } from './components/SkillSelect';
 
-import { MapContainer, TileLayer, useMapEvents, Marker, Rectangle, Pane } from 'react-leaflet';
+import {
+  MapContainer,
+  TileLayer,
+  useMapEvents,
+  Marker,
+  Rectangle,
+  Pane,
+} from 'react-leaflet';
 import { LatLngTuple, LatLng } from 'leaflet';
 
 interface CustomSearchProps {
-  onSearch: (search: string, key:string, result: BindingSet) => void;
+  onSearch: (search: string, key: string, result: BindingSet) => void;
 }
 
 export const CustomSearch = ({ onSearch }: CustomSearchProps) => {
@@ -22,12 +29,17 @@ export const CustomSearch = ({ onSearch }: CustomSearchProps) => {
   const [searchVersion, setSearchVersion] = useState<string>('');
   const [keywordInput, setKeywordInput] = useState<string>('');
   const [chipData, setChipData] = useState<ChipData[]>([]);
-  const [disableTroubleButton, setTroubleDisableButton] = useState<boolean>(false);
-  const [disableMaterialButton, setMaterialDisableButton] = useState<boolean>(false);
-  const [disableLifetimeButton, setLifetimeDisableButton] = useState<boolean>(false);
+  const [disableTroubleButton, setTroubleDisableButton] =
+    useState<boolean>(false);
+  const [disableMaterialButton, setMaterialDisableButton] =
+    useState<boolean>(false);
+  const [disableLifetimeButton, setLifetimeDisableButton] =
+    useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [searchMaterial, setSearchMaterial] = useState<string>('');
-  const [geoFence, setGeoFence] = useState<number[]>([12.75,74.75,13.25,75.25]);
+  const [geoFence, setGeoFence] = useState<number[]>([
+    12.75, 74.75, 13.25, 75.25,
+  ]);
   const [results, setResults] = useState<LatLngTuple[]>([]);
   const [dragging, setDragging] = useState<boolean>(false);
   const [drag, setDrag] = useState<LatLng>();
@@ -71,8 +83,16 @@ export const CustomSearch = ({ onSearch }: CustomSearchProps) => {
       hasNoValue(selectedSkill) ||
       hasNoValue(searchMaterial) ||
       hasNoValue(geoFence);
-      setMaterialDisableButton(isMDisabled);
-  }, [selectedSkill, searchVin, chipData, keywordInput, searchVersion, searchMaterial, geoFence]);
+    setMaterialDisableButton(isMDisabled);
+  }, [
+    selectedSkill,
+    searchVin,
+    chipData,
+    keywordInput,
+    searchVersion,
+    searchMaterial,
+    geoFence,
+  ]);
 
   const onTroubleButtonClick = () => {
     setLoading(true);
@@ -103,21 +123,24 @@ export const CustomSearch = ({ onSearch }: CustomSearchProps) => {
   const onMaterialButtonClick = () => {
     setLoading(true);
     let queryVars;
-      queryVars = {
-        material: searchMaterial,
-        latmin: geoFence[0],
-        lonmin: geoFence[1],
-        latmax: geoFence[2],
-        lonmax: geoFence[3]
-      };    
+    queryVars = {
+      material: searchMaterial,
+      latmin: geoFence[0],
+      lonmin: geoFence[1],
+      latmax: geoFence[2],
+      lonmax: geoFence[3],
+    };
     console.log(queryVars);
     const connector = getConnectorFactory().create();
     connector.execute(selectedSkill, queryVars).then((result) => {
       console.log(result);
-      let poss:LatLngTuple[]=[];
-      result.results.bindings.forEach( row => {
-        if(row.lat != undefined) {
-          let pos:LatLngTuple = [ parseFloat(row.lat.value), parseFloat(row.lon.value)];
+      const poss: LatLngTuple[] = [];
+      result.results.bindings.forEach((row) => {
+        if (row.lat != undefined) {
+          const pos: LatLngTuple = [
+            parseFloat(row.lat.value),
+            parseFloat(row.lon.value),
+          ];
           console.log(pos);
           poss.push(pos);
         }
@@ -139,7 +162,7 @@ export const CustomSearch = ({ onSearch }: CustomSearchProps) => {
     } else {
       queryVars = chipData.map((keyword) => ({
         vin: searchVin,
-        troubleCode: keyword.label
+        troubleCode: keyword.label,
       }));
     }
     console.log(queryVars);
@@ -153,33 +176,43 @@ export const CustomSearch = ({ onSearch }: CustomSearchProps) => {
   };
 
   const GeoFence = () => {
-    const map = useMapEvents( {
+    const map = useMapEvents({
       mousedown: (e) => {
         setDrag(e.latlng);
       },
       mouseup: (e) => {
-        let latdiff=e.latlng.lat-drag!.lat;
-        let londiff=e.latlng.lng-drag!.lng;
-        setGeoFence([geoFence[0]+latdiff,geoFence[1]+londiff,geoFence[2]+latdiff,geoFence[3]+londiff]);
+        const latdiff = e.latlng.lat - drag!.lat;
+        const londiff = e.latlng.lng - drag!.lng;
+        setGeoFence([
+          geoFence[0] + latdiff,
+          geoFence[1] + londiff,
+          geoFence[2] + latdiff,
+          geoFence[3] + londiff,
+        ]);
         setDrag(undefined);
         //let map=useMap();
-        let center=map.getCenter();
-        map.panTo([center.lat+latdiff,center.lng+londiff]);
-      }
+        const center = map.getCenter();
+        map.panTo([center.lat + latdiff, center.lng + londiff]);
+      },
     });
     return (
-      <Rectangle bounds={[[geoFence[0], geoFence[1]], [geoFence[2],geoFence[3]]]}/>
+      <Rectangle
+        bounds={[
+          [geoFence[0], geoFence[1]],
+          [geoFence[2], geoFence[3]],
+        ]}
+      />
     );
   };
 
   return (
-    <Paper elevation={3} sx={{ padding: 3, minWidth:640 }}>
+    <Paper elevation={3} sx={{ padding: 3, minWidth: 640 }}>
       <SkillSelect
         value={selectedSkill}
         onChange={(e) => setSelectedSkill(e.target.value)}
         disabled={loading}
       />
-      {(selectedSkill == "TroubleCodeSearch") && (
+      {selectedSkill == 'TroubleCodeSearch' && (
         <>
           <Grid container spacing={1}>
             <Grid item xs={12} md={10}>
@@ -219,32 +252,35 @@ export const CustomSearch = ({ onSearch }: CustomSearchProps) => {
           </Button>
         </>
       )}
-      {(selectedSkill == "MaterialIncidentSearch") && (
+      {selectedSkill == 'MaterialIncidentSearch' && (
         <>
-         <Box mt={2} mb={2}>
-          <Input
-                helperText="Please enter a material description."
-                value={searchMaterial}
-                onChange={(e) => onMaterialSearchChange(e.target.value)}
-                placeholder="Material"
-                disabled={loading}
-          />
+          <Box mt={2} mb={2}>
+            <Input
+              helperText="Please enter a material description."
+              value={searchMaterial}
+              onChange={(e) => onMaterialSearchChange(e.target.value)}
+              placeholder="Material"
+              disabled={loading}
+            />
           </Box>
           <Box mt={1} mb={3}>
-          <MapContainer dragging={dragging} center={[13, 75]} zoom={8} scrollWheelZoom={false}>
-           <TileLayer
-             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            />
-            <Pane name="fence" style={{ zIndex: 499 }}>
-              <GeoFence/>
-            </Pane>
-            {results.map(tuple => {
-              return (
-                <Marker position={tuple}/>
-              );
-             })}
-          </MapContainer>
+            <MapContainer
+              dragging={dragging}
+              center={[13, 75]}
+              zoom={8}
+              scrollWheelZoom={false}
+            >
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              />
+              <Pane name="fence" style={{ zIndex: 499 }}>
+                <GeoFence />
+              </Pane>
+              {results.map((tuple, index) => {
+                return <Marker key={index.toString()} position={tuple} />;
+              })}
+            </MapContainer>
           </Box>
           <Button
             disabled={disableMaterialButton || loading}
@@ -255,17 +291,17 @@ export const CustomSearch = ({ onSearch }: CustomSearchProps) => {
           </Button>
         </>
       )}
-      {(selectedSkill == "Lifetime") && (
+      {selectedSkill == 'Lifetime' && (
         <>
           <Box mt={2} mb={3}>
-              <Input
-                helperText="Please enter a valid VIN."
-                value={searchVin}
-                onChange={(e) => onVinSearchChange(e.target.value)}
-                placeholder="VIN"
-                disabled={loading}
-              />
-            </Box>
+            <Input
+              helperText="Please enter a valid VIN."
+              value={searchVin}
+              onChange={(e) => onVinSearchChange(e.target.value)}
+              placeholder="VIN"
+              disabled={loading}
+            />
+          </Box>
           <Box mt={2} mb={3}>
             <ChipList chipData={chipData} onChipDelete={onChipDelete} />
             <Input
