@@ -26,6 +26,7 @@ export const CustomSearch = ({ onSearch }: CustomSearchProps) => {
   const [chipData, setChipData] = useState<ChipData[]>([]);
   const [disableTroubleButton, setTroubleDisableButton] = useState<boolean>(false);
   const [disableMaterialButton, setMaterialDisableButton] = useState<boolean>(false);
+  const [disableLifetimeButton, setLifetimeDisableButton] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [searchMaterial, setSearchMaterial] = useState<string>('');
   const [geoFence, setGeoFence] = useState<number[]>([12.75,74.75,13.25,75.25]);
@@ -63,11 +64,16 @@ export const CustomSearch = ({ onSearch }: CustomSearchProps) => {
       hasNoValue(searchVersion) ||
       (hasNoValue(chipData) && hasNoValue(keywordInput));
     setTroubleDisableButton(isDisabled);
+    const isLifetimeDisabled =
+      hasNoValue(selectedSkill) ||
+      hasNoValue(searchVin) ||
+      (hasNoValue(chipData) && hasNoValue(keywordInput));
+    setLifetimeDisableButton(isLifetimeDisabled);
     const isMDisabled =
-    hasNoValue(selectedSkill) ||
-    hasNoValue(searchMaterial) ||
-    hasNoValue(geoFence);
-    setMaterialDisableButton(isMDisabled);
+      hasNoValue(selectedSkill) ||
+      hasNoValue(searchMaterial) ||
+      hasNoValue(geoFence);
+      setMaterialDisableButton(isMDisabled);
   }, [selectedSkill, searchVin, chipData, keywordInput, searchVersion, searchMaterial, geoFence]);
 
   const onTroubleButtonClick = () => {
@@ -120,6 +126,30 @@ export const CustomSearch = ({ onSearch }: CustomSearchProps) => {
       });
       onSearch(searchMaterial, 'sourcePart', result);
       setResults(poss);
+      setLoading(false);
+    });
+  };
+
+  const onLifetimeButtonClick = () => {
+    setLoading(true);
+    let queryVars;
+    if (hasNoValue(chipData)) {
+      queryVars = {
+        vin: searchVin,
+        troubleCode: keywordInput,
+      };
+    } else {
+      queryVars = chipData.map((keyword) => ({
+        vin: searchVin,
+        troubleCode: keyword.label
+      }));
+    }
+    console.log(queryVars);
+    const connector = getConnectorFactory().create();
+    connector.execute(selectedSkill, queryVars).then((result) => {
+      console.log(result);
+      setResults([]);
+      onSearch(searchVin, 'vin', result);
       setLoading(false);
     });
   };
@@ -187,7 +217,7 @@ export const CustomSearch = ({ onSearch }: CustomSearchProps) => {
             fullWidth
             onClick={onTroubleButtonClick}
           >
-            Search Data
+            Search Troublecodes
           </Button>
         </>
       )}
@@ -223,7 +253,36 @@ export const CustomSearch = ({ onSearch }: CustomSearchProps) => {
             fullWidth
             onClick={onMaterialButtonClick}
           >
-            Search Data
+            Search Incident Space
+          </Button>
+        </>
+      )}
+      {(selectedSkill == "Lifetime") && (
+        <>
+          <Box mt={2} mb={3}>
+              <Input
+                helperText="Please enter a valid VIN."
+                value={searchVin}
+                onChange={(e) => onVinSearchChange(e.target.value)}
+                placeholder="VIN"
+                disabled={loading}
+              />
+            </Box>
+          <Box mt={2} mb={3}>
+            <ChipList chipData={chipData} onChipDelete={onChipDelete} />
+            <Input
+              value={keywordInput}
+              onChange={(e) => onKeywordInputChange(e.target.value)}
+              placeholder="Enter Trouble Codes"
+              disabled={loading}
+            />
+          </Box>
+          <Button
+            disabled={disableLifetimeButton || loading}
+            fullWidth
+            onClick={onLifetimeButtonClick}
+          >
+            Perform Prognosis
           </Button>
         </>
       )}

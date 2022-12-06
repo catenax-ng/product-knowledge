@@ -1,16 +1,19 @@
-import { AssetView, OntologyHub, OntologyView } from '@catenax-ng/skill-modules';
+import { OntologyHub, OntologyView } from '@catenax-ng/skill-modules';
 import { useState } from 'react';
+import { Box } from "@mui/material";
 
 export default function SkillGym() {
   const [selectedOntology, setSelectedOntology] = useState<string>('')
   return (
     <>
-      <AssetView />
       {selectedOntology.length > 0 &&
-        <iframe title="WebVowl" width="100%" height={500} src={`https://service.tib.eu/webvowl/#url=${selectedOntology}`} />
+        <Box mt={1} mb={1}>
+          <iframe title="WebVowl" width="100%" height={500} src={`https://service.tib.eu/webvowl/#url=${selectedOntology}`} />
+        </Box>
       }
-      {/* <OntologyView dataUrl={jsonUrl} /> */}
-      <OntologyHub onOntologySelect={setSelectedOntology} />
+      <Box mt={1} mb={1}>
+        <OntologyHub onOntologySelect={setSelectedOntology} />
+      </Box>
     </>
   );
 }

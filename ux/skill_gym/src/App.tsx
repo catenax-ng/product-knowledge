@@ -4,8 +4,9 @@ import { Box } from '@mui/material';
 
 export default function App() {
   const menu = [
-    { to: '/skill-gym', title: "Dataspace" },
-    { to: '/custom-search', title: 'Perform Skills' },
+    { to: '/dataspace', title: "Dataspace" },
+    { to: '/skill-gym', title: "Vocabulary" },
+    { to: '/custom-search', title: 'Skills' },
   ];
 
   return (

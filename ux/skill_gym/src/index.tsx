@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom';
 import Search from './pages/Search';
 import SkillGym from './pages/SkillGym';
+import Dataspace from './pages/Dataspace';
 import Home from './pages/Home';
 import App from './App';
 import {
@@ -25,6 +26,7 @@ ReactDOM.render(
           <Route element={<App />}>
             <Route path="/" element={<Navigate replace to="/home" />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/dataspace" element={<Dataspace />} />
             <Route path="/skill-gym" element={<SkillGym />} />
             <Route path="/custom-search" element={<Search />} />
           </Route>

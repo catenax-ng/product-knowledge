@@ -27,7 +27,7 @@ export default function Search(){
         variant="h4"
         className="section-title"
       >
-        Perform Skills
+        Perform Skill
       </Typography>
       <Grid container justifyContent="center"spacing={3}>
         <Grid item xs={5}>
