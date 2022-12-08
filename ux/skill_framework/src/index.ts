@@ -648,9 +648,11 @@ export const setConnectorFactory = function (factory: IConnectorFactory) {
   connectorFactory = factory;
 };
 
-/** 
+/**
  * @returns url of the skill backend
  */
-export const getSkillBackend = function() {
-  return process.env.REACT_APP_SKILL_BACKEND ?? "https://service.tib.eu/webvowl/";
-}
+export const getSkillBackend = function () {
+  return (
+    process.env.REACT_APP_SKILL_BACKEND ?? 'https://service.tib.eu/webvowl/'
+  );
+};

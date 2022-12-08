@@ -4,7 +4,7 @@ import {
   Select,
   MenuItem,
   SelectChangeEvent,
-  TextField
+  TextField,
 } from '@mui/material';
 import TreeSelect from 'mui-tree-select';
 import React, { useState, useEffect } from 'react';
@@ -12,26 +12,18 @@ import { nodeModuleNameResolver } from 'typescript';
 import { Node, getParent } from './Tree';
 
 const skills = [
-  new Node("All Skills", null, [
-    new Node(
-      'Trouble Code Search',
-      'TroubleCodeSearch'
-    ),
-    new Node(
-      'Material Incident Search',
-      'MaterialIncidentSearch'
-    ),
-    new Node(
-      'Remaining Useful Life',
-      'Lifetime'
-    )  
-  ])
+  new Node('All Skills', null, [
+    new Node('Trouble Code Search', 'TroubleCodeSearch'),
+    new Node('Material Incident Search', 'MaterialIncidentSearch'),
+    new Node('Remaining Useful Life', 'Lifetime'),
+  ]),
 ];
-const getSkillChildren = (node:Node|null) => node === null ? skills : node.children;
+const getSkillChildren = (node: Node | null) =>
+  node === null ? skills : node.children;
 
 interface SkillSelectProps {
   value: string;
-  onChange: (value:string) => void;
+  onChange: (value: string) => void;
   disabled?: boolean;
 }
 
@@ -51,10 +43,10 @@ export const SkillSelect = ({
       <TreeSelect
         getChildren={getSkillChildren}
         getParent={getParent}
-        renderInput={(params) => <TextField {...params} label="Skill"/>}
-        value = { skills[0].children!.find( node=> node.value == value)}
+        renderInput={(params) => <TextField {...params} label="Skill" />}
+        value={skills[0].children!.find((node) => node.value == value)}
         onChange={(event, value, reason, details) => onChange(value!.value)}
-      />        
+      />
     </FormControl>
   );
 };
