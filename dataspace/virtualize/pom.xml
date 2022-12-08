@@ -1,3 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Pom for building dataspace virtualization
+  See copyright notice in the top folder
+  See authors file in the top folder
+  See license file in the top folder
+-->
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.catenax.knowledge.dataspace</groupId>
@@ -9,7 +16,7 @@
         <version>0.6.4-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>    
     </parent>
-    <name>Catena-X Knowledge Agents Dataspace Data Virtualization</name>
+    <name>Catena-X Knowledge Agents Dataspace Virtualization</name>
     <description>Project for all Dataspace-Related Virtualization Services</description>
     <dependencies>
     </dependencies>

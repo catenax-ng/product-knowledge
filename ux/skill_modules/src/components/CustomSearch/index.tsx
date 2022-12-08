@@ -1,4 +1,4 @@
-import { Box, Paper, Grid } from '@mui/material';
+import { Box, Paper, Grid, TextField } from '@mui/material';
 import { Button, Input } from 'cx-portal-shared-components';
 import { useEffect, useState } from 'react';
 import {
@@ -18,10 +18,83 @@ import {
   Pane,
 } from 'react-leaflet';
 import { LatLngTuple, LatLng } from 'leaflet';
+import { Node, getParent} from './components/Tree';
+import { TreeSelect} from 'mui-tree-select';
 
 interface CustomSearchProps {
   onSearch: (search: string, key: string, result: BindingSet) => void;
 }
+
+const materials = [
+  new Node("Metals", null, [
+    new Node(
+      'Ferrous', null, [
+        new Node(
+          'Cast Iron'
+        ),
+        new Node(
+          'Steel'
+        ),
+        new Node(
+          'HSS'
+        ),
+        new Node(
+          'Alloy Steel'
+        ),
+        new Node(
+          'Cathode'
+        )
+      ]
+    ),
+    new Node(
+      'Non-Ferrous', null, [
+        new Node(
+          'Brass'
+        ),
+        new Node(
+          'Copper'
+        ),
+        new Node(
+          'Tin'
+        ),
+        new Node(
+          'Aluminium'
+        ),
+      ]
+    )
+  ]),
+  new Node("Non-Metals", null, [
+    new Node(
+      'Plastics'
+    ),
+    new Node(
+      'Glass'
+    ),
+    new Node(
+      'Rubber'
+    ),
+    new Node(
+      'Ceramics'
+    ),
+    new Node(
+      'Wood'
+    )  
+  ]),
+  new Node("Composites", null, [
+    new Node(
+      'Glass Fiber'
+    ),
+    new Node(
+      'Carbon Fiber'
+    ),
+    new Node(
+      'FRP'
+    )  
+  ])
+];
+const allMaterials = materials.flatMap( parent => parent.children!);
+const getMaterialChildren = (node:Node|null) => node === null ? materials : node.children;
+
 
 export const CustomSearch = ({ onSearch }: CustomSearchProps) => {
   const [selectedSkill, setSelectedSkill] = useState<string>('');
@@ -209,7 +282,7 @@ export const CustomSearch = ({ onSearch }: CustomSearchProps) => {
     <Paper elevation={3} sx={{ padding: 3, minWidth: 640 }}>
       <SkillSelect
         value={selectedSkill}
-        onChange={(e) => setSelectedSkill(e.target.value)}
+        onChange={(e) => setSelectedSkill(e)}
         disabled={loading}
       />
       {selectedSkill == 'TroubleCodeSearch' && (
@@ -255,13 +328,14 @@ export const CustomSearch = ({ onSearch }: CustomSearchProps) => {
       {selectedSkill == 'MaterialIncidentSearch' && (
         <>
           <Box mt={2} mb={2}>
-            <Input
-              helperText="Please enter a material description."
-              value={searchMaterial}
-              onChange={(e) => onMaterialSearchChange(e.target.value)}
-              placeholder="Material"
-              disabled={loading}
-            />
+          <TreeSelect
+            getChildren={getMaterialChildren}
+            getParent={getParent}
+            renderInput={(params) => <TextField {...params} label="Material"/>}
+            value = { allMaterials.find( node=> node.value == searchMaterial)}
+            onChange={(event, value, reason, details) => onMaterialSearchChange(value!.value)}
+            disabled={loading}
+          />
           </Box>
           <Box mt={1} mb={3}>
             <MapContainer

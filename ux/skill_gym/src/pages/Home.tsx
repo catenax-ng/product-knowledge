@@ -1,6 +1,4 @@
 import { Typography } from "cx-portal-shared-components";
-import { Grid } from "@mui/material";
-import { useState } from "react";
 
 export default function Home(){
   return(
@@ -15,7 +13,7 @@ export default function Home(){
         variant="h4"
         className="section-title"
       >
-        The Catena-X Skill Gym
+        The Catena-X Skill Gym(nasium)
       </Typography>
       <Typography  sx={{
           mt: 2,
@@ -23,7 +21,7 @@ export default function Home(){
           fontFamily: 'LibreFranklin-Light',
           textAlign: 'center',
         }} variant="body1" gutterBottom>
-            Welcome to the Catena-X Knowledge Agents Skill Gym(nasium)!
+           Welcome to the Knowledge Agents Gym!
       </Typography>
       <Typography sx={{
           mt: 1,
@@ -31,7 +29,7 @@ export default function Home(){
           fontFamily: 'LibreFranklin-Light',
           textAlign: 'center',
         }} variant="body2" gutterBottom>
-            The Skill Gym is a standalone application which allows to develop and run Logic Scripts (=Skills) against the Catena-X Dataspace.
+           Knowledge Agents is the approach to create a Semantic-Web Driven Dataspace.
       </Typography>
       <Typography sx={{
           mt: 1,
@@ -39,7 +37,31 @@ export default function Home(){
           fontFamily: 'LibreFranklin-Light',
           textAlign: 'center',
         }} variant="body2" gutterBottom>
-            It is as well a showcase of so-called Semantic UX Components which interact with the Dataspace Meta-Data (=Ontology).
+        <a href="/dataspace">Data (sources/assets)</a> from the individual Dataspace Tenants (or: Connectors) are hereby described as (virtual) Graphs following shared <a href="/ontology">Domain Vocabularies or Ontologies</a>.
+      </Typography>
+      <Typography sx={{
+          mt: 1,
+          mb: 1,
+          fontFamily: 'LibreFranklin-Light',
+          textAlign: 'center',
+        }} variant="body2" gutterBottom>
+           Agents are active, queriable components of the Connectors which allow to execute and delegate business logic in the form of <a href="/custom-search">Graph Scripts or Skills</a>.
+      </Typography>
+      <Typography sx={{
+          mt: 1,
+          mb: 1,
+          fontFamily: 'LibreFranklin-Light',
+          textAlign: 'center',
+        }} variant="body2" gutterBottom>
+            The Skill Gym is a standalone application/portal which allows developers to develop and test-run Graphs & Skills in the Catena-X Dataspace.
+      </Typography>
+      <Typography sx={{
+          mt: 1,
+          mb: 1,
+          fontFamily: 'LibreFranklin-Light',
+          textAlign: 'center',
+        }} variant="body2" gutterBottom>
+            The Skill Gym also showcases reusable Semantic UX Components which are able to interact with the Semantic Dataspace Graph.
       </Typography>
     </>
   );

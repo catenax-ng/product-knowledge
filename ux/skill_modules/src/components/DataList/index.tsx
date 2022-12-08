@@ -58,7 +58,7 @@ const GridCellExpand = React.memo(function GridCellExpand(
       }
     }
 
-    document.addEventListener('keydown', handleKeyDown);
+     document.addEventListener('keydown', handleKeyDown);
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
@@ -119,7 +119,7 @@ const GridCellExpand = React.memo(function GridCellExpand(
   );
 });
 
-export const renderCellExpand = (params: GridRenderCellParams<string>) => {
+const renderCellExpand = (params: GridRenderCellParams<string>) => {
   return (
     <GridCellExpand
       value={params.value || ''}
