@@ -14,7 +14,9 @@ export function OntologyHub({ onOntologySelect }: OntologyHubProps) {
 
   useEffect(() => {
     const ontologyHub = getOntologyHubFactory().create();
-    ontologyHub.getOntologies().then((data) => setOntologyList(data));
+    ontologyHub.getOntologies().then((data) => {
+      setOntologyList(data);
+    });
   }, []);
 
   const columns = [
@@ -27,6 +29,11 @@ export function OntologyHub({ onOntologySelect }: OntologyHubProps) {
           {row.name}
         </Typography>
       ),
+    },
+    {
+      field: 'type',
+      flex: 2,
+      headerName: 'Sprache',
     },
     {
       field: 'version',
@@ -47,7 +54,8 @@ export function OntologyHub({ onOntologySelect }: OntologyHubProps) {
   return (
     <Table
       title="Ontology Hub"
-      rowCount={ontologyList.length}
+      pageSize={5}
+      rowsCount={ontologyList.length}
       columns={columns}
       rows={ontologyList}
       getRowId={(row: OntologyResult) => row.vowl}
