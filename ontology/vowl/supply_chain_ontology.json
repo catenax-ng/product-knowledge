@@ -1,0 +1,366 @@
+{
+  "header" : {
+    "languages" : [ "de", "en" ],
+    "title": {
+      "undefined": "Catena-X Supply Chain Ontology"
+    },
+    "baseIris" : [ "http://www.w3.org/1999/02/22-rdf-syntax-ns", "http://www.w3.org/2000/01/rdf-schema", "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl", "http://www.w3.org/2001/XMLSchema" ],
+    "prefixList" : {
+      "owl" : "http://www.w3.org/2002/07/owl#",
+      "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+      "xsd" : "http://www.w3.org/2001/XMLSchema#",
+      "xml" : "http://www.w3.org/XML/1998/namespace",
+      "rdfs" : "http://www.w3.org/2000/01/rdf-schema#"
+    },
+    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/suppply_chain_ontology.ttl",
+    "description": {
+      "undefined": "The Catena-X Supply Chain Ontology deals with Supply Chain Relationships."
+    },
+    "version": "0.6.4-SNAPSHOT",
+    "author": [
+      "Zazralt Magic (BMW)",
+      "Jörg Schulz (ZF)"
+    ]
+  },   
+  "namespace" : [ ],
+  "class" : [ {
+    "id" : "0",
+    "type" : "owl:Class"
+  }, {
+    "id" : "5",
+    "type" : "owl:Class"
+  }, {
+    "id" : "1",
+    "type" : "owl:Class"
+  }, {
+    "id" : "2",
+    "type" : "owl:Class"
+  }, {
+    "id" : "7",
+    "type" : "owl:Class"
+  }, {
+    "id" : "6",
+    "type" : "owl:Class"
+  }, {
+    "id" : "8",
+    "type" : "owl:Class"
+  } ],
+  "classAttribute" : [ {
+    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#Supplier",
+    "baseIri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl",
+    "instances" : 0,
+    "annotations" : {
+      "isDefinedBy" : [ {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl",
+        "type" : "iri"
+      } ],
+      "prefLabel" : [ {
+        "identifier" : "prefLabel",
+        "language" : "en",
+        "value" : "Supplier",
+        "type" : "label"
+      }, {
+        "identifier" : "prefLabel",
+        "language" : "de",
+        "value" : "Lieferant",
+        "type" : "label"
+      } ],
+      "altLabel" : [ {
+        "identifier" : "altLabel",
+        "language" : "en",
+        "value" : "provider",
+        "type" : "label"
+      }, {
+        "identifier" : "altLabel",
+        "language" : "en",
+        "value" : "vendor",
+        "type" : "label"
+      }, {
+        "identifier" : "altLabel",
+        "language" : "en",
+        "value" : "seller",
+        "type" : "label"
+      }, {
+        "identifier" : "altLabel",
+        "language" : "en",
+        "value" : "supplier",
+        "type" : "label"
+      } ],
+      "seeAlso" : [ {
+        "identifier" : "seeAlso",
+        "language" : "undefined",
+        "value" : "https://en.wikipedia.org/wiki/Vendor",
+        "type" : "iri"
+      } ]
+    },
+    "label" : {
+      "IRI-based" : "Supplier"
+    },
+    "subClasses" : [ "1", "2" ],
+    "attributes" : [ "external" ],
+    "id" : "0"
+  }, {
+    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#SupplyChain",
+    "baseIri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl",
+    "instances" : 0,
+    "annotations" : {
+      "isDefinedBy" : [ {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/supply_chain_ontology.ttl",
+        "type" : "iri"
+      }, {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/supply_chain_ontology.ttl",
+        "type" : "iri"
+      } ],
+      "prefLabel" : [ {
+        "identifier" : "prefLabel",
+        "language" : "en",
+        "value" : "Supply Chain",
+        "type" : "label"
+      }, {
+        "identifier" : "prefLabel",
+        "language" : "en",
+        "value" : "Supply Chain",
+        "type" : "label"
+      } ]
+    },
+    "label" : {
+      "IRI-based" : "SupplyChain"
+    },
+    "attributes" : [ "external" ],
+    "id" : "5",
+    "superClasses" : [ "6" ]
+  }, {
+    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#FirstTierSupplier",
+    "baseIri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl",
+    "instances" : 0,
+    "annotations" : {
+      "isDefinedBy" : [ {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/supply_chain_ontology.ttl",
+        "type" : "iri"
+      }, {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/supply_chain_ontology.ttl",
+        "type" : "iri"
+      } ],
+      "prefLabel" : [ {
+        "identifier" : "prefLabel",
+        "language" : "en",
+        "value" : "First Tier Supplier",
+        "type" : "label"
+      }, {
+        "identifier" : "prefLabel",
+        "language" : "en",
+        "value" : "First Tier Supplier",
+        "type" : "label"
+      } ]
+    },
+    "label" : {
+      "IRI-based" : "FirstTierSupplier"
+    },
+    "attributes" : [ "external" ],
+    "id" : "1",
+    "superClasses" : [ "0" ]
+  }, {
+    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#SecondTierSupplier",
+    "baseIri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl",
+    "instances" : 0,
+    "annotations" : {
+      "isDefinedBy" : [ {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/supply_chain_ontology.ttl",
+        "type" : "iri"
+      }, {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/supply_chain_ontology.ttl",
+        "type" : "iri"
+      } ],
+      "prefLabel" : [ {
+        "identifier" : "prefLabel",
+        "language" : "en",
+        "value" : "Second Tier Supplier",
+        "type" : "label"
+      }, {
+        "identifier" : "prefLabel",
+        "language" : "en",
+        "value" : "Second Tier Supplier",
+        "type" : "label"
+      } ]
+    },
+    "label" : {
+      "IRI-based" : "SecondTierSupplier"
+    },
+    "attributes" : [ "external" ],
+    "id" : "2",
+    "superClasses" : [ "0" ]
+  }, {
+    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#Manufacturer",
+    "baseIri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl",
+    "instances" : 0,
+    "annotations" : {
+      "isDefinedBy" : [ {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl",
+        "type" : "iri"
+      } ],
+      "prefLabel" : [ {
+        "identifier" : "prefLabel",
+        "language" : "de",
+        "value" : "Hersteller",
+        "type" : "label"
+      }, {
+        "identifier" : "prefLabel",
+        "language" : "en",
+        "value" : "Manufacturer",
+        "type" : "label"
+      } ],
+      "seeAlso" : [ {
+        "identifier" : "seeAlso",
+        "language" : "undefined",
+        "value" : "https://schema.org/manufacturer",
+        "type" : "iri"
+      } ]
+    },
+    "label" : {
+      "IRI-based" : "Manufacturer"
+    },
+    "subClasses" : [ "8" ],
+    "attributes" : [ "external" ],
+    "id" : "7"
+  }, {
+    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#Concept",
+    "baseIri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl",
+    "instances" : 0,
+    "annotations" : {
+      "isDefinedBy" : [ {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl",
+        "type" : "iri"
+      } ],
+      "prefLabel" : [ {
+        "identifier" : "prefLabel",
+        "language" : "en",
+        "value" : "Concept",
+        "type" : "label"
+      } ]
+    },
+    "label" : {
+      "IRI-based" : "Concept"
+    },
+    "individuals" : [ {
+      "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#Concept_DigitalTwin",
+      "baseIri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl",
+      "annotations" : {
+        "prefLabel" : [ {
+          "identifier" : "prefLabel",
+          "language" : "de",
+          "value" : "Digitaler Zwilling",
+          "type" : "label"
+        }, {
+          "identifier" : "prefLabel",
+          "language" : "en",
+          "value" : "Digital Twin",
+          "type" : "label"
+        } ],
+        "definition" : [ {
+          "identifier" : "definition",
+          "language" : "en",
+          "value" : "A digital twin is a digital representation of an objects  from the real world. Are intended for data exchange.",
+          "type" : "label"
+        } ],
+        "seeAlso" : [ {
+          "identifier" : "seeAlso",
+          "language" : "undefined",
+          "value" : "https://en.wikipedia.org/wiki/Digital_twin",
+          "type" : "iri"
+        } ]
+      },
+      "labels" : {
+        "IRI-based" : "Concept_DigitalTwin"
+      }
+    } ],
+    "subClasses" : [ "5" ],
+    "attributes" : [ "external" ],
+    "id" : "6"
+  }, {
+    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#PrimeContractor",
+    "baseIri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl",
+    "instances" : 0,
+    "annotations" : {
+      "isDefinedBy" : [ {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/supply_chain_ontology.ttl",
+        "type" : "iri"
+      }, {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/supply_chain_ontology.ttl",
+        "type" : "iri"
+      } ],
+      "prefLabel" : [ {
+        "identifier" : "prefLabel",
+        "language" : "en",
+        "value" : "Prime Contractor",
+        "type" : "label"
+      }, {
+        "identifier" : "prefLabel",
+        "language" : "en",
+        "value" : "Prime Contractor",
+        "type" : "label"
+      } ]
+    },
+    "label" : {
+      "IRI-based" : "PrimeContractor"
+    },
+    "attributes" : [ "external" ],
+    "id" : "8",
+    "superClasses" : [ "7" ]
+  } ],
+  "property" : [ {
+    "id" : "3",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "4",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "9",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "10",
+    "type" : "rdfs:SubClassOf"
+  } ],
+  "propertyAttribute" : [ {
+    "range" : "0",
+    "domain" : "2",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "3"
+  }, {
+    "range" : "6",
+    "domain" : "5",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "4"
+  }, {
+    "range" : "7",
+    "domain" : "8",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "9"
+  }, {
+    "range" : "0",
+    "domain" : "1",
+    "attributes" : [ "object", "anonymous" ],
+    "id" : "10"
+  } ]
+}

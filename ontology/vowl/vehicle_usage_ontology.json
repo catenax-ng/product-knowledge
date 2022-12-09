@@ -1,7 +1,9 @@
 {
-  "_comment" : "Created with OWL2VOWL (version 0.3.7), http://vowl.visualdataweb.org",
   "header" : {
     "languages" : [ "de", "en" ],
+    "title": {
+      "undefined": "Catena-X Vehicle Usage Ontology"
+    },
     "baseIris" : [ "http://www.w3.org/1999/02/22-rdf-syntax-ns", "http://www.w3.org/2000/01/rdf-schema", "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl", "http://www.w3.org/2001/XMLSchema" ],
     "prefixList" : {
       "owl" : "http://www.w3.org/2002/07/owl#",
@@ -10,8 +12,16 @@
       "xml" : "http://www.w3.org/XML/1998/namespace",
       "rdfs" : "http://www.w3.org/2000/01/rdf-schema#"
     },
-    "iri" : "https://github.com/catenax-ng/product-knowledge"
-  },
+    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_usage_ontology.ttl",
+    "description": {
+      "undefined": "The Catena-X Vehicle Usage Ontology describes Usage Scenarios for Cars."
+    },
+    "version": "0.6.4-SNAPSHOT",
+    "author": [
+      "Zazralt Magic (BMW)",
+      "Rolf Bosse (MBAG)"
+    ]
+  },   
   "namespace" : [ ],
   "class" : [ {
     "id" : "2",

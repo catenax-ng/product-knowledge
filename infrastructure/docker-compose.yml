@@ -278,11 +278,11 @@ services:
       - ./resources/opentelemetry.properties:/app/opentelemetry.properties
       - ./resources/logging.properties:/app/logging.properties
 
-  ux-backend:
+  consumer-frontend:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../ux   
     image: ghcr.io/catenax-ng/product-knowledge/ux:0.6.4-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
-      - "8700:8080"  # http
+      - "3000:8080"  # http
