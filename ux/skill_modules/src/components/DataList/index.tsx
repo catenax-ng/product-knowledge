@@ -17,21 +17,25 @@ export const DataList = ({ search, id, data }: DataListProps) => {
     result.map((item, index) => ({
       field: item,
       flex: 2,
-      renderCell: ({ row }: { row: Entry }) => (
-        <Tooltip title={row[item].value}>
-          <span
-            style={{
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-               direction: 'rtl',
-              textOverflow: 'ellipsis',
-            }}
-          >
-            {row[item].value ? row[item].value : ''}
-          </span>
-        </Tooltip>
-      ),
-      hide: index > 5
+      renderCell: ({ row }: { row: Entry }) => {
+        let val = row[item] ? row[item].value : '';
+        val = val.replace('\\"', '"').replace('\\n', '\n');
+        return (
+          <Tooltip title={val}>
+            <span
+              style={{
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                direction: 'rtl',
+                textOverflow: 'ellipsis',
+              }}
+            >
+              {val}
+            </span>
+          </Tooltip>
+        );
+      },
+      hide: index > 5,
     }));
 
   const rowId = (row: GridRowModel): GridRowId => {
