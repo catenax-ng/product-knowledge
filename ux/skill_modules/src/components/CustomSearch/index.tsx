@@ -16,6 +16,7 @@ import {
   Marker,
   Rectangle,
   Pane,
+  Polyline,
 } from 'react-leaflet';
 import { LatLngTuple, LatLng } from 'leaflet';
 import { Node, getParent } from './components/Tree';
@@ -176,8 +177,35 @@ export const CustomSearch = ({ onSearch }: CustomSearchProps) => {
             parseFloat(row.lat.value),
             parseFloat(row.lon.value),
           ];
-          console.log(pos);
           poss.push(pos);
+        }
+        if (row.lat2 != undefined) {
+          const pos2: LatLngTuple = [
+            parseFloat(row.lat2.value),
+            parseFloat(row.lon2.value),
+          ];
+          poss.push(pos2);
+        }
+        if (row.lat3 != undefined) {
+          const pos3: LatLngTuple = [
+            parseFloat(row.lat3.value),
+            parseFloat(row.lon3.value),
+          ];
+          poss.push(pos3);
+        }
+        if (row.lat4 != undefined) {
+          const pos4: LatLngTuple = [
+            parseFloat(row.lat4.value),
+            parseFloat(row.lon4.value),
+          ];
+          poss.push(pos4);
+        }
+        if (row.lat5 != undefined) {
+          const pos5: LatLngTuple = [
+            parseFloat(row.lat5.value),
+            parseFloat(row.lon5.value),
+          ];
+          poss.push(pos5);
         }
       });
       onSearch(searchMaterial, 'sourcePart', result);
@@ -320,6 +348,7 @@ export const CustomSearch = ({ onSearch }: CustomSearchProps) => {
               {results.map((tuple, index) => {
                 return <Marker key={index.toString()} position={tuple} />;
               })}
+              <Polyline positions={results} />
             </MapContainer>
           </Box>
           <Button

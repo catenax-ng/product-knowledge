@@ -7,9 +7,10 @@ import React, { useEffect, useState } from 'react';
 
 interface OntologyHubProps {
   onOntologySelect: (vowlUrl: string) => void;
+  pageSize: number;
 }
 
-export function OntologyHub({ onOntologySelect }: OntologyHubProps) {
+export function OntologyHub({ onOntologySelect, pageSize }: OntologyHubProps) {
   const [ontologyList, setOntologyList] = useState<OntologyResult[]>([]);
 
   useEffect(() => {
@@ -54,7 +55,7 @@ export function OntologyHub({ onOntologySelect }: OntologyHubProps) {
   return (
     <Table
       title="Ontology Hub"
-      pageSize={5}
+      pageSize={pageSize}
       rowsCount={ontologyList.length}
       columns={columns}
       rows={ontologyList}

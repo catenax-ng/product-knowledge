@@ -14,7 +14,7 @@ interface DataListProps {
 export const DataList = ({ search, id, data }: DataListProps) => {
   const tableTitle = `Results for ${search}`;
   const resultToColumns = (result: string[]): Array<GridColDef> =>
-    result.map((item) => ({
+    result.map((item, index) => ({
       field: item,
       flex: 2,
       renderCell: ({ row }: { row: Entry }) => (
@@ -23,6 +23,7 @@ export const DataList = ({ search, id, data }: DataListProps) => {
             style={{
               whiteSpace: 'nowrap',
               overflow: 'hidden',
+               direction: 'rtl',
               textOverflow: 'ellipsis',
             }}
           >
@@ -30,6 +31,7 @@ export const DataList = ({ search, id, data }: DataListProps) => {
           </span>
         </Tooltip>
       ),
+      hide: index > 5
     }));
 
   const rowId = (row: GridRowModel): GridRowId => {
