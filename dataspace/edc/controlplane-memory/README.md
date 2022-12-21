@@ -63,6 +63,9 @@ The following is a list of configuraton objects and properties that you might se
 | /app/configuration.properties| edc.dataplane.selector.agentplane.sourcetypes           |           | urn:cx:Protocol:w3c:Http#SPARQL  | Source/Proxy Protocols   |  X    | 
 | /app/configuration.properties| edc.dataplane.selector.agentplane.destinationtypes           |           | HttpProxy  | Transfer Protocols          |      | 
 | /app/configuration.properties| edc.dataplane.selector.agentplane.properties           |           | { "publicApiUrl": "http://oem-data-plane:8185/api/public" } | Http transfer endpoint         |      | 
+| /app/configuration.properties| edc.receiver.http.auth-codes.agent          |           | X-Api-Key  | Additional callback receiver auth key (if the default one is already used)              |      | 
+| /app/configuration.properties| edc.receiver.http.auth-keys.agent           |           |   | Additional callback receiver auth key (if the default one is already used)    |     | 
+| /app/configuration.properties| edc.receiver.http.endpoints.agent          |           |  | Additional callback receiver endpoont (if the default one is already used)   |       | 
 | /app/logging.properties     |           |                                                            | Logging configuration | X    |
 | /app/opentelemetry.properties     |           |                                                            | Telemetry configuration | X    |
 

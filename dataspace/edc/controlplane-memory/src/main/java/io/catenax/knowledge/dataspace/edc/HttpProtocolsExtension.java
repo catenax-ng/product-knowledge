@@ -14,6 +14,7 @@ import org.eclipse.dataspaceconnector.spi.security.PrivateKeyResolver;
 import org.eclipse.dataspaceconnector.spi.security.Vault;
 import org.eclipse.dataspaceconnector.spi.system.ServiceExtension;
 import org.eclipse.dataspaceconnector.spi.system.ServiceExtensionContext;
+import org.eclipse.dataspaceconnector.spi.system.configuration.Config;
 import org.eclipse.dataspaceconnector.spi.transfer.edr.EndpointDataReferenceTransformerRegistry;
 import org.eclipse.dataspaceconnector.spi.transfer.flow.DataFlowManager;
 import org.eclipse.dataspaceconnector.spi.types.TypeManager;
@@ -39,43 +40,68 @@ import static org.eclipse.dataspaceconnector.transfer.dataplane.sync.DataPlaneTr
 import static org.eclipse.dataspaceconnector.transfer.dataplane.sync.DataPlaneTransferSyncConfig.TOKEN_SIGNER_PRIVATE_KEY_ALIAS;
 import static org.eclipse.dataspaceconnector.transfer.dataplane.sync.DataPlaneTransferSyncConfig.TOKEN_VERIFIER_PUBLIC_KEY_ALIAS;
 
+import org.eclipse.dataspaceconnector.spi.transfer.edr.EndpointDataReferenceReceiverRegistry;
+import dev.failsafe.RetryPolicy;
+import okhttp3.OkHttpClient;
+
+import java.util.Map;
+
+import org.eclipse.dataspaceconnector.receiver.http.HttpEndpointDataReferenceReceiver;
+
+/**
+ * Alternative variant of the DataPlaneTransferSyncExtension which
+ * annotates the proxy references (and hence the public data addresses) with 
+ * their source type (default: HttpData) in order to allow the construction
+ * of special sources and sinks which handle sub-protocols.
+ * Currently, this extension needs to be registered INSTEAD of the DataPlaneTransferSyncExtension
+ * although we may manage to formulate its as an addition in the near future.
+ */
 @Extension(value = HttpProtocolsExtension.NAME)
 public class HttpProtocolsExtension implements ServiceExtension {
     
     public static final String NAME = "Knowledge Agents Http Protocols Extension";
 
     @EdcSetting
-    private static final String DPF_SELECTOR_STRATEGY = "edc.transfer.client.selector.strategy";
-    private static final String API_CONTEXT_ALIAS = "validation";
+    protected static final String DPF_SELECTOR_STRATEGY = "edc.transfer.client.selector.strategy";
+    protected static final String API_CONTEXT_ALIAS = "validation";
     @Inject
-    private DataPlaneSelectorClient selectorClient;
+    protected DataPlaneSelectorClient selectorClient;
 
     @Inject
-    private ContractNegotiationStore contractNegotiationStore;
+    protected ContractNegotiationStore contractNegotiationStore;
 
     @Inject
-    private RemoteMessageDispatcherRegistry dispatcherRegistry;
+    protected RemoteMessageDispatcherRegistry dispatcherRegistry;
 
     @Inject
-    private WebService webService;
+    protected WebService webService;
 
     @Inject
-    private DataFlowManager dataFlowManager;
+    protected DataFlowManager dataFlowManager;
 
     @Inject
-    private EndpointDataReferenceTransformerRegistry transformerRegistry;
+    protected EndpointDataReferenceTransformerRegistry transformerRegistry;
 
     @Inject
-    private Vault vault;
+    protected Vault vault;
 
     @Inject
-    private Clock clock;
+    protected Clock clock;
 
     @Inject
-    private PrivateKeyResolver privateKeyResolver;
+    protected PrivateKeyResolver privateKeyResolver;
 
     @Inject
-    private DataEncrypter dataEncrypter;
+    protected DataEncrypter dataEncrypter;
+
+    @Inject
+    protected EndpointDataReferenceReceiverRegistry receiverRegistry;
+
+    @Inject
+    protected OkHttpClient httpClient;
+    @Inject
+    @SuppressWarnings("rawtypes")
+    protected RetryPolicy retryPolicy;
 
     @Override
     public String name() {
@@ -98,13 +124,33 @@ public class HttpProtocolsExtension implements ServiceExtension {
 
         var consumerProxyTransformer = new HttpTransferConsumerProxyTransformer(proxyResolver, proxyReferenceService);
         transformerRegistry.registerTransformer(consumerProxyTransformer);
+
+        Config receiverConfig=context.getConfig("edc.receiver.http");
+        Config endpoints=receiverConfig.getConfig("endpoints");
+        Config authKeys=receiverConfig.getConfig("auth-keys");
+        Config authCodes=receiverConfig.getConfig("auth-keys");
+        for(Map.Entry<String,String> endpoint : endpoints.getEntries().entrySet()) {
+            String name = endpoint.getKey();
+            String url = endpoint.getValue();
+            HttpEndpointDataReferenceReceiver.Builder builder=HttpEndpointDataReferenceReceiver.Builder.newInstance()
+                    .endpoint(url)
+                    .httpClient(httpClient)
+                    .typeManager(context.getTypeManager())
+                    .retryPolicy(retryPolicy)
+                    .monitor(context.getMonitor());
+            if(authKeys.hasKey(endpoint.getKey())) {
+                builder=builder.authHeader(authKeys.getString(endpoint.getKey()), authCodes.getString(endpoint.getKey(),""));
+            }
+            HttpEndpointDataReferenceReceiver receiver=builder.build();
+            receiverRegistry.registerReceiver(receiver);
+        }
     }
 
     /**
      * Creates service generating {@link org.eclipse.dataspaceconnector.spi.types.domain.edr.EndpointDataReference} corresponding
      * to a http proxy.
      */
-    private DataPlaneTransferProxyReferenceService createProxyReferenceService(ServiceExtensionContext context, PrivateKey privateKey, DataEncrypter encrypter) {
+    protected DataPlaneTransferProxyReferenceService createProxyReferenceService(ServiceExtensionContext context, PrivateKey privateKey, DataEncrypter encrypter) {
         var tokenValiditySeconds = context.getSetting(DATA_PROXY_TOKEN_VALIDITY_SECONDS, DEFAULT_DATA_PROXY_TOKEN_VALIDITY_SECONDS);
         var tokenGenerationService = new TokenGenerationServiceImpl(privateKey);
         return new DataPlaneTransferProxyReferenceServiceImpl(tokenGenerationService, context.getTypeManager(), tokenValiditySeconds, encrypter, clock);
@@ -113,7 +159,7 @@ public class HttpProtocolsExtension implements ServiceExtension {
     /**
      * Register the API controller that is used for validating tokens received in input of Data Plane API.
      */
-    private DataPlaneTokenValidationApiController createTokenValidationApiController(PublicKey publicKey, DataEncrypter encrypter, TypeManager typeManager) {
+    protected DataPlaneTokenValidationApiController createTokenValidationApiController(PublicKey publicKey, DataEncrypter encrypter, TypeManager typeManager) {
         var registry = new TokenValidationRulesRegistryImpl();
         registry.addRule(new ContractValidationRule(contractNegotiationStore, clock));
         registry.addRule(new ExpirationDateValidationRule(clock));
@@ -124,7 +170,7 @@ public class HttpProtocolsExtension implements ServiceExtension {
     /**
      * Build the private/public key pair used for signing/verifying token generated by this extension.
      */
-    private KeyPair createKeyPair(ServiceExtensionContext context) {
+    protected KeyPair createKeyPair(ServiceExtensionContext context) {
         var config = context.getConfig();
 
         var privateKeyAlias = config.getString(TOKEN_SIGNER_PRIVATE_KEY_ALIAS);

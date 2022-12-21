@@ -13,34 +13,48 @@ import org.jetbrains.annotations.NotNull;
 import static java.lang.String.format;
 import static org.eclipse.dataspaceconnector.transfer.dataplane.spi.DataPlaneTransferConstants.CONTRACT_ID;
 
+/**
+ * a consumer side proxy transformer which uses the "protocol" field in the EDR
+ * to determine the type of HttpAddress (and hence the type of proxies/sinks/sources to build)
+ * If registered alongside other transformers, it behaves well (unless the other transformer does not 
+ * care about the edr).
+ */
 public class HttpTransferConsumerProxyTransformer implements EndpointDataReferenceTransformer {
 
-    private final DataPlaneTransferProxyResolver proxyResolver;
-    private final DataPlaneTransferProxyReferenceService proxyReferenceCreator;
-    private java.lang.reflect.Field addressField=null;
+    protected final DataPlaneTransferProxyResolver proxyResolver;
+    protected final DataPlaneTransferProxyReferenceService proxyReferenceCreator;
 
+    /**
+     * create a new transformer
+     * @param proxyResolver
+     * @param proxyCreator
+     */
     public HttpTransferConsumerProxyTransformer(DataPlaneTransferProxyResolver proxyResolver, DataPlaneTransferProxyReferenceService proxyCreator) {
         this.proxyResolver = proxyResolver;
         this.proxyReferenceCreator = proxyCreator;
-        try {
-            addressField=DataAddress.Builder.class.getField("address");
-            addressField.trySetAccessible();
-        } catch(SecurityException e) {
-        } catch(NoSuchFieldException e) {
-        }
     }
 
+    /**
+     * access edr extension
+     * @param edr
+     * @return protocol part
+     */
     protected String getProtocol(@NotNull EndpointDataReference edr) {
         return edr.getProperties().get(HttpProtocolsConstants.PROTOCOL_ID);
     }
 
+    /**
+     * only responsble for extended edrs
+     */
     @Override
     public boolean canHandle(@NotNull EndpointDataReference edr) {
         String protocol=getProtocol(edr);
         return (protocol!=null && !protocol.isEmpty());
     }
 
-
+    /**
+     * create a new data reference from a given edr
+     */
     @Override
     public Result<EndpointDataReference> transform(@NotNull EndpointDataReference edr) {
         var address = toHttpDataAddress(edr);
@@ -61,7 +75,12 @@ public class HttpTransferConsumerProxyTransformer implements EndpointDataReferen
         return proxyReferenceCreator.createProxyReference(builder.build());
     }
 
-    private DataAddress toHttpDataAddress(EndpointDataReference edr) {
+    /**
+     * convert edr into a typed dataaddress
+     * @param edr
+     * @return dataddress
+     */
+    protected DataAddress toHttpDataAddress(EndpointDataReference edr) {
         DataAddress.Builder addressBuilder= HttpDataAddress.Builder.newInstance()
                 .baseUrl(edr.getEndpoint())
                 .authKey(edr.getAuthKey())
@@ -71,12 +90,6 @@ public class HttpTransferConsumerProxyTransformer implements EndpointDataReferen
                 .proxyMethod(Boolean.TRUE.toString())
                 .proxyQueryParams(Boolean.TRUE.toString())
                 .type(getProtocol(edr));
-        if(addressField!=null) {
-            try {
-                return (DataAddress) addressField.get(addressBuilder);
-            } catch(IllegalAccessException e) {
-            } 
-        } 
-        return addressBuilder.build();
+        return HttpDataAddressBuilder.build(addressBuilder);
     }
 }

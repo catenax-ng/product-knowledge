@@ -18,13 +18,16 @@ import java.util.HashMap;
 
 import static org.eclipse.dataspaceconnector.transfer.dataplane.spi.DataPlaneTransferConstants.CONTRACT_ID;
 
+/**
+ * service to create new proxy references from a given asset
+ */
 public class HttpTransferProxyReferenceService implements DataPlaneTransferProxyReferenceService {
 
-    private final TokenGenerationService tokenGenerationService;
-    private final TypeManager typeManager;
-    private final long tokenValiditySeconds;
-    private final DataEncrypter dataEncrypter;
-    private final Clock clock;
+    protected final TokenGenerationService tokenGenerationService;
+    protected final TypeManager typeManager;
+    protected final long tokenValiditySeconds;
+    protected final DataEncrypter dataEncrypter;
+    protected final Clock clock;
 
     public HttpTransferProxyReferenceService(TokenGenerationService tokenGenerationService, TypeManager typeManager, long tokenValiditySeconds, DataEncrypter dataEncrypter, Clock clock) {
         this.tokenGenerationService = tokenGenerationService;
@@ -36,7 +39,7 @@ public class HttpTransferProxyReferenceService implements DataPlaneTransferProxy
     
     /**
      * Creates an {@link EndpointDataReference} targeting public API of the provided Data Plane so that it is used
-     * as a proxy to query the data from the data source.
+     * as a proxy to query the data from the data source. Make sure that the protocol is taken over from the content address type
      */
     @Override
     public Result<EndpointDataReference> createProxyReference(@NotNull DataPlaneTransferProxyCreationRequest request) {

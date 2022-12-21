@@ -7,21 +7,21 @@ This folder hosts the [Agent (Data) Plane for the Eclipse Dataspace Connector (E
 The Agent Data Plane is a variant/extension to the Http (Proxy) Data Plane which
 - has a direct endpoint for submitting (federated) queries in the supported inference languages (currently: SparQL)
 - may negotiate further agreements for delegating sub-queries on the fly
-- implements special Sinks for extended sub-http protocols which deal/validate federated tokens.
+- implements special Sinks and Sources for dealing with specific endpoint protocols, such as SparQL-Over-Http.
 
 The Agent Data Plane currently relies on Apache Jena Fuseki as the SparQL engine.
 
 ### Security
 
 There are three types of exposed interfaces in the data plane:
-* Interaction with the tenant (API) is usually shielded with a data plane api key
-* Interaction with the control plane (Management) also uses the data plane api key
-* Interaction with other data planes (Transfer) uses the DAPS token mechanism
+* Interaction with the tenant (API) is usually shielded with a data plane api key (but may include oauth2 against a consumer-specific SSO)
+* Interaction with the control plane (Management, Callback) uses the data plane api key
+* Interaction with other data planes (Transfer) uses the "ordinary" synchronous transfer with the DAPS token mechanism
 
 There are three types of called interfaces in the data plane
 * Interaction with the control plane uses the control plane api key
 * Interaction with the persistent storage layer of the embedded SparQL engine uses filesystem mounting and permissions
-* Interaction with backend agents uses their individual security settings (in addition to the DAPS token attachements)
+* Interaction with backend agents uses their individual security settings (typically given in the private data address of the assets, in addition to the DAPS token attachements)
 
 ## Building
 
