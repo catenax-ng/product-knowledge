@@ -4,10 +4,10 @@ This folder hosts the [Agent (Data) Plane for the Eclipse Dataspace Connector (E
 
 ## Architecture
 
-The Agent Data Plane is a variant of the Http (Proxy) Data Plane which
+The Agent Data Plane is a variant/extension to the Http (Proxy) Data Plane which
 - has a direct endpoint for submitting (federated) queries in the supported inference languages (currently: SparQL)
 - may negotiate further agreements for delegating sub-queries on the fly
-- implements special Sinks for dealing/validating federated tokens.
+- implements special Sinks for extended sub-http protocols which deal/validate federated tokens.
 
 The Agent Data Plane currently relies on Apache Jena Fuseki as the SparQL engine.
 

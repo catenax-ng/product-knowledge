@@ -17,16 +17,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.catenax.knowledge.dataspace.edc</groupId>
-    <artifactId>agentplane-azure-vault</artifactId>
+    <artifactId>controlplane-memory</artifactId>
     <packaging>jar</packaging>
 
-    <name>Catena-X Knowledge Agents EDC Dataplane (Az-Vault)</name>
-    <description>Builds a Containerized Agent Dataplane with Agent/Triple Extensions And Accessing the Azure Vault to Store Intermediate Secrets.</description>
+    <name>Catena-X Knowledge Agents EDC Controlplane (Memory)</name>
+    <description>Builds a Patched Controlplane.</description>
     <url>http://catena-x.net/</url>
 
     <properties>
         <sonar.moduleKey>${project.groupId}_${project.artifactId}</sonar.moduleKey>
-        <symbolic.name>io.catenax.knowledge.agentplane-azure-vault</symbolic.name>
+        <symbolic.name>io.catenax.knowledge.controlplane-memory</symbolic.name>
         <finalName>${symbolic.name}-${project.version}</finalName>
     </properties>
 
@@ -76,10 +76,38 @@
                         </goals>
                         <configuration>
                             <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <excludeArtifactIds>data-plane-transfer-sync</excludeArtifactIds>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                 <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>shade</goal>
+                    </goals>
+                    <configuration>
+                        <artifactSet>
+                            <includes>
+                                <include>org.eclipse.dataspaceconnector:data-plane-transfer-sync</include>
+                            </includes>
+                        </artifactSet>
+                        <filters>
+                         <filter>
+                            <artifact>org.eclipse.dataspaceconnector:data-plane-transfer-sync</artifact>
+                            <excludes>
+                                <exclude>META-INF/services/*</exclude>
+                            </excludes>
+                         </filter>
+                        </filters>
+                    </configuration>
+                  </execution>
+                </executions>
+             </plugin>
              <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -91,42 +119,25 @@
         <!-- Base Data-Plane -->
         <dependency>
             <groupId>org.eclipse.tractusx.edc</groupId>
-            <artifactId>edc-dataplane-base</artifactId>
+            <artifactId>edc-controlplane-base</artifactId>
             <version>${tx.edc.version}</version>
             <exclusions>
-                <exclusion>
-                    <groupId>org.eclipse.dataspaceconnector</groupId>
-                    <artifactId>data-plane-s3</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.eclipse.dataspaceconnector</groupId>
-                    <artifactId>s3-core</artifactId>
-                </exclusion>
             </exclusions>
         </dependency>
 
-        <!-- Catalog SPI/SDK -->
         <dependency>
             <groupId>org.eclipse.dataspaceconnector</groupId>
-            <artifactId>catalog-spi</artifactId>
+            <artifactId>control-plane-core</artifactId>
             <version>${edc.version}</version>
         </dependency>
 
-        <!-- Contract SPI/SDK -->
         <dependency>
             <groupId>org.eclipse.dataspaceconnector</groupId>
-            <artifactId>contract-spi</artifactId>
+            <artifactId>jwt-core</artifactId>
             <version>${edc.version}</version>
         </dependency>
 
-        <!-- Transfer SPI/SDK -->
-        <dependency>
-            <groupId>org.eclipse.dataspaceconnector</groupId>
-            <artifactId>transfer-spi</artifactId>
-            <version>${edc.version}</version>
-        </dependency>
-
-        <!-- EDC Azure Vault -->
+        <!-- Vault -->
         <dependency>
             <groupId>org.eclipse.dataspaceconnector</groupId>
             <artifactId>azure-vault</artifactId>
@@ -143,118 +154,15 @@
             <version>${edc.version}</version>
         </dependency>
 
-        <!-- Use the right Azure SDK -->
+        <!-- Other -->
         <dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-identity</artifactId>
-            <exclusions>
-                <exclusion>
-                        <groupId>org.ow2.asm</groupId>
-                        <artifactId>asm</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-security-keyvault-secrets</artifactId>
         </dependency>
-        <dependency>
-            <groupId>dev.failsafe</groupId>
-            <artifactId>failsafe</artifactId>
-            <version>3.2.4</version>
-        </dependency>
-
-        <!-- use JWT inspection -->
-        <dependency>
-            <groupId>com.auth0</groupId>
-            <artifactId>java-jwt</artifactId>
-            <version>4.0.0</version>
-        </dependency>
-
-        <!-- Fuseki is a server-in-server -->
-        <dependency>
-            <groupId>jakarta.ws.rs</groupId>
-            <artifactId>jakarta.ws.rs-api</artifactId>
-            <version>3.1.0</version>
-        </dependency>
-
-        <!-- we need both version of the servlet api, one for jetty, one for jakarta -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>4.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty.toolchain</groupId>
-            <artifactId>jetty-jakarta-servlet-api</artifactId>
-            <version>5.0.2</version>
-        </dependency>
-
-        <!-- everything for SparQL protocol -->
-        <dependency>
-          <groupId>org.apache.jena</groupId>
-          <artifactId>jena-fuseki-core</artifactId>
-          <version>4.6.0</version>
-          <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>            
-                <exclusion>
-                  <groupId>org.slf4j</groupId>
-                  <artifactId>jcl-over-slf4j</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.eclipse.jetty</groupId>
-                    <artifactId>jetty-server</artifactId>
-                </exclusion>            
-                <exclusion>
-                    <groupId>org.eclipse.jetty</groupId>
-                    <artifactId>jetty-http</artifactId>
-                </exclusion>            
-                <exclusion>
-                    <groupId>org.eclipse.jetty</groupId>
-                    <artifactId>jetty-io</artifactId>
-                </exclusion>            
-                <exclusion>
-                    <groupId>org.eclipse.jetty</groupId>
-                    <artifactId>jetty-security</artifactId>
-                </exclusion>            
-                <exclusion>
-                    <groupId>org.eclipse.jetty</groupId>
-                    <artifactId>jetty-servlets</artifactId>
-                </exclusion>     
-                <exclusion>
-                    <groupId>org.eclipse.jetty</groupId>
-                    <artifactId>jetty-servlet</artifactId>
-                </exclusion>            
-                <exclusion>
-                    <groupId>org.eclipse.jetty</groupId>
-                    <artifactId>jetty-servlet</artifactId>
-                </exclusion>            
-          </exclusions>
-        </dependency>
-
-        <!-- maybe we need advanced storage capacities <dependency>
-          <groupId>org.apache.jena</groupId>
-          <artifactId>jena-fuseki-arq</artifactId>
-          <version>4.6.0</version>
-          <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>            
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion> 
-          </exclusions>
-        </dependency>-->
-
 
         <!-- Test -->
         <dependency>

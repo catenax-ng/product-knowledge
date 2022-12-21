@@ -25,7 +25,8 @@
        <com.azure.sdk.bom.version>1.2.2</com.azure.sdk.bom.version>
        <junit.version>5.9.0</junit.version>
        <mockito.version>4.6.1</mockito.version>
-       <edc.version>0.1.2-KA-SNAPSHOT</edc.version>
+       <tx.edc.version>0.1.4</tx.edc.version>
+       <edc.version>0.0.1-20221006-SNAPSHOT</edc.version>
        <rdf4j.version>4.2.0</rdf4j.version>
 
        <!-- Source characteristics -->
@@ -170,17 +171,21 @@
             <url>https://repo1.maven.org/maven2</url>
         </repository>
         <repository> <!-- To be able to use edc patch "releases" -->
-            <id>ka-edc-patches</id>
+            <id>ka-edc-snapshots</id>
             <url>https://maven.pkg.github.com/catenax/ka-product-edc</url>
         </repository>
         <repository> <!-- To be able to use edc patch "releases" -->
-            <id>ka-dsc-patches</id>
+            <id>ka-dsc-snapshots</id>
             <url>https://maven.pkg.github.com/catenax/ka-DataspaceConnector</url>
         </repository>
         <repository> <!-- webvowl -->
 		      <id>jitpack.io</id>
 		      <url>https://jitpack.io</url>
-	      </repository>
+	    </repository>
+        <repository> <!-- To be able to use edc patch "releases" -->
+            <id>edc</id>
+            <url>https://maven.pkg.github.com/catenax-ng/product-edc</url>
+        </repository>
         <repository> <!-- runtime meta-model -->
             <id>oss</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>

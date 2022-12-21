@@ -85,7 +85,7 @@ services:
   # Configures the oem control plane
   #
   oem-control-plane:
-    image: ghcr.io/catenax-ng/product-knowledge/edc-controlplane-memory:0.1.2-KA-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/controlplane-memory:0.7.1-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8090:8080" # API
@@ -172,7 +172,7 @@ services:
   # Configures the tiera control plane
   #
   tiera-control-plane:
-    image: ghcr.io/catenax-ng/product-knowledge/edc-controlplane-memory:0.1.2-KA-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/controlplane-memory:0.7.1-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8300:8080" # API
@@ -227,7 +227,7 @@ services:
   # Configures the consumer control plane
   #
   consumer-control-plane:
-    image: ghcr.io/catenax-ng/product-knowledge/edc-controlplane-memory:0.1.2-KA-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/controlplane-memory:0.7.1-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8500:8080" # API
@@ -254,8 +254,6 @@ services:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/edc/agentplane-azurevault
-      #dockerfile: ../product-knowledge/dataspace/edc/agentplane-azurevault/src/main/docker/Dockerfile.fuseki
-      #context: ../../spike/
       args:
         JAR: target/agentplane-azure-vault.jar
         LIB: target/lib

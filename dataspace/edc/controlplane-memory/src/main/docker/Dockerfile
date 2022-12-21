@@ -1,9 +1,3 @@
-##
-##  Docker Image of the EDC Agent Dataplane
-##  See copyright notice in the top folder
-##  See authors file in the top folder
-##  See license file in the top folder
-##
 #
 #  Copyright (c) 2022 Mercedes-Benz Tech Innovation GmbH
 #  Copyright (c) 2021,2022 Contributors to the Eclipse Foundation
@@ -41,8 +35,8 @@ ARG APP_UID=10100
 ARG APP_GID=30000
 
 RUN apk update && \
-    apk add openjdk11-jre-headless=11.0.17_p8-r3 --no-cache && \
-    rm -rf /var/cache/apk/*
+     apk add openjdk11-jre-headless=11.0.17_p8-r3 --no-cache && \
+     rm -rf /var/cache/apk/*
 
 RUN addgroup --gid "$APP_GID" --system "$APP_USER"
 
@@ -59,7 +53,7 @@ USER "$APP_USER"
 WORKDIR /app
 
 COPY --from=otel /tmp/opentelemetry-javaagent.jar .
-COPY ${JAR} edc-dataplane.jar
+COPY ${JAR} edc-controlplane.jar
 COPY ${LIB} ./lib/
 
 HEALTHCHECK NONE
@@ -73,4 +67,4 @@ CMD ["java", \
      "-Dotel.exporter.prometheus.port=9090", \
      "-Djava.security.edg=file:/dev/.urandom", \
      "-jar", \
-     "edc-dataplane.jar"]
+     "edc-controlplane.jar"]
