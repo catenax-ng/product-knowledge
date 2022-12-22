@@ -4,6 +4,7 @@ import static org.eclipse.dataspaceconnector.transfer.dataplane.spi.DataPlaneTra
 
 import jakarta.ws.rs.core.HttpHeaders;
 import org.eclipse.dataspaceconnector.spi.jwt.TokenGenerationService;
+import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
 import org.eclipse.dataspaceconnector.spi.result.Result;
 import org.eclipse.dataspaceconnector.spi.types.TypeManager;
 import org.eclipse.dataspaceconnector.spi.types.domain.edr.EndpointDataReference;
@@ -28,13 +29,15 @@ public class HttpTransferProxyReferenceService implements DataPlaneTransferProxy
     protected final long tokenValiditySeconds;
     protected final DataEncrypter dataEncrypter;
     protected final Clock clock;
+    protected final Monitor monitor;
 
-    public HttpTransferProxyReferenceService(TokenGenerationService tokenGenerationService, TypeManager typeManager, long tokenValiditySeconds, DataEncrypter dataEncrypter, Clock clock) {
+    public HttpTransferProxyReferenceService(Monitor monitor, TokenGenerationService tokenGenerationService, TypeManager typeManager, long tokenValiditySeconds, DataEncrypter dataEncrypter, Clock clock) {
         this.tokenGenerationService = tokenGenerationService;
         this.typeManager = typeManager;
         this.tokenValiditySeconds = tokenValiditySeconds;
         this.dataEncrypter = dataEncrypter;
         this.clock = clock;
+        this.monitor=monitor;
     }
     
     /**
@@ -51,10 +54,14 @@ public class HttpTransferProxyReferenceService implements DataPlaneTransferProxy
         }
 
         var props = new HashMap<>(request.getProperties());
-        props.put(CONTRACT_ID, request.getContractId());
+        var contractId=request.getContractId();
+        props.put(CONTRACT_ID, contractId);
         // CGJ expose the sub-protocol (standard: HttpData)
         // for clients to set the request type correctly
-        props.put(HttpProtocolsConstants.PROTOCOL_ID, request.getContentAddress().getType());
+        var sourceType=request.getContentAddress().getType();
+        props.put(HttpProtocolsConstants.PROTOCOL_ID, sourceType);
+
+        monitor.debug(String.format("Put source type %s into proxy reference for contract %s",sourceType,contractId));
 
         var builder = EndpointDataReference.Builder.newInstance()
                 .id(request.getId())

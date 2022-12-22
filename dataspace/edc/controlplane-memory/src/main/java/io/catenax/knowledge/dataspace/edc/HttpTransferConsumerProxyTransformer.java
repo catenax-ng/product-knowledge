@@ -1,5 +1,6 @@
 package io.catenax.knowledge.dataspace.edc;
 
+import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
 import org.eclipse.dataspaceconnector.spi.result.Result;
 import org.eclipse.dataspaceconnector.spi.transfer.edr.EndpointDataReferenceTransformer;
 import org.eclipse.dataspaceconnector.spi.types.domain.DataAddress;
@@ -23,15 +24,17 @@ public class HttpTransferConsumerProxyTransformer implements EndpointDataReferen
 
     protected final DataPlaneTransferProxyResolver proxyResolver;
     protected final DataPlaneTransferProxyReferenceService proxyReferenceCreator;
+    protected final Monitor monitor;
 
     /**
      * create a new transformer
      * @param proxyResolver
      * @param proxyCreator
      */
-    public HttpTransferConsumerProxyTransformer(DataPlaneTransferProxyResolver proxyResolver, DataPlaneTransferProxyReferenceService proxyCreator) {
+    public HttpTransferConsumerProxyTransformer(Monitor monitor, DataPlaneTransferProxyResolver proxyResolver, DataPlaneTransferProxyReferenceService proxyCreator) {
         this.proxyResolver = proxyResolver;
         this.proxyReferenceCreator = proxyCreator;
+        this.monitor=monitor;
     }
 
     /**
@@ -49,7 +52,9 @@ public class HttpTransferConsumerProxyTransformer implements EndpointDataReferen
     @Override
     public boolean canHandle(@NotNull EndpointDataReference edr) {
         String protocol=getProtocol(edr);
-        return (protocol!=null && !protocol.isEmpty());
+        var canHandle=(protocol!=null && !protocol.isEmpty());
+        monitor.debug(String.format("Checking handability of edr %s with protocol %s delivered %b",edr,protocol,canHandle));
+        return canHandle;
     }
 
     /**
@@ -58,6 +63,7 @@ public class HttpTransferConsumerProxyTransformer implements EndpointDataReferen
     @Override
     public Result<EndpointDataReference> transform(@NotNull EndpointDataReference edr) {
         var address = toHttpDataAddress(edr);
+        monitor.debug(String.format("Derived address %s with protocol %s for edr %s",address,address.getType(),edr));
         var contractId = edr.getProperties().get(CONTRACT_ID);
         if (contractId == null) {
             return Result.failure(format("Cannot transform endpoint data reference with id %s as contract id is missing", edr.getId()));

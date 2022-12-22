@@ -10,6 +10,7 @@ import org.eclipse.dataspaceconnector.runtime.metamodel.annotation.Inject;
 import org.eclipse.dataspaceconnector.spi.WebService;
 import org.eclipse.dataspaceconnector.spi.contract.negotiation.store.ContractNegotiationStore;
 import org.eclipse.dataspaceconnector.spi.message.RemoteMessageDispatcherRegistry;
+import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
 import org.eclipse.dataspaceconnector.spi.security.PrivateKeyResolver;
 import org.eclipse.dataspaceconnector.spi.security.Vault;
 import org.eclipse.dataspaceconnector.spi.system.ServiceExtension;
@@ -119,10 +120,10 @@ public class HttpProtocolsExtension implements ServiceExtension {
         webService.registerResource(API_CONTEXT_ALIAS, controller);
 
         var proxyReferenceService = createProxyReferenceService(context, keyPair.getPrivate(), dataEncrypter);
-        var flowController = new ProviderDataPlaneProxyDataFlowController(context.getConnectorId(), proxyResolver, dispatcherRegistry, proxyReferenceService);
+        var flowController = new HttpProviderProxyDataFlowController(context.getConnectorId(), proxyResolver, dispatcherRegistry, proxyReferenceService);
         dataFlowManager.register(flowController);
 
-        var consumerProxyTransformer = new HttpTransferConsumerProxyTransformer(proxyResolver, proxyReferenceService);
+        var consumerProxyTransformer = new HttpTransferConsumerProxyTransformer(context.getMonitor(),proxyResolver, proxyReferenceService);
         transformerRegistry.registerTransformer(consumerProxyTransformer);
 
         Config receiverConfig=context.getConfig("edc.receiver.http");
@@ -153,7 +154,7 @@ public class HttpProtocolsExtension implements ServiceExtension {
     protected DataPlaneTransferProxyReferenceService createProxyReferenceService(ServiceExtensionContext context, PrivateKey privateKey, DataEncrypter encrypter) {
         var tokenValiditySeconds = context.getSetting(DATA_PROXY_TOKEN_VALIDITY_SECONDS, DEFAULT_DATA_PROXY_TOKEN_VALIDITY_SECONDS);
         var tokenGenerationService = new TokenGenerationServiceImpl(privateKey);
-        return new DataPlaneTransferProxyReferenceServiceImpl(tokenGenerationService, context.getTypeManager(), tokenValiditySeconds, encrypter, clock);
+        return new HttpTransferProxyReferenceService(context.getMonitor(),tokenGenerationService, context.getTypeManager(), tokenValiditySeconds, encrypter, clock);
     }
 
     /**

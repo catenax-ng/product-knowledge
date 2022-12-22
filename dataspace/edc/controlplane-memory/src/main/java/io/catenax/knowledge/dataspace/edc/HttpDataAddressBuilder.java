@@ -1,6 +1,5 @@
 package io.catenax.knowledge.dataspace.edc;
 
-import java.lang.reflect.Field;
 import org.eclipse.dataspaceconnector.spi.types.domain.DataAddress;
 
 /**
@@ -14,7 +13,7 @@ public class HttpDataAddressBuilder {
     /** open it up */
     static {
         try {
-            addressField=DataAddress.Builder.class.getField("address");
+            addressField=DataAddress.Builder.class.getDeclaredField("address");
             addressField.trySetAccessible();
         } catch(SecurityException e) {
         } catch(NoSuchFieldException e) {
