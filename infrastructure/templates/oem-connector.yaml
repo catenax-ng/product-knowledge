@@ -166,7 +166,7 @@ spec:
         seccompProfile:
             type: RuntimeDefault
       containers:
-        - image: {{ .Values.edc.repo }}/edc-controlplane-memory:{{ .Values.edc.version }}
+        - image: ghcr.io/catenax-ng/product-knowledge/controlplane-memory:{{.Values.version}}
           imagePullPolicy: Always
           name: oem-control-plane
           securityContext:
@@ -338,7 +338,7 @@ spec:
         seccompProfile:
             type: RuntimeDefault
       containers:
-        - image: {{ .Values.edc.repo }}/edc-controlplane-memory:{{ .Values.edc.version }}
+        - image: ghcr.io/catenax-ng/product-knowledge/controlplane-memory:{{.Values.version}}
           imagePullPolicy: Always
           name: oem-control-plane2
           securityContext:
