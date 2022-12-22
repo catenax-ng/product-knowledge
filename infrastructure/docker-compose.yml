@@ -62,7 +62,7 @@ services:
       # If you want to enable multiple ontologies, simply list them with spaces, like ONTOP_ONTOLOGY_FILE: /input/cx-ontology.xml /input/cx-ontology2.xml 
       ONTOP_ONTOLOGY_FILE: /input/cx-ontology.xml /input/cx-ontology.ttl /input/cx-ontology.ttl
       # If you want to enable multiple mappings, simply list them with spaces, like ONTOP_MAPPING_FILE: /input/dtc.obda /input/loadspectrum.obda 
-      ONTOP_MAPPING_FILE: /input/dtc.obda /input/hi.obda/input/trace.obda
+      ONTOP_MAPPING_FILE: /input/dtc.obda /input/hi.obda /input/trace.obda
       # If you want to enable multiple settings, simply list them with spaces, like ONTOP_PROPERTIES_FILE: /input/settings.properties /input/settings.dremio.properties
       ONTOP_PROPERTIES_FILE: /input/settings.local.properties /input/settings.dremio.properties /input/settings.dremio.properties
       # If you want to enable multiple portals, simply list them with spaces, like ONTOP_PORTAL_FILE: /input/portal.toml /input/portal2.toml 
@@ -82,7 +82,7 @@ services:
       - ./oem/resources/logback.xml:/opt/ontop/log/logback.xml
 
   #
-  # Configures the oem control plane
+  # Configures the oem control plane (provider)
   #
   oem-control-plane:
     image: ghcr.io/catenax-ng/product-knowledge/controlplane-memory:0.7.1-SNAPSHOT
@@ -102,6 +102,28 @@ services:
       JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
     volumes:
       - ./oem/resources/controlplane.properties:/app/configuration.properties
+      - ./resources/opentelemetry.properties:/app/opentelemetry.properties
+      - ./resources/logging.properties:/app/logging.properties
+
+  #
+  # Configures the oem control plane (consumer)
+  #
+  oem-control-plane2:
+    image: ghcr.io/catenax-ng/product-knowledge/controlplane-memory:0.7.1-SNAPSHOT
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
+    ports:
+      - "8096:8080" # API
+      - "8097:8181" # PUBLIC
+      - "8098:8182" # VALIDATION
+      - "8099:8282" # IDS
+      - "4047:4040" # DEBUG
+    environment:
+      # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
+      EDC_FS_CONFIG: /app/configuration.properties      
+      # Uncomment to enable for debugging, please choose a different port for each endpoint
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
+    volumes:
+      - ./oem/resources/controlplane2.properties:/app/configuration.properties
       - ./resources/opentelemetry.properties:/app/opentelemetry.properties
       - ./resources/logging.properties:/app/logging.properties
 

@@ -63,7 +63,7 @@ export GITHUB_TOKEN=
 
 ### Prepare
 
-A suitable [conda](https://conda.io/) environment named `tempo` can be created
+A suitable [conda](https://conda.io/) environment named `knowledgeagents` can be created
 and activated with:
 
 ```

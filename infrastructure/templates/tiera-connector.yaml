@@ -30,8 +30,6 @@ data:
     edc.ids.description=Eclipse Dataspace Connector for Knowledge Agents Supplier
     # whatever that is needed
     edc.ids.endpoint=https://{{ .Values.ingress.host }}/tiera-edc-control/{{ .Values.dataspace.bpnTier1 }}/api/v1/ids
-    # This is checked as the audience for incoming ids messages/tokens
-    edc.ids.endpoint.audience=https://{{ .Values.ingress.host }}/tiera-edc-control/{{ .Values.dataspace.bpnTier1 }}/api/v1/ids/data
     # This is send as the audience to outgoing ids messages/tokens
     ids.webhook.address=https://{{ .Values.ingress.host }}/tiera-edc-control/{{ .Values.dataspace.bpnTier1Tier }}
     edc.ids.validation.referringconnector=false
@@ -43,6 +41,7 @@ data:
     edc.oauth.client.id={{ .Values.dataspace.dapsClientIdTier1 }}
     edc.oauth.private.key.alias={{ .Values.dataspace.privateKeyAliasTier1 }}
     edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
+    edc.oauth.endpoint.audience=https://{{ .Values.ingress.host }}/tiera-edc-control/{{ .Values.dataspace.bpnTier1 }}/api/v1/ids/data
 
     edc.data.encryption.algorithm=NONE
       # edc.data.encryption.keys.alias
