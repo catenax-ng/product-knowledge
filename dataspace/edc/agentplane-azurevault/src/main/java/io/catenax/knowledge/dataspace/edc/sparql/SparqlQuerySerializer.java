@@ -101,6 +101,7 @@ public class SparqlQuerySerializer implements QueryVisitor {
         this.out.decIndent(2);
     }
 
+    @Override
     public void visitDescribeResultForm(Query query) {
         this.out.print("DESCRIBE ");
         if (query.isQueryResultStar()) {

@@ -139,8 +139,8 @@ public class HttpProtocolsExtension implements ServiceExtension {
                     .typeManager(context.getTypeManager())
                     .retryPolicy(retryPolicy)
                     .monitor(context.getMonitor());
-            if(authKeys.hasKey(endpoint.getKey())) {
-                builder=builder.authHeader(authKeys.getString(endpoint.getKey()), authCodes.getString(endpoint.getKey(),""));
+            if(authKeys.hasKey(name)) {
+                builder=builder.authHeader(authKeys.getString(name), authCodes.getString(name,""));
             }
             HttpEndpointDataReferenceReceiver receiver=builder.build();
             receiverRegistry.registerReceiver(receiver);
