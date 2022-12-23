@@ -22,7 +22,7 @@ ReactDOM.render(
   <React.StrictMode>
     <SharedCssBaseline />
     <SharedThemeProvider>
-      <Router basename={process.env.REACT_APP_FOLDER ?? "/"}>
+      <Router basename={process.env.REACT_APP_FOLDER ?? '/'}>
         <Routes>
           <Route element={<App />}>
             <Route path="/" element={<Navigate replace to="/home" />} />

@@ -1,5 +1,5 @@
 import { AssetView } from '@catenax-ng/skill-modules';
-import { Box } from "@mui/material";
+import { Box } from '@mui/material';
 
 export default function Dataspace() {
   return (

@@ -415,6 +415,7 @@ export class EnvironmentConnectorFactory implements IConnectorFactory {
       process.env.REACT_APP_SKILL_CONNECTOR_CONTROL != '' &&
       process.env.REACT_APP_SKILL_CONNECTOR_DATA != ''
     ) {
+      console.log('Remote Connector');
       this.environmentConnector = new RemoteConnector(
         process.env.REACT_APP_SKILL_CONNECTOR_CONTROL,
         process.env.REACT_APP_SKILL_CONNECTOR_DATA,
@@ -422,6 +423,7 @@ export class EnvironmentConnectorFactory implements IConnectorFactory {
         process.env.REACT_APP_SKILL_PROXY
       );
     } else {
+      console.log('Mock Connector');
       this.environmentConnector = new MockConnector();
     }
   }

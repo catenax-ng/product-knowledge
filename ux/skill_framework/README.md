@@ -54,14 +54,12 @@ should be joined/extended in order to attach to any outgoing request to that dom
 ```typescript
 import { getRealmMappingFactory } from '@catenax-ng/skill_framework';
 
-
 var additionalHeaders = getRealmMappingFactory()
   .create()
   .getHeaderAnnotation('http://www.example.com');
 ```
 
 The default realm mapping factory will use a realm mapping implementation which takes a header key from the `REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY` environment variable and the header value from the `REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_VALUE` variable. If the environment variables are unset, the header object will be empty.
-
 
 ## Interacting with the Dataspace Connector
 
