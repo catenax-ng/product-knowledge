@@ -6,7 +6,7 @@ export interface ChipData {
   label: string;
 }
 
-interface ChipListProps {
+export interface ChipListProps {
   chipData: ChipData[];
   onChipDelete: (deleteChip: ChipData) => void;
 }
