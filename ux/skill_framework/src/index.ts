@@ -11,9 +11,6 @@ import createHttpsProxyAgent from 'https-proxy-agent';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 export { getOntologyHubFactory, OntologyResult } from './ontology_hub';
 
-// issue a module loading message
-console.log('skill_framework/index: Loading');
-
 /*
  * a connector factory
  */
@@ -284,7 +281,7 @@ export interface DataAddressProperties {
  * Implementation of a mock connector
  */
 class MockConnector implements IConnector {
-  public listAssets(providerUrl?: string): Promise<Catalogue> {
+  public listAssets(): Promise<Catalogue> {
     return Promise.resolve({
       id: 'catenax',
       contractOffers: [
@@ -452,7 +449,7 @@ class EnvironmentRealmMappingFactory implements IRealmMappingFactory {
 }
 
 class EnvironmentRealmMapping implements IRealmMapping {
-  public getHeaderAnnotation(targetDomain: string) {
+  public getHeaderAnnotation() {
     const headers: any = {};
     if (process.env.REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY != undefined) {
       headers[process.env.REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY ?? ''] =
@@ -505,8 +502,6 @@ interface Value {
   value: string;
 }
 
-interface SparqlParameters {}
-
 /**
  * Implementation of a remote connector
  */
@@ -540,10 +535,6 @@ class RemoteConnector implements IConnector {
     const finalproviderUrl = providerUrl ?? this.url;
     const idsUrl = `${finalproviderUrl}/api/v1/ids/data`;
 
-    console.log(
-      `Listing Assets from Remote Connector ${finalproviderUrl} starts at ${start}.`
-    );
-
     const finalUrl = `${this.url}/data/catalog?providerUrl=${idsUrl}`;
 
     const fetchOpts: RequestInit = {
@@ -557,6 +548,7 @@ class RemoteConnector implements IConnector {
 
     const elapsed = new Date().getTime() - start;
 
+    // eslint-disable-next-line no-console
     console.log(
       `Listing Assets from Remote Connector finished after ${elapsed} milliseconds.`
     );
@@ -599,8 +591,6 @@ class RemoteConnector implements IConnector {
 
     const finalUrl = this.data_url + skillUrl + parametersContainer;
 
-    console.log(finalUrl);
-
     const fetchOpts: RequestInit = {
       method: 'GET',
       headers: this.realmMapping.getHeaderAnnotation(this.url),
@@ -612,6 +602,7 @@ class RemoteConnector implements IConnector {
 
     const elapsed = new Date().getTime() - start;
 
+    // eslint-disable-next-line no-console
     console.log(
       `Result from Remote Connector finished after ${elapsed} milliseconds.`
     );
