@@ -6,18 +6,15 @@
 //
 
 import { getConnectorFactory } from '../src/index';
-import { getOntologyHubFactory } from '../src/ontology_hub';
-import { jest } from '@jest/globals';
 
 /**
- * test:get assets
+ * test: get assets
  */
-describe('testing skill framework', () => {
+describe('testing list assets', () => {
   jest.setTimeout(15000);
   test('assets should be returned', async () => {
     const connector = getConnectorFactory().create();
-    console.log(`Got connector ${connector}.`);
-    const catalogue = await connector.listAssets();
+    const catalogue = await connector.listAssets('myurl');
     expect(catalogue.id).toBeDefined();
     console.log(`Found catalog ${catalogue.id}.`);
     expect(catalogue.contractOffers).toBeDefined();
@@ -42,51 +39,42 @@ describe('testing skill framework', () => {
 });
 
 /**
- * test: get lifetime
+ * test: Execute Functions
  */
-describe('testing skill framework', () => {
+describe('Testing Execute Function', () => {
   jest.setTimeout(60000);
-  test('lifetime should be returned ', async () => {
-    const connector = getConnectorFactory().create();
+  const connector = getConnectorFactory().create();
 
-    console.log(`Got connector ${connector}.`);
+  test('Lifetime Search', async () => {
+    const vin = 'WVA8984323420333';
+    const troubleCode = 'P0745';
 
-    const queryVariables = { vin: 'WVA8984323420333', troubleCode: 'P0745' };
+    const queryVariables = { vin: vin, troubleCode: troubleCode };
 
     const result = await connector.execute('Lifetime', queryVariables);
 
-    result.results.bindings.map(function (entry) {
-      console.log(
-        'Result as parsed JSON \n' +
-          '  vin:  ' +
-          entry.vin.value +
-          '\n' +
-          '  troubleCode:  ' +
-          entry.troubleCode.value +
-          '\n' +
-          '  partProg: ' +
-          entry.partProg.value +
-          '\n' +
-          '  distance: ' +
-          entry.distance.value +
-          '\n' +
-          '  time: ' +
-          entry.time.value
-      );
+    result.results.bindings.map((entry) => {
+      expect(entry).toHaveProperty('vin');
+      expect(entry).toHaveProperty('troubleCode');
+      expect(entry).toHaveProperty('partProg');
+      expect(entry).toHaveProperty('distance');
+      expect(entry).toHaveProperty('time');
+      expect(entry.vin).toHaveProperty('value', vin);
+      expect(entry.troubleCode).toHaveProperty('value', troubleCode);
+      Object.keys(entry).forEach((key) => {
+        expect(entry[key]).toEqual(
+          expect.objectContaining({
+            type: expect.any(String),
+            value: expect.any(String),
+          })
+        );
+      });
+      expect(entry.time).toHaveProperty('datatype');
+      expect(entry.distance).toHaveProperty('datatype');
     });
   });
-});
 
-/**
- * test: Search
- */
-describe('testing skill framework', () => {
-  jest.setTimeout(60000);
-  test('Troublecode search results should be returned', async () => {
-    const connector = getConnectorFactory().create();
-
-    console.log(`Got connector ${connector}.`);
-
+  test('Trouble Code Search with one parameter', async () => {
     const queryVariables = {
       vin: 'WBAAL31029PZ00001',
       problemArea: 'Getriebe',
@@ -102,18 +90,8 @@ describe('testing skill framework', () => {
       });
     });
   });
-});
 
-/**
- * test: Search 2
- */
-describe('testing skill framework', () => {
-  jest.setTimeout(60000);
-  test('Troublecode search results should be returned for multiple parameters', async () => {
-    const connector = getConnectorFactory().create();
-
-    console.log(`Got connector ${connector}.`);
-
+  test('Trouble Code Search with multiple parameter', async () => {
     const queryVariables = [
       { vin: 'WBAAL31029PZ00001', problemArea: 'Getriebe', minVersion: 1 },
       { vin: 'WBAAL31029PZ00001', problemArea: 'Getriebe', minVersion: 1 },
@@ -127,21 +105,5 @@ describe('testing skill framework', () => {
         console.log(entry[elem].value);
       });
     });
-  });
-});
-
-/**
- * test: get Ontologies URLs from github
- */
-describe('testing skill framework', () => {
-  jest.setTimeout(60000);
-  test('get Ontologie URLs from github ', async () => {
-    //const result = await getOntologies();
-
-    const ontologyHub = getOntologyHubFactory().create();
-    console.log(ontologyHub.constructor.name);
-    const result = await ontologyHub.getOntologies();
-    expect(result.length).toBeGreaterThan(0);
-    console.log(result);
   });
 });
