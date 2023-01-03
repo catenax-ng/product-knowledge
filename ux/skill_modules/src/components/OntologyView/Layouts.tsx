@@ -1,4 +1,9 @@
-export const Layouts: Record<string, any> = {
+type JSONValue = string | number | boolean | JSONObject | JSONArray;
+type JSONArray = Array<JSONValue>;
+interface JSONObject {
+  [x: string]: JSONValue;
+}
+export const Layouts: Record<string, JSONObject> = {
   random: {
     name: 'random',
     animate: true,

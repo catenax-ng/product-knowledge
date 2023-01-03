@@ -1,9 +1,9 @@
 import { Input } from 'cx-portal-shared-components';
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 
 interface VinInputProps {
   value: string;
-  onChange: (e: any) => void;
+  onChange: (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
   disabled: boolean;
 }
 export default function VinInput({ value, onChange, disabled }: VinInputProps) {

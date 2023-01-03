@@ -16,8 +16,8 @@ export const CustomSearch = ({ onSearch }: CustomSearchProps) => {
   return (
     <Paper elevation={3} sx={{ padding: 3, minWidth: 640 }}>
       <SkillSelect
-        value={selectedSkill}
-        onChange={(e) => setSelectedSkill(e)}
+        selectedSkill={selectedSkill}
+        onChange={(skill) => setSelectedSkill(skill)}
       />
       {selectedSkill == 'TroubleCodeSearch' && (
         <TroubleCodeSearch onSearch={onSearch} />

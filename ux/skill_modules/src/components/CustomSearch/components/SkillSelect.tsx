@@ -14,16 +14,11 @@ const getSkillChildren = (node: Node | null) =>
   node === null ? skills : node.children;
 
 interface SkillSelectProps {
-  value: string;
+  selectedSkill: string;
   onChange: (value: string) => void;
-  disabled?: boolean;
 }
 
-export const SkillSelect = ({
-  value,
-  onChange,
-  disabled,
-}: SkillSelectProps) => {
+export const SkillSelect = ({ selectedSkill, onChange }: SkillSelectProps) => {
   const [skillList, setSkillList] = useState<Node[]>(skills);
 
   useEffect(() => {
@@ -32,13 +27,17 @@ export const SkillSelect = ({
 
   return (
     <FormControl fullWidth sx={{ mb: 3 }}>
-      <TreeSelect
-        getChildren={getSkillChildren}
-        getParent={getParent}
-        renderInput={(params) => <TextField {...params} label="Skill" />}
-        value={skillList[0].children!.find((node) => node.value == value)}
-        onChange={(event, value, reason, details) => onChange(value!.value)}
-      />
+      {skillList[0].children && (
+        <TreeSelect
+          getChildren={getSkillChildren}
+          getParent={getParent}
+          renderInput={(params) => <TextField {...params} label="Skill" />}
+          value={skillList[0].children.find(
+            (node) => node.value == selectedSkill
+          )}
+          onChange={(_, value) => onChange(value ? value.value : '')}
+        />
+      )}
     </FormControl>
   );
 };

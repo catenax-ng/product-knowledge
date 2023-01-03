@@ -45,7 +45,7 @@ const materials = [
     new Node('FRP'),
   ]),
 ];
-const allMaterials = materials.flatMap((parent) => parent.children!);
+const allMaterials = materials.flatMap((parent) => parent.children);
 const getMaterialChildren = (node: Node | null) =>
   node === null ? materials : node.children;
 
@@ -66,7 +66,7 @@ export default function MaterialIncidentSearch({
     setSearchMaterial(value);
   };
 
-  const hasNoValue = (item: any) => item.length === 0;
+  const hasNoValue = (item: string | number[]) => item.length === 0;
 
   useEffect(() => {
     const isDisabled = hasNoValue(searchMaterial) || hasNoValue(geoFence);
@@ -83,10 +83,8 @@ export default function MaterialIncidentSearch({
       latmax: geoFence[2],
       lonmax: geoFence[3],
     };
-    console.log(queryVars);
     const connector = getConnectorFactory().create();
     connector.execute('MaterialIncidentSearch', queryVars).then((result) => {
-      console.log(result);
       const poss: LatLngTuple[] = [];
       result.results.bindings.forEach((row) => {
         if (row.lat != undefined) {
@@ -137,8 +135,8 @@ export default function MaterialIncidentSearch({
         setDrag(e.latlng);
       },
       mouseup: (e) => {
-        const latdiff = e.latlng.lat - drag!.lat;
-        const londiff = e.latlng.lng - drag!.lng;
+        const latdiff = drag ? e.latlng.lat - drag.lat : e.latlng.lat;
+        const londiff = drag ? e.latlng.lng - drag.lng : e.latlng.lng;
         setGeoFence([
           geoFence[0] + latdiff,
           geoFence[1] + londiff,
@@ -168,9 +166,11 @@ export default function MaterialIncidentSearch({
           getChildren={getMaterialChildren}
           getParent={getParent}
           renderInput={(params) => <TextField {...params} label="Material" />}
-          value={allMaterials.find((node) => node.value == searchMaterial)}
-          onChange={(event, value, reason, details) =>
-            onMaterialSearchChange(value!.value)
+          value={allMaterials.find(
+            (node) => node && node.value == searchMaterial
+          )}
+          onChange={(event, value) =>
+            onMaterialSearchChange(value ? value.value : '')
           }
           disabled={loading}
         />
