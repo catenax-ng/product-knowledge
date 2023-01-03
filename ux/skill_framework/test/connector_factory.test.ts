@@ -6,6 +6,7 @@
 //
 
 import { getConnectorFactory } from '../src/index';
+import { expect, jest, test, describe } from '@jest/globals';
 
 /**
  * test: get assets
@@ -14,7 +15,7 @@ describe('testing list assets', () => {
   jest.setTimeout(15000);
   test('assets should be returned', async () => {
     const connector = getConnectorFactory().create();
-    const catalogue = await connector.listAssets('myurl');
+    const catalogue = await connector.listAssets();
     expect(catalogue.id).toBeDefined();
     console.log(`Found catalog ${catalogue.id}.`);
     expect(catalogue.contractOffers).toBeDefined();
