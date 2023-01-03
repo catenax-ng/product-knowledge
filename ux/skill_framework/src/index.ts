@@ -28,7 +28,7 @@ export interface IConnector {
    */
 
   listAssets: (providerUrl?: string) => Promise<Catalogue>;
-  execute: (skill: string, queryVariables: any) => Promise<BindingSet>;
+  execute: (skill: string, queryVariables: JSONElement) => Promise<BindingSet>;
 }
 
 /**
@@ -94,6 +94,13 @@ export interface ContractOffer {
    */
   asset: Asset;
 }
+type JSONElement = JSONObject | JSONArray;
+type JSONArray = Array<JSONValue>;
+type JSONValue = string | number | boolean | JSONElement;
+
+interface JSONObject {
+  [x: string]: JSONValue;
+}
 
 /**
  * a connector policy
@@ -108,7 +115,7 @@ interface Policy {
   /** a set of obligations */
   obligations: Condition[];
   /** this is extensible */
-  extensibleProperties: any;
+  extensibleProperties?: JSONObject;
   /** policies may inherit from each other, this would be the uid of the parent policy if so */
   inheritsFrom?: string | null;
   /** the assigner of the policy */
@@ -196,6 +203,7 @@ export interface Action {
 /**
  * TODO need to define constraints
  */
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface Constraint {}
 
 /**
@@ -431,9 +439,12 @@ export class EnvironmentConnectorFactory implements IConnectorFactory {
 interface IRealmMappingFactory {
   create: () => IRealmMapping;
 }
+interface HeaderRecord {
+  [key: string]: string;
+}
 
 interface IRealmMapping {
-  getHeaderAnnotation: (targetDomain: string) => any;
+  getHeaderAnnotation: (targetDomain: string) => HeaderRecord;
 }
 
 class EnvironmentRealmMappingFactory implements IRealmMappingFactory {
@@ -450,10 +461,10 @@ class EnvironmentRealmMappingFactory implements IRealmMappingFactory {
 
 class EnvironmentRealmMapping implements IRealmMapping {
   public getHeaderAnnotation() {
-    const headers: any = {};
+    const headers: HeaderRecord = {};
     if (process.env.REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY != undefined) {
-      headers[process.env.REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY ?? ''] =
-        process.env.REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_VALUE;
+      headers[process.env.REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY] =
+        process.env.REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_VALUE ?? '';
     }
     return headers;
   }
@@ -566,13 +577,16 @@ class RemoteConnector implements IConnector {
   }
 
   //Execute Query
-  public async execute(skill: string, queryVariable: any): Promise<BindingSet> {
+  public async execute(
+    skill: string,
+    queryVariable: JSONElement
+  ): Promise<BindingSet> {
     const start = new Date().getTime();
 
     const skillUrl = '/api/agent?asset=urn:cx:Skill:consumer:' + skill;
     let parameters = '';
     let parametersContainer = '';
-    let queryVariables: any[] = [];
+    let queryVariables: JSONArray = [];
 
     if (Array.isArray(queryVariable)) {
       queryVariables = queryVariable;

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 //
 // Test logic for the skill framework
 // See copyright notice in the top folder
