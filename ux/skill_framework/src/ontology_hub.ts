@@ -1,3 +1,10 @@
+//
+// Ontology-specific logic of the skill framework
+// See copyright notice in the top folder
+// See authors file in the top folder
+// See license file in the top folder
+//
+
 import fetch from 'node-fetch';
 import createHttpsProxyAgent from 'https-proxy-agent';
 import { HttpsProxyAgent } from 'https-proxy-agent';

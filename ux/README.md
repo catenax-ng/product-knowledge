@@ -1,11 +1,12 @@
-# Catena-X Knowledge Agents (Hey Catena!) User Experience Sources
+## Catena-X Knowledge Agents  
+# User Experience Sources (CX KA UX)
 
 This is a folder linking all the codes related to the Hey Catena! (CX Knowledge Agents) User Experience product.
 
 It consists of 
 - [Skill Framework](skill_framework) library to build Apps that interact with Hey Catena! and keep conversational state.
-- [Knowledge Explorer](knowledge_explorer) a set of UI components which allow an ad-hoc and speech-oriented interaction with Hey Catena! The Knowledge Explorer uses the Skill Framework.
-- [Skill Gym](skill_gym) a set of UI components which allow to define and test new skills for Hey Catena! The Skill Gym uses the Skill Framework and the Knowledge Explorer
+- [Skill Modules](skill_modules) a set of UI components which allow an ad-hoc and speech-oriented interaction with Hey Catena! The Skill Modules use the Skill Framework.
+- [Skill Gym](skill_gym) an application which allows to define and test new skills for Hey Catena! The Skill Gym uses the Skill Framework and the Skill Modules
 
 ## Notice
 
@@ -46,6 +47,13 @@ npm run build:skillm
 ```
 
 The server not always notices this change automatically, in order to show the recent changes. If this happens just reload the page again.
+
+Running the unit tests can be done by invoking the following command. When no environment variables are set, the tests will run against the default (mock) backend. If you want to run the tests against a real backend (development or integration), please have a look at the [Skill Framework Documentation](skill_framework/Readme.md#interacting-with-the-dataspace-connector) 
+
+```
+npm run test
+```
+
 
 ## Code Quality
 
