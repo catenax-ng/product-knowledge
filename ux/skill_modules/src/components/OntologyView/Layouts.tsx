@@ -1,9 +1,5 @@
-type JSONValue = string | number | boolean | JSONObject | JSONArray;
-type JSONArray = Array<JSONValue>;
-interface JSONObject {
-  [x: string]: JSONValue;
-}
-export const Layouts: Record<string, JSONObject> = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const Layouts: Record<string, any> = {
   random: {
     name: 'random',
     animate: true,
