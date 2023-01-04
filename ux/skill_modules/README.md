@@ -33,7 +33,8 @@ Some components need a special configuration, when using them in the consuming a
 
 The Custom Search component uses the leaflet library, which needs the leaflet css offered by the Custom Search. To make the styles work import it in your file as followed:
 
-    import '@catenax-ng/skill-modules/dist/index.css'
+    import '@catenax-ng/skill-modules/dist/styles/leaflet.css'
+
 
 ## Notice
 
