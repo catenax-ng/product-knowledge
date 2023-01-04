@@ -135,8 +135,8 @@ export default function MaterialIncidentSearch({
         setDrag(e.latlng);
       },
       mouseup: (e) => {
-        const latdiff = drag ? e.latlng.lat - drag.lat : e.latlng.lat;
-        const londiff = drag ? e.latlng.lng - drag.lng : e.latlng.lng;
+        const latdiff = e.latlng.lat - drag!.lat;
+        const londiff = e.latlng.lng - drag!.lng;
         setGeoFence([
           geoFence[0] + latdiff,
           geoFence[1] + londiff,
