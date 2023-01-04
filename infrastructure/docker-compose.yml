@@ -75,6 +75,7 @@ services:
       - ./oem/resources/dtc.obda:/input/dtc.obda
       - ./oem/resources/hi.obda:/input/hi.obda
       - ./oem/resources/trace.obda:/input/trace.obda
+      - ./oem/resources/quality.obda:/input/quality.obda
       - ./oem/resources/settings.local.properties:/input/settings.local.properties
       - ./oem/resources/settings.dremio.properties:/input/settings.dremio.properties
       - ./oem/resources/settings.druid.properties:/input/settings.druid.properties

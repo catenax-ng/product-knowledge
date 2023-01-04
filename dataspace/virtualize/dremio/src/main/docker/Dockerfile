@@ -49,6 +49,16 @@ USER dremio
 WORKDIR /opt/dremio
 
 COPY resources/dtc_codes.json /opt/dremio/local/
+COPY resources/quality_skill_data/DTC_PossibleCause_Error.xlsx /opt/dremio/local/
+COPY resources/quality_skill_data/DTC.xlsx /opt/dremio/local/
+COPY resources/quality_skill_data/Error_ErrorEffect.xlsx /opt/dremio/local/
+COPY resources/quality_skill_data/Error_ErrorSolution.xlsx /opt/dremio/local/
+COPY resources/quality_skill_data/Error.xlsx /opt/dremio/local/
+COPY resources/quality_skill_data/ErrorEffect.xlsx /opt/dremio/local/
+COPY resources/quality_skill_data/ErrorSolution.xlsx /opt/dremio/local/
+COPY resources/quality_skill_data/Part_PossibleCause.xlsx /opt/dremio/local/
+COPY resources/quality_skill_data/Part.xlsx /opt/dremio/local/
+COPY resources/quality_skill_data/PossibleCause.xlsx /opt/dremio/local/
 
 ENV DREMIO_HOME /opt/dremio
 ENV DREMIO_PID_DIR /var/run/dremio
