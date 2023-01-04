@@ -53,7 +53,7 @@ export default function Home() {
       >
         <a href="/dataspace">Data (Sources/Assets)</a> are catalogued as
         Knowledge Graphs following shared{' '}
-        <a href="/ontology">Domain Vocabularies/Ontologies</a>.
+        <a href="/vocabulary">Domain Vocabularies/Ontologies</a>.
       </Typography>
       <Typography
         sx={{
