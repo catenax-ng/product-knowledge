@@ -7,7 +7,6 @@ import external from 'rollup-plugin-peer-deps-external';
 import dts from 'rollup-plugin-dts';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import pkg from './package.json';
-import css from 'rollup-plugin-import-css';
 import copy from 'rollup-plugin-copy';
 
 export default [
@@ -30,7 +29,6 @@ export default [
       external(),
       resolve(),
       commonjs(),
-      css(),
       sass({}),
       terser(),
       copy({
