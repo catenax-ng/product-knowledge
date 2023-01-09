@@ -1,6 +1,6 @@
 # Catena-X Knowledge Agents (Hey Catena!) Provisioning Agent
 
-The Provisioning Agent will bind typical (relational/structued) backend data sources such as Databases and Datalakes in a secure manner 
+The Provisioning Agent will bind typical (relational/structured) backend data sources such as Databases and Datalakes in a secure manner 
 to the dataspace.
 
 This is a folder providing the FOSS implementation of a Hey Catena! Agent (=SparQL Endpoint) for provider-side deployment.

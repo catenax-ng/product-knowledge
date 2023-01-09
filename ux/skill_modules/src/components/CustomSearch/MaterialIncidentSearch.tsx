@@ -135,18 +135,19 @@ export default function MaterialIncidentSearch({
         setDrag(e.latlng);
       },
       mouseup: (e) => {
-        const latdiff = drag ? e.latlng.lat - drag.lat : e.latlng.lat;
-        const londiff = drag ? e.latlng.lng - drag.lng : e.latlng.lng;
-        setGeoFence([
-          geoFence[0] + latdiff,
-          geoFence[1] + londiff,
-          geoFence[2] + latdiff,
-          geoFence[3] + londiff,
-        ]);
-        setDrag(undefined);
-        //let map=useMap();
-        const center = map.getCenter();
-        map.panTo([center.lat + latdiff, center.lng + londiff]);
+        if (drag) {
+          const latdiff = e.latlng.lat - drag.lat;
+          const londiff = e.latlng.lng - drag.lng;
+          setGeoFence([
+            geoFence[0] + latdiff,
+            geoFence[1] + londiff,
+            geoFence[2] + latdiff,
+            geoFence[3] + londiff,
+          ]);
+          setDrag(undefined);
+          const center = map.getCenter();
+          map.panTo([center.lat + latdiff, center.lng + londiff]);
+        }
       },
     });
     return (

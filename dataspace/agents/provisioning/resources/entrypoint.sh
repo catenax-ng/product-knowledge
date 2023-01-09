@@ -33,6 +33,7 @@ ONTOLOGY='^.*(ttl|xml)$'
 MAPPING='^.*(obda)$'
 PROPERTIES='^.*(properties)$'
 CORS="--cors-allowed-origins=${ONTOP_CORS_ALLOWED_ORIGINS}"
+LAZY="--lazy"
 
 # Loop over the endpoints driven by the ports
 for ENDPOINT_NUMBER in "${!ONTOP_PORT[@]}"
@@ -83,12 +84,12 @@ do
             echo "Invoking last process";
             java -cp ./lib/*:./jdbc/* -Dlogback.configurationFile="/opt/ontop/log/logback.xml" -Dlogging.config="/opt/ontop/log/logback.xml" \
               it.unibz.inf.ontop.cli.Ontop endpoint ${ONTOLOGY_FILE} ${MAPPING_FILE} \
-              ${PROPERTIES_FILE} ${PORTAL_FILE} ${DEV_MODE} ${PORT} ${CORS};
+              ${PROPERTIES_FILE} ${PORTAL_FILE} ${DEV_MODE} ${PORT} ${CORS} ${LAZY};
           else 
             echo "Invoking intermediate process";
             java -cp ./lib/*:./jdbc/* -Dlogback.configurationFile="/opt/ontop/log/logback.xml" -Dlogging.config="/opt/ontop/log/logback.xml" \
               it.unibz.inf.ontop.cli.Ontop endpoint ${ONTOLOGY_FILE} ${MAPPING_FILE} \
-              ${PROPERTIES_FILE} ${PORTAL_FILE} ${DEV_MODE} ${PORT} ${CORS}&
+              ${PROPERTIES_FILE} ${PORTAL_FILE} ${DEV_MODE} ${PORT} ${CORS} ${LAZY}&
           fi
 
         else

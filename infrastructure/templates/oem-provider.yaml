@@ -114,20 +114,20 @@ spec:
             - name: JAVA_TOOL_OPTIONS
               value: "" #"-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090"
             - name: ONTOP_ONTOLOGY_FILE 
-              value: "/input/cx-ontology.ttl /input/cx-ontology.ttl /input/cx-ontology.xml"
+              value: "/opt/ontop/input/cx-ontology.ttl /opt/ontop/input/cx-ontology.ttl /opt/ontop/input/cx-ontology.xml"
             - name: ONTOP_MAPPING_FILE 
-              value: "/input/hi.obda /input/trace.obda /input/dtc.obda"
+              value: "/opt/ontop/input/hi.obda /opt/ontop/input/trace.obda /opt/ontop/input/dtc.obda"
             - name: ONTOP_PROPERTIES_FILE
-              value: "/input/settings.dremio.properties /input/settings.dremio.properties /input/settings.local.properties"
+              value: "/opt/ontop/input/settings.dremio.properties /opt/ontop/input/settings.dremio.properties /opt/ontop/input/settings.local.properties"
             - name: ONTOP_PORTAL_FILE
-              value: "/input/portal.toml /input/portal.toml /input/portal.toml"
+              value: "/opt/ontop/input/portal.toml /opt/ontop/input/portal.toml /opt/ontop/input/portal.toml"
             - name: ONTOP_DEV_MODE
               value: "false false false"
             - name: ONTOP_PORT
               value: "8081 8082 8080"
           volumeMounts:
             - name: oem-provider-agent-config
-              mountPath: /input
+              mountPath: /opt/ontop/input
       volumes:
         - name: oem-provider-agent-config
           configMap:

@@ -25,6 +25,17 @@ Edit `src/index.tsx` and add one of the available modules like "AssetView" to it
       document.getElementById('app')
     );
 
+## Components Notice
+
+Some components need a special configuration, when using them in the consuming application.
+
+### Custom Search
+
+The Custom Search component uses the leaflet library, which needs the leaflet css offered by the Custom Search. To make the styles work import it in your file as followed:
+
+    import '@catenax-ng/skill-modules/dist/styles/leaflet.css'
+
+
 ## Notice
 
 - see copyright notice in the top folder

@@ -3,6 +3,7 @@ import { Typography } from 'cx-portal-shared-components';
 import { Grid } from '@mui/material';
 import { useState } from 'react';
 import { BindingSet } from '@catenax-ng/skill-framework/dist/src';
+import '@catenax-ng/skill-modules/dist/styles/leaflet.css'
 
 export default function Search() {
   const [searchResult, setSearchResult] = useState<BindingSet>();
