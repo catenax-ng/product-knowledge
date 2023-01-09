@@ -21,6 +21,8 @@ data:
 {{- .Files.Get "oem/resources/hi.obda" | nindent 4 }}
   trace.obda: |-
 {{- .Files.Get "oem/resources/trace.obda" | nindent 4 }}
+  quality.obda: |-
+{{- .Files.Get "oem/resources/quality.obda" | nindent 4 }}
   cx-ontology.xml: |-
 {{- .Files.Get "resources/cx-ontology.xml" | nindent 4 }}
   cx-ontology.ttl: |-
@@ -75,6 +77,7 @@ spec:
             - containerPort: 8080 # DTC
             - containerPort: 8081 # HI
             - containerPort: 8082 # TRACE
+            - containerPort: 8083 # QUALITY
           resources:
            requests:
             cpu: 0.5
@@ -114,17 +117,17 @@ spec:
             - name: JAVA_TOOL_OPTIONS
               value: "" #"-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090"
             - name: ONTOP_ONTOLOGY_FILE 
-              value: "/opt/ontop/input/cx-ontology.ttl /opt/ontop/input/cx-ontology.ttl /opt/ontop/input/cx-ontology.xml"
+              value: "/opt/ontop/input/cx-ontology.ttl /opt/ontop/input/cx-ontology.ttl /opt/ontop/input/cx-ontology.ttl /opt/ontop/input/cx-ontology.xml"
             - name: ONTOP_MAPPING_FILE 
-              value: "/opt/ontop/input/hi.obda /opt/ontop/input/trace.obda /opt/ontop/input/dtc.obda"
+              value: "/opt/ontop/input/hi.obda /opt/ontop/input/trace.obda /opt/ontop/input/quality.obda /opt/ontop/input/dtc.obda"
             - name: ONTOP_PROPERTIES_FILE
-              value: "/opt/ontop/input/settings.dremio.properties /opt/ontop/input/settings.dremio.properties /opt/ontop/input/settings.local.properties"
+              value: "/opt/ontop/input/settings.dremio.properties /opt/ontop/input/settings.dremio.properties  /opt/ontop/input/settings.dremio.properties /opt/ontop/input/settings.local.properties"
             - name: ONTOP_PORTAL_FILE
-              value: "/opt/ontop/input/portal.toml /opt/ontop/input/portal.toml /opt/ontop/input/portal.toml"
+              value: "/opt/ontop/input/portal.toml /opt/ontop/input/portal.toml /opt/ontop/input/portal.toml /opt/ontop/input/portal.toml"
             - name: ONTOP_DEV_MODE
-              value: "false false false"
+              value: "false false false false"
             - name: ONTOP_PORT
-              value: "8081 8082 8080"
+              value: "8081 8082 8083 8080"
           volumeMounts:
             - name: oem-provider-agent-config
               mountPath: /opt/ontop/input
@@ -150,6 +153,9 @@ spec:
     - port: 8082
       name: traceability
       targetPort: 8082
+    - port: 8083
+      name: quality
+      targetPort: 8083
   selector:
     app: oem-provider-agent
 ---
@@ -205,6 +211,13 @@ spec:
                 name: oem-provider-agent
                 port:
                   number: 8082
+          - path: /oem-provider-agent4(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: oem-provider-agent
+                port:
+                  number: 8083
 ---
 apiVersion: v1
 data:
