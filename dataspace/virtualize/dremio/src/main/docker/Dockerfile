@@ -14,10 +14,13 @@
 # limitations under the License.
 #
 
-FROM openjdk:8-jdk as run
+FROM ubuntu:jammy
 
 LABEL org.label-schema.name='dremio/dremio-oss'
 LABEL org.label-schema.description='Dremio OSS.'
+
+RUN apt -y update && apt upgrade -y
+RUN apt-get install openjdk-8-jdk wget -y
 
 ARG DOWNLOAD_URL=https://download.dremio.com/community-server/22.1.1-202208230402290397-a7010f28/dremio-community-22.1.1-202208230402290397-a7010f28.tar.gz
 RUN \
@@ -49,6 +52,14 @@ USER dremio
 WORKDIR /opt/dremio
 
 COPY resources/dtc_codes.json /opt/dremio/local/
+COPY resources/arrow-gandiva-8.0.0_arm64.jar /opt/dremio/data/
+
+RUN if [ "${TARGETPLATFORM}"=="linux/arm64" ]; \
+    then \
+      mv /opt/dremio/data/arrow-gandiva-8.0.0_arm64.jar /opt/dremio/jars/3rdparty/arrow-gandiva-8.0.0-20220615173757-4698c877a6-dremio.jar; \
+    else \
+      rm /opt/dremio/data/arrow-gandiva-8.0.0_arm64.jar; \ 
+    fi 
 
 ENV DREMIO_HOME /opt/dremio
 ENV DREMIO_PID_DIR /var/run/dremio

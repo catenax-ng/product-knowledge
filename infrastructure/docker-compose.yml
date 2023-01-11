@@ -32,7 +32,7 @@ services:
       dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/virtualize/dremio
     image: ghcr.io/catenax-ng/product-knowledge/virtualizer-dremio:0.7.2-SNAPSHOT
-    platform: linux/amd64
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "9047:9047" # http
       - "31010:31010" # jdbc
