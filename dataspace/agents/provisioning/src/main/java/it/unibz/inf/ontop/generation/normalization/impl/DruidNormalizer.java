@@ -17,20 +17,25 @@ import it.unibz.inf.ontop.utils.VariableGenerator;
  */
 public class DruidNormalizer implements DialectExtraNormalizer {
 
-    private final TypingNullsDialectExtraNormalizer typingNullNormalizer;
+    private final TypingNullsInUnionDialectExtraNormalizer typingNullInUnionNormalizer;
+    private final TypingNullsInConstructionNodeDialectExtraNormalizer typingNullInConstructionNormalizer;
     private final SubQueryFromComplexJoinExtraNormalizer complexJoinNormalizer;
 
     @Inject
-    public DruidNormalizer(TypingNullsDialectExtraNormalizer typingNullNormalizer,
-                              SubQueryFromComplexJoinExtraNormalizer complexJoinNormalizer) {
-        this.typingNullNormalizer = typingNullNormalizer;
-        this.complexJoinNormalizer = complexJoinNormalizer;
+    public DruidNormalizer(TypingNullsInUnionDialectExtraNormalizer typingNullInUnionNormalizer,
+                           TypingNullsInConstructionNodeDialectExtraNormalizer typingNullInConstructionNormalizer,
+                           SubQueryFromComplexJoinExtraNormalizer complexJoinNormalizer) {
+       this.typingNullInUnionNormalizer = typingNullInUnionNormalizer;
+       this.typingNullInConstructionNormalizer = typingNullInConstructionNormalizer;
+       this.complexJoinNormalizer = complexJoinNormalizer;
     }
 
     @Override
     public IQTree transform(IQTree tree, VariableGenerator variableGenerator) {
         return complexJoinNormalizer.transform(
-                typingNullNormalizer.transform(tree, variableGenerator),
-                variableGenerator);
+            typingNullInConstructionNormalizer.transform(
+            typingNullInUnionNormalizer.transform(tree, variableGenerator),
+            variableGenerator),
+            variableGenerator);
     }
 }
