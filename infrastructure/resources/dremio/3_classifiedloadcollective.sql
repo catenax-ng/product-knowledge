@@ -22,6 +22,8 @@ CREATE TABLE $scratch.CX_RUL_LoadCollective AS (
     ) JSON
     WHERE JSON.json IS NOT NULL
 );
+ALTER TABLE $scratch.CX_RUL_LoadCollective ADD PRIMARY KEY (catenaXId,targetComponentId,metadata_projectDescription);
+
 DROP VIEW "HI_TEST_OEM".CX_RUL_LoadCollective;
 CREATE VIEW "HI_TEST_OEM".CX_RUL_LoadCollective AS 
 SELECT catenaXId,
@@ -38,3 +40,4 @@ SELECT catenaXId,
        body_counts,
        body_classes
   FROM $scratch.CX_RUL_LoadCollective;
+

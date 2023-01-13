@@ -1,5 +1,5 @@
 //
-// Application to provide REST APIs as SPARQL services
+// Extensions to Ontop VKP
 // See copyright notice in the top folder
 // See authors file in the top folder
 // See license file in the top folder

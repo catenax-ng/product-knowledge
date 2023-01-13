@@ -11,6 +11,9 @@ FROM ontop/ontop:5.0.0
 # Switch to root
 USER root
 
+# In case you need a debuggable image, please uncomment
+#RUN rm -rf /opt/java/openjdk && apt-get -y upgrade && apt-get -y update && apt-get -y install openjdk-11-jdk
+
 #start script needs special root treatmnt
 COPY resources/entrypoint.sh /opt/ontop/.
 

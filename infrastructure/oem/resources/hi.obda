@@ -20,7 +20,7 @@ source		SELECT "catenaXId", "localIdentifiers_partInstanceId", "partTypeInformat
 
 mappingId	vehicleparts
 target		uuid:{childCatenaXId} cx:isPartOf uuid:{catenaXId} .
-source		SELECT "catenaXId", "childCatenaXId" FROM "CX_RUL_AssemblyPartRelationship" vehicleparts
+source		SELECT "catenaXId", "childCatenaXId" FROM "HI_TEST_OEM"."CX_RUL_AssemblyPartRelationship" vehicleparts
 
 mappingId   loadspectrum
 target      uuid:{catenaXId}/{targetComponentId}/{metadata_componentDescription} rdf:type cx:LoadSpectrum; cx:loadSpectrumId {metadata_projectDescription}^^xsd:string; cx:loadSpectrumName {header_countingValue}^^xsd:string; cx:loadSpectrumDescription {metadata_componentDescription}^^xsd:string; rdf:type cx:VehicleCurrentState; cx:vehicleOperatingHours {metadata_status_operatingTime}^^xsd:int; cx:vehicleCurrentStateDateTime {metadata_status_date}^^xsd:dateTime; cx:vehicleCurrentMileage {metadata_status_mileage}^^xsd:int; cx:loadSpectrumType {header_channels}^^xsd:string; cx:hasLoadSpectrumValues uuid:{catenaXId}/{targetComponentId}/{metadata_componentDescription}/0.
@@ -28,7 +28,7 @@ source		SELECT "catenaXId", "targetComponentId", "metadata_projectDescription", 
 
 mappingId   partLoadSpectrum
 target		uuid:{targetComponentId} cx:hasLoadSpectrum uuid:{catenaXId}/{targetComponentId}/{metadata_componentDescription} .
-source		SELECT "catenaXId", "targetComponentId", "metadata_componentDescription" FROM "CX_RUL_LoadCollective" loadspectrum
+source		SELECT "catenaXId", "targetComponentId", "metadata_componentDescription" FROM "HI_TEST_OEM"."CX_RUL_LoadCollective" loadspectrum
 
 mappingId   loadspectrumChannel
 target      uuid:{catenaXId}/{targetComponentId}/{metadata_componentDescription}/0 rdf:type cx:LoadSpectrumValues; cx:loadSpectrumChannelIndex {body_classes}^^xsd:string; cx:loadSpectrumCountingUnit {header_countingUnit}^^xsd:string; cx:loadSpectrumCountingMethod {header_countingMethod}^^xsd:string; cx:loadSpectrumChannelValues {body_counts}^^xsd:string.

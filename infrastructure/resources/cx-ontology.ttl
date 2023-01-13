@@ -296,9 +296,56 @@ cx:Owner a owl:Class ;
     skos:prefLabel "Besitzer"@de,
         "Owner"@en .
 
-cx:Part rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty cx:hasLoadSpectrum ;
-            owl:someValuesFrom cx:LoadSpectrum ] .
+cx:Part a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Bauteil_> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cx:isPartOf ;
+            owl:someValuesFrom cx:Part ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:partProductionDateTime ;
+            owl:someValuesFrom xsd:dateTime ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:partName ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:isProducedBy ;
+            owl:someValuesFrom cx:PartManufacturer ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:isPartOf ;
+            owl:someValuesFrom cx:Vehicle ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:partName ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:partProductionDate ;
+            owl:someValuesFrom xsd:date ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:partId ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:partSeries ;
+            owl:someValuesFrom xsd:string ],
+        cx:Product ;
+    skos:altLabel "Komponente"@de,
+        "Teil"@de,
+        "component"@en ;
+    skos:definition "A part in the automotive context is a component of a vehicle, such as the engine, brakes, or transmission."@en ;
+    skos:note "non-physical object"@en ;
+    skos:prefLabel "Bauteil"@de,
+        "Part"@en .
+
+cx:AssemblyGroup a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Baugruppe> ;
+    rdfs:subClassOf cx:Part ;
+    skos:definition "A part that is composed of other parts."@en ;
+    skos:prefLabel "Baugruppe"@de,
+        "Assembly Group"@en .
+        
+cx:AssemblyGroup rdfs:subClassOf [ a owl:Restriction ;
+    owl:onProperty cx:hasLoadSpectrum ;
+    owl:someValuesFrom cx:LoadSpectrum ] .
 
 cx:VehicleCommunicationInformation a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_information_ontology.ttl> ;
@@ -307,10 +354,6 @@ cx:VehicleCommunicationInformation a owl:Class ;
             owl:someValuesFrom xsd:boolean ],
         cx:VehicleInformation ;
     skos:prefLabel "Vehicle Communication Information"@en .
-
-cx:VehicleComponent rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty cx:hasLoadSpectrum ;
-            owl:someValuesFrom cx:LoadSpectrum ] .
 
 cx:VehicleSafetyInformation a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_information_ontology.ttl> ;
@@ -678,12 +721,6 @@ cx:isMadeBy a owl:ObjectProperty ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_ontology.ttl> ;
     rdfs:range cx:VehicleManufacturer ;
     skos:prefLabel "is made by"@en .
-
-cx:isPartOf a owl:ObjectProperty ;
-    rdfs:domain cx:FleetVehicle ;
-    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_ontology.ttl> ;
-    rdfs:range cx:Fleet ;
-    skos:prefLabel "is part of"@en .
 
 cx:isSoldAt a owl:ObjectProperty ;
     rdfs:domain cx:Vehicle ;
@@ -2045,10 +2082,7 @@ cx:fuelConsumptionHighway a owl:DatatypeProperty ;
         "Fuel Consumption Highway"@en .
 
 cx:hasLoadSpectrum a owl:ObjectProperty ;
-    rdfs:domain cx:Part,
-        cx:Vehicle,
-        cx:VehicleComponent,
-        cx:VehicleCurrentState ;
+    rdfs:domain cx:AssemblyGroup;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/load_spectrum_ontology.ttl> ;
     rdfs:range cx:LoadSpectrum ;
     skos:prefLabel "has load spectrum"@en .
@@ -2256,9 +2290,7 @@ cx:VehicleBatteryInformation a owl:Class ;
 
 cx:VehicleCurrentState a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_information_ontology.ttl> ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty cx:hasLoadSpectrum ;
-            owl:someValuesFrom cx:LoadSpectrum ],
+    rdfs:subClassOf 
         [ a owl:Restriction ;
             owl:onProperty cx:vehicleCurrentMileage ;
             owl:someValuesFrom xsd:integer ],
@@ -4173,109 +4205,7 @@ cx:vehicleModelVariant a owl:DatatypeProperty ;
 cx:Vehicle a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_ontology.ttl> ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Motor_vehicle> ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty cx:vehicleTypeCode ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:vehicleIdentificationNumber ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:vehicleDescription ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:drivesOn ;
-            owl:someValuesFrom cx:Road ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:vehicleTypeCode ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:isMadeBy ;
-            owl:someValuesFrom cx:VehicleManufacturer ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:vehicleIdentificationNumber ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:transports ;
-            owl:someValuesFrom cx:Passenger ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:vehicleTypeCode ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:vehicleIdentificationNumber ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:vehicleIdentificationNumber ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:vehicleIdentificationNumber ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:vehicleIdentificationNumber ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:vehicleIdentificationNumber ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:drivesOn ;
-            owl:someValuesFrom cx:Road ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:vehicleIdentificationNumber ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:vehicleIdentificationNumber ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:vehicleIdentificationNumber ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:vehicleIdentificationNumber ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:vehicleIdentificationNumber ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:vehicleConfiguration ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:vehicleSpecialUsage ;
-            owl:someValuesFrom xsd:string ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:hasEuroCarSegment ;
-            owl:someValuesFrom cx:EuroCarSegment ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:hasLoadSpectrum ;
-            owl:someValuesFrom cx:LoadSpectrum ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:hasVehicleDimensions ;
-            owl:someValuesFrom cx:VehicleDimensionInformation ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:isVariantOf ;
-            owl:someValuesFrom cx:VehicleModel ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:isSoldAt ;
-            owl:someValuesFrom cx:VehicleDealer ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:hasBodyStyle ;
-            owl:someValuesFrom cx:BodyStyle ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:hasVehicleBrand ;
-            owl:someValuesFrom cx:VehicleBrand ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:hasVehicleManufacturer ;
-            owl:someValuesFrom cx:VehicleManufacturer ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:hasTransmissionType ;
-            owl:someValuesFrom cx:TransmissionType ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:hasVehicleCargo ;
-            owl:someValuesFrom cx:VehicleCargoInformation ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:hasVehicleModel ;
-            owl:someValuesFrom cx:VehicleModel ],
-        [ a owl:Restriction ;
-            owl:onProperty cx:hasWorldManufacturerIdentifier ;
-            owl:someValuesFrom cx:WorldManufacturerIdentifier ],
-        cx:FinalProduct ;
+    rdfs:subClassOf cx:Part ;
     skos:altLabel "KFZ"@de,
         "Kraftfahrzeug"@de,
         "MFZ"@de,
@@ -4291,6 +4221,12 @@ cx:Vehicle a owl:Class ;
     skos:note "we include only motorised road vehicles, i.e. we exclude: aircrafts, watercraft, railway vehicle, human powered vehicles"@en ;
     skos:prefLabel "Fahrzeug"@de,
         "Vehicle"@en .
+
+cx:isPartOf a owl:ObjectProperty ;
+    rdfs:domain cx:AssemblyGroup ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range cx:Vehicle ;
+    skos:prefLabel "is part of"@en .
 
 cx:VehicleInformation a owl:Class ;
     rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_information_ontology.ttl> ;

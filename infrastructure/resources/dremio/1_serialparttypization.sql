@@ -30,6 +30,7 @@ CREATE TABLE $scratch.CX_RUL_SerialPartTypization_Vehicle AS
         partTypeInformation_nameAtManufacturer
     FROM "HI_TEST_OEM".CX_RUL_SerialPartTypization
     WHERE localIdentifiers_van IS NOT NULL;
+ALTER TABLE $scratch.CX_RUL_SerialPartTypization_Vehicle ADD PRIMARY KEY (catenaXId);
 
 DROP TABLE $scratch.CX_RUL_SerialPartTypization_Component;
 CREATE TABLE $scratch.CX_RUL_SerialPartTypization_Component AS

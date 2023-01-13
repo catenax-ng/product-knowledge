@@ -95,6 +95,20 @@ To build all compilation artifacts (including tests), you can invoke
 ./mvnw -s settings.xml install
 ```
 
+### Package and Deploy
+
+To bundle all deployment artifacts for a particular platform (currently supported: linux/amd64 and linux/arm64), you can invoke
+
+```console
+./mvnw -s settings.xml package -Pwith-docker-image -Dplatform=linux/amd64
+```
+
+To deploy the artifacts, choose
+
+```console
+./mvnw -s settings.xml deploy -Pwith-docker-image -Dplatform=linux/amd64
+```
+
 ## Containerizing, Registering and Deployment
 
 Knowledge Agents builds all containers using docker technology. The docker buildfiles are part of the respective source code repositories.
