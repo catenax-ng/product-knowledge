@@ -8,7 +8,7 @@ data:
 {{- .Files.Get "oem/resources/settings.local.properties" | nindent 4 }}
   settings.dremio.properties: |-
     # Use the Data Virtualization backend
-    jdbc.url=jdbc\:dremio\:direct\=oem-backend\:31010;schema=HI_TEST_OEM
+    jdbc.url=jdbc\:dremio\:direct\=oem-backend\:31010
     jdbc.driver=com.dremio.jdbc.Driver
     jdbc.user={{ .Values.security.backendUser }}
     jdbc.password={{ .Values.security.backendPwd }}
@@ -121,7 +121,7 @@ spec:
             - name: ONTOP_MAPPING_FILE 
               value: "/opt/ontop/input/hi.obda /opt/ontop/input/trace.obda /opt/ontop/input/quality.obda /opt/ontop/input/dtc.obda"
             - name: ONTOP_PROPERTIES_FILE
-              value: "/opt/ontop/input/settings.dremio.properties /opt/ontop/input/settings.dremio.properties  /opt/ontop/input/settings.dremio.properties /opt/ontop/input/settings.local.properties"
+              value: "/opt/ontop/input/settings.dremio.properties /opt/ontop/input/settings.dremio.properties /opt/ontop/input/settings.dremio.properties /opt/ontop/input/settings.dremio.properties"
             - name: ONTOP_PORTAL_FILE
               value: "/opt/ontop/input/portal.toml /opt/ontop/input/portal.toml /opt/ontop/input/portal.toml /opt/ontop/input/portal.toml"
             - name: ONTOP_DEV_MODE
