@@ -135,7 +135,6 @@ public class KeyAwareDremioDBMetadataProvider extends DremioDBMetadataProvider {
         }
     }
 
-    protected boolean isForeignKeyDisabled(RelationID id, String constraintId) { return false; }
     private void patchForeignKeys(NamedRelationDefinition relation, MetadataLookup dbMetadata) throws MetadataExtractionException, SQLException {
         RelationID id = getCanonicalRelationId(relation.getID());
         Map<String,List<QuotedID>> foreigns=additionalKeyMetadata.getForeignKeys().get(getRelationSchema(id)+"."+getRelationName(id));
