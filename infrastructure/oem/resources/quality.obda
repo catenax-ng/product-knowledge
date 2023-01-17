@@ -1,0 +1,56 @@
+[PrefixDeclaration]
+cx:			https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#
+owl:		http://www.w3.org/2002/07/owl#
+rdf:		http://www.w3.org/1999/02/22-rdf-syntax-ns#
+xml:		http://www.w3.org/XML/1998/namespace
+xsd:		http://www.w3.org/2001/XMLSchema#
+obda:		https://w3id.org/obda/vocabulary#
+rdfs:		http://www.w3.org/2000/01/rdf-schema#
+
+[MappingDeclaration] @collection [[
+
+mappingId	part
+target		cx:part/{identifier} rdf:type cx:Part; cx:partId {identifier}^^xsd:string; cx:partName {definition_de}@de; cx:partName {definition_en}@en . 
+source		SELECT * FROM "quality"."Part"
+
+mappingId	dtc
+target		cx:dtc/{identifier} rdf:type cx:DiagnosticTroubleCode ; cx:diagnosticTroubleCodeId {identifier}^^xsd:string; cx:diagnosticTroubleCodeName {definition}@de. 
+source		SELECT * FROM "quality"."DTC"
+
+mappingId	possibleCause
+target		cx:possibleCause/{identifier} rdf:type cx:PossibleCause; cx:identifier {identifier}^^xsd:string ; cx:name {definition_de}@de; cx:name {definition_en}@en . 
+source		SELECT * FROM "quality"."PossibleCause"
+
+mappingId	error
+target		cx:error/{identifier} rdf:type cx:Error ; cx:errorId {identifier}^^xsd:string ; cx:errorName {definition_de}@de; cx:errorName {definition_en}@en . 
+source		SELECT * FROM "quality"."Error"
+
+mappingId	errorEffect
+target		cx:errorEffect/{identifier} rdf:type cx:ErrorEffect; cx:identifier {identifier}^^xsd:string ; cx:name {definition_de}@de; cx:name {definition_en}@en .  
+source		SELECT * FROM "quality"."ErrorEffect"
+
+mappingId	errorSolution
+target		cx:errorSolution/{identifier} rdf:type cx:ErrorSolution ; cx:identifier {identifier}^^xsd:string ; cx:name {definition_de}@de; cx:name {definition_en}@en .   
+source		SELECT * FROM "quality"."ErrorSolution"
+
+mappingId	DTC_PossibleCause_Error
+target		cx:dtc/{dtc_id} cx:hasPossibleCause cx:possibleCause/{ps_id}. cx:error/{error_id} cx:isCausedBy cx:possibleCause/{ps_id}.
+source		SELECT * FROM "quality"."DTC_PossibleCause_Error"
+
+mappingId	DTC_PossibleCause_Error
+target		cx:dtc/{dtc_id} cx:hasPossibleCause cx:possibleCause/{ps_id}. cx:error/{error_id} cx:isCausedBy cx:possibleCause/{ps_id}.
+source		SELECT * FROM "quality"."DTC_PossibleCause_Error"
+
+mappingId	Error_ErrorEffect
+target		cx:error/{error_id} cx:hasEffect cx:errorEffect/{ee_id}.
+source		SELECT * FROM "quality"."Error_ErrorEffect"
+
+mappingId	Error_ErrorSolution
+target		cx:error/{error_id} cx:hasSolution cx:errorSolution/{es_id}.
+source		SELECT * FROM "quality"."Error_ErrorSolution"
+
+mappingId	Part_PossibleCause
+target		cx:part/{part_id} cx:isReasonOf cx:possibleCause/{ps_id}.
+source		SELECT * FROM "quality"."Part_PossibleCause"
+
+]]

@@ -1,0 +1,37 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#>
+
+SELECT ?dtcId ?possibleCauseName ?partName ?errorName ?errorEffectName ?errorSolutionName 
+WHERE {
+    #dtc
+    ?dtc rdf:type cx:DiagnosticTroubleCode.
+    ?dtc cx:diagnosticTroubleCodeId ?dtcId.
+    #dtc -> possible cause
+    ?dtc cx:hasPossibleCause ?possibleCause.
+    ?possibleCause cx:name ?possibleCauseName.
+    #error -> possible cause
+    ?error cx:isCausedBy ?possibleCause.
+    ?error cx:errorName ?errorName.
+    #error -> error effect
+    ?error cx:hasEffect ?errorEffect.
+    ?errorEffect cx:name ?errorEffectName.
+    #error -> error solution
+    ?error cx:hasSolution ?errorSolution.
+    ?errorSolution cx:name ?errorSolutionName.
+    #part -> 
+    ?part cx:isReasonOf ?possibleCause.
+    ?part cx:partName ?partName.
+  
+    #FILTER (lang(?possibleCauseName) = 'de')
+    #FILTER (lang(?errorName) = 'de')
+    #FILTER (lang(?errorEffectName) = 'de')
+    #FILTER (lang(?errorSolutionName) = 'de')
+    #FILTER (lang(?partName) = 'de')
+ 
+    FILTER (lang(?possibleCauseName) = 'en')
+    FILTER (lang(?errorName) = 'en')
+    FILTER (lang(?errorEffectName) = 'en')
+    FILTER (lang(?errorSolutionName) = 'en')
+    FILTER (lang(?partName) = 'en')
+} 

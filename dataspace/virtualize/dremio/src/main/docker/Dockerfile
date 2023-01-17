@@ -52,6 +52,7 @@ USER dremio
 WORKDIR /opt/dremio
 
 COPY resources/dtc_codes.json /opt/dremio/local/
+COPY resources/quality_skill_data/*.xlsx /opt/dremio/local/
 COPY resources/arrow-gandiva-8.0.0_arm64.jar /opt/dremio/data/
 
 RUN if [ "${TARGETPLATFORM}"=="linux/arm64" ]; \
