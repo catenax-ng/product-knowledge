@@ -1,0 +1,109 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "edc-controlplane.fullname" . }}-configmap
+  namespace: {{ .Release.Namespace | default "default" | quote }}
+  labels:
+    {{- include "edc-controlplane.labels" . | nindent 4 }}
+data:
+  configuration.properties: |-
+    web.http.default.port={{ .Values.edc.endpoints.default.port }}
+    web.http.default.path={{ .Values.edc.endpoints.default.path }}
+    web.http.data.port={{ .Values.edc.endpoints.data.port }}
+    web.http.data.path={{ .Values.edc.endpoints.data.path }}
+    web.http.validation.port={{ .Values.edc.endpoints.validation.port }}
+    web.http.validation.path={{ .Values.edc.endpoints.validation.path }}
+    web.http.control.port={{ .Values.edc.endpoints.control.port }}
+    web.http.control.path={{ .Values.edc.endpoints.control.path }}
+    web.http.ids.port={{ .Values.edc.endpoints.ids.port }}
+    web.http.ids.path={{ .Values.edc.endpoints.ids.path }}
+    {{- range $key, $agent := .Values.dataplanes }}
+    edc.dataplane.selector.{{ $key }}.url={{ $agent.url }}
+    edc.dataplane.selector.{{ $key }}.sourcetypes={{ join ","  $agent.sourcetypes }}
+    edc.dataplane.selector.{{ $key }}.destinationtypes={{ join ","  $agent.destinationtypes }}
+    edc.dataplane.selector.{{ $key }}.properties={ "publicApiUrl": {{ quote $agent.publicurl }} }
+    edc.receiver.http.endpoints.{{ $key }}={{ $agent.callback.url }} 
+    {{- if $agent.callback.auth.value }}
+    edc.receiver.http.auth-codes.{{ $key }}={{ $agent.callback.auth.value }} 
+    {{- end }}
+    {{- if $agent.callback.auth.key }}
+    edc.receiver.http.auth-keys.{{ $key }}={{ $agent.callback.auth.key }} 
+    {{- end }}
+    {{- end }}
+    {{- if .Values.edc.endpoints.default.auth.value }}
+    edc.api.auth.key={{ .Values.edc.endpoints.default.auth.value }}
+    {{- end }}    
+    {{- if .Values.edc.endpoints.control.auth.value }}
+    edc.api.control.auth.apikey.key={{ .Values.edc.endpoints.control.auth.key }}
+    {{- end }} 
+    {{- if .Values.edc.endpoints.control.auth.key }}
+    edc.api.control.auth.apikey.value={{ .Values.edc.endpoints.control.auth.value }}
+    {{- end }} 
+    {{- if .Values.vault }}
+    {{- if .Values.vault.url }}
+    edc.vault={{ .Values.vault.url }}
+    {{- end }}   
+    {{- if .Values.vault.clientid }}
+    edc.vault.clientid={{ .Values.vault.clientid }}
+    {{- end }}   
+    {{- if .Values.vault.name }}
+    edc.vault.name={{ .Values.vault.name }}
+    {{- end }}   
+    {{- if .Values.vault.clientsecret }}
+    edc.vault.clientsecret={{ .Values.vault.clientsecret }}
+    {{- end }}   
+    {{- if .Values.vault.tenantid }}
+    edc.vault.tenantid={{ .Values.vault.tenantid }}
+    {{- end }}   
+    {{- if .Values.vault.certificate }}
+    edc.vault.certificate={{ .Values.vault.certificate }}
+    {{- end }}   
+    {{- if .Values.vault.hashicorp }}
+    {{- if .Values.vault.hashicorp.url }}
+    edc.vault.hashicorp.url={{ .Values.vault.hashicorp.url }}
+    {{- end }}   
+    {{- if .Values.vault.hashicorp.token }}
+    edc.vault.hashicorp.token={{ .Values.vault.hashicorp.token }}
+    {{- end }}   
+    {{- if .Values.vault.hashicorp.timeout }}
+    edc.vault.hashicorp.timeout.seconds={{ .Values.vault.hashicorp.timeout.seconds }}
+    {{- end }}   
+    {{- end }}   
+    {{- end }}   
+    {{- if .Values.oauth }}
+    {{- if .Values.oauth.clientid }}
+    edc.oauth.client.id={{ .Values.oauth.clientid }}
+    {{- end }}   
+    {{- if .Values.oauth.privateKeyAlias }}
+    edc.oauth.private.key.alias={{ .Values.oauth.privateKeyAlias }}
+    {{- end }}   
+    {{- if .Values.oauth.publicKeyAlias }}
+    edc.oauth.public.key.alias={{ .Values.oauth.publicKeyAlias }}
+    {{- end }}   
+    {{- if .Values.oauth.providerAudience }}
+    edc.oauth.provider.audience={{ .Values.oauth.providerAudience }} 
+    {{- end }}   
+    {{- if .Values.oauth.endpointAudience }}
+    edc.oauth.endpoint.audience={{ .Values.oauth.endpointAudience }} 
+    {{- end }}
+    {{- if .Values.oauth.providerJwksUrl }}
+    edc.oauth.provider.jwks.url={{ .Values.oauth.providerJwksUrl }} 
+    {{- end }}   
+    {{- if .Values.oauth.tokenUrl }}
+    edc.oauth.token.url={{ .Values.oauth.tokenUrl }} 
+    {{- end }}   
+    {{- end }}  
+    {{- if .Values.transfer.proxy.token.signerPrivateKeyAlias }}
+    edc.transfer.proxy.token.signer.privatekey.alias={{ .Values.transfer.proxy.token.signerPrivateKeyAlias }} 
+    {{- end }}  
+    {{- if .Values.transfer.proxy.token.verifierPublicKeyAlias }}
+    edc.transfer.proxy.token.verifier.publickey.alias={{ .Values.transfer.proxy.token.verifierPublicKeyAlias }} 
+    {{- end }}  
+    {{- .Values.configuration.properties | nindent 4 }}
+
+  opentelemetry.properties: |-
+    {{- .Values.opentelemetry.properties | nindent 4 }}
+
+  logging.properties: |-
+    {{- .Values.logging.properties | nindent 4 }}
