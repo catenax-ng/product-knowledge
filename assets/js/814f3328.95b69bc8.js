@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkcatenax_ng=self.webpackChunkcatenax_ng||[]).push([[535],{5641:function(e){e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"InitialRelease","permalink":"/product-knowledge/blog/InitialRelease"},{"title":"MinimumViableProduct","permalink":"/product-knowledge/blog/MVP"}]}')}}]);
