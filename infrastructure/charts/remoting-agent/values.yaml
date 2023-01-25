@@ -140,7 +140,9 @@ ingresses:
     # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
     hostname: "remoting-agent.local"
     # -- Additional ingress annotations to add
-    annotations: {}
+    annotations: 
+      nginx.ingress.kubernetes.io/rewrite-target: /$2
+      nginx.ingress.kubernetes.io/use-regex: "true"
     # -- Agent endpoints exposed by this ingress resource
     endpoints:
       - default
@@ -206,18 +208,18 @@ envSecretName:
 logging:
   # -- Logback Xml
   configuration: |-
-  <?xml version="1.0" encoding="UTF-8"?>
-  <configuration debug="false" scan="true" scanPeriod="30 seconds">
-	    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-		    <encoder>
-			    <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-		    </encoder>
-	    </appender>
-	    <root>
-		    <level value="FINEST"/>
-		    <appender-ref ref="STDOUT" />
-	    </root>
-  </configuration>
+    <?xml version="1.0" encoding="UTF-8"?>
+    <configuration debug="false" scan="true" scanPeriod="30 seconds">
+      <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+          <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+      </appender>
+      <root>
+        <level value="FINEST"/>
+        <appender-ref ref="STDOUT" />
+      </root>
+    </configuration>
 
 # -- A map of repository names to configuration ttl files
 repositories: {}

@@ -1,7 +1,7 @@
 {{- $fullName := include "agent.fullname" . }}
 {{- $labels := include "agent.labels" . | nindent 4 }}
 {{- $gitVersion := .Capabilities.KubeVersion.GitVersion }}
-{{- $edcEndpoints := .Values.edc.endpoints }}
+{{- $edcEndpoints := .Values.agent.endpoints }}
 {{- $namespace := .Release.Namespace }}
 {{- range .Values.ingresses }}
 {{- if and .enabled .endpoints }}

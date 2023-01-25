@@ -12,7 +12,7 @@ Logs can be accessed by running this command:
 {{- if .Values.ingresses }}
 
 Following ingress URLS are available:
-  {{- $edcEndpoints := .Values.edc.endpoints }}
+  {{- $edcEndpoints := .Values.agent.endpoints }}
   {{- range .Values.ingresses }}
   {{- if .enabled }}
   {{- $ingressEdcEndpoints := .endpoints }}

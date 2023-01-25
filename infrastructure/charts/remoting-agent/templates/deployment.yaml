@@ -45,38 +45,37 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: default
-              containerPort: {{ .Values.edc.endpoints.default.port }}
-              protocol: TCP
-            - name: public
-              containerPort: {{ .Values.edc.endpoints.public.port }}
-              protocol: TCP
-            - name: control
-              containerPort: {{ .Values.edc.endpoints.control.port }}
-              protocol: TCP
-            - name: metrics
-              containerPort: {{ .Values.edc.endpoints.metrics.port }}
-              protocol: TCP
-            - name: callback
-              containerPort: {{ .Values.edc.endpoints.callback.port }}
+              containerPort: {{ .Values.agent.endpoints.default.port }}
               protocol: TCP
           {{- if .Values.livenessProbe.enabled }}
           livenessProbe:
             httpGet:
-              path: {{ .Values.edc.endpoints.default.path }}/check/liveness
+              path: {{ .Values.agent.endpoints.default.path }}/rdf4j-server/protocol
               port: default
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            successTreshold: {{ .Values.livenessProbe.successTreshold }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
           {{- end }}
           {{- if .Values.readinessProbe.enabled }}
           readinessProbe:
             httpGet:
-              path: {{ .Values.edc.endpoints.default.path }}/check/readiness
+              path: {{ .Values.agent.endpoints.default.path }}/rdf4j-server/protocol
               port: default
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            successTreshold: {{ .Values.readinessProbe.successTreshold }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
           {{- end }}
           {{- if .Values.startupProbe.enabled }}
           startupProbe:
             httpGet:
-              path: {{ .Values.edc.endpoints.default.path }}/check/startup
+              path: {{ .Values.agent.endpoints.default.path }}/rdf4j-server/protocol
               port: default
             failureThreshold: {{ .Values.startupProbe.failureThreshold }}
+            periodSeconds: {{ .Values.startupProbe.periodSeconds }}
+            successTreshold: {{ .Values.startupProbe.successTreshold }}
+            timeoutSeconds: {{ .Values.startupProbe.timeoutSeconds }}
             initialDelaySeconds: {{ .Values.startupProbe.initialDelaySeconds }}
           {{- end }}
           envFrom:
@@ -90,33 +89,25 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             - name: configuration
-              mountPath: /app/configuration.properties
-              subPath: configuration.properties
-            - name: configuration
-              mountPath: /app/opentelemetry.properties
-              subPath: opentelemetry.properties
-            - name: configuration
-              mountPath: /app/logging.properties
-              subPath: logging.properties
-            {{- range $asset, $_ := .Values.assets }}
+              mountPath: /var/rdf4j/server/conf/logback.xml
+              subPath: logback.xml
+              readOnly: true
+            {{- range $asset, $_ := .Values.repositories }}
             - name: configuraiton
-              mountPath: /app/{{ $asset }}
-              subPath: {{ $asset }}
+              mountPath: /var/rdf4j/server/repositories/{{ $asset }}/config.ttl
+              subPath: {{ $asset }}.ttl
+              readOnly: true
             {{- end }}
       volumes:
         - name: configuration
           configMap:
             name: {{ include "agent.fullname" . }}-configmap
             items:
-              - key: configuration.properties
-                path: configuration.properties
-              - key: opentelemetry.properties
-                path: opentelemetry.properties
-              - key: logging.properties
-                path: logging.properties
-              {{- range $asset, $_ := .Values.assets }}
-              - key: {{ $asset }}
-                path: {{ $asset }}
+              - key: logback.xml
+                path: lockback.xml
+              {{- range $asset, $_ := .Values.repositories }}
+              - key: {{ $asset }}.ttl
+                path: {{ $asset }}.ttl
               {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
