@@ -1,0 +1,51 @@
+apiVersion: v1
+entries:
+  agent-control-plane:
+  - apiVersion: v2
+    appVersion: 0.7.3-SNAPSHOT
+    created: "2023-01-25T10:04:26.588254+01:00"
+    description: Agent-Enabled EDC Control-Plane - Eclipse DataSpaceConnector administration
+      layer with Agent Protocols extensions
+    digest: c8044f8f094c4f57527c3a18e805dd372900d82c887f455b03cd9f0fbb6efe27
+    home: https://github.com/catenax-ng/product-knowledge/infrastructure/charts/agent-control-plane
+    icon: https://catenax-ng.github.io/product-knowledge/img/logo.svg
+    maintainers:
+    - name: Catena-X Knowledge Agents Team
+    name: agent-control-plane
+    type: application
+    urls:
+    - https://catenax-ng.github.io/product-knowledge/infrastructure/agent-control-plane-0.7.3-SNAPSHOT.tgz
+    version: 0.7.3-SNAPSHOT
+  agent-data-plane:
+  - apiVersion: v2
+    appVersion: 0.7.3-SNAPSHOT
+    created: "2023-01-25T10:04:26.59615+01:00"
+    description: Agent-Enabled EDC Data-Plane - Eclipse DataSpaceConnector data layer
+      with Agent Protocol Extensions
+    digest: 0d612ad21761edea8bd833f6e95bace69e198faf03fd5c17f60f61f0b739bb55
+    home: https://github.com/catenax-ng/product-knowledge/infrastructure/charts/agent-data-plane
+    icon: https://catenax-ng.github.io/product-knowledge/img/logo.svg
+    maintainers:
+    - name: Catena-X Knowledge Agents Team
+    name: agent-data-plane
+    type: application
+    urls:
+    - https://catenax-ng.github.io/product-knowledge/infrastructure/agent-data-plane-0.7.3-SNAPSHOT.tgz
+    version: 0.7.3-SNAPSHOT
+  remoting-agent:
+  - apiVersion: v2
+    appVersion: 0.7.3-SNAPSHOT
+    created: "2023-01-25T10:04:26.6007+01:00"
+    description: Catena-X Remoting Agent - Knowledge-Agents Compatible API Binding
+      Layer
+    digest: 5e2b74949596b808b63b7c3e418103f5bfbe759ead435819835313501e803474
+    home: https://github.com/catenax-ng/product-knowledge/infrastructure/charts/remoting-agent
+    icon: https://catenax-ng.github.io/product-knowledge/img/logo.svg
+    maintainers:
+    - name: Catena-X Knowledge Agents Team
+    name: remoting-agent
+    type: application
+    urls:
+    - https://catenax-ng.github.io/product-knowledge/infrastructure/remoting-agent-0.7.3-SNAPSHOT.tgz
+    version: 0.7.3-SNAPSHOT
+generated: "2023-01-25T10:04:26.581393+01:00"

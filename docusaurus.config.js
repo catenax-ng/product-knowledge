@@ -82,12 +82,16 @@ const config = {
                 to: '/docs/architecture',
               },
               {
-                label: 'Spike',
-                to: '/docs/spike',
+                label: 'Deployment',
+                to: '/docs/deployment',
               },
               {
                 label: 'How To',
                 to: '/docs/howto',
+              },
+              {
+                label: 'Spike (Obsolete)',
+                to: '/docs/spike',
               },
             ],
           },
