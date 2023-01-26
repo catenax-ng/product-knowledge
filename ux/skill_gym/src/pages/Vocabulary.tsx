@@ -1,10 +1,15 @@
 import { OntologyHub, getSkillBackend } from '@catenax-ng/skill-modules';
 import { useState } from 'react';
 import { Box, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 export default function Vocabulary() {
   const [selectedOntology, setSelectedOntology] = useState<string>('');
-
+  const navigate = useNavigate(); 
+  const onNavigateToAsset = (ontologyName: string) => {
+    let path = `/dataspace?ontology=${ontologyName.replace(' ', '')}`; 
+    navigate(path);
+  }
   return (
     <Box mt={4}>
       {selectedOntology.length > 0 && (
@@ -54,7 +59,8 @@ export default function Vocabulary() {
       )}
       <Box mt={1} mb={1}>
         <OntologyHub
-          onOntologySelect={setSelectedOntology}
+          onShowOntologyGraph={setSelectedOntology}
+          onShowAssetList={onNavigateToAsset}
           pageSize={selectedOntology.length > 0 ? 5 : 12}
         />
       </Box>

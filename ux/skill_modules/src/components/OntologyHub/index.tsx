@@ -2,15 +2,24 @@ import {
   getOntologyHubFactory,
   OntologyResult,
 } from '@catenax-ng/skill-framework/dist/src';
-import { Table, Typography } from 'cx-portal-shared-components';
+import { IconButton, Table } from 'cx-portal-shared-components';
 import React, { useEffect, useState } from 'react';
+import BubbleChartIcon from '@mui/icons-material/BubbleChart';
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import { Box } from '@mui/material';
+import EastIcon from '@mui/icons-material/East';
 
 interface OntologyHubProps {
-  onOntologySelect: (vowlUrl: string) => void;
+  onShowOntologyGraph?: (vowlUrl: string) => void;
+  onShowAssetList?: (name: string) => void;
   pageSize: number;
 }
 
-export function OntologyHub({ onOntologySelect, pageSize }: OntologyHubProps) {
+export function OntologyHub({
+  onShowOntologyGraph,
+  pageSize,
+  onShowAssetList,
+}: OntologyHubProps) {
   const [ontologyList, setOntologyList] = useState<OntologyResult[]>([]);
 
   useEffect(() => {
@@ -25,20 +34,15 @@ export function OntologyHub({ onOntologySelect, pageSize }: OntologyHubProps) {
       field: 'name',
       flex: 2,
       headerName: 'Name',
-      renderCell: ({ row }: { row: OntologyResult }) => (
-        <Typography onClick={() => onOntologyClick(row.vowl)}>
-          {row.name}
-        </Typography>
-      ),
     },
     {
       field: 'type',
-      flex: 2,
+      flex: 1,
       headerName: 'Sprache',
     },
     {
       field: 'version',
-      flex: 2,
+      flex: 1,
       headerName: 'Version',
     },
     {
@@ -46,11 +50,34 @@ export function OntologyHub({ onOntologySelect, pageSize }: OntologyHubProps) {
       flex: 2,
       headerName: 'Status',
     },
+    {
+      field: 'actions',
+      flex: 1,
+      headerName: 'Actions',
+      renderCell: ({ row }: { row: OntologyResult }) => (
+        <Box>
+          {onShowOntologyGraph && (
+            <IconButton
+              title="Show Ontology Graph"
+              sx={{ mr: 1 }}
+              onClick={() => onShowOntologyGraph(row.vowl)}
+            >
+              <BubbleChartIcon />
+            </IconButton>
+          )}
+          {onShowAssetList && (
+            <IconButton
+              title="Jump to related Assets"
+              sx={{ mr: 1 }}
+              onClick={() => onShowAssetList(row.name)}
+            >
+              <EastIcon />
+            </IconButton>
+          )}
+        </Box>
+      ),
+    },
   ];
-
-  const onOntologyClick = (vowlLink: string) => {
-    onOntologySelect(vowlLink);
-  };
 
   return (
     <Table
