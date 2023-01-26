@@ -3,10 +3,10 @@ entries:
   agent-control-plane:
   - apiVersion: v2
     appVersion: 0.7.3-SNAPSHOT
-    created: "2023-01-25T10:04:26.588254+01:00"
+    created: "2023-01-26T11:31:29.602073+01:00"
     description: Agent-Enabled EDC Control-Plane - Eclipse DataSpaceConnector administration
       layer with Agent Protocols extensions
-    digest: c8044f8f094c4f57527c3a18e805dd372900d82c887f455b03cd9f0fbb6efe27
+    digest: ae99de7cd71e66485307a2f0d4ff2356bd4a01d74b158198c785447df1c82f43
     home: https://github.com/catenax-ng/product-knowledge/infrastructure/charts/agent-control-plane
     icon: https://catenax-ng.github.io/product-knowledge/img/logo.svg
     maintainers:
@@ -19,10 +19,10 @@ entries:
   agent-data-plane:
   - apiVersion: v2
     appVersion: 0.7.3-SNAPSHOT
-    created: "2023-01-25T10:04:26.59615+01:00"
+    created: "2023-01-26T11:31:29.603161+01:00"
     description: Agent-Enabled EDC Data-Plane - Eclipse DataSpaceConnector data layer
       with Agent Protocol Extensions
-    digest: 0d612ad21761edea8bd833f6e95bace69e198faf03fd5c17f60f61f0b739bb55
+    digest: e1fe9978e0725fa65fc74f7bd2ad6719c446228863035938245469d5e3072945
     home: https://github.com/catenax-ng/product-knowledge/infrastructure/charts/agent-data-plane
     icon: https://catenax-ng.github.io/product-knowledge/img/logo.svg
     maintainers:
@@ -32,13 +32,29 @@ entries:
     urls:
     - https://catenax-ng.github.io/product-knowledge/infrastructure/agent-data-plane-0.7.3-SNAPSHOT.tgz
     version: 0.7.3-SNAPSHOT
+  provisioning-agent:
+  - apiVersion: v2
+    appVersion: 0.7.3-SNAPSHOT
+    created: "2023-01-26T11:31:29.604126+01:00"
+    description: Catena-X Provisioning Agent - Knowledge-Agents Compatible Data Binding
+      Layer
+    digest: 1d69501990a2d1226d8b6936ca549b7b29b542e199cc0dd708387aeef154c2b9
+    home: https://github.com/catenax-ng/product-knowledge/infrastructure/charts/provisioning-agent
+    icon: https://catenax-ng.github.io/product-knowledge/img/logo.svg
+    maintainers:
+    - name: Catena-X Knowledge Agents Team
+    name: provisioning-agent
+    type: application
+    urls:
+    - https://catenax-ng.github.io/product-knowledge/infrastructure/provisioning-agent-0.7.3-SNAPSHOT.tgz
+    version: 0.7.3-SNAPSHOT
   remoting-agent:
   - apiVersion: v2
     appVersion: 0.7.3-SNAPSHOT
-    created: "2023-01-25T10:04:26.6007+01:00"
+    created: "2023-01-26T11:31:29.605037+01:00"
     description: Catena-X Remoting Agent - Knowledge-Agents Compatible API Binding
       Layer
-    digest: 5e2b74949596b808b63b7c3e418103f5bfbe759ead435819835313501e803474
+    digest: 4057d534aa553651ae457a68c1b8443680579a399064361e819d8a966d1ce018
     home: https://github.com/catenax-ng/product-knowledge/infrastructure/charts/remoting-agent
     icon: https://catenax-ng.github.io/product-knowledge/img/logo.svg
     maintainers:
@@ -48,4 +64,4 @@ entries:
     urls:
     - https://catenax-ng.github.io/product-knowledge/infrastructure/remoting-agent-0.7.3-SNAPSHOT.tgz
     version: 0.7.3-SNAPSHOT
-generated: "2023-01-25T10:04:26.581393+01:00"
+generated: "2023-01-26T11:31:29.598527+01:00"

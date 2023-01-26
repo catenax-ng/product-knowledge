@@ -228,6 +228,124 @@ supplier-data-plane: &supplierdataplane
 And be sure to replace the charts/agent-data-plane/resources/dataspace.ttl with the
 initial graph data for your dataspace, such as in the [Catena-X Integration Default Graph](https://raw.githubusercontent.com/catenax-ng/product-knowledge/feature/KA-188-extract-sub-charts/infrastructure/resources/dataspace.ttl)
 
+## Deployment of the Provisioning Agent
+
+### Using the Preconfigured Docker Image
+
+The provisioning agent uses a version of Ontop VKP:
+
+- [Provisioning Agent based on Ontop VKP](ghcr.io/catenax-ng/product-knowledge/provisioning-agent:0.7.3-SNAPSHOT)
+
+### Deployment using a Helm umbrella chart
+
+We have published a helm chart which can be used as a sub-chart in a more complex umbrella.
+
+Add the KA helm repo for that purpose:
+
+```console
+helm repo add catenax-knowledge https://catenax-ng.github.io/product-knowledge/infrastructure
+```
+
+Add an (aliased) dependency to your umbrella chart:
+
+```yaml
+dependencies:
+  - name: provisioning-agent
+    repository: https://catenax-ng.github.io/product-knowledge/infrastructure
+    version: 0.7.3-SNAPSHOT
+    alias: oem-provider-agent
+```
+
+and update the dependencies
+
+```console
+helm dependencies update
+```
+
+You may now configure the deployment instances in your values.yaml in more detail (see the documentation of the [provisioning agent chart](https://github.com/catenax-ng/product-knowledge/tree/feature/KA-188-extract-sub-charts/infrastructure/charts/provisioning-agent)).
+
+Note that the entries under bindings represent the individual mappings/endpoints which bind to your data source. 
+
+```yaml
+# -- Configures the OEM provider agent
+oem-provider-agent: 
+  nameOverride: oem-provider-agent
+  fullnameOverride: oem-provider-agent
+  # -- Ontologies need extended memory, for each CX endpoint add ~300MB 
+  resources: 
+    requests:
+      cpu: 0.5
+      memory: "1.5Gi"
+    limits:
+      cpu: 0.5
+      memory: "1.5Gi"
+  bindings:
+    # -- Vehicle health endpoint/binding
+    hi: 
+      port: 8081
+      path: 2(/|$)(.*)
+      settings: |-
+        jdbc.url=jdbc\:dremio\:direct\=oem-backend\:31010
+        jdbc.driver=com.dremio.jdbc.Driver
+        jdbc.user={{ .Values.security.backendUser }}
+        jdbc.password={{ .Values.security.backendPwd }}
+        ontop.cardinalityMode=LOOSE
+        com.dremio.jdbc.Driver-metadataProvider = it.unibz.inf.ontop.dbschema.impl.KeyAwareDremioDBMetadataProvider
+        com.dremio.jdbc.Driver-schemas = HI_TEST_OEM
+        com.dremio.jdbc.Driver-tables.HI_TEST_OEM = CX_RUL_SerialPartTypization_Vehicle,CX_RUL_SerialPartTypization_Component,CX_RUL_AssemblyPartRelationship,CX_RUL_LoadCollective
+        com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_SerialPartTypization_Vehicle = UC_VEHICLE
+        com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_SerialPartTypization_Component = UC_COMPONENT
+        com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_AssemblyPartRelationship = UC_ASSEMBLY
+        com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_LoadCollective = UC_LC
+        com.dremio.jdbc.Driver-constraint.UC_VEHICLE = catenaXId
+        com.dremio.jdbc.Driver-constraint.UC_COMPONENT = catenaXId
+        com.dremio.jdbc.Driver-constraint.UC_ASSEMBLY = childCatenaXId,catenaXId
+        com.dremio.jdbc.Driver-constraint.UC_LC = catenaXId,targetComponentId,metadata_componentDescription
+        com.dremio.jdbc.Driver-foreign.HI_TEST_OEM.CX_RUL_AssemblyPartRelationship = FK_SERIAL_PARENT, FK_SERIAL_CHILD
+        com.dremio.jdbc.Driver-constraint.FK_SERIAL_PARENT = catenaXId:CX_RUL_SerialPartTypization_Vehicle+UC_VEHICLE
+        com.dremio.jdbc.Driver-constraint.FK_SERIAL_CHILD = childCatenaXId:CX_RUL_SerialPartTypization_Component+UC_COMPONENT
+        com.dremio.jdbc.Driver-foreign.HI_TEST_OEM.CX_RUL_LoadCollective = FK_LC_PART
+        com.dremio.jdbc.Driver-constraint.FK_LC_PART = catenaXId:CX_RUL_SerialPartTypization_Component+UC_COMPONENT
+      ontology: cx-ontology.ttl
+      mapping: |-
+        [PrefixDeclaration]
+        uuid:		urn:uuid:
+        bpnl:		bpn:legal:
+        cx:			https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#
+        owl:		http://www.w3.org/2002/07/owl#
+        rdf:		http://www.w3.org/1999/02/22-rdf-syntax-ns#
+        xml:		http://www.w3.org/XML/1998/namespace
+        xsd:		http://www.w3.org/2001/XMLSchema#
+        obda:		https://w3id.org/obda/vocabulary#
+        rdfs:		http://www.w3.org/2000/01/rdf-schema#
+
+        [MappingDeclaration] @collection [[
+        mappingId	vehicles
+        target		uuid:{catenaXId} rdf:type cx:Vehicle ; cx:partId {localIdentifiers_partInstanceId}^^xsd:string; cx:partName {partTypeInformation_nameAtManufacturer}^^xsd:string; cx:partSeries {partTypeInformation_manufacturerPartId}^^xsd:string; cx:isProducedBy bpnl:{localIdentifiers_manufacturerId}; cx:partProductionDate {manufacturingInformation_date}^^xsd:date; cx:vehicleIdentificationNumber {localIdentifiers_van}^^xsd:string .
+        source		SELECT "catenaXId", "localIdentifiers_partInstanceId", "partTypeInformation_nameAtManufacturer", "partTypeInformation_manufacturerPartId", "localIdentifiers_manufacturerId", "manufacturingInformation_date", "localIdentifiers_van" FROM "HI_TEST_OEM"."CX_RUL_SerialPartTypization_Vehicle" vehicles
+
+        mappingId	parts
+        target		uuid:{catenaXId} rdf:type cx:AssemblyGroup ; cx:partId {localIdentifiers_partInstanceId}^^xsd:string; cx:partName {partTypeInformation_nameAtManufacturer}^^xsd:string; cx:partSeries {partTypeInformation_manufacturerPartId}^^xsd:string; cx:isProducedBy bpnl:{localIdentifiers_manufacturerId}; cx:partProductionDate {manufacturingInformation_date}^^xsd:date .
+        source		SELECT "catenaXId", "localIdentifiers_partInstanceId", "partTypeInformation_nameAtManufacturer", "partTypeInformation_manufacturerPartId", "localIdentifiers_manufacturerId", "manufacturingInformation_date" FROM "HI_TEST_OEM"."CX_RUL_SerialPartTypization_Component" parts 
+
+        mappingId	vehicleparts
+        target		uuid:{childCatenaXId} cx:isPartOf uuid:{catenaXId} .
+        source		SELECT "catenaXId", "childCatenaXId" FROM  "HI_TEST_OEM"."CX_RUL_AssemblyPartRelationship" vehicleparts
+
+        mappingId   loadspectrum
+        target      uuid:{catenaXId}/{targetComponentId}/{metadata_componentDescription} rdf:type cx:LoadSpectrum; cx:loadSpectrumId {metadata_projectDescription}^^xsd:string; cx:loadSpectrumName {header_countingValue}^^xsd:string; cx:loadSpectrumDescription {metadata_componentDescription}^^xsd:string; rdf:type cx:VehicleCurrentState; cx:vehicleOperatingHours {metadata_status_operatingTime}^^xsd:int; cx:vehicleCurrentStateDateTime {metadata_status_date}^^xsd:dateTime; cx:vehicleCurrentMileage {metadata_status_mileage}^^xsd:int; cx:loadSpectrumType {header_channels}^^xsd:string; cx:hasLoadSpectrumValues uuid:{catenaXId}/{targetComponentId}/{metadata_componentDescription}/0.
+        source		SELECT "catenaXId", "targetComponentId", "metadata_projectDescription", "metadata_componentDescription", "metadata_status_operatingTime", "metadata_status_date", "metadata_status_mileage", "header_countingValue", "header_channels" FROM "HI_TEST_OEM"."CX_RUL_LoadCollective" loadspectrum
+
+        mappingId   partLoadSpectrum
+        target		uuid:{targetComponentId} cx:hasLoadSpectrum uuid:{catenaXId}/{targetComponentId}/{metadata_componentDescription} .
+        source		SELECT "catenaXId", "targetComponentId", "metadata_componentDescription" FROM "HI_TEST_OEM"."CX_RUL_LoadCollective" loadspectrum
+
+        mappingId   loadspectrumChannel
+        target      uuid:{catenaXId}/{targetComponentId}/{metadata_componentDescription}/0 rdf:type cx:LoadSpectrumValues; cx:loadSpectrumChannelIndex {body_classes}^^xsd:string; cx:loadSpectrumCountingUnit {header_countingUnit}^^xsd:string; cx:loadSpectrumCountingMethod {header_countingMethod}^^xsd:string; cx:loadSpectrumChannelValues {body_counts}^^xsd:string.
+        source		SELECT "catenaXId", "targetComponentId", "metadata_componentDescription", "header_countingUnit", "header_countingMethod", "body_counts", "body_classes" FROM "HI_TEST_OEM"."CX_RUL_LoadCollective" loadspectrumchannel
+        ]]
+```
+
 ## Deployment of the Remoting Agent
 
 ### Using the Preconfigured Docker Image
@@ -236,10 +354,9 @@ The remoting agent uses a version of RDF4J:
 
 - [Remotin Agent based on RDF4J](ghcr.io/catenax-ng/product-knowledge/remoting-agent:0.7.3-SNAPSHOT)
 
-
 ### Deployment using a Helm umbrella chart
 
-In each case, we have adopted two helm charts which can be used as sub-charts in a more complex umbrella.
+We have provided a helm chart which can be used as a sub-chart in a more complex umbrella.
 
 Add the KA helm repo for that purpose:
 
@@ -265,8 +382,7 @@ helm dependencies update
 
 You may now configure the deployment instances in your values.yaml in more detail (see the documentation of the [remoting agent chart](https://github.com/catenax-ng/product-knowledge/tree/feature/KA-188-extract-sub-charts/infrastructure/charts/remoting-agent)).
 
-Note that the entries under the repositories object represent the 
-individual bindings/endpoints which bind to your API
+Note that the entries under the repositories object represent the individual bindings/endpoints which bind to your API
 
 ```yaml
 # The supplier remoting agent
