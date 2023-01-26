@@ -12,7 +12,7 @@ Logs can be accessed by running this command:
 {{- if .Values.ingresses }}
 
 Following ingress URLS are available:
-  {{- $endpoints := .Values.agent.endpoints }}
+  {{- $endpoints := .Values.bindings }}
   {{- range $ingress := .Values.ingresses }}
   {{- if .enabled }}
   {{- $ingressEndpoints := .endpoints }}
@@ -20,7 +20,7 @@ Following ingress URLS are available:
   {{- $tls := .tls }}
   {{- range  $name, $mapping := $endpoints }}
   {{- if (has $name $ingressEndpoints) }}
-  Visit http{{ if $tls }}s{{ end }}://{{ $hostname }}{{default $ingress.prefix ""}}{{ $mapping.path }} to access the {{ $name }} api
+  Visit http{{ if $tls }}s{{ end }}://{{ $hostname }}{{$ingress.prefix}}{{ $mapping.path }} to access the {{ $name }} api
   {{- end }}
   {{- end }}
   {{- end }}

@@ -13,14 +13,14 @@ Logs can be accessed by running this command:
 
 Following ingress URLS are available:
   {{- $edcEndpoints := .Values.edc.endpoints }}
-  {{- range .Values.ingresses }}
+  {{- range $ingress := .Values.ingresses }}
   {{- if .enabled }}
   {{- $ingressEdcEndpoints := .endpoints }}
   {{- $hostname := .hostname }}
   {{- $tls := .tls }}
   {{- range  $name, $mapping := $edcEndpoints }}
   {{- if (has $name $ingressEdcEndpoints) }}
-  Visit http{{ if $tls }}s{{ end }}://{{ $hostname }}{{ $mapping.path }} to access the {{ $name }} api
+  Visit http{{ if $tls }}s{{ end }}://{{ $hostname }}{{default $ingress.prefix ""}}{{ $mapping.path }} to access the {{ $name }} api
   {{- end }}
   {{- end }}
   {{- end }}

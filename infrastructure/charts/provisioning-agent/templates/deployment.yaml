@@ -44,14 +44,16 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: default
-              containerPort: {{ .Values.agent.endpoints.default.port }}
+            {{- range $endpoint, $binding := .Values.bindings }}
+            - name: {{ $endpoint }}
+              containerPort: {{ $binding.port }}
               protocol: TCP
+            {{- end }}
           {{- if .Values.livenessProbe.enabled }}
           livenessProbe:
             httpGet:
-              path: {{ .Values.agent.endpoints.default.path }}/rdf4j-server/protocol
-              port: default
+              path: /
+              port: dtc
             failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
             successTreshold: {{ .Values.livenessProbe.successTreshold }}
@@ -60,8 +62,8 @@ spec:
           {{- if .Values.readinessProbe.enabled }}
           readinessProbe:
             httpGet:
-              path: {{ .Values.agent.endpoints.default.path }}/rdf4j-server/protocol
-              port: default
+              path: /
+              port: dtc
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
             successTreshold: {{ .Values.readinessProbe.successTreshold }}
@@ -70,8 +72,8 @@ spec:
           {{- if .Values.startupProbe.enabled }}
           startupProbe:
             httpGet:
-              path: {{ .Values.agent.endpoints.default.path }}/rdf4j-server/protocol
-              port: default
+              path: /
+              port: dtc
             failureThreshold: {{ .Values.startupProbe.failureThreshold }}
             periodSeconds: {{ .Values.startupProbe.periodSeconds }}
             successTreshold: {{ .Values.startupProbe.successTreshold }}
@@ -85,17 +87,46 @@ spec:
             - secretRef:
                 name: {{ .Values.envSecretName | quote }}
             {{- end }}
+          env:
+            - name: ONTOP_PORT              
+              value: >-
+              {{- $files := (list) }}{{- range $endpoint,$binding := .Values.bindings }}{{- $files = (append $files $binding.port) }}{{- end }}{{ join " " (reverse $files) | quote| nindent 16 }}
+            - name: ONTOP_ONTOLOGY_FILE 
+              value: >-
+              {{- $files := (list) }}{{- range $endpoint,$binding := .Values.bindings }}{{- $files = (append $files (printf "/opt/ontop/input/%s" $binding.ontology)) }}{{- end }}{{ join " " (reverse $files) | quote| nindent 16 }}
+            - name: ONTOP_MAPPING_FILE 
+              value: >-
+              {{- $files := (list) }}{{- range $endpoint,$binding := .Values.bindings }}{{- $files = (append $files (printf "/opt/ontop/input/%s.obda" $endpoint)) }}{{- end }}{{ join " " (reverse $files) | quote| nindent 16 }}
+            - name: ONTOP_PROPERTIES_FILE
+              value: >-
+              {{- $files := (list) }}{{- range $endpoint,$binding := .Values.bindings }}{{- $files = (append $files (printf "/opt/ontop/input/%s.properties" $endpoint)) }}{{- end }}{{ join " " (reverse $files) | quote| nindent 16 }}
+            - name: ONTOP_PORTAL_FILE
+              value: >-
+              {{- $files := (list) }}{{- range $endpoint,$binding := .Values.bindings }}{{- $files = (append $files "/opt/ontop/input/portal.toml") }}{{- end }}{{ join " " (reverse $files) | quote| nindent 16 }}
+            - name: ONTOP_DEV_MODE
+              value: >-
+              {{- $files := (list) }}{{- range $endpoint,$binding := .Values.bindings }}{{- $files = (append $files "false") }}{{- end }}{{ join " " (reverse $files) | quote| nindent 16 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             - name: configuration
-              mountPath: /var/rdf4j/server/conf/logback.xml
-              subPath: logback.xml
+              mountPath: /opt/ontop/input/portal.toml
+              subPath: portal.toml
               readOnly: true
-            {{- range $asset, $_ := .Values.repositories }}
+            {{- range $asset, $_ := .Values.ontologies }}
             - name: configuration
-              mountPath: /var/rdf4j/server/repositories/{{ $asset }}/config.ttl
-              subPath: {{ $asset }}.ttl
+              mountPath: /opt/ontop/input/{{ $asset }}
+              subPath: {{ $asset }}
+              readOnly: true
+            {{- end }}
+            {{- range $asset, $_ := .Values.bindings }}
+            - name: configuration
+              mountPath: /opt/ontop/input/{{ $asset }}.obda
+              subPath: {{ $asset }}.obda
+              readOnly: true
+            - name: configuration
+              mountPath: /opt/ontop/input/{{ $asset }}.properties
+              subPath: {{ $asset }}.properties
               readOnly: true
             {{- end }}
       volumes:
@@ -103,11 +134,17 @@ spec:
           configMap:
             name: {{ include "agent.fullname" . }}-configmap
             items:
-              - key: logback.xml
-                path: lockback.xml
-              {{- range $asset, $_ := .Values.repositories }}
-              - key: {{ $asset }}.ttl
-                path: {{ $asset }}.ttl
+              - key: portal.toml
+                path: portal.toml
+              {{- range $asset, $_ := .Values.ontologies }}
+              - key: {{ $asset }}
+                path: {{ $asset }}
+              {{- end }}
+              {{- range $asset, $_ := .Values.bindings }}
+              - key: {{ $asset }}.obda
+                path: {{ $asset }}.obda
+              - key: {{ $asset }}.properties
+                path: {{ $asset }}.properties
               {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
