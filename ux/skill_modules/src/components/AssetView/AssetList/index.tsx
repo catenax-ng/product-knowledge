@@ -6,11 +6,16 @@ import { DataList } from '../../DataList';
 
 import React, { useEffect, useState } from 'react';
 
-function AssetList() {
+interface AssetListProps {
+  filter?: string;
+}
+function AssetList({ filter }: AssetListProps) {
   const [searchResult, setSearchResult] = useState<BindingSet>();
 
   useEffect(() => {
     const connector = getConnectorFactory().create();
+    //here add filter
+    console.log('Filter Assets by Ontology: ' + filter);
     connector.execute('Dataspace', {}).then((catalogue) => {
       setSearchResult(catalogue);
     });

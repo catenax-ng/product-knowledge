@@ -5,7 +5,6 @@ import {
 import { IconButton, Table } from 'cx-portal-shared-components';
 import React, { useEffect, useState } from 'react';
 import BubbleChartIcon from '@mui/icons-material/BubbleChart';
-import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import { Box } from '@mui/material';
 import EastIcon from '@mui/icons-material/East';
 
@@ -13,17 +12,21 @@ interface OntologyHubProps {
   onShowOntologyGraph?: (vowlUrl: string) => void;
   onShowAssetList?: (name: string) => void;
   pageSize: number;
+  filter?: string;
 }
 
 export function OntologyHub({
   onShowOntologyGraph,
   pageSize,
   onShowAssetList,
+  filter,
 }: OntologyHubProps) {
   const [ontologyList, setOntologyList] = useState<OntologyResult[]>([]);
 
   useEffect(() => {
     const ontologyHub = getOntologyHubFactory().create();
+    //use asset filter here:
+    console.log('Filter Ontologies by Asset: ' + filter);
     ontologyHub.getOntologies().then((data) => {
       setOntologyList(data);
     });
