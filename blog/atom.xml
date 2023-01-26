@@ -2,18 +2,20 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://catena-x.net/product-knowledge/blog</id>
     <title>Catena-X - Knowledge Agents Blog</title>
-    <updated>2023-01-25T10:22:14.000Z</updated>
+    <updated>2023-01-25T11:32:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://catena-x.net/product-knowledge/blog"/>
     <subtitle>Catena-X - Knowledge Agents Blog</subtitle>
     <icon>https://catena-x.net/product-knowledge/img/favicon.ico</icon>
     <entry>
-        <title type="html"><![CDATA[InitialRelease]]></title>
-        <id>InitialRelease</id>
-        <link href="https://catena-x.net/product-knowledge/blog/InitialRelease"/>
-        <updated>2023-01-25T10:22:14.000Z</updated>
-        <summary type="html"><![CDATA[The first spike of the knowledge agent architecture has just been released.]]></summary>
-        <content type="html"><![CDATA[<p>The first <a href="https://github.com/catenax-ng/product-knowledge/releases/tag/v0.4.6-spike" target="_blank" rel="noopener noreferrer">spike</a> of the knowledge agent architecture has just been released.</p>]]></content>
+        <title type="html"><![CDATA[Minimum Viable Product]]></title>
+        <id>MVP</id>
+        <link href="https://catena-x.net/product-knowledge/blog/MVP"/>
+        <updated>2023-01-25T11:32:00.000Z</updated>
+        <summary type="html"><![CDATA[Knowledge Agents is now ready for integration testing.]]></summary>
+        <content type="html"><![CDATA[<p>Knowledge Agents is now ready for integration testing.
+See our <a href="/product-knowledge/docs/deployment">Deployment Documentation</a> and our
+<a href="/product-knowledge/infrastructure">Helm Repository</a>.</p>]]></content>
         <author>
             <name>Knowledge Agents</name>
             <uri>https://github.com/catenax-ng/product-knowledge</uri>
@@ -22,12 +24,12 @@
         <category label="product" term="product"/>
     </entry>
     <entry>
-        <title type="html"><![CDATA[MinimumViableProduct]]></title>
-        <id>MVP</id>
-        <link href="https://catena-x.net/product-knowledge/blog/MVP"/>
-        <updated>2023-01-25T10:22:14.000Z</updated>
-        <summary type="html"><![CDATA[Knowledge Agents is now ready for integration testing.]]></summary>
-        <content type="html"><![CDATA[<p>Knowledge Agents is now ready for integration testing.</p>]]></content>
+        <title type="html"><![CDATA[Initial Release]]></title>
+        <id>Initial Release</id>
+        <link href="https://catena-x.net/product-knowledge/blog/Initial Release"/>
+        <updated>2022-05-13T17:33:00.000Z</updated>
+        <summary type="html"><![CDATA[The first spike of the knowledge agent architecture has just been released.]]></summary>
+        <content type="html"><![CDATA[<p>The first <a href="https://github.com/catenax-ng/product-knowledge/releases/tag/v0.4.6-spike" target="_blank" rel="noopener noreferrer">spike</a> of the knowledge agent architecture has just been released.</p>]]></content>
         <author>
             <name>Knowledge Agents</name>
             <uri>https://github.com/catenax-ng/product-knowledge</uri>
