@@ -64,14 +64,16 @@ The default realm mapping factory will use a realm mapping implementation which 
 ## Interacting with the Dataspace Connector
 
 The skill framework has the ability to interact with the tenant's dataspace connector. In general these interactions are asynchronous, such as the ability
-to list the assets of the connector itself or some remote connector by the 'listAssets' method.
+to list the assets of the connector itself or some remote connector by the 'execute' method.
+
 
 ```typescript
 import {getConnectorFactory, Catalogue} from '@catenax-ng/skill_framework';
 
 
 # we must await for the asynchronous result
-var catalogue:Catalogue = await getConnectorFactory().create().listAssets();
+var catalogue:BindingSet= await getConnectorFactory().create().execute('Dataspace', {});
+
 ```
 
 The default connector factory will inspect the `REACT_APP_SKILL_CONNECTOR_CONTROL`,`REACT_APP_SKILL_CONNECTOR_DATA`,`REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY`, `REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_VALUE` and `REACT_APP_SKILL_PROXY` environment variables.

@@ -17,6 +17,7 @@ function AssetList({ filter }: AssetListProps) {
     //here add filter
     console.log('Filter Assets by Ontology: ' + filter);
     connector.execute('Dataspace', {}).then((catalogue) => {
+      console.log(catalogue);
       setSearchResult(catalogue);
     });
   }, []);

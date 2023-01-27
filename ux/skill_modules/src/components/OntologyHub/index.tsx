@@ -72,7 +72,7 @@ export function OntologyHub({
             <IconButton
               title="Jump to related Assets"
               sx={{ mr: 1 }}
-              onClick={() => onShowAssetList(row.name)}
+              onClick={() => onShowAssetList(row.download_url)}
             >
               <EastIcon />
             </IconButton>

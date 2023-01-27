@@ -9,6 +9,7 @@ import fetch from 'node-fetch';
 import { RequestInit } from 'node-fetch';
 import createHttpsProxyAgent from 'https-proxy-agent';
 import { HttpsProxyAgent } from 'https-proxy-agent';
+import { ASSETS, SEARCH_RESULT } from './mock_data';
 export { getOntologyHubFactory, OntologyResult } from './ontology_hub';
 
 /*
@@ -26,8 +27,6 @@ export interface IConnector {
    * function to list all assets of the default catalogue through this connector
    * the providerUrl is an optional parameter (means that we will look for the local catalogue)
    */
-
-  listAssets: (providerUrl?: string) => Promise<Catalogue>;
   execute: (skill: string, queryVariables: JSONElement) => Promise<BindingSet>;
 }
 
@@ -289,121 +288,13 @@ export interface DataAddressProperties {
  * Implementation of a mock connector
  */
 class MockConnector implements IConnector {
-  public listAssets(): Promise<Catalogue> {
-    return Promise.resolve({
-      id: 'catenax',
-      contractOffers: [
-        {
-          id: 'oemOffer:64640ec6-5566-353f-97c2-f82013f6956e',
-          policy: {
-            permissions: [
-              {
-                edctype: 'dataspaceconnector:permission',
-                uid: null,
-                target: 'urn:cx:Graph:oem:Diagnosis2022',
-                action: {
-                  type: ActionType.USE,
-                  includedIn: null,
-                  constraint: null,
-                },
-                assignee: null,
-                assigner: null,
-                constraints: [],
-                duties: [],
-              },
-            ],
-            prohibitions: [],
-            obligations: [],
-            extensibleProperties: {},
-            inheritsFrom: null,
-            assigner: null,
-            assignee: null,
-            target: 'urn:cx:Graph:oem:Diagnosis2022',
-            '@type': {
-              '@policytype': PolicyType.set,
-            },
-          },
-          asset: {
-            id: 'urn:cx:Graph:oem:Diagnosis2022',
-            createdAt: 1665051075480,
-            properties: {
-              'asset:prop:byteSize': null,
-              'asset:prop:name':
-                'Diagnostic Trouble Code Catalogue Version 2022',
-              'cx:isFederated': true,
-              'asset:prop:description':
-                'A sample graph asset/offering referring to a specific diagnosis resource.',
-              'asset:prop:contenttype': 'application/json, application/xml',
-              'rdfs:isDefinedBy':
-                'https://github.com/catenax-ng/product-knowledge/ontology/diagnosis_ontology.ttl',
-              'cx:shape':
-                '@prefix : <urn:cx:Graph:oem:Diagnosis2022> .\n@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .\n@prefix cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#> .\n@prefix owl: <http://www.w3.org/2002/07/owl#> .\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n@prefix sh: <http://www.w3.org/ns/shacl#> .\n\nOemDTC rdf:type sh:NodeShape ;\n  sh:targetClass cx-diag:DTC ;\n  sh:property [\n        sh:path cx:provisionedBy ;\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\n    ] ;\n  sh:property [\n        sh:path cx-diag:Version ;\n        sh:hasValue 0^^xsd:long ;\n    ] ;\n  sh:property [\n        sh:path cx-diag:Affects ;\n        sh:class OemDiagnosedParts ;\n    ] ;\n\nOemDiagnosedParts rdf:type sh:NodeShape ;\n  sh:targetClass cx-diag:DiagnosedPart ;\n  sh:property [\n        sh:path cx:provisionedBy ;\n        sh:hasValue <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#BusinessPartner/BPNL00000003COJN> ;\n    ] ;\n',
-              'cx:protocol': undefined,
-              'asset:prop:version': '0.6.3-SNAPSHOT',
-              'asset:prop:id': 'urn:cx:Graph:oem:Diagnosis2022',
-              'asset:prop:fileName': null,
-              'rdf:type':
-                'https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#GraphAsset',
-            },
-          },
-          assetId: null,
-          provider: 'urn:connector:provider',
-          consumer: 'urn:connector:consumer',
-          offerStart: null,
-          offerEnd: null,
-          contractStart: null,
-          contractEnd: null,
-        },
-      ],
-    });
-  }
-
   //execute
-  public execute(): Promise<BindingSet> {
-    return Promise.resolve({
-      head: {
-        vars: [
-          'vin',
-          'troubleCode',
-          'description',
-          'partProg',
-          'distance',
-          'time',
-        ],
-      },
-      results: {
-        bindings: [
-          {
-            vin: {
-              type: 'literal',
-              value: 'WVA8984323420333',
-            },
-            troubleCode: {
-              type: 'literal',
-              value: 'P0745',
-            },
-            description: {
-              type: 'literal',
-              value: 'Getriebeöldruck-Magnetventil - Fehlfunktion Stromkreis',
-            },
-            partProg: {
-              type: 'literal',
-              value: '"GearOil"',
-            },
-            distance: {
-              type: 'literal',
-              datatype: 'http://www.w3.org/2001/XMLSchema#int',
-              value: '150',
-            },
-            time: {
-              type: 'literal',
-              datatype: 'http://www.w3.org/2001/XMLSchema#int',
-              value: '2',
-            },
-          },
-        ],
-      },
-    });
+  public execute(
+    skill: string,
+    queryVariables: JSONElement
+  ): Promise<BindingSet> {
+    if (skill === 'Dataspace') return Promise.resolve(ASSETS);
+    return Promise.resolve(SEARCH_RESULT);
   }
 }
 
@@ -506,11 +397,12 @@ interface Binding {
 }
 
 export interface Entry {
-  [key: string]: Value;
+  [key: string]: Value | undefined;
 }
 
 interface Value {
   value: string;
+  type: string;
 }
 
 /**
@@ -538,42 +430,6 @@ class RemoteConnector implements IConnector {
         port: url.port,
       });
     }
-  }
-
-  //List Asset
-  public async listAssets(providerUrl?: string): Promise<Catalogue> {
-    const start = new Date().getTime();
-    const finalproviderUrl = providerUrl ?? this.url;
-    const idsUrl = `${finalproviderUrl}/api/v1/ids/data`;
-
-    const finalUrl = `${this.url}/data/catalog?providerUrl=${idsUrl}`;
-
-    const fetchOpts: RequestInit = {
-      method: 'GET',
-      headers: this.realmMapping.getHeaderAnnotation(this.url),
-      agent: this.proxy,
-    };
-
-    // 👇️ const response: Response
-    const response = await fetch(finalUrl, fetchOpts);
-
-    const elapsed = new Date().getTime() - start;
-
-    // eslint-disable-next-line no-console
-    console.log(
-      `Listing Assets from Remote Connector finished after ${elapsed} milliseconds.`
-    );
-
-    if (!response.ok) {
-      throw new Error(`Error! status: ${response.status}`);
-    }
-
-    // 👇️ const result: GetUsersResponse
-    const result = (await response.json()) as Catalogue;
-
-    //console.log('result is: ', JSON.stringify(result, null, 4));
-
-    return result;
   }
 
   //Execute Query

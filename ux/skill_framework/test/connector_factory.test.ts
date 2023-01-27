@@ -16,26 +16,26 @@ describe('testing list assets', () => {
   jest.setTimeout(15000);
   test('assets should be returned', async () => {
     const connector = getConnectorFactory().create();
-    const catalogue = await connector.listAssets();
-    expect(catalogue.id).toBeDefined();
-    console.log(`Found catalog ${catalogue.id}.`);
-    expect(catalogue.contractOffers).toBeDefined();
-    expect(catalogue.contractOffers.length).toBeGreaterThan(0);
-    console.log(`Found ${catalogue.contractOffers.length} offers.`);
-    catalogue.contractOffers.map(function (contractOffer) {
-      expect(contractOffer).toHaveProperty('id');
-      console.log(`Found offer ${contractOffer.id}.`);
-      expect(contractOffer).toHaveProperty('policy');
-      expect(contractOffer).toHaveProperty('asset');
-      expect(contractOffer.asset).toHaveProperty('properties');
-      expect(contractOffer.asset.properties).toHaveProperty('asset:prop:id');
-      expect(contractOffer.asset.properties).toHaveProperty('asset:prop:name');
-      console.log(
-        `Found asset ${contractOffer.asset.properties['asset:prop:name']} in offer ${contractOffer.id}.`
-      );
-      expect(contractOffer.asset.properties).toHaveProperty(
-        'asset:prop:contenttype'
-      );
+    const catalogue = await connector.execute('Dataspace', {});
+    expect(catalogue.head).toBeDefined();
+    expect(catalogue.results).toBeDefined();
+    catalogue.results.bindings.map((entry) => {
+      expect(entry).toHaveProperty('connector');
+      expect(entry).toHaveProperty('asset');
+      expect(entry).toHaveProperty('name');
+      expect(entry).toHaveProperty('description');
+      expect(entry).toHaveProperty('type');
+      expect(entry).toHaveProperty('version');
+      expect(entry).toHaveProperty('contentType');
+      expect(entry).toHaveProperty('shape');
+      Object.keys(entry).forEach((key) => {
+        expect(entry[key]).toEqual(
+          expect.objectContaining({
+            type: expect.any(String),
+            value: expect.any(String),
+          })
+        );
+      });
     });
   });
 });
@@ -88,7 +88,10 @@ describe('Testing Execute Function', () => {
     console.log('Query results');
     result.results.bindings.map(function (entry) {
       result.head.vars.map((elem) => {
-        console.log(entry[elem].value);
+        const entryVal = entry[elem];
+        if (entryVal) {
+          console.log(entryVal.value);
+        }
       });
     });
   });
@@ -104,7 +107,10 @@ describe('Testing Execute Function', () => {
     console.log('Query results');
     result.results.bindings.map(function (entry) {
       result.head.vars.map((elem) => {
-        console.log(entry[elem].value);
+        const entryVal = entry[elem];
+        if (entryVal) {
+          console.log(entryVal.value);
+        }
       });
     });
   });
