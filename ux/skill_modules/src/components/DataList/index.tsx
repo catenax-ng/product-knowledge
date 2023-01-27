@@ -1,5 +1,5 @@
 import { BindingSet, Entry } from '@catenax-ng/skill-framework/dist/src';
-import { Table, Typography } from 'cx-portal-shared-components';
+import { IconButton, Table, Typography } from 'cx-portal-shared-components';
 import React from 'react';
 import { GridColDef, GridRowId, GridRowModel } from '@mui/x-data-grid';
 import { Box, Tooltip } from '@mui/material';
@@ -9,17 +9,35 @@ interface DataListProps {
   search: string;
   id: string;
   data: BindingSet;
+  actions?: Action[];
 }
 
-export const DataList = ({ search, id, data }: DataListProps) => {
+interface Action {
+  name: string;
+  icon: Element;
+  onClick: (id: string | undefined) => void;
+  rowKey: string;
+}
+
+export const DataList = ({ search, id, data, actions }: DataListProps) => {
   const tableTitle = `Results for ${search}`;
-  const resultToColumns = (result: string[]): Array<GridColDef> =>
-    result.map((item, index) => ({
+  const hiddenColums = ['shape', 'contentType'];
+
+  const getTtlByUrl = (url: string) =>
+    url.split('/').filter((str) => str.includes('ttl'))[0];
+
+  const resultToColumns = (result: string[]): Array<GridColDef> => {
+    const columns: Array<GridColDef> = result.map((item) => ({
       field: item,
       flex: 2,
       renderCell: ({ row }: { row: Entry }) => {
-        let val = row[item] ? row[item].value : '';
+        const rowItem = row[item];
+        let val = rowItem ? rowItem.value : '';
         val = val.replace('\\"', '"').replace('\\n', '\n');
+        if (item === 'isDefinedBy') {
+          val = val.split(',').map(getTtlByUrl).toString();
+          console.log(val);
+        }
         return (
           <Tooltip title={val}>
             <span
@@ -35,8 +53,31 @@ export const DataList = ({ search, id, data }: DataListProps) => {
           </Tooltip>
         );
       },
-      hide: index > 5,
+      hide: hiddenColums.includes(item),
     }));
+    if (actions && actions.length > 0) {
+      const actionColumn = {
+        field: 'actions',
+        flex: 2,
+        renderCell: ({ row }: { row: Entry }) =>
+          actions.map((action) => {
+            const rowValue = row[action.rowKey];
+            const onClickParam = row && rowValue ? rowValue.value : '';
+            return (
+              <IconButton
+                key={action.name}
+                title={action.name}
+                onClick={() => action.onClick(onClickParam)}
+              >
+                {action.icon}
+              </IconButton>
+            );
+          }),
+      };
+      columns.push(actionColumn);
+    }
+    return columns;
+  };
 
   const rowId = (row: GridRowModel): GridRowId => {
     if (id != undefined && row[id] != undefined) {
