@@ -4,7 +4,7 @@ import { GridRowModel } from '@mui/x-data-grid';
 import { Grid, Tooltip } from '@mui/material';
 import { IconButton, Table } from 'cx-portal-shared-components';
 import Typography from '@mui/material/Typography';
-import { BindingSet, getConnectorFactory, Entry } from '../..';
+import { getConnectorFactory, Entry } from '../..';
 import EmptyResultBox from '../EmptyResultBox';
 import InsightsIcon from '@mui/icons-material/Insights';
 import CatchingPokemonIcon from '@mui/icons-material/CatchingPokemon';
