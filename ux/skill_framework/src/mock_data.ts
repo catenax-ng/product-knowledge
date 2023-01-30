@@ -54,7 +54,7 @@ export const ASSETS = {
         isDefinedBy: {
           type: 'literal',
           value:
-            '<https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/error_ontology.ttl>,<https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/diagnosis_ontology.ttl>',
+            '<https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl>,<https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/error_ontology.ttl>,<https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/diagnosis_ontology.ttl>',
         },
       },
       {
@@ -97,7 +97,7 @@ export const ASSETS = {
         isDefinedBy: {
           type: 'literal',
           value:
-            '<https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/diagnosis_ontology.ttl,https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/error_ontology.ttl>',
+            '<https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl>,<https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/diagnosis_ontology.ttl>,<https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/error_ontology.ttl>',
         },
       },
       {
@@ -139,7 +139,7 @@ export const ASSETS = {
         isDefinedBy: {
           type: 'literal',
           value:
-            '<https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/diagnosis_ontology.ttl,https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_lifecycle_ontology.ttl,https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl>',
+            '<https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/diagnosis_ontology.ttl>,<https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_lifecycle_ontology.ttl>,<https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl>',
         },
       },
       {
@@ -182,7 +182,7 @@ export const ASSETS = {
         isDefinedBy: {
           type: 'literal',
           value:
-            '<https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl,https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/material_ontology.ttl>',
+            '<https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl>,<https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/material_ontology.ttl>',
         },
       },
       {

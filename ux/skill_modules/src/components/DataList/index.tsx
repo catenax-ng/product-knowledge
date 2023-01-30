@@ -1,30 +1,33 @@
 import { BindingSet, Entry } from '@catenax-ng/skill-framework/dist/src';
-import { IconButton, Table, Typography } from 'cx-portal-shared-components';
+import { IconButton, Table } from 'cx-portal-shared-components';
 import React from 'react';
 import { GridColDef, GridRowId, GridRowModel } from '@mui/x-data-grid';
-import { Box, Tooltip } from '@mui/material';
-import ErrorTwoToneIcon from '@mui/icons-material/ErrorTwoTone';
+import { Tooltip } from '@mui/material';
+import EmptyResultBox from '../EmptyResultBox';
 
 interface DataListProps {
   search: string;
   id: string;
   data: BindingSet;
   actions?: Action[];
+  hiddenColums?: string[];
 }
 
 interface Action {
   name: string;
-  icon: Element;
+  icon: JSX.Element;
   onClick: (id: string | undefined) => void;
   rowKey: string;
 }
 
-export const DataList = ({ search, id, data, actions }: DataListProps) => {
+export const DataList = ({
+  search,
+  id,
+  data,
+  actions,
+  hiddenColums,
+}: DataListProps) => {
   const tableTitle = `Results for ${search}`;
-  const hiddenColums = ['shape', 'contentType'];
-
-  const getTtlByUrl = (url: string) =>
-    url.split('/').filter((str) => str.includes('ttl'))[0];
 
   const resultToColumns = (result: string[]): Array<GridColDef> => {
     const columns: Array<GridColDef> = result.map((item) => ({
@@ -34,10 +37,6 @@ export const DataList = ({ search, id, data, actions }: DataListProps) => {
         const rowItem = row[item];
         let val = rowItem ? rowItem.value : '';
         val = val.replace('\\"', '"').replace('\\n', '\n');
-        if (item === 'isDefinedBy') {
-          val = val.split(',').map(getTtlByUrl).toString();
-          console.log(val);
-        }
         return (
           <Tooltip title={val}>
             <span
@@ -53,7 +52,7 @@ export const DataList = ({ search, id, data, actions }: DataListProps) => {
           </Tooltip>
         );
       },
-      hide: hiddenColums.includes(item),
+      hide: hiddenColums && hiddenColums.includes(item),
     }));
     if (actions && actions.length > 0) {
       const actionColumn = {
@@ -99,14 +98,7 @@ export const DataList = ({ search, id, data, actions }: DataListProps) => {
           getRowId={rowId}
         />
       ) : (
-        <Box textAlign="center" maxWidth="500px" ml="auto" mr="auto">
-          <ErrorTwoToneIcon color="warning" fontSize="large" />
-          <Typography variant="h4">Empty search result</Typography>
-          <Typography>
-            We could not find any data related to your search request. Please
-            change your search input.
-          </Typography>
-        </Box>
+        <EmptyResultBox />
       )}
     </>
   );

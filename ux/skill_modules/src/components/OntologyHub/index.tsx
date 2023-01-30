@@ -25,12 +25,13 @@ export function OntologyHub({
 
   useEffect(() => {
     const ontologyHub = getOntologyHubFactory().create();
-    //use asset filter here:
-    console.log('Filter Ontologies by Asset: ' + filter);
     ontologyHub.getOntologies().then((data) => {
+      if (filter && filter.length > 0) {
+        data = data.filter((row) => filter.includes(row.download_url));
+      }
       setOntologyList(data);
     });
-  }, []);
+  }, [filter]);
 
   const columns = [
     {

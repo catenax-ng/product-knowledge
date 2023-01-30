@@ -14,7 +14,7 @@ export default function Vocabulary() {
   }
 
   const params = new URLSearchParams(search)
-  const assetFilter = params.get('asset')
+  const assetFilter = params.get('ontologies')
 
   return (
     <Box mt={4}>
