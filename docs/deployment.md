@@ -165,6 +165,7 @@ daps: &daps
 supplier-control-plane: 
   nameOverride: supplier-control-plane
   fullnameOverride: supplier-control-plane
+  vault: *vault
   oauth: 
     <<: *daps
     privateKeyAlias: supplier-daps-key
@@ -201,6 +202,12 @@ supplier-control-plane:
 supplier-data-plane: &supplierdataplane
   nameOverride: supplier-data-plane
   fullnameOverride: supplier-data-plane
+  vault: *vault
+  oauth: 
+    <<: *daps
+    privateKeyAlias: supplier-daps-key
+    publicKeyAlias: supplier-daps-crt
+    endpointAudience: http://supplier-control-plane:8282/api/v1/ids/data
   token:
     validationEndpoint: "http://edc-control.intern/validation/token"
   configuration:
