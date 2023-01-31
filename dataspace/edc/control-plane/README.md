@@ -5,7 +5,9 @@ This folder hosts control plane extensions to the [Eclipse Dataspace Connector (
 It consists of
 
 - [Control Plane Agent Transfer](control-plane-transfer)
-- [Agent-Enabled Control Plane (In-Memory Persistence)](controlplane-memory)
+- [Agent-Enabled Control Plane (In-Memory Persistence, Azure Vault)](controlplane-memory)
+- [Agent-Enabled Control Plane (In-Memory Persistence, Hashicorp Vault)](controlplane-memory-hashicorp)
+- [Agent-Enabled Control Plane (PostgreSQL Persistence, Hashicorp Vault)](controlplane-postgresql-hashicorp)
 
 ## Notice
 

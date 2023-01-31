@@ -2,7 +2,9 @@
 File contains the core logic which would power HI resource.
 """
 import logging
+import json
 from datetime import datetime
+import random
 
 from app.utils.exceptions import CustomException
 
@@ -31,7 +33,7 @@ class HiService:
                               f"{','.join(errors)} information which are mandatory.",
                 metadata=self.hi_component
             )
-
+        self.hi_hash = hash(json.dumps(hi_data,sort_keys=True))
         LOGGER.info("Health indicator file passed all the validations")
 
     def validate(self) -> list:
@@ -66,9 +68,12 @@ class HiService:
         Returns: result is a mock response
 
         """
+
+        random.seed(self.hi_hash)
+
         result = {
 			"version" : "VER_AV_001",
 			"componentId" : self.hi_component,
-			"healthIndicatorValues" : [0.5] 	
+			"healthIndicatorValues" : [random.random(),random.random()] 	
 		}
         return result

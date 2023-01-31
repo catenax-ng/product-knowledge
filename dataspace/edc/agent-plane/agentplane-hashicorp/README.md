@@ -1,6 +1,6 @@
-# Catena-X Knowledge Agents (Hey Catena!) EDC Agent Plane (Azure Vault)
+# Catena-X Knowledge Agents (Hey Catena!) EDC Agent Plane (Hashicorp Vault)
 
-This folder hosts the [Default Agent (Data) Plane with Azure Vault access for the Eclipse Dataspace Connector (EDC)](https://projects.eclipse.org/projects/technology.dataspaceconnector).
+This folder hosts the [Default Agent (Data) Plane with Hashicorp Vault for the Eclipse Dataspace Connector (EDC)](https://projects.eclipse.org/projects/technology.dataspaceconnector).
 
 ## Building
 
@@ -23,11 +23,11 @@ mvn -s ../../../settings.xml install -Pwith-docker-image
 Alternatively, the docker image of the agent data plane is built using
 
 ```console
-docker build -t ghcr.io/catenax-ng/product-knowledge/dataspace/agentplane-azure-vault:latest -f src/main/docker/Dockerfile .
+docker build -t ghcr.io/catenax-ng/product-knowledge/dataspace/agentplane-hashicorp:latest -f src/main/docker/Dockerfile .
 ```
 
 The image contains
-* an EDC Data Plane for synchronous Http transfers with a secret store tailored to the Azure Vault
+* an EDC Data Plane for synchronous Http transfers with a secret store tailored to the Hashicorp Vault
 * supports HttpData sources (such as used by AAS submodels)
 * supports possibly multiple Http sub-protocols, currently
   * urn:cx:Protocol:w3c:Http#SPARQL for Graph-Based sources by means of the Apache Jena Fuseki engine
@@ -42,7 +42,7 @@ docker run -p 8082:8082 \
   -v $(pwd)/resources/dataplane.properties:/app/configuration.properties \
   -v $(pwd)/resources/opentelemetry.properties:/app/opentelemetry.properties \
   -v $(pwd)/resources/logging.properties:/app/logging.properties \
-  ghcr.io/catenax-ng/product-knowledge/dataspace/agentplane-azure-vault:latest
+  ghcr.io/catenax-ng/product-knowledge/dataspace/agentplane-hashicorp:latest
 ````
 
 Afterwards, you should be able to access the [local SparQL endpoint](http://localhost:8082/api/agent) via

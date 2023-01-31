@@ -1,0 +1,136 @@
+#################################################################
+# Catena-X Agent Bootstrap in TTL/RDF/OWL FORMAT
+# See copyright notice in the top folder
+# See authors file in the top folder
+# See license file in the top folder
+#################################################################
+
+@prefix : <urn:cx:Graph:local:Dataspace> .
+@prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .
+@prefix cx-common: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#> .
+@prefix cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#> .
+@prefix cx-telematics: <https://github.com/catenax-ng/product-knowledge/ontology/telematics.ttl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix json: <https://json-schema.org/draft/2020-12/schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix bpnl: <bpn:legal:> .
+@prefix bpns: <bpn:site:> .
+
+@base <urn:cx:Graph:local:Dataspace> .
+
+bpnl:BPNL00000003AYRE cx:hasBusinessPartnerNumber "BPNL00000003COJN"^^xsd:string;
+                      cx:hasBusinessPartnerNumber "BPNL00000003AYRE"^^xsd:string;
+                      cx:isIssuerOfVehicleIdentificationNumber "WBAAL31029PZ00001"^^xsd:string;
+                      cx:isIssuerOfVehicleIdentificationNumber "WBAAL31029PZ00002"^^xsd:string;
+                      cx:isIssuerOfVehicleIdentificationNumber "WBAAL31029PZ00003"^^xsd:string;
+                      cx:hasConnector <edcs://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN>.
+
+bpnl:BPNL00000003B2OM cx:hasBusinessPartnerNumber "BPNL00000003CPIY"^^xsd:string;
+                      cx:hasBusinessPartnerNumber "BPNL00000003B2OM"^^xsd:string;
+                      cx:hasConnector <edcs://knowledge.dev.demo.catena-x.net/tiera-edc-control/BPNL00000003CPIY>.
+
+bpnl:BPNL00000003CQI9 cx:hasBusinessPartnerNumber "BPNL00000003CQI9"^^xsd:string;
+                      cx:hasConnector <edcs://knowledge.dev.demo.catena-x.net/consumer-edc-control/BPNL00000003CQI9>.
+
+bpnl:BPNL00000003AXS3 cx-common:hasSite bpns:BPNS00000003AXS3.
+bpnl:BPNL00000003B0Q0 cx-common:hasSite bpns:BPNS00000003B0Q0.
+bpnl:BPNL00000003B3NX cx-common:hasSite bpns:BPNS00000003B3NX.
+bpnl:BPNL00000003AYRE cx-common:hasSite bpns:BPNS000004711DMY.
+bpnl:BPNL00000003AZQP cx-common:hasSite bpns:BPNS000001111DMY.
+bpnl:BPNL00000003B5MJ cx-common:hasSite bpns:BPNS00000003B5MJ.
+bpnl:BPNL00000003AVTH cx-common:hasSite bpns:BPNS000000815DMY.
+bpnl:BPNL00000003B2OM cx-common:hasSite bpns:BPNS00000003B2OM.
+
+bpnl:BPNL00000003B0Q0 cx-common:hasConnector <http://oem-provider-agent:8082/sparql>.
+
+bpns:BPNS00000003AXS3 cx-common:hasGeoInformation <geo:BPNS00000003AXS3>.
+bpns:BPNS00000003B0Q0 cx-common:hasGeoInformation <geo:BPNS00000003B0Q0>.
+bpns:BPNS00000003B3NX cx-common:hasGeoInformation <geo:BPNS00000003B3NX>.
+bpns:BPNS000004711DMY cx-common:hasGeoInformation <geo:BPNS000004711DMY>.
+bpns:BPNS000001111DMY cx-common:hasGeoInformation <geo:BPNS000001111DMY>.
+bpns:BPNS00000003B5MJ cx-common:hasGeoInformation <geo:BPNS00000003B5MJ>.
+bpns:BPNS000000815DMY cx-common:hasGeoInformation <geo:BPNS000000815DMY>.
+bpns:BPNS00000003B2OM cx-common:hasGeoInformation <geo:BPNS00000003B2OM>.
+
+<geo:BPNS00000003AXS3> cx-common:hasLatitude "35.62306268137165"^^xsd:double;
+                       cx-common:hasLongitude "139.7498516425976"^^xsd:double.
+<geo:BPNS00000003B0Q0> cx-common:hasLatitude "12.992287272083951"^^xsd:double;
+                       cx-common:hasLongitude "74.84030406238573"^^xsd:double.
+<geo:BPNS00000003B3NX> cx-common:hasLatitude "34.90316856022901"^^xsd:double;
+                       cx-common:hasLongitude "-82.10778890159467"^^xsd:double.
+<geo:BPNS000004711DMY> cx-common:hasLatitude "48.648900476926926"^^xsd:double;
+                       cx-common:hasLongitude "12.465527980565177"^^xsd:double.
+<geo:BPNS000001111DMY> cx-common:hasLatitude "-25.632334804928544"^^xsd:double;
+                       cx-common:hasLongitude "28.084500971267506"^^xsd:double.
+<geo:BPNS00000003B5MJ> cx-common:hasLatitude "-22.4775436688588"^^xsd:double;
+                       cx-common:hasLongitude "-47.024968046462206"^^xsd:double.
+<geo:BPNS000000815DMY> cx-common:hasLatitude "41.09474775381091"^^xsd:double;
+                       cx-common:hasLongitude "28.63504885821439"^^xsd:double.
+<geo:BPNS00000003B2OM> cx-common:hasLatitude "31.889668725991893"^^xsd:double;
+                       cx-common:hasLongitude "119.9591474486991"^^xsd:double.
+
+<urn:cx:AnonymousVehicle#10000ZP92013LAABW> cx:isAnonymousVehicle "WBAAL31029PZ00001"^^xsd:string;
+                                            cx:hasRegistration "{ \"Value\": 20220624,  \"Unit\": \"yyyymmdd\" }"^^json:Object;
+                                            cx-telematics:latestMileageReceived "{ \"Value\": 6017, \"Unit\": \"km\" }"^^json:Object;
+                                            cx-telematics:operatingTime "45667765"^^xsd:long;
+                                            cx-telematics:latestMileage "82563.02"^^xsd:double;
+                                            cx-telematics:latestDetailReceived <urn:cx:LoadCollective#10000ZP92013LAABW>.
+
+<urn:cx:LoadCollective#10000ZP92013LAABW> cx-diag:hasPartType "engine control module"^^xsd:string;
+                                          cx-diag:whenRecorded "2022-10-12T08:17:18.734Z"^^xsd:dateTime;
+                                          cx-diag:hasAdaptionValues "[ 0.543534, 0.543535, 0.543536, 0.543537 ]"^^json:Object;
+                                          cx-diag:hasLoadSpectrum "{ \"Temp_Oil-class\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \"Counts\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }"^^json:Object.
+
+<urn:cx:AnonymousVehicle#20000ZP92013LAABW> cx:isAnonymousVehicle "WBAAL31029PZ00002"^^xsd:string;
+                                            cx:hasRegistration "{ \"Value\": 20171206,  \"Unit\": \"yyyymmdd\" }"^^json:Object;
+                                            cx-telematics:latestMileage "82563.02"^^xsd:double;
+                                            cx-telematics:operatingTime "45667765"^^xsd:long;
+                                            cx-telematics:latestMileageReceived "{ \"Value\": 82563, \"Unit\": \"km\" }"^^json:Object;
+                                            cx-telematics:latestDetailReceived <urn:cx:LoadCollective#20000ZP92013LAABW>.
+
+<urn:cx:LoadCollective#20000ZP92013LAABW> cx-diag:hasPartType "clutch"^^xsd:string;
+                                          cx-diag:whenRecorded "2022-10-12T08:17:18.734Z"^^xsd:dateTime;
+                                          cx-diag:hasAdaptionValues "[ 0.543534, 0.543535, 0.543536, 0.543537 ]"^^json:Object;
+                                          cx-diag:hasLoadSpectrum "{ \"Temp_Oil-class\": [2, 3, 4, 6, 7, 8, 12, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51],  \"Counts\": [1.234E+01, 2.345E+02, 1.654E+02, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+01, 6.927E+01, 1.234E+01, 2.345E+02, 1.654E+02, 2.983E+01, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+01, 6.927E+01] }"^^json:Object.
+
+<urn:cx:AnonymousVehicle#30000ZP92013LAABW> cx:isAnonymousVehicle "WBAAL31029PZ00003"^^xsd:string;
+                                            cx:hasRegistration "{ \"Value\": 20130302,  \"Unit\": \"yyyymmdd\" }"^^json:Object;
+                                            cx-telematics:latestMileage "82563.02"^^xsd:double;
+                                            cx-telematics:operatingTime "45667765"^^xsd:long;
+                                            cx-telematics:latestMileageReceived "{ \"Value\": 247332, \"Unit\": \"km\" }"^^json:Object;
+                                            cx-telematics:latestDetailReceived <urn:cx:LoadCollective#30000ZP92013LAABW>.
+
+<urn:cx:LoadCollective#30000ZP92013LAABW> cx-diag:hasPartType "wiring harness"^^xsd:string;
+                                          cx-diag:whenRecorded "2022-10-12T08:17:18.734Z"^^xsd:dateTime;
+                                          cx-diag:hasAdaptionValues "[ 0.543534, 0.543535, 0.543536, 0.543537 ]"^^json:Object;
+                                          cx-diag:hasLoadSpectrum "{ \"Temp_Oil-class\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \"Counts\": [1.234E+01, 2.345E+02, 1.654E+02, 2.983E+02, 4.321E+01, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 3.432E+02, 1.873E+02, 4.738E+01, 6.927E+01, 8.234E+01, 2.345E+02, 4.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 9.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+01, 5.927E+01] }"^^json:Object.
+
+<urn:cx:AnonymousSerializedPart#GB4711> cx:isComponentOf <urn:cx:AnonymousVehicle#10000ZP92013LAABW>;
+                                        cx:hasPartType "engine control module"^^xsd:string;
+                                        cx:hasSupplier bpnl:BPNL00000003B2OM;
+                                        cx:hasName "Gear Box"^^xsd:string.
+
+<urn:cx:AnonymousSerializedPart#GB4712> cx:isComponentOf <urn:cx:AnonymousVehicle#20000ZP92013LAABW>;
+                                        cx:hasPartType "clutch"^^xsd:string;
+                                        cx:hasSupplier bpnl:BPNL00000003B2OM;
+                                        cx:hasName "Gear Oil"^^xsd:string.
+
+<urn:cx:AnonymousSerializedPart#GB4713> cx:isComponentOf <urn:cx:AnonymousVehicle#30000ZP92013LAABW>;
+                                        cx:hasPartType "wiring harness"^^xsd:string;
+                                        cx:hasSupplier bpnl:BPNL00000003B2OM;
+                                        cx:hasName "Wiring Harness"^^xsd:string.
+
+<urn:cx:LoadCollective#30000ZP92013LAABW> cx-telematics:hasFile "{  \"Type\": \"ZF_load_collective\", \"Version\": \"1.7\"  }"^^json:Object;
+                                          cx-telematics:hasAdaptionVersion "VER_AV_001"^^xsd:string;
+                                          cx-telematics:hasHeader "{  \"CountingMethod\": \"ZF_TimeAtLevel\",    \"CountingUnit\": \"s\",    \"Channels\": [      {        \"Name\": \"Temp_Oil\",        \"Type\": \"Load\",        \"Unit\": \"degC\",        \"LowerLimit\": -40,        \"UpperLimit\": 220,        \"NumberOfBins\": 52      }  ]  }"^^json:Object.
+
+<urn:cx:LoadCollective#20000ZP92013LAABW> cx-telematics:hasFile "{  \"Type\": \"ZF_load_collective\", \"Version\": \"1.7\"  }"^^json:Object;
+                                          cx-telematics:hasAdaptionVersion "VER_AV_001"^^xsd:string;
+                                          cx-telematics:hasHeader "{  \"CountingMethod\": \"ZF_TimeAtLevel\",    \"CountingUnit\": \"s\",    \"Channels\": [      {        \"Name\": \"Temp_Oil\",        \"Type\": \"Load\",        \"Unit\": \"degC\",        \"LowerLimit\": -40,        \"UpperLimit\": 220,        \"NumberOfBins\": 52      }  ]  }"^^json:Object.
+
+<urn:cx:LoadCollective#10000ZP92013LAABW> cx-telematics:hasFile "{  \"Type\": \"ZF_load_collective\", \"Version\": \"1.7\"  }"^^json:Object;
+                                          cx-telematics:hasAdaptionVersion "VER_AV_001"^^xsd:string;
+                                          cx-telematics:hasHeader "{  \"CountingMethod\": \"ZF_TimeAtLevel\",    \"CountingUnit\": \"s\",    \"Channels\": [      {        \"Name\": \"Temp_Oil\",        \"Type\": \"Load\",        \"Unit\": \"degC\",        \"LowerLimit\": -40,        \"UpperLimit\": 220,        \"NumberOfBins\": 52      }  ]  }"^^json:Object.

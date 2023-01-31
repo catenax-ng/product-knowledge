@@ -1,0 +1,13 @@
+@prefix cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+cx:CxOntology a owl:Ontology ;
+    dc:creator "Catena-X Knowledge Agents Team" ;
+    dc:date "2022-11-29"^^xsd:date ;
+    dc:description "Catena-X Ontology for the Autmotive Industry." ;
+    dc:title "Catena-X Ontology" .

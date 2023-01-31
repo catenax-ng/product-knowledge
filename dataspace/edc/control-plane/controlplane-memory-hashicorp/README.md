@@ -27,7 +27,7 @@ docker build -t ghcr.io/catenax-ng/product-knowledge/control-plane-memory:latest
 ```
 
 The image contains
-* an EDC Control Plane with http protocols transfer and in-memory storage (and AZ Vault access).
+* an EDC Control Plane with http protocols transfer and in-memory storage (and Hashicorp Vault access).
 
 To run the docker image, you could invoke this command
 

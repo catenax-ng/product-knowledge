@@ -50,7 +50,7 @@ def test_hi_200_sanity(client):
     assert len(response_data["healthIndicatorOutputs"]) == 2
     response_array = response_data["healthIndicatorOutputs"]
     response_item = response_array[0]
-    assert len(response_item["healthIndicatorValues"]) == 1
+    assert len(response_item["healthIndicatorValues"]) == 2
 
 
 def test_hi_csv_file(client, hi_data):
