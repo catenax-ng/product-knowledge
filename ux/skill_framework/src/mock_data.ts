@@ -34,7 +34,7 @@ export const ASSETS = {
             'A sample graph asset/offering referring to a specific diagnosis resource.',
         },
         type: {
-          type: 'literal',
+          type: 'uri',
           value:
             'https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#GraphAsset',
         },
@@ -77,7 +77,7 @@ export const ASSETS = {
           value: 'Another sample skill asset/offering implemented via SparQL.',
         },
         type: {
-          type: 'literal',
+          type: 'uri',
           value:
             'https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#SkillAsset',
         },
@@ -119,7 +119,7 @@ export const ASSETS = {
           value: 'A sample skill asset/offering implemented via SparQL.',
         },
         type: {
-          type: 'literal',
+          type: 'uri',
           value:
             'https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#SkillAsset',
         },
@@ -162,7 +162,7 @@ export const ASSETS = {
           value: 'Another sample skill asset/offering implemented via SparQL.',
         },
         type: {
-          type: 'literal',
+          type: 'uri',
           value:
             'https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#SkillAsset',
         },
@@ -205,7 +205,7 @@ export const ASSETS = {
             'A graph asset/offering mounting Carena-X Testdata for Behaviour Twin.',
         },
         type: {
-          type: 'literal',
+          type: 'uri',
           value:
             'https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#GraphAsset',
         },
@@ -225,7 +225,7 @@ export const ASSETS = {
         isDefinedBy: {
           type: 'literal',
           value:
-            'https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl',
+            '<https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl>',
         },
       },
       {
@@ -248,7 +248,7 @@ export const ASSETS = {
             'A graph asset/offering mounting Carena-X Testdata for Traceability.',
         },
         type: {
-          type: 'literal',
+          type: 'uri',
           value:
             'https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#GraphAsset',
         },
@@ -386,7 +386,7 @@ export const ASSETS = {
         isDefinedBy: {
           type: 'literal',
           value:
-            'https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl',
+            '<https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl>',
         },
       },
       {
@@ -429,7 +429,7 @@ export const ASSETS = {
         isDefinedBy: {
           type: 'literal',
           value:
-            'https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/prognosis_ontology.ttl',
+            '<https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/prognosis_ontology.ttl>',
         },
       },
       {
@@ -472,7 +472,7 @@ export const ASSETS = {
         isDefinedBy: {
           type: 'literal',
           value:
-            'https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/prognosis_ontology.ttl',
+            '<https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/prognosis_ontology.ttl>',
         },
       },
     ],

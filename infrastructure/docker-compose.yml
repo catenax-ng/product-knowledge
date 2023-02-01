@@ -89,6 +89,12 @@ services:
   # Configures the oem control plane (provider)
   #
   oem-control-plane:
+    build:
+      dockerfile: src/main/docker/Dockerfile
+      context: ../dataspace/edc/control-plane/controlplane-memory
+      args:
+        JAR: target/controlplane-memory.jar
+        LIB: target/lib
     image: ghcr.io/catenax-ng/product-knowledge/controlplane-memory:0.7.3-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
@@ -113,6 +119,12 @@ services:
   # Configures the oem control plane (consumer)
   #
   oem-control-plane2:
+    build:
+      dockerfile: src/main/docker/Dockerfile
+      context: ../dataspace/edc/control-plane/controlplane-memory
+      args:
+        JAR: target/controlplane-memory.jar
+        LIB: target/lib
     image: ghcr.io/catenax-ng/product-knowledge/controlplane-memory:0.7.3-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
@@ -137,9 +149,7 @@ services:
   oem-data-plane:
     build:
       dockerfile: src/main/docker/Dockerfile
-      context: ../dataspace/edc/agentplane-azurevault
-      #dockerfile: ../product-knowledge/dataspace/edc/agentplane-azurevault/src/main/docker/Dockerfile.fuseki
-      #context: ../../spike/
+      context: ../dataspace/edc/agent-plane/agentplane-azurevault
       args:
         JAR: target/agentplane-azure-vault.jar
         LIB: target/lib
@@ -198,6 +208,12 @@ services:
   # Configures the tiera control plane
   #
   tiera-control-plane:
+    build:
+      dockerfile: src/main/docker/Dockerfile
+      context: ../dataspace/edc/control-plane/controlplane-memory
+      args:
+        JAR: target/controlplane-memory.jar
+        LIB: target/lib
     image: ghcr.io/catenax-ng/product-knowledge/controlplane-memory:0.7.3-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
@@ -224,9 +240,7 @@ services:
   tiera-data-plane:
     build:
       dockerfile: src/main/docker/Dockerfile
-      context: ../dataspace/edc/agentplane-azurevault
-      #dockerfile: ../product-knowledge/dataspace/edc/agentplane-azurevault/src/main/docker/Dockerfile.fuseki
-      #context: ../../spike/
+      context: ../dataspace/edc/agent-plane/agentplane-azurevault
       args:
         JAR: target/agentplane-azure-vault.jar
         LIB: target/lib
@@ -253,6 +267,12 @@ services:
   # Configures the consumer control plane
   #
   consumer-control-plane:
+    build:
+      dockerfile: src/main/docker/Dockerfile
+      context: ../dataspace/edc/control-plane/controlplane-memory
+      args:
+        JAR: target/controlplane-memory.jar
+        LIB: target/lib
     image: ghcr.io/catenax-ng/product-knowledge/controlplane-memory:0.7.3-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
@@ -279,7 +299,7 @@ services:
   consumer-data-plane:
     build:
       dockerfile: src/main/docker/Dockerfile
-      context: ../dataspace/edc/agentplane-azurevault
+      context: ../dataspace/edc/agent-plane/agentplane-azurevault
       args:
         JAR: target/agentplane-azure-vault.jar
         LIB: target/lib
