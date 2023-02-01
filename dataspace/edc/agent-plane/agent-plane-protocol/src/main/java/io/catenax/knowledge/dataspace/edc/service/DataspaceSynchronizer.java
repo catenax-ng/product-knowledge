@@ -173,7 +173,32 @@ public class DataspaceSynchronizer implements Runnable {
                 assetNode));
         for(Map.Entry<String,Node> assetProp : assetPropertyMap.entrySet()) {
             if(offer.getAsset().getProperty(assetProp.getKey())!=null) {
-                quads.add(Quad.create(graph,assetNode,assetProp.getValue(),NodeFactory.createLiteral(String.valueOf(offer.getAsset().getProperty(assetProp.getKey())))));
+                String pureProperty=String.valueOf(offer.getAsset().getProperty(assetProp.getKey()));
+                switch(assetProp.getKey()) {
+                    case "asset:prop:contract":
+                    case "rdfs:isDefinedBy":
+                    case "rdf:type":
+                    case "cx:protocol":
+                        String[] urls=pureProperty.split(",");
+                        for(String url : urls) {
+                            Node o;
+                            url=url.trim();
+                            if(url.startsWith("<") && url.endsWith(">")) {
+                                url=url.substring(1,url.length()-1);
+                                o=NodeFactory.createURI(url);
+                            } else if(url.startsWith("\"") && url.endsWith("\"")) {
+                                // TODO parse ^^literalType annotations
+                                url=url.substring(1,url.length()-1);
+                                o=NodeFactory.createLiteral(url);
+                                                       } else {
+                                o=NodeFactory.createLiteral(url);
+                            }
+                            quads.add(Quad.create(graph,assetNode,assetProp.getValue(),o));
+                        }
+                        break;
+                    default:
+                        quads.add(Quad.create(graph,assetNode,assetProp.getValue(),NodeFactory.createLiteral(pureProperty)));                   
+                }
             }
         }
         return quads;
