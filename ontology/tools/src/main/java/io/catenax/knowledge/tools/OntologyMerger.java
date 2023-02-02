@@ -132,10 +132,24 @@ public class OntologyMerger {
          }
       }
       
-      OWLOntology newOntology = imports.size()==1 ? imports.get(0) : manager.createOntology(IRI.create(iri),imports,false);
+      OWLOntology newOntology = imports.size()==1 ? imports.get(0) : null;
+
+      if(newOntology==null) {
+          IRI oIri=IRI.create(iri);
+          newOntology = manager.createOntology(oIri,imports,false);
+          OWLNamedIndividual oInd = manager.getOWLDataFactory().getOWLNamedIndividual(oIri);
+          OWLDataProperty dcTitle = manager.getOWLDataFactory().getOWLDataProperty(IRI.create("http://purl.org/dc/elements/1.1/title"));
+          OWLDataProperty owlVersionInfo = manager.getOWLDataFactory().getOWLDataProperty(IRI.create("http://www.w3.org/2002/07/owl#versionInfo"));
+          OWLLiteral versionLiteral = manager.getOWLDataFactory().getOWLLiteral(version);
+          OWLDataPropertyAssertionAxiom hasTitle = manager.getOWLDataFactory().
+                  getOWLDataPropertyAssertionAxiom(dcTitle,oInd,title);
+          OWLDataPropertyAssertionAxiom hasVersion = manager.getOWLDataFactory().
+                  getOWLDataPropertyAssertionAxiom(owlVersionInfo,oInd,version);
+          manager.addAxiom(newOntology,hasTitle);
+          manager.addAxiom(newOntology,hasVersion);
+      }
 
       if(isVowl) {
-         Owl2Vowl o2v=new Owl2Vowl(newOntology);
          OntologyConverter converter=new OntologyConverter(newOntology);
          converter.clearLoadingMsg();
          BackupExporter exporter = new BackupExporter();
