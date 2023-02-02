@@ -81,11 +81,6 @@ public class OntologyConverter implements Converter {
         this.ontology = ontology;
     }
 
-    public OntologyConverter(OWLOntology ontology, String ontologyIRI) {
-        this(ontology);
-        this.loadedOntologyPath = ontologyIRI;
-    }
-
     protected void loadOntology() throws OWLOntologyCreationException {
         logger.info("Converting Ontolgy...");
         logger.info("Loading ontology ... [" + this.ontology + "]");
@@ -93,7 +88,7 @@ public class OntologyConverter implements Converter {
         this.loadedOntologyPath = "Direct ontology";
         String logOntoName;
         if (!this.ontology.isAnonymous()) {
-            logOntoName = ((IRI)this.ontology.getOntologyID().getOntologyIRI().get()).toString();
+            logOntoName = this.ontology.getOntologyID().getOntologyIRI().map(IRI::toString).orElse("Anonymous");
         } else {
             logOntoName = "Anonymous";
             logger.info("Ontology IRI is anonymous.");
@@ -139,8 +134,7 @@ public class OntologyConverter implements Converter {
     public String msgForWebVOWL(String stackTrace) {
         // converts the < and > tags to html string so no html injection is created
         String s1 = stackTrace.replaceAll("<", "&lt;");
-        String s2 = s1.replaceAll(">", "&gt;");
-        return s2;
+        return s1.replaceAll(">", "&gt;");
     }
 
     @Override
@@ -165,7 +159,7 @@ public class OntologyConverter implements Converter {
     public void addLoadingInfoToLine(String parent, String msg) {
         // find parent line in msg;
         if (loadingInfoString.length() > 0) {
-            String tokens[] = loadingInfoString.split("\n");
+            String[] tokens = loadingInfoString.split("\n");
             for (int i = 0; i < tokens.length; i++) {
                 if (tokens[i].contains(parent)) {
                     tokens[i] += msg;
@@ -180,7 +174,7 @@ public class OntologyConverter implements Converter {
             }
             loadingInfoString += tokens[tokens.length - 1] + "\n";
         }
-    };
+    }
 
     @Override
     public void addLoadingInfoToParentLine(String msg) {
@@ -199,7 +193,7 @@ public class OntologyConverter implements Converter {
         initialized = true;
     }
 
-    private void preParsing(OWLOntology ontology, VowlData vowlData, OWLOntologyManager manager) {
+    private void preParsing(OWLOntology ontology, VowlData vowlData) {
         OWLOntologyWalker walker = new OWLOntologyWalker(ontology.importsClosure().collect(Collectors.toSet()));
         EntityCreationVisitor ecv = new EntityCreationVisitor(vowlData);
         // this is a set of annotation assertions;
@@ -208,35 +202,35 @@ public class OntologyConverter implements Converter {
             try {
                 // try to cast this as assertion axiom and add ot to VOWL Data
                 OWLAnnotationAssertionAxiom castedEntry = (OWLAnnotationAssertionAxiom) entry;
-                String subject = castedEntry.getSubject().asIRI().get().toString();
+                String subject = castedEntry.getSubject().asIRI().map(IRI::toString).orElse("");
                 String property = castedEntry.getProperty().getIRI().toString();
-                String value = "";
-                if (castedEntry.getProperty().getIRI().getShortForm().toString().compareTo("targetElement") == 0
-                        || castedEntry.getProperty().getIRI().getShortForm().toString().compareTo("subjectElement") == 0
-                        || castedEntry.getProperty().getIRI().getShortForm().toString()
+                String value;
+                if (castedEntry.getProperty().getIRI().getShortForm().compareTo("targetElement") == 0
+                        || castedEntry.getProperty().getIRI().getShortForm().compareTo("subjectElement") == 0
+                        || castedEntry.getProperty().getIRI().getShortForm()
                         .compareTo("predicateElement") == 0
-                        || castedEntry.getProperty().getIRI().getShortForm().toString()
+                        || castedEntry.getProperty().getIRI().getShortForm()
                         .compareTo("providesNotation") == 0
                         ||
 
-                        castedEntry.getProperty().getIRI().getShortForm().toString()
+                        castedEntry.getProperty().getIRI().getShortForm()
                                 .compareTo("subjectDescription") == 0
-                        || castedEntry.getProperty().getIRI().getShortForm().toString()
+                        || castedEntry.getProperty().getIRI().getShortForm()
                         .compareTo("predicateDescription") == 0
-                        || castedEntry.getProperty().getIRI().getShortForm().toString()
+                        || castedEntry.getProperty().getIRI().getShortForm()
                         .compareTo("objectDescription") == 0
                         ||
 
-                        castedEntry.getProperty().getIRI().getShortForm().toString().compareTo("providesView") == 0
-                        || castedEntry.getProperty().getIRI().getShortForm().toString()
+                        castedEntry.getProperty().getIRI().getShortForm().compareTo("providesView") == 0
+                        || castedEntry.getProperty().getIRI().getShortForm()
                         .compareTo("viewUsesNotation") == 0
-                        || castedEntry.getProperty().getIRI().getShortForm().toString().compareTo("objectElement") == 0
-                        || castedEntry.getProperty().getIRI().getShortForm().toString().compareTo("isTypeOf") == 0) {
+                        || castedEntry.getProperty().getIRI().getShortForm().compareTo("objectElement") == 0
+                        || castedEntry.getProperty().getIRI().getShortForm().compareTo("isTypeOf") == 0) {
                     value = castedEntry.getValue().toString();
                 } else {
 
                     OWLAnnotationValue le_val = castedEntry.getValue();
-                    OWLLiteral le_literal = le_val.asLiteral().get();
+                    OWLLiteral le_literal = le_val.asLiteral().orElse(manager.getOWLDataFactory().getOWLLiteral(""));
                     value = le_literal.getLiteral();
 
                 }
@@ -335,13 +329,11 @@ public class OntologyConverter implements Converter {
                 try {
                     owlClassAxiom.accept(temp);
                     temp.Destrucotre();
-                    temp = null;
                 } catch (Exception e) {
                     logger.info("ProcessClasses : Failed to accept owlClassAxiom -> Skipping");
                 }
             }
             HasKeyAxiomParser.parse(ontology, owlClass, vowlData);
-            owlClass = null;
         }
     }
 
@@ -390,20 +382,24 @@ public class OntologyConverter implements Converter {
         new BaseIriCollector(vowlData).execute();
 
         PrefixDocumentFormat pm = (PrefixDocumentFormat) manager.getOntologyFormat(ontology);
-        Map<String, String> prefixName2PrefixMap = pm.getPrefixName2PrefixMap();
-        // adding prefix list to that thing;
-        for (Map.Entry<String, String> entry : prefixName2PrefixMap.entrySet()) {
-            vowlData.addPrefix(entry.getKey(), entry.getValue());
+        if(pm!=null) {
+            Map<String, String> prefixName2PrefixMap = pm.getPrefixName2PrefixMap();
+            // adding prefix list to that thing;
+            for (Map.Entry<String, String> entry : prefixName2PrefixMap.entrySet()) {
+                vowlData.addPrefix(entry.getKey(), entry.getValue());
+            }
         }
 
         // get the importedOntologies;
         Stream<OWLOntology> imported = ontology.imports();
         for (OWLOntology importedOntology : imported.collect(Collectors.toSet())) {
             PrefixDocumentFormat i_pm = (PrefixDocumentFormat) manager.getOntologyFormat(importedOntology);
-            Map<String, String> i_prefixName2PrefixMap = i_pm.getPrefixName2PrefixMap();
-            // adding prefix list to that thing;
-            for (Map.Entry<String, String> entry : i_prefixName2PrefixMap.entrySet()) {
-                vowlData.addPrefix(entry.getKey(), entry.getValue());
+            if(i_pm!=null) {
+                Map<String, String> i_prefixName2PrefixMap = i_pm.getPrefixName2PrefixMap();
+                // adding prefix list to that thing;
+                for (Map.Entry<String, String> entry : i_prefixName2PrefixMap.entrySet()) {
+                    vowlData.addPrefix(entry.getKey(), entry.getValue());
+                }
             }
         }
     }
@@ -440,7 +436,7 @@ public class OntologyConverter implements Converter {
         this.setCurrentlyLoadingFlag("* Generating ontology graph ", true);
         try {
             logger.info("  -> preParsing() "+new java.text.SimpleDateFormat("HH:mm:ss").format(java.util.Calendar.getInstance().getTime()));
-            preParsing(ontology, vowlData, manager);
+            preParsing(ontology, vowlData);
 
             logger.info("  -> parsing()"+new java.text.SimpleDateFormat("HH:mm:ss").format(java.util.Calendar.getInstance().getTime()));
             parsing(ontology, vowlData, manager);
