@@ -6,6 +6,7 @@
 //
 package io.catenax.knowledge.tools;
 
+import de.uni_stuttgart.vis.vowl.owl2vowl.export.types.BackupExporter;
 import org.semanticweb.owlapi.formats.RDFJsonLDDocumentFormat;
 import org.semanticweb.owlapi.formats.RDFXMLDocumentFormat;
 import org.semanticweb.owlapi.model.*;
@@ -45,13 +46,21 @@ public class OntologyMerger {
       run(args,System.out);
    }
 
-   /** 
+   public static String CX_ONTOLOGY_IRI= "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl";
+   public static String CX_ONTOLOGY_TITLE= "Catena-X Ontology";
+   public static String CX_ONTOLOGY_VERSION= "0.7.4-SNAPSHOT";
+
+   /**
     * run the merge command on the given files and output the result to the console  
     * @param args a set of arguments
     * @param outStream to use for output 
     */
     public void run(String[] args, PrintStream outStream) throws Exception {
       ArrayList<String> remainingArgs=new ArrayList<>();
+      String iri=CX_ONTOLOGY_IRI;
+      String title = CX_ONTOLOGY_TITLE;
+      String version = CX_ONTOLOGY_VERSION;
+
       String styleSheet=null;
       boolean isVowl=false;
       try {
@@ -68,12 +77,18 @@ public class OntologyMerger {
                }
             } else if("+jsonld".equals(args[count])) {
               ontologyFormat=new RDFJsonLDDocumentFormat();
-            } else {
+            } else if("-iri".equals(args[count])) {
+               iri=args[++count];
+             } else if("-version".equals(args[count])) {
+               version=args[++count];
+             } else if("-title".equals(args[count])) {
+               title=args[++count].replace("\"","");
+             } else {
                remainingArgs.add(args[count]);
             }
          }
          ByteArrayOutputStream bos=new ByteArrayOutputStream();
-         run(remainingArgs.toArray(new String[0]),bos,isVowl);
+         run(remainingArgs.toArray(new String[0]),iri,title,version,bos,isVowl);
          if(styleSheet!=null) {
             StreamSource sheet = new javax.xml.transform.stream.StreamSource(styleSheet);
             TransformerFactory factory=TransformerFactory.newInstance();
@@ -96,22 +111,31 @@ public class OntologyMerger {
     * @param args filenames
     * @param out stream to render the ontology into
     */
-   public void run(String[] args, OutputStream out, boolean isVowl) throws Exception {
+   public void run(String[] args, String iri, String title, String version, OutputStream out, boolean isVowl) throws Exception {
       ArrayList<OWLOntology> imports=new ArrayList<>();
 
       for (String arg : args) {
          try {
-            imports.add(manager.loadOntologyFromOntologyDocument(new File(arg)));
+            OWLOntology myOntology=manager.loadOntologyFromOntologyDocument(new File(arg));
+            imports.add(myOntology);
          } catch(Exception e) {
             System.err.println(String.format("Could not import ontology %s because of %s. Ignoring.",arg,e));
          }
       }
       
-      OWLOntology newOntology = manager.createOntology(IRI.create("https://github.com/catenax-ng/product-knowledge"),imports,false);
+      OWLOntology newOntology = imports.size()==1 ? imports.get(0) : manager.createOntology(IRI.create(iri),imports,false);
 
       if(isVowl) {
          Owl2Vowl o2v=new Owl2Vowl(newOntology);
-         String json=o2v.getJsonAsString();
+         OntologyConverter converter=new OntologyConverter(newOntology);
+         converter.clearLoadingMsg();
+         BackupExporter exporter = new BackupExporter();
+         try {
+            converter.export(exporter);
+         } catch (Exception var3) {
+            throw new IllegalStateException(var3);
+         }
+         String json=exporter.getConvertedJson();
          new PrintStream(out).print(json);
       } else {
          newOntology.getOWLOntologyManager().saveOntology(newOntology,ontologyFormat, out);

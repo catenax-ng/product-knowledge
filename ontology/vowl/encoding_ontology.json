@@ -1,27 +1,54 @@
 {
-  "_comment":"Created By OntologyMerger (c) 2022 Catena-X",
+  "_comment" : "Created with OWL2VOWL (version 0.3.7), http://vowl.visualdataweb.org",
   "header" : {
-    "languages" : [ "de", "en" ],
-    "title": {
-      "undefined": "Catena-X Encoding Ontology"
-    },
+    "languages" : [ "de", "en", "undefined" ],
     "baseIris" : [ "http://www.w3.org/1999/02/22-rdf-syntax-ns", "http://www.w3.org/2000/01/rdf-schema", "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl", "http://www.w3.org/2001/XMLSchema" ],
     "prefixList" : {
       "owl" : "http://www.w3.org/2002/07/owl#",
       "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+      "cx" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#",
+      "skos" : "http://www.w3.org/2004/02/skos/core#",
       "xsd" : "http://www.w3.org/2001/XMLSchema#",
+      "dc" : "http://purl.org/dc/elements/1.1/",
       "xml" : "http://www.w3.org/XML/1998/namespace",
       "rdfs" : "http://www.w3.org/2000/01/rdf-schema#"
     },
-    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-    "description": {
-      "undefined": "The Catena-X Encoding Ontology describes Data Formats."
+    "title" : {
+      "undefined" : "Encoding Ontology"
     },
-    "version": "0.7.3-SNAPSHOT",
-    "author": [
-      "Zazralt Magic (BMW)"
-    ]
-  },   
+    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
+    "version" : "0.0.1",
+    "author" : [ "Zazralt Magic" ],
+    "description" : {
+      "undefined" : "An encoding provides information how to decode a code string, i.e. how to split its tokens and map its keys to its values."
+    },
+    "other" : {
+      "date" : [ {
+        "identifier" : "date",
+        "language" : "undefined",
+        "value" : "2022-11-28",
+        "type" : "label"
+      } ],
+      "creator" : [ {
+        "identifier" : "creator",
+        "language" : "undefined",
+        "value" : "Zazralt Magic",
+        "type" : "label"
+      } ],
+      "versionInfo" : [ {
+        "identifier" : "versionInfo",
+        "language" : "undefined",
+        "value" : "0.0.1",
+        "type" : "label"
+      } ],
+      "title" : [ {
+        "identifier" : "title",
+        "language" : "undefined",
+        "value" : "Encoding Ontology",
+        "type" : "label"
+      } ]
+    }
+  },
   "namespace" : [ ],
   "class" : [ {
     "id" : "3",
@@ -81,7 +108,7 @@
     "id" : "74",
     "type" : "rdfs:Datatype"
   }, {
-    "id" : "18",
+    "id" : "17",
     "type" : "owl:Thing"
   }, {
     "id" : "2",
@@ -228,11 +255,6 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
@@ -244,23 +266,8 @@
         "language" : "en",
         "value" : "Variable Length Token",
         "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Token mit variabler Länge",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Variable Length Token",
-        "type" : "label"
       } ],
       "definition" : [ {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "Token length is variable.",
-        "type" : "label"
-      }, {
         "identifier" : "definition",
         "language" : "en",
         "value" : "Token length is variable.",
@@ -313,23 +320,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Wörterbuch",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Token Dictionary",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Token Dictionary",
@@ -341,11 +333,6 @@
         "type" : "label"
       } ],
       "definition" : [ {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "A dictionary maps a key to a value.",
-        "type" : "label"
-      }, {
         "identifier" : "definition",
         "language" : "en",
         "value" : "A dictionary maps a key to a value.",
@@ -375,7 +362,7 @@
   }, {
     "iri" : "http://www.w3.org/2002/07/owl#Thing",
     "baseIri" : "http://owl2vowl.de",
-    "id" : "18",
+    "id" : "17",
     "label" : {
       "undefined" : "Thing"
     }
@@ -410,42 +397,16 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Encoding",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Encoding",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "de",
         "value" : "Encodierung",
         "type" : "label"
       }, {
         "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Encodierung",
-        "type" : "label"
-      } ],
-      "definition" : [ {
-        "identifier" : "definition",
         "language" : "en",
-        "value" : "Information to decode the meaning of a code that is given in a string.",
-        "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "Information to decode the meaning of a code that is given in a string.",
+        "value" : "Encoding",
         "type" : "label"
       } ],
       "altLabel" : [ {
@@ -453,23 +414,14 @@
         "language" : "en",
         "value" : "encoding",
         "type" : "label"
-      }, {
-        "identifier" : "altLabel",
+      } ],
+      "definition" : [ {
+        "identifier" : "definition",
         "language" : "en",
-        "value" : "encoding",
+        "value" : "Information to decode the meaning of a code that is given in a string.",
         "type" : "label"
       } ],
       "seeAlso" : [ {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Identifier",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Code",
-        "type" : "iri"
-      }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Code",
@@ -577,25 +529,10 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
         "language" : "de",
-        "value" : "Token",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Token",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
         "value" : "Token",
         "type" : "label"
       }, {
@@ -609,18 +546,8 @@
         "language" : "en",
         "value" : "Substring of an encoded string that contains information.",
         "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "Substring of an encoded string that contains information.",
-        "type" : "label"
       } ],
       "seeAlso" : [ {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Lexical_analysis#Tokenization",
-        "type" : "iri"
-      }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Lexical_analysis#Tokenization",
@@ -651,11 +578,6 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
@@ -664,26 +586,11 @@
         "type" : "label"
       }, {
         "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Token mit fester Länge",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Fixed Length Token",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Fixed Length Token",
         "type" : "label"
       } ],
       "definition" : [ {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "Token length is fixed and not variable.",
-        "type" : "label"
-      }, {
         "identifier" : "definition",
         "language" : "en",
         "value" : "Token length is fixed and not variable.",
@@ -729,7 +636,7 @@
     "id" : "16",
     "type" : "owl:objectProperty"
   }, {
-    "id" : "17",
+    "id" : "18",
     "type" : "owl:objectProperty"
   }, {
     "id" : "20",
@@ -848,7 +755,7 @@
       "IRI-based" : "name"
     },
     "domain" : "1",
-    "attributes" : [ "external", "datatype" ],
+    "attributes" : [ "datatype", "external" ],
     "id" : "0"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#isEncodedBy",
@@ -860,18 +767,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "is encoded by",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "is encoded by",
@@ -894,18 +791,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Toke Separator",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Toke Separator",
@@ -916,18 +803,8 @@
         "language" : "en",
         "value" : "delimiter",
         "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "delimiter",
-        "type" : "label"
       } ],
       "example" : [ {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "-",
-        "type" : "label"
-      }, {
         "identifier" : "example",
         "language" : "en",
         "value" : "-",
@@ -938,7 +815,7 @@
       "IRI-based" : "tokeSeparator"
     },
     "domain" : "8",
-    "attributes" : [ "external", "someValues", "datatype" ],
+    "attributes" : [ "datatype", "someValues", "external" ],
     "id" : "7"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#numberOfDigits",
@@ -950,39 +827,19 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Anzahl der Stellen",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Anzahl der Stellen",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Number Of Digits",
         "type" : "label"
       }, {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Number Of Digits",
+        "language" : "de",
+        "value" : "Anzahl der Stellen",
         "type" : "label"
       } ],
       "altLabel" : [ {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "string length",
-        "type" : "label"
-      }, {
         "identifier" : "altLabel",
         "language" : "en",
         "value" : "string length",
@@ -991,12 +848,7 @@
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
-        "value" : "17.0",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "17.0",
+        "value" : "17",
         "type" : "label"
       } ]
     },
@@ -1004,7 +856,7 @@
       "IRI-based" : "numberOfDigits"
     },
     "domain" : "5",
-    "attributes" : [ "external", "someValues", "datatype" ],
+    "attributes" : [ "datatype", "someValues", "external" ],
     "id" : "11"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#tokenMinLength",
@@ -1016,18 +868,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Token Min Length",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Token Min Length",
@@ -1038,31 +880,11 @@
         "language" : "en",
         "value" : "Lowest possible number of digits.",
         "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "Lowest possible number of digits.",
-        "type" : "label"
       } ],
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
         "value" : "3",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "3",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "1",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "2",
         "type" : "label"
       }, {
         "identifier" : "example",
@@ -1080,7 +902,7 @@
       "IRI-based" : "tokenMinLength"
     },
     "domain" : "8",
-    "attributes" : [ "external", "someValues", "datatype" ],
+    "attributes" : [ "datatype", "someValues", "external" ],
     "id" : "12"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#tokenMaxLength",
@@ -1092,18 +914,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Token Max Length",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Token Max Length",
@@ -1114,28 +926,8 @@
         "language" : "en",
         "value" : "Highest possible number of digits.",
         "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "Highest possible number of digits.",
-        "type" : "label"
       } ],
       "example" : [ {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "3",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "1",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "2",
-        "type" : "label"
-      }, {
         "identifier" : "example",
         "language" : "en",
         "value" : "2",
@@ -1156,7 +948,7 @@
       "IRI-based" : "tokenMaxLength"
     },
     "domain" : "8",
-    "attributes" : [ "external", "datatype" ],
+    "attributes" : [ "datatype", "external" ],
     "id" : "13"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#isEncodedBy",
@@ -1168,18 +960,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "is encoded by",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "is encoded by",
@@ -1190,64 +972,20 @@
       "IRI-based" : "isEncodedBy"
     },
     "domain" : "5",
-    "attributes" : [ "object", "external", "someValues" ],
+    "attributes" : [ "someValues", "object", "external" ],
     "id" : "15"
-  }, {
-    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#encodes",
-    "baseIri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl",
-    "range" : "5",
-    "annotations" : {
-      "isDefinedBy" : [ {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
-      } ],
-      "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "encodes",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "encodes",
-        "type" : "label"
-      } ]
-    },
-    "label" : {
-      "IRI-based" : "encodes"
-    },
-    "domain" : "6",
-    "attributes" : [ "object", "external" ],
-    "id" : "16"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#maps",
     "baseIri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl",
-    "range" : "18",
+    "range" : "17",
     "annotations" : {
       "isDefinedBy" : [ {
         "identifier" : "isDefinedBy",
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "maps",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "maps",
@@ -1258,18 +996,8 @@
         "language" : "en",
         "value" : "Token that maps directly to individuals of a class.",
         "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "Token that maps directly to individuals of a class.",
-        "type" : "label"
       } ],
       "example" : [ {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "part number",
-        "type" : "label"
-      }, {
         "identifier" : "example",
         "language" : "en",
         "value" : "part number",
@@ -1281,7 +1009,31 @@
     },
     "domain" : "6",
     "attributes" : [ "object", "external" ],
-    "id" : "17"
+    "id" : "16"
+  }, {
+    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#encodes",
+    "baseIri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl",
+    "range" : "5",
+    "annotations" : {
+      "isDefinedBy" : [ {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
+        "type" : "iri"
+      } ],
+      "prefLabel" : [ {
+        "identifier" : "prefLabel",
+        "language" : "en",
+        "value" : "encodes",
+        "type" : "label"
+      } ]
+    },
+    "label" : {
+      "IRI-based" : "encodes"
+    },
+    "domain" : "6",
+    "attributes" : [ "object", "external" ],
+    "id" : "18"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#tokenLength",
     "baseIri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl",
@@ -1292,19 +1044,9 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Token Length",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "de",
         "value" : "Token Länge",
         "type" : "label"
@@ -1312,22 +1054,6 @@
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Token Length",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Token Länge",
-        "type" : "label"
-      } ],
-      "definition" : [ {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "Fixed number of digits.",
-        "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "Fixed number of digits.",
         "type" : "label"
       } ],
       "altLabel" : [ {
@@ -1335,36 +1061,22 @@
         "language" : "en",
         "value" : "number of characters",
         "type" : "label"
-      }, {
-        "identifier" : "altLabel",
+      } ],
+      "definition" : [ {
+        "identifier" : "definition",
         "language" : "en",
-        "value" : "number of characters",
+        "value" : "Fixed number of digits.",
         "type" : "label"
       } ],
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
-        "value" : "2",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "2",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
         "value" : "1",
         "type" : "label"
       }, {
         "identifier" : "example",
         "language" : "en",
-        "value" : "1",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "3",
+        "value" : "2",
         "type" : "label"
       }, {
         "identifier" : "example",
@@ -1377,7 +1089,7 @@
       "IRI-based" : "tokenLength"
     },
     "domain" : "21",
-    "attributes" : [ "external", "datatype" ],
+    "attributes" : [ "datatype", "external" ],
     "id" : "20"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#encodingStandard",
@@ -1389,18 +1101,8 @@
         "language" : "en",
         "value" : "optional",
         "type" : "label"
-      }, {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "optional",
-        "type" : "label"
       } ],
       "isDefinedBy" : [ {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
-      }, {
         "identifier" : "isDefinedBy",
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
@@ -1416,23 +1118,8 @@
         "language" : "en",
         "value" : "Encoding Standard",
         "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Encodierungsstandard",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Encoding Standard",
-        "type" : "label"
       } ],
       "example" : [ {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "ISO 3779",
-        "type" : "label"
-      }, {
         "identifier" : "example",
         "language" : "en",
         "value" : "ISO 3779",
@@ -1443,7 +1130,7 @@
       "IRI-based" : "encodingStandard"
     },
     "domain" : "5",
-    "attributes" : [ "external", "someValues", "datatype" ],
+    "attributes" : [ "datatype", "someValues", "external" ],
     "id" : "23"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#encodingRange",
@@ -1455,18 +1142,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Encoding Range",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Encoding Range",
@@ -1477,18 +1154,8 @@
         "language" : "en",
         "value" : "Character range for the complete encoding string.",
         "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "Character range for the complete encoding string.",
-        "type" : "label"
       } ],
       "seeAlso" : [ {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Alphanumericals",
-        "type" : "iri"
-      }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Alphanumericals",
@@ -1497,27 +1164,12 @@
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
-        "value" : "numeric",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "numeric",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
         "value" : "alphabetic",
         "type" : "label"
       }, {
         "identifier" : "example",
         "language" : "en",
-        "value" : "alphabetic",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "alphanumeric",
+        "value" : "numeric",
         "type" : "label"
       }, {
         "identifier" : "example",
@@ -1530,7 +1182,7 @@
       "IRI-based" : "encodingRange"
     },
     "domain" : "5",
-    "attributes" : [ "external", "someValues", "datatype" ],
+    "attributes" : [ "datatype", "someValues", "external" ],
     "id" : "25"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#tokenMinLength",
@@ -1542,18 +1194,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Token Min Length",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Token Min Length",
@@ -1564,31 +1206,11 @@
         "language" : "en",
         "value" : "Lowest possible number of digits.",
         "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "Lowest possible number of digits.",
-        "type" : "label"
       } ],
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
         "value" : "3",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "3",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "1",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "2",
         "type" : "label"
       }, {
         "identifier" : "example",
@@ -1606,7 +1228,7 @@
       "IRI-based" : "tokenMinLength"
     },
     "domain" : "8",
-    "attributes" : [ "external", "datatype" ],
+    "attributes" : [ "datatype", "external" ],
     "id" : "26"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#encodingExample",
@@ -1618,23 +1240,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Encodierungsbeispiel",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Encoding Example",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Encoding Example",
@@ -1650,18 +1257,13 @@
         "language" : "en",
         "value" : "WBAWV13567P000000",
         "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "WBAWV13567P000000",
-        "type" : "label"
       } ]
     },
     "label" : {
       "IRI-based" : "encodingExample"
     },
     "domain" : "5",
-    "attributes" : [ "external", "datatype" ],
+    "attributes" : [ "datatype", "external" ],
     "id" : "28"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#tokenValue",
@@ -1673,11 +1275,6 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
@@ -1689,23 +1286,8 @@
         "language" : "de",
         "value" : "Token Wert",
         "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Token Wert",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Token Value",
-        "type" : "label"
       } ],
       "altLabel" : [ {
-        "identifier" : "altLabel",
-        "language" : "de",
-        "value" : "Langform",
-        "type" : "label"
-      }, {
         "identifier" : "altLabel",
         "language" : "de",
         "value" : "Langform",
@@ -1716,18 +1298,13 @@
         "language" : "en",
         "value" : "BMW",
         "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "BMW",
-        "type" : "label"
       } ]
     },
     "label" : {
       "IRI-based" : "tokenValue"
     },
     "domain" : "31",
-    "attributes" : [ "external", "datatype" ],
+    "attributes" : [ "datatype", "external" ],
     "id" : "30"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#tokenKey",
@@ -1739,11 +1316,6 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
@@ -1755,23 +1327,8 @@
         "language" : "de",
         "value" : "Token Key",
         "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Token Key",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Token Key",
-        "type" : "label"
       } ],
       "altLabel" : [ {
-        "identifier" : "altLabel",
-        "language" : "de",
-        "value" : "Kürzel",
-        "type" : "label"
-      }, {
         "identifier" : "altLabel",
         "language" : "de",
         "value" : "Kürzel",
@@ -1782,18 +1339,13 @@
         "language" : "en",
         "value" : "WBA",
         "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "WBA",
-        "type" : "label"
       } ]
     },
     "label" : {
       "IRI-based" : "tokenKey"
     },
     "domain" : "31",
-    "attributes" : [ "external", "datatype" ],
+    "attributes" : [ "datatype", "external" ],
     "id" : "33"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#encodingStandard",
@@ -1805,18 +1357,8 @@
         "language" : "en",
         "value" : "optional",
         "type" : "label"
-      }, {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "optional",
-        "type" : "label"
       } ],
       "isDefinedBy" : [ {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
-      }, {
         "identifier" : "isDefinedBy",
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
@@ -1832,23 +1374,8 @@
         "language" : "en",
         "value" : "Encoding Standard",
         "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Encodierungsstandard",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Encoding Standard",
-        "type" : "label"
       } ],
       "example" : [ {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "ISO 3779",
-        "type" : "label"
-      }, {
         "identifier" : "example",
         "language" : "en",
         "value" : "ISO 3779",
@@ -1859,7 +1386,7 @@
       "IRI-based" : "encodingStandard"
     },
     "domain" : "5",
-    "attributes" : [ "external", "datatype" ],
+    "attributes" : [ "datatype", "external" ],
     "id" : "35"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#numberOfTokens",
@@ -1871,23 +1398,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Anzahl der Token",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Number Of Tokens",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "de",
         "value" : "Anzahl der Token",
@@ -1901,12 +1413,7 @@
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
-        "value" : "3.0",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "3.0",
+        "value" : "3",
         "type" : "label"
       } ]
     },
@@ -1914,7 +1421,7 @@
       "IRI-based" : "numberOfTokens"
     },
     "domain" : "5",
-    "attributes" : [ "external", "someValues", "datatype" ],
+    "attributes" : [ "datatype", "someValues", "external" ],
     "id" : "37"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#encodingRange",
@@ -1926,18 +1433,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Encoding Range",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Encoding Range",
@@ -1948,18 +1445,8 @@
         "language" : "en",
         "value" : "Character range for the complete encoding string.",
         "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "Character range for the complete encoding string.",
-        "type" : "label"
       } ],
       "seeAlso" : [ {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Alphanumericals",
-        "type" : "iri"
-      }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Alphanumericals",
@@ -1968,27 +1455,12 @@
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
-        "value" : "numeric",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "numeric",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
         "value" : "alphabetic",
         "type" : "label"
       }, {
         "identifier" : "example",
         "language" : "en",
-        "value" : "alphabetic",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "alphanumeric",
+        "value" : "numeric",
         "type" : "label"
       }, {
         "identifier" : "example",
@@ -2001,7 +1473,7 @@
       "IRI-based" : "encodingRange"
     },
     "domain" : "5",
-    "attributes" : [ "external", "datatype" ],
+    "attributes" : [ "datatype", "external" ],
     "id" : "40"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#integer",
@@ -2011,7 +1483,7 @@
       "IRI-based" : "integer"
     },
     "domain" : "1",
-    "attributes" : [ "external", "datatype" ],
+    "attributes" : [ "datatype", "external" ],
     "id" : "42"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#encodingExample",
@@ -2023,23 +1495,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Encodierungsbeispiel",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Encoding Example",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Encoding Example",
@@ -2055,18 +1512,13 @@
         "language" : "en",
         "value" : "WBAWV13567P000000",
         "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "WBAWV13567P000000",
-        "type" : "label"
       } ]
     },
     "label" : {
       "IRI-based" : "encodingExample"
     },
     "domain" : "5",
-    "attributes" : [ "external", "someValues", "datatype" ],
+    "attributes" : [ "datatype", "someValues", "external" ],
     "id" : "44"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#encodingName",
@@ -2078,23 +1530,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Encodierungsname",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Encoding Name",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Encoding Name",
@@ -2110,23 +1547,18 @@
         "language" : "en",
         "value" : "vehicle identification number",
         "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "vehicle identification number",
-        "type" : "label"
       } ]
     },
     "label" : {
       "IRI-based" : "encodingName"
     },
     "domain" : "5",
-    "attributes" : [ "external", "someValues", "datatype" ],
+    "attributes" : [ "datatype", "someValues", "external" ],
     "id" : "47"
   }, {
     "range" : "6",
     "domain" : "8",
-    "attributes" : [ "object", "anonymous" ],
+    "attributes" : [ "anonymous", "object" ],
     "id" : "49"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#numberOfTokens",
@@ -2138,23 +1570,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Anzahl der Token",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Number Of Tokens",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "de",
         "value" : "Anzahl der Token",
@@ -2168,12 +1585,7 @@
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
-        "value" : "3.0",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "3.0",
+        "value" : "3",
         "type" : "label"
       } ]
     },
@@ -2181,12 +1593,12 @@
       "IRI-based" : "numberOfTokens"
     },
     "domain" : "5",
-    "attributes" : [ "external", "datatype" ],
+    "attributes" : [ "datatype", "external" ],
     "id" : "50"
   }, {
     "range" : "53",
     "domain" : "5",
-    "attributes" : [ "object", "anonymous" ],
+    "attributes" : [ "anonymous", "object" ],
     "id" : "52"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#tokenLength",
@@ -2198,19 +1610,9 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Token Length",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "de",
         "value" : "Token Länge",
         "type" : "label"
@@ -2218,22 +1620,6 @@
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Token Length",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Token Länge",
-        "type" : "label"
-      } ],
-      "definition" : [ {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "Fixed number of digits.",
-        "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "Fixed number of digits.",
         "type" : "label"
       } ],
       "altLabel" : [ {
@@ -2241,36 +1627,22 @@
         "language" : "en",
         "value" : "number of characters",
         "type" : "label"
-      }, {
-        "identifier" : "altLabel",
+      } ],
+      "definition" : [ {
+        "identifier" : "definition",
         "language" : "en",
-        "value" : "number of characters",
+        "value" : "Fixed number of digits.",
         "type" : "label"
       } ],
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
-        "value" : "2",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "2",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
         "value" : "1",
         "type" : "label"
       }, {
         "identifier" : "example",
         "language" : "en",
-        "value" : "1",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "3",
+        "value" : "2",
         "type" : "label"
       }, {
         "identifier" : "example",
@@ -2283,7 +1655,7 @@
       "IRI-based" : "tokenLength"
     },
     "domain" : "21",
-    "attributes" : [ "external", "someValues", "datatype" ],
+    "attributes" : [ "datatype", "someValues", "external" ],
     "id" : "54"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#translates",
@@ -2295,19 +1667,9 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "übersetzt",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "en",
         "value" : "translates",
         "type" : "label"
@@ -2315,19 +1677,9 @@
         "identifier" : "prefLabel",
         "language" : "de",
         "value" : "übersetzt",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "translates",
         "type" : "label"
       } ],
       "definition" : [ {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "Token that maps directly to a mapping table called token dictionary.",
-        "type" : "label"
-      }, {
         "identifier" : "definition",
         "language" : "en",
         "value" : "Token that maps directly to a mapping table called token dictionary.",
@@ -2338,22 +1690,22 @@
       "IRI-based" : "translates"
     },
     "domain" : "31",
-    "attributes" : [ "object", "external", "someValues" ],
+    "attributes" : [ "someValues", "object", "external" ],
     "id" : "55"
   }, {
     "range" : "6",
     "domain" : "21",
-    "attributes" : [ "object", "anonymous" ],
+    "attributes" : [ "anonymous", "object" ],
     "id" : "56"
   }, {
     "range" : "53",
     "domain" : "6",
-    "attributes" : [ "object", "anonymous" ],
+    "attributes" : [ "anonymous", "object" ],
     "id" : "57"
   }, {
     "range" : "53",
     "domain" : "31",
-    "attributes" : [ "object", "anonymous" ],
+    "attributes" : [ "anonymous", "object" ],
     "id" : "58"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#maps",
@@ -2365,18 +1717,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "maps",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "maps",
@@ -2387,18 +1729,8 @@
         "language" : "en",
         "value" : "Token that maps directly to individuals of a class.",
         "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "Token that maps directly to individuals of a class.",
-        "type" : "label"
       } ],
       "example" : [ {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "part number",
-        "type" : "label"
-      }, {
         "identifier" : "example",
         "language" : "en",
         "value" : "part number",
@@ -2409,7 +1741,7 @@
       "IRI-based" : "maps"
     },
     "domain" : "6",
-    "attributes" : [ "object", "external", "someValues" ],
+    "attributes" : [ "someValues", "object", "external" ],
     "id" : "59"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#tokeSeparator",
@@ -2421,18 +1753,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Toke Separator",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Toke Separator",
@@ -2443,18 +1765,8 @@
         "language" : "en",
         "value" : "delimiter",
         "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "delimiter",
-        "type" : "label"
       } ],
       "example" : [ {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "-",
-        "type" : "label"
-      }, {
         "identifier" : "example",
         "language" : "en",
         "value" : "-",
@@ -2465,7 +1777,7 @@
       "IRI-based" : "tokeSeparator"
     },
     "domain" : "8",
-    "attributes" : [ "external", "datatype" ],
+    "attributes" : [ "datatype", "external" ],
     "id" : "61"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#tokenRange",
@@ -2477,18 +1789,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Token Range",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Token Range",
@@ -2499,51 +1801,11 @@
         "language" : "en",
         "value" : "Character range for token.",
         "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "Character range for token.",
-        "type" : "label"
       } ],
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
-        "value" : "numeric",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "alphabetic",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
         "value" : "alphanumeric",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "alphanumeric",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "0-9]",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "0-9]",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "alphabetic",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "[A-z",
         "type" : "label"
       }, {
         "identifier" : "example",
@@ -2553,7 +1815,17 @@
       }, {
         "identifier" : "example",
         "language" : "en",
+        "value" : "0-9]",
+        "type" : "label"
+      }, {
+        "identifier" : "example",
+        "language" : "en",
         "value" : "[A-z",
+        "type" : "label"
+      }, {
+        "identifier" : "example",
+        "language" : "en",
+        "value" : "alphabetic",
         "type" : "label"
       } ]
     },
@@ -2561,7 +1833,7 @@
       "IRI-based" : "tokenRange"
     },
     "domain" : "6",
-    "attributes" : [ "external", "someValues", "datatype" ],
+    "attributes" : [ "datatype", "someValues", "external" ],
     "id" : "63"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#encodes",
@@ -2573,18 +1845,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "encodes",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "encodes",
@@ -2595,7 +1857,7 @@
       "IRI-based" : "encodes"
     },
     "domain" : "6",
-    "attributes" : [ "object", "external", "someValues" ],
+    "attributes" : [ "someValues", "object", "external" ],
     "id" : "65"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#isTranslatedBy",
@@ -2607,26 +1869,11 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "is translated by",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "is translated by",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "wird übersetzt",
         "type" : "label"
       }, {
         "identifier" : "prefLabel",
@@ -2639,7 +1886,7 @@
       "IRI-based" : "isTranslatedBy"
     },
     "domain" : "6",
-    "attributes" : [ "object", "external", "someValues" ],
+    "attributes" : [ "someValues", "object", "external" ],
     "id" : "66"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#tokenValue",
@@ -2651,11 +1898,6 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
@@ -2667,23 +1909,8 @@
         "language" : "de",
         "value" : "Token Wert",
         "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Token Wert",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Token Value",
-        "type" : "label"
       } ],
       "altLabel" : [ {
-        "identifier" : "altLabel",
-        "language" : "de",
-        "value" : "Langform",
-        "type" : "label"
-      }, {
         "identifier" : "altLabel",
         "language" : "de",
         "value" : "Langform",
@@ -2694,18 +1921,13 @@
         "language" : "en",
         "value" : "BMW",
         "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "BMW",
-        "type" : "label"
       } ]
     },
     "label" : {
       "IRI-based" : "tokenValue"
     },
     "domain" : "31",
-    "attributes" : [ "external", "someValues", "datatype" ],
+    "attributes" : [ "datatype", "someValues", "external" ],
     "id" : "67"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#tokenKey",
@@ -2717,11 +1939,6 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
@@ -2733,23 +1950,8 @@
         "language" : "de",
         "value" : "Token Key",
         "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Token Key",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Token Key",
-        "type" : "label"
       } ],
       "altLabel" : [ {
-        "identifier" : "altLabel",
-        "language" : "de",
-        "value" : "Kürzel",
-        "type" : "label"
-      }, {
         "identifier" : "altLabel",
         "language" : "de",
         "value" : "Kürzel",
@@ -2760,18 +1962,13 @@
         "language" : "en",
         "value" : "WBA",
         "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "WBA",
-        "type" : "label"
       } ]
     },
     "label" : {
       "IRI-based" : "tokenKey"
     },
     "domain" : "31",
-    "attributes" : [ "external", "someValues", "datatype" ],
+    "attributes" : [ "datatype", "someValues", "external" ],
     "id" : "69"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#translates",
@@ -2783,19 +1980,9 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "übersetzt",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "en",
         "value" : "translates",
         "type" : "label"
@@ -2803,19 +1990,9 @@
         "identifier" : "prefLabel",
         "language" : "de",
         "value" : "übersetzt",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "translates",
         "type" : "label"
       } ],
       "definition" : [ {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "Token that maps directly to a mapping table called token dictionary.",
-        "type" : "label"
-      }, {
         "identifier" : "definition",
         "language" : "en",
         "value" : "Token that maps directly to a mapping table called token dictionary.",
@@ -2838,23 +2015,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Encodierungsname",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Encoding Name",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Encoding Name",
@@ -2870,18 +2032,13 @@
         "language" : "en",
         "value" : "vehicle identification number",
         "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "vehicle identification number",
-        "type" : "label"
       } ]
     },
     "label" : {
       "IRI-based" : "encodingName"
     },
     "domain" : "5",
-    "attributes" : [ "external", "datatype" ],
+    "attributes" : [ "datatype", "external" ],
     "id" : "71"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#tokenOrder",
@@ -2893,11 +2050,6 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
@@ -2909,23 +2061,8 @@
         "language" : "en",
         "value" : "Token Order",
         "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Token Order",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Token Reihenfolge",
-        "type" : "label"
       } ],
       "definition" : [ {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "The order of the tokens in the identifier.",
-        "type" : "label"
-      }, {
         "identifier" : "definition",
         "language" : "en",
         "value" : "The order of the tokens in the identifier.",
@@ -2934,16 +2071,6 @@
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
-        "value" : "3",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "3",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
         "value" : "1",
         "type" : "label"
       }, {
@@ -2954,12 +2081,7 @@
       }, {
         "identifier" : "example",
         "language" : "en",
-        "value" : "2",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "1",
+        "value" : "3",
         "type" : "label"
       } ]
     },
@@ -2967,7 +2089,7 @@
       "IRI-based" : "tokenOrder"
     },
     "domain" : "6",
-    "attributes" : [ "external", "datatype" ],
+    "attributes" : [ "datatype", "external" ],
     "id" : "73"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#tokenOrder",
@@ -2979,11 +2101,6 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
@@ -2995,23 +2112,8 @@
         "language" : "en",
         "value" : "Token Order",
         "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Token Order",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Token Reihenfolge",
-        "type" : "label"
       } ],
       "definition" : [ {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "The order of the tokens in the identifier.",
-        "type" : "label"
-      }, {
         "identifier" : "definition",
         "language" : "en",
         "value" : "The order of the tokens in the identifier.",
@@ -3020,16 +2122,6 @@
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
-        "value" : "3",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "3",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
         "value" : "1",
         "type" : "label"
       }, {
@@ -3040,12 +2132,7 @@
       }, {
         "identifier" : "example",
         "language" : "en",
-        "value" : "2",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "1",
+        "value" : "3",
         "type" : "label"
       } ]
     },
@@ -3053,7 +2140,7 @@
       "IRI-based" : "tokenOrder"
     },
     "domain" : "6",
-    "attributes" : [ "external", "someValues", "datatype" ],
+    "attributes" : [ "datatype", "someValues", "external" ],
     "id" : "75"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#tokenRange",
@@ -3065,18 +2152,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Token Range",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Token Range",
@@ -3087,51 +2164,11 @@
         "language" : "en",
         "value" : "Character range for token.",
         "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "Character range for token.",
-        "type" : "label"
       } ],
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
-        "value" : "numeric",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "alphabetic",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
         "value" : "alphanumeric",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "alphanumeric",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "0-9]",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "0-9]",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "alphabetic",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "[A-z",
         "type" : "label"
       }, {
         "identifier" : "example",
@@ -3141,7 +2178,17 @@
       }, {
         "identifier" : "example",
         "language" : "en",
+        "value" : "0-9]",
+        "type" : "label"
+      }, {
+        "identifier" : "example",
+        "language" : "en",
         "value" : "[A-z",
+        "type" : "label"
+      }, {
+        "identifier" : "example",
+        "language" : "en",
+        "value" : "alphabetic",
         "type" : "label"
       } ]
     },
@@ -3149,7 +2196,7 @@
       "IRI-based" : "tokenRange"
     },
     "domain" : "6",
-    "attributes" : [ "external", "datatype" ],
+    "attributes" : [ "datatype", "external" ],
     "id" : "77"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#numberOfDigits",
@@ -3161,39 +2208,19 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Anzahl der Stellen",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Anzahl der Stellen",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Number Of Digits",
         "type" : "label"
       }, {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Number Of Digits",
+        "language" : "de",
+        "value" : "Anzahl der Stellen",
         "type" : "label"
       } ],
       "altLabel" : [ {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "string length",
-        "type" : "label"
-      }, {
         "identifier" : "altLabel",
         "language" : "en",
         "value" : "string length",
@@ -3202,12 +2229,7 @@
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
-        "value" : "17.0",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "17.0",
+        "value" : "17",
         "type" : "label"
       } ]
     },
@@ -3215,7 +2237,7 @@
       "IRI-based" : "numberOfDigits"
     },
     "domain" : "5",
-    "attributes" : [ "external", "datatype" ],
+    "attributes" : [ "datatype", "external" ],
     "id" : "80"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#isTranslatedBy",
@@ -3227,26 +2249,11 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "is translated by",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "is translated by",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "wird übersetzt",
         "type" : "label"
       }, {
         "identifier" : "prefLabel",
@@ -3271,18 +2278,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Token Max Length",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Token Max Length",
@@ -3293,28 +2290,8 @@
         "language" : "en",
         "value" : "Highest possible number of digits.",
         "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "Highest possible number of digits.",
-        "type" : "label"
       } ],
       "example" : [ {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "3",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "1",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "2",
-        "type" : "label"
-      }, {
         "identifier" : "example",
         "language" : "en",
         "value" : "2",
@@ -3335,7 +2312,7 @@
       "IRI-based" : "tokenMaxLength"
     },
     "domain" : "8",
-    "attributes" : [ "external", "someValues", "datatype" ],
+    "attributes" : [ "datatype", "someValues", "external" ],
     "id" : "83"
   } ]
 }

@@ -1,28 +1,52 @@
 {
-  "_comment":"Created By OntologyMerger (c) 2022 Catena-X",
+  "_comment" : "Created with OWL2VOWL (version 0.3.7), http://vowl.visualdataweb.org",
   "header" : {
-    "languages" : [ "de", "en" ],
-    "title": {
-      "undefined": "Catena-X Person Ontology"
-    },
+    "languages" : [ "de", "en", "undefined" ],
     "baseIris" : [ "http://www.w3.org/1999/02/22-rdf-syntax-ns", "http://www.w3.org/2000/01/rdf-schema", "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl", "http://www.w3.org/2001/XMLSchema" ],
     "prefixList" : {
       "owl" : "http://www.w3.org/2002/07/owl#",
       "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+      "cx" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#",
+      "skos" : "http://www.w3.org/2004/02/skos/core#",
       "xsd" : "http://www.w3.org/2001/XMLSchema#",
+      "dc" : "http://purl.org/dc/elements/1.1/",
       "xml" : "http://www.w3.org/XML/1998/namespace",
+      "schema" : "https://schema.org/",
       "rdfs" : "http://www.w3.org/2000/01/rdf-schema#"
     },
-    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-    "description": {
-      "undefined": "The Catena-X Person Ontology deals with (legilative) Persons."
+    "title" : {
+      "undefined" : "Person Ontology"
     },
-    "version": "0.7.3-SNAPSHOT",
-    "author": [
-      "Zazralt Magic (BMW)"
-    ]
-  },   
-
+    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
+    "version" : "0.0.1",
+    "author" : [ "Zazralt Magic" ],
+    "other" : {
+      "date" : [ {
+        "identifier" : "date",
+        "language" : "undefined",
+        "value" : "2022-11-28",
+        "type" : "label"
+      } ],
+      "creator" : [ {
+        "identifier" : "creator",
+        "language" : "undefined",
+        "value" : "Zazralt Magic",
+        "type" : "label"
+      } ],
+      "versionInfo" : [ {
+        "identifier" : "versionInfo",
+        "language" : "undefined",
+        "value" : "0.0.1",
+        "type" : "label"
+      } ],
+      "title" : [ {
+        "identifier" : "title",
+        "language" : "undefined",
+        "value" : "Person Ontology",
+        "type" : "label"
+      } ]
+    }
+  },
   "namespace" : [ ],
   "class" : [ {
     "id" : "11",
@@ -207,18 +231,18 @@
     "attributes" : [ "external" ],
     "id" : "21"
   }, {
-    "iri" : "http://www.w3.org/2001/XMLSchema#date",
+    "iri" : "http://www.w3.org/2001/XMLSchema#string",
     "baseIri" : "http://www.w3.org/2001/XMLSchema",
     "id" : "22",
     "label" : {
-      "IRI-based" : "date"
+      "IRI-based" : "string"
     }
   }, {
-    "iri" : "http://www.w3.org/2001/XMLSchema#string",
+    "iri" : "http://www.w3.org/2001/XMLSchema#date",
     "baseIri" : "http://www.w3.org/2001/XMLSchema",
     "id" : "24",
     "label" : {
-      "IRI-based" : "string"
+      "IRI-based" : "date"
     }
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#Sibling",
@@ -230,19 +254,9 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Geschwister",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Sibling",
         "type" : "label"
@@ -250,19 +264,9 @@
         "identifier" : "prefLabel",
         "language" : "de",
         "value" : "Geschwister",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Sibling",
         "type" : "label"
       } ],
       "seeAlso" : [ {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Sibling",
-        "type" : "iri"
-      }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Sibling",
@@ -427,11 +431,6 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
@@ -443,23 +442,8 @@
         "language" : "de",
         "value" : "Erwachsener",
         "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Erwachsener",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Adult",
-        "type" : "label"
       } ],
       "definition" : [ {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "A person with an age above 18.",
-        "type" : "label"
-      }, {
         "identifier" : "definition",
         "language" : "en",
         "value" : "A person with an age above 18.",
@@ -469,16 +453,6 @@
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Adult",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Adult",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Age_of_majority",
         "type" : "iri"
       }, {
         "identifier" : "seeAlso",
@@ -531,11 +505,6 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
@@ -547,34 +516,14 @@
         "language" : "en",
         "value" : "Parent",
         "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Parent",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Eltern",
-        "type" : "label"
       } ],
       "definition" : [ {
         "identifier" : "definition",
         "language" : "en",
         "value" : "A person who has at least one child.",
         "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "A person who has at least one child.",
-        "type" : "label"
       } ],
       "seeAlso" : [ {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Parent",
-        "type" : "iri"
-      }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Parent",
@@ -639,60 +588,30 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Personal Information",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Personal Information",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "de",
         "value" : "Persönliche Informationen",
         "type" : "label"
       }, {
         "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Persönliche Informationen",
+        "language" : "en",
+        "value" : "Personal Information",
         "type" : "label"
       } ],
       "altLabel" : [ {
         "identifier" : "altLabel",
-        "language" : "de",
-        "value" : "Persönliche Daten",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "de",
-        "value" : "Persönliche Daten",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
         "language" : "en",
         "value" : "Personal data",
         "type" : "label"
       }, {
         "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "Personal data",
+        "language" : "de",
+        "value" : "Persönliche Daten",
         "type" : "label"
       } ],
       "seeAlso" : [ {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Personal_data",
-        "type" : "iri"
-      }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Personal_data",
@@ -743,23 +662,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Minderjähriger",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Child",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Child",
@@ -778,16 +682,6 @@
       }, {
         "identifier" : "altLabel",
         "language" : "en",
-        "value" : "underage",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "minor",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
         "value" : "minor",
         "type" : "label"
       } ],
@@ -796,18 +690,8 @@
         "language" : "en",
         "value" : "A person with an age below 18.",
         "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "A person with an age below 18.",
-        "type" : "label"
       } ],
       "seeAlso" : [ {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Minor_",
-        "type" : "iri"
-      }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Minor_",
@@ -830,19 +714,9 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Verwandter",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Relative",
         "type" : "label"
@@ -850,19 +724,9 @@
         "identifier" : "prefLabel",
         "language" : "de",
         "value" : "Verwandter",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Relative",
         "type" : "label"
       } ],
       "seeAlso" : [ {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Family",
-        "type" : "iri"
-      }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Family",
@@ -901,23 +765,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Spouse",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Ehepartner",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "de",
         "value" : "Ehepartner",
@@ -929,11 +778,6 @@
         "type" : "label"
       } ],
       "seeAlso" : [ {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Spouse",
-        "type" : "iri"
-      }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Spouse",
@@ -956,11 +800,6 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
@@ -972,36 +811,16 @@
         "language" : "de",
         "value" : "Person",
         "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Person",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Person",
-        "type" : "label"
       } ],
       "seeAlso" : [ {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Person",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
         "value" : "https://schema.org/Person",
         "type" : "iri"
       }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Person",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/Person",
         "type" : "iri"
       } ]
     },
@@ -1207,7 +1026,7 @@
       "IRI-based" : "name"
     },
     "domain" : "1",
-    "attributes" : [ "datatype", "external" ],
+    "attributes" : [ "external", "datatype" ],
     "id" : "0"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#academicTitle",
@@ -1219,34 +1038,14 @@
         "language" : "en",
         "value" : "optional",
         "type" : "label"
-      }, {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "optional",
-        "type" : "label"
       } ],
       "isDefinedBy" : [ {
         "identifier" : "isDefinedBy",
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Academic Title",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Titel",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "de",
         "value" : "Titel",
@@ -1262,31 +1061,16 @@
         "language" : "en",
         "value" : "professional title",
         "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "professional title",
-        "type" : "label"
       } ],
       "seeAlso" : [ {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://schema.org/honorificPrefix",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Academic_degree",
         "type" : "iri"
       }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Academic_degree",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/honorificSuffix",
+        "value" : "https://en.wikipedia.org/wiki/Title",
         "type" : "iri"
       }, {
         "identifier" : "seeAlso",
@@ -1297,26 +1081,11 @@
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://schema.org/honorificPrefix",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Title",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Title",
         "type" : "iri"
       } ],
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
-        "value" : "PhD",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
         "value" : "MD",
         "type" : "label"
       }, {
@@ -1327,27 +1096,12 @@
       }, {
         "identifier" : "example",
         "language" : "en",
-        "value" : "Prof",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "MD",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Prof",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Dr",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
         "value" : "PhD",
+        "type" : "label"
+      }, {
+        "identifier" : "example",
+        "language" : "en",
+        "value" : "Prof",
         "type" : "label"
       } ]
     },
@@ -1355,7 +1109,7 @@
       "IRI-based" : "academicTitle"
     },
     "domain" : "4",
-    "attributes" : [ "datatype", "someValues", "external" ],
+    "attributes" : [ "external", "datatype", "someValues" ],
     "id" : "3"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#isMarriedTo",
@@ -1367,18 +1121,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "is married to",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "is married to",
@@ -1389,18 +1133,13 @@
         "language" : "undefined",
         "value" : "https://schema.org/spouse",
         "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/spouse",
-        "type" : "iri"
       } ]
     },
     "label" : {
       "IRI-based" : "isMarriedTo"
     },
     "domain" : "7",
-    "attributes" : [ "symmetric", "external", "object" ],
+    "attributes" : [ "external", "object", "symmetric" ],
     "id" : "6"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#fullName",
@@ -1412,23 +1151,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Volle Name",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Full Name",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "de",
         "value" : "Volle Name",
@@ -1441,48 +1165,13 @@
       } ],
       "altLabel" : [ {
         "identifier" : "altLabel",
-        "language" : "de",
-        "value" : "Vollständiger Name",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "person name",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "name in full",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "de",
-        "value" : "Vollständiger Name",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "name in full",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "person name",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
         "language" : "en",
         "value" : "personal name",
         "type" : "label"
       }, {
         "identifier" : "altLabel",
-        "language" : "de",
-        "value" : "Personenname",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
         "language" : "en",
-        "value" : "personal name",
+        "value" : "person name",
         "type" : "label"
       }, {
         "identifier" : "altLabel",
@@ -1492,20 +1181,20 @@
       }, {
         "identifier" : "altLabel",
         "language" : "de",
-        "value" : "Realname",
+        "value" : "Vollständiger Name",
         "type" : "label"
       }, {
         "identifier" : "altLabel",
         "language" : "de",
         "value" : "Realname",
+        "type" : "label"
+      }, {
+        "identifier" : "altLabel",
+        "language" : "en",
+        "value" : "name in full",
         "type" : "label"
       } ],
       "definition" : [ {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "combination of first, middle and last name",
-        "type" : "label"
-      }, {
         "identifier" : "definition",
         "language" : "en",
         "value" : "combination of first, middle and last name",
@@ -1516,18 +1205,8 @@
         "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Personal_name",
         "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Personal_name",
-        "type" : "iri"
       } ],
       "example" : [ {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Max Mustermann",
-        "type" : "label"
-      }, {
         "identifier" : "example",
         "language" : "en",
         "value" : "Max Mustermann",
@@ -1538,19 +1217,14 @@
       "IRI-based" : "fullName"
     },
     "domain" : "8",
-    "attributes" : [ "datatype", "external" ],
+    "attributes" : [ "external", "datatype" ],
     "id" : "9"
   }, {
-    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#gender",
+    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#nickname",
     "baseIri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl",
     "range" : "11",
     "annotations" : {
       "note" : [ {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "optional",
-        "type" : "label"
-      }, {
         "identifier" : "note",
         "language" : "en",
         "value" : "optional",
@@ -1561,91 +1235,47 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Geschlecht",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "en",
-        "value" : "Gender",
+        "value" : "Nickname",
         "type" : "label"
       }, {
         "identifier" : "prefLabel",
         "language" : "de",
-        "value" : "Geschlecht",
+        "value" : "Spitzname",
+        "type" : "label"
+      } ],
+      "altLabel" : [ {
+        "identifier" : "altLabel",
+        "language" : "en",
+        "value" : "moniker",
         "type" : "label"
       }, {
-        "identifier" : "prefLabel",
+        "identifier" : "altLabel",
         "language" : "en",
-        "value" : "Gender",
+        "value" : "alternative name",
         "type" : "label"
       } ],
       "seeAlso" : [ {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://www.wikidata.org/wiki/Q48277",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/gender",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/gender",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://www.wikidata.org/wiki/Q48277",
+        "value" : "https://en.wikipedia.org/wiki/Nickname",
         "type" : "iri"
       } ],
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
-        "value" : "female",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "male",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "male",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "divers",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "divers",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "female",
+        "value" : "Maxi",
         "type" : "label"
       } ]
     },
     "label" : {
-      "IRI-based" : "gender"
+      "IRI-based" : "nickname"
     },
     "domain" : "4",
-    "attributes" : [ "datatype", "someValues", "external" ],
+    "attributes" : [ "external", "datatype", "someValues" ],
     "id" : "12"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#location",
@@ -1655,7 +1285,7 @@
       "IRI-based" : "location"
     },
     "domain" : "1",
-    "attributes" : [ "datatype", "external" ],
+    "attributes" : [ "external", "datatype" ],
     "id" : "13"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#firstName",
@@ -1667,11 +1297,6 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
@@ -1680,26 +1305,11 @@
         "type" : "label"
       }, {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "First Name",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Vorname",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "de",
         "value" : "Vorname",
         "type" : "label"
       } ],
       "altLabel" : [ {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "given name",
-        "type" : "label"
-      }, {
         "identifier" : "altLabel",
         "language" : "en",
         "value" : "given name",
@@ -1715,23 +1325,8 @@
         "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Given_name",
         "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/givenName",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Given_name",
-        "type" : "iri"
       } ],
       "example" : [ {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Max",
-        "type" : "label"
-      }, {
         "identifier" : "example",
         "language" : "en",
         "value" : "Max",
@@ -1742,7 +1337,7 @@
       "IRI-based" : "firstName"
     },
     "domain" : "8",
-    "attributes" : [ "datatype", "external" ],
+    "attributes" : [ "external", "datatype" ],
     "id" : "16"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#jobTitle",
@@ -1754,18 +1349,8 @@
         "language" : "en",
         "value" : "optional",
         "type" : "label"
-      }, {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "optional",
-        "type" : "label"
       } ],
       "isDefinedBy" : [ {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
-      }, {
         "identifier" : "isDefinedBy",
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
@@ -1773,36 +1358,16 @@
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Berufsbezeichnung",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Berufsbezeichnung",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Job Title",
         "type" : "label"
       }, {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Job Title",
+        "language" : "de",
+        "value" : "Berufsbezeichnung",
         "type" : "label"
       } ],
       "altLabel" : [ {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "professional designation",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "occupational title",
-        "type" : "label"
-      }, {
         "identifier" : "altLabel",
         "language" : "en",
         "value" : "occupational title",
@@ -1821,21 +1386,6 @@
       }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://www.wikidata.org/wiki/Q828803",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/jobTitle",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://de.wikipedia.org/wiki/Berufsbezeichnung",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
         "value" : "https://de.wikipedia.org/wiki/Berufsbezeichnung",
         "type" : "iri"
       }, {
@@ -1845,16 +1395,6 @@
         "type" : "iri"
       } ],
       "example" : [ {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Manager",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Engineer",
-        "type" : "label"
-      }, {
         "identifier" : "example",
         "language" : "en",
         "value" : "Manager",
@@ -1870,10 +1410,10 @@
       "IRI-based" : "jobTitle"
     },
     "domain" : "4",
-    "attributes" : [ "datatype", "someValues", "external" ],
+    "attributes" : [ "external", "datatype", "someValues" ],
     "id" : "18"
   }, {
-    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#nickname",
+    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#gender",
     "baseIri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl",
     "range" : "19",
     "annotations" : {
@@ -1882,18 +1422,8 @@
         "language" : "en",
         "value" : "optional",
         "type" : "label"
-      }, {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "optional",
-        "type" : "label"
       } ],
       "isDefinedBy" : [ {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
-      }, {
         "identifier" : "isDefinedBy",
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
@@ -1901,77 +1431,51 @@
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Nickname",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Nickname",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "de",
-        "value" : "Spitzname",
+        "value" : "Geschlecht",
         "type" : "label"
       }, {
         "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Spitzname",
-        "type" : "label"
-      } ],
-      "altLabel" : [ {
-        "identifier" : "altLabel",
         "language" : "en",
-        "value" : "moniker",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "alternative name",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "moniker",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "alternative name",
+        "value" : "Gender",
         "type" : "label"
       } ],
       "seeAlso" : [ {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Nickname",
+        "value" : "https://schema.org/gender",
         "type" : "iri"
       }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Nickname",
+        "value" : "https://www.wikidata.org/wiki/Q48277",
         "type" : "iri"
       } ],
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
-        "value" : "Maxi",
+        "value" : "divers",
         "type" : "label"
       }, {
         "identifier" : "example",
         "language" : "en",
-        "value" : "Maxi",
+        "value" : "male",
+        "type" : "label"
+      }, {
+        "identifier" : "example",
+        "language" : "en",
+        "value" : "female",
         "type" : "label"
       } ]
     },
     "label" : {
-      "IRI-based" : "nickname"
+      "IRI-based" : "gender"
     },
     "domain" : "4",
-    "attributes" : [ "datatype", "someValues", "external" ],
+    "attributes" : [ "external", "datatype", "someValues" ],
     "id" : "20"
   }, {
-    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#deathDate",
+    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#birthPlace",
     "baseIri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl",
     "range" : "22",
     "annotations" : {
@@ -1980,127 +1484,8 @@
         "language" : "en",
         "value" : "optional",
         "type" : "label"
-      }, {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "optional",
-        "type" : "label"
       } ],
       "isDefinedBy" : [ {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
-      } ],
-      "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Death Date",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Todesdatum",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Todesdatum",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Death Date",
-        "type" : "label"
-      } ],
-      "altLabel" : [ {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "date of death",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "date of death",
-        "type" : "label"
-      } ],
-      "definition" : [ {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "The date when a person died.",
-        "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "The date when a person died.",
-        "type" : "label"
-      } ],
-      "seeAlso" : [ {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/deathDate",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/deathDate",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://www.wikidata.org/wiki/Q18748141",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://www.wikidata.org/wiki/Q18748141",
-        "type" : "iri"
-      } ],
-      "example" : [ {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "31.12.2080",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "31.12.2080",
-        "type" : "label"
-      } ]
-    },
-    "label" : {
-      "IRI-based" : "deathDate"
-    },
-    "domain" : "4",
-    "attributes" : [ "datatype", "someValues", "external" ],
-    "id" : "23"
-  }, {
-    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#birthPlace",
-    "baseIri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl",
-    "range" : "24",
-    "annotations" : {
-      "note" : [ {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "optional",
-        "type" : "label"
-      }, {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "optional",
-        "type" : "label"
-      } ],
-      "isDefinedBy" : [ {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
-      }, {
         "identifier" : "isDefinedBy",
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
@@ -2116,23 +1501,8 @@
         "language" : "en",
         "value" : "Birth Place",
         "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Birth Place",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Geburtsort",
-        "type" : "label"
       } ],
       "altLabel" : [ {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "place of birth",
-        "type" : "label"
-      }, {
         "identifier" : "altLabel",
         "language" : "en",
         "value" : "place of birth",
@@ -2143,39 +1513,19 @@
         "language" : "en",
         "value" : "The place where a person was born.",
         "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "The place where a person was born.",
-        "type" : "label"
       } ],
       "seeAlso" : [ {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://www.wikidata.org/wiki/Q1322263",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
         "value" : "https://schema.org/birthPlace",
         "type" : "iri"
       }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://www.wikidata.org/wiki/Q1322263",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/birthPlace",
         "type" : "iri"
       } ],
       "example" : [ {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Munich",
-        "type" : "label"
-      }, {
         "identifier" : "example",
         "language" : "en",
         "value" : "Munich",
@@ -2186,7 +1536,71 @@
       "IRI-based" : "birthPlace"
     },
     "domain" : "4",
-    "attributes" : [ "datatype", "someValues", "external" ],
+    "attributes" : [ "external", "datatype", "someValues" ],
+    "id" : "23"
+  }, {
+    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#deathDate",
+    "baseIri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl",
+    "range" : "24",
+    "annotations" : {
+      "note" : [ {
+        "identifier" : "note",
+        "language" : "en",
+        "value" : "optional",
+        "type" : "label"
+      } ],
+      "isDefinedBy" : [ {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
+        "type" : "iri"
+      } ],
+      "prefLabel" : [ {
+        "identifier" : "prefLabel",
+        "language" : "en",
+        "value" : "Death Date",
+        "type" : "label"
+      }, {
+        "identifier" : "prefLabel",
+        "language" : "de",
+        "value" : "Todesdatum",
+        "type" : "label"
+      } ],
+      "altLabel" : [ {
+        "identifier" : "altLabel",
+        "language" : "en",
+        "value" : "date of death",
+        "type" : "label"
+      } ],
+      "definition" : [ {
+        "identifier" : "definition",
+        "language" : "en",
+        "value" : "The date when a person died.",
+        "type" : "label"
+      } ],
+      "seeAlso" : [ {
+        "identifier" : "seeAlso",
+        "language" : "undefined",
+        "value" : "https://www.wikidata.org/wiki/Q18748141",
+        "type" : "iri"
+      }, {
+        "identifier" : "seeAlso",
+        "language" : "undefined",
+        "value" : "https://schema.org/deathDate",
+        "type" : "iri"
+      } ],
+      "example" : [ {
+        "identifier" : "example",
+        "language" : "en",
+        "value" : "31.12.2080",
+        "type" : "label"
+      } ]
+    },
+    "label" : {
+      "IRI-based" : "deathDate"
+    },
+    "domain" : "4",
+    "attributes" : [ "external", "datatype", "someValues" ],
     "id" : "26"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#maidenName",
@@ -2198,18 +1612,8 @@
         "language" : "en",
         "value" : "optional",
         "type" : "label"
-      }, {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "optional",
-        "type" : "label"
       } ],
       "isDefinedBy" : [ {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
-      }, {
         "identifier" : "isDefinedBy",
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
@@ -2224,16 +1628,6 @@
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Maiden Name",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Maiden Name",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Geburtsname",
         "type" : "label"
       } ],
       "altLabel" : [ {
@@ -2249,36 +1643,6 @@
       }, {
         "identifier" : "altLabel",
         "language" : "de",
-        "value" : "Ledigname",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "birth name",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "de",
-        "value" : "Taufname",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "name at birth",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "born name",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "name at birth",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "de",
         "value" : "Taufname",
         "type" : "label"
       }, {
@@ -2289,20 +1653,15 @@
       }, {
         "identifier" : "altLabel",
         "language" : "en",
-        "value" : "born name",
+        "value" : "name at birth",
         "type" : "label"
       }, {
         "identifier" : "altLabel",
-        "language" : "de",
-        "value" : "Mädchenname",
+        "language" : "en",
+        "value" : "born name",
         "type" : "label"
       } ],
       "seeAlso" : [ {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Maiden_and_married_names",
-        "type" : "iri"
-      }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Maiden_and_married_names",
@@ -2313,18 +1672,13 @@
         "language" : "en",
         "value" : "Huber",
         "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Huber",
-        "type" : "label"
       } ]
     },
     "label" : {
       "IRI-based" : "maidenName"
     },
     "domain" : "8",
-    "attributes" : [ "datatype", "external" ],
+    "attributes" : [ "external", "datatype" ],
     "id" : "27"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#date",
@@ -2334,7 +1688,7 @@
       "IRI-based" : "date"
     },
     "domain" : "1",
-    "attributes" : [ "datatype", "external" ],
+    "attributes" : [ "external", "datatype" ],
     "id" : "29"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#knows",
@@ -2346,18 +1700,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "knows",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "knows",
@@ -2380,18 +1724,8 @@
         "language" : "en",
         "value" : "optional",
         "type" : "label"
-      }, {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "optional",
-        "type" : "label"
       } ],
       "isDefinedBy" : [ {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
-      }, {
         "identifier" : "isDefinedBy",
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
@@ -2399,11 +1733,6 @@
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Middle Name",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "de",
         "value" : "Mittelname",
         "type" : "label"
@@ -2411,19 +1740,9 @@
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Middle Name",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Mittelname",
         "type" : "label"
       } ],
       "altLabel" : [ {
-        "identifier" : "altLabel",
-        "language" : "de",
-        "value" : "Zwischenname",
-        "type" : "label"
-      }, {
         "identifier" : "altLabel",
         "language" : "de",
         "value" : "Zwischenname",
@@ -2432,22 +1751,12 @@
       "seeAlso" : [ {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://schema.org/additionalName",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Middle_name",
         "type" : "iri"
       }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://schema.org/additionalName",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Middle_name",
         "type" : "iri"
       } ]
     },
@@ -2455,7 +1764,7 @@
       "IRI-based" : "middleName"
     },
     "domain" : "8",
-    "attributes" : [ "datatype", "external" ],
+    "attributes" : [ "external", "datatype" ],
     "id" : "32"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#speaks",
@@ -2467,29 +1776,14 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "speaks",
         "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "speaks",
-        "type" : "label"
       } ],
       "seeAlso" : [ {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/knowsLanguage",
-        "type" : "iri"
-      }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://schema.org/knowsLanguage",
@@ -2512,34 +1806,14 @@
         "language" : "en",
         "value" : "optional",
         "type" : "label"
-      }, {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "optional",
-        "type" : "label"
       } ],
       "isDefinedBy" : [ {
         "identifier" : "isDefinedBy",
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Alter",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Age",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Age",
@@ -2555,18 +1829,8 @@
         "language" : "en",
         "value" : "Rounded difference of current date and birth date in years.",
         "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "Rounded difference of current date and birth date in years.",
-        "type" : "label"
       } ],
       "seeAlso" : [ {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://www.wikidata.org/wiki/Q185836",
-        "type" : "iri"
-      }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://www.wikidata.org/wiki/Q185836",
@@ -2575,12 +1839,7 @@
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
-        "value" : "30.0",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "30.0",
+        "value" : "30",
         "type" : "label"
       } ]
     },
@@ -2588,7 +1847,7 @@
       "IRI-based" : "age"
     },
     "domain" : "4",
-    "attributes" : [ "datatype", "someValues", "external" ],
+    "attributes" : [ "external", "datatype", "someValues" ],
     "id" : "36"
   }, {
     "range" : "40",
@@ -2603,7 +1862,7 @@
       "IRI-based" : "integer"
     },
     "domain" : "1",
-    "attributes" : [ "datatype", "external" ],
+    "attributes" : [ "external", "datatype" ],
     "id" : "41"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#isSiblingOf",
@@ -2615,18 +1874,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "is sibling of",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "is sibling of",
@@ -2637,18 +1886,13 @@
         "language" : "undefined",
         "value" : "https://schema.org/sibling",
         "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/sibling",
-        "type" : "iri"
       } ]
     },
     "label" : {
       "IRI-based" : "isSiblingOf"
     },
     "domain" : "25",
-    "attributes" : [ "symmetric", "external", "object" ],
+    "attributes" : [ "external", "object", "symmetric" ],
     "id" : "43"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#middleName",
@@ -2660,18 +1904,8 @@
         "language" : "en",
         "value" : "optional",
         "type" : "label"
-      }, {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "optional",
-        "type" : "label"
       } ],
       "isDefinedBy" : [ {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
-      }, {
         "identifier" : "isDefinedBy",
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
@@ -2679,11 +1913,6 @@
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Middle Name",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "de",
         "value" : "Mittelname",
         "type" : "label"
@@ -2691,19 +1920,9 @@
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Middle Name",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Mittelname",
         "type" : "label"
       } ],
       "altLabel" : [ {
-        "identifier" : "altLabel",
-        "language" : "de",
-        "value" : "Zwischenname",
-        "type" : "label"
-      }, {
         "identifier" : "altLabel",
         "language" : "de",
         "value" : "Zwischenname",
@@ -2712,22 +1931,12 @@
       "seeAlso" : [ {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://schema.org/additionalName",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Middle_name",
         "type" : "iri"
       }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://schema.org/additionalName",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Middle_name",
         "type" : "iri"
       } ]
     },
@@ -2735,7 +1944,7 @@
       "IRI-based" : "middleName"
     },
     "domain" : "8",
-    "attributes" : [ "datatype", "someValues", "external" ],
+    "attributes" : [ "external", "datatype", "someValues" ],
     "id" : "45"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#isChildOf",
@@ -2748,18 +1957,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "is child of",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "is child of",
@@ -2770,18 +1969,13 @@
         "language" : "undefined",
         "value" : "https://schema.org/children",
         "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/children",
-        "type" : "iri"
       } ]
     },
     "label" : {
       "IRI-based" : "isChildOf"
     },
     "domain" : "39",
-    "attributes" : [ "transitive", "someValues", "external", "object" ],
+    "attributes" : [ "external", "transitive", "object", "someValues" ],
     "id" : "46"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#isCitizenOf",
@@ -2793,18 +1987,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "is citizen of",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "is citizen of",
@@ -2815,31 +1999,16 @@
         "language" : "en",
         "value" : "is national of",
         "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "is national of",
-        "type" : "label"
       } ],
       "seeAlso" : [ {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://www.wikidata.org/wiki/Property:P27",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://www.wikidata.org/wiki/Property:P27",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
         "value" : "https://schema.org/nationality",
         "type" : "iri"
       }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://schema.org/nationality",
+        "value" : "https://www.wikidata.org/wiki/Property:P27",
         "type" : "iri"
       } ]
     },
@@ -2847,7 +2016,7 @@
       "IRI-based" : "isCitizenOf"
     },
     "domain" : "8",
-    "attributes" : [ "someValues", "external", "object" ],
+    "attributes" : [ "external", "object", "someValues" ],
     "id" : "48"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#birthDate",
@@ -2859,18 +2028,8 @@
         "language" : "en",
         "value" : "optional",
         "type" : "label"
-      }, {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "optional",
-        "type" : "label"
       } ],
       "isDefinedBy" : [ {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
-      }, {
         "identifier" : "isDefinedBy",
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
@@ -2878,16 +2037,6 @@
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Birth Date",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Geburtsdatum",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "de",
         "value" : "Geburtsdatum",
         "type" : "label"
@@ -2895,17 +2044,6 @@
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Birth Date",
-        "type" : "label"
-      } ],
-      "definition" : [ {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "The date when a person was born.",
-        "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "The date when a person was born.",
         "type" : "label"
       } ],
       "altLabel" : [ {
@@ -2913,39 +2051,25 @@
         "language" : "en",
         "value" : "date of birth",
         "type" : "label"
-      }, {
-        "identifier" : "altLabel",
+      } ],
+      "definition" : [ {
+        "identifier" : "definition",
         "language" : "en",
-        "value" : "date of birth",
+        "value" : "The date when a person was born.",
         "type" : "label"
       } ],
       "seeAlso" : [ {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://www.wikidata.org/wiki/Q2389905",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://www.wikidata.org/wiki/Q2389905",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
         "value" : "https://schema.org/birthDate",
         "type" : "iri"
       }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://schema.org/birthDate",
+        "value" : "https://www.wikidata.org/wiki/Q2389905",
         "type" : "iri"
       } ],
       "example" : [ {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "01.12.1980",
-        "type" : "label"
-      }, {
         "identifier" : "example",
         "language" : "en",
         "value" : "01.12.1980",
@@ -2956,7 +2080,7 @@
       "IRI-based" : "birthDate"
     },
     "domain" : "4",
-    "attributes" : [ "datatype", "external" ],
+    "attributes" : [ "external", "datatype" ],
     "id" : "51"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#knows",
@@ -2968,18 +2092,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "knows",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "knows",
@@ -2990,7 +2104,7 @@
       "IRI-based" : "knows"
     },
     "domain" : "8",
-    "attributes" : [ "someValues", "external", "object" ],
+    "attributes" : [ "external", "object", "someValues" ],
     "id" : "53"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#speaks",
@@ -3002,18 +2116,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "speaks",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "speaks",
@@ -3024,18 +2128,13 @@
         "language" : "undefined",
         "value" : "https://schema.org/knowsLanguage",
         "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/knowsLanguage",
-        "type" : "iri"
       } ]
     },
     "label" : {
       "IRI-based" : "speaks"
     },
     "domain" : "8",
-    "attributes" : [ "someValues", "external", "object" ],
+    "attributes" : [ "external", "object", "someValues" ],
     "id" : "54"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#deathPlace",
@@ -3047,18 +2146,8 @@
         "language" : "en",
         "value" : "optional",
         "type" : "label"
-      }, {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "optional",
-        "type" : "label"
       } ],
       "isDefinedBy" : [ {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
-      }, {
         "identifier" : "isDefinedBy",
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
@@ -3074,15 +2163,11 @@
         "language" : "en",
         "value" : "Death Place",
         "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
+      } ],
+      "definition" : [ {
+        "identifier" : "definition",
         "language" : "en",
-        "value" : "Death Place",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Todesort",
+        "value" : "The place where a person has died.",
         "type" : "label"
       } ],
       "altLabel" : [ {
@@ -3090,34 +2175,8 @@
         "language" : "en",
         "value" : "place of death",
         "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "place of death",
-        "type" : "label"
-      } ],
-      "definition" : [ {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "The place where a person has died.",
-        "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "The place where a person has died.",
-        "type" : "label"
       } ],
       "seeAlso" : [ {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/deathPlace",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://www.wikidata.org/wiki/Q18658526",
-        "type" : "iri"
-      }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://www.wikidata.org/wiki/Q18658526",
@@ -3133,18 +2192,13 @@
         "language" : "en",
         "value" : "Munich",
         "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Munich",
-        "type" : "label"
       } ]
     },
     "label" : {
       "IRI-based" : "deathPlace"
     },
     "domain" : "4",
-    "attributes" : [ "datatype", "external" ],
+    "attributes" : [ "external", "datatype" ],
     "id" : "57"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#isRelatedTo",
@@ -3156,18 +2210,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "is related to",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "is related to",
@@ -3178,18 +2222,13 @@
         "language" : "undefined",
         "value" : "https://schema.org/relatedTo",
         "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/relatedTo",
-        "type" : "iri"
       } ]
     },
     "label" : {
       "IRI-based" : "isRelatedTo"
     },
     "domain" : "65",
-    "attributes" : [ "someValues", "symmetric", "external", "object" ],
+    "attributes" : [ "external", "object", "someValues", "symmetric" ],
     "id" : "64"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#gender",
@@ -3201,18 +2240,8 @@
         "language" : "en",
         "value" : "optional",
         "type" : "label"
-      }, {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "optional",
-        "type" : "label"
       } ],
       "isDefinedBy" : [ {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
-      }, {
         "identifier" : "isDefinedBy",
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
@@ -3228,28 +2257,8 @@
         "language" : "en",
         "value" : "Gender",
         "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Geschlecht",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Gender",
-        "type" : "label"
       } ],
       "seeAlso" : [ {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://www.wikidata.org/wiki/Q48277",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/gender",
-        "type" : "iri"
-      }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://schema.org/gender",
@@ -3263,27 +2272,12 @@
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
-        "value" : "female",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "male",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "male",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
         "value" : "divers",
         "type" : "label"
       }, {
         "identifier" : "example",
         "language" : "en",
-        "value" : "divers",
+        "value" : "male",
         "type" : "label"
       }, {
         "identifier" : "example",
@@ -3296,7 +2290,7 @@
       "IRI-based" : "gender"
     },
     "domain" : "4",
-    "attributes" : [ "datatype", "external" ],
+    "attributes" : [ "external", "datatype" ],
     "id" : "66"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#lastName",
@@ -3308,23 +2302,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Nachname",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Last Name",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "de",
         "value" : "Nachname",
@@ -3337,8 +2316,13 @@
       } ],
       "altLabel" : [ {
         "identifier" : "altLabel",
+        "language" : "de",
+        "value" : "Familienname",
+        "type" : "label"
+      }, {
+        "identifier" : "altLabel",
         "language" : "en",
-        "value" : "surname",
+        "value" : "married name",
         "type" : "label"
       }, {
         "identifier" : "altLabel",
@@ -3352,77 +2336,27 @@
         "type" : "label"
       }, {
         "identifier" : "altLabel",
-        "language" : "de",
-        "value" : "Familienname",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "married name",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "de",
-        "value" : "Geschlechtsname",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
         "language" : "en",
         "value" : "surname",
         "type" : "label"
       }, {
         "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "married name",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "de",
-        "value" : "Familienname",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
         "language" : "de",
         "value" : "Zuname",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "de",
-        "value" : "Zuname",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "family name",
         "type" : "label"
       } ],
       "seeAlso" : [ {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://schema.org/familyName",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Surname",
         "type" : "iri"
       }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://schema.org/familyName",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Surname",
         "type" : "iri"
       } ],
       "example" : [ {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Mustermann",
-        "type" : "label"
-      }, {
         "identifier" : "example",
         "language" : "en",
         "value" : "Mustermann",
@@ -3433,7 +2367,7 @@
       "IRI-based" : "lastName"
     },
     "domain" : "8",
-    "attributes" : [ "datatype", "external" ],
+    "attributes" : [ "external", "datatype" ],
     "id" : "68"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#isParentOf",
@@ -3445,18 +2379,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "is parent of",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "is parent of",
@@ -3467,18 +2391,13 @@
         "language" : "undefined",
         "value" : "https://schema.org/parent",
         "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/parent",
-        "type" : "iri"
       } ]
     },
     "label" : {
       "IRI-based" : "isParentOf"
     },
     "domain" : "40",
-    "attributes" : [ "transitive", "external", "object" ],
+    "attributes" : [ "external", "transitive", "object" ],
     "id" : "47"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#isParentOf",
@@ -3490,18 +2409,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "is parent of",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "is parent of",
@@ -3512,18 +2421,13 @@
         "language" : "undefined",
         "value" : "https://schema.org/parent",
         "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/parent",
-        "type" : "iri"
       } ]
     },
     "label" : {
       "IRI-based" : "isParentOf"
     },
     "domain" : "40",
-    "attributes" : [ "transitive", "someValues", "external", "object" ],
+    "attributes" : [ "external", "transitive", "object", "someValues" ],
     "id" : "69"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#birthDate",
@@ -3535,18 +2439,8 @@
         "language" : "en",
         "value" : "optional",
         "type" : "label"
-      }, {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "optional",
-        "type" : "label"
       } ],
       "isDefinedBy" : [ {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
-      }, {
         "identifier" : "isDefinedBy",
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
@@ -3554,16 +2448,6 @@
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Birth Date",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Geburtsdatum",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "de",
         "value" : "Geburtsdatum",
         "type" : "label"
@@ -3571,17 +2455,6 @@
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Birth Date",
-        "type" : "label"
-      } ],
-      "definition" : [ {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "The date when a person was born.",
-        "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "The date when a person was born.",
         "type" : "label"
       } ],
       "altLabel" : [ {
@@ -3589,39 +2462,25 @@
         "language" : "en",
         "value" : "date of birth",
         "type" : "label"
-      }, {
-        "identifier" : "altLabel",
+      } ],
+      "definition" : [ {
+        "identifier" : "definition",
         "language" : "en",
-        "value" : "date of birth",
+        "value" : "The date when a person was born.",
         "type" : "label"
       } ],
       "seeAlso" : [ {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://www.wikidata.org/wiki/Q2389905",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://www.wikidata.org/wiki/Q2389905",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
         "value" : "https://schema.org/birthDate",
         "type" : "iri"
       }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://schema.org/birthDate",
+        "value" : "https://www.wikidata.org/wiki/Q2389905",
         "type" : "iri"
       } ],
       "example" : [ {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "01.12.1980",
-        "type" : "label"
-      }, {
         "identifier" : "example",
         "language" : "en",
         "value" : "01.12.1980",
@@ -3632,7 +2491,7 @@
       "IRI-based" : "birthDate"
     },
     "domain" : "4",
-    "attributes" : [ "datatype", "someValues", "external" ],
+    "attributes" : [ "external", "datatype", "someValues" ],
     "id" : "70"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#identifier",
@@ -3642,7 +2501,7 @@
       "IRI-based" : "identifier"
     },
     "domain" : "1",
-    "attributes" : [ "datatype", "external" ],
+    "attributes" : [ "external", "datatype" ],
     "id" : "72"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#isSiblingOf",
@@ -3654,18 +2513,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "is sibling of",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "is sibling of",
@@ -3676,18 +2525,13 @@
         "language" : "undefined",
         "value" : "https://schema.org/sibling",
         "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/sibling",
-        "type" : "iri"
       } ]
     },
     "label" : {
       "IRI-based" : "isSiblingOf"
     },
     "domain" : "25",
-    "attributes" : [ "someValues", "symmetric", "external", "object" ],
+    "attributes" : [ "external", "object", "someValues", "symmetric" ],
     "id" : "75"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#personalTitle",
@@ -3699,18 +2543,8 @@
         "language" : "en",
         "value" : "Note common titles are meant, while formal titles are  excluded .",
         "type" : "label"
-      }, {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "Note common titles are meant, while formal titles are  excluded .",
-        "type" : "label"
       } ],
       "isDefinedBy" : [ {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
-      }, {
         "identifier" : "isDefinedBy",
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
@@ -3726,47 +2560,22 @@
         "language" : "de",
         "value" : "Anrede",
         "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Anrede",
+      } ],
+      "altLabel" : [ {
+        "identifier" : "altLabel",
+        "language" : "en",
+        "value" : "honorific",
         "type" : "label"
       }, {
-        "identifier" : "prefLabel",
+        "identifier" : "altLabel",
         "language" : "en",
-        "value" : "Personal Title",
+        "value" : "honorific title",
         "type" : "label"
       } ],
       "definition" : [ {
         "identifier" : "definition",
         "language" : "en",
         "value" : "A title prefixing a person's name.",
-        "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "A title prefixing a person's name.",
-        "type" : "label"
-      } ],
-      "altLabel" : [ {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "honorific title",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "honorific",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "honorific title",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "honorific",
         "type" : "label"
       } ],
       "seeAlso" : [ {
@@ -3777,37 +2586,17 @@
       }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Honorific",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/English_honorifics",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
         "value" : "https://de.wikipedia.org/wiki/Anrede",
         "type" : "iri"
       }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Honorific",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://de.wikipedia.org/wiki/Anrede",
         "type" : "iri"
       } ],
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
-        "value" : "Mrs",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
         "value" : "Mx",
         "type" : "label"
       }, {
@@ -3818,37 +2607,17 @@
       }, {
         "identifier" : "example",
         "language" : "en",
-        "value" : "Miss",
+        "value" : "Ms",
         "type" : "label"
       }, {
         "identifier" : "example",
         "language" : "en",
         "value" : "Mr",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Ms",
         "type" : "label"
       }, {
         "identifier" : "example",
         "language" : "en",
         "value" : "Mrs",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Mx",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Mr",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Ms",
         "type" : "label"
       } ]
     },
@@ -3856,7 +2625,7 @@
       "IRI-based" : "personalTitle"
     },
     "domain" : "4",
-    "attributes" : [ "datatype", "someValues", "external" ],
+    "attributes" : [ "external", "datatype", "someValues" ],
     "id" : "76"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#deathPlace",
@@ -3868,18 +2637,8 @@
         "language" : "en",
         "value" : "optional",
         "type" : "label"
-      }, {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "optional",
-        "type" : "label"
       } ],
       "isDefinedBy" : [ {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
-      }, {
         "identifier" : "isDefinedBy",
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
@@ -3895,15 +2654,11 @@
         "language" : "en",
         "value" : "Death Place",
         "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
+      } ],
+      "definition" : [ {
+        "identifier" : "definition",
         "language" : "en",
-        "value" : "Death Place",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Todesort",
+        "value" : "The place where a person has died.",
         "type" : "label"
       } ],
       "altLabel" : [ {
@@ -3911,34 +2666,8 @@
         "language" : "en",
         "value" : "place of death",
         "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "place of death",
-        "type" : "label"
-      } ],
-      "definition" : [ {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "The place where a person has died.",
-        "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "The place where a person has died.",
-        "type" : "label"
       } ],
       "seeAlso" : [ {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/deathPlace",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://www.wikidata.org/wiki/Q18658526",
-        "type" : "iri"
-      }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://www.wikidata.org/wiki/Q18658526",
@@ -3954,18 +2683,13 @@
         "language" : "en",
         "value" : "Munich",
         "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Munich",
-        "type" : "label"
       } ]
     },
     "label" : {
       "IRI-based" : "deathPlace"
     },
     "domain" : "4",
-    "attributes" : [ "datatype", "someValues", "external" ],
+    "attributes" : [ "external", "datatype", "someValues" ],
     "id" : "78"
   }, {
     "range" : "8",
@@ -3982,11 +2706,6 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
@@ -3998,23 +2717,8 @@
         "language" : "en",
         "value" : "Person Id",
         "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Person Id",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Person ID",
-        "type" : "label"
       } ],
       "definition" : [ {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "the unique numerical identity of a person over time",
-        "type" : "label"
-      }, {
         "identifier" : "definition",
         "language" : "en",
         "value" : "the unique numerical identity of a person over time",
@@ -4025,18 +2729,8 @@
         "language" : "en",
         "value" : "Personal identity",
         "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "Personal identity",
-        "type" : "label"
       } ],
       "seeAlso" : [ {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Personal_identity",
-        "type" : "iri"
-      }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Personal_identity",
@@ -4047,7 +2741,7 @@
       "IRI-based" : "personId"
     },
     "domain" : "8",
-    "attributes" : [ "datatype", "external" ],
+    "attributes" : [ "external", "datatype" ],
     "id" : "81"
   }, {
     "range" : "8",
@@ -4069,34 +2763,14 @@
         "language" : "en",
         "value" : "optional",
         "type" : "label"
-      }, {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "optional",
-        "type" : "label"
       } ],
       "isDefinedBy" : [ {
         "identifier" : "isDefinedBy",
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Academic Title",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Titel",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "de",
         "value" : "Titel",
@@ -4112,31 +2786,16 @@
         "language" : "en",
         "value" : "professional title",
         "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "professional title",
-        "type" : "label"
       } ],
       "seeAlso" : [ {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://schema.org/honorificPrefix",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Academic_degree",
         "type" : "iri"
       }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Academic_degree",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/honorificSuffix",
+        "value" : "https://en.wikipedia.org/wiki/Title",
         "type" : "iri"
       }, {
         "identifier" : "seeAlso",
@@ -4147,26 +2806,11 @@
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://schema.org/honorificPrefix",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Title",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Title",
         "type" : "iri"
       } ],
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
-        "value" : "PhD",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
         "value" : "MD",
         "type" : "label"
       }, {
@@ -4177,27 +2821,12 @@
       }, {
         "identifier" : "example",
         "language" : "en",
-        "value" : "Prof",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "MD",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Prof",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Dr",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
         "value" : "PhD",
+        "type" : "label"
+      }, {
+        "identifier" : "example",
+        "language" : "en",
+        "value" : "Prof",
         "type" : "label"
       } ]
     },
@@ -4205,7 +2834,7 @@
       "IRI-based" : "academicTitle"
     },
     "domain" : "4",
-    "attributes" : [ "datatype", "external" ],
+    "attributes" : [ "external", "datatype" ],
     "id" : "84"
   }, {
     "range" : "8",
@@ -4232,18 +2861,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "is citizen of",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "is citizen of",
@@ -4254,31 +2873,16 @@
         "language" : "en",
         "value" : "is national of",
         "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "is national of",
-        "type" : "label"
       } ],
       "seeAlso" : [ {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://www.wikidata.org/wiki/Property:P27",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://www.wikidata.org/wiki/Property:P27",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
         "value" : "https://schema.org/nationality",
         "type" : "iri"
       }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://schema.org/nationality",
+        "value" : "https://www.wikidata.org/wiki/Property:P27",
         "type" : "iri"
       } ]
     },
@@ -4303,18 +2907,8 @@
         "language" : "en",
         "value" : "optional",
         "type" : "label"
-      }, {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "optional",
-        "type" : "label"
       } ],
       "isDefinedBy" : [ {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
-      }, {
         "identifier" : "isDefinedBy",
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
@@ -4330,23 +2924,8 @@
         "language" : "en",
         "value" : "Birth Place",
         "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Birth Place",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Geburtsort",
-        "type" : "label"
       } ],
       "altLabel" : [ {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "place of birth",
-        "type" : "label"
-      }, {
         "identifier" : "altLabel",
         "language" : "en",
         "value" : "place of birth",
@@ -4357,39 +2936,19 @@
         "language" : "en",
         "value" : "The place where a person was born.",
         "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "The place where a person was born.",
-        "type" : "label"
       } ],
       "seeAlso" : [ {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://www.wikidata.org/wiki/Q1322263",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
         "value" : "https://schema.org/birthPlace",
         "type" : "iri"
       }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://www.wikidata.org/wiki/Q1322263",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/birthPlace",
         "type" : "iri"
       } ],
       "example" : [ {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Munich",
-        "type" : "label"
-      }, {
         "identifier" : "example",
         "language" : "en",
         "value" : "Munich",
@@ -4400,7 +2959,7 @@
       "IRI-based" : "birthPlace"
     },
     "domain" : "4",
-    "attributes" : [ "datatype", "external" ],
+    "attributes" : [ "external", "datatype" ],
     "id" : "91"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#age",
@@ -4412,34 +2971,14 @@
         "language" : "en",
         "value" : "optional",
         "type" : "label"
-      }, {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "optional",
-        "type" : "label"
       } ],
       "isDefinedBy" : [ {
         "identifier" : "isDefinedBy",
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Alter",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Age",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Age",
@@ -4455,18 +2994,8 @@
         "language" : "en",
         "value" : "Rounded difference of current date and birth date in years.",
         "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "Rounded difference of current date and birth date in years.",
-        "type" : "label"
       } ],
       "seeAlso" : [ {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://www.wikidata.org/wiki/Q185836",
-        "type" : "iri"
-      }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://www.wikidata.org/wiki/Q185836",
@@ -4475,12 +3004,7 @@
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
-        "value" : "30.0",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "30.0",
+        "value" : "30",
         "type" : "label"
       } ]
     },
@@ -4488,7 +3012,7 @@
       "IRI-based" : "age"
     },
     "domain" : "4",
-    "attributes" : [ "datatype", "external" ],
+    "attributes" : [ "external", "datatype" ],
     "id" : "92"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#personalTitle",
@@ -4500,18 +3024,8 @@
         "language" : "en",
         "value" : "Note common titles are meant, while formal titles are  excluded .",
         "type" : "label"
-      }, {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "Note common titles are meant, while formal titles are  excluded .",
-        "type" : "label"
       } ],
       "isDefinedBy" : [ {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
-      }, {
         "identifier" : "isDefinedBy",
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
@@ -4527,47 +3041,22 @@
         "language" : "de",
         "value" : "Anrede",
         "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Anrede",
+      } ],
+      "altLabel" : [ {
+        "identifier" : "altLabel",
+        "language" : "en",
+        "value" : "honorific",
         "type" : "label"
       }, {
-        "identifier" : "prefLabel",
+        "identifier" : "altLabel",
         "language" : "en",
-        "value" : "Personal Title",
+        "value" : "honorific title",
         "type" : "label"
       } ],
       "definition" : [ {
         "identifier" : "definition",
         "language" : "en",
         "value" : "A title prefixing a person's name.",
-        "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "A title prefixing a person's name.",
-        "type" : "label"
-      } ],
-      "altLabel" : [ {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "honorific title",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "honorific",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "honorific title",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "honorific",
         "type" : "label"
       } ],
       "seeAlso" : [ {
@@ -4578,37 +3067,17 @@
       }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Honorific",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/English_honorifics",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
         "value" : "https://de.wikipedia.org/wiki/Anrede",
         "type" : "iri"
       }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Honorific",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://de.wikipedia.org/wiki/Anrede",
         "type" : "iri"
       } ],
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
-        "value" : "Mrs",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
         "value" : "Mx",
         "type" : "label"
       }, {
@@ -4619,37 +3088,17 @@
       }, {
         "identifier" : "example",
         "language" : "en",
-        "value" : "Miss",
+        "value" : "Ms",
         "type" : "label"
       }, {
         "identifier" : "example",
         "language" : "en",
         "value" : "Mr",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Ms",
         "type" : "label"
       }, {
         "identifier" : "example",
         "language" : "en",
         "value" : "Mrs",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Mx",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Mr",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Ms",
         "type" : "label"
       } ]
     },
@@ -4657,7 +3106,7 @@
       "IRI-based" : "personalTitle"
     },
     "domain" : "4",
-    "attributes" : [ "datatype", "external" ],
+    "attributes" : [ "external", "datatype" ],
     "id" : "93"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#deathDate",
@@ -4669,18 +3118,8 @@
         "language" : "en",
         "value" : "optional",
         "type" : "label"
-      }, {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "optional",
-        "type" : "label"
       } ],
       "isDefinedBy" : [ {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
-      }, {
         "identifier" : "isDefinedBy",
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
@@ -4696,23 +3135,8 @@
         "language" : "de",
         "value" : "Todesdatum",
         "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Todesdatum",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Death Date",
-        "type" : "label"
       } ],
       "altLabel" : [ {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "date of death",
-        "type" : "label"
-      }, {
         "identifier" : "altLabel",
         "language" : "en",
         "value" : "date of death",
@@ -4723,39 +3147,19 @@
         "language" : "en",
         "value" : "The date when a person died.",
         "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "The date when a person died.",
-        "type" : "label"
       } ],
       "seeAlso" : [ {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://schema.org/deathDate",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/deathDate",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
         "value" : "https://www.wikidata.org/wiki/Q18748141",
         "type" : "iri"
       }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://www.wikidata.org/wiki/Q18748141",
+        "value" : "https://schema.org/deathDate",
         "type" : "iri"
       } ],
       "example" : [ {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "31.12.2080",
-        "type" : "label"
-      }, {
         "identifier" : "example",
         "language" : "en",
         "value" : "31.12.2080",
@@ -4766,7 +3170,7 @@
       "IRI-based" : "deathDate"
     },
     "domain" : "4",
-    "attributes" : [ "datatype", "external" ],
+    "attributes" : [ "external", "datatype" ],
     "id" : "94"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#title",
@@ -4776,7 +3180,7 @@
       "IRI-based" : "title"
     },
     "domain" : "1",
-    "attributes" : [ "datatype", "external" ],
+    "attributes" : [ "external", "datatype" ],
     "id" : "96"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#isChildOf",
@@ -4789,29 +3193,14 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "is child of",
         "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "is child of",
-        "type" : "label"
       } ],
       "seeAlso" : [ {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/children",
-        "type" : "iri"
-      }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://schema.org/children",
@@ -4822,10 +3211,10 @@
       "IRI-based" : "isChildOf"
     },
     "domain" : "39",
-    "attributes" : [ "transitive", "external", "object" ],
+    "attributes" : [ "external", "transitive", "object" ],
     "id" : "98"
   }, {
-    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#firstName",
+    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#personId",
     "baseIri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl",
     "range" : "101",
     "annotations" : {
@@ -4834,82 +3223,42 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "First Name",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "First Name",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "de",
-        "value" : "Vorname",
+        "value" : "Person ID",
         "type" : "label"
       }, {
         "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Vorname",
+        "language" : "en",
+        "value" : "Person Id",
+        "type" : "label"
+      } ],
+      "definition" : [ {
+        "identifier" : "definition",
+        "language" : "en",
+        "value" : "the unique numerical identity of a person over time",
         "type" : "label"
       } ],
       "altLabel" : [ {
         "identifier" : "altLabel",
         "language" : "en",
-        "value" : "given name",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "given name",
+        "value" : "Personal identity",
         "type" : "label"
       } ],
       "seeAlso" : [ {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://schema.org/givenName",
+        "value" : "https://en.wikipedia.org/wiki/Personal_identity",
         "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Given_name",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/givenName",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Given_name",
-        "type" : "iri"
-      } ],
-      "example" : [ {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Max",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Max",
-        "type" : "label"
       } ]
     },
     "label" : {
-      "IRI-based" : "firstName"
+      "IRI-based" : "personId"
     },
     "domain" : "8",
-    "attributes" : [ "datatype", "someValues", "external" ],
+    "attributes" : [ "external", "datatype", "someValues" ],
     "id" : "100"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#fullName",
@@ -4921,23 +3270,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Volle Name",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Full Name",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "de",
         "value" : "Volle Name",
@@ -4950,48 +3284,13 @@
       } ],
       "altLabel" : [ {
         "identifier" : "altLabel",
-        "language" : "de",
-        "value" : "Vollständiger Name",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "person name",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "name in full",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "de",
-        "value" : "Vollständiger Name",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "name in full",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "person name",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
         "language" : "en",
         "value" : "personal name",
         "type" : "label"
       }, {
         "identifier" : "altLabel",
-        "language" : "de",
-        "value" : "Personenname",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
         "language" : "en",
-        "value" : "personal name",
+        "value" : "person name",
         "type" : "label"
       }, {
         "identifier" : "altLabel",
@@ -5001,20 +3300,20 @@
       }, {
         "identifier" : "altLabel",
         "language" : "de",
-        "value" : "Realname",
+        "value" : "Vollständiger Name",
         "type" : "label"
       }, {
         "identifier" : "altLabel",
         "language" : "de",
         "value" : "Realname",
+        "type" : "label"
+      }, {
+        "identifier" : "altLabel",
+        "language" : "en",
+        "value" : "name in full",
         "type" : "label"
       } ],
       "definition" : [ {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "combination of first, middle and last name",
-        "type" : "label"
-      }, {
         "identifier" : "definition",
         "language" : "en",
         "value" : "combination of first, middle and last name",
@@ -5025,18 +3324,8 @@
         "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Personal_name",
         "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Personal_name",
-        "type" : "iri"
       } ],
       "example" : [ {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Max Mustermann",
-        "type" : "label"
-      }, {
         "identifier" : "example",
         "language" : "en",
         "value" : "Max Mustermann",
@@ -5047,7 +3336,7 @@
       "IRI-based" : "fullName"
     },
     "domain" : "8",
-    "attributes" : [ "datatype", "someValues", "external" ],
+    "attributes" : [ "external", "datatype", "someValues" ],
     "id" : "102"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#lastName",
@@ -5059,23 +3348,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Nachname",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Last Name",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "de",
         "value" : "Nachname",
@@ -5088,8 +3362,13 @@
       } ],
       "altLabel" : [ {
         "identifier" : "altLabel",
+        "language" : "de",
+        "value" : "Familienname",
+        "type" : "label"
+      }, {
+        "identifier" : "altLabel",
         "language" : "en",
-        "value" : "surname",
+        "value" : "married name",
         "type" : "label"
       }, {
         "identifier" : "altLabel",
@@ -5103,77 +3382,27 @@
         "type" : "label"
       }, {
         "identifier" : "altLabel",
-        "language" : "de",
-        "value" : "Familienname",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "married name",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "de",
-        "value" : "Geschlechtsname",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
         "language" : "en",
         "value" : "surname",
         "type" : "label"
       }, {
         "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "married name",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "de",
-        "value" : "Familienname",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
         "language" : "de",
         "value" : "Zuname",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "de",
-        "value" : "Zuname",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "family name",
         "type" : "label"
       } ],
       "seeAlso" : [ {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://schema.org/familyName",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Surname",
         "type" : "iri"
       }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://schema.org/familyName",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Surname",
         "type" : "iri"
       } ],
       "example" : [ {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Mustermann",
-        "type" : "label"
-      }, {
         "identifier" : "example",
         "language" : "en",
         "value" : "Mustermann",
@@ -5184,7 +3413,7 @@
       "IRI-based" : "lastName"
     },
     "domain" : "8",
-    "attributes" : [ "datatype", "someValues", "external" ],
+    "attributes" : [ "external", "datatype", "someValues" ],
     "id" : "104"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#maidenName",
@@ -5196,18 +3425,8 @@
         "language" : "en",
         "value" : "optional",
         "type" : "label"
-      }, {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "optional",
-        "type" : "label"
       } ],
       "isDefinedBy" : [ {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
-      }, {
         "identifier" : "isDefinedBy",
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
@@ -5223,16 +3442,6 @@
         "language" : "en",
         "value" : "Maiden Name",
         "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Maiden Name",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Geburtsname",
-        "type" : "label"
       } ],
       "altLabel" : [ {
         "identifier" : "altLabel",
@@ -5247,36 +3456,6 @@
       }, {
         "identifier" : "altLabel",
         "language" : "de",
-        "value" : "Ledigname",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "birth name",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "de",
-        "value" : "Taufname",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "name at birth",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "born name",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "name at birth",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "de",
         "value" : "Taufname",
         "type" : "label"
       }, {
@@ -5287,20 +3466,15 @@
       }, {
         "identifier" : "altLabel",
         "language" : "en",
-        "value" : "born name",
+        "value" : "name at birth",
         "type" : "label"
       }, {
         "identifier" : "altLabel",
-        "language" : "de",
-        "value" : "Mädchenname",
+        "language" : "en",
+        "value" : "born name",
         "type" : "label"
       } ],
       "seeAlso" : [ {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Maiden_and_married_names",
-        "type" : "iri"
-      }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Maiden_and_married_names",
@@ -5311,18 +3485,13 @@
         "language" : "en",
         "value" : "Huber",
         "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Huber",
-        "type" : "label"
       } ]
     },
     "label" : {
       "IRI-based" : "maidenName"
     },
     "domain" : "8",
-    "attributes" : [ "datatype", "someValues", "external" ],
+    "attributes" : [ "external", "datatype", "someValues" ],
     "id" : "106"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#isMarriedTo",
@@ -5334,29 +3503,14 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "is married to",
         "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "is married to",
-        "type" : "label"
       } ],
       "seeAlso" : [ {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/spouse",
-        "type" : "iri"
-      }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://schema.org/spouse",
@@ -5367,10 +3521,10 @@
       "IRI-based" : "isMarriedTo"
     },
     "domain" : "7",
-    "attributes" : [ "someValues", "symmetric", "external", "object" ],
+    "attributes" : [ "external", "object", "someValues", "symmetric" ],
     "id" : "107"
   }, {
-    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#personId",
+    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#firstName",
     "baseIri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl",
     "range" : "99",
     "annotations" : {
@@ -5379,72 +3533,47 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Person ID",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "en",
-        "value" : "Person Id",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Person Id",
+        "value" : "First Name",
         "type" : "label"
       }, {
         "identifier" : "prefLabel",
         "language" : "de",
-        "value" : "Person ID",
-        "type" : "label"
-      } ],
-      "definition" : [ {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "the unique numerical identity of a person over time",
-        "type" : "label"
-      }, {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "the unique numerical identity of a person over time",
+        "value" : "Vorname",
         "type" : "label"
       } ],
       "altLabel" : [ {
         "identifier" : "altLabel",
         "language" : "en",
-        "value" : "Personal identity",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "Personal identity",
+        "value" : "given name",
         "type" : "label"
       } ],
       "seeAlso" : [ {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Personal_identity",
+        "value" : "https://schema.org/givenName",
         "type" : "iri"
       }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Personal_identity",
+        "value" : "https://en.wikipedia.org/wiki/Given_name",
         "type" : "iri"
+      } ],
+      "example" : [ {
+        "identifier" : "example",
+        "language" : "en",
+        "value" : "Max",
+        "type" : "label"
       } ]
     },
     "label" : {
-      "IRI-based" : "personId"
+      "IRI-based" : "firstName"
     },
     "domain" : "8",
-    "attributes" : [ "datatype", "someValues", "external" ],
+    "attributes" : [ "external", "datatype", "someValues" ],
     "id" : "108"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#nickname",
@@ -5456,18 +3585,8 @@
         "language" : "en",
         "value" : "optional",
         "type" : "label"
-      }, {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "optional",
-        "type" : "label"
       } ],
       "isDefinedBy" : [ {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
-      }, {
         "identifier" : "isDefinedBy",
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
@@ -5477,16 +3596,6 @@
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Nickname",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Nickname",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Spitzname",
         "type" : "label"
       }, {
         "identifier" : "prefLabel",
@@ -5504,23 +3613,8 @@
         "language" : "en",
         "value" : "alternative name",
         "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "moniker",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "alternative name",
-        "type" : "label"
       } ],
       "seeAlso" : [ {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Nickname",
-        "type" : "iri"
-      }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://en.wikipedia.org/wiki/Nickname",
@@ -5531,18 +3625,13 @@
         "language" : "en",
         "value" : "Maxi",
         "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Maxi",
-        "type" : "label"
       } ]
     },
     "label" : {
       "IRI-based" : "nickname"
     },
     "domain" : "4",
-    "attributes" : [ "datatype", "external" ],
+    "attributes" : [ "external", "datatype" ],
     "id" : "109"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#isRelatedTo",
@@ -5554,18 +3643,8 @@
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
         "type" : "iri"
-      }, {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
       } ],
       "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "is related to",
-        "type" : "label"
-      }, {
         "identifier" : "prefLabel",
         "language" : "en",
         "value" : "is related to",
@@ -5576,18 +3655,13 @@
         "language" : "undefined",
         "value" : "https://schema.org/relatedTo",
         "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/relatedTo",
-        "type" : "iri"
       } ]
     },
     "label" : {
       "IRI-based" : "isRelatedTo"
     },
     "domain" : "65",
-    "attributes" : [ "symmetric", "external", "object" ],
+    "attributes" : [ "external", "object", "symmetric" ],
     "id" : "110"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#jobTitle",
@@ -5599,18 +3673,8 @@
         "language" : "en",
         "value" : "optional",
         "type" : "label"
-      }, {
-        "identifier" : "note",
-        "language" : "en",
-        "value" : "optional",
-        "type" : "label"
       } ],
       "isDefinedBy" : [ {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
-        "type" : "iri"
-      }, {
         "identifier" : "isDefinedBy",
         "language" : "undefined",
         "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/person_ontology.ttl",
@@ -5618,36 +3682,16 @@
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Berufsbezeichnung",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Berufsbezeichnung",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Job Title",
         "type" : "label"
       }, {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Job Title",
+        "language" : "de",
+        "value" : "Berufsbezeichnung",
         "type" : "label"
       } ],
       "altLabel" : [ {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "professional designation",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "occupational title",
-        "type" : "label"
-      }, {
         "identifier" : "altLabel",
         "language" : "en",
         "value" : "occupational title",
@@ -5662,21 +3706,6 @@
         "identifier" : "seeAlso",
         "language" : "undefined",
         "value" : "https://www.wikidata.org/wiki/Q828803",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://www.wikidata.org/wiki/Q828803",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://schema.org/jobTitle",
-        "type" : "iri"
-      }, {
-        "identifier" : "seeAlso",
-        "language" : "undefined",
-        "value" : "https://de.wikipedia.org/wiki/Berufsbezeichnung",
         "type" : "iri"
       }, {
         "identifier" : "seeAlso",
@@ -5690,16 +3719,6 @@
         "type" : "iri"
       } ],
       "example" : [ {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Manager",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "Engineer",
-        "type" : "label"
-      }, {
         "identifier" : "example",
         "language" : "en",
         "value" : "Manager",
@@ -5715,7 +3734,7 @@
       "IRI-based" : "jobTitle"
     },
     "domain" : "4",
-    "attributes" : [ "datatype", "external" ],
+    "attributes" : [ "external", "datatype" ],
     "id" : "111"
   } ]
 }

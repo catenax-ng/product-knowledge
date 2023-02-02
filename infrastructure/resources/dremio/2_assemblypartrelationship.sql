@@ -16,11 +16,12 @@ CREATE TABLE $scratch.CX_RUL_AssemblyPartRelationship AS (
             SELECT
                 catenaXId,
                 FLATTEN("urn:bamm:io.catenax.assembly_part_relationship:1.1.1#AssemblyPartRelationship") AS json
-             FROM datalake."catenax-knowledge-agents"."CX_RUL_Testdata_v1.0.0.ndjson"
+             FROM datalake."catenax-knowledge-agents"."20230124_testdata_new_bamm.ndjson"
          ) JSON
          WHERE JSON.json IS NOT NULL) CHILDREN
 );
-ALTER TABLE $scratch.CX_RUL_AssemblyPartRelationship ADD PRIMARY KEY (childCatenaXId,catenaXId);
 
 DROP VIEW "HI_TEST_OEM".CX_RUL_AssemblyPartRelationship;
 CREATE VIEW "HI_TEST_OEM".CX_RUL_AssemblyPartRelationship AS SELECT * FROM $scratch.CX_RUL_AssemblyPartRelationship;
+
+ALTER TABLE $scratch.CX_RUL_AssemblyPartRelationship ADD PRIMARY KEY (childCatenaXId,catenaXId);

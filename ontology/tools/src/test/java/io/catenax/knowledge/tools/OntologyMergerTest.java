@@ -40,7 +40,7 @@ public class OntologyMergerTest {
             .filter( path -> path.toFile().getName().endsWith("_ontology.ttl") && !path.toFile().getName().endsWith("cx_ontology.ttl"))
             .map( path -> path.toFile().getAbsolutePath())
             .collect(Collectors.toList()).toArray(new String[0]);
-        merger.run(fileList,out,false);
+        merger.run(fileList,OntologyMerger.CX_ONTOLOGY_IRI,OntologyMerger.CX_ONTOLOGY_TITLE,OntologyMerger.CX_ONTOLOGY_VERSION,out,false);
         String result=new String(out.toByteArray());
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -59,7 +59,7 @@ public class OntologyMergerTest {
             .filter( path -> path.toFile().getName().endsWith("_ontology.ttl"))
             .map( path -> path.toFile().getAbsolutePath())
             .collect(Collectors.toList()).toArray(new String[0]);
-        merger.run(fileList,out,true);
+        merger.run(fileList,OntologyMerger.CX_ONTOLOGY_IRI,OntologyMerger.CX_ONTOLOGY_TITLE,OntologyMerger.CX_ONTOLOGY_VERSION,out,true);
         String result=new String(out.toByteArray());
         ObjectMapper om = new ObjectMapper();
         JsonNode node=om.readTree(result);

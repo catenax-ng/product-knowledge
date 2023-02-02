@@ -1,6 +1,6 @@
 # agent-control-plane
 
-![Version: 0.7.3-SNAPSHOT](https://img.shields.io/badge/Version-0.7.3--SNAPSHOT-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.7.3-SNAPSHOT](https://img.shields.io/badge/AppVersion-0.7.3--SNAPSHOT-informational?style=flat-square)
+![Version: 0.7.4-SNAPSHOT](https://img.shields.io/badge/Version-0.7.4--SNAPSHOT-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.7.4-SNAPSHOT](https://img.shields.io/badge/AppVersion-0.7.4--SNAPSHOT-informational?style=flat-square)
 
 Agent-Enabled EDC Control-Plane - Eclipse DataSpaceConnector administration layer with Agent Protocols extensions
 
@@ -9,7 +9,7 @@ Agent-Enabled EDC Control-Plane - Eclipse DataSpaceConnector administration laye
 ## TL;DR
 ```shell
 $ helm repo add catenax-ng-product-knowledge https://catenax-ng.github.io/product-knowledge/infrastructure
-$ helm install my-release catenax-ng-product-knowledge/agent-control-plane --version 0.7.3-SNAPSHOT
+$ helm install my-release catenax-ng-product-knowledge/agent-control-plane --version 0.7.4-SNAPSHOT
 ```
 
 ## Maintainers

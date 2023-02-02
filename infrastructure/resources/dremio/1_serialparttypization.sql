@@ -13,7 +13,7 @@ CREATE VIEW "HI_TEST_OEM".CX_RUL_SerialPartTypization AS
     FROM (
        SELECT catenaXId,
               FLATTEN("urn:bamm:io.catenax.serial_part_typization:1.1.0#SerialPartTypization") AS json
-         FROM datalake."catenax-knowledge-agents"."CX_RUL_Testdata_v1.0.0.ndjson"
+         FROM datalake."catenax-knowledge-agents"."20230124_testdata_new_bamm.ndjson"
     ) JSON;
 
 DROP TABLE $scratch.CX_RUL_SerialPartTypization_Vehicle;
@@ -30,7 +30,6 @@ CREATE TABLE $scratch.CX_RUL_SerialPartTypization_Vehicle AS
         partTypeInformation_nameAtManufacturer
     FROM "HI_TEST_OEM".CX_RUL_SerialPartTypization
     WHERE localIdentifiers_van IS NOT NULL;
-ALTER TABLE $scratch.CX_RUL_SerialPartTypization_Vehicle ADD PRIMARY KEY (catenaXId);
 
 DROP TABLE $scratch.CX_RUL_SerialPartTypization_Component;
 CREATE TABLE $scratch.CX_RUL_SerialPartTypization_Component AS
@@ -50,3 +49,5 @@ DROP VIEW "HI_TEST_OEM".CX_RUL_SerialPartTypization_Vehicle;
 CREATE VIEW "HI_TEST_OEM".CX_RUL_SerialPartTypization_Vehicle AS SELECT * FROM $scratch.CX_RUL_SerialPartTypization_Vehicle;
 DROP VIEW "HI_TEST_OEM".CX_RUL_SerialPartTypization_Component;
 CREATE VIEW "HI_TEST_OEM".CX_RUL_SerialPartTypization_Component AS SELECT * FROM $scratch.CX_RUL_SerialPartTypization_Component;
+
+ALTER TABLE $scratch.CX_RUL_SerialPartTypization_Vehicle ADD PRIMARY KEY (catenaXId);

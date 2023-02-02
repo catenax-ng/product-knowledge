@@ -32,7 +32,7 @@ Add the following dependency to your control-plane artifact pom:
         <dependency>
             <groupId>io.catenax.knowledge.dataspace.edc.control-plane</groupId>
             <artifactId>control-plane-transfer</artifactId>
-            <version>0.7.3-SNAPSHOT</version>
+            <version>0.7.4-SNAPSHOT</version>
         </dependency>
 ```
 

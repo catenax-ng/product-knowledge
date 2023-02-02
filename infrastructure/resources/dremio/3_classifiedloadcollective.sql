@@ -6,7 +6,7 @@ CREATE TABLE $scratch.CX_RUL_LoadCollective AS (
         JSON.json['metadata'].projectDescription as metadata_projectDescription,
         JSON.json['metadata'].componentDescription as metadata_componentDescription,
         TO_TIMESTAMP(LEFT(JSON.json['metadata'].status['date'],10),'YYYY-MM-DD') as metadata_status_date,
-        CAST(JSON.json['metadata'].status.operatingTime AS DOUBLE) as metadata_status_operatingTime,
+        CAST(JSON.json['metadata'].status.operatingHours AS DOUBLE)*3600.0 as metadata_status_operatingTime,
         CAST(JSON.json['metadata'].status.mileage AS DOUBLE) as metadata_status_mileage,
         JSON.json.header.countingValue as header_countingValue,
         JSON.json.header.countingUnit as header_countingUnit,
@@ -17,12 +17,11 @@ CREATE TABLE $scratch.CX_RUL_LoadCollective AS (
     FROM (
       SELECT
         catenaXId,
-        FLATTEN("urn:bamm:io.openmanufacturing.digitaltwin:1.0.0#ClassifiedLoadCollective") AS json
-      FROM datalake."catenax-knowledge-agents"."CX_RUL_Testdata_v1.0.0.ndjson"
+        FLATTEN("urn:bamm:io.openmanufacturing.digitaltwin:1.0.0#ClassifiedLoadSpectrum") AS json
+      FROM datalake."catenax-knowledge-agents"."20230124_testdata_new_bamm.ndjson"
     ) JSON
     WHERE JSON.json IS NOT NULL
 );
-ALTER TABLE $scratch.CX_RUL_LoadCollective ADD PRIMARY KEY (catenaXId,targetComponentId,metadata_projectDescription);
 
 DROP VIEW "HI_TEST_OEM".CX_RUL_LoadCollective;
 CREATE VIEW "HI_TEST_OEM".CX_RUL_LoadCollective AS 
@@ -41,3 +40,4 @@ SELECT catenaXId,
        body_classes
   FROM $scratch.CX_RUL_LoadCollective;
 
+ALTER TABLE $scratch.CX_RUL_LoadCollective ADD PRIMARY KEY (catenaXId,targetComponentId,metadata_projectDescription);
