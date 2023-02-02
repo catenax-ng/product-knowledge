@@ -78,11 +78,20 @@ public class OntologyMerger {
             } else if("+jsonld".equals(args[count])) {
               ontologyFormat=new RDFJsonLDDocumentFormat();
             } else if("-iri".equals(args[count])) {
-               iri=args[++count];
+               ++count;
+               if(count<args.length) {
+                  iri=args[count];
+               }
              } else if("-version".equals(args[count])) {
-               version=args[++count];
+               ++count;
+               if(count<args.length) {
+                  version = args[count];
+               }
              } else if("-title".equals(args[count])) {
-               title=args[++count].replace("\"","");
+               ++count;
+               if(count<args.length) {
+                  title = args[count].replace("\"", "");
+               }
              } else {
                remainingArgs.add(args[count]);
             }
