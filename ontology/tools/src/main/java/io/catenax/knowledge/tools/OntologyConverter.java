@@ -102,11 +102,13 @@ public class OntologyConverter implements Converter {
         logger.info("Ontologies loaded! Main Ontology: " + logOntoName);
     }
 
+    @Override
     public void setCurrentlyLoadingFlag(boolean val) {
         this.parentLine = "";
         currentlyLoading = val;
     }
 
+    @Override
     public void releaseMemory() {
         manager.removeMissingImportListener(missingListener);
         manager.removeOntology(ontology);
@@ -117,16 +119,19 @@ public class OntologyConverter implements Converter {
         ontology = null;
     }
 
+    @Override
     public void setCurrentlyLoadingFlag(String parentLine, boolean val) {
         // Line where to append to
         this.parentLine = parentLine;
         currentlyLoading = val;
     }
 
+    @Override
     public boolean getCurrentlyLoadingFlag() {
         return currentlyLoading;
     }
 
+    @Override
     public void clearLoadingMsg() {
         loadingInfoString = "";
     }
@@ -138,22 +143,25 @@ public class OntologyConverter implements Converter {
         return s2;
     }
 
+    @Override
     public boolean ontologyHasMissingImports() {
         return missingImports;
     }
 
+    @Override
     public void setOntologyHasMissingImports(boolean val) {
         missingImports = val;
     }
 
+    @Override
     public String getLoadingInfoString() {
         return loadingInfoString;
     }
 
+    @Override
     public void addLoadingInfo(String msg) {
         loadingInfoString += msg;
     }
-
     public void addLoadingInfoToLine(String parent, String msg) {
         // find parent line in msg;
         if (loadingInfoString.length() > 0) {
@@ -174,6 +182,7 @@ public class OntologyConverter implements Converter {
         }
     };
 
+    @Override
     public void addLoadingInfoToParentLine(String msg) {
         if (this.parentLine.length() > 0) {
             addLoadingInfoToLine(this.parentLine, msg);
@@ -412,6 +421,7 @@ public class OntologyConverter implements Converter {
      * entity with helper classes like {@link EntitySearcher}.
      * </p>
      */
+    @Override
     public void convert() {
         // adding some debug hints for identifying crashes in the public version
 
@@ -465,6 +475,7 @@ public class OntologyConverter implements Converter {
      * @throws Exception
      *             Any exception during json generation.
      */
+    @Override
     public void export(Exporter exporter) throws Exception {
         if (vowlData == null) {
             convert();
