@@ -306,3 +306,42 @@ cx:LoadSpectrum a owl:Class ;
     owl:imports <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
     owl:versionInfo "0.0.1" .
 
+   cx:projectDescription a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range xsd:string.
+
+    cx:componentDescription a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range xsd:string.
+
+    cx:routeDescription a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range xsd:string.
+
+    cx:projectDate a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range xsd:date.
+
+    cx:vehicleOperatingHours a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range xsd:string.
+
+    cx:vehicleMileAge a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range xsd:string.
+
+    cx:countingUnit a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range xsd:string.
+
+    cx:countingMethod a owl:DatatypeProperty ;
+    rdfs:domain cx:LoadSpectrum;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range xsd:string.

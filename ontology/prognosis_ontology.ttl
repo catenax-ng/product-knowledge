@@ -364,3 +364,22 @@ cx:VehiclePrognosis a owl:Class ;
     skos:note "SAE JA 6268"@en ;
     skos:prefLabel "Vehicle Prognosis"@en .
 
+    cx:PartPrognosis a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/prognosis_ontology.ttl> ;
+    skos:altLabel "part prognostics"@en.
+
+    cx:prognosisMethod a owl:DatatypeProperty ;
+    rdfs:domain cx:PartPrognosis;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range xsd:string.
+
+    cx:prognosisUnit a owl:DatatypeProperty ;
+    rdfs:domain cx:PartPrognosis;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range xsd:string.
+
+    cx:prognosisResult a owl:DatatypeProperty ;
+    rdfs:domain cx:PartPrognosis;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range xsd:int.
+

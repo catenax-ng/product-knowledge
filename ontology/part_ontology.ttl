@@ -462,3 +462,92 @@ cx:Part a owl:Class ;
     owl:imports <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl> ;
     owl:versionInfo "0.0.1" .
 
+
+    cx:vehicleAssemblyNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range xsd:string.
+
+    cx:classification a owl:DatatypeProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range xsd:string.
+
+    cx:nameAtCustomer a owl:DatatypeProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range xsd:string.
+
+    cx:nameAtManufacturer a owl:DatatypeProperty ;
+    rdfs:domain cx:Part;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range xsd:string.
+
+    cx:customerPartId a owl:DatatypeProperty ;
+    rdfs:domain cx:Part;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range xsd:string.
+
+    cx:manufacturerPartId a owl:DatatypeProperty ;
+    rdfs:domain cx:Part;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range xsd:string.
+
+    cx:manufacturingDate a owl:DatatypeProperty ;
+    rdfs:domain cx:Part;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range xsd:date.
+
+    cx:manufacturingCountry a owl:DatatypeProperty ;
+    rdfs:domain cx:Part;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range xsd:string.
+
+    cx:AssemblyInformation a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    skos:altLabel "Informationen zur Montage"@de.
+
+    cx:quantityNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:Part;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range xsd:int.
+
+    cx:measurementUnit a owl:DatatypeProperty ;
+    rdfs:domain cx:Part;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range xsd:string.
+
+    cx:lexicalValue a owl:DatatypeProperty ;
+    rdfs:domain cx:Part;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range xsd:string.
+
+    cx:lifeCycleContext a owl:DatatypeProperty ;
+    rdfs:domain cx:Part;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range xsd:string.
+
+    cx:assembledOn a owl:DatatypeProperty ;
+    rdfs:domain cx:Part;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range xsd:string.
+
+    cx:lastModifiedOn a owl:DatatypeProperty ;
+    rdfs:domain cx:Part;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range xsd:string.
+
+    cx:hasLoadSpectrum a owl:ObjectProperty ;
+    rdfs:domain cx:Part;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range cx:LoadSpectrum.
+
+    cx:hasPrognosis a owl:ObjectProperty ;
+    rdfs:domain cx:Part;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range cx:PartPrognosis.
+
+    cx:hasAssemblyInformation a owl:ObjectProperty ;
+    rdfs:domain cx:Part;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl> ;
+    rdfs:range cx:AssemblyInformation.
