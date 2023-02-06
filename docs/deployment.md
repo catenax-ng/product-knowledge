@@ -52,7 +52,7 @@ Add the following dependency to your final control plane pom:
  <dependency>
     <groupId>io.catenax.knowledge.dataspace.edc.control-plane</groupId>
     <artifactId>control-plane-transfer</artifactId>
-    <version>0.7.3-SNAPSHOT</version>
+    <version>0.7.4-SNAPSHOT</version>
  </dependency>
 ```
 
@@ -62,7 +62,7 @@ Add the following dependency to your final data plane pom:
   <dependency>
     <groupId>io.catenax.knowledge.dataspace.edc.control-plane</groupId>
     <artifactId>agent-plane-protocol</artifactId>
-    <version>0.7.3-SNAPSHOT</version>
+    <version>0.7.4-SNAPSHOT</version>
   </dependency>
 ```
 
@@ -106,8 +106,8 @@ Version 0.7.2-SNAPSHOT of Knowledge Agents is built against Catena-X EDC Release
 
 Version 0.7.>3-SNAPSHOT of Knowledge Agents is built against Catena-X EDC Release >=0.2.0
 
-- [Agent-Enabled In-Memory Control Plane using Azure Vault](ghcr.io/catenax-ng/product-knowledge/controlplane-memory:0.7.3-SNAPSHOT)
-- [Agent-Enabled Data Plane (Http-Only) using Azure Vault](ghcr.io/catenax-ng/product-knowledge/agentplane-azurevault:0.7.3-SNAPSHOT)
+- [Agent-Enabled In-Memory Control Plane using Azure Vault](ghcr.io/catenax-ng/product-knowledge/controlplane-memory:0.7.4-SNAPSHOT)
+- [Agent-Enabled Data Plane (Http-Only) using Azure Vault](ghcr.io/catenax-ng/product-knowledge/agentplane-azurevault:0.7.4-SNAPSHOT)
 
 ### Deployment using a Helm umbrella chart
 
@@ -125,11 +125,11 @@ Add aliased dependencies to your umbrella chart:
 dependencies:
   - name: agent-control-plane
     repository: https://catenax-ng.github.io/product-knowledge/infrastructure
-    version: 0.7.3-SNAPSHOT
+    version: 0.7.4-SNAPSHOT
     alias: supplier-control-plane
   - name: agent-data-plane
     repository: https://catenax-ng.github.io/product-knowledge/infrastructure
-    version: 0.7.3-SNAPSHOT
+    version: 0.7.4-SNAPSHOT
     alias: supplier-data-plane
 ```
 
@@ -241,7 +241,7 @@ initial graph data for your dataspace, such as in the [Catena-X Integration Defa
 
 The provisioning agent uses a version of Ontop VKP:
 
-- [Provisioning Agent based on Ontop VKP](ghcr.io/catenax-ng/product-knowledge/provisioning-agent:0.7.3-SNAPSHOT)
+- [Provisioning Agent based on Ontop VKP](ghcr.io/catenax-ng/product-knowledge/provisioning-agent:0.7.4-SNAPSHOT)
 
 ### Deployment using a Helm umbrella chart
 
@@ -259,7 +259,7 @@ Add an (aliased) dependency to your umbrella chart:
 dependencies:
   - name: provisioning-agent
     repository: https://catenax-ng.github.io/product-knowledge/infrastructure
-    version: 0.7.3-SNAPSHOT
+    version: 0.7.4-SNAPSHOT
     alias: oem-provider-agent
 ```
 
@@ -359,7 +359,7 @@ oem-provider-agent:
 
 The remoting agent uses a version of RDF4J:
 
-- [Remotin Agent based on RDF4J](ghcr.io/catenax-ng/product-knowledge/remoting-agent:0.7.3-SNAPSHOT)
+- [Remotin Agent based on RDF4J](ghcr.io/catenax-ng/product-knowledge/remoting-agent:0.7.4-SNAPSHOT)
 
 ### Deployment using a Helm umbrella chart
 
@@ -377,7 +377,7 @@ Add aliased dependencies to your umbrella chart:
 dependencies:
   - name: remoting-agent
     repository: https://catenax-ng.github.io/product-knowledge/infrastructure
-    version: 0.7.3-SNAPSHOT
+    version: 0.7.4-SNAPSHOT
     alias: supplier-remoting-agent
 ```
 
