@@ -3,7 +3,7 @@ entries:
   agent-control-plane:
   - apiVersion: v2
     appVersion: 0.7.4-SNAPSHOT
-    created: "2023-02-06T07:29:29.179415+01:00"
+    created: "2023-02-06T11:43:18.487299+01:00"
     description: Agent-Enabled EDC Control-Plane - Eclipse DataSpaceConnector administration
       layer with Agent Protocols extensions
     digest: 1749c5f55e8b6eaf18646d18b3e30c7624b1a3e625cfb0c91f3706347afe298d
@@ -18,7 +18,7 @@ entries:
     version: 0.7.4-SNAPSHOT
   - apiVersion: v2
     appVersion: 0.7.3-SNAPSHOT
-    created: "2023-02-06T07:29:29.178344+01:00"
+    created: "2023-02-06T11:43:18.479032+01:00"
     description: Agent-Enabled EDC Control-Plane - Eclipse DataSpaceConnector administration
       layer with Agent Protocols extensions
     digest: 1e925e5484051ad981db22f6ae928091932215fc490124376ebbc6f867251898
@@ -34,7 +34,7 @@ entries:
   agent-data-plane:
   - apiVersion: v2
     appVersion: 0.7.4-SNAPSHOT
-    created: "2023-02-06T07:29:29.181356+01:00"
+    created: "2023-02-06T11:43:18.498956+01:00"
     description: Agent-Enabled EDC Data-Plane - Eclipse DataSpaceConnector data layer
       with Agent Protocol Extensions
     digest: 31c05fc52b7427a84ffc8e0968ee7eca9b27e14704084f950d4bafd870c30b54
@@ -49,7 +49,7 @@ entries:
     version: 0.7.4-SNAPSHOT
   - apiVersion: v2
     appVersion: 0.7.3-SNAPSHOT
-    created: "2023-02-06T07:29:29.180391+01:00"
+    created: "2023-02-06T11:43:18.493418+01:00"
     description: Agent-Enabled EDC Data-Plane - Eclipse DataSpaceConnector data layer
       with Agent Protocol Extensions
     digest: f3bfb93ea2878d23a87346b36c99889ba9f093f0774716fd56f585b2ae54a679
@@ -65,10 +65,10 @@ entries:
   provisioning-agent:
   - apiVersion: v2
     appVersion: 0.7.4-SNAPSHOT
-    created: "2023-02-06T07:29:29.183163+01:00"
+    created: "2023-02-06T11:43:18.505373+01:00"
     description: Catena-X Provisioning Agent - Knowledge-Agents Compatible Data Binding
       Layer
-    digest: 379c40329275324ba89cc9884e3fae40738c2747041c3b98800a23fb1f2cc6d0
+    digest: 67daa3404a35071ee03092babef6b267af98ddd072b3d56aff017144f5ada8ab
     home: https://github.com/catenax-ng/product-knowledge/infrastructure/charts/provisioning-agent
     icon: https://catenax-ng.github.io/product-knowledge/img/logo.svg
     maintainers:
@@ -80,7 +80,7 @@ entries:
     version: 0.7.4-SNAPSHOT
   - apiVersion: v2
     appVersion: 0.7.3-SNAPSHOT
-    created: "2023-02-06T07:29:29.182271+01:00"
+    created: "2023-02-06T11:43:18.504374+01:00"
     description: Catena-X Provisioning Agent - Knowledge-Agents Compatible Data Binding
       Layer
     digest: 1d69501990a2d1226d8b6936ca549b7b29b542e199cc0dd708387aeef154c2b9
@@ -96,7 +96,7 @@ entries:
   remoting-agent:
   - apiVersion: v2
     appVersion: 0.7.4-SNAPSHOT
-    created: "2023-02-06T07:29:29.184805+01:00"
+    created: "2023-02-06T11:43:18.513432+01:00"
     description: Catena-X Remoting Agent - Knowledge-Agents Compatible API Binding
       Layer
     digest: 04ccea597a5ca281a453c9d532a3558243f1d7d5dc39744e2ce28999ffe9e9a7
@@ -111,7 +111,7 @@ entries:
     version: 0.7.4-SNAPSHOT
   - apiVersion: v2
     appVersion: 0.7.3-SNAPSHOT
-    created: "2023-02-06T07:29:29.184012+01:00"
+    created: "2023-02-06T11:43:18.509478+01:00"
     description: Catena-X Remoting Agent - Knowledge-Agents Compatible API Binding
       Layer
     digest: 0bf6f4bec8811d9aab62e00b87f9f50bc5b9b1d6931fe06e048f1f648abb568e
@@ -124,4 +124,4 @@ entries:
     urls:
     - https://catenax-ng.github.io/product-knowledge/infrastructure/remoting-agent-0.7.3-SNAPSHOT.tgz
     version: 0.7.3-SNAPSHOT
-generated: "2023-02-06T07:29:29.177131+01:00"
+generated: "2023-02-06T11:43:18.471156+01:00"
