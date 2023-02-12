@@ -3,9 +3,9 @@ sidebar_position: 3
 title: Deployment (MVP)
 ---
 
-Since Knowledge Agents is a federated technology, there is no central dataspace setup to take into account.
-Instead the Semantic Dataspace is formed by the individual business partners extending/configuring their 
-connectors and enabling their backend systems and/or datalakes. The proposed deployment depends hereby on the
+Knowledge Agents is a federated technology, so there is no central component setup to take into account.
+Instead, the Semantic Dataspace is formed by the individual business partners extending/configuring their 
+connectors and enabling their backend systems and/or datalakes. The deployment depends hereby on the
 role that the business partner takes.
 
 ## Dataspace Partner Roles
@@ -14,27 +14,34 @@ role that the business partner takes.
 
 ### Role: As A Consumer
 
-As a consumer, you just need to enable your dataspace connector to initiate/delegate the required Agent protocols (here: SparQL-over-Http)
+As a consumer, you just need to:
+- enable your dataspace connector to initiate/delegate the required Agent protocols (here: SparQL-over-Http).
+- (optionally) mount your connector as a remote repository into your enterprise graph infrastructure.
 
 ### Role: As A Skill Provider
 
-As a skill provider, you need to enable your dataspace connector to transfer/delegate the required Agent protocols. 
-Unless you want to expose distributed skills (publish skills as query texts executed by the consumers) instead of hosted skills (publish skills as stored procedures
-and computational resource), we propose to envisage multiple data planes for that purpose.
+As a skill provider, you need to 
+- enable your dataspace connector to transfer/delegate the required Agent protocols.
+- (optionally) employ multiple data planes in case you want to expose hosted skills (skill assets that operate as stored procedures
+and which require computational resources at the provider side) instead of distributed skills (skill assets that are offered as query texts/files and which are executed at the consumer side).
 
 ### Role: As A Provider
 
-As a provider, you need to enable your dataspace connector to receive/internalize the required Agent protocols. 
+As a provider, you need to 
+- enable your dataspace connector to receive/internalize the required Agent protocols. 
+
 Depending on the kind of provisioning, you will setup additional internal "agents" (endpoints).
 
 #### Sub-Role: As A Data Provider
 
-As a data provider, you want to bind your data sources to knowledge graphs following the Catena-X ontology. Therefore, a provisioning agent
+As a data provider, you want to 
+- bind your data sources to knowledge graphs following the Catena-X ontology. Therefore, a provisioning agent
 should be setup on top of a data virtualization/database layer.
 
 #### Sub-Role: As A Function Provider
 
-As a function provider, you want to bind your API to a special knowledge graph structure. Therefore, a remoting agent should be setup.
+As a function provider, you want to 
+- bind your API to a special knowledge graph structure. Therefore, a remoting agent should be setup.
 
 ## Deployment of the Dataspace Connector
 
@@ -88,9 +95,9 @@ Download the jar from the following location and add it to the lib/ext folder of
 
 Download the jar from the following location and add it to the lib/ext folder of your EDC data plane installation
 
-- [Data Plane Agent Protocol Package](https://github.com/catenax-ng/product-knowledge/packages/1776383)
+- [Data Plane Agent Protocol Package](https://github.com/catenax-ng/product-knowledge/packages/1781577)
 
-If using a docker environment, these files could be mounted under /app/lib/ext
+If using a docker environment, these files could be simply mounted under /app/lib/ext
 
 ### Option 3: Use the ready-made Agent-enbled EDC images
 
@@ -141,6 +148,7 @@ helm dependencies update
 
 You may now configure the deployment instances in your values.yaml in more detail (see the documentation of the [agent control plane chart](https://github.com/catenax-ng/product-knowledge/tree/feature/KA-188-extract-sub-charts/infrastructure/charts/agent-control-plane) and [agent data plane chart](https://github.com/catenax-ng/product-knowledge/tree/feature/KA-188-extract-sub-charts/infrastructure/charts/agent-data-plane)).
 
+
 ```yaml
 # Common Api-Key Settings
 auth: &auth
@@ -190,6 +198,7 @@ supplier-control-plane:
       edc.ids.security.profile=base
       ids.webhook.address=http://edc-control.public
       edc.data.encryption.algorithm=NONE
+      edc.receiver.http.endpoint=https://apiwrapper.local/callback/endpoint-data-reference
   dataplanes: 
     agentplane:
       url: http://edc-data.intern/
@@ -209,7 +218,7 @@ supplier-data-plane: &supplierdataplane
     publicKeyAlias: supplier-daps-crt
     endpointAudience: http://supplier-control-plane:8282/api/v1/ids/data
   token:
-    validationEndpoint: "http://edc-control.intern/validation/token"
+    validationEndpoint: http://dlr-agent-control:8182/validation/token
   configuration:
     properties: |-
       edc.hostname=edc-data.public
@@ -217,7 +226,7 @@ supplier-data-plane: &supplierdataplane
     dataspace.ttl: resources/dataspace.ttl
   agent:
     # -- Data API Url of the associated Control Plane
-    controlPlaneDataUrl: "http://edc-control.interan/data"
+    controlPlaneDataUrl: http://supplier-control-plane:8181/data
     # -- Initial Definition of the default graph, path to a mounted resource containing a turtle file
     defaultGraph: 
       content: dataspace.ttl
@@ -274,6 +283,7 @@ You may now configure the deployment instances in your values.yaml in more detai
 Note that the entries under bindings represent the individual mappings/endpoints which bind to your data source. 
 
 ```yaml
+
 # -- Configures the OEM provider agent
 oem-provider-agent: 
   nameOverride: oem-provider-agent
@@ -287,37 +297,23 @@ oem-provider-agent:
       cpu: 0.5
       memory: "1.5Gi"
   bindings:
-    # -- Vehicle health endpoint/binding
-    hi: 
-      port: 8081
-      path: 2(/|$)(.*)
-      settings: |-
-        jdbc.url=jdbc\:dremio\:direct\=oem-backend\:31010
-        jdbc.driver=com.dremio.jdbc.Driver
-        jdbc.user={{ .Values.security.backendUser }}
-        jdbc.password={{ .Values.security.backendPwd }}
-        ontop.cardinalityMode=LOOSE
-        com.dremio.jdbc.Driver-metadataProvider = it.unibz.inf.ontop.dbschema.impl.KeyAwareDremioDBMetadataProvider
-        com.dremio.jdbc.Driver-schemas = HI_TEST_OEM
-        com.dremio.jdbc.Driver-tables.HI_TEST_OEM = CX_RUL_SerialPartTypization_Vehicle,CX_RUL_SerialPartTypization_Component,CX_RUL_AssemblyPartRelationship,CX_RUL_LoadCollective
-        com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_SerialPartTypization_Vehicle = UC_VEHICLE
-        com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_SerialPartTypization_Component = UC_COMPONENT
-        com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_AssemblyPartRelationship = UC_ASSEMBLY
-        com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_LoadCollective = UC_LC
-        com.dremio.jdbc.Driver-constraint.UC_VEHICLE = catenaXId
-        com.dremio.jdbc.Driver-constraint.UC_COMPONENT = catenaXId
-        com.dremio.jdbc.Driver-constraint.UC_ASSEMBLY = childCatenaXId,catenaXId
-        com.dremio.jdbc.Driver-constraint.UC_LC = catenaXId,targetComponentId,metadata_componentDescription
-        com.dremio.jdbc.Driver-foreign.HI_TEST_OEM.CX_RUL_AssemblyPartRelationship = FK_SERIAL_PARENT, FK_SERIAL_CHILD
-        com.dremio.jdbc.Driver-constraint.FK_SERIAL_PARENT = catenaXId:CX_RUL_SerialPartTypization_Vehicle+UC_VEHICLE
-        com.dremio.jdbc.Driver-constraint.FK_SERIAL_CHILD = childCatenaXId:CX_RUL_SerialPartTypization_Component+UC_COMPONENT
-        com.dremio.jdbc.Driver-foreign.HI_TEST_OEM.CX_RUL_LoadCollective = FK_LC_PART
-        com.dremio.jdbc.Driver-constraint.FK_LC_PART = catenaXId:CX_RUL_SerialPartTypization_Component+UC_COMPONENT
-      ontology: cx-ontology.ttl
+    # mute the default Diagnosic Trouble Code sample endpoint 
+    dtc: null
+    # Add a sample Telematics endpoint
+    telematics: 
+      port: 8080
+      path: /(.*)
+      settings: 
+        jdbc.url: 'jdbc:postgresql://rawdatadb:5432/rawdata'
+        jdbc.user: <path:secret#username>
+        jdbc.password: <path:secret#password>
+        jdbc.driver: 'org.postgresql.Driver'      
+      ontology: cx-ontology.xml
       mapping: |-
         [PrefixDeclaration]
         uuid:		urn:uuid:
         bpnl:		bpn:legal:
+        oem:    urn:oem:
         cx:			https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#
         owl:		http://www.w3.org/2002/07/owl#
         rdf:		http://www.w3.org/1999/02/22-rdf-syntax-ns#
@@ -325,32 +321,79 @@ oem-provider-agent:
         xsd:		http://www.w3.org/2001/XMLSchema#
         obda:		https://w3id.org/obda/vocabulary#
         rdfs:		http://www.w3.org/2000/01/rdf-schema#
+        json:   https://json-schema.org/draft/2020-12/schema#
 
         [MappingDeclaration] @collection [[
         mappingId	vehicles
-        target		uuid:{catenaXId} rdf:type cx:Vehicle ; cx:partId {localIdentifiers_partInstanceId}^^xsd:string; cx:partName {partTypeInformation_nameAtManufacturer}^^xsd:string; cx:partSeries {partTypeInformation_manufacturerPartId}^^xsd:string; cx:isProducedBy bpnl:{localIdentifiers_manufacturerId}; cx:partProductionDate {manufacturingInformation_date}^^xsd:date; cx:vehicleIdentificationNumber {localIdentifiers_van}^^xsd:string .
-        source		SELECT "catenaXId", "localIdentifiers_partInstanceId", "partTypeInformation_nameAtManufacturer", "partTypeInformation_manufacturerPartId", "localIdentifiers_manufacturerId", "manufacturingInformation_date", "localIdentifiers_van" FROM "HI_TEST_OEM"."CX_RUL_SerialPartTypization_Vehicle" vehicles
+        target		<{vehicle_id}> rdf:type cx:Vehicle ; cx:partProductionDate {production_date}^^xsd:date; cx:vehicleIdentificationNumber {van}^^xsd:string; cx:isProducedBy bpnl:{localIdentifiers_manufacturerId} .
+        source		SELECT vehicle_id, production_date, van, 'BPNL00000003AYRE' as localIdentifiers_manufacturerId FROM vehicles
 
         mappingId	parts
-        target		uuid:{catenaXId} rdf:type cx:AssemblyGroup ; cx:partId {localIdentifiers_partInstanceId}^^xsd:string; cx:partName {partTypeInformation_nameAtManufacturer}^^xsd:string; cx:partSeries {partTypeInformation_manufacturerPartId}^^xsd:string; cx:isProducedBy bpnl:{localIdentifiers_manufacturerId}; cx:partProductionDate {manufacturingInformation_date}^^xsd:date .
-        source		SELECT "catenaXId", "localIdentifiers_partInstanceId", "partTypeInformation_nameAtManufacturer", "partTypeInformation_manufacturerPartId", "localIdentifiers_manufacturerId", "manufacturingInformation_date" FROM "HI_TEST_OEM"."CX_RUL_SerialPartTypization_Component" parts 
+        target		<{gearbox_id}> rdf:type cx:AssemblyGroup ; cx:partName {partTypeInformation_nameAtManufacturer}^^xsd:string; cx:isProducedBy bpnl:{localIdentifiers_manufacturerId} .
+        source		SELECT gearbox_id, 'Differential Gear' as partTypeInformation_nameAtManufacturer, 'BPNL00000003B2OM' as localIdentifiers_manufacturerId FROM vehicles
 
         mappingId	vehicleparts
-        target		uuid:{childCatenaXId} cx:isPartOf uuid:{catenaXId} .
-        source		SELECT "catenaXId", "childCatenaXId" FROM  "HI_TEST_OEM"."CX_RUL_AssemblyPartRelationship" vehicleparts
-
-        mappingId   loadspectrum
-        target      uuid:{catenaXId}/{targetComponentId}/{metadata_componentDescription} rdf:type cx:LoadSpectrum; cx:loadSpectrumId {metadata_projectDescription}^^xsd:string; cx:loadSpectrumName {header_countingValue}^^xsd:string; cx:loadSpectrumDescription {metadata_componentDescription}^^xsd:string; rdf:type cx:VehicleCurrentState; cx:vehicleOperatingHours {metadata_status_operatingTime}^^xsd:int; cx:vehicleCurrentStateDateTime {metadata_status_date}^^xsd:dateTime; cx:vehicleCurrentMileage {metadata_status_mileage}^^xsd:int; cx:loadSpectrumType {header_channels}^^xsd:string; cx:hasLoadSpectrumValues uuid:{catenaXId}/{targetComponentId}/{metadata_componentDescription}/0.
-        source		SELECT "catenaXId", "targetComponentId", "metadata_projectDescription", "metadata_componentDescription", "metadata_status_operatingTime", "metadata_status_date", "metadata_status_mileage", "header_countingValue", "header_channels" FROM "HI_TEST_OEM"."CX_RUL_LoadCollective" loadspectrum
+        target		<{gearbox_id}> cx:isPartOf <{vehicle_id}> .
+        source		SELECT vehicle_id, gearbox_id FROM vehicles
 
         mappingId   partLoadSpectrum
-        target		uuid:{targetComponentId} cx:hasLoadSpectrum uuid:{catenaXId}/{targetComponentId}/{metadata_componentDescription} .
-        source		SELECT "catenaXId", "targetComponentId", "metadata_componentDescription" FROM "HI_TEST_OEM"."CX_RUL_LoadCollective" loadspectrum
+        target		<{gearbox_id}> cx:hasLoadSpectrum oem:{newest_telematics_id}/{index} .
+        source		SELECT gearbox_id, newest_telematics_id,  index FROM vehicles, (VALUES (0), (1), (2)) AS spectrum(index)
+
+        mappingId   loadspectrum
+        target      oem:{id}/{index} rdf:type cx:LoadSpectrum; cx:loadSpectrumId {metadata_projectDescription}^^xsd:string; cx:loadSpectrumName {header_countingValue}^^xsd:string; cx:loadSpectrumDescription {name}^^xsd:string; rdf:type cx:VehicleCurrentState; cx:vehicleOperatingHours {metadata_status_operatingHours}^^xsd:int; cx:vehicleCurrentStateDateTime {metadata_status_date}^^xsd:dateTime; cx:vehicleCurrentMileage {metadata_status_mileage}^^xsd:int; cx:loadSpectrumType {header_channels}^^xsd:string; cx:hasLoadSpectrumValues oem:{id}/{index}/0.
+        source		SELECT id, index, name, load_spectra::jsonb->index->'metadata'->>'projectDescription' as metadata_projectDescription, load_spectra::jsonb->index->'header'->>'countingValue' as header_countingValue, floor((load_spectra::jsonb->index->'metadata'->'status'->>'operatingHours')::numeric)::integer as metadata_status_operatingHours, replace(load_spectra::jsonb->index->'metadata'->'status'->>'date','Z','.000Z') as metadata_status_date, load_spectra::jsonb->index->'metadata'->'status'->>'mileage' as metadata_status_mileage, load_spectra::jsonb->index->'header'->'channels' as header_channels FROM (VALUES (0,'GearSet'), (1,'GearOil'), (2,'Clutch')) AS spectrum(index,name), telematics_data
 
         mappingId   loadspectrumChannel
-        target      uuid:{catenaXId}/{targetComponentId}/{metadata_componentDescription}/0 rdf:type cx:LoadSpectrumValues; cx:loadSpectrumChannelIndex {body_classes}^^xsd:string; cx:loadSpectrumCountingUnit {header_countingUnit}^^xsd:string; cx:loadSpectrumCountingMethod {header_countingMethod}^^xsd:string; cx:loadSpectrumChannelValues {body_counts}^^xsd:string.
-        source		SELECT "catenaXId", "targetComponentId", "metadata_componentDescription", "header_countingUnit", "header_countingMethod", "body_counts", "body_classes" FROM "HI_TEST_OEM"."CX_RUL_LoadCollective" loadspectrumchannel
-        ]]
+        target      oem:{id}/{index}/0 rdf:type cx:LoadSpectrumValues; cx:loadSpectrumChannelIndex {body_classes}^^xsd:string; cx:loadSpectrumCountingUnit {header_countingUnit}^^xsd:string; cx:loadSpectrumCountingMethod {header_countingMethod}^^xsd:string; cx:loadSpectrumChannelValues {body_counts}^^xsd:string.
+        source		SELECT id, index, load_spectra::jsonb->index->'metadata'->>'componentDescription' as metadata_componentDescription, jsonb_extract_path(load_spectra::jsonb->index,'body','classes','0','classList','0') as body_classes, load_spectra::jsonb->index->'header'->>'countingUnit' as header_countingUnit, load_spectra::jsonb->index->'header'->>'countingMethod' as header_countingMethod, jsonb_extract_path(load_spectra::jsonb->index,'body','counts','countsList','0') as body_counts FROM (VALUES (0), (1), (2)) AS spectrum(index), telematics_data
+
+        mappingId   vehicleAdaptionValues
+        target		<{vehicle_id}> cx:hasAdaption oem:{newest_telematics_id} .
+        source		SELECT vehicle_id, newest_telematics_id FROM vehicles
+
+        mappingId   adaptionValues
+        target		oem:{id} rdf:type cx:Adaption; rdf:type cx:VehicleCurrentState; cx:vehicleOperatingHours {adaption_status_operatingHours}^^xsd:int; cx:vehicleCurrentStateDateTime {adaption_status_date}^^xsd:dateTime; cx:vehicleCurrentMileage {adaption_status_mileage}^^xsd:int; cx:hasValues {adaption_values}^^json:Object .
+        source		SELECT id, replace(adaption_values::jsonb->0->'status'->>'date','Z','.000Z') as adaption_status_date, floor((adaption_values::jsonb->0->'status'->>'operatingHours')::numeric)::integer as adaption_status_operatingHours, adaption_values::jsonb->0->'status'->>'mileage' as adaption_status_mileage, adaption_values::jsonb->0->'values' as adaption_values FROM public.telematics_data
+        ]]  
+```
+
+When the endpoint is running, it can be published through the associated connector using the following REST call:
+
+```
+curl --location --request POST 'https://supplier-data-plane.public/data/assets' \
+--header 'X-Api-Key: <apikey>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "asset": {
+    "properties": {
+      "asset:prop:id": "urn:cx:Graph:oem:BehaviourTwin",
+      "asset:prop:contract": "urn:cx:Graph:oem",
+      "asset:prop:name": "OEM portion of the Behaviour Twin RUL/HI Testdataset.",
+      "asset:prop:description": "A graph asset/offering mounting Carena-X Testdata for Behaviour Twin.",
+      "asset:prop:version": "20230124_testdata_new_bamm",
+      "asset:prop:contenttype": "application/json, application/xml",
+      "rdf:type":"<https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#GraphAsset>",
+      "rdfs:isDefinedBy": "<https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/load_spectrum_ontology.ttl>",
+      "cx:protocol": "<urn:cx:Protocol:w3c:Http#SPARQL>",
+      "cx:shape": "[ rdf:type sh:NodeShape ;\n  sh:targetClass cx:LoadSpectrum ;\n  sh:property [\n        sh:path cx:provisionedBy ;\n        sh:hasValue <bpn:legal:BPNL00000003AYRE> ;\n    ] ;\n  sh:property [\n        sh:path cx:Version ;\n        sh:hasValue 0^^xsd:long ;\n    ] ;\n  sh:property [\n        sh:path cx: ;\n        sh:class [ rdf:type sh:NodeShape ;\n  sh:targetClass cx:VehicleComponent ;\n  sh:property [\n        sh:path cx:isProducedBy ;\n        sh:hasValue <bpn:legal:BPNL00000003B2OM> ;\n    ] ] ];\n",
+      "cx:isFederated": true
+    }
+  },
+  "dataAddress": {
+    "properties": {
+      "asset:prop:id": "urn:cx:Graph:oem:BehaviourTwin",
+      "baseUrl": "http://oem-provider-agent:8080/sparql",
+      "type": "urn:cx:Protocol:w3c:Http#SPARQL",
+      "proxyPath": "false",
+      "proxyMethod": "true",
+      "proxyQueryParams": "true",
+      "proxyBody": "true",
+      "authKey": "Authorization",
+      "authCode": "<ingressauth>"
+    }
+  }
+}'
 ```
 
 ## Deployment of the Remoting Agent
@@ -549,3 +592,42 @@ supplier-remoting-agent:
         cx-fx:valuePath "healthIndicatorValues";
         cx-fx:dataType json:Object.
 ```
+
+When the endpoint is running, it can be published through the associated connector using the following REST call:
+
+```
+curl --location --request POST 'https://supplier-data-plane.public/data/assets' \
+--header 'X-Api-Key: <apikey>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "asset": {
+    "properties": {
+      "asset:prop:id": "urn:cx:Graph:tierA:HealthIndicatorGearbox",
+      "asset:prop:contract": "urn:cx:Graph:tierA",
+      "asset:prop:name": "Health Indications Service for Gearboxes",
+      "asset:prop:description": "Another sample graph asset/offering referring to a specific prognosis resource.",
+      "asset:prop:version": "0.7.4-SNAPSHOT",
+      "asset:prop:contenttype": "application/json, application/xml",
+      "rdf:type":"<https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#GraphAsset>",
+      "rdfs:isDefinedBy": "<https://github.com/catenax-ng/product-knowledge/ontology/health.ttl>",
+      "cx:protocol": "urn:cx:Protocol:w3c:Http#SPARQL",
+      "cx:shape": "[ rdf:type sh:NodeShape ;\n  sh:targetClass cx-health:HealthIndication ;\n  sh:property [\n        sh:path cx:provisionedBy ;\n        sh:hasValue <urn:bpn:legal:BPNL00000003CPIY> ]].\n",
+      "cx:isFederated": true
+    }
+  },
+  "dataAddress": {
+    "properties": {
+      "asset:prop:id": "urn:cx:Graph:tierA:HealthIndicatorGearbox",
+      "baseUrl": "http://supplier-remoting-agent:8081/rdf4j-server/repositories/health",
+      "type": "urn:cx:Protocol:w3c:Http#SPARQL",
+      "proxyPath": "false",
+      "proxyMethod": "true",
+      "proxyQueryParams": "true",
+      "proxyBody": "true",
+      "authKey": "Authorization",
+      "authCode": "<ingresskey>"
+    }
+  }
+}'
+```
+
