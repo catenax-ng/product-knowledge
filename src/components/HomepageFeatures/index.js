@@ -4,13 +4,22 @@ import styles from './styles.module.css';
 
 const FeatureList = [
   {
+    title: 'Get Informed',
+    Svg: require('@site/static/img/detective-agent-svgrepo-com.svg').default,
+    description: (
+      <>
+          We ask you to make yourself familiar with our Documentation first by starting with our <a href="/product-knowledge/docs/intro">Introduction</a> document.
+      </>
+    ),
+  },
+  {
     title: 'Get Started',
     Svg: require('@site/static/img/rocket-svgrepo-com.svg').default,
     description: (
       <>
-          We ask you to make yourself familiar with our Documentation first by starting with our <a href="/product-knowledge/docs/intro">Getting Started</a> document.
+          See how to deploy our technology using our <a href="/product-knowledge/docs/deployment">Deployment</a> guide.
       </>
-    ),
+    )
   },
 ];
 

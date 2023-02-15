@@ -20,13 +20,13 @@ Catena-X Knowledge Agents provides
 
 Catena-X Knowledge Agents was previously in a [spike](spike) phase (0.4.X)
 Catena-X Knowledge Agents was previously a [pilot](howto) phase (0.5.X)
-Catena-X Knowledge Agents will soon be a [solution](upcoming) phase (0.6.X)
+Catena-X Knowledge Agents is currently in a [MVP](deployment) phase (0.6.X - 0.7.X)
 
-It is planned to switch to the release phase (1.7.X) in Q1 2023
+It is planned to switch to the release phase (1.9.X) in Q2 2023
 
 For inquiries please contact [Tom Buchert](mailto:tom.buchert@t-systems.com)
 
 * [Architecture](architecture)
 * [Spike](spike)
 * [How-To (Pilot)](howto)
-* [Upcoming](upcoming)
+* [Deployment (MVP)](deployment)
