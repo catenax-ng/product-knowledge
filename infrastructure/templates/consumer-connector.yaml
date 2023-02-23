@@ -214,7 +214,7 @@ metadata:
   namespace: {{ .Values.namespace }}
   annotations:
     cert-manager.io/cluster-issuer: {{ .Values.ingress.issuer }}
-    nginx.ingress.kubernetes.io/rewrite-target: /$1$2$3
+    nginx.ingress.kubernetes.io/rewrite-target: /$1$2
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
@@ -228,21 +228,21 @@ spec:
     - host: {{ .Values.ingress.host }}
       http:
         paths:
-          - path: /consumer-edc-control/{{ .Values.dataspace.bpnCustomer }}/(data)(/|$)(.*)
+          - path: /consumer-edc-control/{{ .Values.dataspace.bpnCustomer }}/(data)(.*)
             pathType: Prefix
             backend:
               service:
                 name: consumer-control-plane
                 port:
                   number: 8181
-          - path: /consumer-edc-control/{{ .Values.dataspace.bpnCustomer }}/(api/v1/ids)(/|$)(.*)
+          - path: /consumer-edc-control/{{ .Values.dataspace.bpnCustomer }}/(api/v1/ids)(.*)
             pathType: Prefix
             backend:
               service:
                 name: consumer-control-plane
                 port:
                   number: 8282
-          - path: /consumer-edc-control/{{ .Values.dataspace.bpnCustomer }}/(api/check)(/|$)(.*)
+          - path: /consumer-edc-control/{{ .Values.dataspace.bpnCustomer }}/(api/check)(.*)
             pathType: Prefix
             backend:
               service:
@@ -549,7 +549,7 @@ metadata:
   namespace: {{ .Values.namespace }}
   annotations:
     cert-manager.io/cluster-issuer: {{ .Values.ingress.issuer }}
-    nginx.ingress.kubernetes.io/rewrite-target: /$1$2$3
+    nginx.ingress.kubernetes.io/rewrite-target: /$1$2
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
@@ -563,21 +563,21 @@ spec:
     - host: {{ .Values.ingress.host }}
       http:
         paths:
-          - path: /consumer-edc-data/{{ .Values.dataspace.bpnCustomer }}/(data)(/|$)(.*)
+          - path: /consumer-edc-data/{{ .Values.dataspace.bpnCustomer }}/(data)(.*)
             pathType: Prefix
             backend:
               service:
                 name: consumer-data-plane
                 port:
                   number: 8185
-          - path: /consumer-edc-data/{{ .Values.dataspace.bpnCustomer }}/(api/agent)(/|$)(.*)
+          - path: /consumer-edc-data/{{ .Values.dataspace.bpnCustomer }}/(api/agent)(.*)
             pathType: Prefix
             backend:
               service:
                 name: consumer-data-plane
                 port:
                   number: 8082
-          - path: /consumer-edc-data/{{ .Values.dataspace.bpnCustomer }}/(callback)(/|$)(.*)
+          - path: /consumer-edc-data/{{ .Values.dataspace.bpnCustomer }}/(callback)(.*)
             pathType: Prefix
             backend:
               service:

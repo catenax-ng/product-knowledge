@@ -277,7 +277,7 @@ metadata:
   namespace: {{ .Values.namespace }}
   annotations:
     cert-manager.io/cluster-issuer: {{ .Values.ingress.issuer }}
-    nginx.ingress.kubernetes.io/rewrite-target: /$1$2$3
+    nginx.ingress.kubernetes.io/rewrite-target: /$1$2
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
@@ -291,21 +291,21 @@ spec:
     - host: {{ .Values.ingress.host }}
       http:
         paths:
-          - path: /oem-edc-control/{{ .Values.dataspace.bpnOem }}/(data)(/|$)(.*)
+          - path: /oem-edc-control/{{ .Values.dataspace.bpnOem }}/(data)(.*)
             pathType: Prefix
             backend:
               service:
                 name: oem-control-plane
                 port:
                   number: 8181
-          - path: /oem-edc-control/{{ .Values.dataspace.bpnOem }}/(api/v1/ids)(/|$)(.*)
+          - path: /oem-edc-control/{{ .Values.dataspace.bpnOem }}/(api/v1/ids)(.*)
             pathType: Prefix
             backend:
               service:
                 name: oem-control-plane
                 port:
                   number: 8282
-          - path: /oem-edc-control/{{ .Values.dataspace.bpnOem }}/(api/check)(/|$)(.*)
+          - path: /oem-edc-control/{{ .Values.dataspace.bpnOem }}/(api/check)(.*)
             pathType: Prefix
             backend:
               service:
@@ -449,7 +449,7 @@ metadata:
   namespace: {{ .Values.namespace }}
   annotations:
     cert-manager.io/cluster-issuer: {{ .Values.ingress.issuer }}
-    nginx.ingress.kubernetes.io/rewrite-target: /$1$2$3
+    nginx.ingress.kubernetes.io/rewrite-target: /$1$2
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
@@ -463,21 +463,21 @@ spec:
     - host: {{ .Values.ingress.host }}
       http:
         paths:
-          - path: /oem-edc-control2/{{ .Values.dataspace.bpnOem }}/(data)(/|$)(.*)
+          - path: /oem-edc-control2/{{ .Values.dataspace.bpnOem }}/(data)(.*)
             pathType: Prefix
             backend:
               service:
                 name: oem-control-plane2
                 port:
                   number: 8181
-          - path: /oem-edc-control2/{{ .Values.dataspace.bpnOem }}/(api/v1/ids)(/|$)(.*)
+          - path: /oem-edc-control2/{{ .Values.dataspace.bpnOem }}/(api/v1/ids)(.*)
             pathType: Prefix
             backend:
               service:
                 name: oem-control-plane2
                 port:
                   number: 8282
-          - path: /oem-edc-control2/{{ .Values.dataspace.bpnOem }}/(api/check)(/|$)(.*)
+          - path: /oem-edc-control2/{{ .Values.dataspace.bpnOem }}/(api/check)(.*)
             pathType: Prefix
             backend:
               service:
@@ -784,7 +784,7 @@ metadata:
   namespace: {{ .Values.namespace }}
   annotations:
     cert-manager.io/cluster-issuer: {{ .Values.ingress.issuer }}
-    nginx.ingress.kubernetes.io/rewrite-target: /$1$2$3
+    nginx.ingress.kubernetes.io/rewrite-target: /$1$2
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
@@ -798,21 +798,21 @@ spec:
     - host: {{ .Values.ingress.host }}
       http:
         paths:
-          - path: /oem-edc-data/{{ .Values.dataspace.bpnOem }}/(data)(/|$)(.*)
+          - path: /oem-edc-data/{{ .Values.dataspace.bpnOem }}/(data)(.*)
             pathType: Prefix
             backend:
               service:
                 name: oem-data-plane
                 port:
                   number: 8185
-          - path: /oem-edc-data/{{ .Values.dataspace.bpnOem }}/(api/agent)(/|$)(.*)
+          - path: /oem-edc-data/{{ .Values.dataspace.bpnOem }}/(api/agent)(.*)
             pathType: Prefix
             backend:
               service:
                 name: oem-data-plane
                 port:
                   number: 8082
-          - path: /oem-edc-data/{{ .Values.dataspace.bpnOem }}/(callback)(/|$)(.*)
+          - path: /oem-edc-data/{{ .Values.dataspace.bpnOem }}/(callback)(.*)
             pathType: Prefix
             backend:
               service:
