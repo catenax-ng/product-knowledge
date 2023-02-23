@@ -57,7 +57,7 @@ data:
     edc.dataplane.selector.agentplane.url=http://tiera-data-plane:8082/
     edc.dataplane.selector.agentplane.sourcetypes=urn:cx:Protocol:w3c:Http#SPARQL,HttpData
     edc.dataplane.selector.agentplane.destinationtypes=HttpProxy,HttpProtocol
-    edc.dataplane.selector.agentplane.properties={ "publicApiUrl": "https://{{ .Values.ingress.host }}/tiera-edc-data/{{ .Values.dataspace.bpnTier1 }}/data/" }
+    edc.dataplane.selector.agentplane.properties={ "publicApiUrl": "https://{{ .Values.ingress.host }}/tiera-edc-data/{{ .Values.dataspace.bpnTier1 }}/data" }
     
     edc.transfer.proxy.endpoint=https://{{ .Values.ingress.host }}/tiera-edc-data/{{ .Values.dataspace.bpnTier1 }}
     edc.transfer.proxy.token.signer.privatekey.alias={{ .Values.dataspace.privateKeyAliasTier1 }}
