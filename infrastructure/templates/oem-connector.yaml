@@ -507,7 +507,7 @@ data:
     edc.api.control.auth.apikey.key=X-Api-Key
     edc.api.control.auth.apikey.value={{ .Values.security.xApiKey }}
     
-    cx.agent.controlplane.url=http://oem-control-plane2:8181/data
+    cx.agent.controlplane.url=http://oem-control-plane:8181/data
     cx.agent.asset.file=dataspace.ttl
     cx.agent.dataspace.synchronization=60000
     cx.agent.dataspace.remotes=https://{{ .Values.ingress.host}}/tiera-edc-control/BPNL00000003CPIY
