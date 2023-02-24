@@ -24,7 +24,7 @@
       "date" : [ {
         "identifier" : "date",
         "language" : "undefined",
-        "value" : "2023-02-11",
+        "value" : "2023-02-21",
         "type" : "label"
       } ],
       "creator" : [ {
@@ -299,7 +299,7 @@
       "altLabel" : [ {
         "identifier" : "altLabel",
         "language" : "en",
-        "value" : "physical",
+        "value" : "concrete object",
         "type" : "label"
       }, {
         "identifier" : "altLabel",
@@ -309,12 +309,7 @@
       }, {
         "identifier" : "altLabel",
         "language" : "en",
-        "value" : "concrete object",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "tangible",
+        "value" : "material",
         "type" : "label"
       }, {
         "identifier" : "altLabel",
@@ -324,12 +319,17 @@
       }, {
         "identifier" : "altLabel",
         "language" : "en",
-        "value" : "material",
+        "value" : "tangible",
         "type" : "label"
       }, {
         "identifier" : "altLabel",
         "language" : "en",
         "value" : "material object",
+        "type" : "label"
+      }, {
+        "identifier" : "altLabel",
+        "language" : "en",
+        "value" : "physical",
         "type" : "label"
       } ],
       "definition" : [ {
@@ -362,12 +362,12 @@
       }, {
         "identifier" : "example",
         "language" : "en",
-        "value" : "product",
+        "value" : "equipment",
         "type" : "label"
       }, {
         "identifier" : "example",
         "language" : "en",
-        "value" : "equipment",
+        "value" : "product",
         "type" : "label"
       } ]
     },
@@ -401,25 +401,25 @@
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Handlung",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "en",
         "value" : "Action",
         "type" : "label"
-      } ],
-      "definition" : [ {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "An action is an activity or movement that is done in order to achieve a goal.",
+      }, {
+        "identifier" : "prefLabel",
+        "language" : "de",
+        "value" : "Handlung",
         "type" : "label"
       } ],
       "altLabel" : [ {
         "identifier" : "altLabel",
         "language" : "en",
         "value" : "activity",
+        "type" : "label"
+      } ],
+      "definition" : [ {
+        "identifier" : "definition",
+        "language" : "en",
+        "value" : "An action is an activity or movement that is done in order to achieve a goal.",
         "type" : "label"
       } ]
     },
@@ -447,12 +447,12 @@
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "en",
+        "language" : "de",
         "value" : "Product",
         "type" : "label"
       }, {
         "identifier" : "prefLabel",
-        "language" : "de",
+        "language" : "en",
         "value" : "Product",
         "type" : "label"
       } ],
@@ -465,12 +465,12 @@
       "seeAlso" : [ {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Product_",
+        "value" : "https://schema.org/Product",
         "type" : "iri"
       }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://schema.org/Product",
+        "value" : "https://en.wikipedia.org/wiki/Product_",
         "type" : "iri"
       } ]
     },
@@ -597,16 +597,16 @@
         "value" : "Person",
         "type" : "label"
       } ],
-      "altLabel" : [ {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "people",
-        "type" : "label"
-      } ],
       "definition" : [ {
         "identifier" : "definition",
         "language" : "en",
         "value" : "A person is a human being.",
+        "type" : "label"
+      } ],
+      "altLabel" : [ {
+        "identifier" : "altLabel",
+        "language" : "en",
+        "value" : "people",
         "type" : "label"
       } ],
       "example" : [ {
@@ -656,26 +656,10 @@
         "value" : "Immaterielles Ding",
         "type" : "label"
       } ],
-      "definition" : [ {
-        "identifier" : "definition",
-        "language" : "en",
-        "value" : "An entity that exists in a non-physical form.",
-        "type" : "label"
-      } ],
       "altLabel" : [ {
         "identifier" : "altLabel",
         "language" : "en",
-        "value" : "intangible",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "abstract object",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "non-material",
+        "value" : "non-physical object",
         "type" : "label"
       }, {
         "identifier" : "altLabel",
@@ -685,12 +669,7 @@
       }, {
         "identifier" : "altLabel",
         "language" : "en",
-        "value" : "immaterial entity",
-        "type" : "label"
-      }, {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "non-physical object",
+        "value" : "intangible",
         "type" : "label"
       }, {
         "identifier" : "altLabel",
@@ -700,7 +679,28 @@
       }, {
         "identifier" : "altLabel",
         "language" : "en",
+        "value" : "immaterial entity",
+        "type" : "label"
+      }, {
+        "identifier" : "altLabel",
+        "language" : "en",
         "value" : "immaterial",
+        "type" : "label"
+      }, {
+        "identifier" : "altLabel",
+        "language" : "en",
+        "value" : "non-material",
+        "type" : "label"
+      }, {
+        "identifier" : "altLabel",
+        "language" : "en",
+        "value" : "abstract object",
+        "type" : "label"
+      } ],
+      "definition" : [ {
+        "identifier" : "definition",
+        "language" : "en",
+        "value" : "An entity that exists in a non-physical form.",
         "type" : "label"
       } ],
       "seeAlso" : [ {
@@ -717,7 +717,7 @@
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
-        "value" : "concept",
+        "value" : "knowledge",
         "type" : "label"
       }, {
         "identifier" : "example",
@@ -732,27 +732,27 @@
       }, {
         "identifier" : "example",
         "language" : "en",
-        "value" : "domain",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "knowledge",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "feeling",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
         "value" : "information",
         "type" : "label"
       }, {
         "identifier" : "example",
         "language" : "en",
+        "value" : "domain",
+        "type" : "label"
+      }, {
+        "identifier" : "example",
+        "language" : "en",
+        "value" : "concept",
+        "type" : "label"
+      }, {
+        "identifier" : "example",
+        "language" : "en",
         "value" : "object",
+        "type" : "label"
+      }, {
+        "identifier" : "example",
+        "language" : "en",
+        "value" : "feeling",
         "type" : "label"
       } ]
     },
@@ -955,7 +955,7 @@
     "attributes" : [ "anonymous", "object" ],
     "id" : "12"
   }, {
-    "range" : "1",
+    "range" : "7",
     "domain" : "14",
     "attributes" : [ "anonymous", "object" ],
     "id" : "13"
@@ -970,7 +970,7 @@
     "attributes" : [ "anonymous", "object" ],
     "id" : "16"
   }, {
-    "range" : "7",
+    "range" : "1",
     "domain" : "14",
     "attributes" : [ "anonymous", "object" ],
     "id" : "17"
@@ -1029,25 +1029,25 @@
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Portion von",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "en",
         "value" : "is portion of",
         "type" : "label"
-      } ],
-      "altLabel" : [ {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "some of",
+      }, {
+        "identifier" : "prefLabel",
+        "language" : "de",
+        "value" : "Portion von",
         "type" : "label"
       } ],
       "definition" : [ {
         "identifier" : "definition",
         "language" : "en",
         "value" : "portion-mass relation",
+        "type" : "label"
+      } ],
+      "altLabel" : [ {
+        "identifier" : "altLabel",
+        "language" : "en",
+        "value" : "some of",
         "type" : "label"
       } ],
       "example" : [ {
@@ -1132,13 +1132,13 @@
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "has portion",
+        "language" : "de",
+        "value" : "hat Portion",
         "type" : "label"
       }, {
         "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "hat Portion",
+        "language" : "en",
+        "value" : "has portion",
         "type" : "label"
       } ],
       "definition" : [ {
@@ -1193,25 +1193,25 @@
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "is involved in",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "de",
         "value" : "beteiligt in",
         "type" : "label"
-      } ],
-      "altLabel" : [ {
-        "identifier" : "altLabel",
+      }, {
+        "identifier" : "prefLabel",
         "language" : "en",
-        "value" : "feature-activity",
+        "value" : "is involved in",
         "type" : "label"
       } ],
       "definition" : [ {
         "identifier" : "definition",
         "language" : "en",
         "value" : "process-process relation",
+        "type" : "label"
+      } ],
+      "altLabel" : [ {
+        "identifier" : "altLabel",
+        "language" : "en",
+        "value" : "feature-activity",
         "type" : "label"
       } ],
       "example" : [ {
@@ -1246,25 +1246,25 @@
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "is involved in",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "de",
         "value" : "beteiligt in",
         "type" : "label"
-      } ],
-      "altLabel" : [ {
-        "identifier" : "altLabel",
+      }, {
+        "identifier" : "prefLabel",
         "language" : "en",
-        "value" : "feature-activity",
+        "value" : "is involved in",
         "type" : "label"
       } ],
       "definition" : [ {
         "identifier" : "definition",
         "language" : "en",
         "value" : "process-process relation",
+        "type" : "label"
+      } ],
+      "altLabel" : [ {
+        "identifier" : "altLabel",
+        "language" : "en",
+        "value" : "feature-activity",
         "type" : "label"
       } ],
       "example" : [ {
@@ -1309,25 +1309,25 @@
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "is involved in",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "de",
         "value" : "beteiligt in",
         "type" : "label"
-      } ],
-      "altLabel" : [ {
-        "identifier" : "altLabel",
+      }, {
+        "identifier" : "prefLabel",
         "language" : "en",
-        "value" : "feature-activity",
+        "value" : "is involved in",
         "type" : "label"
       } ],
       "definition" : [ {
         "identifier" : "definition",
         "language" : "en",
         "value" : "process-process relation",
+        "type" : "label"
+      } ],
+      "altLabel" : [ {
+        "identifier" : "altLabel",
+        "language" : "en",
+        "value" : "feature-activity",
         "type" : "label"
       } ],
       "example" : [ {
@@ -1414,25 +1414,25 @@
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "is involved in",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "de",
         "value" : "beteiligt in",
         "type" : "label"
-      } ],
-      "altLabel" : [ {
-        "identifier" : "altLabel",
+      }, {
+        "identifier" : "prefLabel",
         "language" : "en",
-        "value" : "feature-activity",
+        "value" : "is involved in",
         "type" : "label"
       } ],
       "definition" : [ {
         "identifier" : "definition",
         "language" : "en",
         "value" : "process-process relation",
+        "type" : "label"
+      } ],
+      "altLabel" : [ {
+        "identifier" : "altLabel",
+        "language" : "en",
+        "value" : "feature-activity",
         "type" : "label"
       } ],
       "example" : [ {
@@ -1467,25 +1467,25 @@
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "is involved in",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
         "language" : "de",
         "value" : "beteiligt in",
         "type" : "label"
-      } ],
-      "altLabel" : [ {
-        "identifier" : "altLabel",
+      }, {
+        "identifier" : "prefLabel",
         "language" : "en",
-        "value" : "feature-activity",
+        "value" : "is involved in",
         "type" : "label"
       } ],
       "definition" : [ {
         "identifier" : "definition",
         "language" : "en",
         "value" : "process-process relation",
+        "type" : "label"
+      } ],
+      "altLabel" : [ {
+        "identifier" : "altLabel",
+        "language" : "en",
+        "value" : "feature-activity",
         "type" : "label"
       } ],
       "example" : [ {

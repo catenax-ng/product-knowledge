@@ -26,7 +26,7 @@
       "date" : [ {
         "identifier" : "date",
         "language" : "undefined",
-        "value" : "2023-02-11",
+        "value" : "2023-02-21",
         "type" : "label"
       } ],
       "creator" : [ {
@@ -199,13 +199,13 @@
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Variable Length Token",
+        "language" : "de",
+        "value" : "Token mit variabler Länge",
         "type" : "label"
       }, {
         "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Token mit variabler Länge",
+        "language" : "en",
+        "value" : "Variable Length Token",
         "type" : "label"
       } ],
       "definition" : [ {
@@ -349,12 +349,12 @@
       "seeAlso" : [ {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Code",
+        "value" : "https://en.wikipedia.org/wiki/Identifier",
         "type" : "iri"
       }, {
         "identifier" : "seeAlso",
         "language" : "undefined",
-        "value" : "https://en.wikipedia.org/wiki/Identifier",
+        "value" : "https://en.wikipedia.org/wiki/Code",
         "type" : "iri"
       } ]
     },
@@ -394,12 +394,12 @@
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "de",
+        "language" : "en",
         "value" : "Token",
         "type" : "label"
       }, {
         "identifier" : "prefLabel",
-        "language" : "en",
+        "language" : "de",
         "value" : "Token",
         "type" : "label"
       } ],
@@ -436,13 +436,13 @@
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Token mit fester Länge",
+        "language" : "en",
+        "value" : "Fixed Length Token",
         "type" : "label"
       }, {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Fixed Length Token",
+        "language" : "de",
+        "value" : "Token mit fester Länge",
         "type" : "label"
       } ],
       "definition" : [ {
@@ -555,7 +555,7 @@
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
-        "value" : "1",
+        "value" : "2",
         "type" : "label"
       }, {
         "identifier" : "example",
@@ -565,7 +565,7 @@
       }, {
         "identifier" : "example",
         "language" : "en",
-        "value" : "2",
+        "value" : "1",
         "type" : "label"
       } ]
     },
@@ -661,7 +661,7 @@
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
-        "value" : "3",
+        "value" : "1",
         "type" : "label"
       }, {
         "identifier" : "example",
@@ -671,7 +671,7 @@
       }, {
         "identifier" : "example",
         "language" : "en",
-        "value" : "1",
+        "value" : "3",
         "type" : "label"
       } ]
     },
@@ -713,17 +713,17 @@
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
+        "value" : "alphabetic",
+        "type" : "label"
+      }, {
+        "identifier" : "example",
+        "language" : "en",
         "value" : "alphanumeric",
         "type" : "label"
       }, {
         "identifier" : "example",
         "language" : "en",
         "value" : "numeric",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "alphabetic",
         "type" : "label"
       } ]
     },
@@ -746,13 +746,13 @@
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Number Of Digits",
+        "language" : "de",
+        "value" : "Anzahl der Stellen",
         "type" : "label"
       }, {
         "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Anzahl der Stellen",
+        "language" : "en",
+        "value" : "Number Of Digits",
         "type" : "label"
       } ],
       "altLabel" : [ {
@@ -793,13 +793,13 @@
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Encoding Standard",
+        "language" : "de",
+        "value" : "Encodierungsstandard",
         "type" : "label"
       }, {
         "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Encodierungsstandard",
+        "language" : "en",
+        "value" : "Encoding Standard",
         "type" : "label"
       } ],
       "example" : [ {
@@ -828,13 +828,13 @@
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Number Of Tokens",
+        "language" : "de",
+        "value" : "Anzahl der Token",
         "type" : "label"
       }, {
         "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Anzahl der Token",
+        "language" : "en",
+        "value" : "Number Of Tokens",
         "type" : "label"
       } ],
       "example" : [ {
@@ -863,13 +863,13 @@
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Encoding Example",
+        "language" : "de",
+        "value" : "Encodierungsbeispiel",
         "type" : "label"
       }, {
         "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Encodierungsbeispiel",
+        "language" : "en",
+        "value" : "Encoding Example",
         "type" : "label"
       } ],
       "example" : [ {
@@ -987,19 +987,24 @@
         "value" : "Token Length",
         "type" : "label"
       } ],
-      "altLabel" : [ {
-        "identifier" : "altLabel",
-        "language" : "en",
-        "value" : "number of characters",
-        "type" : "label"
-      } ],
       "definition" : [ {
         "identifier" : "definition",
         "language" : "en",
         "value" : "Fixed number of digits.",
         "type" : "label"
       } ],
+      "altLabel" : [ {
+        "identifier" : "altLabel",
+        "language" : "en",
+        "value" : "number of characters",
+        "type" : "label"
+      } ],
       "example" : [ {
+        "identifier" : "example",
+        "language" : "en",
+        "value" : "1",
+        "type" : "label"
+      }, {
         "identifier" : "example",
         "language" : "en",
         "value" : "2",
@@ -1008,11 +1013,6 @@
         "identifier" : "example",
         "language" : "en",
         "value" : "3",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "1",
         "type" : "label"
       } ]
     },
@@ -1063,17 +1063,17 @@
       "example" : [ {
         "identifier" : "example",
         "language" : "en",
+        "value" : "0-9]",
+        "type" : "label"
+      }, {
+        "identifier" : "example",
+        "language" : "en",
         "value" : "alphanumeric",
         "type" : "label"
       }, {
         "identifier" : "example",
         "language" : "en",
-        "value" : "numeric",
-        "type" : "label"
-      }, {
-        "identifier" : "example",
-        "language" : "en",
-        "value" : "0-9]",
+        "value" : "alphabetic",
         "type" : "label"
       }, {
         "identifier" : "example",
@@ -1083,7 +1083,7 @@
       }, {
         "identifier" : "example",
         "language" : "en",
-        "value" : "alphabetic",
+        "value" : "numeric",
         "type" : "label"
       } ]
     },
@@ -1093,6 +1093,35 @@
     "domain" : "7",
     "attributes" : [ "someValues", "external", "datatype" ],
     "id" : "33"
+  }, {
+    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#isTranslatedBy",
+    "baseIri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl",
+    "range" : "23",
+    "annotations" : {
+      "isDefinedBy" : [ {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
+        "type" : "iri"
+      } ],
+      "prefLabel" : [ {
+        "identifier" : "prefLabel",
+        "language" : "en",
+        "value" : "is translated by",
+        "type" : "label"
+      }, {
+        "identifier" : "prefLabel",
+        "language" : "de",
+        "value" : "wird übersetzt",
+        "type" : "label"
+      } ]
+    },
+    "label" : {
+      "IRI-based" : "isTranslatedBy"
+    },
+    "domain" : "7",
+    "attributes" : [ "someValues", "external", "object" ],
+    "id" : "35"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#encodes",
     "baseIri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl",
@@ -1116,35 +1145,6 @@
     },
     "domain" : "7",
     "attributes" : [ "someValues", "external", "object" ],
-    "id" : "35"
-  }, {
-    "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#isTranslatedBy",
-    "baseIri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl",
-    "range" : "23",
-    "annotations" : {
-      "isDefinedBy" : [ {
-        "identifier" : "isDefinedBy",
-        "language" : "undefined",
-        "value" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/encoding_ontology.ttl",
-        "type" : "iri"
-      } ],
-      "prefLabel" : [ {
-        "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "wird übersetzt",
-        "type" : "label"
-      }, {
-        "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "is translated by",
-        "type" : "label"
-      } ]
-    },
-    "label" : {
-      "IRI-based" : "isTranslatedBy"
-    },
-    "domain" : "7",
-    "attributes" : [ "someValues", "external", "object" ],
     "id" : "36"
   }, {
     "iri" : "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#tokenValue",
@@ -1159,13 +1159,13 @@
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Token Wert",
+        "language" : "en",
+        "value" : "Token Value",
         "type" : "label"
       }, {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Token Value",
+        "language" : "de",
+        "value" : "Token Wert",
         "type" : "label"
       } ],
       "altLabel" : [ {
@@ -1241,13 +1241,13 @@
       } ],
       "prefLabel" : [ {
         "identifier" : "prefLabel",
-        "language" : "en",
-        "value" : "Token Order",
+        "language" : "de",
+        "value" : "Token Reihenfolge",
         "type" : "label"
       }, {
         "identifier" : "prefLabel",
-        "language" : "de",
-        "value" : "Token Reihenfolge",
+        "language" : "en",
+        "value" : "Token Order",
         "type" : "label"
       } ],
       "definition" : [ {

@@ -64,7 +64,15 @@ Run the following command to convert a given json file into separate data jsons
 node src/main/node/json2json.js
 ```
 
+### JSON Testdata Generation
 
+Run the following command to generate test data (currently: for the Traceability Use Case)
+
+```console
+node tools/src/main/javascript/testdata.js
+```
+
+The resulting testdata can be found under [this file](tools/src/test/resources/CX_Testdata_v1.4.1-AsPlanned.json)
 
 
 
