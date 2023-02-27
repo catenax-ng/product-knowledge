@@ -226,7 +226,7 @@ public class AgentController {
     @Path("/rest/info/version")
     public String getVersion(@Context HttpServletRequest request) {
         monitor.debug(String.format("Received a GET Version request %s",request));
-        return "0.7.4";
+        return "0.8.1";
     }
 
     /**

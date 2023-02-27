@@ -74,7 +74,7 @@ class OntologyHub implements IOntologyHub {
               .replace('.ttl', '.json'),
             type: 'OWL',
             status: 'DRAFT',
-            version: '0.7.4',
+            version: '0.8.1',
           };
           result.push(entry);
         }

@@ -38,6 +38,8 @@ public class AgentConfig {
     public static long DEFAULT_DATASPACE_SYNCINTERVAL = -1;
     public static String DATASPACE_SYNCCONNECTORS_PROPERTY = "cx.agent.dataspace.remotes";
 
+    public static String VALIDATION_ENDPOINTS = "edc.dataplane.token.validation.endpoints";
+
     public static String FEDERATION_SERVICE_BATCH_SIZE = "cx.agent.federation.batch.max";
     public static long DEFAULT_FEDERATION_SERVICE_BATCH_SIZE = Long.MAX_VALUE;
 
@@ -149,6 +151,14 @@ public class AgentConfig {
             return null;
         }
         return connectors;
+    }
+
+    /**
+     * @return array of validation endpoints
+     */
+    public String[] getValidatorEndpoints() {
+        String[] endpoints= config.getConfig(VALIDATION_ENDPOINTS).getEntries().values().toArray(new String[0]);
+        return endpoints;
     }
 
     /**

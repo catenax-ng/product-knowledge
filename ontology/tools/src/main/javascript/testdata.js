@@ -51,6 +51,7 @@ for(var id in twins){
 }
 
 var nrubberId=JG.guid();
+UIDPOOL.push(`urn:uuid:${nrubberId}`);
 var nrubber= {
       "catenaXId": `urn:uuid:${nrubberId}`,
       "bpnl": plainObject['BPN_N_TIER_D'],
@@ -97,6 +98,7 @@ var nrubber= {
 twins[nrubber.catenaXId]=nrubber;
 
 var rubberId=JG.guid();
+UIDPOOL.push(`urn:uuid:${rubberId}`);
 var rubber= {
       "catenaXId": `urn:uuid:${rubberId}`,
       "bpnl": plainObject['BPN_SUB_TIER_D'],
@@ -163,6 +165,7 @@ var rubber= {
 twins[rubber.catenaXId]=rubber;
 
 var wheelId=JG.guid();
+UIDPOOL.push(`urn:uuid:${wheelId}`);
 var wheel= {
       "catenaXId": `urn:uuid:${wheelId}`,
       "bpnl": plainObject['BPN_TIER_D'],
@@ -230,7 +233,7 @@ twins[wheel.catenaXId]=wheel;
 for(var id in twins){
     twin=twins[id];
     var name=twin["urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned"][0].partTypeInformation.nameAtManufacturer;
-    if(name.includes("Vehicle Model B") || name.includes("Vehicle Model C")) {
+    if(name.includes("Vehicle Model B")) { //} || name.includes("Vehicle Model C")) {
         var children=twin["urn:bamm:io.catenax.single_level_bom_as_planned:1.0.2#SingleLevelBomAsPlanned"][0].childParts;
         children.push( {
             "quantity" : {
@@ -252,6 +255,32 @@ testObjects=[];
 for(var id in twins){
     testObjects.push(twins[id]);
 }
+
+for(let i = 0; i < 50; i++) {
+    var clones={};
+    for(var id in twins) {
+        clones[id]=`urn:uuid:${JG.guid()}`;
+        UIDPOOL.push(clones[id]);
+    }
+    for(var id in twins) {
+        var twin=JSON.parse(JSON.stringify(twins[id]));
+        twin.catenaXId=clones[id];
+        var aspect=twin["urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned"][0];
+        aspect.catenaXId=clones[id];
+        aspect.partTypeInformation.manufacturerPartId=aspect.partTypeInformation.manufacturerPartId+i;
+        aspect.partTypeInformation.nameAtManufacturer=aspect.partTypeInformation.nameAtManufacturer+i;
+        var aspect=twin["urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"][0];
+        aspect.catenaXId=clones[id];
+        var aspect=twin["urn:bamm:io.catenax.single_level_bom_as_planned:1.0.2#SingleLevelBomAsPlanned"][0];
+        aspect.catenaXId=clones[id];
+        for(var childId in aspect.childParts) {
+            var child=aspect.childParts[childId];
+            child.childCatenaXId=clones[child.childCatenaXId];
+        }
+        testObjects.push(twin);
+    }
+}
+
 plainObject.UIDPOOL=JSON.stringify(UIDPOOL).replaceAll('"',"'")
 testObjects.unshift(testHeader);
 testDataContainer={};

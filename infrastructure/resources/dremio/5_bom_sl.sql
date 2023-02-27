@@ -15,7 +15,7 @@ CREATE TABLE $scratch.CX_TRC_SingleLevelBomAsPlanned AS (
                 SELECT
                     catenaXId,
                     FLATTEN("urn:bamm:io.catenax.single_level_bom_as_planned:1.0.2#SingleLevelBomAsPlanned") AS json
-                 FROM datalake."catenax-knowledge-agents"."CX_Testdata_v1.4.1-AsPlanned.ndjson"
+                 FROM datalake."catenax-knowledge-agents"."CX_Testdata_v1.5-SNAPSHOT-AsPlanned.ndjson"
              ) JSON
              WHERE JSON.json IS NOT NULL) CHILDREN
     );

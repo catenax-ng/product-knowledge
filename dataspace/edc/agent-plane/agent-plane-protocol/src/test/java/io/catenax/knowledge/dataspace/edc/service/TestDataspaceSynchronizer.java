@@ -19,18 +19,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import org.eclipse.dataspaceconnector.spi.monitor.ConsoleMonitor;
 import org.apache.jena.graph.NodeFactory;
 
 
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Collection;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -73,13 +70,13 @@ public class TestDataspaceSynchronizer {
      * @throws IOException in case of an error
      */
     @Test
-    public void testQuadRepresentation() throws IOException {
+    public void testQuadRepresentation()  {
         Node graph = store.getDefaultGraph();
         Node connector = NodeFactory.createURI("edc://test");
         Asset asset = Asset.Builder.newInstance()
                 .id("urn:cx:test:ExampleAsset")
                 .contentType("application/json, application/xml")
-                .version("0.7.4-SNAPSHOT")
+                .version("0.8.1-SNAPSHOT")
                 .name("Test Asset")
                 .description("Test Asset for RDF Representation")
                 .property("asset:prop:contract","<urn:cx:test:Contract>")

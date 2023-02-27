@@ -14,6 +14,7 @@ import io.catenax.knowledge.dataspace.edc.service.DataspaceSynchronizer;
 import io.catenax.knowledge.dataspace.edc.sparql.DataspaceServiceExecutor;
 import io.catenax.knowledge.dataspace.edc.sparql.SparqlQueryProcessor;
 import io.catenax.knowledge.dataspace.edc.sparql.SparqlQuerySerializerFactory;
+import io.catenax.knowledge.dataspace.edc.validation.SwitchingDataPlaneTokenValidatorController;
 import org.apache.jena.query.Syntax;
 import org.apache.jena.sparql.serializer.*;
 import org.apache.jena.sparql.service.ServiceExecutorRegistry;
@@ -115,6 +116,12 @@ public class AgentExtension implements ServiceExtension {
 
         executorService= Executors.newScheduledThreadPool(config.getThreadPoolSize());
         synchronizer=new DataspaceSynchronizer(executorService,config,catalogService,rdfStore,monitor);
+
+        SwitchingDataPlaneTokenValidatorController validatorController=new SwitchingDataPlaneTokenValidatorController(httpClient,config,monitor);
+        if(validatorController.isEnabled()) {
+            monitor.debug(String.format("Registering switching validator controller %s",validatorController));
+            webService.registerResource(DEFAULT_CONTEXT_ALIAS,validatorController);
+        }
 
         // EDC Remoting Support
         ServiceExecutorRegistry reg = new ServiceExecutorRegistry();

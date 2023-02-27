@@ -42,7 +42,7 @@ Add the following dependency to your control-plane artifact pom:
         <dependency>
             <groupId>io.catenax.knowledge.dataspace.edc.control-plane</groupId>
             <artifactId>agent-plane-protocol</artifactId>
-            <version>0.7.4-SNAPSHOT</version>
+            <version>0.8.1-SNAPSHOT</version>
         </dependency>
 ```
 

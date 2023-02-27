@@ -14,7 +14,7 @@ CREATE TABLE $scratch.CX_TRC_PartAsPlanned AS
               bpnl,
               FLATTEN("urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned") AS pasp,
               FLATTEN("urn:bamm:io.catenax.single_level_bom_as_planned:1.0.2#SingleLevelBomAsPlanned") AS slbomasp
-         FROM datalake."catenax-knowledge-agents"."CX_Testdata_v1.4.1-AsPlanned.ndjson"
+         FROM datalake."catenax-knowledge-agents"."CX_Testdata_v1.5-SNAPSHOT-AsPlanned.ndjson"
     ) JSON;
 
 DROP VIEW "TRACE_TEST_OEM".CX_TRC_PartAsPlanned;
@@ -47,7 +47,7 @@ CREATE TABLE $scratch.CX_TRC_PartSiteInformationAsPlanned AS
        SELECT catenaXId,
               bpnl,
               FLATTEN("urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned") AS psiap
-         FROM datalake."catenax-knowledge-agents"."CX_Testdata_v1.4.1-AsPlanned.ndjson"
+         FROM datalake."catenax-knowledge-agents"."CX_Testdata_v1.5-SNAPSHOT-AsPlanned.ndjson"
       ) JSON
     ) SITE;
 
