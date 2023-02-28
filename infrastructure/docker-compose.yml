@@ -49,6 +49,7 @@ services:
     profiles: ["backend"]
     volumes:
       - ./resources/dremio:/opt/dremio/data
+      - ./resources/data:/opt/dremio/local/data
       - ./oem/resources/dremio.conf:/opt/dremio/conf/dremio.conf
 
 #  search-backend:

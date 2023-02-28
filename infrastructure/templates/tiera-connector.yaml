@@ -31,7 +31,7 @@ data:
     # whatever that is needed
     edc.ids.endpoint=https://{{ .Values.ingress.host }}/tiera-edc-control/{{ .Values.dataspace.bpnTier1 }}/api/v1/ids
     # This is send as the audience to outgoing ids messages/tokens
-    ids.webhook.address=https://{{ .Values.ingress.host }}/tiera-edc-control/{{ .Values.dataspace.bpnTier1Tier }}
+    ids.webhook.address=https://{{ .Values.ingress.host }}/tiera-edc-control/{{ .Values.dataspace.bpnTier1 }}
     edc.ids.validation.referringconnector=false
     edc.ids.id=urn:connector:edc:tiera
     edc.ids.maintainer=http://catenax.net

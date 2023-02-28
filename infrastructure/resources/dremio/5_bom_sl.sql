@@ -4,8 +4,8 @@ CREATE TABLE $scratch.CX_TRC_SingleLevelBomAsPlanned AS (
            SUBSTR(CHILDREN.catenaXId,10) as catenaXId,
            CAST(CHILDREN.child['quantity'].quantityNumber AS DOUBLE) as quantity_number,
            CHILDREN.child['quantity'].measurementUnit.lexicalValue as quantity_unit,
-           TO_DATE(LEFT(CHILDREN.child['createdOn'],10),'YYYY-MM-DD') as createdOn,
-           TO_DATE(LEFT(CHILDREN.child['lastModifiedOn'],10),'YYYY-MM-DD') as lastModifiedOn,
+           TO_DATE(LEFT(CHILDREN.child['createdOn'],10),'YYYY-MM-DD') as created_on,
+           TO_DATE(LEFT(CHILDREN.child['lastModifiedOn'],10),'YYYY-MM-DD') as last_modified_on,
            SUBSTR(CHILDREN.child['childCatenaXId'],10) as childCatenaXId
         FROM (
             SELECT
@@ -27,7 +27,7 @@ SELECT
   quantity_number,
   quantity_unit,
   'as-planned' as lifecycle_context,
-  createdOn,
-  lastModifiedOn,
+  created_on,
+  last_modified_on,
   childCatenaXId
  FROM $scratch.CX_TRC_SingleLevelBomAsPlanned;

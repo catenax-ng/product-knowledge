@@ -1,7 +1,11 @@
 [PrefixDeclaration]
+unit:       urn:
 uuid:		urn:uuid:
 bpnl:		bpn:legal:
 bpns:		bpn:site:
+bom:		urn:bom:
+material:	urn:material:
+materialp:  urn:materialproperty:
 cx:			https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#
 owl:		http://www.w3.org/2002/07/owl#
 rdf:		http://www.w3.org/1999/02/22-rdf-syntax-ns#
@@ -11,21 +15,54 @@ obda:		https://w3id.org/obda/vocabulary#
 rdfs:		http://www.w3.org/2000/01/rdf-schema#
 
 [MappingDeclaration] @collection [[
+
 mappingId	assemblies
-target		uuid:{catenaXId} rdf:type cx:AssemblyGroup ; cx:partName {partTypeInformation_nameAtManufacturer}^^xsd:string; cx:partSeries {partTypeInformation_manufacturerPartId}^^xsd:string; cx:partProductionDate {validityPeriod_validFrom}^^xsd:date .
-source		SELECT "catenaXId", "partTypeInformation_nameAtManufacturer", "partTypeInformation_manufacturerPartId", "validityPeriod_validFrom" FROM "TRACE_TEST_OEM"."CX_TRC_PartAsPlanned" parts where "assembly_status" >0
+target		uuid:{catenaXId} rdf:type cx:AssemblyGroup; rdf:type cx:Part; cx:partName {partTypeInformation_nameAtManufacturer}^^xsd:string; cx:partSeries {partTypeInformation_manufacturerPartId}^^xsd:string; cx:partProductionDate {validityPeriod_validFrom}^^xsd:date; cx:partProductionDateTime {validityPeriod_validTo}^^xsd:datetime; cx:isSuppliedBy bpnl:{bpnl}.
+source		SELECT * FROM "TRACE_TEST_OEM"."CX_TRC_PartAsPlanned" parts where "assembly_status" >0
 
 mappingId	parts
-target		uuid:{catenaXId} rdf:type cx:Part ; cx:partName {partTypeInformation_nameAtManufacturer}^^xsd:string; cx:partSeries {partTypeInformation_manufacturerPartId}^^xsd:string; cx:partProductionDate {validityPeriod_validFrom}^^xsd:date .
-source		SELECT "catenaXId", "partTypeInformation_nameAtManufacturer", "partTypeInformation_manufacturerPartId", "validityPeriod_validFrom" FROM "TRACE_TEST_OEM"."CX_TRC_PartAsPlanned" parts where "assembly_status" = 0
+target		uuid:{catenaXId} rdf:type cx:Part; cx:partName {partTypeInformation_nameAtManufacturer}^^xsd:string; cx:partSeries {partTypeInformation_manufacturerPartId}^^xsd:string; cx:partProductionDate {validityPeriod_validFrom}^^xsd:date; cx:partProductionDateTime {validityPeriod_validTo}^^xsd:datetime.
+source		SELECT * FROM "TRACE_TEST_OEM"."CX_TRC_PartAsPlanned" parts where "assembly_status" = 0
 
 mappingId	assemblyparts
-target		uuid:{childCatenaXId} cx:isPartOf uuid:{catenaXId} .
-source		SELECT "catenaXId", "childCatenaXId" FROM "TRACE_TEST_OEM"."CX_TRC_SingleLevelBomAsPlanned" assemblyparts
+target		uuid:{childCatenaXId} cx:isPartOf uuid:{catenaXId}.
+source		SELECT * FROM "TRACE_TEST_OEM"."CX_TRC_SingleLevelBomAsPlanned" assemblyparts
 
-mappingId	partsite
-target      uuid:{catenaXId} cx:isProducedBy bpns:{catenaXSiteId} .
-source		SELECT "catenaXId", "catenaXSiteId" FROM "TRACE_TEST_OEM"."CX_TRC_PartSiteInformationAsPlanned" sites
+mappingId	boms
+target		bom:{catenaXId}/{childCatenaXId} rdf:type cx:ManufacturingBillOfMaterial; rdf:type cx:BillOfMaterial; cx:billOfMaterialQuantity {quantity_number}^^xsd:float; cx:billOfMaterialUnit unit:{quantity_unit}; cx:productionStartDate {created_on}^^xsd:date; cx:productionEndDate {last_modified_on}^^xsd:date; cx:hasItem uuid:{childCatenaXId}.
+source		SELECT * FROM "TRACE_TEST_OEM"."CX_TRC_SingleLevelBomAsPlanned" boms WHERE lifecycle_context='as-planned'
+
+mappingId	assemblyboms
+target		uuid:{catenaXId} cx:hasBillOfMaterial bom:{catenaXId}/{childCatenaXId}.
+source		SELECT * FROM "TRACE_TEST_OEM"."CX_TRC_SingleLevelBomAsPlanned" assemblyboms
+
+mappingId	partmanufacturer
+target      uuid:{catenaXId} cx:isProducedBy bpns:{catenaXSiteId}.
+source		SELECT * FROM "TRACE_TEST_OEM"."CX_TRC_PartSiteInformationAsPlanned" sites where "function"='production'
+
+mappingId	manufacturers
+target      bpns:{catenaXSiteId} rdf:type cx:PartManufacturer; cx:isMemberOf bpnl:{bpnl}; cx:roleValidFrom {functionValidFrom}^^xsd:date; cx:roleValidTo {functionValidUntil}^^xsd:date.
+source		SELECT * FROM "TRACE_TEST_OEM"."CX_TRC_PartSiteInformationAsPlanned" sites where "function"='production'
+
+mappingId	partematerial
+target		uuid:{catenaXId} cx:isMadeOf material:{catenaXId}.
+source		SELECT * FROM "TRACE_TEST_OEM"."CX_TRC_MaterialForRecycling" material
+
+mappingId	ematerials
+target		material:{catenaXId} rdf:type cx:EngineeringMaterial; cx:engineeringMaterialName {material_name}^^xsd:string; cx:engineeringMaterialNumber {material_class}^^xsd:string.
+source		SELECT * FROM "TRACE_TEST_OEM"."CX_TRC_MaterialForRecycling" material
+
+mappingId	ematerialsrmaterials
+target		material:{catenaXId} cx:isMadeOf material:{catenaXId}/{component_material_name}.
+source		SELECT * FROM "TRACE_TEST_OEM"."CX_TRC_MaterialForRecycling_Components" material
+
+mappingId	rmaterials
+target		material:{catenaXId}/{component_material_name} rdf:type cx:RawMaterial; cx:engineeringMaterialName {component_material_name}^^xsd:string; cx:engineeringMaterialNumber {component_material_class}^^xsd:string; cx:hasMaterialProperty materialp:{catenaXId}/{component_material_name}.
+source		SELECT * FROM "TRACE_TEST_OEM"."CX_TRC_MaterialForRecycling_Components" material
+
+mappingId	materialproperties
+target		material:{catenaXId}/{component_material_name} rdf:type cx:MaterialProperty; cx:aggregateState {component_aggregate_state}^^xsd:string; cx:weight {component_weight}^^xsd:float; cx:recycledContent  {component_recycled_content}^^xsd:float; cx:materialCode {component_material_abbreviation}^^xsd:string.
+source		SELECT * FROM "TRACE_TEST_OEM"."CX_TRC_MaterialForRecycling_Components" material
 
 ]]
 

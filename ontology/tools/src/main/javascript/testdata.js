@@ -21,10 +21,10 @@ for(twinId in testObjects) {
 
 /* manipulate test data */
 plainObject['BPN_TIER_D']='BPNL00000003CPIY';
-plainObject['BPN_SUB_TIER_D']='BPNL00000003CQI9';
+plainObject['BPN_SUB_TIER_D']='BPNL00000007OR16';
 plainObject['BPN_N_TIER_D']='BPNL00000003COJN';
 plainObject['BPN_TIER_D_SITE_A']='BPNS00000003CPIY';
-plainObject['BPN_SUB_TIER_D_SITE_A']='BPNS00000003CQI9';
+plainObject['BPN_SUB_TIER_D_SITE_A']='BPNS0000000002XY';
 plainObject['BPN_N_TIER_D_SITE_A']='BPNS00000003COJN';
 
 for(var id in twins){
@@ -256,7 +256,7 @@ for(var id in twins){
     testObjects.push(twins[id]);
 }
 
-for(let i = 0; i < 50; i++) {
+for(let i = 0; i < 0; i++) {
     var clones={};
     for(var id in twins) {
         clones[id]=`urn:uuid:${JG.guid()}`;
