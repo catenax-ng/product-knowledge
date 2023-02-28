@@ -20,7 +20,7 @@ SELECT
   material_class
  FROM $scratch.CX_TRC_MaterialForRecycling;
 
-DROP TABLE $scratch.c;
+DROP TABLE $scratch.CX_TRC_MaterialForRecycling_Components;
 CREATE TABLE $scratch.CX_TRC_MaterialForRecycling_Components AS (
        SELECT
            COMPONENTS.catenaXId as catenaXId,

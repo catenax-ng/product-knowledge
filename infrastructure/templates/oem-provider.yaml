@@ -14,7 +14,7 @@ data:
     jdbc.password={{ .Values.security.backendPwd }}
     ontop.cardinalityMode=LOOSE
     com.dremio.jdbc.Driver-metadataProvider = it.unibz.inf.ontop.dbschema.impl.KeyAwareDremioDBMetadataProvider
-    com.dremio.jdbc.Driver-schemas = HI_TEST_OEM
+    com.dremio.jdbc.Driver-schemas = HI_TEST_OEM, TRACE_TEST_OEM
     com.dremio.jdbc.Driver-tables.HI_TEST_OEM = CX_RUL_SerialPartTypization_Vehicle,CX_RUL_SerialPartTypization_Component,CX_RUL_AssemblyPartRelationship,CX_RUL_LoadCollective
     com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_SerialPartTypization_Vehicle = UC_VEHICLE
     com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_SerialPartTypization_Component = UC_COMPONENT
@@ -29,6 +29,29 @@ data:
     com.dremio.jdbc.Driver-constraint.FK_SERIAL_CHILD = childCatenaXId:CX_RUL_SerialPartTypization_Component+UC_COMPONENT
     com.dremio.jdbc.Driver-foreign.HI_TEST_OEM.CX_RUL_LoadCollective = FK_LC_PART
     com.dremio.jdbc.Driver-constraint.FK_LC_PART = catenaXId:CX_RUL_SerialPartTypization_Component+UC_COMPONENT
+    com.dremio.jdbc.Driver-tables.TRACE_TEST_OEM = CX_TRC_PartAsPlanned, CX_TRC_PartSiteInformationAsPlanned,CX_TRC_SingleLevelBomAsPlanned,CX_TRC_MaterialForRecycling,CX_TRC_MaterialForRecycling_Components
+    com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_PartAsPlanned = UC_PART
+    com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_PartSiteInformationAsPlanned = UC_PARTSITE
+    com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_SingleLevelBomAsPlanned = UC_SLBOM
+    com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling = UC_PARTMATERIAL
+    com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling_Components = UC_MATERIAL
+    com.dremio.jdbc.Driver-constraint.UC_PART = catenaXId
+    com.dremio.jdbc.Driver-constraint.UC_PARTSITE = catenaXId
+    com.dremio.jdbc.Driver-constraint.UC_SLBOM = childCatenaXId,catenaXId
+    com.dremio.jdbc.Driver-constraint.UC_PARTMATERIAL = catenaXId
+    com.dremio.jdbc.Driver-constraint.UC_MATERIAL = catenaXId,component_material_name
+    com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_SingleLevelBomAsPlanned = FK_SLBOM_PARENT, FK_SLBOM_CHILD
+    com.dremio.jdbc.Driver-constraint.FK_SLBOM_PARENT = catenaXId:CX_TRC_PartAsPlanned+UC_PART
+    com.dremio.jdbc.Driver-constraint.FK_SLBOM_CHILD = childCatenaXId:CX_TRC_PartAsPlanned+UC_PART
+    com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_PartAsPlanned = FK_PARTSITE, FK_PARTMATERIAL
+    com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_PartSiteInformationAsPlanned = FK_SITEPART
+    com.dremio.jdbc.Driver-constraint.FK_PARTSITE = catenaXId:CX_TRC_PartSiteInformationAsPlanned+UC_PARTSITE
+    com.dremio.jdbc.Driver-constraint.FK_SITEPART = catenaXId:CX_TRC_PartAsPlanned+UC_PART
+    com.dremio.jdbc.Driver-constraint.FK_PARTMATERIAL = catenaXId:CX_TRC_MaterialForRecycling+UC_PARTMATERIAL
+    com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling = FK_MATERIALPART
+    com.dremio.jdbc.Driver-constraint.FK_MATERIALPART = catenaXId:CX_TRC_PartAsPlanned+UC_PART
+    com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling_Components = FK_COMPONENTMATERIAL
+    com.dremio.jdbc.Driver-constraint.FK_COMPONENTMATERIAL = catenaXId,CX_TRC_MaterialForRecycling+UC_PARTMATERIAL
   portal.toml: |-
 {{- .Files.Get "oem/resources/portal.toml" | nindent 4 }}
   dtc.obda: |-
