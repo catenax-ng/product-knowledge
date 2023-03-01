@@ -20,12 +20,11 @@ for(twinId in testObjects) {
 }
 
 /* manipulate test data */
-plainObject['BPN_TIER_D']='BPNL00000003CPIY';
 plainObject['BPN_SUB_TIER_D']='BPNL00000007OR16';
-plainObject['BPN_N_TIER_D']='BPNL00000003COJN';
-plainObject['BPN_TIER_D_SITE_A']='BPNS00000003CPIY';
+plainObject['BPN_N_TIER_D']='BPNL00000003CSGV';
+plainObject['BPN_TIER_A_SITE_B']='BPNS0000000006V6';
 plainObject['BPN_SUB_TIER_D_SITE_A']='BPNS0000000002XY';
-plainObject['BPN_N_TIER_D_SITE_A']='BPNS00000003COJN';
+plainObject['BPN_N_TIER_D_SITE_A']='BPNS000000000DQB';
 
 for(var id in twins){
     twin=twins[id];
@@ -34,9 +33,16 @@ for(var id in twins){
     if(bom != undefined && bom.length>0) {
         childs=bom[0].childParts.length;
     }
+    var part=twin["urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned"];
+    var materialName=JG.loremIpsum({units: 'words', count: 1});
+    var materialClass=JG.materialClass();
+    if(part!= undefined && part.length>0 && part[0].partTypeInformation.nameAtManufacturer.includes('Cathode')) {
+        materialName='Automotive Cell Cathode Material',
+        materialClass='CathodeMaterial_LithiumNickelManganeseCobaltOxides'
+    }
     twin["urn:bamm:io.catenax.material_for_recycling:1.1.0#MaterialForRecycling"] = [ {
-        "materialName" : JG.loremIpsum({units: 'words', count: 1}),
-        "materialClass" : JG.materialClass(),
+        "materialName" : materialName,
+        "materialClass" : materialClass,
         "component" : JG.repeat(1,childs+1, function() {
         return {
             "aggregateState" : JG.random("solid", "liquid", "gasenous"),
@@ -168,7 +174,7 @@ var wheelId=JG.guid();
 UIDPOOL.push(`urn:uuid:${wheelId}`);
 var wheel= {
       "catenaXId": `urn:uuid:${wheelId}`,
-      "bpnl": plainObject['BPN_TIER_D'],
+      "bpnl": plainObject['BPN_TIER_A'],
       "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned": [
        {
           "validityPeriod": {
@@ -191,7 +197,7 @@ var wheel= {
               "functionValidUntil": moment(JG.date(new Date(2020, 0, 1), new Date(2030, 0, 1))).format('YYYY-MM-DDTHH:mm:sssZ'),
               "function": "production",
               "functionValidFrom": moment(JG.date(new Date(2018, 0, 1), new Date(2023, 0, 1))).format('YYYY-MM-DDTHH:mm:sssZ'),
-              "catenaXSiteId": plainObject['BPN_TIER_D_SITE_A']
+              "catenaXSiteId": plainObject['BPN_TIER_A_SITE_B']
             }
           ]
         }
@@ -285,6 +291,6 @@ plainObject.UIDPOOL=JSON.stringify(UIDPOOL).replaceAll('"',"'")
 testObjects.unshift(testHeader);
 testDataContainer={};
 testDataContainer['https://catenax.io/schema/TestDataContainer/1.0.0']=testObjects;
-JG.writeFile('tools/src/test/resources/CX_Testdata_v1.4.1-AsPlanned.json',testDataContainer);
+JG.writeFile('tools/src/test/resources/CX_Testdata_v1.5-SNAPSHOT-AsPlanned.json',testDataContainer);
 
 

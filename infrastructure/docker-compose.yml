@@ -88,7 +88,7 @@ services:
       # Uncomment to enable for debugging, please choose a different port for each endpoint
       #JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040 #-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:4040
       # If you want to enable multiple ontologies, simply list them with spaces, like ONTOP_ONTOLOGY_FILE: /input/cx-ontology.xml /input/cx-ontology2.xml 
-      ONTOP_ONTOLOGY_FILE: /opt/ontop/input/cx-ontology.xml /opt/ontop/input/cx-ontology.ttl /opt/ontop/input/cx-ontology.ttl /opt/ontop/input/cx-ontology.ttl
+      ONTOP_ONTOLOGY_FILE: /opt/ontop/input/cx-ontology.xml /opt/ontop/input/cx-ontology.ttl /opt/ontop/input/cx-ontology-minimal.ttl /opt/ontop/input/cx-ontology.ttl
       # If you want to enable multiple mappings, simply list them with spaces, like ONTOP_MAPPING_FILE: /input/dtc.obda /input/loadspectrum.obda 
       ONTOP_MAPPING_FILE: /opt/ontop/input/dtc.obda /opt/ontop/input/hi.obda /opt/ontop/input/trace.obda /opt/ontop/input/quality.obda
       # If you want to enable multiple settings, simply list them with spaces, like ONTOP_PROPERTIES_FILE: /input/settings.properties /input/settings.dremio.properties
@@ -100,6 +100,7 @@ services:
     volumes:
       - ./resources/cx-ontology.xml:/opt/ontop/input/cx-ontology.xml
       - ./resources/cx-ontology.ttl:/opt/ontop/input/cx-ontology.ttl
+      - ./resources/cx-ontology-minimal.ttl:/opt/ontop/input/cx-ontology-minimal.ttl
       - ./oem/resources/dtc.obda:/opt/ontop/input/dtc.obda
       - ./oem/resources/hi.obda:/opt/ontop/input/hi.obda
       - ./oem/resources/hi.psql.obda:/opt/ontop/input/hi.psql.obda
