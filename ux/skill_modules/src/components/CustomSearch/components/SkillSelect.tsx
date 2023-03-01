@@ -1,4 +1,4 @@
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, Box, TextField } from '@mui/material';
 import React, { SyntheticEvent, useState } from 'react';
 import VoiceInput from './VoiceInput';
 
@@ -70,13 +70,9 @@ export const SkillSelect = ({ onSkillChange }: SkillSelectProps) => {
   };
 
   return (
-    <>
-      <VoiceInput
-        onSearch={onSearchSkill}
-        onReset={onResetSkills}
-        noResult={noResult}
-      />
+    <Box sx={{ mb: 3 }} display="flex" alignItems="flex-start">
       <Autocomplete
+        fullWidth
         id="free-solo-voice-rec"
         value={skillValue}
         onChange={onAutocompleteSkillChange}
@@ -86,7 +82,15 @@ export const SkillSelect = ({ onSkillChange }: SkillSelectProps) => {
         }}
         selectOnFocus
         clearOnBlur
-        renderInput={(params) => <TextField {...params} label="Skills" />}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            sx={{ pl: 0 }}
+            error={noResult}
+            id="voice-search"
+            label="Search via Speech"
+          />
+        )}
         getOptionLabel={(option) => {
           // Value selected with enter, right from the input
           if (typeof option === 'string') {
@@ -99,6 +103,7 @@ export const SkillSelect = ({ onSkillChange }: SkillSelectProps) => {
         options={skillOptions}
         freeSolo
       />
-    </>
+      <VoiceInput setInputValue={setInputValue} />
+    </Box>
   );
 };

@@ -35,6 +35,7 @@ export default [
         targets: [
           { src: 'src/styles/**/*', dest: 'dist/styles' },
           { src: 'src/images/**/*', dest: 'dist/images' },
+          { src: 'src/sounds/**/*', dest: 'dist/sounds' },
         ],
       }),
       typescript({ tsconfig: './tsconfig.build.json' }),
