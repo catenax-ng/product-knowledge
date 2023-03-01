@@ -11,14 +11,11 @@ export interface CustomSearchProps {
 }
 
 export const CustomSearch = ({ onSearch }: CustomSearchProps) => {
-  const [selectedSkill, setSelectedSkill] = useState<string>('');
+  const [selectedSkill, setSelectedSkill] = useState<string | null>('');
 
   return (
     <Paper elevation={3} sx={{ padding: 3, minWidth: 640 }}>
-      <SkillSelect
-        selectedSkill={selectedSkill}
-        onSkillChange={(skill) => setSelectedSkill(skill)}
-      />
+      <SkillSelect onSkillChange={(skill) => setSelectedSkill(skill)} />
       {selectedSkill == 'TroubleCodeSearch' && (
         <TroubleCodeSearch onSearch={onSearch} />
       )}

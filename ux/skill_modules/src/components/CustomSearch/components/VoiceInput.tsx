@@ -1,11 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import {
-  IconButton,
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  InputAdornment,
-} from '@mui/material';
+import React, { useState } from 'react';
+import { IconButton, InputAdornment, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import KeyboardVoiceIcon from '@mui/icons-material/KeyboardVoice';
@@ -14,9 +8,10 @@ import StopCircleIcon from '@mui/icons-material/StopCircle';
 interface VoiceInputProps {
   onSearch: (input: string) => void;
   onReset: VoidFunction;
+  noResult: boolean;
 }
 
-const VoiceInput = ({ onSearch, onReset }: VoiceInputProps) => {
+const VoiceInput = ({ onSearch, onReset, noResult }: VoiceInputProps) => {
   const [isListening, setIsListening] = useState(false);
   const [transcription, setTranscription] = useState('');
   const SpeechRecognition =
@@ -51,16 +46,19 @@ const VoiceInput = ({ onSearch, onReset }: VoiceInputProps) => {
   const inputHasValue = () => transcription.length > 0;
 
   return (
-    <FormControl sx={{ mb: 3 }} fullWidth>
-      <InputLabel htmlFor="outlined-adornment-password">
-        Search via Speech
-      </InputLabel>
-      <OutlinedInput
-        id="outlined-adornment-password"
-        type={'text'}
-        value={transcription}
-        onChange={(e) => setTranscription(e.target.value)}
-        endAdornment={
+    <TextField
+      fullWidth
+      sx={{ mb: 3, pl: 0 }}
+      error={noResult}
+      id="voice-search"
+      label="Search via Speech"
+      value={transcription}
+      helperText={
+        noResult && 'No result found! Please specify your search input.'
+      }
+      onChange={(e) => setTranscription(e.target.value)}
+      InputProps={{
+        endAdornment: (
           <InputAdornment position="end">
             {inputHasValue() && (
               <IconButton
@@ -72,6 +70,7 @@ const VoiceInput = ({ onSearch, onReset }: VoiceInputProps) => {
               </IconButton>
             )}
             <IconButton
+              sx={{ marginLeft: 1 }}
               aria-label="use voice recognition"
               onClick={isListening ? onRecordStop : onRecordStart}
               edge="end"
@@ -80,6 +79,7 @@ const VoiceInput = ({ onSearch, onReset }: VoiceInputProps) => {
             </IconButton>
             {inputHasValue() && (
               <IconButton
+                sx={{ marginLeft: 1 }}
                 aria-label="submit input for search"
                 onClick={() => onSearch(transcription)}
                 edge="end"
@@ -88,10 +88,9 @@ const VoiceInput = ({ onSearch, onReset }: VoiceInputProps) => {
               </IconButton>
             )}
           </InputAdornment>
-        }
-        label="Search via Speech"
-      />
-    </FormControl>
+        ),
+      }}
+    />
   );
 };
 

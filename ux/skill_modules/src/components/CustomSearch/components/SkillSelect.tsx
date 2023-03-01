@@ -1,73 +1,104 @@
-import { FormControl, TextField } from '@mui/material';
-import TreeSelect from 'mui-tree-select';
-import React, { useState } from 'react';
-import { Node, getParent } from './Tree';
+import { Autocomplete, TextField } from '@mui/material';
+import React, { SyntheticEvent, useState } from 'react';
 import VoiceInput from './VoiceInput';
 
-const initialSkills = [
-  new Node('All Skills', null, [
-    new Node('Trouble Code Search', 'TroubleCodeSearch'),
-    new Node('Material Incident Search', 'MaterialIncidentSearch'),
-    new Node('Remaining Useful Life', 'Lifetime'),
-  ]),
+const skillOptions = [
+  { title: 'Trouble Code Search', value: 'TroubleCodeSearch' },
+  { title: 'Material Incident Search', value: 'MaterialIncidentSearch' },
+  { title: 'Remaining Useful Life', value: 'Lifetime' },
 ];
 
 interface SkillSelectProps {
-  selectedSkill: string;
   onSkillChange: (value: string) => void;
 }
 
-export const SkillSelect = ({
-  selectedSkill,
-  onSkillChange,
-}: SkillSelectProps) => {
-  const [skillList, setSkillList] = useState<Node[]>(initialSkills);
-  const [errorMessage, setErrorMessage] = useState<string>('');
+interface SkillOptions {
+  title: string;
+  value: string;
+}
 
-  const getSkillChildren = (node: Node | null) =>
-    node === null ? skillList : node.children;
+export const SkillSelect = ({ onSkillChange }: SkillSelectProps) => {
+  const [noResult, setNoResult] = useState<boolean>(false);
+  const [skillValue, setSkillValue] = useState<string | null>('');
+  const [inputValue, setInputValue] = useState<string>('');
 
   const onSearchSkill = (value: string) => {
-    console.log(value);
-    let filteredSkills: Node[] = [];
+    setNoResult(false);
+    let filteredSkills: SkillOptions[] = [];
     const searchParams = value.split(' ');
-    if (skillList[0].children) {
-      //something is wrong here
-      filteredSkills = skillList[0].children.filter((skill) =>
-        searchParams.some((word) => skill.value.includes(word))
-      );
-    } else {
-      setErrorMessage('No items found');
-    }
-    console.log(filteredSkills);
+    const wordMatches: string[] = [];
+    filteredSkills = skillOptions.filter((skill) =>
+      searchParams.some((word) => {
+        const paramIncluded = skill.value
+          .toLowerCase()
+          .includes(word.toLowerCase());
+        if (paramIncluded && !wordMatches.includes(word))
+          wordMatches.push(word);
+        return paramIncluded;
+      })
+    );
+
     if (filteredSkills.length > 0) {
-      if (filteredSkills.length == 1) onSkillChange(filteredSkills[0].value);
-      setSkillList(filteredSkills);
+      if (filteredSkills.length == 1) {
+        onSkillChange(filteredSkills[0].value);
+        setSkillValue(filteredSkills[0].title);
+      }
+      setInputValue(wordMatches.join(' '));
     } else {
+      setNoResult(true);
       onResetSkills();
     }
   };
 
   const onResetSkills = () => {
-    setSkillList(initialSkills);
+    setSkillValue('');
+  };
+
+  const onAutocompleteSkillChange = (
+    event: SyntheticEvent<Element, Event>,
+    value: string | { title: string; value: string } | null
+  ) => {
+    if (value) {
+      if (typeof value === 'string') {
+        setSkillValue(value);
+        onSkillChange(value);
+      } else {
+        setSkillValue(value.title);
+        onSkillChange(value.value);
+      }
+    }
   };
 
   return (
     <>
-      <VoiceInput onSearch={onSearchSkill} onReset={onResetSkills} />
-      <FormControl fullWidth sx={{ mb: 3 }} error={errorMessage.length > 0}>
-        {skillList[0].children && (
-          <TreeSelect
-            getChildren={getSkillChildren}
-            getParent={getParent}
-            renderInput={(params) => <TextField {...params} label="Skill" />}
-            value={skillList[0].children.find(
-              (node) => node.value == selectedSkill
-            )}
-            onChange={(_, value) => onSkillChange(value ? value.value : '')}
-          />
-        )}
-      </FormControl>
+      <VoiceInput
+        onSearch={onSearchSkill}
+        onReset={onResetSkills}
+        noResult={noResult}
+      />
+      <Autocomplete
+        id="free-solo-voice-rec"
+        value={skillValue}
+        onChange={onAutocompleteSkillChange}
+        inputValue={inputValue}
+        onInputChange={(event, newInputValue) => {
+          setInputValue(newInputValue);
+        }}
+        selectOnFocus
+        clearOnBlur
+        renderInput={(params) => <TextField {...params} label="Skills" />}
+        getOptionLabel={(option) => {
+          // Value selected with enter, right from the input
+          if (typeof option === 'string') {
+            return option;
+          }
+          // Regular option
+          return option.title;
+        }}
+        renderOption={(props, option) => <li {...props}>{option.title}</li>}
+        options={skillOptions}
+        freeSolo
+      />
     </>
   );
 };
