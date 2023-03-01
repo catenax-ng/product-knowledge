@@ -1,0 +1,65 @@
+@prefix cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+cx:batchNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:BatchPart ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Lot_number> ;
+    skos:altLabel "lot number"@en ;
+    skos:prefLabel "Chargennummer"@de,
+        "Batch Number"@en ;
+    cx:consumer_role "bar" .
+
+cx:isInvolvedIn a owl:ObjectProperty ;
+    rdfs:domain cx:Action ;
+    rdfs:range cx:Process ;
+    skos:altLabel "feature-activity"@en ;
+    skos:definition "process-process relation"@en ;
+    skos:example "paying-shopping"@en ;
+    skos:note "part whole relation, meronomy"@en ;
+    skos:prefLabel "beteiligt in"@de,
+        "is involved in"@en ;
+    cx:consumer_role "foo" .
+
+cx:partId a owl:DatatypeProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Bauteil Id"@de,
+        "Part Id"@en .
+
+cx:Action a owl:Class ;
+    rdfs:seeAlso schema:Action ;
+    skos:altLabel "activity"@en ;
+    skos:definition "An action is an activity or movement that is done in order to achieve a goal."@en ;
+    skos:note "top level class"@en ;
+    skos:prefLabel "Handlung"@de,
+        "Action"@en .
+
+cx:BatchPart a owl:Class ;
+    rdfs:subClassOf cx:Part ;
+    skos:altLabel "lot part"@en ;
+    skos:definition "A part that has a unique batch number."@en ;
+    skos:note "unique physical object"@en ;
+    skos:prefLabel "Chargenbauteil"@de,
+        "Batch Part"@en .
+
+cx:Process a owl:Class ;
+    skos:definition "A process is a set of activities that interact to produce a result; it has inputs and outputs, and a sequence of steps that in some way transform the inputs into the outputs."@en ;
+    skos:note "top level class"@en ;
+    skos:prefLabel "Prozess"@de,
+        "Process"@en .
+
+cx:Part a owl:Class ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Bauteil_> ;
+    skos:altLabel "Komponente"@de,
+        "Teil"@de,
+        "component"@en ;
+    skos:definition "A part in the automotive context is a component of a vehicle, such as the engine, brakes, or transmission."@en ;
+    skos:note "non-physical object"@en ;
+    skos:prefLabel "Bauteil"@de,
+        "Part"@en .
+
