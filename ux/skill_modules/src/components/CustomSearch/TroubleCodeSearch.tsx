@@ -1,11 +1,12 @@
 import { Grid } from '@mui/material';
 import { Input, Button } from 'cx-portal-shared-components';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { CustomSearchProps } from '.';
 import { getConnectorFactory } from '../..';
 import { ChipData } from './components/ChipList';
 import KeywordInput from './components/KeywordInput';
 import VinInput from './components/VinInput';
+import { SearchContext } from './SearchContext';
 
 export default function TroubleCodeSearch({ onSearch }: CustomSearchProps) {
   const [searchVin, setSearchVin] = useState<string>('');
@@ -14,6 +15,8 @@ export default function TroubleCodeSearch({ onSearch }: CustomSearchProps) {
   const [chipData, setChipData] = useState<ChipData[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [disabledButton, setDisabledButton] = useState<boolean>(true);
+  const context = useContext(SearchContext);
+  const { options } = context;
 
   const onVinSearchChange = (value: string) => {
     setSearchVin(value);
@@ -28,6 +31,21 @@ export default function TroubleCodeSearch({ onSearch }: CustomSearchProps) {
       (hasNoValue(chipData) && hasNoValue(keywordInput));
     setDisabledButton(isDisabled);
   }, [searchVin, chipData, keywordInput, searchVersion]);
+
+  useEffect(() => {
+    console.log(options);
+    if (options.skill === 'TroubleCodeSearch') {
+      const matches = options.values.join(' ').match(/\b(P074|P067)\b/g);
+      const vins = Array.from(new Set(matches));
+      if (vins.length > 0) {
+        setSearchVin(vins[0]);
+        setSearchVersion('1');
+        setKeywordInput(
+          options.values.filter((opt) => opt != vins[0]).join(' ')
+        );
+      }
+    }
+  }, [options]);
 
   const onTroubleButtonClick = () => {
     setLoading(true);
