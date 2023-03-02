@@ -4,6 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import KeyboardVoiceIcon from '@mui/icons-material/KeyboardVoice';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
 import SearchIcon from '@mui/icons-material/Search';
+
 /* import recStart from './../../../sounds/recording-start.mp3';
 import recStop from './../../../sounds/recording-stop.mp3'; */
 
@@ -18,6 +19,9 @@ const VoiceInput = ({ onSearch, onReset, noResult }: VoiceInput) => {
   const SpeechRecognition =
     (window as any).SpeechRecognition ||
     (window as any).webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    return <div>Browser is not supporting speech recognition!</div>;
+  }
   const voiceRecorder = new SpeechRecognition();
   voiceRecorder.continuous = false;
   voiceRecorder.interimResults = true;
@@ -27,8 +31,9 @@ const VoiceInput = ({ onSearch, onReset, noResult }: VoiceInput) => {
       .map((result: any) => result[0])
       .map((result: any) => result.transcript)
       .join('');
-    setTranscription(transcript);
+    setTranscription(transcription + transcript);
   };
+
   const onRecordStart = () => {
     setIsListening(true);
     voiceRecorder.start();
