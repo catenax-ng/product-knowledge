@@ -7,7 +7,7 @@ const skillOptions = [
   {
     title: 'Trouble Code Search',
     value: 'TroubleCodeSearch',
-    regEx: /\b(trouble|code|codes|P074|P067)\b/g,
+    regEx: /\b(gearbox)\b/g,
   },
   {
     title: 'Material Incident Search',
@@ -17,7 +17,8 @@ const skillOptions = [
   {
     title: 'Remaining Useful Life',
     value: 'Lifetime',
-    regEx: /\b(life)\b/g,
+    regEx:
+      /[hH]ow long .* drive (?<vehicle>.+) when trouble codes? (?<trouble>[pP][0-9]{4})(?:(?:,| and) (?<trouble2>[pP][0-9]{4}))* occur?/gm,
   },
 ];
 
@@ -29,6 +30,7 @@ interface SkillOptions {
   title: string;
   value: string;
   regEx: RegExp;
+  regExResult?: RegExpExecArray;
 }
 
 export const SkillSelect = ({ onSkillChange }: SkillSelectProps) => {
@@ -40,19 +42,20 @@ export const SkillSelect = ({ onSkillChange }: SkillSelectProps) => {
 
   const onSearchSkill = (value: string) => {
     setNoResult(false);
-    const filteredSkills: SkillOptions[] = skillOptions.filter(
-      (skill) => hasSkillMatch(skill.regEx, value).length > 0
-    );
-    const wordMatches: string = filteredSkills
-      .map((skill) => hasSkillMatch(skill.regEx, value).join(' '))
-      .join(' ');
+    //add regEx result to skill and filter for existing matches
+    const filteredSkills: SkillOptions[] = skillOptions
+      .map((skill) => ({
+        ...skill,
+        regExResult: hasSkillMatch(skill.regEx, value),
+      }))
+      .filter((skill) => skill.regExResult.length > 0);
 
     if (filteredSkills.length > 0) {
       if (filteredSkills.length == 1) {
         const skill = filteredSkills[0];
         const options: SearchOptions = {
           skill: skill.value,
-          values: hasSkillMatch(skill.regEx, value),
+          values: getOptionValues(skill),
         };
         setOptions(options);
         onSkillChange(skill.value, options);
@@ -60,18 +63,34 @@ export const SkillSelect = ({ onSkillChange }: SkillSelectProps) => {
         setInputValue(skill.title);
       }
       //here we have more than one skill option -> what should be done here?
-      setInputValue(wordMatches);
     } else {
       setNoResult(true);
       onResetSkills();
     }
   };
 
-  const hasSkillMatch = (skillRegex: RegExp, sentence: string): string[] => {
-    const matches = sentence.match(skillRegex);
-    const keywords = Array.from(new Set(matches)); // remove duplicates
+  const hasSkillMatch = (
+    skillRegex: RegExp,
+    sentence: string
+  ): RegExpExecArray => {
+    const match = skillRegex.exec(sentence);
+    return match ? match : ({} as RegExpExecArray);
+  };
 
-    return keywords;
+  const getOptionValues = (skill: SkillOptions) => {
+    if (!skill.regExResult) return undefined;
+    if (skill.value === 'Lifetime') {
+      const codes: string[] = [];
+      if (skill.regExResult.groups) {
+        Object.entries(skill.regExResult.groups).forEach(([key, value]) => {
+          if (key.includes('trouble')) codes.push(value);
+        });
+      }
+      return {
+        vin: skill.regExResult.groups?.vehicle ? 'WBAAL31029PZ00001' : '',
+        codes: codes.join(' '),
+      };
+    }
   };
 
   const onResetSkills = () => {

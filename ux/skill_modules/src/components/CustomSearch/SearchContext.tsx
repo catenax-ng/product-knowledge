@@ -2,7 +2,13 @@ import { createContext } from 'react';
 
 export interface SearchOptions {
   skill: string;
-  values: string[];
+  values?: SearchOptionValues;
+}
+
+interface SearchOptionValues {
+  vin?: string;
+  codes?: string;
+  keywords?: string;
 }
 
 export interface SearchContextProps {

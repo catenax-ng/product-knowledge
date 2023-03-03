@@ -8,12 +8,14 @@ interface KeywordInputProps {
   placeholder: string;
   disabled: boolean;
   onChipChange: (value: ChipData[]) => void;
+  input: string;
 }
 export default function KeywordInput({
   onChange,
   placeholder,
   disabled,
   onChipChange,
+  input,
 }: KeywordInputProps) {
   const [chipData, setChipData] = useState<ChipData[]>([]);
   const [keywordInput, setKeywordInput] = useState<string>('');
@@ -35,6 +37,16 @@ export default function KeywordInput({
   useEffect(() => {
     onChange(keywordInput);
   }, [keywordInput]);
+
+  useEffect(() => {
+    if (input) {
+      if (input.includes(' ')) {
+        setChipData(input.split(' ').map((val, i) => ({ key: i, label: val })));
+      } else {
+        onKeywordInputChange(input);
+      }
+    }
+  }, [input]);
 
   useEffect(() => {
     onChipChange(chipData);

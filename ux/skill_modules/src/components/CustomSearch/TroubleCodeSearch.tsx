@@ -33,17 +33,11 @@ export default function TroubleCodeSearch({ onSearch }: CustomSearchProps) {
   }, [searchVin, chipData, keywordInput, searchVersion]);
 
   useEffect(() => {
-    console.log(options);
+    if (!options.values) return;
     if (options.skill === 'TroubleCodeSearch') {
-      const matches = options.values.join(' ').match(/\b(P074|P067)\b/g);
-      const vins = Array.from(new Set(matches));
-      if (vins.length > 0) {
-        setSearchVin(vins[0]);
-        setSearchVersion('1');
-        setKeywordInput(
-          options.values.filter((opt) => opt != vins[0]).join(' ')
-        );
-      }
+      if (options.values.vin) setSearchVin(options.values.vin);
+      setSearchVersion('1');
+      if (options.values.keywords) setKeywordInput(options.values.keywords);
     }
   }, [options]);
 
@@ -72,7 +66,7 @@ export default function TroubleCodeSearch({ onSearch }: CustomSearchProps) {
 
   return (
     <>
-      <Grid container spacing={1}>
+      <Grid container spacing={1} sx={{ mt: 2 }}>
         <Grid item xs={12} md={10}>
           <VinInput
             value={searchVin}
@@ -95,6 +89,7 @@ export default function TroubleCodeSearch({ onSearch }: CustomSearchProps) {
         placeholder="Enter a key word"
         disabled={loading}
         onChipChange={setChipData}
+        input={keywordInput}
       />
       <Button
         disabled={disabledButton || loading}

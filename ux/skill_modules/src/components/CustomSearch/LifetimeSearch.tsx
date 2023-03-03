@@ -1,12 +1,13 @@
 import { Box } from '@mui/material';
 import { Button } from 'cx-portal-shared-components';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useEffect, useState } from 'react';
 import { CustomSearchProps } from '.';
 import { getConnectorFactory } from '../..';
 import { ChipData } from './components/ChipList';
 import KeywordInput from './components/KeywordInput';
 import VinInput from './components/VinInput';
+import { SearchContext } from './SearchContext';
 
 export default function LifetimeSearch({ onSearch }: CustomSearchProps) {
   const [searchVin, setSearchVin] = useState<string>('');
@@ -14,6 +15,8 @@ export default function LifetimeSearch({ onSearch }: CustomSearchProps) {
   const [chipData, setChipData] = useState<ChipData[]>([]);
   const [disableButton, setDisableButton] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const context = useContext(SearchContext);
+  const { options } = context;
 
   const onVinSearchChange = (value: string) => {
     setSearchVin(value);
@@ -49,6 +52,14 @@ export default function LifetimeSearch({ onSearch }: CustomSearchProps) {
     });
   };
 
+  useEffect(() => {
+    if (options.values === undefined) return;
+    if (options.skill === 'Lifetime') {
+      if (options.values.vin) setSearchVin(options.values.vin);
+      if (options.values.codes) setKeywordInput(options.values.codes);
+    }
+  }, [options]);
+
   return (
     <>
       <Box mt={2} mb={3}>
@@ -63,6 +74,7 @@ export default function LifetimeSearch({ onSearch }: CustomSearchProps) {
         placeholder="Enter Trouble Codes"
         disabled={loading}
         onChipChange={setChipData}
+        input={keywordInput}
       />
       <Button
         disabled={disableButton || loading}
