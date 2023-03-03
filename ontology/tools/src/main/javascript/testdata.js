@@ -239,7 +239,7 @@ twins[wheel.catenaXId]=wheel;
 for(var id in twins){
     twin=twins[id];
     var name=twin["urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned"][0].partTypeInformation.nameAtManufacturer;
-    if(name.includes("Vehicle Model B")) { //} || name.includes("Vehicle Model C")) {
+    if(name.includes("Vehicle Model B") || name.includes("Vehicle Model C")) {
         var children=twin["urn:bamm:io.catenax.single_level_bom_as_planned:1.0.2#SingleLevelBomAsPlanned"][0].childParts;
         children.push( {
             "quantity" : {
