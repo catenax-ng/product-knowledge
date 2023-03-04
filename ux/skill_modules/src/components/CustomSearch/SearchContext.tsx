@@ -1,14 +1,19 @@
 import { createContext } from 'react';
+import { LatLng, LatLngTuple } from 'leaflet';
 
 export interface SearchOptions {
   skill: string;
   values?: SearchOptionValues;
+  zoom?: number;
 }
 
 interface SearchOptionValues {
   vin?: string;
   codes?: string;
   keywords?: string;
+  region?: number[];
+  center?: LatLngTuple;
+  material?: string;
 }
 
 export interface SearchContextProps {

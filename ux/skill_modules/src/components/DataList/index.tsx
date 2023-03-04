@@ -30,7 +30,7 @@ export const DataList = ({
   const tableTitle = `Results for ${search}`;
 
   const resultToColumns = (result: string[]): Array<GridColDef> => {
-    const columns: Array<GridColDef> = result.map((item) => ({
+    const columns: Array<GridColDef> = result.map((item, index) => ({
       field: item,
       flex: 2,
       renderCell: ({ row }: { row: Entry }) => {
@@ -52,7 +52,7 @@ export const DataList = ({
           </Tooltip>
         );
       },
-      hide: hiddenColums && hiddenColums.includes(item),
+      hide: (hiddenColums && hiddenColums.includes(item)) || (!hiddenColums && index>5),
     }));
     if (actions && actions.length > 0) {
       const actionColumn = {

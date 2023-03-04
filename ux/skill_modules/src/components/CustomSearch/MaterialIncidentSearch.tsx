@@ -10,11 +10,12 @@ import {
   Polyline,
 } from 'react-leaflet';
 import TreeSelect from 'mui-tree-select';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { getConnectorFactory } from '../..';
 import { getParent, Node } from './components/Tree';
 import { LatLng, LatLngTuple } from 'leaflet';
 import { CustomSearchProps } from '.';
+import { SearchContext } from './SearchContext';
 
 const materials = [
   new Node('Metals', null, [
@@ -35,7 +36,10 @@ const materials = [
   new Node('Non-Metals', null, [
     new Node('Plastics'),
     new Node('Glass'),
-    new Node('Rubber'),
+    new Node('Rubber', null, [
+        new Node('Natural Rubber'),
+        new Node('Synthetic Rubber'),
+    ]),
     new Node('Ceramics'),
     new Node('Wood'),
   ]),
@@ -52,15 +56,20 @@ const getMaterialChildren = (node: Node | null) =>
 export default function MaterialIncidentSearch({
   onSearch,
 }: CustomSearchProps) {
-  const [searchMaterial, setSearchMaterial] = useState<string>('');
-  const [geoFence, setGeoFence] = useState<number[]>([
+  const context = useContext(SearchContext);
+  const { options } = context;
+  const [searchMaterial, setSearchMaterial] = useState<string>(options.values?.material ?? '' );
+  const [geoFence, setGeoFence] = useState<number[]>(options.values?.region ?? [
     12.75, 74.75, 13.25, 75.25,
   ]);
-  const [results, setResults] = useState<LatLngTuple[]>([]);
+  const [ mapZoom, setMapZoom] = useState<number>(8);
+  const [ mapCenter, setMapCenter] = useState<LatLngTuple>(options.values?.center ?? [13,75]);
+  const [results, setResults] = useState<LatLngTuple[][]>([]);
   const [dragging, setDragging] = useState<boolean>(false);
   const [drag, setDrag] = useState<LatLng>();
   const [disabledButton, setDisabledButton] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
+  const colors = [ 'blue', 'green', 'red', 'yellow'];
 
   const onMaterialSearchChange = (value: string) => {
     setSearchMaterial(value);
@@ -85,49 +94,67 @@ export default function MaterialIncidentSearch({
     };
     const connector = getConnectorFactory().create();
     connector.execute('MaterialIncidentSearch', queryVars).then((result) => {
-      const poss: LatLngTuple[] = [];
+      const poss: LatLngTuple[][] = [];
       result.results.bindings.forEach((row) => {
+        const posss: LatLngTuple[] = [];
+        poss.push(posss);
         if (row.lat != undefined) {
           const pos: LatLngTuple = [
             parseFloat(row.lat.value),
-            parseFloat(row.lon.value),
+            parseFloat(row.lon!.value),
           ];
-          poss.push(pos);
+          posss.push(pos);
         }
         if (row.lat2 != undefined) {
           const pos2: LatLngTuple = [
             parseFloat(row.lat2.value),
-            parseFloat(row.lon2.value),
+            parseFloat(row.lon2!.value),
           ];
-          poss.push(pos2);
+          posss.push(pos2);
         }
         if (row.lat3 != undefined) {
           const pos3: LatLngTuple = [
             parseFloat(row.lat3.value),
-            parseFloat(row.lon3.value),
+            parseFloat(row.lon3!.value),
           ];
-          poss.push(pos3);
+          posss.push(pos3);
         }
         if (row.lat4 != undefined) {
           const pos4: LatLngTuple = [
             parseFloat(row.lat4.value),
-            parseFloat(row.lon4.value),
+            parseFloat(row.lon4!.value),
           ];
-          poss.push(pos4);
+          posss.push(pos4);
         }
         if (row.lat5 != undefined) {
           const pos5: LatLngTuple = [
             parseFloat(row.lat5.value),
-            parseFloat(row.lon5.value),
+            parseFloat(row.lon5!.value),
           ];
-          poss.push(pos5);
+          posss.push(pos5);
         }
       });
+      setMapZoom(2);
       onSearch(searchMaterial, 'sourcePart', result);
       setResults(poss);
       setLoading(false);
     });
   };
+
+  useEffect(() => {
+    if (options.values === undefined) return;
+    if (options.skill === 'MaterialIncidentSearch') {
+      if (options.values.region) {
+        setGeoFence(options.values.region);
+      }
+      if (options.values.center) {
+        setMapCenter(options.values.center);
+      }
+      if(options.values.material) {
+        setSearchMaterial(options.values.material)
+      }
+    }
+  }, [options]);
 
   const GeoFence = () => {
     const map = useMapEvents({
@@ -160,6 +187,11 @@ export default function MaterialIncidentSearch({
     );
   };
 
+  const findMaterial = function(value:Node | null | undefined) {
+    const material=searchMaterial;
+    return value && value.value == material;
+  };
+
   return (
     <>
       <Box mt={2} mb={2}>
@@ -167,9 +199,7 @@ export default function MaterialIncidentSearch({
           getChildren={getMaterialChildren}
           getParent={getParent}
           renderInput={(params) => <TextField {...params} label="Material" />}
-          value={allMaterials.find(
-            (node) => node && node.value == searchMaterial
-          )}
+          value={allMaterials.find( node => findMaterial(node))}
           onChange={(event, value) =>
             onMaterialSearchChange(value ? value.value : '')
           }
@@ -179,8 +209,8 @@ export default function MaterialIncidentSearch({
       <Box mt={1} mb={3}>
         <MapContainer
           dragging={dragging}
-          center={[13, 75]}
-          zoom={8}
+          center={mapCenter}
+          zoom={mapZoom}
           scrollWheelZoom={false}
         >
           <TileLayer
@@ -190,10 +220,18 @@ export default function MaterialIncidentSearch({
           <Pane name="fence" style={{ zIndex: 499 }}>
             <GeoFence />
           </Pane>
-          {results.map((tuple, index) => {
-            return <Marker key={index.toString()} position={tuple} />;
-          })}
-          <Polyline positions={results} />
+          {
+           results.flatMap((result, rindex) => {
+            return result.map((tuple, index) => {
+                return <Marker key={rindex.toString()+"#"+index.toString()} position={tuple} />;
+            });
+           })
+          }
+          {
+            results.flatMap((result,index) => {
+             return <Polyline positions={result} color={colors[index]} />
+            })
+          }
         </MapContainer>
       </Box>
       <Button

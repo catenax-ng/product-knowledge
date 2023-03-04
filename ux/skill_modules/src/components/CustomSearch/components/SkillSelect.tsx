@@ -2,6 +2,7 @@ import { Autocomplete, TextField } from '@mui/material';
 import React, { SyntheticEvent, useContext, useState } from 'react';
 import { SearchContext, SearchOptions } from '../SearchContext';
 import VoiceInput from './VoiceInput';
+import { LatLng, LatLngTuple } from 'leaflet';
 
 const skillOptions = [
   {
@@ -12,13 +13,13 @@ const skillOptions = [
   {
     title: 'Material Incident Search',
     value: 'MaterialIncidentSearch',
-    regEx: /\b(material)\b/g,
+    regEx: /[wW]hich products are affected by (?<material>.+) material produced in (?<region>.+)/gm,
   },
   {
     title: 'Remaining Useful Life',
     value: 'Lifetime',
     regEx:
-      /[hH]ow long .* drive (?<vehicle>.+) when trouble codes? (?<trouble>[pP][0-9]{4})(?:(?:,| and) (?<trouble2>[pP][0-9]{4}))* occur?/gm,
+      /[hH]ow (long|for) .* drive (?<vehicle>.+) when trouble codes? (?<trouble>[pP][0-9]{4})(?:(?:,| and) (?<trouble2>[pP][0-9]{4}))* occur.*/gm,
   },
 ];
 
@@ -89,6 +90,32 @@ export const SkillSelect = ({ onSkillChange }: SkillSelectProps) => {
       return {
         vin: skill.regExResult.groups?.vehicle ? 'WBAAL31029PZ00001' : '',
         codes: codes.join(' '),
+      };
+    } 
+    if (skill.value === 'MaterialIncidentSearch') {
+      var searchMaterial = skill.regExResult.groups!.material;
+      const arr = searchMaterial.split(" ");
+      for (var i = 0; i < arr?.length; i++) {
+        arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+      }
+      searchMaterial = arr.join(" ");
+      var searchRegion:[number,number,number,number] = [0,0,0,0];
+      var searchCenter:LatLngTuple = [0,0];
+      if(skill.regExResult.groups!.region.includes("southern")) {
+        searchRegion=[
+            7.5, 98, 8, 98.5,
+        ];
+        searchCenter=[7.75,98.25];
+      } else if(skill.regExResult.groups!.region.includes("east")) {
+        searchRegion=[
+            12.75, 74.75, 13.25, 75.25,
+        ];
+         searchCenter=[13,75];
+      }
+      return {
+        material: searchMaterial,
+        region: searchRegion,
+        center: searchCenter
       };
     }
   };
