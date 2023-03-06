@@ -2,7 +2,7 @@ import { Autocomplete, TextField } from '@mui/material';
 import React, { SyntheticEvent, useContext, useState } from 'react';
 import { SearchContext, SearchOptions } from '../SearchContext';
 import VoiceInput from './VoiceInput';
-import { LatLng, LatLngTuple } from 'leaflet';
+import { LatLngTuple } from 'leaflet';
 
 const skillOptions = [
   {
@@ -13,7 +13,8 @@ const skillOptions = [
   {
     title: 'Material Incident Search',
     value: 'MaterialIncidentSearch',
-    regEx: /[wW]hich products are affected by (?<material>.+) material produced in (?<region>.+)/gm,
+    regEx:
+      /[wW]hich products are affected by (?<material>.+) material produced in (?<region>.+)/gm,
   },
   {
     title: 'Remaining Useful Life',
@@ -91,31 +92,25 @@ export const SkillSelect = ({ onSkillChange }: SkillSelectProps) => {
         vin: skill.regExResult.groups?.vehicle ? 'WBAAL31029PZ00001' : '',
         codes: codes.join(' '),
       };
-    } 
-    if (skill.value === 'MaterialIncidentSearch') {
-      var searchMaterial = skill.regExResult.groups!.material;
-      const arr = searchMaterial.split(" ");
-      for (var i = 0; i < arr?.length; i++) {
-        arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
-      }
-      searchMaterial = arr.join(" ");
-      var searchRegion:[number,number,number,number] = [0,0,0,0];
-      var searchCenter:LatLngTuple = [0,0];
-      if(skill.regExResult.groups!.region.includes("southern")) {
-        searchRegion=[
-            7.5, 98, 8, 98.5,
-        ];
-        searchCenter=[7.75,98.25];
-      } else if(skill.regExResult.groups!.region.includes("east")) {
-        searchRegion=[
-            12.75, 74.75, 13.25, 75.25,
-        ];
-         searchCenter=[13,75];
+    }
+    if (skill.value === 'MaterialIncidentSearch' && skill.regExResult.groups) {
+      let searchMaterial = skill.regExResult.groups.material;
+      let arr = searchMaterial.split(' ');
+      arr = arr.map((noun) => noun.charAt(0).toUpperCase() + noun.slice(1));
+      searchMaterial = arr.join(' ');
+      let searchRegion: [number, number, number, number] = [0, 0, 0, 0];
+      let searchCenter: LatLngTuple = [0, 0];
+      if (skill.regExResult.groups.region.includes('southern')) {
+        searchRegion = [7.5, 98, 8, 98.5];
+        searchCenter = [7.75, 98.25];
+      } else if (skill.regExResult.groups.region.includes('east')) {
+        searchRegion = [12.75, 74.75, 13.25, 75.25];
+        searchCenter = [13, 75];
       }
       return {
         material: searchMaterial,
         region: searchRegion,
-        center: searchCenter
+        center: searchCenter,
       };
     }
   };

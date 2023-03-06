@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { LatLng, LatLngTuple } from 'leaflet';
+import { LatLngTuple } from 'leaflet';
 
 export interface SearchOptions {
   skill: string;

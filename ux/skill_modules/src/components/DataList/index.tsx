@@ -52,7 +52,9 @@ export const DataList = ({
           </Tooltip>
         );
       },
-      hide: (hiddenColums && hiddenColums.includes(item)) || (!hiddenColums && index>5),
+      hide:
+        (hiddenColums && hiddenColums.includes(item)) ||
+        (!hiddenColums && index > 5),
     }));
     if (actions && actions.length > 0) {
       const actionColumn = {

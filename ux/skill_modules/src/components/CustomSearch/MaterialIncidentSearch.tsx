@@ -37,8 +37,8 @@ const materials = [
     new Node('Plastics'),
     new Node('Glass'),
     new Node('Rubber', null, [
-        new Node('Natural Rubber'),
-        new Node('Synthetic Rubber'),
+      new Node('Natural Rubber'),
+      new Node('Synthetic Rubber'),
     ]),
     new Node('Ceramics'),
     new Node('Wood'),
@@ -58,18 +58,22 @@ export default function MaterialIncidentSearch({
 }: CustomSearchProps) {
   const context = useContext(SearchContext);
   const { options } = context;
-  const [searchMaterial, setSearchMaterial] = useState<string>(options.values?.material ?? '' );
-  const [geoFence, setGeoFence] = useState<number[]>(options.values?.region ?? [
-    12.75, 74.75, 13.25, 75.25,
-  ]);
-  const [ mapZoom, setMapZoom] = useState<number>(8);
-  const [ mapCenter, setMapCenter] = useState<LatLngTuple>(options.values?.center ?? [13,75]);
+  const [searchMaterial, setSearchMaterial] = useState<string>(
+    options.values?.material ?? ''
+  );
+  const [geoFence, setGeoFence] = useState<number[]>(
+    options.values?.region ?? [12.75, 74.75, 13.25, 75.25]
+  );
+  const [mapZoom, setMapZoom] = useState<number>(8);
+  const [mapCenter, setMapCenter] = useState<LatLngTuple>(
+    options.values?.center ?? [13, 75]
+  );
   const [results, setResults] = useState<LatLngTuple[][]>([]);
   const [dragging, setDragging] = useState<boolean>(false);
   const [drag, setDrag] = useState<LatLng>();
   const [disabledButton, setDisabledButton] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
-  const colors = [ 'blue', 'green', 'red', 'yellow'];
+  const colors = ['blue', 'green', 'red', 'yellow'];
 
   const onMaterialSearchChange = (value: string) => {
     setSearchMaterial(value);
@@ -98,38 +102,38 @@ export default function MaterialIncidentSearch({
       result.results.bindings.forEach((row) => {
         const posss: LatLngTuple[] = [];
         poss.push(posss);
-        if (row.lat != undefined) {
+        if (row.lat && row.lon) {
           const pos: LatLngTuple = [
             parseFloat(row.lat.value),
-            parseFloat(row.lon!.value),
+            parseFloat(row.lon.value),
           ];
           posss.push(pos);
         }
-        if (row.lat2 != undefined) {
+        if (row.lat2 && row.lon2) {
           const pos2: LatLngTuple = [
             parseFloat(row.lat2.value),
-            parseFloat(row.lon2!.value),
+            parseFloat(row.lon2.value),
           ];
           posss.push(pos2);
         }
-        if (row.lat3 != undefined) {
+        if (row.lat3 && row.lon3) {
           const pos3: LatLngTuple = [
             parseFloat(row.lat3.value),
-            parseFloat(row.lon3!.value),
+            parseFloat(row.lon3.value),
           ];
           posss.push(pos3);
         }
-        if (row.lat4 != undefined) {
+        if (row.lat4 && row.lon4) {
           const pos4: LatLngTuple = [
             parseFloat(row.lat4.value),
-            parseFloat(row.lon4!.value),
+            parseFloat(row.lon4.value),
           ];
           posss.push(pos4);
         }
-        if (row.lat5 != undefined) {
+        if (row.lat5 && row.lon5) {
           const pos5: LatLngTuple = [
             parseFloat(row.lat5.value),
-            parseFloat(row.lon5!.value),
+            parseFloat(row.lon5.value),
           ];
           posss.push(pos5);
         }
@@ -150,8 +154,8 @@ export default function MaterialIncidentSearch({
       if (options.values.center) {
         setMapCenter(options.values.center);
       }
-      if(options.values.material) {
-        setSearchMaterial(options.values.material)
+      if (options.values.material) {
+        setSearchMaterial(options.values.material);
       }
     }
   }, [options]);
@@ -187,8 +191,8 @@ export default function MaterialIncidentSearch({
     );
   };
 
-  const findMaterial = function(value:Node | null | undefined) {
-    const material=searchMaterial;
+  const findMaterial = function (value: Node | null | undefined) {
+    const material = searchMaterial;
     return value && value.value == material;
   };
 
@@ -199,7 +203,7 @@ export default function MaterialIncidentSearch({
           getChildren={getMaterialChildren}
           getParent={getParent}
           renderInput={(params) => <TextField {...params} label="Material" />}
-          value={allMaterials.find( node => findMaterial(node))}
+          value={allMaterials.find((node) => findMaterial(node))}
           onChange={(event, value) =>
             onMaterialSearchChange(value ? value.value : '')
           }
@@ -220,18 +224,19 @@ export default function MaterialIncidentSearch({
           <Pane name="fence" style={{ zIndex: 499 }}>
             <GeoFence />
           </Pane>
-          {
-           results.flatMap((result, rindex) => {
+          {results.flatMap((result, rindex) => {
             return result.map((tuple, index) => {
-                return <Marker key={rindex.toString()+"#"+index.toString()} position={tuple} />;
+              return (
+                <Marker
+                  key={rindex.toString() + '#' + index.toString()}
+                  position={tuple}
+                />
+              );
             });
-           })
-          }
-          {
-            results.flatMap((result,index) => {
-             return <Polyline positions={result} color={colors[index]} />
-            })
-          }
+          })}
+          {results.flatMap((result, index) => {
+            return <Polyline positions={result} color={colors[index]} />;
+          })}
         </MapContainer>
       </Box>
       <Button
