@@ -1,3 +1,10 @@
+//
+// Skill Module
+// See copyright notice in the top folder
+// See authors file in the top folder
+// See license file in the top folder
+//
+
 import { Autocomplete, TextField } from '@mui/material';
 import React, { SyntheticEvent, useContext, useState } from 'react';
 import { SearchContext, SearchOptions } from '../SearchContext';
@@ -21,6 +28,11 @@ const skillOptions = [
     value: 'Lifetime',
     regEx:
       /[hH]ow (long|far) .* drive (?<vehicle>.+) when trouble codes? (?<trouble>[pP][0-9]{4})(?:(?:,| and) (?<trouble2>[pP][0-9]{4}))* (occur|appear).*/gm,
+  },
+  {
+    title: 'Beer Search',
+    value: 'BeerSearch',
+    regEx: /[bB]ring me a beer.*/gm,
   },
 ];
 
@@ -85,7 +97,8 @@ export const SkillSelect = ({ onSkillChange }: SkillSelectProps) => {
       const codes: string[] = [];
       if (skill.regExResult.groups) {
         Object.entries(skill.regExResult.groups).forEach(([key, value]) => {
-          if (key.includes('trouble')) codes.push(value.charAt(0).toUpperCase()+value.slice(1));
+          if (key.includes('trouble'))
+            codes.push(value.charAt(0).toUpperCase() + value.slice(1));
         });
       }
       return {
@@ -100,10 +113,16 @@ export const SkillSelect = ({ onSkillChange }: SkillSelectProps) => {
       searchMaterial = arr.join(' ');
       let searchRegion: [number, number, number, number] = [0, 0, 0, 0];
       let searchCenter: LatLngTuple = [0, 0];
-      if (skill.regExResult.groups.region.includes('southern') || skill.regExResult.groups.region.includes('Southern')) {
+      if (
+        skill.regExResult.groups.region.includes('southern') ||
+        skill.regExResult.groups.region.includes('Southern')
+      ) {
         searchRegion = [7.5, 98, 8, 98.5];
         searchCenter = [7.75, 98.25];
-      } else if (skill.regExResult.groups.region.includes('east') || skill.regExResult.groups.region.includes('East')) {
+      } else if (
+        skill.regExResult.groups.region.includes('east') ||
+        skill.regExResult.groups.region.includes('East')
+      ) {
         searchRegion = [12.75, 74.75, 13.25, 75.25];
         searchCenter = [13, 75];
       }
@@ -111,6 +130,7 @@ export const SkillSelect = ({ onSkillChange }: SkillSelectProps) => {
         material: searchMaterial,
         region: searchRegion,
         center: searchCenter,
+        zoom: 8,
       };
     }
   };

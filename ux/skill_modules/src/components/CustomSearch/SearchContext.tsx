@@ -1,3 +1,10 @@
+//
+// Skill Module
+// See copyright notice in the top folder
+// See authors file in the top folder
+// See license file in the top folder
+//
+
 import { createContext } from 'react';
 import { LatLngTuple } from 'leaflet';
 
@@ -14,6 +21,7 @@ interface SearchOptionValues {
   region?: number[];
   center?: LatLngTuple;
   material?: string;
+  zoom?: number;
 }
 
 export interface SearchContextProps {

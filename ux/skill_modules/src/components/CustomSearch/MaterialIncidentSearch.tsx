@@ -1,3 +1,10 @@
+//
+// Skill Module
+// See copyright notice in the top folder
+// See authors file in the top folder
+// See license file in the top folder
+//
+
 import { Box, TextField } from '@mui/material';
 import { Button } from 'cx-portal-shared-components';
 import {
@@ -49,7 +56,16 @@ const materials = [
     new Node('FRP'),
   ]),
 ];
-const allMaterials = materials.flatMap((parent) => parent.children);
+const flatMaterials = function (node: Node): Node[] {
+  if (node.children) {
+    const subMaterials = node.children.flatMap((child) => flatMaterials(child));
+    subMaterials.push(node);
+    return subMaterials;
+  } else {
+    return [node];
+  }
+};
+const allMaterials = materials.flatMap(flatMaterials);
 const getMaterialChildren = (node: Node | null) =>
   node === null ? materials : node.children;
 
@@ -57,48 +73,38 @@ export default function MaterialIncidentSearch({
   onSearch,
 }: CustomSearchProps) {
   const context = useContext(SearchContext);
-  const { options } = context;
-  const [searchMaterial, setSearchMaterial] = useState<string>(
-    options.values?.material ?? ''
-  );
-  const [geoFence, setGeoFence] = useState<number[]>(
-    options.values?.region ?? [12.75, 74.75, 13.25, 75.25]
-  );
-  const [mapZoom, setMapZoom] = useState<number>(8);
-  const [mapCenter, setMapCenter] = useState<LatLngTuple>(
-    options.values?.center ?? [13, 75]
-  );
+  const { options, setOptions } = context;
   const [results, setResults] = useState<LatLngTuple[][]>([]);
   const [dragging, setDragging] = useState<boolean>(false);
-  const [drag, setDrag] = useState<LatLng>();
   const [disabledButton, setDisabledButton] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const colors = ['blue', 'green', 'red', 'yellow'];
 
-  const onMaterialSearchChange = (value: string) => {
-    setSearchMaterial(value);
-  };
-
-  const hasNoValue = (item: string | number[]) => item.length === 0;
+  const hasNoValue = (item: string | number[] | undefined) =>
+    !item || item.length === 0;
 
   useEffect(() => {
-    const isDisabled = hasNoValue(searchMaterial) || hasNoValue(geoFence);
+    const isDisabled =
+      hasNoValue(options.values?.material) ||
+      hasNoValue(options.values?.region);
     setDisabledButton(isDisabled);
-  }, [searchMaterial, geoFence]);
+  }, [options]);
 
   const onMaterialButtonClick = () => {
     setLoading(true);
     setDragging(false);
+    const searchMaterial = options.values?.material ?? 'unknown';
     const queryVars = {
       material: searchMaterial,
-      latmin: geoFence[0],
-      lonmin: geoFence[1],
-      latmax: geoFence[2],
-      lonmax: geoFence[3],
+      latmin: options.values!.region![0],
+      lonmin: options.values!.region![1],
+      latmax: options.values!.region![2],
+      lonmax: options.values!.region![3],
     };
     const connector = getConnectorFactory().create();
     connector.execute('MaterialIncidentSearch', queryVars).then((result) => {
       const poss: LatLngTuple[][] = [];
+      let coss: LatLngTuple | undefined;
       result.results.bindings.forEach((row) => {
         const posss: LatLngTuple[] = [];
         poss.push(posss);
@@ -107,12 +113,24 @@ export default function MaterialIncidentSearch({
             parseFloat(row.lat.value),
             parseFloat(row.lon.value),
           ];
+          if (!coss) {
+            coss = pos;
+          } else {
+            coss = [
+              pos[0] + (coss[0] - pos[0]) / 2,
+              pos[1] + (coss[1] - pos[1]) / 2,
+            ];
+          }
           posss.push(pos);
         }
         if (row.lat2 && row.lon2) {
           const pos2: LatLngTuple = [
             parseFloat(row.lat2.value),
             parseFloat(row.lon2.value),
+          ];
+          coss = [
+            pos2[0] + (coss![0] - pos2[0]) / 2,
+            pos2[1] + (coss![1] - pos2[1]) / 2,
           ];
           posss.push(pos2);
         }
@@ -121,12 +139,20 @@ export default function MaterialIncidentSearch({
             parseFloat(row.lat3.value),
             parseFloat(row.lon3.value),
           ];
+          coss = [
+            pos3[0] + (coss![0] - pos3[0]) / 2,
+            pos3[1] + (coss![1] - pos3[1]) / 2,
+          ];
           posss.push(pos3);
         }
         if (row.lat4 && row.lon4) {
           const pos4: LatLngTuple = [
             parseFloat(row.lat4.value),
             parseFloat(row.lon4.value),
+          ];
+          coss = [
+            pos4[0] + (coss![0] - pos4[0]) / 2,
+            pos4[1] + (coss![1] - pos4[1]) / 2,
           ];
           posss.push(pos4);
         }
@@ -135,32 +161,29 @@ export default function MaterialIncidentSearch({
             parseFloat(row.lat5.value),
             parseFloat(row.lon5.value),
           ];
+          coss = [
+            pos5[0] + (coss![0] - pos5[0]) / 2,
+            pos5[1] + (coss![1] - pos5[1]) / 2,
+          ];
           posss.push(pos5);
         }
       });
-      setMapZoom(2);
       onSearch(searchMaterial, 'sourcePart', result);
       setResults(poss);
+      options.values!.zoom = 1;
+      if (coss) {
+        options.values!.center = coss;
+      }
+      setOptions(options);
       setLoading(false);
     });
   };
 
-  useEffect(() => {
-    if (options.values === undefined) return;
-    if (options.skill === 'MaterialIncidentSearch') {
-      if (options.values.region) {
-        setGeoFence(options.values.region);
-      }
-      if (options.values.center) {
-        setMapCenter(options.values.center);
-      }
-      if (options.values.material) {
-        setSearchMaterial(options.values.material);
-      }
-    }
-  }, [options]);
-
   const GeoFence = () => {
+    const context = useContext(SearchContext);
+    const { options, setOptions } = context;
+    const [drag, setDrag] = useState<LatLng>();
+
     const map = useMapEvents({
       mousedown: (e) => {
         setDrag(e.latlng);
@@ -169,31 +192,51 @@ export default function MaterialIncidentSearch({
         if (drag) {
           const latdiff = e.latlng.lat - drag.lat;
           const londiff = e.latlng.lng - drag.lng;
-          setGeoFence([
-            geoFence[0] + latdiff,
-            geoFence[1] + londiff,
-            geoFence[2] + latdiff,
-            geoFence[3] + londiff,
-          ]);
+          options.values!.region = [
+            options.values!.region![0] + latdiff,
+            options.values!.region![1] + londiff,
+            options.values!.region![2] + latdiff,
+            options.values!.region![3] + londiff,
+          ];
+          options.values!.center = [
+            options.values!.center![0] + latdiff,
+            options.values!.center![1] + londiff,
+          ];
+          setOptions(options);
           setDrag(undefined);
-          const center = map.getCenter();
-          map.panTo([center.lat + latdiff, center.lng + londiff]);
         }
       },
     });
+
+    useEffect(() => {
+      map.setView(options.values!.center!, options.values!.zoom!, {
+        animate: true,
+        duration: 10,
+      });
+    }, [options]);
+
     return (
       <Rectangle
         bounds={[
-          [geoFence[0], geoFence[1]],
-          [geoFence[2], geoFence[3]],
+          [options.values!.region![0], options.values!.region![1]],
+          [options.values!.region![2], options.values!.region![3]],
         ]}
       />
     );
   };
 
   const findMaterial = function (value: Node | null | undefined) {
-    const material = searchMaterial;
+    const material = options.values?.material ?? 'unknown';
     return value && value.value == material;
+  };
+
+  const findMaterials = function () {
+    const material = allMaterials.find((node) => findMaterial(node));
+    return material;
+  };
+
+  const onMaterialSearchChange = (value: string) => {
+    options.values!.material = value;
   };
 
   return (
@@ -203,7 +246,7 @@ export default function MaterialIncidentSearch({
           getChildren={getMaterialChildren}
           getParent={getParent}
           renderInput={(params) => <TextField {...params} label="Material" />}
-          value={allMaterials.find((node) => findMaterial(node))}
+          value={findMaterials()}
           onChange={(event, value) =>
             onMaterialSearchChange(value ? value.value : '')
           }
@@ -213,8 +256,8 @@ export default function MaterialIncidentSearch({
       <Box mt={1} mb={3}>
         <MapContainer
           dragging={dragging}
-          center={mapCenter}
-          zoom={mapZoom}
+          center={options.values!.center!}
+          zoom={options.values!.zoom!}
           scrollWheelZoom={false}
         >
           <TileLayer

@@ -1,3 +1,10 @@
+//
+// Skill Module
+// See copyright notice in the top folder
+// See authors file in the top folder
+// See license file in the top folder
+//
+
 import React, { useEffect, useState } from 'react';
 import './styles.sass';
 import { GridRowModel } from '@mui/x-data-grid';
@@ -6,9 +13,10 @@ import { IconButton, Table } from 'cx-portal-shared-components';
 import Typography from '@mui/material/Typography';
 import { getConnectorFactory, Entry } from '../..';
 import EmptyResultBox from '../EmptyResultBox';
-import InsightsIcon from '@mui/icons-material/Insights';
+import DatasetLinkedIcon from '@mui/icons-material/DatasetLinked';
 import CatchingPokemonIcon from '@mui/icons-material/CatchingPokemon';
 import EastIcon from '@mui/icons-material/East';
+import WebAssetIcon from '@mui/icons-material/WebAsset';
 
 interface AssetViewProps {
   filter?: string;
@@ -70,8 +78,9 @@ export const AssetView = ({ filter, onShowOntologies }: AssetViewProps) => {
       headerName: 'Type',
       renderCell: ({ row }: { row: Entry }) => {
         const iconType = getRowValue(row, 'type').split('#').slice(-1)[0];
-        let value = <span>{iconType}</span>;
-        if (iconType === 'GraphAsset') value = <InsightsIcon color="success" />;
+        let value = <WebAssetIcon color="success" />;
+        if (iconType === 'GraphAsset')
+          value = <DatasetLinkedIcon color="success" />;
         if (iconType === 'SkillAsset')
           value = <CatchingPokemonIcon color="success" />;
         return <Tooltip title={iconType}>{value}</Tooltip>;

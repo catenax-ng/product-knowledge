@@ -1,3 +1,10 @@
+//
+// Skill Module
+// See copyright notice in the top folder
+// See authors file in the top folder
+// See license file in the top folder
+//
+
 import { CustomSearch, DataList } from '@catenax-ng/skill-modules';
 import { Typography } from 'cx-portal-shared-components';
 import { Grid } from '@mui/material';
@@ -31,7 +38,7 @@ export default function Search() {
         Perform Skill-Based Search
       </Typography>
       <Grid container justifyContent="center" spacing={3}>
-        <Grid item xs={5}>
+        <Grid item xs={8}>
           <CustomSearch onSearch={onSearch} />
         </Grid>
         {searchResult && (

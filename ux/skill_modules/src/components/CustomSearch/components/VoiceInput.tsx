@@ -1,3 +1,10 @@
+//
+// Skill Module
+// See copyright notice in the top folder
+// See authors file in the top folder
+// See license file in the top folder
+//
+
 import React, { useState } from 'react';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -58,7 +65,7 @@ const VoiceInput = ({ onSearch, onReset, noResult }: VoiceInput) => {
   return (
     <TextField
       fullWidth
-      sx={{ mb: 3, pl: 0 }}
+      sx={{ mb: 2, pl: 0 }}
       error={noResult}
       id="voice-search"
       label="Search via Speech"
