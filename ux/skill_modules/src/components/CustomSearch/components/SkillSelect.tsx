@@ -63,7 +63,6 @@ export const SkillSelect = ({ onSkillChange }: SkillSelectProps) => {
         regExResult: hasSkillMatch(skill.regEx, value),
       }))
       .filter((skill) => skill.regExResult.length > 0);
-
     if (filteredSkills.length > 0) {
       if (filteredSkills.length == 1) {
         const skill = filteredSkills[0];
@@ -87,7 +86,7 @@ export const SkillSelect = ({ onSkillChange }: SkillSelectProps) => {
     skillRegex: RegExp,
     sentence: string
   ): RegExpExecArray => {
-    const match = skillRegex.exec(sentence);
+    const match = new RegExp(skillRegex).exec(sentence);
     return match ? match : ({} as RegExpExecArray);
   };
 
