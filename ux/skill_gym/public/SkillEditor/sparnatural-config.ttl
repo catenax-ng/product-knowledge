@@ -48,7 +48,7 @@
            rdfs:range :Date ;
            <http://data.sparna.fr/ontologies/sparnatural-config-core#enableOptional> "true"^^xsd:boolean ;
            <http://data.sparna.fr/ontologies/sparnatural-config-core#sparqlString> "<http://dbpedia.org/ontology/birthDate>" ;
-           rdfs:label "birth date"@en ,
+           rdfs:label "productionDate"@en ,
                       "date de naissance"@fr .
 
 
@@ -154,7 +154,7 @@
            <http://data.sparna.fr/ontologies/sparnatural-config-core#enableOptional> "true"^^xsd:boolean ;
            <http://data.sparna.fr/ontologies/sparnatural-config-core#sparqlString> "<http://dbpedia.org/ontology/deathDate>" ;
            rdfs:label "année de décès"@fr ,
-                      "death year"@en .
+                      "disassemblyDate"@en .
 
 
 ###  http://ontologies.sparna.fr/sparnatural-demo-dbpedia#description
@@ -255,7 +255,7 @@
           <http://data.sparna.fr/ontologies/sparnatural-config-core#sparqlString> "<http://dbpedia.org/ontology/movement>" ;
           <http://data.sparna.fr/ontologies/sparnatural-config-datasources#datasource> <http://data.sparna.fr/ontologies/sparnatural-config-datasources#list_rdfslabel_count> ;
           rdfs:label "mouvement"@fr ,
-                     "movement"@en .
+                     "records"@en .
 
 :editeur rdf:type owl:ObjectProperty ;
           rdfs:subPropertyOf <http://data.sparna.fr/ontologies/sparnatural-config-core#LiteralListProperty> ;

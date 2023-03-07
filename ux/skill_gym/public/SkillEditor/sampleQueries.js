@@ -1,56 +1,26 @@
 var sampleQueries = {
 	"example.1" :
-{
-  "distinct": true,
-  "variables": [
-    "?this",
-    "?Museum_1",
-    "?Text_4"
-  ],
-  "defaultLang": "fr",
-  "order": null,
-  "branches": [
-    {
-      "line": {
-        "s": "?this",
-        "p": "http://ontologies.sparna.fr/sparnatural-demo-dbpedia#displayedAt",
-        "o": "?Museum_1",
-        "sType": "http://ontologies.sparna.fr/sparnatural-demo-dbpedia#Artwork",
-        "oType": "http://ontologies.sparna.fr/sparnatural-demo-dbpedia#Museum",
-        "values": []
-      },
-      "children": [
-        {
-          "line": {
-            "s": "?Museum_1",
-            "p": "http://ontologies.sparna.fr/sparnatural-demo-dbpedia#country",
-            "o": "?Country_2",
-            "sType": "http://ontologies.sparna.fr/sparnatural-demo-dbpedia#Museum",
-            "oType": "http://ontologies.sparna.fr/sparnatural-demo-dbpedia#Country",
-            "values": [
-              {
-                "label": "France (222)",
-                "uri": "http://fr.dbpedia.org/resource/France"
-              }
-            ]
-          },
-          "children": []
-        }
-      ]
-    },
-    {
-      "line": {
-        "s": "?this",
-        "p": "http://ontologies.sparna.fr/sparnatural-demo-dbpedia#description",
-        "o": "?Text_4",
-        "sType": "http://ontologies.sparna.fr/sparnatural-demo-dbpedia#Artwork",
-        "oType": "http://ontologies.sparna.fr/sparnatural-demo-dbpedia#Text",
-        "values": []
-      },
-      "children": []
-    }
-  ]
-},
+  {
+    "distinct": true,
+    "variables": [
+      "telematicsAsset",
+      "EquipmentManufacturer"
+    ],
+    "order": null,
+    "branches": [
+      {
+        "line": {
+          "s": "?telematicsAsset",
+          "p": "http://ontologies.sparna.fr/sparnatural-demo-dbpedia#author",
+          "o": "?EquipmentManufacturer",
+          "sType": "http://ontologies.sparna.fr/sparnatural-demo-dbpedia#Artwork",
+          "oType": "http://ontologies.sparna.fr/sparnatural-demo-dbpedia#Category",
+          "values": []
+        },
+        "children": []
+      }
+    ]
+  },
 	"example.2" :
 {
   "distinct": true,
@@ -71,7 +41,7 @@ var sampleQueries = {
         "oType": "http://ontologies.sparna.fr/sparnatural-demo-dbpedia#Movement",
         "values": [
           {
-            "label": "Impressionnisme (88)",
+            "label": "GearSet",
             "uri": "http://fr.dbpedia.org/resource/Impressionnisme"
           }
         ]
