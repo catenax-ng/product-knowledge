@@ -34,8 +34,6 @@ const VoiceInput = ({ onSearch, onReset, noResult }: VoiceInput) => {
   voiceRecorder.interimResults = true;
   voiceRecorder.lang = 'en-US';
   voiceRecorder.onresult = (event: any) => {
-    console.log('on result:');
-    console.log(event.results[0][0].transcript);
     const transcript = Array.from(event.results)
       .map((result: any) => result[0])
       .map((result: any) => result.transcript)
@@ -44,13 +42,11 @@ const VoiceInput = ({ onSearch, onReset, noResult }: VoiceInput) => {
   };
 
   const onRecordStart = () => {
-    console.log('onRecordStart:');
     setIsListening(true);
     voiceRecorder.start();
   };
 
   const onRecordStop = () => {
-    console.log('onRecordStop:');
     setIsListening(false);
     voiceRecorder.stop();
   };

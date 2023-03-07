@@ -16,6 +16,7 @@ export default function Search() {
   const [searchResult, setSearchResult] = useState<BindingSet>();
   const [search, setSearch] = useState<string>('');
   const [searchKey, setSearchKey] = useState<string>('');
+  const highlightedColumns = ['kmLeft', 'daysLeft', 'product', 'productName', 'vendor']
 
   const onSearch = (search: string, id: string, result: BindingSet) => {
     setSearch(search);
@@ -43,7 +44,7 @@ export default function Search() {
         </Grid>
         {searchResult && (
           <Grid item xs={12}>
-            <DataList search={search} id={searchKey} data={searchResult} />
+            <DataList search={search} id={searchKey} data={searchResult} hiddenColumsIndex={5} highlightedColumns={highlightedColumns} />
           </Grid>
         )}
       </Grid>

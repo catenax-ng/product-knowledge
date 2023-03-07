@@ -1,8 +1,13 @@
 import { BindingSet, Entry } from '@catenax-ng/skill-framework/dist/src';
-import { IconButton, Table } from 'cx-portal-shared-components';
+import { IconButton, Table, theme } from 'cx-portal-shared-components';
 import React from 'react';
-import { GridColDef, GridRowId, GridRowModel } from '@mui/x-data-grid';
-import { Tooltip } from '@mui/material';
+import {
+  GridColDef,
+  GridRowId,
+  GridRowModel,
+  GridCellParams,
+} from '@mui/x-data-grid';
+import { Box, Tooltip } from '@mui/material';
 import EmptyResultBox from '../EmptyResultBox';
 
 interface DataListProps {
@@ -11,6 +16,8 @@ interface DataListProps {
   data: BindingSet;
   actions?: Action[];
   hiddenColums?: string[];
+  hiddenColumsIndex?: number;
+  highlightedColumns?: string[];
 }
 
 interface Action {
@@ -26,11 +33,19 @@ export const DataList = ({
   data,
   actions,
   hiddenColums,
+  hiddenColumsIndex,
+  highlightedColumns,
 }: DataListProps) => {
   const tableTitle = `Results for ${search}`;
 
   const resultToColumns = (result: string[]): Array<GridColDef> => {
-    const columns: Array<GridColDef> = result.map((item, index) => ({
+    const filteredColumns = result.filter(
+      (item, index) =>
+        (hiddenColums && !hiddenColums.includes(item)) ||
+        (hiddenColumsIndex && index <= hiddenColumsIndex)
+    );
+
+    const columns: Array<GridColDef> = filteredColumns.map((item, index) => ({
       field: item,
       flex: 2,
       renderCell: ({ row }: { row: Entry }) => {
@@ -52,9 +67,6 @@ export const DataList = ({
           </Tooltip>
         );
       },
-      hide:
-        (hiddenColums && hiddenColums.includes(item)) ||
-        (!hiddenColums && index > 5),
     }));
     if (actions && actions.length > 0) {
       const actionColumn = {
@@ -91,14 +103,32 @@ export const DataList = ({
   return (
     <>
       {data.results.bindings.length > 0 ? (
-        <Table
-          density="compact"
-          title={tableTitle}
-          rowsCount={data.results.bindings.length}
-          columns={resultToColumns(data.head.vars)}
-          rows={data.results.bindings}
-          getRowId={rowId}
-        />
+        <Box
+          sx={{
+            '& .highlighted': {
+              backgroundColor: '#b9d5ff91',
+              fontWeight: 'bold',
+            },
+          }}
+        >
+          <Table
+            density="compact"
+            title={tableTitle}
+            rowsCount={data.results.bindings.length}
+            columns={resultToColumns(data.head.vars)}
+            rows={data.results.bindings}
+            getRowId={rowId}
+            getCellClassName={(params: GridCellParams<number>) => {
+              if (
+                highlightedColumns &&
+                highlightedColumns.includes(params.field)
+              ) {
+                return 'highlighted';
+              }
+              return '';
+            }}
+          />
+        </Box>
       ) : (
         <EmptyResultBox />
       )}
