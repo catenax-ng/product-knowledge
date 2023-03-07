@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title >Skill Editor</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Open+Sans:300,300i,400,400i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <!-- Sparnatural-specific -->
+
+    <!-- Vis.js for timeline -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css">
+
+    <!-- Font Awesome -->    
+    <link rel="stylesheet" href="assets/fa6/css/all.min.css" />
+
+    <!-- YASGUI CSS -->
+    <link href="https://unpkg.com/@triply/yasgui/build/yasgui.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- datepicker -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@chenfengyuan/datepicker@1.0.9/dist/datepicker.min.css">
+
+    <!-- Sparnatural CSS -->
+    <link href="sparnatural.css" rel="stylesheet" />
+    <!-- Timeline CSS -->
+    <link rel="stylesheet" href="assets/css/timeline.css" />
+
+    <style>
+      .yasqe .CodeMirror {
+        font-size: 0.8em;
+      }
+
+      #sparnatural-section {
+        padding-top: 5px;
+        height: auto;
+        overflow: visible;
+      }
+
+      #sparnatural-container {
+
+      }
+
+      #yasqe {
+        display: none;
+      }
+
+      #yasr-section {
+        
+      }
+
+      #contact {
+        margin-top:40px;
+        padding: 0px;
+        padding-top: 20px;
+      }
+
+    </style>
+
+  <!-- /Sparnatural-specific -->
+
+</head>
+
+<body>
+    <!-- ======= Sparnatural Section ======= -->
+    <section id="sparnatural-section">
+      <div class="container">
+
+        <div class="row" style="padding-bottom:10px;">
+          <div class="col-md-6">
+            <form>
+              <div class="form-group">
+                <select class="form-control" style="width:100%; appearance: auto !important;" id="select-examples">
+                  <option value="none" data-i18n="example.placeholder" selected></option>
+                  <option value="example.1" data-i18n="example.1.title"></option>
+                  <option value="example.2" data-i18n="example.2.title"></option>
+                </select>
+              </div>
+            </form>
+          </div>
+
+          <div class="col-md-6">
+            <div style="text-align:right;">
+              <span style="font-size:90%; font-style: italic;"> 
+                <span data-i18n="endpoint.querying"></span> <a id="endpoint" href="...">...</a> 
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row" style="font-style: italic; font-size:0.9em;">
+          <a href="#" id="tutorial"><i id="sparql-toggle-icon" class="fad fa-question fa-fw"></i>&nbsp; <span data-i18n="tutorial"></a>
+        </div>
+
+        <!-- This is where Sparnatural is inserted -->
+        <div class="row">
+
+          <spar-natural 
+            src="sparnatural-config.ttl"
+            endpoint="https://knowledge.dev.demo.catena-x.net/consumer-edc-data/BPNL00000003CQI9/api/agent"
+            lang="en"
+            distinct="true"
+            limit="1000"
+            debug="true"
+          ></spar-natural>
+
+          <input type="hidden" id="query-json"></input>
+        </div>
+
+        <!-- -->
+        <div class="row">
+          <div style="font-style: italic; font-size:0.9em;">
+            <a href="#" id="sparql-toggle"><i id="sparql-toggle-icon" class="fad fa-eye fa-fw"></i>&nbsp; <span data-i18n="actions.toggle"></span></a>
+            &nbsp;|&nbsp;
+            <a href="#" id="share"><i id="share-icon" class="fad fa-share-square"></i>&nbsp; <span data-i18n="actions.share"></span></a>
+            &nbsp;|&nbsp;
+            <a href="#" id="export"><i id="export-icon" class="fad fa-file-export"></i>&nbsp; <span data-i18n="actions.export"></span></a>
+            &nbsp;|&nbsp;
+            <a href="#" id="import"><i id="import-icon" class="fad fa-file-import"></i>&nbsp; <span data-i18n="actions.import"></span></a>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Sparnatural Section -->
+
+    <!-- ======= YASQE Section ======= -->
+    <section id="yasqe-section">
+      <div class="container">
+
+        <div id="yasqe" style="display:none; " />
+
+      </div>
+    </section>
+    <!-- End YASQE Section -->
+
+    <!-- ======= YASR Section ======= -->
+    <section id="yasr-section">
+      <div class="container">
+
+        <div id="yasr">
+          
+
+        </div>
+
+      </div>
+    </section><!-- End YASR Section -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="shareModalLabel" data-i18n="share.modal.title"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" style="overflow:hidden;">
+          <a id="share-link" href="#"></a>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="share.modal.close"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="jsonModelLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="jsonModelLabel" data-i18n="export.modal.title"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" style="overflow:hidden;">
+          <textarea class="form-control" rows="20" id="export-json" style="width:100%" readonly="readonly"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="export.modal.close"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="jsonModelLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="jsonModelLabel" data-i18n="import.modal.title"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" style="overflow:hidden;">
+          <textarea class="form-control" rows="20" id="import-json" style="width:100%"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="importButton" data-i18n="import.modal.import"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </main><!-- End #main -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-chevron-up"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/demo.js"></script>
+  <script src="sampleQueries.js"></script>
+
+  <!-- Sparnatural-specific -->
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <!-- datepicker -->
+    <script src="https://cdn.jsdelivr.net/npm/@chenfengyuan/datepicker@1.0.9/dist/datepicker.min.js"></script>
+
+    <!-- YASGUI stuff -->
+    <script src="https://unpkg.com/@triply/yasgui/build/yasgui.min.js"></script>
+
+    <!-- vis.js for the timeline -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+    <!--  defines timeline plugin -->
+    <script src='assets/js/timeline.js'></script>
+    <script src='assets/js/myTable.js'></script>
+
+    <!-- Sparnatural Javascript -->
+    <script type="text/javascript" src="./sparnatural.js"></script>
+    <script type="text/javascript" src="./sparnatural-yasgui-plugins.js"></script>
+
+  <!-- /Sparnatural-specific -->
+
+  <!-- i18n -->
+  <script src="assets/vendor/jquery.i18n/jquery.i18n.js"></script>
+  <script src="assets/vendor/jquery.i18n/jquery.i18n.messagestore.js"></script>
+  <script src="assets/vendor/jquery.i18n/jquery.i18n.fallbacks.js"></script>
+  <script src="assets/vendor/jquery.i18n/jquery.i18n.language.js"></script>
+  <script src="assets/vendor/jquery.i18n/jquery.i18n.parser.js"></script>
+  <script src="assets/vendor/jquery.i18n/jquery.i18n.emitter.js"></script>
+
+  <!-- Json url (Compression) -->
+  <script src="https://cdn.jsdelivr.net/gh/masotime/json-url@master/dist/browser/json-url.js"></script>
+
+  <!-- Sheperd -->
+  <script src="https://cdn.jsdelivr.net/npm/shepherd.js@8.3.1/dist/js/shepherd.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shepherd.js@8.3.1/dist/css/shepherd.css"/>
+  <script src="tutorial.js"></script>
+
+    <script>
+      $.urlParam = function(name){
+        var results = new RegExp('[\\?&amp;]' + name + '=([^&amp;#]*)').exec(window.location.href);
+        if(results == null) { return null; }
+        return results[1] || 0;
+      }
+      var lang = ($.urlParam('lang') != null)?$.urlParam('lang'):'fr';
+
+      // set the locale
+      $.i18n( { locale: lang } );  
+      $.i18n().load( {
+          'en': {
+            'page.title': 'Sparnatural Museums',
+            'menu.home': 'Sparnatural',
+            'menu.lang': 'Lang.',
+            'menu.github': 'Github',
+            'endpoint.querying': 'Querying',
+            'actions.toggle': 'Toggle SPARQL editor',
+            'actions.share': 'Share',            
+            'actions.export': 'Export query in JSON',
+            'actions.import': 'Import query in JSON',
+            'tutorial': 'First time here ? watch the tutorial !',
+            'share.modal.title': 'Direct query link',
+            'share.modal.close': 'Close',
+            'export.modal.title': 'Query as JSON',
+            'export.modal.close': 'Close',
+            'import.modal.title': 'Query as JSON',
+            'import.modal.import': 'Import',
+            'example.placeholder': 'Load Skill...',
+            'example.1.title': 'Remaining Useful Life',
+            'example.2.title': 'Search Telematics'
+          },
+          'fr': {
+            'page.title': 'Sparnatural : Musées',
+            'menu.home': 'Sparnatural',
+            'menu.lang': 'Lang.',
+            'menu.github': 'Github',
+            'endpoint.querying': 'Service SPARQL:',
+            'actions.toggle': 'Afficher/Masquer éditeur SPARQL',
+            'actions.share': 'Partager',            
+            'actions.export': 'Exporter la requête en JSON',
+            'actions.import': 'Charger une requête en JSON',
+            'tutorial': 'Vous ne savez pas comment commencer ? cliquez ici pour être guidé !',
+            'share.modal.title': 'Lien direct vers la requête',
+            'share.modal.close': 'Fermer',
+            'export.modal.title': 'Requête JSON',
+            'export.modal.close': 'Fermer',
+            'import.modal.title': 'Charger une requête en JSON',
+            'import.modal.import': 'Charger',
+            'example.placeholder': 'Charger une requête d\'exemple...',
+            'example.1.title': 'Toutes les Oeuvres exposées dans un musée français, avec leur nom et description',
+            'example.2.title': 'Tous les peintres impressionnistes avec leur date de naissance, triés par date'
+          }
+      } );  
+      $('body').i18n();
+
+      const sparnatural = document.querySelector("spar-natural");
+
+      if(lang == "en") { 
+        sparnatural.setAttribute("lang", "en");
+      }
+
+      // prints the endpoint
+      $('#endpoint').attr("href", sparnatural.getAttribute("endpoint"));
+      $('#endpoint').html(sparnatural.getAttribute("endpoint"));
+
+      sparnatural.addEventListener("queryUpdated", (event) => {
+        queryString = sparnatural.expandSparql(event.detail.queryString);
+        $('#sparql code').html(queryString.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"));
+        yasqe.setValue(queryString);
+
+        // save query
+        document.getElementById('query-json').value = JSON.stringify(event.detail.queryJson);
+
+        // When click on select2 for Sheperd tour
+        if (StepToWait3 != null && StepToWait3.isOpen()){
+          Shepherd.activeTour.next();
+        }
+      });
+
+      sparnatural.addEventListener("submit", (event) => {
+        // enable loader on button
+        sparnatural.disablePlayBtn() ; 
+        // trigger the query from YasQE
+        yasqe.query();
+      });
+
+      sparnatural.addEventListener("reset", (event) => {
+        yasqe.setValue("");
+      });
+
+      // load ?query= param if present
+      var UrlString = window.location.search;
+      var urlParams = new URLSearchParams(UrlString);
+      if (urlParams.has("query") === true) {
+        var compressedJson = urlParams.get("query") ;
+        var compressCodec = JsonUrl('lzma');
+        compressCodec.decompress(compressedJson).then(json => {
+          sparnatural.loadQuery(JSON.parse(json)) ;
+        });
+      }      
+
+      const yasqe = new Yasqe(document.getElementById("yasqe"), {
+        requestConfig: { 
+          endpoint: $('#endpoint').text(),
+          method: "GET",
+          header: {}
+        },
+        copyEndpointOnNewTab: false  
+      });
+
+      Yasr.registerPlugin("LabelledUriTable",SparnaturalYasguiPlugins.TableX);
+      Yasr.registerPlugin("Timeline",Timeline);
+      Yasr.plugins.LabelledUriTable.defaults.labelledUriAdapter = function(uri) {
+        if(uri.startsWith("http://fr.dbpedia.org/resource/")) {
+          return "http://fr.wikipedia.org/wiki/" + uri.substring("http://fr.dbpedia.org/resource/".length);
+        } else {
+          return uri;
+        }
+      };
+      delete Yasr.plugins['table'];
+      delete Yasr.plugins['response'];
+      const yasr = new Yasr(document.getElementById("yasr"), {
+        pluginOrder: ["LabelledUriTable", "Timeline"],
+        // disable persistency
+        persistencyExpire: 0,
+        maxPersistentResponseSize: 0
+      });
+
+      // link yasqe and yasr
+      yasqe.on("queryResponse", function(_yasqe, response, duration) {
+        yasr.setResponse(response, duration);
+        sparnatural.enablePlayBtn();
+      });
+
+      document.getElementById('sparql-toggle').onclick = function() {
+        if(document.getElementById('yasqe').style.display == 'none') {
+          document.getElementById('yasqe').style.display = 'block';
+          yasqe.setValue(yasqe.getValue());
+          yasqe.refresh();
+          document.getElementById('sparql-toggle-icon').className = 'fad fa-eye-slash fa-fw';
+        } else {
+          document.getElementById('yasqe').style.display = 'none';
+          document.getElementById('sparql-toggle-icon').className = 'fad fa-eye fa-fw';
+        }
+        return false;        
+      } ;
+
+      document.getElementById('share').onclick = function() {
+        var compressCodec = JsonUrl('lzma');
+        compressCodec.compress(document.getElementById('query-json').value).then(result => {
+          var url = window.location.pathname;
+          url += '?query='+result ;
+          $('#share-link').text(url);
+          $('#share-link').attr('href', url);
+          $('#shareModal').modal('show');
+        });
+      }
+        
+      document.getElementById('export').onclick = function() {
+          var jsonString = JSON.stringify(
+              JSON.parse(document.getElementById('query-json').value),
+              null,
+              2
+            );
+          $('#export-json').val(jsonString);
+          $('#exportModal').modal('show');       
+      } 
+
+      document.getElementById('import').onclick = function() {
+          $('#importModal').modal('show');       
+      } 
+
+      document.getElementById('importButton').onclick = function() {
+          var json = JSON.parse($('#import-json').val());
+          $('#importModal').modal('hide');  
+          sparnatural.loadQuery(json);    
+      } 
+
+      document.getElementById('select-examples').onchange = function() {
+        var key = $('#select-examples option:selected').val();
+        if(sampleQueries.hasOwnProperty(key)) {
+            sparnatural.loadQuery(sampleQueries[key]) ;
+        }
+      }
+
+      document.getElementById('tutorial').onclick = function() {
+        sparnatural.clear();
+        initTour();
+      }
+
+    </script>
+  </script>
+
+
+</body>
+
+</html>
