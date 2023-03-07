@@ -23,9 +23,10 @@
     <properties>
     </properties>
     <modules>
-        <module>agents</module>
-        <module>edc</module>
-        <module>mock</module>
         <module>virtualize</module>
+        <module>mock</module>
+        <module>agents</module>
+        <module>aas-bridge</module>
+        <module>edc</module>
     </modules>
 </project>

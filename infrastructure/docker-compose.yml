@@ -114,6 +114,26 @@ services:
       - ./oem/resources/logback.xml:/opt/ontop/log/logback.xml
 
   #
+  # Configures the AAS bridge
+  #
+  aas-bridge:
+    build:
+      dockerfile: src/main/docker/Dockerfile
+      context: ../dataspace/aas-bridge
+      args:
+        JAR: target/aas-bridge.jar
+        LIB: target/lib
+    image: ghcr.io/catenax-ng/product-knowledge/aas-bridge:0.8.1-SNAPSHOT
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
+    ports:
+      - "8700:8080" # AAS-API
+      - "4047:4040" # DEBUG
+    environment:
+      # Uncomment to enable for debugging, please choose a different port for each endpoint
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
+    #volumes:
+
+  #
   # Configures the oem control plane (provider)
   #
   oem-control-plane:
