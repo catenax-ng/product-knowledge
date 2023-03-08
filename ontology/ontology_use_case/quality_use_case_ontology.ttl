@@ -1,0 +1,104 @@
+@prefix cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+cx:CxOntology a owl:Ontology ;
+    dc:description "Diagnostic error codes are linked to data from internal quality tools to provide new insights." ;
+    dc:identifier "id_1" ;
+    dc:rights "foo, bar" ;
+    dc:title "Quality" .
+
+cx:hasEffect a owl:ObjectProperty ;
+    rdfs:domain cx:Error ;
+    rdfs:range cx:ErrorEffect ;
+    skos:prefLabel "has effect"@en ;
+    cx:consumer_role "foo" ;
+    cx:provider_role "bar" .
+
+cx:hasPossibleCause a owl:ObjectProperty ;
+    rdfs:domain cx:DiagnosticTroubleCode ;
+    rdfs:range cx:PossibleCause ;
+    skos:prefLabel "has possible cause"@en ;
+    cx:consumer_role "foo" ;
+    cx:provider_role "bar" .
+
+cx:hasSolution a owl:ObjectProperty ;
+    rdfs:domain cx:Error ;
+    rdfs:range cx:ErrorSolution ;
+    skos:prefLabel "has solution"@en ;
+    cx:consumer_role "foo" ;
+    cx:provider_role "bar" .
+
+cx:isCausedBy a owl:ObjectProperty ;
+    rdfs:domain cx:Error ;
+    rdfs:range cx:ErrorCause ;
+    skos:prefLabel "is caused by"@en ;
+    cx:consumer_role "foo" ;
+    cx:provider_role "bar" .
+
+cx:isReasonOf a owl:ObjectProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:range cx:PossibleCause ;
+    skos:prefLabel "is reason of"@en ;
+    cx:consumer_role "foo" ;
+    cx:provider_role "bar" .
+
+cx:DiagnosticTroubleCode a owl:Class ;
+    rdfs:seeAlso <https://www.wikidata.org/wiki/Q5525576> ;
+    skos:altLabel "Fehlercode"@de,
+        "DTC"@en,
+        "diagnostic trouble code"@en,
+        "error code"@en,
+        "trouble code"@en ;
+    skos:note "ISO 15031-6, SAE J2012"@en ;
+    skos:prefLabel "Fehlercode"@de,
+        "Diagnostic Trouble Code"@en ;
+    cx:has_domain "diagnosis_ontology" .
+
+cx:ErrorEffect a owl:Class ;
+    skos:prefLabel "Fehlerfolge"@de,
+        "Error Effect"@en ;
+    cx:has_domain "error_ontology" .
+
+cx:ErrorSolution a owl:Class ;
+    skos:note "how"@en ;
+    skos:prefLabel "Fehlerlösung"@de,
+        "Error Solution"@en ;
+    cx:has_domain "error_ontology" .
+
+cx:Part a owl:Class ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Bauteil_> ;
+    skos:altLabel "Komponente"@de,
+        "Teil"@de,
+        "component"@en ;
+    skos:definition "A part in the automotive context is a component of a vehicle, such as the engine, brakes, or transmission."@en ;
+    skos:note "non-physical object"@en ;
+    skos:prefLabel "Bauteil"@de,
+        "Part"@en ;
+    cx:has_domain "part_ontology" .
+
+cx:ErrorCause a owl:Class ;
+    skos:note "why"@en ;
+    skos:prefLabel "Fehlerursache"@de,
+        "Error Cause"@en ;
+    cx:has_domain "error_ontology" .
+
+cx:PossibleCause a owl:Class ;
+    rdfs:subClassOf cx:ErrorCause ;
+    skos:prefLabel "Possible Cause"@en ;
+    cx:has_domain "diagnosis_ontology" .
+
+cx:Error a owl:Class ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Error> ;
+    skos:altLabel "defect"@en,
+        "failure"@en,
+        "fault"@en,
+        "trouble"@en ;
+    skos:definition "deviation from the expected result"@en ;
+    skos:note "what"@en ;
+    skos:prefLabel "Fehler"@de,
+        "Error"@en ;
+    cx:has_domain "error_ontology" .
+
