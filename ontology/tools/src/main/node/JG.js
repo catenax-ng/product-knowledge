@@ -126,7 +126,7 @@ exports.writeTestFile = function(fileName,object) {
     console.log("Exporting "+partitions[i].length+" objects into "+targetName);
 
     // convert JSON object to a string
-    writeFile(targetName,partitions[i]);
+    exports.writeFile(targetName,partitions[i]);
   }
 };
 
