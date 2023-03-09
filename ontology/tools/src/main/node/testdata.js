@@ -37,8 +37,8 @@ for(var id in twins){
     var materialName=JG.loremIpsum({units: 'words', count: 1});
     var materialClass=JG.materialClass();
     if(part!= undefined && part.length>0 && part[0].partTypeInformation.nameAtManufacturer.includes('Cathode')) {
-        materialName='Automotive Cell Cathode Material',
-        materialClass='CathodeMaterial_LithiumNickelManganeseCobaltOxides'
+        materialName='Automotive Cell Cathode Material';
+        materialClass='CathodeMaterial_LithiumNickelManganeseCobaltOxides';
     }
     twin["urn:bamm:io.catenax.material_for_recycling:1.1.0#MaterialForRecycling"] = [ {
         "materialName" : materialName,
