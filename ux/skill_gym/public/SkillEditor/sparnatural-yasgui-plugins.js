@@ -264,7 +264,7 @@ module.exports = function (url, options) {
 
 
   if (/["'() \t\n]|(%20)/.test(url) || options.needQuotes) {
-    return "\"".concat(url.replace(/"/g, '\\"').replace(/\n/g, "\\n"), "\"");
+    return "\"".concat(url.replaceAll('"', '\\"').replaceAll('\n', '\\n'), "\"");
   }
 
   return url;
@@ -1796,7 +1796,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1
 	
 	
 	var _stripHtml = function ( d ) {
-		return d.replace( _re_html, '' );
+		return d.replaceAll( _re_html, '' );
 	};
 	
 	
@@ -4829,7 +4829,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1
 					word = m ? m[1] : word;
 				}
 	
-				return word.replace('"', '');
+				return word.replaceAll('"', '');
 			} );
 	
 			search = '^(?=.*?'+a.join( ')(?=.*?' )+').*$';
@@ -6168,8 +6168,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1
 	
 		for ( var i=0, ien=settings.aoData.length ; i<ien ; i++ ) {
 			s = _fnGetCellData( settings, i, colIdx, 'display' )+'';
-			s = s.replace( __re_html_remove, '' );
-			s = s.replace( /&nbsp;/g, ' ' );
+			s = s.replaceAll( __re_html_remove, '' );
+			s = s.replaceAll( /&nbsp;/g, ' ' );
 	
 			if ( s.length > max ) {
 				max = s.length;
@@ -6419,7 +6419,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1
 		{
 			var col = columns[i];
 			var asSorting = col.asSorting;
-			var sTitle = col.ariaTitle || col.sTitle.replace( /<.*?>/g, "" );
+			var sTitle = col.ariaTitle || col.sTitle.replaceAll( /<.*?>/g, "" );
 			var th = col.nTh;
 	
 			// IE7 is throwing an error when setting these properties with jQuery's
@@ -15258,8 +15258,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1
 		"html-pre": function ( a ) {
 			return _empty(a) ?
 				'' :
-				a.replace ?
-					a.replace( /<.*?>/g, "" ).toLowerCase() :
+				a.replaceAll ?
+					a.replaceAll( /<.*?>/g, "" ).toLowerCase() :
 					a+'';
 		},
 	
@@ -21577,7 +21577,7 @@ var
 
 	// checked="checked" or checked
 	rchecked = /checked\s*(?:[^=]|=\s*.checked.)/i,
-	rcleanScript = /^\s*<!(?:\[CDATA\[|--)|(?:\]\]|--)>\s*$/g;
+	rcleanScript = /^\s*<!(?:\[CDATA\[|--)|(?:\]\]|--)!?>\s*$/g;
 
 // Prefer a tbody over its parent table for containing new rows
 function manipulationTarget( elem, content ) {

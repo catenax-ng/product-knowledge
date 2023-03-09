@@ -8,7 +8,8 @@
  * additional information regarding license terms.
  */
 
-const fs = require('fs')
+const fs = require('fs');
+const crypto = require('node:crypto');
 
 // Test Data Generation Module
 // defines useful functions for randomized, but controlled generation of json objects
@@ -38,6 +39,10 @@ exports.noop = function(iterator) {
   return {};
 }
 
+exports.randomFloat = function() {
+  return crypto.getRandomValues(new Uint32Array(1))[0]/4294967295;
+}
+
 exports.repeat = function() {
  var continuation=exports.noop;
  var candidates=[];
@@ -45,7 +50,7 @@ exports.repeat = function() {
     var min = arguments[0];
     var max = arguments[1];
     var continuation = arguments[2];
-    var times=Math.ceil(Math.random()*(max-min));
+    var times=Math.ceil(exports.randomFloat()*(max-min));
     for (let i = 0; i < times; i++) {
       candidates[i] = min+i;
     }
@@ -65,14 +70,14 @@ const loremipsumwords = loremipsumtext.replace(","," ").replace("."," ").replace
 const loremipsumsentences = loremipsumtext.split(".");
 
 exports.loremIpsum = function(spec) {
- return loremipsumwords[Math.floor(Math.random()*loremipsumwords.length)];
+ return loremipsumwords[Math.floor(exports.randomFloat()*loremipsumwords.length)];
 };
 
 exports.guid = function() {
     var d = new Date().getTime();//Timestamp
     var d2 = (performance && performance.now && (performance.now()*1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random() * 16;//random number between 0 and 16
+        var r = exports.randomFloat() * 16;//random number between 0 and 16
         if(d > 0){//Use timestamp until depleted
             r = (d + r)%16 | 0;
             d = Math.floor(d/16);
@@ -86,14 +91,14 @@ exports.guid = function() {
 
 exports.objectId = function() {
   return 'xxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    var r = exports.randomFloat() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
     return v.toString(16);
   });
 };
 
 exports.random = function() {
     var candidates=Array.from(arguments);
-    return candidates[Math.floor(Math.random()*candidates.length)];
+    return candidates[Math.floor(exports.randomFloat()*candidates.length)];
 };
 
 exports.writeTestFile = function(fileName,object) {
@@ -143,7 +148,7 @@ exports.readFile = function(fileName) {
 exports.date = function(minDate, maxDate) {
     var min=minDate.getTime();
     var max=maxDate.getTime();
-    var rand=Math.ceil(Math.random()*(max-min));
+    var rand=Math.ceil(exports.randomFloat()*(max-min));
     return new Date(rand+min);
 };
 
@@ -163,7 +168,7 @@ exports.integer = function() {
     if(arguments.length>1) {
         max=arguments[1];
     }
-    var rand=Math.ceil(Math.random()*(max-min))+min;
+    var rand=Math.ceil(exports.randomFloat()*(max-min))+min;
     return rand;
 }
 
@@ -211,11 +216,11 @@ exports.floating = function() {
     if(arguments.length>2) {
         scale=Math.pow(10,arguments[2]);
     }
-    return Math.floor(Math.random()*(max-min)*scale)/scale;
+    return Math.floor(exports.randomFloat()*(max-min)*scale)/scale;
 }
 
 exports.bool = function() {
- return Math.random()>0.5;
+ return exports.randomFloat()>0.5;
 }
 
 const companyName = [ "VW", "BMW", "MERCEDES", "Trafalga", "Petrochem", "Lumberjack", "Dack Janiels", "Bim Jeam"];
