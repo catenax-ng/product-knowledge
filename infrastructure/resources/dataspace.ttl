@@ -25,6 +25,8 @@
 
 bpnl:BPNL00000003AYRE cx:hasBusinessPartnerNumber "BPNL00000003COJN"^^xsd:string;
                       cx:hasBusinessPartnerNumber "BPNL00000003AYRE"^^xsd:string;
+                      cx:hasBusinessPartnerNumber "BPNL00000003AVTH"^^xsd:string;
+                      cx:hasBusinessPartnerNumber "BPNL00000003AZQP"^^xsd:string;
                       cx:isIssuerOfVehicleIdentificationNumber "WBAAL31029PZ00001"^^xsd:string;
                       cx:isIssuerOfVehicleIdentificationNumber "WBAAL31029PZ00002"^^xsd:string;
                       cx:isIssuerOfVehicleIdentificationNumber "WBAAL31029PZ00003"^^xsd:string;
@@ -35,7 +37,9 @@ bpnl:BPNL00000003B2OM cx:hasBusinessPartnerNumber "BPNL00000003CPIY"^^xsd:string
                       cx:hasConnector <edcs://knowledge.int.demo.catena-x.net/tiera-edc-control/BPNL00000003CPIY>.
 
 bpnl:BPNL00000003CQI9 cx:hasBusinessPartnerNumber "BPNL00000003CQI9"^^xsd:string;
+                      cx:hasBusinessPartnerNumber "BPNL00000007OR16"^^xsd:string;
                       cx:hasConnector <edcs://knowledge.int.demo.catena-x.net/consumer-edc-control/BPNL00000003CQI9>.
+
 bpnl:BPNL00000003AXS3 cx-common:hasSite bpns:BPNS00000003AXS3.
 bpnl:BPNL00000003B0Q0 cx-common:hasSite bpns:BPNS00000003B0Q0.
 bpnl:BPNL00000003B3NX cx-common:hasSite bpns:BPNS00000003B3NX.
@@ -44,8 +48,12 @@ bpnl:BPNL00000003AZQP cx-common:hasSite bpns:BPNS000001111DMY.
 bpnl:BPNL00000003B5MJ cx-common:hasSite bpns:BPNS00000003B5MJ.
 bpnl:BPNL00000003AVTH cx-common:hasSite bpns:BPNS000000815DMY.
 bpnl:BPNL00000003B2OM cx-common:hasSite bpns:BPNS00000003B2OM.
+bpnl:BPNL00000003CSGV cx-common:hasSite bpns:BPNS000000000DQB.
+bpnl:BPNL00000007OR16 cx-common:hasSite bpns:BPNS0000000002XY.
+bpnl:BPNL00000003B2OM cx-common:hasSite bpns:BPNS0000000006V6.
 
 bpnl:BPNL00000003B0Q0 cx-common:hasConnector <http://oem-provider-agent:8082/sparql>.
+bpnl:BPNL00000003CSGV cx-common:hasConnector <http://oem-provider-agent:8082/sparql>.
 
 bpns:BPNS00000003AXS3 cx-common:hasGeoInformation <geo:BPNS00000003AXS3>.
 bpns:BPNS00000003B0Q0 cx-common:hasGeoInformation <geo:BPNS00000003B0Q0>.
@@ -55,6 +63,9 @@ bpns:BPNS000001111DMY cx-common:hasGeoInformation <geo:BPNS000001111DMY>.
 bpns:BPNS00000003B5MJ cx-common:hasGeoInformation <geo:BPNS00000003B5MJ>.
 bpns:BPNS000000815DMY cx-common:hasGeoInformation <geo:BPNS000000815DMY>.
 bpns:BPNS00000003B2OM cx-common:hasGeoInformation <geo:BPNS00000003B2OM>.
+bpns:BPNS000000000DQB cx-common:hasGeoInformation <geo:BPNS000000000DQB>.
+bpns:BPNS0000000002XY cx-common:hasGeoInformation <geo:BPNS0000000002XY>.
+bpns:BPNS0000000006V6 cx-common:hasGeoInformation <geo:BPNS0000000006V6>.
 
 <geo:BPNS00000003AXS3> cx-common:hasLatitude "35.62306268137165"^^xsd:double;
                        cx-common:hasLongitude "139.7498516425976"^^xsd:double.
@@ -66,12 +77,19 @@ bpns:BPNS00000003B2OM cx-common:hasGeoInformation <geo:BPNS00000003B2OM>.
                        cx-common:hasLongitude "12.465527980565177"^^xsd:double.
 <geo:BPNS000001111DMY> cx-common:hasLatitude "-25.632334804928544"^^xsd:double;
                        cx-common:hasLongitude "28.084500971267506"^^xsd:double.
+<geo:BPNS000000815DMY> cx-common:hasLatitude "41.90277"^^xsd:double;
+                       cx-common:hasLongitude "-2.70559"^^xsd:double.
+
 <geo:BPNS00000003B5MJ> cx-common:hasLatitude "-22.4775436688588"^^xsd:double;
                        cx-common:hasLongitude "-47.024968046462206"^^xsd:double.
-<geo:BPNS000000815DMY> cx-common:hasLatitude "41.09474775381091"^^xsd:double;
-                       cx-common:hasLongitude "28.63504885821439"^^xsd:double.
 <geo:BPNS00000003B2OM> cx-common:hasLatitude "31.889668725991893"^^xsd:double;
                        cx-common:hasLongitude "119.9591474486991"^^xsd:double.
+<geo:BPNS0000000006V6> cx-common:hasLatitude "14.0590"^^xsd:double;
+                       cx-common:hasLongitude "80.13451"^^xsd:double.
+<geo:BPNS0000000002XY> cx-common:hasLatitude "7.88710"^^xsd:double;
+                       cx-common:hasLongitude "89.3895"^^xsd:double.
+<geo:BPNS000000000DQB> cx-common:hasLatitude "7.79778"^^xsd:double;
+                       cx-common:hasLongitude "98.34148"^^xsd:double.
 
 <urn:cx:AnonymousVehicle#10000ZP92013LAABW> cx:isAnonymousVehicle "WBAAL31029PZ00001"^^xsd:string;
                                             cx:hasRegistration "{ \"Value\": 20220624,  \"Unit\": \"yyyymmdd\" }"^^json:Object;
