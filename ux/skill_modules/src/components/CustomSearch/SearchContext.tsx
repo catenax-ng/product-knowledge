@@ -11,7 +11,6 @@ import { LatLngTuple } from 'leaflet';
 export interface SearchOptions {
   skill: string;
   values?: SearchOptionValues;
-  zoom?: number;
 }
 
 interface SearchOptionValues {

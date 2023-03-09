@@ -209,9 +209,8 @@ export default function MaterialIncidentSearch({
     });
 
     useEffect(() => {
-      map.setView(options.values!.center!, options.values!.zoom!, {
-        animate: true,
-        duration: 10,
+      map.flyTo(options.values!.center!, options.values!.zoom!, {
+        duration: 2,
       });
     }, [options]);
 
@@ -236,7 +235,7 @@ export default function MaterialIncidentSearch({
   };
 
   const onMaterialSearchChange = (value: string) => {
-    options.values!.material = value;
+    setOptions({ ...options, values: { material: value } });
   };
 
   return (
