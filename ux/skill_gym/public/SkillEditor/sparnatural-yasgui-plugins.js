@@ -1619,7 +1619,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1
 	
 	var _re_dic = {};
 	var _re_new_lines = /[\r\n\u2028]/g;
-	var _re_html = /<.*?>/g;
+	var _re_html = /<[^<>]*>/g;
 	
 	// This is not strict ISO8601 - Date.parse() is quite lax, although
 	// implementations differ between browsers.
@@ -5871,7 +5871,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1
 	
 	
 	
-	var __re_html_remove = /<.*?>/g;
+	var __re_html_remove = /<[^<>]*>/g;
 	
 	
 	/**
@@ -6419,7 +6419,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1
 		{
 			var col = columns[i];
 			var asSorting = col.asSorting;
-			var sTitle = col.ariaTitle || col.sTitle.replaceAll( /<.*?>/g, "" );
+			var sTitle = col.ariaTitle || col.sTitle.replaceAll( /<[^<>]*>/g, "" );
 			var th = col.nTh;
 	
 			// IE7 is throwing an error when setting these properties with jQuery's
@@ -15165,8 +15165,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1
 				data :
 				typeof data === 'string' ?
 					data
-						.replace( _re_new_lines, " " )
-						.replace( _re_html, "" ) :
+						.replaceAll( _re_new_lines, " " )
+						.replaceAll( _re_html, "" ) :
 					'';
 		},
 	
@@ -15259,7 +15259,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1
 			return _empty(a) ?
 				'' :
 				a.replaceAll ?
-					a.replaceAll( /<.*?>/g, "" ).toLowerCase() :
+					a.replaceAll( /<[^<>]*>/g, "" ).toLowerCase() :
 					a+'';
 		},
 	
