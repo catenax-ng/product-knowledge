@@ -1796,7 +1796,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1
 	
 	
 	var _stripHtml = function ( d ) {
-		return d.replaceAll( _re_html, '' );
+		return d.replaceAll( "<[^<>]*>", '' );
 	};
 	
 	
