@@ -6168,8 +6168,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1
 	
 		for ( var i=0, ien=settings.aoData.length ; i<ien ; i++ ) {
 			s = _fnGetCellData( settings, i, colIdx, 'display' )+'';
-			s = s.replaceAll( __re_html_remove, '' );
-			s = s.replaceAll( /&nbsp;/g, ' ' );
+			s = s.replaceAll( "<[^<>]*>", '' );
+			s = s.replaceAll( "&nbsp", ' ' );
 	
 			if ( s.length > max ) {
 				max = s.length;
@@ -6419,7 +6419,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1
 		{
 			var col = columns[i];
 			var asSorting = col.asSorting;
-			var sTitle = col.ariaTitle || col.sTitle.replaceAll( /<[^<>]*>/g, "" );
+			var sTitle = col.ariaTitle || col.sTitle.replaceAll( "<[^<>]*>", "" );
 			var th = col.nTh;
 	
 			// IE7 is throwing an error when setting these properties with jQuery's
@@ -15165,8 +15165,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1
 				data :
 				typeof data === 'string' ?
 					data
-						.replaceAll( _re_new_lines, " " )
-						.replaceAll( _re_html, "" ) :
+						.replaceAll( "[\r\n\u2028]", " " )
+						.replaceAll( "<[^<>]*>", "" ) :
 					'';
 		},
 	
@@ -15174,7 +15174,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1
 			return _empty(data) ?
 				data :
 				typeof data === 'string' ?
-					data.replace( _re_new_lines, " " ) :
+					data.replaceAll( "[\r\n\u2028]", " " ) :
 					data;
 		}
 	} );
@@ -15259,7 +15259,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1
 			return _empty(a) ?
 				'' :
 				a.replaceAll ?
-					a.replaceAll( /<[^<>]*>/g, "" ).toLowerCase() :
+					a.replaceAll( "<[^<>]*>", "" ).toLowerCase() :
 					a+'';
 		},
 	
