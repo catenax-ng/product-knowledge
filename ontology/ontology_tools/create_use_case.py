@@ -94,7 +94,7 @@ def create_use_case_ontology(use_case_name):
         classInExcel = URIRef(cx_s + row['class'].replace('cx:',''))
 
         #data property
-        if((row['attribute_selection'] =='x')):
+        if((row['attribute_selection'] =='x') and not (row['relation_selection'] == 'x')):
 
             dataPropInExcel = URIRef(cx_s + row['class_attribute'].replace('cx:',''))
             

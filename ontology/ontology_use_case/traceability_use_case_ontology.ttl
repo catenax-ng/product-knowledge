@@ -1,0 +1,633 @@
+@prefix cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+cx:CxOntology a owl:Ontology ;
+    dc:description "This use case describes all the concepts required to trace data-driven supply chains througout a dataspace." ;
+    dc:identifier "traceability" ;
+    dc:rights "IncidentReporter, IncidentAdressee, IntermediateSupplier, IntermediateManufacturer, ProductDistributor" ;
+    dc:title "Traceability" .
+
+cx:apartmentNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:range xsd:string ;
+    skos:altLabel "unit number"@en ;
+    skos:example "123"@en ;
+    skos:note "optional"@en ;
+    skos:prefLabel "Wohnungsnummer"@de,
+        "Apartment Number"@en ;
+    cx:consumer_role "*" ;
+    cx:provider_role "*" .
+
+cx:billOfMaterialId a owl:DatatypeProperty ;
+    rdfs:domain cx:BillOfMaterial ;
+    rdfs:range xsd:string ;
+    skos:example "123"@en ;
+    skos:prefLabel "Bill Of Material Id"@en ;
+    cx:consumer_role "IntermediateSupplier, IntermediateManufacturer" ;
+    cx:provider_role "IntermediateManufacturer, IntermediateSupplier" .
+
+cx:billOfMaterialName a owl:DatatypeProperty ;
+    rdfs:domain cx:BillOfMaterial ;
+    rdfs:range xsd:string ;
+    skos:example "engine BOM"@en ;
+    skos:prefLabel "Bill Of Material Name"@en ;
+    cx:consumer_role "IntermediateSupplier, IntermediateManufacturer" ;
+    cx:provider_role "IntermediateManufacturer, IntermediateSupplier" .
+
+cx:billOfMaterialQuantity a owl:DatatypeProperty ;
+    rdfs:domain cx:BillOfMaterial ;
+    rdfs:range xsd:integer ;
+    skos:example "3"@en ;
+    skos:prefLabel "Bill Of Material Quantity"@en ;
+    cx:consumer_role "IntermediateSupplier, IntermediateManufacturer" ;
+    cx:provider_role "IntermediateManufacturer, IntermediateSupplier" .
+
+cx:billOfMaterialUnit a owl:DatatypeProperty ;
+    rdfs:domain cx:BillOfMaterial ;
+    rdfs:range xsd:string ;
+    skos:definition "The unit of the quantity."@en ;
+    skos:example "pieces"@en ;
+    skos:prefLabel "Bill Of Material Unit"@en ;
+    cx:consumer_role "IntermediateSupplier, IntermediateManufacturer" ;
+    cx:provider_role "IntermediateManufacturer, IntermediateSupplier" .
+
+cx:buildingLevel a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Storey> ;
+    skos:altLabel "Etage"@de,
+        "Geschoß"@de,
+        "floor"@en,
+        "story"@en ;
+    skos:example "2"@en ;
+    skos:note "optional"@en ;
+    skos:prefLabel "Stockwerk"@de,
+        "Building Level"@en ;
+    cx:consumer_role "*" ;
+    cx:provider_role "*" .
+
+cx:buildingName a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:range xsd:string ;
+    skos:example "building a"@en ;
+    skos:note "optional"@en ;
+    skos:prefLabel "Gebäudename"@de,
+        "Building Name"@en ;
+    cx:consumer_role "*" ;
+    cx:provider_role "*" .
+
+cx:buildingNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:range xsd:string ;
+    skos:example "123"@en ;
+    skos:note "optional"@en ;
+    skos:prefLabel "Gebäudenummer"@de,
+        "Building Number"@en ;
+    cx:consumer_role "*" ;
+    cx:provider_role "*" .
+
+cx:businessPartnerNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:BusinessPartner ;
+    rdfs:range xsd:string ;
+    skos:altLabel "BPNL"@en,
+        "business partner number long"@en ;
+    skos:definition "The  Business Partner Number is a unique identifier following the pattern 'BPNL{8}{4}'."@en ;
+    skos:prefLabel "BPNL"@en ;
+    cx:consumer_role "*" ;
+    cx:provider_role "*" .
+
+cx:city a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:City ;
+    skos:altLabel "municipality"@en,
+        "town"@en,
+        "village"@en ;
+    skos:example "Musterstadt"@en ;
+    skos:prefLabel "Stadt"@de,
+        "City"@en ;
+    cx:consumer_role "*" ;
+    cx:provider_role "*" .
+
+cx:companyName a owl:DatatypeProperty ;
+    rdfs:domain cx:BusinessAddress ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Firmenname"@de,
+        "Company Name"@en ;
+    cx:consumer_role "*" ;
+    cx:provider_role "*" .
+
+cx:country a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:addressCountry ;
+    skos:example "Germany"@en ;
+    skos:prefLabel "Land"@de,
+        "Country"@en ;
+    cx:consumer_role "*" ;
+    cx:provider_role "*" .
+
+cx:county a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:addressRegion ;
+    skos:altLabel "province"@en,
+        "state"@en ;
+    skos:example "Bayern"@en ;
+    skos:note "optional"@en ;
+    skos:prefLabel "Bundesland"@de,
+        "County"@en ;
+    cx:consumer_role "*" ;
+    cx:provider_role "*" .
+
+cx:district a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:range xsd:string ;
+    skos:note "optional"@en ;
+    skos:prefLabel "Stadtteil"@de,
+        "District"@en ;
+    cx:consumer_role "*" ;
+    cx:provider_role "*" .
+
+cx:eclipseDataspaceConnectorId a owl:DatatypeProperty ;
+    rdfs:domain cx:EclipseDataspaceConnector ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Connector Id"@en ;
+    cx:consumer_role "*" ;
+    cx:provider_role "*" .
+
+cx:eclipseDataspaceConnectorUrl a owl:DatatypeProperty ;
+    rdfs:domain cx:EclipseDataspaceConnector ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Connector URL"@en ;
+    cx:consumer_role "*" ;
+    cx:provider_role "*" .
+
+cx:engineeringMaterialName a owl:DatatypeProperty ;
+    rdfs:domain cx:EngineeringMaterial ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Werkstoffbezeichnung"@de,
+        "Engineering Material Name"@en ;
+    cx:consumer_role "IntermediateSupplier, IntermediateManufacturer" ;
+    cx:provider_role "IntermediateManufacturer, IntermediateSupplier" .
+
+cx:engineeringMaterialNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:EngineeringMaterial ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Werkstoffnummer> ;
+    skos:prefLabel "Werkstoffnummer"@de,
+        "Engineering Material Number"@en ;
+    cx:consumer_role "IntermediateSupplier, IntermediateManufacturer" ;
+    cx:provider_role "IntermediateManufacturer, IntermediateSupplier" .
+
+cx:fullStreetAddress a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:streetAddress ;
+    skos:definition "Combination of street + number, postal code, city, country"@en ;
+    skos:example "12345 Musterstadt"@en,
+        "Musterstr. 1"@en ;
+    skos:prefLabel "Full Street Address"@en ;
+    cx:consumer_role "*" ;
+    cx:provider_role "*" .
+
+cx:hasAddress a owl:ObjectProperty ;
+    rdfs:domain cx:Organisation ;
+    rdfs:range cx:Address ;
+    skos:prefLabel "has address"@en ;
+    cx:consumer_role "*" ;
+    cx:provider_role "*" .
+
+cx:hasBillOfMaterial a owl:ObjectProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:range cx:BillOfMaterial ;
+    skos:prefLabel "has bill of material"@en ;
+    cx:consumer_role "IntermediateSupplier, IntermediateManufacturer" ;
+    cx:provider_role "IntermediateManufacturer, IntermediateSupplier" .
+
+cx:hasBusinessAddress a owl:ObjectProperty ;
+    rdfs:domain cx:Organisation ;
+    rdfs:range cx:BusinessAddress ;
+    skos:prefLabel "has business address"@en ;
+    cx:consumer_role "*" ;
+    cx:provider_role "*" .
+
+cx:hasConnector a owl:ObjectProperty ;
+    rdfs:domain cx:BusinessPartner ;
+    rdfs:range cx:EclipseDataspaceConnector ;
+    skos:prefLabel "has connector"@en ;
+    cx:consumer_role "*" ;
+    cx:provider_role "*" .
+
+cx:hasMaterialProperty a owl:ObjectProperty ;
+    rdfs:domain cx:Material ;
+    rdfs:range cx:MaterialProperty ;
+    skos:prefLabel "has material property"@en ;
+    cx:consumer_role "IncidentReporter" ;
+    cx:provider_role "IncidentAddressee" .
+
+cx:houseNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/House_numbering> ;
+    skos:example "1"@en ;
+    skos:prefLabel "Hausnummer"@de,
+        "Number"@en ;
+    cx:consumer_role "*" ;
+    cx:provider_role "*" .
+
+cx:isChildOf a owl:ObjectProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:range cx:Part ;
+    rdfs:seeAlso schema:children ;
+    skos:example "engine is_child_of vehicle"@en ;
+    skos:prefLabel "is child of"@en ;
+    cx:consumer_role "IntermediateSupplier, IntermediateManufacturer" ;
+    cx:provider_role "IntermediateManufacturer, IntermediateSupplier" .
+
+cx:isItemOf a owl:ObjectProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:range cx:BillOfMaterial ;
+    skos:prefLabel "is item of"@en ;
+    cx:consumer_role "IntermediateSupplier, IntermediateManufacturer" ;
+    cx:provider_role "IntermediateManufacturer, IntermediateSupplier" .
+
+cx:isLocatedIn a owl:ObjectProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:range cx:City,
+        cx:Country ;
+    skos:altLabel "ansässig in"@de ;
+    skos:definition "object-location relation"@en ;
+    skos:example "9a47b3c8-b6d4-44f1-99ba-6bdb33916cac"@en,
+        "Munich-Germany"@en ;
+    skos:note "part whole relation, meronomy"@en ;
+    skos:prefLabel "liegt in"@de,
+        "is located in"@en ;
+    cx:consumer_role "*" ;
+    cx:provider_role "*" .
+
+cx:isMadeOf a owl:ObjectProperty ;
+    rdfs:domain cx:EngineeringMaterial,
+        cx:Product ;
+    rdfs:range cx:RawMaterial ;
+    skos:altLabel "ist aus"@de,
+        "is partly"@en,
+        "made from"@en,
+        "stuff-object"@en ;
+    skos:definition "object-substance relation"@en ;
+    skos:example "car made of steel"@en ;
+    skos:note "part whole relation, meronomy"@en ;
+    skos:prefLabel "gemacht aus"@de,
+        "is made of"@en ;
+    cx:consumer_role "IncidentReporter" ;
+    cx:provider_role "IncidentAddressee" .
+
+cx:isMemberOf a owl:ObjectProperty ;
+    rdfs:domain cx:Organisation ;
+    rdfs:range cx:Consortium ;
+    skos:altLabel "ist Mitglied von"@de,
+        "war Mitglied von"@de,
+        "is member of"@en,
+        "membership"@en ;
+    skos:definition "member-collection relation, spatial or social"@en ;
+    skos:example "tree-forest"@en,
+        "vehicle-fleet"@en ;
+    skos:note "part whole relation, meronomy"@en ;
+    skos:prefLabel "ist Mitglied von"@de,
+        "is member of"@en ;
+    cx:consumer_role "*" ;
+    cx:provider_role "*" .
+
+cx:isOfferedBy a owl:ObjectProperty ;
+    rdfs:domain cx:Offer ;
+    rdfs:range cx:Organisation ;
+    rdfs:seeAlso schema:offeredBy ;
+    skos:prefLabel "is offered by"@en ;
+    cx:consumer_role "IncidentReporter, IntermediateManufacturer, IntermediateSupplier, IncidentReporter" ;
+    cx:provider_role "IncidentAddressee, IntermediateManufacturer, IntermediateSupplier, ProductDistributor" .
+
+cx:isParentOf a owl:ObjectProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:range cx:Part ;
+    rdfs:seeAlso schema:parent ;
+    skos:example "vehicle is_parent_of engine"@en ;
+    skos:prefLabel "is parent of"@en ;
+    cx:consumer_role "IntermediateSupplier, IntermediateManufacturer" ;
+    cx:provider_role "IntermediateManufacturer, IntermediateSupplier" .
+
+cx:isProducedBy a owl:ObjectProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:range cx:PartManufacturer ;
+    skos:prefLabel "is produced by"@en ;
+    cx:consumer_role "IntermediateSupplier, IntermediateManufacturer" ;
+    cx:provider_role "IntermediateManufacturer, IntermediateSupplier" .
+
+cx:makesOffer a owl:ObjectProperty ;
+    rdfs:domain cx:Organisation ;
+    rdfs:range cx:Offer ;
+    rdfs:seeAlso schema:makesOffer ;
+    skos:prefLabel "makes offer"@en ;
+    cx:consumer_role "IncidentReporter, IntermediateManufacturer, IntermediateSupplier, IncidentReporter" ;
+    cx:provider_role "IncidentAddressee, IntermediateManufacturer, IntermediateSupplier, ProductDistributor" .
+
+cx:partId a owl:DatatypeProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Bauteil Id"@de,
+        "Part Id"@en ;
+    cx:consumer_role "IntermediateSupplier, IntermediateManufacturer" ;
+    cx:provider_role "IntermediateManufacturer, IntermediateSupplier" .
+
+cx:partName a owl:DatatypeProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:range xsd:string ;
+    skos:altLabel "Teilebezeichnung"@de,
+        "Teilname"@de ;
+    skos:prefLabel "Bauteilname"@de,
+        "Part Name"@en ;
+    cx:consumer_role "IntermediateSupplier, IntermediateManufacturer" ;
+    cx:provider_role "IntermediateManufacturer, IntermediateSupplier" .
+
+cx:partProductionDate a owl:DatatypeProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:range xsd:date ;
+    skos:prefLabel "Bauteil Produktionsdatum"@de,
+        "Part Production Date"@en ;
+    cx:consumer_role "IntermediateSupplier, IntermediateManufacturer" ;
+    cx:provider_role "IntermediateManufacturer, IntermediateSupplier" .
+
+cx:partProductionDateTime a owl:DatatypeProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:range xsd:dateTime ;
+    skos:prefLabel "Bauteil Produktionszeitpunkt"@de,
+        "Part Production Date Time"@en ;
+    cx:consumer_role "IntermediateSupplier, IntermediateManufacturer" ;
+    cx:provider_role "IntermediateManufacturer, IntermediateSupplier" .
+
+cx:partSeries a owl:DatatypeProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Baureihe"@de,
+        "Part Series"@en ;
+    cx:consumer_role "IntermediateSupplier, IntermediateManufacturer" ;
+    cx:provider_role "IntermediateManufacturer, IntermediateSupplier" .
+
+cx:postalCode a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Postal_code>,
+        schema:postalCode ;
+    skos:altLabel "PLZ"@de,
+        "Postleitzahl"@de,
+        "post code"@en,
+        "postcode"@en,
+        "zip code"@en ;
+    skos:example "12345"@en ;
+    skos:prefLabel "Postleitzahl"@de,
+        "Postal Code"@en ;
+    cx:consumer_role "*" ;
+    cx:provider_role "*" .
+
+cx:productionEndDatetime a owl:DatatypeProperty ;
+    rdfs:domain cx:ManufacturingBillOfMaterial ;
+    rdfs:range xsd:dateTime ;
+    skos:definition "End of product assembly."@en ;
+    skos:prefLabel "Production End Datetime"@en ;
+    cx:consumer_role "IntermediateSupplier, IntermediateManufacturer" ;
+    cx:provider_role "IntermediateManufacturer, IntermediateSupplier" .
+
+cx:productionStartDatetime a owl:DatatypeProperty ;
+    rdfs:domain cx:ManufacturingBillOfMaterial ;
+    rdfs:range xsd:dateTime ;
+    skos:definition "Start of product assembly."@en ;
+    skos:prefLabel "Production Start Datetime"@en ;
+    cx:consumer_role "IntermediateSupplier, IntermediateManufacturer" ;
+    cx:provider_role "IntermediateManufacturer, IntermediateSupplier" .
+
+cx:receiverFirstName a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:range xsd:string ;
+    skos:example "Max"@en ;
+    skos:prefLabel "Empfänger Vorname"@de,
+        "Receiver First Name"@en ;
+    cx:consumer_role "*" ;
+    cx:provider_role "*" .
+
+cx:receiverFullName a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:range xsd:string ;
+    skos:example "Max Mustermann"@en ;
+    skos:prefLabel "Empfänger vollständiger Name"@de,
+        "Receiver Full Name"@en ;
+    cx:consumer_role "*" ;
+    cx:provider_role "*" .
+
+cx:receiverLastName a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:range xsd:string ;
+    skos:example "Mustermann"@en ;
+    skos:prefLabel "Empfänger Nachname"@de,
+        "Receiver Last Name"@en ;
+    cx:consumer_role "*" ;
+    cx:provider_role "*" .
+
+cx:streetName a owl:DatatypeProperty ;
+    rdfs:domain cx:StreetAddress ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Street_name> ;
+    skos:altLabel "Name einer Straße"@de,
+        "Strassenname"@de,
+        "Straße"@de,
+        "odonym"@en,
+        "road"@en,
+        "road name"@en,
+        "street"@en ;
+    skos:definition "A street name is an identifying name given to a street or road."@en ;
+    skos:example "Musterstr."@en ;
+    skos:prefLabel "Straßenname"@de,
+        "Street"@en ;
+    cx:consumer_role "*" ;
+    cx:provider_role "*" .
+
+cx:Address a owl:Class ;
+    skos:prefLabel "Adresse"@de,
+        "Address"@en ;
+    cx:has_domain "address_ontology" .
+
+cx:City a owl:Class ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/City> ;
+    skos:prefLabel "Stadt"@de,
+        "City"@en ;
+    cx:has_domain "country_ontology" .
+
+cx:Consortium a owl:Class ;
+    rdfs:seeAlso schema:Consortium ;
+    rdfs:subClassOf cx:Organisation ;
+    skos:prefLabel "Consortium"@en ;
+    cx:has_domain "common_ontology" .
+
+cx:Country a owl:Class ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Country> ;
+    skos:altLabel "countries"@en,
+        "state"@en,
+        "states"@en ;
+    skos:definition "A country is a political state, nation, or territory which is controlled by a government."@en ;
+    skos:example "Germany"@en ;
+    skos:prefLabel "Land"@de,
+        "Country"@en ;
+    cx:has_domain "common_ontology",
+        "country_ontology" .
+
+cx:Material a owl:Class ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Material_> ;
+    skos:altLabel "Stoff"@de ;
+    skos:definition "Things that are used for the production of a product."@en ;
+    skos:example "rubber"@en ;
+    skos:prefLabel "Material"@de,
+        "Material"@en ;
+    cx:has_domain "material_ontology" .
+
+cx:MaterialProperty a owl:Class ;
+    skos:prefLabel "Material Property"@en ;
+    cx:has_domain "material_ontology" .
+
+cx:PartManufacturer a owl:Class ;
+    skos:definition "A manufacturer of a part."@en ;
+    skos:prefLabel "Bauteilhersteller"@de,
+        "Part Manufacturer"@en ;
+    cx:has_domain "part_ontology" .
+
+cx:RawMaterial a owl:Class ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Raw_material> ;
+    skos:altLabel "Rohmaterial"@de,
+        "commodity"@en,
+        "feedstock"@en,
+        "primary commodity"@en,
+        "unprocessed material"@en ;
+    skos:example "aluminium"@en,
+        "natural rubber"@en ;
+    skos:prefLabel "Rohstoff"@de,
+        "Raw Material"@en ;
+    cx:has_domain "material_ontology" .
+
+cx:BusinessAddress a owl:Class ;
+    rdfs:seeAlso <https://www.wikidata.org/wiki/Q34120414> ;
+    rdfs:subClassOf cx:StreetAddress ;
+    skos:altLabel "Arbeitsanschrift"@de,
+        "Geschäftsanschrift"@de,
+        "job address"@en ;
+    skos:definition "An address where a person works or an organisations is located."@en ;
+    skos:prefLabel "Geschäftsadresse"@de,
+        "Business Address"@en ;
+    cx:has_domain "address_ontology" .
+
+cx:BusinessPartner a owl:Class ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Business_partner> ;
+    skos:altLabel "BP"@en,
+        "business partner"@en ;
+    skos:definition "A Business Partner is a legal entity that is part of the Catena-X network or that stands in a relevant relation to a Catena-X Business Partner."@en ;
+    skos:example "Audi"@en,
+        "BMW"@en,
+        "Mercedes"@en,
+        "Volkswagen"@en ;
+    skos:prefLabel "Geschäftspartner"@de,
+        "Business Partner"@en ;
+    cx:has_domain "common_ontology" .
+
+cx:ManufacturingBillOfMaterial a owl:Class ;
+    rdfs:subClassOf cx:BillOfMaterial ;
+    skos:altLabel "BOM as Built"@en,
+        "MBOM"@en,
+        "manufacturing bill of materials"@en ;
+    skos:definition "A concrete BOM with the actual assembly events and serialized parts."@en ;
+    skos:prefLabel "Fertigungsstückliste"@de,
+        "Manufacturing BOM"@en ;
+    cx:has_domain "bill_of_material_ontology" .
+
+cx:Offer a owl:Class ;
+    rdfs:seeAlso schema:Offer ;
+    skos:altLabel "offering"@en ;
+    skos:prefLabel "Offer"@en ;
+    cx:has_domain "common_ontology" .
+
+cx:Product a owl:Class ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Product_>,
+        schema:Product ;
+    skos:definition "A product is a good or service that is offered for sale."@en ;
+    skos:note "top level class"@en ;
+    skos:prefLabel "Product"@de,
+        "Product"@en ;
+    cx:has_domain "upper_ontology" .
+
+cx:EclipseDataspaceConnector a owl:Class ;
+    rdfs:seeAlso <https://projects.eclipse.org/proposals/eclipse-dataspace-connector> ;
+    skos:altLabel "EDC"@en,
+        "eclipse dataspace connector"@en ;
+    skos:prefLabel "Connector"@en ;
+    cx:has_domain "common_ontology" .
+
+cx:EngineeringMaterial a owl:Class ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Werkstoff>,
+        <https://en.wikipedia.org/wiki/Factors_of_production> ;
+    skos:altLabel "engineered material"@en,
+        "engineering material"@en,
+        "technische Werkstoff"@en ;
+    skos:definition "A material that is used in the production of a product and becomes part of the product."@en ;
+    skos:example "aluminium alloy"@en ;
+    skos:prefLabel "Werkstoff"@de,
+        "Engineering Material"@en ;
+    cx:has_domain "material_ontology" .
+
+cx:Organisation a owl:Class ;
+    skos:definition "A organization is a group of people who work together to achieve a common goal."@en ;
+    skos:example "company"@en ;
+    skos:note "top level class"@en ;
+    skos:prefLabel "Organisation"@de,
+        "Organisation"@en ;
+    cx:has_domain "upper_ontology" .
+
+cx:BillOfMaterial a owl:Class ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Bill_of_materials> ;
+    skos:altLabel "Materialstückliste"@de,
+        "Mengengerüst"@de,
+        "BOM"@en,
+        "bill of material"@en ;
+    skos:definition "A list of parts and the quantities of each needed to manufacture a product."@en ;
+    skos:example "battery BOM"@en,
+        "engine BOM"@en,
+        "vehicle BOM"@en ;
+    skos:prefLabel "Stückliste"@de,
+        "bill of material"@en ;
+    cx:has_domain "bill_of_material_ontology" .
+
+cx:Part a owl:Class ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Bauteil_> ;
+    rdfs:subClassOf cx:Product ;
+    skos:altLabel "Komponente"@de,
+        "Teil"@de,
+        "component"@en ;
+    skos:definition "A part in the automotive context is a component of a vehicle, such as the engine, brakes, or transmission."@en ;
+    skos:note "non-physical object"@en ;
+    skos:prefLabel "Bauteil"@de,
+        "Part"@en ;
+    cx:has_domain "part_ontology" .
+
+cx:StreetAddress a owl:Class ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Address>,
+        schema:streetAddress ;
+    skos:altLabel "Hausadresse"@de,
+        "Hausanschrift"@de,
+        "physische Adresse"@de,
+        "physical address"@en ;
+    skos:definition "An address that is a unique identifier for a specific location of a building."@en ;
+    skos:example "12345 Musterstadt"@en,
+        "Musterstr. 1"@en ;
+    skos:prefLabel "Anschrift"@de,
+        "Street Address"@en ;
+    cx:has_domain "address_ontology" .
+

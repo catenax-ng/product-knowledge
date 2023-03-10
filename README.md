@@ -71,14 +71,44 @@ conda env create -f environment.yaml
 conda activate knowledgeagents
 ```
 
+If you just want to update an existing conda environment, you can invoke
+
+```
+conda env update -n knowledgeagents -f environment.yaml
+```
+
+To remove the environment altogether (if it is currently active)
+
+```
+conda deactivate
+conda env remove -n knowledgeagents
+```
+
 ### Ontology Create
 
-Creating a new ontology excel source can be done by invoking
+Creating a new domain ontology excel source can be done by invoking
 
 ```
 python 
 >>> import ontology.ontology_tools.create_ontology as co
 >>>  co.create_ontology_table('test','Schorsch','1.0.0')
+```
+
+The resulting domain ontology template can then be found under [ontology/ontology_tables/test_ontology.xlsx].
+Creating a new use case ontology excel source can be done by invoking
+
+```
+python 
+>>> import ontology.ontology_tools.create_use_case as cu
+>>>  cu.create_use_case_template('test')
+```
+
+The resulting use case ontology template can then be found under [ontology/ontology_use_case/test_use_case_template.xlsx].
+
+```
+python 
+>>> import ontology.ontology_tools.create_use_case as cu
+>>>  cu.create_use_case_template('test')
 ```
 
 ### Ontology Merge
