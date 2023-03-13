@@ -1,0 +1,1113 @@
+@prefix cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+cx:CxOntology a owl:Ontology ;
+    dc:description "Bunles every information related to the registration of vehicles." ;
+    dc:identifier "VEHICLE_REGISTRATION" ;
+    dc:rights "CONSUMER, GOVERNMENT_AGENT" ;
+    dc:title "Kraftfahrtbundesamt" .
+
+cx:adblueTankCapacity a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleFuelInformation ;
+    rdfs:range xsd:double ;
+    skos:example "8"@en ;
+    skos:note "in liter"@en ;
+    skos:prefLabel "Adblue Tank Capacity"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:bodyStyle a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleBodyInformation ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:bodyType ;
+    skos:altLabel "Kategorie"@de,
+        "body type"@en ;
+    skos:definition "Indicates the design and body style of the vehicle ."@en ;
+    skos:example "coupe"@en,
+        "sedan"@en,
+        "station wagon"@en ;
+    skos:prefLabel "Body Style"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:bore a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleEngineInformation ;
+    rdfs:range xsd:double ;
+    skos:note "in mm"@en ;
+    skos:prefLabel "Bore"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:camshaftValvetrainConfiguration a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleEngineInformation ;
+    rdfs:range xsd:string ;
+    skos:example "DOHC"@en ;
+    skos:prefLabel "Camshaft Valvetrain Configuration"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:cargoVolume a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleCargoInformation ;
+    rdfs:range xsd:double ;
+    rdfs:seeAlso schema:cargoVolume ;
+    skos:altLabel "cargo capacity"@en ;
+    skos:definition "The available volume for cargo or luggage. For automobiles, this is usually the trunk volume."@en ;
+    skos:example "500"@en ;
+    skos:note "in liters"@en ;
+    skos:prefLabel "Cargo Volume"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:clutchType a owl:DatatypeProperty ;
+    rdfs:domain cx:VehiclePowertrainInformation ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Clutch> ;
+    skos:example "centrifugal"@en,
+        "wet"@en ;
+    skos:prefLabel "Kupplungsart"@de,
+        "Clutch Type"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:co2Emissions a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleFuelInformation ;
+    rdfs:range xsd:integer ;
+    rdfs:seeAlso schema:emissionsCO2 ;
+    skos:definition "The CO2 emissions in g/km. When used in combination with a QuantitativeValue, put \"g/km\" into the unitText property of that value, since there is no UN/CEFACT Common Code for \"g/km\"."@en ;
+    skos:example "130"@en ;
+    skos:note "in g/km"@en ;
+    skos:prefLabel "Co2 Emissions"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:co2EmissionsWltp a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleFuelInformation ;
+    rdfs:range xsd:integer ;
+    rdfs:seeAlso schema:emissionsCO2 ;
+    skos:definition "The CO2 emissions in g/km. When used in combination with a QuantitativeValue, put \"g/km\" into the unitText property of that value, since there is no UN/CEFACT Common Code for \"g/km\"."@en ;
+    skos:example "130"@en ;
+    skos:note "in g/km"@en ;
+    skos:prefLabel "Co2 Emissions Wltp"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:driveWheelType a owl:DatatypeProperty ;
+    rdfs:domain cx:VehiclePowertrainInformation ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Drive_wheel>,
+        schema:driveWheelConfiguration ;
+    skos:altLabel "drive wheel configuration"@en,
+        "driveline"@en ;
+    skos:definition "The drive wheel configuration, i.e. which roadwheels will receive torque from the vehicle's engine via the drivetrain."@en ;
+    skos:example "all"@en,
+        "front"@en,
+        "rear"@en ;
+    skos:prefLabel "Drive Wheel Type"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:electricRange a owl:DatatypeProperty ;
+    rdfs:domain cx:VehiclePerformanceInformation ;
+    rdfs:range xsd:integer ;
+    skos:note "in kilometers"@en ;
+    skos:prefLabel "Elektrische Reichweite"@de,
+        "Electric Range"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:electricRangeWltp a owl:DatatypeProperty ;
+    rdfs:domain cx:VehiclePerformanceInformation ;
+    rdfs:range xsd:integer ;
+    skos:note "in kilometers"@en ;
+    skos:prefLabel "Elektrische Reichweite"@de,
+        "Electric Range Wltp"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:emissionClass a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleFuelInformation ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Vehicle_emission_standard> ;
+    skos:altLabel "Euro-Norm"@de ;
+    skos:definition "The euro emission class is a measure of a vehicle's emissions, calculated using a standard testing procedure. The higher the vehicle euro class, the less emissions the vehicle produces."@en ;
+    skos:example "Euro 4"@en,
+        "Euro 5"@en,
+        "Euro 6"@en ;
+    skos:prefLabel "Abgasnorm"@de,
+        "Emission Class"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:engineAlignment a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleEngineInformation ;
+    rdfs:range xsd:string ;
+    skos:example "longitudinal"@en,
+        "transverse"@en ;
+    skos:prefLabel "Motorausrichtung"@de,
+        "Engine Alignment"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:engineAspiration a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleEngineInformation ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Turbolader> ;
+    skos:example "natural"@en,
+        "turbo"@en ;
+    skos:prefLabel "Ansaugung"@de,
+        "Engine Aspiration"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:engineCompressionRatio a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleEngineInformation ;
+    rdfs:range xsd:double ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Compression_ratio> ;
+    skos:example "2022-01-08 00:00:00"@en ;
+    skos:prefLabel "Verdichtungsverhältnis"@de,
+        "Engine Compression Ratio"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:engineDisplacement a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleEngineInformation ;
+    rdfs:range xsd:double ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Engine_displacement>,
+        schema:engineDisplacement ;
+    skos:altLabel "engine capacity"@en ;
+    skos:definition "The volume swept by all of the pistons inside the cylinders of an internal combustion engine in a single movement."@en ;
+    skos:note "in ccm"@en ;
+    skos:prefLabel "Hubraum"@de,
+        "Engine Displacement"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:engineFamily a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleEngineInformation ;
+    rdfs:range xsd:string ;
+    skos:example "Inline 4"@en,
+        "V12"@en,
+        "V6"@en,
+        "W8"@en ;
+    skos:prefLabel "Motorfamilie"@de,
+        "Engine Family"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:engineForm a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleEngineInformation ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Engine_configuration> ;
+    skos:altLabel "Bauform"@de,
+        "Bauweise"@de ;
+    skos:example "V"@en,
+        "W"@en,
+        "boxer/flat"@en,
+        "straight/inline"@en ;
+    skos:prefLabel "Motorform"@de,
+        "Engine Form"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:engineFuelInjection a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleEngineInformation ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Fuel_injection> ;
+    skos:example "direct"@en,
+        "indirect"@en ;
+    skos:prefLabel "Kraftstoffeinspritzung"@de,
+        "Engine Fuel Injection"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:engineGeneration a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleEngineInformation ;
+    rdfs:range xsd:string ;
+    skos:example "1"@en,
+        "2"@en,
+        "3"@en ;
+    skos:prefLabel "Motorgeneration"@de,
+        "Engine Generation"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:engineManufacturer a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleEngineInformation ;
+    rdfs:range xsd:string ;
+    skos:example "Audi"@en,
+        "BMW"@en,
+        "Mercedes"@en,
+        "Volkswagen"@en ;
+    skos:prefLabel "Motorhersteller"@de,
+        "Engine Manufacturer"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:engineMaxPower a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleEngineInformation ;
+    rdfs:range xsd:double ;
+    rdfs:seeAlso schema:enginePower ;
+    skos:altLabel "Nennleistung"@de ;
+    skos:definition "The power of the vehicle's engine. Typical unit code: KWT for kilowatt, BHP for brake horsepower, N12 for metric horsepower"@en ;
+    skos:example "150"@en ;
+    skos:note "in horsepower"@en ;
+    skos:prefLabel "Leistung"@de,
+        "Engine Max Power"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:engineMaxTorque a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleEngineInformation ;
+    rdfs:range xsd:double ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Torque>,
+        schema:torque ;
+    skos:definition "The torque  of the vehicle's engine."@en ;
+    skos:example "200"@en ;
+    skos:note "in Nm"@en ;
+    skos:prefLabel "Drehmoment"@de,
+        "Engine Max Torque"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:engineName a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleEngineInformation ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:vehicleEngine ;
+    skos:example "3.0L L6 DOHC 24V"@en,
+        "3.5L V6 TURBO"@en ;
+    skos:prefLabel "Motorbezeichnung"@de,
+        "Engine Name"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:enginePerformanceClass a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleEngineInformation ;
+    rdfs:range xsd:string ;
+    skos:example "high"@en,
+        "low"@en,
+        "middle"@en ;
+    skos:prefLabel "Motorleistungsklasse"@de,
+        "Engine Performance Class"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:enginePosition a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleEngineInformation ;
+    rdfs:range xsd:string ;
+    skos:altLabel "Motoranordnung"@de ;
+    skos:example "front"@en,
+        "mid"@en,
+        "rear"@en ;
+    skos:prefLabel "Motorposition"@de,
+        "Engine Position"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:engineSeries a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleEngineInformation ;
+    rdfs:range xsd:string ;
+    skos:example "b38"@en ;
+    skos:prefLabel "Motorbaureihe"@de,
+        "Engine Series"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:engineTypeCode a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleEngineInformation ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Motortypschlüssel"@de,
+        "Engine Type Code"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:engineVersion a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleEngineInformation ;
+    rdfs:range xsd:string ;
+    skos:altLabel "Technische Überarbeitung"@de ;
+    skos:prefLabel "Motorversion"@de,
+        "Engine Version"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:euEnergyLabel a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleFuelInformation ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/European_Union_energy_label#Cars> ;
+    skos:altLabel "Energieeffizienzklasse"@de,
+        "Energieverbrauchskennzeichnung"@de,
+        "Kennzeichnung des Energieverbrauchs"@de,
+        "energy efficiency class"@en ;
+    skos:example "A"@en,
+        "B"@en,
+        "C"@en,
+        "D"@en ;
+    skos:prefLabel "Eu Energy Label"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:euroCarSegment a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleBodyInformation ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Euro_Car_Segment> ;
+    skos:example "A"@en,
+        "B"@en,
+        "C"@en ;
+    skos:prefLabel "Euro Car Segment"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:fuelConsumptionCity a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleFuelInformation ;
+    rdfs:range xsd:double ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Fuel_economy_in_automobiles>,
+        schema:fuelConsumption ;
+    skos:altLabel "fuel economy city"@en,
+        "urban consumption"@en ;
+    skos:example "8"@en ;
+    skos:prefLabel "Kraftstoff­verbrauch in der Stadt"@de,
+        "Fuel Consumption City"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:fuelConsumptionCombined a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleFuelInformation ;
+    rdfs:range xsd:double ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Fuel_economy_in_automobiles>,
+        schema:fuelConsumption ;
+    skos:altLabel "fuel economy combined"@en,
+        "mixed consumption"@en ;
+    skos:definition "The amount of fuel consumed for traveling a particular distance or temporal duration with the given vehicle ."@en ;
+    skos:example "5"@en ;
+    skos:prefLabel "kombinierter Kraftstoff­verbrauch"@de,
+        "Fuel Consumption Combined"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:fuelConsumptionHighway a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleFuelInformation ;
+    rdfs:range xsd:double ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Fuel_economy_in_automobiles>,
+        schema:fuelConsumption ;
+    skos:altLabel "extra-urban consumption"@en,
+        "fuel economy highway"@en ;
+    skos:example "4"@en ;
+    skos:prefLabel "Kraftstoff­verbrauch auf der Autobahn"@de,
+        "Fuel Consumption Highway"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:fuelEfficiency a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleFuelInformation ;
+    rdfs:range xsd:double ;
+    rdfs:seeAlso schema:fuelEfficiency ;
+    skos:definition "The distance traveled per unit of fuel used; most commonly miles per gallon  or kilometers per liter ."@en ;
+    skos:prefLabel "Fuel Efficiency"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:fuelTankCapacity a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleFuelInformation ;
+    rdfs:range xsd:double ;
+    rdfs:seeAlso schema:fuelCapacity ;
+    skos:definition "The capacity of the fuel tank or in the case of electric cars, the battery. If there are multiple components for storage, this should indicate the total of all storage of the same type."@en ;
+    skos:example "50"@en ;
+    skos:note "in liter"@en ;
+    skos:prefLabel "Tankinhalt"@de,
+        "Fuel Tank Capacity"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:fuelType a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleFuelInformation ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:fuelType ;
+    skos:definition "The type of fuel suitable for the engine or engines of the vehicle. If the vehicle has only one engine, this property can be attached directly to the vehicle."@en ;
+    skos:example "diesel"@en,
+        "petrol"@en ;
+    skos:prefLabel "Kraftstoffart"@de,
+        "Fuel Type"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:grossVehicleMass a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleCargoInformation ;
+    rdfs:range xsd:double ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Vehicle_weight#Gross_vehicle_weight_rating> ;
+    skos:altLabel "Zulässige Gesamtmasse"@de,
+        "höchstzulässiges Gesamtgewicht"@de,
+        "GVM"@en,
+        "GVWR"@en,
+        "Gross Vehicle Weight Rating"@en,
+        "gross vehicle mass"@en ;
+    skos:example "1300"@en ;
+    skos:note "in kilogramms"@en ;
+    skos:prefLabel "zulässiges Gesamtgewicht"@de,
+        "Gross Vehicle Mass"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:hasTypeRegistration a owl:ObjectProperty ;
+    rdfs:domain cx:VehicleModel ;
+    rdfs:range cx:VehicleRegistrationInformation ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:isVariantOf a owl:ObjectProperty ;
+    rdfs:domain cx:VehicleModel ;
+    rdfs:range cx:VehicleModel ;
+    rdfs:seeAlso schema:isVariantOf ;
+    skos:prefLabel "is variant of"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:manufacturerKeyNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleRegistrationInformation ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Herstellerschl%C3%BCsselnummer> ;
+    skos:altLabel "HSN"@de,
+        "Herstellerschlüsselnummer"@de ;
+    skos:definition "4-digit numeric code to identify the vehicle manufacturer that is given in the vehicle license."@en ;
+    skos:example "BMW: 0005"@en ;
+    skos:prefLabel "Herstellerschlüsselnummer"@de,
+        "Manufacturer Key Number"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:maxAxleLoad a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleCargoInformation ;
+    rdfs:range xsd:double ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Axle_load> ;
+    skos:note "in kilogramms"@en ;
+    skos:prefLabel "max. Achslast"@de,
+        "Max Axle Load"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:maxPayload a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleCargoInformation ;
+    rdfs:range xsd:double ;
+    rdfs:seeAlso schema:payload ;
+    skos:definition "The permitted weight of passengers and cargo, EXCLUDING the weight of the empty vehicle."@en ;
+    skos:example "100"@en ;
+    skos:note "in kilogramms"@en ;
+    skos:prefLabel "Max Payload"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:maxTowingCapacity a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleCargoInformation ;
+    rdfs:range xsd:double ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Anh%C3%A4ngelast> ;
+    skos:example "1300"@en ;
+    skos:note "in kilogramms"@en ;
+    skos:prefLabel "Anhängelast"@de,
+        "Max Towing Capacity"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:numberOfAxles a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleChassisInformation ;
+    rdfs:range xsd:integer ;
+    rdfs:seeAlso schema:numberOfAxles ;
+    skos:definition "The number of axles."@en ;
+    skos:example "2"@en,
+        "3"@en ;
+    skos:prefLabel "Anzahl der Achsen"@de,
+        "Number Of Axles"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:numberOfCylinders a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleEngineInformation ;
+    rdfs:range xsd:integer ;
+    skos:altLabel "Zylinderanzahl"@de ;
+    skos:example "12"@en,
+        "3"@en,
+        "4"@en,
+        "5"@en,
+        "6"@en,
+        "8"@en ;
+    skos:prefLabel "Anzahl der Zylinder"@de,
+        "Number Of Cylinders"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:numberOfDoors a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleBodyInformation ;
+    rdfs:range xsd:integer ;
+    rdfs:seeAlso schema:numberOfDoors ;
+    skos:definition "The number of doors."@en ;
+    skos:example "2"@en,
+        "4"@en ;
+    skos:prefLabel "Anzahl der Türen"@de,
+        "Number Of Doors"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:numberOfDriveAxles a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleChassisInformation ;
+    rdfs:range xsd:integer ;
+    skos:example "1"@en,
+        "2"@en ;
+    skos:prefLabel "Anzahl der Antriebsachsen"@de,
+        "Number Of Drive Axles"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:numberOfForwardGears a owl:DatatypeProperty ;
+    rdfs:domain cx:VehiclePowertrainInformation ;
+    rdfs:range xsd:integer ;
+    rdfs:seeAlso schema:numberOfForwardGears ;
+    skos:altLabel "number of speeds"@en ;
+    skos:definition "The total number of forward gears available for the transmission system of the vehicle."@en ;
+    skos:example "5"@en,
+        "6"@en,
+        "8"@en ;
+    skos:prefLabel "Anzahl der Gänge"@de,
+        "Number Of Forward Gears"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:numberOfValves a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleEngineInformation ;
+    rdfs:range xsd:integer ;
+    skos:prefLabel "Number Of Valves"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:passengerVolume a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleCargoInformation ;
+    rdfs:range xsd:double ;
+    skos:note "in liters"@en ;
+    skos:prefLabel "Passenger Volume"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:powertrainLayout a owl:DatatypeProperty ;
+    rdfs:domain cx:VehiclePowertrainInformation ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Powertrain_layout> ;
+    skos:definition "is defined by the location of the engine and drive wheels"@en ;
+    skos:example "front-wheel-drive"@en,
+        "rear-engine"@en ;
+    skos:prefLabel "Powertrain Layout"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:previousVehicleModel a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleModel ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Vorgängermodell"@de,
+        "Previous Vehicle Model"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:roadNoise a owl:DatatypeProperty ;
+    rdfs:domain cx:VehiclePerformanceInformation ;
+    rdfs:range xsd:integer ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Fahrger%C3%A4usch> ;
+    skos:example "71"@en ;
+    skos:note "in dB"@en ;
+    skos:prefLabel "Fahrgeräusch"@de,
+        "Road Noise"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:stationaryNoise a owl:DatatypeProperty ;
+    rdfs:domain cx:VehiclePerformanceInformation ;
+    rdfs:range xsd:integer ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Fahrger%C3%A4usch> ;
+    skos:example "71"@en ;
+    skos:note "in dB"@en ;
+    skos:prefLabel "Standgeräusch"@de,
+        "Stationary Noise"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:steeringType a owl:DatatypeProperty ;
+    rdfs:domain cx:VehiclePowertrainInformation ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Steering> ;
+    skos:example "power steering"@en,
+        "rack and pinion"@en ;
+    skos:prefLabel "Steering Type"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:steeringWheelPosition a owl:DatatypeProperty ;
+    rdfs:domain cx:VehiclePowertrainInformation ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:steeringPosition ;
+    skos:definition "The position of the steering wheel or similar device ."@en ;
+    skos:example "left"@en,
+        "right"@en ;
+    skos:prefLabel "Steering Wheel Position"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:stroke a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleEngineInformation ;
+    rdfs:range xsd:double ;
+    skos:note "in mm"@en ;
+    skos:prefLabel "Stroke"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:tongueWeight a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleCargoInformation ;
+    rdfs:range xsd:double ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Anh%C3%A4ngelast>,
+        schema:tongueWeight ;
+    skos:definition "The permitted vertical load  of a trailer attached to the vehicle. Also referred to as Tongue Load Rating  or Vertical Load Rating"@en ;
+    skos:note "in kilogramms"@en ;
+    skos:prefLabel "Anhängelast"@de,
+        "Tongue Weight"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:trailerWeight a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleCargoInformation ;
+    rdfs:range xsd:double ;
+    rdfs:seeAlso schema:trailerWeight ;
+    skos:definition "The permitted weight of a trailer attached to the vehicle."@en ;
+    skos:note "in kilogramms"@en ;
+    skos:prefLabel "Trailer Weight"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:trunkVolume a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleCargoInformation ;
+    rdfs:range xsd:double ;
+    skos:altLabel "trunk capacity"@en ;
+    skos:note "in liters"@en ;
+    skos:prefLabel "Trunk Volume"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:vehicleAcceleration a owl:DatatypeProperty ;
+    rdfs:domain cx:VehiclePerformanceInformation ;
+    rdfs:range xsd:integer ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/0_to_60_mph>,
+        schema:accelerationTime ;
+    skos:definition "The time needed to accelerate the vehicle from 0 to 100 km/h."@en ;
+    skos:example "5"@en ;
+    skos:note "in seconds"@en ;
+    skos:prefLabel "Beschleunigung"@de,
+        "Vehicle Acceleration"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:vehicleBrand a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleModel ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:brand ;
+    skos:altLabel "make"@en,
+        "marque"@en ;
+    skos:example "Audi"@en,
+        "BMW"@en,
+        "Mercedes"@en ;
+    skos:prefLabel "Marke"@de,
+        "Make"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:vehicleBreaking a owl:DatatypeProperty ;
+    rdfs:domain cx:VehiclePerformanceInformation ;
+    rdfs:range xsd:integer ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Brake> ;
+    skos:definition "The time needed to decelerate the vehicle from 100 to 0 km/h."@en ;
+    skos:example "5"@en ;
+    skos:note "in seconds"@en ;
+    skos:prefLabel "Bremsung"@de,
+        "Vehicle Breaking"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:vehicleDevelopmentSeries a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleModel ;
+    rdfs:range xsd:string ;
+    skos:altLabel "Baureihe"@de,
+        "Derivat"@de,
+        "E-Baureihe"@de,
+        "E-Reihe"@de,
+        "EBR"@de,
+        "Entwicklungsbaureihe"@de,
+        "Entwicklungsbezeichnung"@de,
+        "Entwicklungscode"@de,
+        "derivative"@en,
+        "development code"@en,
+        "development model range"@en,
+        "development series"@en,
+        "e-series"@en ;
+    skos:definition "internal series number"@en ;
+    skos:example "BMW: G26"@en,
+        "Mercedes: W212"@en ;
+    skos:prefLabel "Fahrzeugbaureihe"@de,
+        "Development Series"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:vehicleDragCoefficient a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleBodyInformation ;
+    rdfs:range xsd:double ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Automobile_drag_coefficient> ;
+    skos:altLabel "Cd"@en ;
+    skos:definition "aerodynamic drag coefficient"@en ;
+    skos:example "0.3"@en ;
+    skos:prefLabel "Vehicle Drag Coefficient"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:vehicleExteriorColor a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleBodyInformation ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:color ;
+    skos:definition "The color of the product."@en ;
+    skos:prefLabel "Vehicle Exterior Color"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:vehicleMaxSpeed a owl:DatatypeProperty ;
+    rdfs:domain cx:VehiclePerformanceInformation ;
+    rdfs:range xsd:integer ;
+    rdfs:seeAlso schema:speed ;
+    skos:altLabel "top speed"@en ;
+    skos:definition "The speed range of the vehicle. If the vehicle is powered by an engine, the upper limit of the speed range (indicated by maxValue should be the maximum speed achievable under regular conditions."@en ;
+    skos:example "250"@en ;
+    skos:note "in km/h"@en ;
+    skos:prefLabel "Höchst­geschwindigkeit"@de,
+        "Vehicle Max Speed"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:vehicleModel a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleModel ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Car_model>,
+        schema:ProductModel,
+        <https://www.wikidata.org/wiki/Q29048322> ;
+    skos:altLabel "base model"@en ;
+    skos:example "320"@en,
+        "C220"@en,
+        "Golf"@en,
+        "Polo"@en ;
+    skos:prefLabel "Fahrzeugmodell"@de,
+        "Model"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:vehicleModelArchitecture a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleModel ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Fahrzeugarchitektur"@de,
+        "Vehicle Model Architecture"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:vehicleModelEndOfProduction a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleModel ;
+    rdfs:range xsd:date ;
+    skos:example "present"@en ;
+    skos:prefLabel "Produktionsende"@de,
+        "Vehicle Model End Of Production"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:vehicleModelGeneration a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleModel ;
+    rdfs:range xsd:integer ;
+    skos:example "1"@en,
+        "2"@en,
+        "3"@en ;
+    skos:prefLabel "Fahrzeuggeneration"@de,
+        "Vehicle Model Generation"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:vehicleModelSeries a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleModel ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:ProductGroup ;
+    skos:altLabel "Baureihe"@de,
+        "Handelsbezeichnung"@de,
+        "Modell"@de,
+        "Modellbaureihe"@de,
+        "Verkaufsbezeichnung"@de,
+        "model range"@en,
+        "range"@en,
+        "sales designation"@en,
+        "sales series"@en,
+        "series"@en ;
+    skos:definition "customer series number"@en ;
+    skos:example "3er"@en,
+        "C-Klasse"@en,
+        "Golf"@en,
+        "Polo"@en ;
+    skos:prefLabel "Vertriebsbaureihe"@de,
+        "Model Series"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:vehicleModelStartOfProduction a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleModel ;
+    rdfs:range xsd:date ;
+    rdfs:seeAlso schema:vehicleModelDate ;
+    skos:definition "The release date of a vehicle model ."@en ;
+    skos:prefLabel "Produktionsbeginn"@de,
+        "Vehicle Model Start Of Production"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:vehicleModelVariant a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleModel ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Car_model>,
+        <https://en.wikipedia.org/wiki/Trim_level_> ;
+    skos:altLabel "Modellausführung"@de,
+        "model version"@en,
+        "trim"@en,
+        "trim level"@en ;
+    skos:definition "specification of the vehicle model"@en ;
+    skos:example "740Li"@en,
+        "GLK"@en,
+        "GLS"@en,
+        "Golf GTI"@en ;
+    skos:prefLabel "Modellvariante"@de,
+        "Model Variant"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:vehicleRange a owl:DatatypeProperty ;
+    rdfs:domain cx:VehiclePerformanceInformation ;
+    rdfs:range xsd:integer ;
+    rdfs:seeAlso <https://www.wikidata.org/wiki/Property:P2073> ;
+    skos:example "650"@en ;
+    skos:note "in kilometers"@en ;
+    skos:prefLabel "Reichweite"@de,
+        "Vehicle Range"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:vehicleRangeWltp a owl:DatatypeProperty ;
+    rdfs:domain cx:VehiclePerformanceInformation ;
+    rdfs:range xsd:integer ;
+    skos:example "650"@en ;
+    skos:note "in kilometers"@en ;
+    skos:prefLabel "Vehicle Range Wltp"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:vehicleRegistrationAuthority a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleRegistrationInformation ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Vehicle Registration Authority"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:vehicleRegistrationDate a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleRegistrationInformation ;
+    rdfs:range xsd:date ;
+    rdfs:seeAlso schema:dateVehicleFirstRegistered ;
+    skos:definition "The date of the first registration of the vehicle with the respective public authorities."@en ;
+    skos:prefLabel "Vehicle Registration Date"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:vehicleRegistrationLocation a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleRegistrationInformation ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Vehicle Registration Location"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:vehicleRegistrationOwner a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleRegistrationInformation ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Vehicle_title> ;
+    skos:definition "Full name of owner."@en ;
+    skos:prefLabel "Vehicle Registration Owner"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:vehicleRegistrationPlate a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleRegistrationInformation ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Vehicle_registration_plate> ;
+    skos:altLabel "Kfz-Kennzeichen"@de,
+        "Kraftfahrzeugkennzeichen"@de,
+        "Nummernschild"@de,
+        "licence plate"@en,
+        "license plate"@en,
+        "number plate"@en,
+        "vehicle registration number"@en ;
+    skos:prefLabel "Kennzeichen"@de,
+        "License plate"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:vehicleTransmission a owl:DatatypeProperty ;
+    rdfs:domain cx:VehiclePowertrainInformation ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:vehicleTransmission ;
+    skos:definition "The type of component used for transmitting the power from a rotating power source to the wheels or other relevant component ."@en ;
+    skos:example "automatic"@en,
+        "manual"@en ;
+    skos:prefLabel "Vehicle Transmission"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:vehicleTypeCodeNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleRegistrationInformation ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Typschl%C3%BCsselnummer> ;
+    skos:altLabel "TSN"@de,
+        "Typschlüsselnummer"@de ;
+    skos:definition "8-digit alphanumeric code to identify the vehicle model that is given in the vehicle license."@en ;
+    skos:prefLabel "Typschlüsselnummer"@de,
+        "Vehicle Type Code Number"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:weightTotal a owl:DatatypeProperty ;
+    rdfs:domain cx:VehicleCargoInformation ;
+    rdfs:range xsd:double ;
+    rdfs:seeAlso schema:weightTotal ;
+    skos:definition "The permitted total weight of the loaded vehicle, including passengers and cargo and the weight of the empty vehicle."@en ;
+    skos:note "in kilogramms"@en ;
+    skos:prefLabel "Weight Total"@en ;
+    cx:UseCaseConsumer "CONSUMER" ;
+    cx:UseCaseOriginator "CONSUMER" ;
+    cx:UseCaseProvider "GOVERNMENTAL_AGENT" .
+
+cx:VehicleChassisInformation a owl:Class ;
+    skos:prefLabel "Vehicle Chassis Information"@en ;
+    cx:has_domain "vehicle_information_ontology" .
+
+cx:VehicleBodyInformation a owl:Class ;
+    skos:prefLabel "Vehicle Body Information"@en ;
+    cx:has_domain "vehicle_information_ontology" .
+
+cx:VehiclePowertrainInformation a owl:Class ;
+    skos:prefLabel "Vehicle Powertrain Information"@en ;
+    cx:has_domain "vehicle_information_ontology" .
+
+cx:VehicleRegistrationInformation a owl:Class ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Motor_vehicle_registration>,
+        <https://en.wikipedia.org/wiki/Vehicle_register>,
+        <https://en.wikipedia.org/wiki/Vehicle_registration_certificate> ;
+    skos:note "EU directive 1999/37/EC"@en ;
+    skos:prefLabel "Vehicle Registration Information"@en ;
+    cx:has_domain "vehicle_information_ontology" .
+
+cx:VehiclePerformanceInformation a owl:Class ;
+    skos:prefLabel "Vehicle Performance Information"@en ;
+    cx:has_domain "vehicle_information_ontology" .
+
+cx:VehicleCargoInformation a owl:Class ;
+    skos:prefLabel "Vehicle Cargo Information"@en ;
+    cx:has_domain "vehicle_information_ontology" .
+
+cx:VehicleFuelInformation a owl:Class ;
+    skos:definition "Information about the engine or engines of the vehicle."@en ;
+    skos:prefLabel "Vehicle Fuel Information"@en ;
+    cx:has_domain "vehicle_information_ontology" .
+
+cx:VehicleModel a owl:Class ;
+    skos:altLabel "general information"@en ;
+    skos:prefLabel "Vehicle Model"@en ;
+    cx:has_domain "vehicle_information_ontology" .
+
+cx:VehicleEngineInformation a owl:Class ;
+    skos:definition "Information about the engine or engines of the vehicle."@en ;
+    skos:prefLabel "Vehicle Engine Information"@en ;
+    cx:has_domain "vehicle_information_ontology" .
+

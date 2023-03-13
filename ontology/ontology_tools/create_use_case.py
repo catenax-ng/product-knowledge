@@ -7,28 +7,47 @@ from rdflib import Graph, URIRef, Literal, Namespace, RDF, OWL, RDFS, SKOS, DC
 from ontology.ontology_tools.create_ontology import write_formatted_excel
 from ontology.ontology_tools.settings import cx_url, cx_file, mapping_path, use_case_path
 
+def get_attribute_or_relation (df_row):
+    if pd.notna(df_row['attribute']):
+        return df_row['attribute']
+    else:
+        return df_row['relation']
+
+def is_attribute_or_relation (df_row):
+    if pd.notna(df_row['attribute']):
+        return 'attribute'
+    else:
+        return 'relation'
+
+def get_data_type_or_object (df_row):
+    if pd.notna(df_row['data_type']):
+        return df_row['data_type']
+    else:
+        return df_row['object']
+
 def create_use_case_template(use_case_name):
     
-    defined_columns = ['ontology','class', 'description', 'class_attribute','data_type', 'attribute_selection', 'relation', 'object','relation_selection', 'consumer_roles', 'provider_roles']
+    defined_columns = ['ontology','class', 'description', 'is_attribute_or_relation','attribute_or_relation','type_or_object', 'selection','comment','originator_role','consumer_role','provider_role','2nd_originator_role','2nd_consumer_role',"2nd_provider_role","..."]    
     header = ['# use case id','# use case name','# use case description','# use case roles [list]','# contract','# skill name','']
     header_part = ['','','','','','','']
 
     # read csv & get # ontology,class,attribute,data_type,relation,object
     ontology_table = pd.read_csv(mapping_path+'/cx_ontology.csv')
+    ontology_table["is_attribute_or_relation"] = ontology_table.apply(is_attribute_or_relation,axis=1)
+    ontology_table["attribute_or_relation"] = ontology_table.apply(get_attribute_or_relation,axis=1)
+    ontology_table["type_or_object"] = ontology_table.apply(get_data_type_or_object,axis=1)
     ontology = ontology_table.loc[:,"ontology"]
     ontClass = ontology_table.loc[:,"class"]
-    attribute = ontology_table.loc[:,"attribute"]
-    data_type = ontology_table.loc[:,"data_type"]
-    relation = ontology_table.loc[:,"relation"]
-    object = ontology_table.loc[:,"object"]
-
+    isAttribute = ontology_table.loc[:,"is_attribute_or_relation"]
+    attribute = ontology_table.loc[:,"attribute_or_relation"]
+    data_type = ontology_table.loc[:,"type_or_object"]
+    
     # put ontology information in template
     main_table = pd.DataFrame({'ontology':  np.append(header, ontology.values),
     'class': np.append(header_part,ontClass.values),
-    'class_attribute': np.append(header_part, attribute.values),
-    'data_type': np.append(header_part, data_type.values),
-    'relation':  np.append(header_part, relation.values),
-    'object': np.append(header_part, object.values),
+    'is_attribute_or_relation': np.append(header_part, isAttribute.values),
+    'attribute_or_relation': np.append(header_part, attribute.values),
+    'type_or_object': np.append(header_part, data_type.values)
     }
     , columns= defined_columns)
 
@@ -57,9 +76,11 @@ def create_use_case_ontology(use_case_name):
     
     #read excel & get selected elements
     df = pd.read_excel('ontology/ontology_use_case/' + use_case_name + '_use_case_template.xlsx')
-    rslt_df = df[(df['relation_selection'] == 'x') | (df['attribute_selection'] == 'x')]
+    rslt_df = df[(df['selection'] == 'x')]
     lisOfClasses = rslt_df['class']
-    listOfObjects = rslt_df['object']
+    listOfObjects = rslt_df['type_or_object']
+    listOfMode = rslt_df['is_attribute_or_relation']
+    listOfPredicate = rslt_df['attribute_or_relation']
 
     meta_df = df[df["ontology"].str.contains("#")==True]
     print(meta_df)
@@ -94,9 +115,9 @@ def create_use_case_ontology(use_case_name):
         classInExcel = URIRef(cx_s + row['class'].replace('cx:',''))
 
         #data property
-        if((row['attribute_selection'] =='x') and not (row['relation_selection'] == 'x')):
+        if( row['is_attribute_or_relation'] == 'attribute'):
 
-            dataPropInExcel = URIRef(cx_s + row['class_attribute'].replace('cx:',''))
+            dataPropInExcel = URIRef(cx_s + row['attribute_or_relation'].replace('cx:',''))
             
             #if class not in graph add it
             if not (classInExcel, RDF.type, OWL.Class) in use_case_ontology:
@@ -126,20 +147,22 @@ def create_use_case_ontology(use_case_name):
             # add super property
             for s, p, o in main_ontology.triples((dataPropInExcel, RDFS.subPropertyOf, None)):
                 simpleO = o.__str__().replace(cx_s,'cx:')
-                if( (rslt_df['class_attribute'].eq(simpleO)).any()):
+                if( (rslt_df['attribute_or_relation'].eq(simpleO)).any()):
                     use_case_ontology.add((s, p, o))
 
             #add roles
-            if(not pd.isna(row['consumer_roles'])):
-                use_case_ontology.add((dataPropInExcel, URIRef(cx_s + "consumer_role"), Literal(row['consumer_roles'] )))
-            if(not pd.isna(row['provider_roles'])):
-                use_case_ontology.add((dataPropInExcel, URIRef(cx_s + "provider_role"), Literal(row['provider_roles'] )))
+            if(not pd.isna(row['originator_role'])):
+                use_case_ontology.add((dataPropInExcel, URIRef(cx_s + "UseCaseOriginator"), Literal(row['originator_role'] )))
+            if(not pd.isna(row['consumer_role'])):
+                use_case_ontology.add((dataPropInExcel, URIRef(cx_s + "UseCaseConsumer"), Literal(row['consumer_role'] )))
+            if(not pd.isna(row['provider_role'])):
+                use_case_ontology.add((dataPropInExcel, URIRef(cx_s + "UseCaseProvider"), Literal(row['provider_role'] )))
 
         #object property
-        if((row['relation_selection'] =='x')):
+        if((row['is_attribute_or_relation'] =='relation')):
 
-            objectPropInExcel = URIRef(cx_s + row['relation'].replace('cx:',''))
-            objectInExcel = URIRef(cx_s + row['object'].replace('cx:',''))
+            objectPropInExcel = URIRef(cx_s + row['attribute_or_relation'].replace('cx:',''))
+            objectInExcel = URIRef(cx_s + row['type_or_object'].replace('cx:',''))
             
             # if class not in graph add it
             if not (classInExcel, RDF.type, OWL.Class) in use_case_ontology:
@@ -168,7 +191,7 @@ def create_use_case_ontology(use_case_name):
             # add super property
             for s, p, o in main_ontology.triples((objectPropInExcel, RDFS.subPropertyOf, None)):
                 simpleO = o.__str__().replace(cx_s,'cx:')
-                if( (rslt_df['relation'].eq(simpleO)).any()):
+                if( (rslt_df['attribute_or_relation'].eq(simpleO)).any()):
                     use_case_ontology.add((s, p, o))
 
             # add object property
@@ -180,10 +203,12 @@ def create_use_case_ontology(use_case_name):
                 use_case_ontology.add((objectPropInExcel, RDFS.domain, classInExcel))
                 use_case_ontology.add((objectPropInExcel, RDFS.range, objectInExcel))
 
-            if(not pd.isna(row['consumer_roles'])):
-                use_case_ontology.add((objectPropInExcel, URIRef(cx_s + "consumer_role"), Literal(row['consumer_roles'] )))
-            if(not pd.isna(row['provider_roles'])):
-                use_case_ontology.add((objectPropInExcel, URIRef(cx_s + "provider_role"), Literal(row['provider_roles'] )))
+            if(not pd.isna(row['originator_role'])):
+                use_case_ontology.add((objectPropInExcel, URIRef(cx_s + "UseCaseOriginator"), Literal(row['originator_role'] )))
+            if(not pd.isna(row['consumer_role'])):
+                use_case_ontology.add((objectPropInExcel, URIRef(cx_s + "UseCaseConsumer"), Literal(row['consumer_role'] )))
+            if(not pd.isna(row['provider_role'])):
+                use_case_ontology.add((objectPropInExcel, URIRef(cx_s + "UseCaseProvider"), Literal(row['provider_role'] )))
 
     #output 
     use_case_ontology.serialize(destination= 'ontology/ontology_use_case/' + use_case_name +'_use_case_ontology.ttl', format='turtle')
