@@ -24,10 +24,16 @@ export interface IConnectorFactory {
  */
 export interface IConnector {
   /**
-   * function to list all assets of the default catalogue through this connector
-   * the providerUrl is an optional parameter (means that we will look for the local catalogue)
+   * Executes a given skill
    */
   execute: (skill: string, queryVariables: JSONElement) => Promise<BindingSet>;
+  /**
+   * Executes a given query
+   */
+  executeQuery: (
+    query: string,
+    queryVariables: JSONElement
+  ) => Promise<BindingSet>;
 }
 
 /**
@@ -296,6 +302,13 @@ class MockConnector implements IConnector {
     if (skill === 'Dataspace') return Promise.resolve(ASSETS);
     return Promise.resolve(SEARCH_RESULT);
   }
+  //execute
+  public executeQuery(
+    query: string,
+    queryVariables: JSONElement
+  ): Promise<BindingSet> {
+    return Promise.resolve(SEARCH_RESULT);
+  }
 }
 
 /**
@@ -465,6 +478,68 @@ class RemoteConnector implements IConnector {
       method: 'GET',
       headers: this.realmMapping.getHeaderAnnotation(this.url),
       agent: this.proxy,
+    };
+
+    //Response
+    const response = await fetch(finalUrl, fetchOpts);
+
+    const elapsed = new Date().getTime() - start;
+
+    // eslint-disable-next-line no-console
+    console.log(
+      `Result from Remote Connector finished after ${elapsed} milliseconds.`
+    );
+
+    if (!response.ok) {
+      throw new Error(`Error! status: ${response.status}`);
+    }
+
+    //result: BindingSet
+    const result = (await response.json()) as BindingSet;
+
+    return result;
+  }
+
+  //Execute Query
+  public async executeQuery(
+    query: string,
+    queryVariable: JSONElement
+  ): Promise<BindingSet> {
+    const start = new Date().getTime();
+
+    const skillUrl = '/api/agent';
+    let parameters = '';
+    let parametersContainer = '';
+    let concatenateParams = '?';
+    let queryVariables: JSONArray = [];
+
+    if (Array.isArray(queryVariable)) {
+      queryVariables = queryVariable;
+    } else {
+      queryVariables = [queryVariable];
+    }
+
+    queryVariables.forEach((query) => {
+      Object.entries(query).forEach(
+        ([key, value]) => (parameters = `${parameters}&${key}=${value}`)
+      );
+      parameters = parameters.replace(/^&/, '');
+      parametersContainer =
+        parametersContainer + concatenateParams + '(' + parameters + ')';
+      concatenateParams = '&';
+      parameters = '';
+    });
+
+    const finalUrl = this.data_url + skillUrl + parametersContainer;
+
+    const headers = this.realmMapping.getHeaderAnnotation(this.url);
+    headers['Content-Type'] = 'application/sparql-query';
+
+    const fetchOpts: RequestInit = {
+      method: 'POST',
+      headers: headers,
+      agent: this.proxy,
+      body: query,
     };
 
     //Response

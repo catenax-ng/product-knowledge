@@ -27,7 +27,7 @@ describe('testing list assets', () => {
       expect(entry).toHaveProperty('type');
       expect(entry).toHaveProperty('version');
       expect(entry).toHaveProperty('contentType');
-      expect(entry).toHaveProperty('shape');
+      expect(entry).toHaveProperty('isDefinedBy');
       Object.keys(entry).forEach((key) => {
         expect(entry[key]).toEqual(
           expect.objectContaining({
@@ -103,6 +103,25 @@ describe('Testing Execute Function', () => {
     ];
 
     const result = await connector.execute('TroubleCodeSearch', queryVariables);
+
+    console.log('Query results');
+    result.results.bindings.map(function (entry) {
+      result.head.vars.map((elem) => {
+        const entryVal = entry[elem];
+        if (entryVal) {
+          console.log(entryVal.value);
+        }
+      });
+    });
+  });
+
+  test('Freeform Sparql', async () => {
+    const queryVariables = {};
+
+    const result = await connector.executeQuery(
+      'SELECT ?connector ?id ?name ?description ?type ?version ?contentType WHERE { ?connector <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl%23offersAsset> ?asset. ?asset <https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl%23contentType> ?contentType; <http://www.w3.org/1999/02/22-rdf-syntax-ns%23type> ?type; <https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl%23version> ?version; <https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl%23description> ?description.}',
+      queryVariables
+    );
 
     console.log('Query results');
     result.results.bindings.map(function (entry) {
