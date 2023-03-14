@@ -1,11 +1,24 @@
 import { Typography } from 'cx-portal-shared-components';
 import logo from '../images/ka_arch.png';
 import { Box } from '@mui/material';
+import { QueryEditor } from '@catenax-ng/skill-modules';
 
 export default function Home() {
   return (
     <>
       <Box mb={2}>
+        <Typography
+          sx={{
+            mt: 3,
+            mb: 3,
+            fontFamily: 'LibreFranklin-Light',
+            textAlign: 'center',
+          }}
+          variant="h4"
+          className="section-title"
+        >
+          Query Editor
+        </Typography>
         <iframe
           title="SparqlEditor"
           width="100%"
@@ -14,6 +27,7 @@ export default function Home() {
           scrolling="no"
           src={`${process.env.REACT_APP_FOLDER}/SkillEditor/index.html?lang=en`}
         />
+        <QueryEditor />
       </Box>
     </>
   );

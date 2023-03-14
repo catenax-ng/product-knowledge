@@ -25,6 +25,7 @@
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.10.0",
     "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^13.3.0",
     "@rollup/plugin-typescript": "^8.3.1",
     "@rollup/plugin-url": "^8.0.1",
@@ -44,18 +45,22 @@
     "rollup-plugin-dts": "^4.2.2",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-sass": "^1.2.13",
+    "rollup-plugin-styles": "^4.0.0",
     "rollup-plugin-terser": "^7.0.2",
     "tslib": "^2.4.0",
     "typescript": "^4.1.6"
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.4.6",
     "@types/react-cytoscapejs": "^1.2.2",
     "cytoscape": "^3.22.1",
     "cytoscape-dagre": "^2.4.0",
     "leaflet": "^1.9.3",
     "mui-tree-select": "^1.0.0-beta.9",
+    "react-codemirror2": "^7.2.1",
     "react-cytoscapejs": "^1.2.1",
-    "react-leaflet": "^4.2.0"
+    "react-leaflet": "^4.2.0",
+    "sparnatural": "^8.1.0"
   },
   "peerDependencies": {
     "@emotion/react": "^11.10.0",
