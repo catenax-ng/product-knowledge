@@ -1,0 +1,119 @@
+@prefix cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema: <https://schema.org/> .
+
+<https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/material_ontology.ttl> a owl:Ontology ;
+    dc:creator "Zazralt Magic" ;
+    dc:date "2022-11-28"^^xsd:date ;
+    dc:description "Material ontology in the context of supply and value chain of the automotive industry. Exchange of material information and knowledge." ;
+    dc:title "Material Ontology" ;
+    #owl:imports <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#> ;
+    owl:versionInfo "0.0.1" .
+
+cx:Product a owl:Class.
+cx:Place a owl:Class.
+cx:EngineeringMaterial a owl:Class ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Werkstoff>,
+        <https://en.wikipedia.org/wiki/Factors_of_production> ;
+    skos:altLabel "engineered material"@en,
+        "engineering material"@en,
+        "technische Werkstoff"@en ;
+    skos:definition "A material that is used in the production of a product and becomes part of the product."@en ;
+    skos:example "aluminium alloy"@en ;
+    skos:prefLabel "Werkstoff"@de,
+        "Engineering Material"@en .
+
+cx:Material a owl:Class ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Material_> ;
+    skos:altLabel "Stoff"@de ;
+    skos:definition "Things that are used for the production of a product."@en ;
+    skos:example "rubber"@en ;
+    skos:prefLabel "Material"@de,
+        "Material"@en .
+
+cx:RawMaterial a owl:Class ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Raw_material> ;
+    skos:altLabel "Rohmaterial"@de,
+        "commodity"@en,
+        "feedstock"@en,
+        "primary commodity"@en,
+        "unprocessed material"@en ;
+    skos:example "aluminium"@en,
+        "natural rubber"@en ;
+    skos:prefLabel "Rohstoff"@de,
+        "Raw Material"@en .
+
+cx:MaterialTesting a owl:Class ;
+    rdfs:seeAlso <https://de.wikipedia.org/wiki/Werkstoffpr%C3%BCfung> ;
+    skos:prefLabel "Materialprüfung"@de,
+        "Material Testing"@en .
+
+cx:MaterialStorage a owl:Class ;
+    rdfs:subClassOf cx:Place ;
+    skos:prefLabel "Materiallager"@de,
+        "Material Storage"@en .
+
+cx:MaterialProperty a owl:Class.
+cx:Manufacturer a owl:Class ;
+    rdfs:seeAlso schema:manufacturer ;
+    skos:prefLabel "Hersteller"@de,
+        "Manufacturer"@en .
+
+cx:Supplier a owl:Class ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Vendor> ;
+    skos:altLabel "provider"@en,
+        "seller"@en,
+        "supplier"@en,
+        "vendor"@en ;
+    skos:prefLabel "Lieferant"@de,
+        "Supplier"@en .
+
+cx:hasMaterialProperty a owl:ObjectProperty ;
+    rdfs:domain cx:Material ;
+    rdfs:range cx:MaterialProperty ;
+    skos:prefLabel "has material property"@en .
+
+cx:isStoredIn a owl:ObjectProperty ;
+    rdfs:domain cx:Material ;
+    rdfs:range cx:MaterialStorage ;
+    skos:prefLabel "is stored in"@en .
+
+cx:contains a owl:ObjectProperty ;
+    rdfs:domain cx:EngineeringMaterial,
+        cx:RawMaterial ;
+    rdfs:range cx:RawMaterial,
+        cx:Substance ;
+    skos:prefLabel "contains"@en .
+
+cx:isMadeOf a owl:ObjectProperty ;
+    rdfs:domain cx:EngineeringMaterial,
+        cx:Product ;
+    rdfs:range cx:RawMaterial ;
+    skos:prefLabel "is made of"@en .
+
+cx:isPartOf a owl:ObjectProperty ;
+    rdfs:domain cx:EngineeringMaterial ;
+    rdfs:range cx:Product ;
+    skos:prefLabel "is part of"@en .
+
+cx:participatesIn a owl:ObjectProperty ;
+    rdfs:domain cx:EngineeringMaterial,
+        cx:RawMaterial ;
+    rdfs:range cx:MaterialTesting ;
+    skos:prefLabel "participates in"@en .
+
+cx:produces a owl:ObjectProperty ;
+    rdfs:domain cx:Manufacturer;
+    rdfs:range cx:Material,
+        cx:RawMaterial ;
+    skos:prefLabel "produces"@en .
+
+cx:supplies a owl:ObjectProperty ;
+    rdfs:domain cx:Supplier;
+    rdfs:range cx:Material,
+        cx:RawMaterial ;
+    skos:prefLabel "supplies"@en .
