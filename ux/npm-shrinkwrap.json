@@ -3882,6 +3882,7 @@
             "version": "1.3.2",
             "resolved": "https://registry.npmjs.org/@monaco-editor/loader/-/loader-1.3.2.tgz",
             "integrity": "sha512-BTDbpHl3e47r3AAtpfVFTlAi7WXv4UQ/xZmz8atKl4q7epQV5e7+JbigFDViWF71VBi4IIBdcWP57Hj+OWuc9g==",
+            "dev": true,
             "dependencies": {
                 "state-local": "^1.0.6"
             },
@@ -3893,6 +3894,7 @@
             "version": "4.4.6",
             "resolved": "https://registry.npmjs.org/@monaco-editor/react/-/react-4.4.6.tgz",
             "integrity": "sha512-Gr3uz3LYf33wlFE3eRnta4RxP5FSNxiIV9ENn2D2/rN8KgGAD8ecvcITRtsbbyuOuNkwbuHYxfeaz2Vr+CtyFA==",
+            "dev": true,
             "dependencies": {
                 "@monaco-editor/loader": "^1.3.2",
                 "prop-types": "^15.7.2"
@@ -19023,15 +19025,6 @@
                 "node": ">=14"
             }
         },
-        "node_modules/react-codemirror2": {
-            "version": "7.2.1",
-            "resolved": "https://registry.npmjs.org/react-codemirror2/-/react-codemirror2-7.2.1.tgz",
-            "integrity": "sha512-t7YFmz1AXdlImgHXA9Ja0T6AWuopilub24jRaQdPVbzUJVNKIYuy3uCFZYa7CE5S3UW6SrSa5nAqVQvtzRF9gw==",
-            "peerDependencies": {
-                "codemirror": "5.x",
-                "react": ">=15.5 <=16.x"
-            }
-        },
         "node_modules/react-cytoscapejs": {
             "version": "1.2.1",
             "resolved": "https://registry.npmjs.org/react-cytoscapejs/-/react-cytoscapejs-1.2.1.tgz",
@@ -22319,7 +22312,8 @@
         "node_modules/state-local": {
             "version": "1.0.7",
             "resolved": "https://registry.npmjs.org/state-local/-/state-local-1.0.7.tgz",
-            "integrity": "sha512-HTEHMNieakEnoe33shBYcZ7NX83ACUjCu8c40iOGEZsngj9zRnkqS9j1pqQPXwobB0ZcVTk27REb7COQ0UR59w=="
+            "integrity": "sha512-HTEHMNieakEnoe33shBYcZ7NX83ACUjCu8c40iOGEZsngj9zRnkqS9j1pqQPXwobB0ZcVTk27REb7COQ0UR59w==",
+            "dev": true
         },
         "node_modules/statuses": {
             "version": "2.0.1",
@@ -24593,13 +24587,11 @@
             "version": "0.6.5",
             "license": "Apache-2.0",
             "dependencies": {
-                "@monaco-editor/react": "^4.4.6",
                 "@types/react-cytoscapejs": "^1.2.2",
                 "cytoscape": "^3.22.1",
                 "cytoscape-dagre": "^2.4.0",
                 "leaflet": "^1.9.3",
                 "mui-tree-select": "^1.0.0-beta.9",
-                "react-codemirror2": "^7.2.1",
                 "react-cytoscapejs": "^1.2.1",
                 "react-leaflet": "^4.2.0",
                 "sparnatural": "^8.1.0"
@@ -24607,6 +24599,7 @@
             "devDependencies": {
                 "@emotion/react": "^11.10.0",
                 "@emotion/styled": "^11.10.0",
+                "@monaco-editor/react": "^4.4.6",
                 "@mui/icons-material": "^5.8.4",
                 "@mui/material": "^5.10.0",
                 "@rollup/plugin-commonjs": "^22.0.2",
@@ -24622,6 +24615,8 @@
                 "@types/leaflet": "^1.9.0",
                 "@types/react": "^16.14.30",
                 "@types/react-dom": "^16.9.14",
+                "@uiw/react-codemirror": "2.2.1",
+                "codemirror": "5.65.12",
                 "react": ">=17.0.2",
                 "react-dom": ">=17.0.2",
                 "react-scripts": "^5.0.1",
@@ -24819,6 +24814,21 @@
                 "@types/yargs-parser": "*"
             }
         },
+        "skill_modules/node_modules/@uiw/react-codemirror": {
+            "version": "2.2.1",
+            "resolved": "https://registry.npmjs.org/@uiw/react-codemirror/-/react-codemirror-2.2.1.tgz",
+            "integrity": "sha512-sHumpCEno+3Tkha5lC8rwYgWGnRYA8zB0Jh+SOuNvsoMzcqAyVw3Yz+tlu6z2TEINcD9lUWdY6KlvDsi9TRq3w==",
+            "dev": true,
+            "dependencies": {
+                "codemirror": "^5.50.2",
+                "prop-types": "^15.7.2"
+            },
+            "peerDependencies": {
+                "codemirror": ">=5.49.2",
+                "react": ">=16.8.0",
+                "react-dom": ">=16.8.0"
+            }
+        },
         "skill_modules/node_modules/aria-query": {
             "version": "4.2.2",
             "resolved": "https://registry.npmjs.org/aria-query/-/aria-query-4.2.2.tgz",
@@ -24831,6 +24841,12 @@
             "engines": {
                 "node": ">=6.0"
             }
+        },
+        "skill_modules/node_modules/codemirror": {
+            "version": "5.65.12",
+            "resolved": "https://registry.npmjs.org/codemirror/-/codemirror-5.65.12.tgz",
+            "integrity": "sha512-z2jlHBocElRnPYysN2HAuhXbO3DNB0bcSKmNz3hcWR2Js2Dkhc1bEOxG93Z3DeUrnm+qx56XOY5wQmbP5KY0sw==",
+            "dev": true
         },
         "skill_modules/node_modules/color-convert": {
             "version": "2.0.1",

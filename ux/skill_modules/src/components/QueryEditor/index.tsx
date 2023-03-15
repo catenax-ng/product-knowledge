@@ -1,22 +1,12 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Box, Button } from '@mui/material';
-import 'sparnatural';
-import 'sparnatural/dist/sparnatural.css';
-// import the JSON-LD config file
-import config from './config.json';
-import Editor from '@monaco-editor/react';
+import React from 'react';
+import { Box } from '@mui/material';
 
-interface SparnaturalEvent extends Event {
-  detail?: {
-    queryString: string;
-    queryJson: string;
-    querySparqlJs: string;
-  };
-}
+import CodeMirrorEditor from './CodeMirrorEditor';
+import { Tab, TabPanel, Tabs } from 'cx-portal-shared-components';
+import SupernaturlaEditor from './SupernaturalEditor';
+import MonacoEditor from './MonacoEditor';
 
 export const QueryEditor = () => {
-  const sparnaturalRef = useRef<HTMLElement>(null);
-  const [theme, setTheme] = useState<string>('light');
   const defaultCode = `PREFIX xsd:	<http://www.w3.org/2001/XMLSchema#> 
 PREFIX rdf:	<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX cx:	<urn:io.catenax.knowledge.Ontology:>
@@ -47,72 +37,37 @@ PREFIX cx:	<urn:io.catenax.knowledge.Ontology:>
         } ### Validates output Supplier->OEM according to contract ###
     } ### Validates output OEM->Consumer according to contract ### } ORDER BY ?kmLeft LIMIT 5 ## Batch Reporting
 `;
-  const [code, setCode] = useState<string | undefined>(defaultCode);
 
-  useEffect(() => {
-    sparnaturalRef?.current?.addEventListener(
-      'queryUpdated',
-      (event: SparnaturalEvent) => {
-        console.log(event?.detail?.queryString);
-        console.log(event?.detail?.queryJson);
-        console.log(event?.detail?.querySparqlJs);
-      }
-    );
-  }, []);
-
-  const toggleTheme = useCallback(() => {
-    console.log('change theme');
-    setTheme((theme) => (theme === 'light' ? 'vs-dark' : 'light'));
-  }, []);
-
-  useEffect(() => {
-    console.log(theme);
-  }, [theme]);
-
-  function onCodeChange(value: string | undefined) {
-    console.log('hello onCodeChange');
-    console.log(value);
-    setCode(value);
+  function a11yProps(index: number) {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+    };
   }
+  const [value, setValue] = React.useState(0);
 
-  const showValue = () => {
-    console.log('hello value');
-    console.log(code);
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
   };
 
   return (
     <Box>
-      <Editor
-        height="50vh"
-        defaultLanguage="sparql"
-        defaultValue={defaultCode}
-        theme={theme}
-        onChange={onCodeChange}
-      />
-      <Box>
-        <Button onClick={toggleTheme}>Toggle Theme</Button>
-        <Button onClick={showValue}>Run SPARQL</Button>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+          <Tab label="Supernatural Editor" {...a11yProps(0)} />
+          <Tab label="Code Mirror" {...a11yProps(1)} />
+          <Tab label="Monaco Editor" {...a11yProps(2)} />
+        </Tabs>
       </Box>
-      <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
-      />
-      <div id="ui-search">
-        <spar-natural
-          ref={sparnaturalRef}
-          src={JSON.stringify(config)}
-          lang={'en'}
-          endpoint={
-            'https://knowledge.dev.demo.catena-x.net/consumer-edc-data/BPNL00000003CQI9/api/agent'
-          }
-          distinct={'true'}
-          limit={'1000'}
-          prefix={
-            'skos:http://www.w3.org/2004/02/skos/core# rico:https://www.ica.org/standards/RiC/ontology#'
-          }
-          debug={'true'}
-        />
-      </div>
+      <TabPanel value={value} index={0}>
+        {/* <SupernaturlaEditor /> */}
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <CodeMirrorEditor />
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        <MonacoEditor defaultCode={defaultCode}/>
+      </TabPanel>
     </Box>
   );
 };
