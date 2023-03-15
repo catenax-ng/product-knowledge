@@ -60,7 +60,7 @@ PREFIX cx:	<urn:io.catenax.knowledge.Ontology:>
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        {/* <SupernaturlaEditor /> */}
+        <SupernaturlaEditor />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <CodeMirrorEditor />
