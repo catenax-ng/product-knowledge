@@ -1,35 +1,58 @@
-import Editor from "@monaco-editor/react";
-import { Box } from "@mui/material";
-import { Button } from "cx-portal-shared-components";
-import React, { useCallback, useEffect, useState } from "react";
+import {
+  BindingSet,
+  getConnectorFactory,
+} from '@catenax-ng/skill-framework/dist/src';
+import Editor from '@monaco-editor/react';
+import { Box } from '@mui/material';
+import { IconButton, LoadingButton } from 'cx-portal-shared-components';
+import React, { useCallback, useState } from 'react';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import NightlightIcon from '@mui/icons-material/Nightlight';
 
-interface MonacoEditorProps{
-  defaultCode: string
+interface MonacoEditorProps {
+  defaultCode: string;
+  onSubmit: (result: BindingSet) => void;
 }
-export default function MonacoEditor({defaultCode}: MonacoEditorProps) {
+export default function MonacoEditor({
+  defaultCode,
+  onSubmit,
+}: MonacoEditorProps) {
   const [code, setCode] = useState<string | undefined>(defaultCode);
   const [theme, setTheme] = useState<string>('light');
+  const [loading, setLoading] = useState<boolean>(false);
+
   function onCodeChange(value: string | undefined) {
-    console.log('hello onCodeChange');
-    console.log(value);
     setCode(value);
   }
 
-  const showValue = () => {
-    console.log('hello value');
-    console.log(code);
+  const runCode = () => {
+    setLoading(true);
+    if (code) {
+      const connector = getConnectorFactory().create();
+      connector.executeQuery(code, {}).then((result) => {
+        onSubmit(result);
+        console.log(result);
+        setLoading(false);
+      });
+    }
   };
 
   const toggleTheme = useCallback(() => {
-    console.log('change theme');
     setTheme((theme) => (theme === 'light' ? 'vs-dark' : 'light'));
   }, []);
 
-  useEffect(() => {
-    console.log(theme);
-  }, [theme]);
   return (
     <>
+      <Box display="flex" justifyContent="flex-end">
+        <IconButton
+          aria-label="theme-toggle"
+          onClick={toggleTheme}
+          title="Toggle Theme"
+        >
+          {theme === 'light' ? <Brightness7Icon /> : <NightlightIcon />}
+        </IconButton>
+      </Box>
       <Editor
         height="50vh"
         defaultLanguage="sparql"
@@ -37,9 +60,15 @@ export default function MonacoEditor({defaultCode}: MonacoEditorProps) {
         theme={theme}
         onChange={onCodeChange}
       />
-      <Box>
-        <Button onClick={toggleTheme}>Toggle Theme</Button>
-        <Button onClick={showValue}>Run SPARQL</Button>
+      <Box display="flex">
+        <LoadingButton
+          startIcon={<PlayArrowIcon />}
+          loading={loading}
+          variant="outlined"
+          label={'Run SPARQL'}
+          loadIndicator={'Loading...'}
+          onButtonClick={runCode}
+        />
       </Box>
     </>
   );

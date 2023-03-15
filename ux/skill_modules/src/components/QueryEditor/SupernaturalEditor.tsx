@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from 'react';
 import 'sparnatural';
 import 'sparnatural/dist/sparnatural.css';
 // import the JSON-LD config file
@@ -12,7 +12,7 @@ interface SparnaturalEvent extends Event {
   };
 }
 
-export default function SupernaturlaEditor(){
+export default function SupernaturlaEditor() {
   const sparnaturalRef = useRef<HTMLElement>(null);
   useEffect(() => {
     sparnaturalRef?.current?.addEventListener(
@@ -25,7 +25,7 @@ export default function SupernaturlaEditor(){
     );
   }, []);
 
-  return(
+  return (
     <>
       <link
         rel="stylesheet"
@@ -48,5 +48,5 @@ export default function SupernaturlaEditor(){
         />
       </div>
     </>
-  )
+  );
 }
