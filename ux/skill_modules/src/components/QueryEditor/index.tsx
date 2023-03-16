@@ -18,7 +18,7 @@ export const QueryEditor = () => {
     <https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl%23version> ?version; 
     <https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl%23description> ?description.
   }`;
-  const [result, setResult] = useState<BindingSet>({} as BindingSet);
+  const [result, setResult] = useState<BindingSet>();
   function a11yProps(index: number) {
     return {
       id: `simple-tab-${index}`,

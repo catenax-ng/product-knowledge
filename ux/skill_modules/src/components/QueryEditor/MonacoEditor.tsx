@@ -28,6 +28,7 @@ export default function MonacoEditor({
 
   const runCode = () => {
     setLoading(true);
+    console.log(code);
     if (code) {
       const connector = getConnectorFactory().create();
       connector.executeQuery(code, {}).then((result) => {
@@ -44,7 +45,7 @@ export default function MonacoEditor({
 
   return (
     <>
-      <Box display="flex" justifyContent="flex-end">
+      <Box display="flex" justifyContent="flex-end" mb={2}>
         <IconButton
           aria-label="theme-toggle"
           onClick={toggleTheme}
@@ -60,7 +61,7 @@ export default function MonacoEditor({
         theme={theme}
         onChange={onCodeChange}
       />
-      <Box display="flex">
+      <Box display="flex" mt={2}>
         <LoadingButton
           startIcon={<PlayArrowIcon />}
           loading={loading}

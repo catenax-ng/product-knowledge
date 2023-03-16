@@ -19,14 +19,14 @@ export default function Home() {
         >
           Query Editor
         </Typography>
-        <iframe
+        {/* <iframe
           title="SparqlEditor"
           width="100%"
           height={1024}
           frameBorder="0"
           scrolling="no"
           src={`${process.env.REACT_APP_FOLDER}/SkillEditor/index.html?lang=en`}
-        />
+        /> */}
         <QueryEditor />
       </Box>
     </>
