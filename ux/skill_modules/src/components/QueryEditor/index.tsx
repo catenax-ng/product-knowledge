@@ -104,7 +104,7 @@ SELECT ?site ?part ?partName ?vendor ?product ?productName ?part2 ?part3 ?part4 
         <MonacoEditor defaultCode={defaultCode} onSubmit={setResult} />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <SparqlEditor defaultCode={defaultCode} />
+        <SparqlEditor defaultCode={defaultCode} onSubmit={setResult} />
       </TabPanel>
       {result && (
         <DataList search={'Sparql Query'} id={'sparql-query'} data={result} />
