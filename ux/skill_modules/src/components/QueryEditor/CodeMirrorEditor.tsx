@@ -33,6 +33,7 @@ export default function CodeMirrorEditor({
   const toggleTheme = useCallback(() => {
     setTheme((theme) => (theme === 'monokai' ? 'eclipse' : 'monokai'));
   }, []);
+
   const runCode = () => {
     console.log(code);
     setLoading(true);

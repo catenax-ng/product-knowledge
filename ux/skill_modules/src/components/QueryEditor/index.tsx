@@ -7,17 +7,66 @@ import SupernaturlaEditor from './SupernaturalEditor';
 import MonacoEditor from './MonacoEditor';
 import { BindingSet } from '@catenax-ng/skill-framework/dist/src';
 import { DataList } from '../DataList';
+import SparqlEditor from './SparqlEditor';
 
 export const QueryEditor = () => {
-  const defaultCode = `SELECT 
-  ?connector ?id ?name ?description ?type ?version ?contentType 
-  WHERE { 
-    ?connector <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl%23offersAsset> ?asset.
-    ?asset <https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl%23contentType> ?contentType; 
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns%23type> ?type;
-    <https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl%23version> ?version; 
-    <https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl%23description> ?description.
-  }`;
+  const defaultCode = `PREFIX cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX bpns: <bpn:site:>
+
+######
+# Sample "Material Site" Trace Skill
+# An trace incident has
+# - a description of the target material # - a bpns number # The skill produces # - source part(s) # - affected product(s) and organization(s) # - (m)bom trace(s) from source to product ######
+
+SELECT ?site ?part ?partName ?vendor ?product ?productName ?part2 ?part3 ?part4 ?site2 ?site3 ?site4 ?site5 WHERE {
+
+  VALUES (?material ?site) { 
+      ("Cathode"^^xsd:string bpns:BPNS00000003B0Q0)
+  }
+  
+  ## Find the connector address of the responsible
+  ## businesspartner/orga from the federated data catalogue
+  ?incidentOrga cx:hasSite ?site;
+        cx:hasConnector ?connectorUrl.
+        
+  SERVICE ?connectorUrl {
+
+      ## Is there a product which has the incident "material"
+      ## workaround: use the part name
+       ?part rdf:type cx:Part;
+         cx:partName ?partName;
+         cx:isProducedBy ?site.
+       FILTER( CONTAINS(?partName, ?material)).
+
+      ?part cx:isPartOf ?part2.
+      ?part2 cx:partName ?part2Name;
+             cx:isProducedBy ?site2.
+  
+      OPTIONAL {
+          ?part2 cx:isPartOf ?part3.
+          ?part3 cx:partName ?part3Name;
+                 cx:isProducedBy ?site3.
+      }
+
+     OPTIONAL {
+          ?part3 cx:isPartOf ?part4.
+          ?part4 cx:partName ?part4Name;
+                 cx:isProducedBy ?site4.
+     }
+
+      OPTIONAL {
+          ?part4 cx:isPartOf ?product.
+          ?product cx:partName ?productName;
+                   cx:isProducedBy ?site5.
+     }
+  }
+
+  ?vendor cx:hasSite ?site5.
+} 
+`;
   const [result, setResult] = useState<BindingSet>();
   function a11yProps(index: number) {
     return {
@@ -42,6 +91,7 @@ export const QueryEditor = () => {
           <Tab label="Supernatural Editor" {...a11yProps(0)} />
           <Tab label="Code Mirror" {...a11yProps(1)} />
           <Tab label="Monaco Editor" {...a11yProps(2)} />
+          <Tab label="Yasgui Editor" {...a11yProps(2)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -52,6 +102,9 @@ export const QueryEditor = () => {
       </TabPanel>
       <TabPanel value={value} index={2}>
         <MonacoEditor defaultCode={defaultCode} onSubmit={setResult} />
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        <SparqlEditor defaultCode={defaultCode} />
       </TabPanel>
       {result && (
         <DataList search={'Sparql Query'} id={'sparql-query'} data={result} />
