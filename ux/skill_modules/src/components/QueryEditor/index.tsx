@@ -7,7 +7,7 @@ import SupernaturlaEditor from './SupernaturalEditor';
 import MonacoEditor from './MonacoEditor';
 import { BindingSet } from '@catenax-ng/skill-framework/dist/src';
 import { DataList } from '../DataList';
-import SparqlEditor from './SparqlEditor';
+import SparqlEditor from './SparqlEditor/SparqlEditor';
 
 export const QueryEditor = () => {
   const defaultCode = `PREFIX cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#>
@@ -106,9 +106,7 @@ SELECT ?site ?part ?partName ?vendor ?product ?productName ?part2 ?part3 ?part4 
       <TabPanel value={value} index={3}>
         <SparqlEditor defaultCode={defaultCode} onSubmit={setResult} />
       </TabPanel>
-      {result && (
-        <DataList search={'Sparql Query'} id={'sparql-query'} data={result} />
-      )}
+      {result && <DataList search={'Sparql Query'} data={result} />}
     </Box>
   );
 };

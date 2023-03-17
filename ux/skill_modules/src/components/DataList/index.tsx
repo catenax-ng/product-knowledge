@@ -12,7 +12,7 @@ import EmptyResultBox from '../EmptyResultBox';
 
 interface DataListProps {
   search: string;
-  id: string;
+  id?: string;
   data: BindingSet;
   actions?: Action[];
   hiddenColums?: string[];
@@ -39,11 +39,14 @@ export const DataList = ({
   const tableTitle = `Results for ${search}`;
 
   const resultToColumns = (result: string[]): Array<GridColDef> => {
-    const filteredColumns = result.filter(
-      (item, index) =>
-        (hiddenColums && !hiddenColums.includes(item)) ||
-        (hiddenColumsIndex && index <= hiddenColumsIndex)
-    );
+    let filteredColumns: string[] = result;
+    if (hiddenColums || hiddenColumsIndex) {
+      filteredColumns = result.filter(
+        (item, index) =>
+          (hiddenColums && !hiddenColums.includes(item)) ||
+          (hiddenColumsIndex && index <= hiddenColumsIndex)
+      );
+    }
 
     const columns: Array<GridColDef> = filteredColumns.map((item, index) => ({
       field: item,

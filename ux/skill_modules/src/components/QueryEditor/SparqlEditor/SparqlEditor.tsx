@@ -6,6 +6,7 @@ import {
   BindingSet,
   getConnectorFactory,
 } from '@catenax-ng/skill-framework/dist/src';
+import './styles.sass';
 
 interface SparqlEditorProps {
   defaultCode: string;
@@ -30,19 +31,17 @@ export default function SparqlEditor({
     yasgui.on('query', (instance: Yasgui, tab: Tab) => {
       console.log('on Query');
       console.log(tab);
+      console.log('Yasque value');
       console.log(tab.getYasqe().value);
     });
     // Fires when a query is finished
     yasgui.on('queryResponse', (instance: Yasgui, tab: Tab) => {
-      console.log('on queryResponse');
       const yasqe = tab.getYasqe();
-      console.log(instance);
-      console.log(tab);
-      console.log(yasqe.value);
       //defaultCode needs to be replaced by the input of the editor
       const connector = getConnectorFactory().create();
       connector.executeQuery(defaultCode, {}).then((result) => {
         onSubmit(result);
+        console.log('RESULT');
         console.log(result);
       });
     });
