@@ -88,23 +88,23 @@ SELECT ?site ?part ?partName ?vendor ?product ?productName ?part2 ?part3 ?part4 
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Supernatural Editor" {...a11yProps(0)} />
-          <Tab label="Code Mirror" {...a11yProps(1)} />
-          <Tab label="Monaco Editor" {...a11yProps(2)} />
-          <Tab label="Yasgui Editor" {...a11yProps(2)} />
+          <Tab label="Yasgui Editor" {...a11yProps(0)} />
+          <Tab label="Supernatural Editor" {...a11yProps(1)} />
+          <Tab label="Code Mirror" {...a11yProps(2)} />
+          <Tab label="Monaco Editor" {...a11yProps(3)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <SupernaturlaEditor />
+        <SparqlEditor defaultCode={defaultCode} onSubmit={setResult} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <CodeMirrorEditor defaultCode={defaultCode} onSubmit={setResult} />
+        <SupernaturlaEditor />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <MonacoEditor defaultCode={defaultCode} onSubmit={setResult} />
+        <CodeMirrorEditor defaultCode={defaultCode} onSubmit={setResult} />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <SparqlEditor defaultCode={defaultCode} onSubmit={setResult} />
+        <MonacoEditor defaultCode={defaultCode} onSubmit={setResult} />
       </TabPanel>
       {result && <DataList search={'Sparql Query'} data={result} />}
     </Box>

@@ -7,6 +7,7 @@ import {
   getConnectorFactory,
 } from '@catenax-ng/skill-framework/dist/src';
 import './styles.sass';
+//import 'codemirror/theme/monokai.css';
 
 interface SparqlEditorProps {
   defaultCode: string;
@@ -17,6 +18,8 @@ export default function SparqlEditor({
   onSubmit,
 }: SparqlEditorProps) {
   useEffect(() => {
+    Yasgui.Yasqe.defaults.value = defaultCode;
+    //Yasgui.Yasqe.defaults.theme = 'monokai';
     const yasgui = new Yasgui(
       document.getElementById('yasgui') as HTMLElement,
       {
@@ -27,22 +30,15 @@ export default function SparqlEditor({
         copyEndpointOnNewTab: false,
       }
     );
-    // Fires when a query is executed
-    yasgui.on('query', (instance: Yasgui, tab: Tab) => {
-      console.log('on Query');
-      console.log(tab);
-      console.log('Yasque value');
-      console.log(tab.getYasqe().value);
-    });
+
     // Fires when a query is finished
     yasgui.on('queryResponse', (instance: Yasgui, tab: Tab) => {
       const yasqe = tab.getYasqe();
       //defaultCode needs to be replaced by the input of the editor
+      const code = yasqe.getValueWithoutComments();
       const connector = getConnectorFactory().create();
-      connector.executeQuery(defaultCode, {}).then((result) => {
+      connector.executeQuery(code, {}).then((result) => {
         onSubmit(result);
-        console.log('RESULT');
-        console.log(result);
       });
     });
   }, []);
