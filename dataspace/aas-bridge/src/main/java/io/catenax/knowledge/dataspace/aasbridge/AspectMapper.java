@@ -1,10 +1,13 @@
 package io.catenax.knowledge.dataspace.aasbridge;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.adminshell.aas.v3.dataformat.DeserializationException;
 import io.adminshell.aas.v3.dataformat.xml.XmlDeserializer;
 import io.adminshell.aas.v3.model.AssetAdministrationShellEnvironment;
 import io.adminshell.aas.v3.model.ModelingKind;
-import io.adminshell.aas.v3.model.SubmodelElement;
+import jakarta.json.Json;
 
 import java.io.IOException;
 import java.net.URI;
@@ -17,15 +20,20 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
-import java.util.function.Predicate;
 
 import static java.time.temporal.ChronoUnit.SECONDS;
 
-public class AspectMapper {
+public abstract class AspectMapper {
     protected String providerSparqlEndpoint;
     protected AssetAdministrationShellEnvironment aasTemplate;
-    protected HttpClient client;
-    private String credentials = System.getenv("PROVIDER3_CREDENTIAL_BASIC");
+
+    public AssetAdministrationShellEnvironment getAasInstances() {
+        return aasInstances;
+    }
+
+    protected AssetAdministrationShellEnvironment aasInstances;
+    private HttpClient client;
+    private final String credentials = System.getenv("PROVIDER3_CREDENTIAL_BASIC");
 
     public AspectMapper(String providerSparqlEndpoint, Path aasPath) throws IOException, DeserializationException {
         this.providerSparqlEndpoint = providerSparqlEndpoint;
@@ -38,7 +46,7 @@ public class AspectMapper {
         this.aasTemplate = aasEnv;
     }
 
-    public CompletableFuture<String> executeQuery(String query) throws URISyntaxException {
+    public CompletableFuture<JsonNode> executeQuery(String query) throws URISyntaxException {
         HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString(query);
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI(providerSparqlEndpoint))
@@ -57,14 +65,21 @@ public class AspectMapper {
                     }else{
                         throw new RuntimeException("Sparql-Request failed with " + res.statusCode());
                     }
+                })
+                .thenApply(body -> {
+                    try {
+                        return new ObjectMapper().readValue(body, JsonNode.class);
+                    } catch (JsonProcessingException e) {
+                        throw new RuntimeException("No proper json response string!" + e);
+                    }
                 });
     }
 
 
-    public AssetAdministrationShellEnvironment parametrizeAas(){
+    protected AssetAdministrationShellEnvironment instantiateAas(){
         aasTemplate.getSubmodels().forEach(smt -> smt.setKind(ModelingKind.INSTANCE));
         return aasTemplate;
-    };
+    }
 
 
     public String getProviderSparqlEndpoint() {
