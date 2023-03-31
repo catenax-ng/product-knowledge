@@ -26,15 +26,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.*;
 import javax.ws.rs.*;
 
-
 @Path("/")
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaJerseyServerCodegen", date = "2023-03-23T11:28:11.277776230Z[GMT]")public abstract class AgentApi  {
 
-    @Context protected SecurityContext securityContext;
-    @Context protected HttpHeaders headers;
-    @Context protected Request request;
-    @Context protected Response response;
-    @Context protected UriInfo uri;
+    @Context public SecurityContext securityContext;
+    @Context public Application application;
+    @Context public HttpHeaders headers;
+    @Context public Request request;
+    @Context public Response response;
+    @Context public UriInfo uri;
 
     @GET
     @Produces({ "application/sparql-results+json",

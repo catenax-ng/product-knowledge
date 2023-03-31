@@ -8,10 +8,9 @@ package io.catenax.knowledge.agents.conforming;
 
 import io.catenax.knowledge.agents.conforming.api.AgentApi;
 
-import io.catenax.knowledge.agents.conforming.model.*;
-
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import io.catenax.knowledge.agents.conforming.api.NotFoundException;
 
@@ -94,9 +93,9 @@ public class ConformingAgent extends AgentApi {
     public static MediaType srx = MediaType.valueOf("application/sparql-results+xml");
     public static MediaType sq = MediaType.valueOf("application/sparql-query");
 
-    public static boolean useSimple=true;
-    public static int status=200;
-    public static String warnings = "[]";
+    public boolean useSimple=true;
+    public int status=200;
+    public String warnings = "[]";
 
     protected MediaType getDefaultResultType() {
         if(headers.getHeaderString("Accept")!=null) {
@@ -119,8 +118,8 @@ public class ConformingAgent extends AgentApi {
     }
 
     /** produces a standard response */
-    protected Response compute(MediaType resultType) {
-        Object target;
+    protected Map<String,byte[]> computeBody(MediaType resultType) {
+        String target;
         if(useSimple) {
             if(resultType.isCompatible(srj)) {
                 target=simpleJson;
@@ -134,29 +133,43 @@ public class ConformingAgent extends AgentApi {
                 target=emptyXml;
             }
         }
-        return Response.status(status).type(resultType).entity(target).header("cx_warnings",warnings).build();
+        return Map.of(resultType.toString(),target.getBytes());
+    }
+
+    /** produces a standard response */
+    protected Response.ResponseBuilder compute(MediaType resultType) {
+        AtomicReference<Response.ResponseBuilder> response= new AtomicReference<>(Response.status(status));
+        Map<String,byte[]> body=computeBody(resultType);
+        body.entrySet().forEach( result -> {
+                    response.set(response.get().type(result.getKey()).entity(result.getValue()));
+                });
+        return response.get();
+    }
+
+    protected Response annotate(Response.ResponseBuilder builder) {
+        return builder.header("cx_warnings",warnings).build();
     }
 
     @Override
     public Response getAgent(String asset, String queryLn, String query, String _vin, List<String> troubleCode) throws NotFoundException {
         MediaType resultType=getDefaultResultType();
         if(resultType==null) {
-            return Response.status(400,"KA-BIND/KA-MATCH: Only supports application/sparql-results+json|xml compatible Accept header").build();
+            return annotate(Response.status(400,"KA-BIND/KA-MATCH: Only supports application/sparql-results+json|xml compatible Accept header"));
         }
-        return compute(resultType);
+        return annotate(compute(resultType));
     }
 
     @Override
     public Response postAgent(Object body, String asset,  String queryLn, String query, String _vin,  List<String> troubleCode) throws NotFoundException {
         MediaType resultType=getDefaultResultType();
         if(resultType==null) {
-            return Response.status(400,"KA-BIND/KA-MATCH: Only supports application/sparql-results+json|xml compatible Accept header").build();
+            return annotate(Response.status(400,"KA-BIND/KA-MATCH: Only supports application/sparql-results+json|xml compatible Accept header"));
         }
         MediaType bodyType=MediaType.valueOf(headers.getHeaderString("Content-Type"));
         if(!bodyType.isCompatible(sq) && !bodyType.isCompatible(srj) && !bodyType.isCompatible(srx)) {
-            return Response.status(400,"KA-BIND/KA-MATCH postAgent only accepts application/sparql-query|results+json|xml in body.").build();
+            return annotate(Response.status(400,"KA-BIND/KA-MATCH postAgent only accepts application/sparql-query|results+json|xml in body."));
         }
-        return compute(resultType);
+        return annotate(compute(resultType));
     }
 
     @Override

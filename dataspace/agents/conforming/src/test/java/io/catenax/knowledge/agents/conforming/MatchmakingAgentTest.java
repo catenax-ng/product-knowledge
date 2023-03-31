@@ -19,6 +19,12 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests the standard matchmaking agent. this is not a test for conformance! +
+ * It is rather a test for "exactness" such that the implementation tested can serve
+ * as a conformance tool.
+ */
+
 public class MatchmakingAgentTest extends ConformingAgentTest {
 
     @Test

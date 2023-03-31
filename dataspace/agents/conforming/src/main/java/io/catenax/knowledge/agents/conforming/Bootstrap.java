@@ -6,10 +6,24 @@
 //
 package io.catenax.knowledge.agents.conforming;
 
+import io.catenax.knowledge.agents.conforming.api.JsonProvider;
+import io.catenax.knowledge.agents.conforming.api.SparqlProvider;
+import io.catenax.knowledge.agents.conforming.api.XmlProvider;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.glassfish.jersey.server.ContainerFactory;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.simple.SimpleContainer;
+import org.glassfish.jersey.simple.SimpleContainerFactory;
+import org.glassfish.jersey.simple.SimpleServer;
+import sun.misc.Signal;
+
+import javax.ws.rs.core.UriBuilder;
+import java.io.IOException;
+import java.net.URI;
 
 @OpenAPIDefinition(
     info = @Info(
@@ -25,4 +39,63 @@ import io.swagger.v3.oas.annotations.info.License;
     )
 )
 public class Bootstrap {
+
+    SimpleServer server;
+
+    /**
+     * Starts Grizzly HTTP server exposing JAX-RS resources defined in this application.
+     * @return Grizzly HTTP server.
+     */
+    public Bootstrap() {
+        handleSignal("TERM");
+        URI baseUri = UriBuilder.fromUri("http://localhost/").port(8080).build();
+        ResourceConfig config = new ResourceConfig()
+                .packages("io.catenax.knowledge.agents.conforming")
+                .register(JsonProvider.class)
+                .register(XmlProvider.class)
+                .register(SparqlProvider.class)
+                .register(BindingAgent.class)
+                .register(TransferAgent.class)
+                .register(MatchmakingAgent.class)
+                .packages("org.glassfish.jersey.examples.multipart")
+                .register(MultiPartFeature.class);
+        server = SimpleContainerFactory.create(baseUri, config);
+    }
+
+    /**
+     * Main method.
+     * @param args
+     * @throws IOException
+     */
+    public static void main(String[] args) throws IOException {
+        new Bootstrap();
+        System.out.println("Started Conforming Agent.");
+        while (true) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+
+    private void shutdown()  {
+        System.out.println("Shutdown initiated");
+        try {
+            server.close();
+        } catch (IOException e) {
+            System.err.println("Could not shutdown server. Exiting anyway.");
+        }
+        System.exit(0);
+    }
+
+    private void handleSignal(String name) {
+        Signal signal = new Signal(name);
+        Signal.handle(signal, Signal -> {
+            System.out.println("Signal received: " + signal.getName());
+            if ("TERM".equals(signal.getName())) {
+               shutdown();
+            }
+        });
+    }
 }

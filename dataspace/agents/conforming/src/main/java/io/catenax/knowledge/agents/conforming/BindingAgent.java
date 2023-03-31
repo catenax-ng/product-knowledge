@@ -16,13 +16,16 @@ import java.util.List;
 import org.eclipse.rdf4j.query.parser.ParsedQuery;
 import org.eclipse.rdf4j.query.parser.sparql.SPARQLParser;
 
+/**
+ * Implements a standard binding agent
+ */
 @Path("/bind")
 public class BindingAgent extends ConformingAgent {
 
     @Override
     public Response getAgent(String asset, String queryLn, String query, String _vin, List<String> troubleCode) throws NotFoundException {
         if(query==null) {
-            return Response.status(400,"{ \"error\":400, \"reason\":\"KA-BIND: query parameter must be set\" }").build();
+            return annotate(Response.status(400,"{ \"error\":400, \"reason\":\"KA-BIND: query parameter must be set\" }"));
         }
         SPARQLParser parser = new SPARQLParser();
         ParsedQuery sparql=parser.parseQuery(query,uri.getAbsolutePath().toString());
@@ -30,7 +33,7 @@ public class BindingAgent extends ConformingAgent {
         try {
             sparql.getTupleExpr().visit(new BindingProfileChecker());
         } catch(Exception e) {
-            return Response.status(400,"{ \"error\":400, \"reason\":\""+e.getMessage()+"\" }").build();
+            return annotate(Response.status(400,"{ \"error\":400, \"reason\":\""+e.getMessage()+"\" }"));
         }
         return super.getAgent(asset,queryLn, query,_vin,troubleCode);
     }
@@ -38,13 +41,13 @@ public class BindingAgent extends ConformingAgent {
     @Override
     public Response postAgent(Object body, String asset,  String queryLn, String query, String _vin,  List<String> troubleCode) throws NotFoundException {
         if(body==null) {
-            return Response.status(400,"{ \"error\":400, \"reason\":\"KA-BIND: query parameter must be set\" }").build();
+            return annotate(Response.status(400,"{ \"error\":400, \"reason\":\"KA-BIND: query parameter must be set\" }"));
         }
         return super.postAgent(body,asset,queryLn,query,_vin,troubleCode);
     }
 
     @Override
     public Response postSkill(String body, @NotNull String asset) throws NotFoundException {
-        return Response.status(404,"{ \"error\":404, \"reason\":\"KA-BIND: does not support skills\" }").build();
+        return annotate(Response.status(404,"{ \"error\":404, \"reason\":\"KA-BIND: does not support skills\" }"));
     }
 }

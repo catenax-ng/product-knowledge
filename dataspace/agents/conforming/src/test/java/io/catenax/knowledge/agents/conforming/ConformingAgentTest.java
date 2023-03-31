@@ -22,6 +22,8 @@ import io.catenax.knowledge.agents.conforming.model.JsonResultset;
 import io.catenax.knowledge.agents.conforming.model.JsonResultsetResults;
 import io.catenax.knowledge.agents.conforming.model.XmlResultset;
 import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.glassfish.jersey.media.multipart.internal.MultiPartReaderClientSide;
 import org.glassfish.jersey.message.internal.OutboundJaxrsResponse;
 import org.glassfish.jersey.test.DeploymentContext;
 import org.glassfish.jersey.test.JerseyTest;
@@ -52,6 +54,7 @@ public abstract class ConformingAgentTest extends JerseyTest {
     @Override
     protected void configureClient(ClientConfig config) {
         super.configureClient(config);
+        config.register(MultiPartReaderClientSide.class);
     }
 
     @Override
@@ -60,6 +63,8 @@ public abstract class ConformingAgentTest extends JerseyTest {
         context.getResourceConfig().register(JsonProvider.class);
         context.getResourceConfig().register(XmlProvider.class);
         context.getResourceConfig().register(SparqlProvider.class);
+        context.getResourceConfig().packages("org.glassfish.jersey.examples.multipart")
+                .register(MultiPartFeature.class);
         return context;
     }
 
@@ -108,8 +113,12 @@ public abstract class ConformingAgentTest extends JerseyTest {
         testXmlResultSet(response);
     }
 
+    protected String getEntity(Response response) {
+        return response.readEntity(String.class);
+    }
+
     protected void testJsonResultSet(Response response) throws IOException {
-        String content = response.readEntity(String.class);
+        String content = getEntity(response);
         JsonNode node=objectMapper.readTree(content);
         assertEquals(3,node.get("head").get("vars").size(),"Got three variables");
         assertEquals(1,node.get("results").get("bindings").size(),"got one result");
@@ -123,7 +132,7 @@ public abstract class ConformingAgentTest extends JerseyTest {
         } catch (ParserConfigurationException e) {
             throw new IOException("Could not get Xml parser",e);
         }
-        String content = response.readEntity(String.class);
+        String content = getEntity(response);
         Document document= null;
         try {
             document = builder.parse(new InputSource(new StringReader(content)));

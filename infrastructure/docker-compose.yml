@@ -27,15 +27,15 @@ services:
       - ./resources/druid.runtime.properties:/opt/druid/conf/druid/single-server/micro-quickstart/_common/common.runtime.properties
       - ./resources/data:/opt/druid/data
 
-#  db-backend:
-#    image: postgres
-#    environment:
-#      POSTGRES_PASSWORD:
-#      PGPASSWD:
-#    ports:
-#      - 5432:5432
-#    volumes:
-#      - ./resources/data:/tmp/data
+  db-backend:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+      PGPASSWD: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./resources/data:/tmp/data
 
   data-backend:
     build:
@@ -62,10 +62,22 @@ services:
 #    volumes:
 #      - ./resources/data/zag_fmea.xml:/opt/xyz/zag_fmea.xml
 
-#  graph-backend:
-#    image: ontotext/graphdb:10.1.4
-#    ports:
-#      - "7200:7200"
+  graph-backend:
+    image: ontotext/graphdb:10.1.4
+    ports:
+      - "7200:7200"
+
+  #
+  # Configures the provider agent
+  #
+  conforming-agent:
+    build:
+      dockerfile: src/main/docker/Dockerfile
+      context: ../dataspace/agents/conforming
+    image: ghcr.io/catenax-ng/product-knowledge/conforming-agent:0.8.1-SNAPSHOT
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
+    ports:
+      - "8898:8080" # sparql endpoint
 
   #
   # Configures the provider agent

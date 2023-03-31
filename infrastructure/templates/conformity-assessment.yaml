@@ -1,0 +1,153 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: conforming-agent-config
+  namespace: {{ .Values.namespace }}
+data:
+  settings.properties: |-
+---
+apiVersion: v1
+data:
+  auth: {{ .Values.security.htpasswd }} 
+kind: {{ .Values.security.htpasswdtype }}
+metadata:
+  name: conforming-auth
+  namespace: {{ .Values.namespace }}
+type: Opaque
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: conforming-agent
+  namespace: {{ .Values.namespace }}
+  annotations:
+    container.apparmor.security.beta.kubernetes.io/confirming-agent: default
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: conforming-agent
+  template:
+    metadata:
+      labels:
+        app: conforming-agent
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsUser: 10000
+        runAsGroup: 30000
+        fsGroup: 30000
+        seccompProfile:
+           type: RuntimeDefault
+      containers:
+        - name: conforming-agent
+          image: ghcr.io/catenax-ng/product-knowledge/conforming-agent:{{.Values.version}}
+          imagePullPolicy: Always
+          securityContext:
+            capabilities:
+              drop:
+                - all
+              add: ['NET_BIND_SERVICE']
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+          ports:
+            - containerPort: 8080 # Sparql-Profiles
+          resources:
+           requests:
+            cpu: 0.2
+            memory: "0.2Gi"
+           limits:
+            cpu: 0.2
+            memory: "0.2Gi"
+          startupProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /matchmaking?asset=TestAsset
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 5
+          livenessProbe:
+            failureThreshold: 2
+            httpGet:
+              path: /matchmaking?asset=TestAsset
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 300
+            successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            failureThreshold: 2
+            httpGet:
+              path: /matchmaking?asset=TestAsset
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 60
+            successThreshold: 1
+            timeoutSeconds: 5        
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "" #"-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090"
+          volumeMounts:
+            - name: conforming-agent-config
+              mountPath: /app/mount
+      volumes:
+        - name: conforming-agent-config
+          configMap:
+            name: conforming-agent-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: conforming-agent
+  namespace: {{ .Values.namespace }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      name: sparql
+      targetPort: 8080
+  selector:
+    app: conforming-agent
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: conforming-agent-ingress
+  namespace: {{ .Values.namespace }}
+  annotations:
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.issuer }}
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "https://knowledge.dev.demo.catena-x.net, http://localhost:3000"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, PUT, POST, DELETE, PATCH, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-headers: "Host,DNT,X-Api-Key,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization"
+    nginx.ingress.kubernetes.io/x-forwarded-prefix: "/conforming-agent"
+    nginx.org/mergeable-ingress-type: master
+    # type of authentication
+    #nginx.ingress.kubernetes.io/auth-type: basic
+    # name of the secret that contains the user/password definitions
+    #nginx.ingress.kubernetes.io/{{ .Values.security.authType }}: oem-provider-auth
+    # message to display with an appropriate context why the authentication is required
+    #nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - OEM'
+spec:
+  tls:
+    - hosts:
+        - {{ .Values.ingress.host }}
+      secretName: tls-knowledge
+  rules:
+    - host: {{ .Values.ingress.host }}
+      http:
+        paths:
+          - path: /conforming-agent/(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: conforming-agent
+                port:
+                  number: 8080

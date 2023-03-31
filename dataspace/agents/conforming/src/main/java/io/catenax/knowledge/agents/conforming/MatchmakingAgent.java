@@ -15,13 +15,16 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.util.List;
 
+/**
+ * Implements a standard matchmaking agent
+ */
 @Path("/match")
 public class MatchmakingAgent extends ConformingAgent {
 
     @Override
     public Response getAgent(String asset, String queryLn, String query, String _vin, List<String> troubleCode) throws NotFoundException {
         if(query==null && asset==null) {
-            return Response.status(400,"{ \"error\":400, \"reason\":\"KA-MATCH: query or asset parameter must be set\" }").build();
+            return annotate(Response.status(400,"{ \"error\":400, \"reason\":\"KA-MATCH: query or asset parameter must be set\" }"));
         }
         return super.getAgent(asset,queryLn,query,_vin,troubleCode);
     }
@@ -29,7 +32,7 @@ public class MatchmakingAgent extends ConformingAgent {
     @Override
     public Response postAgent(Object body, String asset, String queryLn, String query, String _vin,  List<String> troubleCode) throws NotFoundException {
         if(body==null && asset == null) {
-            return Response.status(400,"{ \"error\":400, \"reason\":\"KA-BIND: body or asset parameter must be set\" }").build();
+            return annotate(Response.status(400,"{ \"error\":400, \"reason\":\"KA-BIND: body or asset parameter must be set\" }"));
         }
         return super.postAgent(body, asset, queryLn, query, _vin,troubleCode);
     }
