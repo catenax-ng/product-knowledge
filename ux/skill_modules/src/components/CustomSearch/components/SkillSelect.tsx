@@ -21,7 +21,7 @@ const skillOptions = [
     title: 'Material Incident Search',
     value: 'MaterialIncidentSearch',
     regEx:
-      /[wW]hich products are affected by (?<material>.+) material produced in (?<region>.+)/gm,
+      /[wW]hich products are affected by (?<material>.+) produced in (?<region>.+)/gm,
   },
   {
     title: 'Remaining Useful Life',
@@ -32,7 +32,7 @@ const skillOptions = [
   {
     title: 'Beer Search',
     value: 'BeerSearch',
-    regEx: /[bB]ring me a beer.*/gm,
+    regEx: /[bB]ring me (a|some) beer.*/gm,
   },
 ];
 
@@ -54,6 +54,26 @@ export const SkillSelect = ({ onSkillChange }: SkillSelectProps) => {
   const context = useContext(SearchContext);
   const { setOptions } = context;
 
+  const selectSkill = function (value: string) {
+    const selectedSkill = skillOptions.find((skill) => skill.value == value);
+    selectSkillOptions(selectedSkill);
+  };
+
+  const selectSkillOptions = function (
+    selectedSkill: SkillOptions | undefined
+  ) {
+    if (selectedSkill) {
+      const options: SearchOptions = {
+        skill: selectedSkill!.value,
+        values: getOptionValues(selectedSkill!),
+      };
+      setOptions(options);
+      onSkillChange(selectedSkill!.value, options);
+      setSkillValue(selectedSkill!.title);
+      setInputValue(selectedSkill!.title);
+    }
+  };
+
   const onSearchSkill = (value: string) => {
     setNoResult(false);
     //add regEx result to skill and filter for existing matches
@@ -65,15 +85,7 @@ export const SkillSelect = ({ onSkillChange }: SkillSelectProps) => {
       .filter((skill) => skill.regExResult.length > 0);
     if (filteredSkills.length > 0) {
       if (filteredSkills.length == 1) {
-        const skill = filteredSkills[0];
-        const options: SearchOptions = {
-          skill: skill.value,
-          values: getOptionValues(skill),
-        };
-        setOptions(options);
-        onSkillChange(skill.value, options);
-        setSkillValue(skill.title);
-        setInputValue(skill.title);
+        selectSkillOptions(filteredSkills[0]);
       }
       //here we have more than one skill option -> what should be done here?
     } else {
@@ -91,39 +103,49 @@ export const SkillSelect = ({ onSkillChange }: SkillSelectProps) => {
   };
 
   const getOptionValues = (skill: SkillOptions) => {
-    if (!skill.regExResult) return undefined;
     if (skill.value === 'Lifetime') {
       const codes: string[] = [];
-      if (skill.regExResult.groups) {
+      if (skill.regExResult && skill.regExResult.groups) {
         Object.entries(skill.regExResult.groups).forEach(([key, value]) => {
           if (key.includes('trouble'))
             codes.push(value.charAt(0).toUpperCase() + value.slice(1));
         });
       }
       return {
-        vin: skill.regExResult.groups?.vehicle ? 'WBAAL31029PZ00001' : '',
+        vin: skill.regExResult?.groups?.vehicle ? 'WBAAL31029PZ00001' : '',
         codes: codes.join(' '),
       };
     }
-    if (skill.value === 'MaterialIncidentSearch' && skill.regExResult.groups) {
-      let searchMaterial = skill.regExResult.groups.material;
-      let arr = searchMaterial.split(' ');
-      arr = arr.map((noun) => noun.charAt(0).toUpperCase() + noun.slice(1));
-      searchMaterial = arr.join(' ');
+    if (skill.value === 'MaterialIncidentSearch') {
+      let searchMaterial = skill.regExResult?.groups?.material;
+      if (searchMaterial) {
+        searchMaterial = searchMaterial.replace(' material', '');
+        searchMaterial = searchMaterial.replace(' Material', '');
+        let arr = searchMaterial.split(' ');
+        arr = arr.map((noun) => noun.charAt(0).toUpperCase() + noun.slice(1));
+        searchMaterial = arr.join(' ');
+      } else {
+        searchMaterial = '';
+      }
       let searchRegion: [number, number, number, number] = [0, 0, 0, 0];
       let searchCenter: LatLngTuple = [0, 0];
       if (
-        skill.regExResult.groups.region.includes('southern') ||
-        skill.regExResult.groups.region.includes('Southern')
+        skill.regExResult?.groups &&
+        (skill.regExResult.groups.region.includes('southern') ||
+          skill.regExResult.groups.region.includes('Southern'))
       ) {
         searchRegion = [7.5, 98, 8, 98.5];
         searchCenter = [7.75, 98.25];
       } else if (
-        skill.regExResult.groups.region.includes('east') ||
-        skill.regExResult.groups.region.includes('East')
+        skill.regExResult?.groups &&
+        (skill.regExResult.groups.region.includes('east') ||
+          skill.regExResult.groups.region.includes('East'))
       ) {
         searchRegion = [12.75, 74.75, 13.25, 75.25];
         searchCenter = [13, 75];
+      } else {
+        searchRegion = [49.75, 8.5, 50.25, 9];
+        searchCenter = [50.08184, 8.63552];
       }
       return {
         material: searchMaterial,
@@ -144,11 +166,9 @@ export const SkillSelect = ({ onSkillChange }: SkillSelectProps) => {
   ) => {
     if (value) {
       if (typeof value === 'string') {
-        setSkillValue(value);
-        onSkillChange(value);
+        selectSkill(value);
       } else {
-        setSkillValue(value.title);
-        onSkillChange(value.value);
+        selectSkill(value.value);
       }
     }
   };

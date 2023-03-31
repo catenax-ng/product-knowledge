@@ -34,7 +34,7 @@ CREATE TABLE $scratch.CX_TRC_MaterialForRecycling_Components AS (
            COMPONENTS.component.materialAbbreviation as component_material_abbreviation
         FROM (
             SELECT
-                JSON.catenaXId,
+                SUBSTR(JSON.catenaXId,10) as catenaXId,
                 JSON.json.materialName,
                 JSON.json.materialClass,
                 FLATTEN(JSON.json['component']) AS component

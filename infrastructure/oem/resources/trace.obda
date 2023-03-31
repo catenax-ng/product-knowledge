@@ -61,7 +61,7 @@ target		material:{catenaXId}/{component_material_name} rdf:type cx:RawMaterial; 
 source		SELECT * FROM "TRACE_TEST_OEM"."CX_TRC_MaterialForRecycling_Components" material
 
 mappingId	materialproperties
-target		material:{catenaXId}/{component_material_name} rdf:type cx:MaterialProperty; cx:aggregateState {component_aggregate_state}^^xsd:string; cx:weight {component_weight}^^xsd:float; cx:recycledContent  {component_recycled_content}^^xsd:float; cx:materialCode {component_material_abbreviation}^^xsd:string.
+target		materialp:{catenaXId}/{component_material_name} rdf:type cx:MaterialProperty; cx:aggregateState {component_aggregate_state}^^xsd:string; cx:weight {component_weight}^^xsd:float; cx:recycledContent  {component_recycled_content}^^xsd:float; cx:materialCode {component_material_abbreviation}^^xsd:string.
 source		SELECT * FROM "TRACE_TEST_OEM"."CX_TRC_MaterialForRecycling_Components" material
 
 ]]
