@@ -15,6 +15,7 @@ import io.adminshell.aas.v3.model.AssetAdministrationShellEnvironment;
 import io.adminshell.aas.v3.model.Identifier;
 import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironment;
 import io.catenax.knowledge.dataspace.aasbridge.aspects.MaterialForRecyclingMapper;
+import io.catenax.knowledge.dataspace.aasbridge.aspects.PartAsPlannedMapper;
 import io.openmanufacturing.sds.aspectmodel.urn.AspectModelUrn;
 
 import java.lang.reflect.InvocationTargetException;
@@ -28,7 +29,9 @@ public class AasBridge {
     private final Map<AspectModelUrn, Class<? extends AspectMapper>> implMap =
             Map.of(
                     AspectModelUrn.fromUrn("urn:bamm:io.catenax.material_for_recycling:1.1.0#MaterialForRecycling"),
-                    MaterialForRecyclingMapper.class);
+                    MaterialForRecyclingMapper.class,
+                    AspectModelUrn.fromUrn("urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned"),
+                    PartAsPlannedMapper.class);
 
     public static void main(String[] args) throws ConfigurationException, AssetConnectionException, MessageBusException, EndpointException {
 

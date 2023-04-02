@@ -1,13 +1,15 @@
 package io.catenax.knowledge.dataspace.aasbridge;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.adminshell.aas.v3.dataformat.DeserializationException;
+import io.adminshell.aas.v3.dataformat.SerializationException;
+import io.adminshell.aas.v3.dataformat.json.JsonDeserializer;
+import io.adminshell.aas.v3.dataformat.json.JsonSerializer;
 import io.adminshell.aas.v3.dataformat.xml.XmlDeserializer;
-import io.adminshell.aas.v3.model.AssetAdministrationShellEnvironment;
-import io.adminshell.aas.v3.model.ModelingKind;
-import jakarta.json.Json;
+import io.adminshell.aas.v3.model.*;
 
 import java.io.IOException;
 import java.net.URI;
@@ -18,8 +20,12 @@ import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Spliterators;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
+import java.util.stream.StreamSupport;
 
 import static java.time.temporal.ChronoUnit.SECONDS;
 
@@ -46,7 +52,7 @@ public abstract class AspectMapper {
         this.aasTemplate = aasEnv;
     }
 
-    public CompletableFuture<JsonNode> executeQuery(String query) throws URISyntaxException {
+    public CompletableFuture<ArrayNode> executeQuery(String query) throws URISyntaxException {
         HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString(query);
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI(providerSparqlEndpoint))
@@ -60,15 +66,15 @@ public abstract class AspectMapper {
         return client
                 .sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .thenApply(res -> {
-                    if(res.statusCode()==200){
+                    if (res.statusCode() == 200) {
                         return res.body();
-                    }else{
+                    } else {
                         throw new RuntimeException("Sparql-Request failed with " + res.statusCode());
                     }
                 })
                 .thenApply(body -> {
                     try {
-                        return new ObjectMapper().readValue(body, JsonNode.class);
+                        return new ObjectMapper().readValue(body, ArrayNode.class);
                     } catch (JsonProcessingException e) {
                         throw new RuntimeException("No proper json response string!" + e);
                     }
@@ -76,11 +82,34 @@ public abstract class AspectMapper {
     }
 
 
-    protected AssetAdministrationShellEnvironment instantiateAas(){
-        aasTemplate.getSubmodels().forEach(smt -> smt.setKind(ModelingKind.INSTANCE));
-        return aasTemplate;
+    protected AssetAdministrationShellEnvironment instantiateAas()
+    {
+        JsonSerializer jsonSerializer = new JsonSerializer();
+        JsonDeserializer jsonDeserializer = new JsonDeserializer();
+
+        AssetAdministrationShellEnvironment clone = null;
+        try {
+            clone = jsonDeserializer.read(jsonSerializer.write(aasTemplate));
+        } catch (DeserializationException | SerializationException e) {
+            throw new RuntimeException(e);
+        }
+        clone.setAssetAdministrationShells(new ArrayList<>());
+        clone.setAssets(new ArrayList<>());
+        clone.getSubmodels().forEach(smt -> smt.setKind(ModelingKind.INSTANCE));
+        return clone;
     }
 
+
+    protected <T extends Referable> T cloneReferable(T original, Class<T> clazz){
+        JsonSerializer jsonSerializer = new JsonSerializer();
+        JsonDeserializer jsonDeserializer = new JsonDeserializer();
+
+        try {
+            return jsonDeserializer.readReferable(jsonSerializer.write((Referable) original), clazz);
+        } catch (DeserializationException | SerializationException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public String getProviderSparqlEndpoint() {
         return providerSparqlEndpoint;
@@ -88,6 +117,18 @@ public abstract class AspectMapper {
 
     public AssetAdministrationShellEnvironment getAasTemplate() {
         return aasTemplate;
+    }
+
+    protected String findValueInProperty(Property property, ObjectNode queryResponse) {
+        String idShort = property.getIdShort();
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(queryResponse.fields(),0),false)
+                .filter(e->e.getKey().equals(idShort)).findFirst()
+                .orElseThrow(()->new RuntimeException("no json key found for idShort " + idShort))
+                .getValue().asText();
+    }
+
+    protected String findValueInProperty(ObjectNode queryResponse, String responseKey){
+        return queryResponse.get(responseKey).asText();
     }
 
     protected HttpClient getClient() {

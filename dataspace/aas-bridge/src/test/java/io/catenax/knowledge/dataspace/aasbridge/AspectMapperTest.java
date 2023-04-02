@@ -23,13 +23,12 @@ class AspectMapperTest {
 
     private static AspectMapper mapper;
 
-    @Disabled
-    @Test
-    public static void instantiate() throws IOException, DeserializationException {
+
+    @BeforeAll
+    public static void instantiate() throws IOException, DeserializationException, URISyntaxException, ExecutionException, InterruptedException {
         String devUrl = "https://knowledge.dev.demo.catena-x.net/oem-provider-agent3/sparql";
         mapper = new MaterialForRecyclingMapper(devUrl);
     }
-    @Disabled
     @Test
     void executeQuery() throws URISyntaxException, ExecutionException, InterruptedException, JsonProcessingException {
         JsonNode jsonNode = mapper.executeQuery("PREFIX cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#>\n" +

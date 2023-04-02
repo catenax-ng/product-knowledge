@@ -1,19 +1,22 @@
 package io.catenax.knowledge.dataspace.aasbridge.aspects;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.adminshell.aas.v3.dataformat.DeserializationException;
-import io.adminshell.aas.v3.model.AssetAdministrationShellEnvironment;
-import io.adminshell.aas.v3.model.Property;
-import io.adminshell.aas.v3.model.SubmodelElement;
-import io.adminshell.aas.v3.model.SubmodelElementCollection;
+import io.adminshell.aas.v3.dataformat.SerializationException;
+import io.adminshell.aas.v3.model.*;
+import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironment;
 import io.catenax.knowledge.dataspace.aasbridge.AspectMapper;
-import opc.i4aas.client.AASDataSpecificationIEC61360TypeImpl;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collector;
+import java.util.stream.StreamSupport;
 
 public class PartAsPlannedMapper extends AspectMapper {
     public PartAsPlannedMapper(String providerSparqlEndpoint) throws IOException, DeserializationException {
@@ -22,38 +25,82 @@ public class PartAsPlannedMapper extends AspectMapper {
             this.aasInstances = this.parametrizeAas();
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (SerializationException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    protected AssetAdministrationShellEnvironment parametrizeAas() throws IOException, URISyntaxException {
-        this.executeQuery(Files.readString(Path.of("src/main/resources/queries/PartAsPlanned.rq")));
+    protected AssetAdministrationShellEnvironment parametrizeAas() throws IOException, URISyntaxException, ExecutionException, InterruptedException, SerializationException, DeserializationException {
+        CompletableFuture<ArrayNode> queryFuture =
+                executeQuery(Files.readString(Path.of("src/main/resources/queries/PartAsPlanned.rq")));
 
 
-        AssetAdministrationShellEnvironment aasInstance = instantiateAas();
-        List<SubmodelElement> submodelElements = aasInstance.getSubmodels().stream()
+        // get new AAS copy
+        aasTemplate.getSubmodels().stream()
                 .filter(sub -> sub.getSemanticId().getKeys().stream()
                         .anyMatch(key -> key.getValue().equals("urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned"))
                 )
-                .findFirst().orElseThrow(() -> new RuntimeException("Desired Submodel not found in Template"))
-                .getSubmodelElements();
+                .findFirst().orElseThrow(() -> new RuntimeException("Desired Submodel not found in Template"));
 
-        // optional SMEs
-        submodelElements.stream()
-                .filter(sme -> sme.getIdShort().equals("validityPeriod"))
-                .findFirst().ifPresent(sme -> ((SubmodelElementCollection) sme)
-                        .getValues().forEach(p ->
-                                ((Property) p).setValue(getValueFromIdShort((Property) p))
+        // stream over returned parts
+        ArrayList<Submodel> partsAsPlanned = StreamSupport.stream(queryFuture.get().spliterator(), false)
+                .map(node -> {
+                            // get new AAS copy
+                            AssetAdministrationShellEnvironment aasInstance = instantiateAas();
+                            List<SubmodelElement> submodelElements = aasInstance.getSubmodels().stream()
+                                    .filter(sub -> sub.getSemanticId().getKeys().stream()
+                                            .anyMatch(key -> key.getValue().equals("urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned"))
+                                    )
+                                    .findFirst().orElseThrow(() -> new RuntimeException("Desired Submodel not found in Template"))
+                                    .getSubmodelElements();
+
+
+                            // optional SMEs
+                            submodelElements.stream()
+                                    .filter(sme -> sme.getIdShort().equals("ValidityPeriodEntity"))
+                                    .findFirst().ifPresent(sme -> ((SubmodelElementCollection) sme)
+                                            .getValues().forEach(p ->
+                                                    ((Property) p).setValue(findValueInProperty((Property) p, (ObjectNode) node))
+
+                                            )
+                                    );
+
+                            submodelElements.stream()
+                                    .filter(sme -> sme.getIdShort().equals("catenaXId"))
+                                    .findFirst().ifPresentOrElse((sme -> ((Property) sme)
+                                                    .setValue(findValueInProperty((Property) sme, (ObjectNode) node))),
+                                            () -> {
+                                                throw new RuntimeException("failed to find a catenaXId in PartsAsPlannedMapper");
+                                            });
+
+                            submodelElements.stream()
+                                    .filter(sme -> sme.getIdShort().equals("PartTypeInformationEntity"))
+                                    .findFirst().ifPresentOrElse(sme -> ((SubmodelElementCollection) sme)
+                                            .getValues().forEach(p -> findValueInProperty((Property) p, (ObjectNode) node)
+                                            ), () -> {
+                                        throw new RuntimeException("failed to find partTypeInformation in partasplanned smt");
+                                    });
+
+                            return aasInstance;
+                        }
+                )
+                .collect(Collector.of(
+                                ArrayList<Submodel>::new,
+                                (list, aas) -> list.addAll(aas.getSubmodels()),
+                                (left, right) -> {
+                                    left.addAll(right);
+                                    return left;
+                                }
                         )
                 );
-
-        return null;
+        return new DefaultAssetAdministrationShellEnvironment.Builder()
+                .submodels(partsAsPlanned)
+                .conceptDescriptions(aasTemplate.getConceptDescriptions())
+                .build();
     }
-
-
-    private String getValueFromIdShort(Property property) {
-        String idShort = property.getIdShort();
-        return null;
-    }
-
 
 }

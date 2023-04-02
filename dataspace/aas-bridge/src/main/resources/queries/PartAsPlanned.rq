@@ -11,7 +11,7 @@ JSON {
     "nameAtManufacturer": ?nameAtManufacturer
 } WHERE {
 
-  SERVICE <{{oemProviderAgent3}}/sparql> {
+  SERVICE <http://oem-provider-agent:8082/sparql> {
     ?catenaXId rdf:type cx:Part;
         cx:partSeries ?manufacturerPartId;
         cx:partName ?nameAtManufacturer;
