@@ -4,7 +4,6 @@ import io.adminshell.aas.v3.dataformat.DeserializationException;
 import io.adminshell.aas.v3.model.AssetAdministrationShellEnvironment;
 import io.adminshell.aas.v3.model.SubmodelElementCollection;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -14,7 +13,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class MaterialForRecyclingMapperTest {
     private static MaterialForRecyclingMapper mapper;
@@ -34,11 +32,10 @@ class MaterialForRecyclingMapperTest {
                         (SubmodelElementCollection) sm.getSubmodelElements().stream()
                                 .filter(sme -> sme.getIdShort().equals("component"))
                                 .findFirst().get())
-                .map(comp->comp)
                 .filter(comp -> comp.getValues().size() > 1).collect(Collectors.toSet());
 
 
-        assertNotEquals(0,componentsPerSubmodel.size());
+        assertNotEquals(0, componentsPerSubmodel.size());
 
     }
 }

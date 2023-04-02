@@ -9,7 +9,10 @@ import io.adminshell.aas.v3.dataformat.SerializationException;
 import io.adminshell.aas.v3.dataformat.json.JsonDeserializer;
 import io.adminshell.aas.v3.dataformat.json.JsonSerializer;
 import io.adminshell.aas.v3.dataformat.xml.XmlDeserializer;
-import io.adminshell.aas.v3.model.*;
+import io.adminshell.aas.v3.model.AssetAdministrationShellEnvironment;
+import io.adminshell.aas.v3.model.ModelingKind;
+import io.adminshell.aas.v3.model.Property;
+import io.adminshell.aas.v3.model.Referable;
 
 import java.io.IOException;
 import java.net.URI;
@@ -21,7 +24,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Spliterators;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
@@ -45,11 +47,6 @@ public abstract class AspectMapper {
         this.providerSparqlEndpoint = providerSparqlEndpoint;
         this.aasTemplate = new XmlDeserializer().read(Files.readString(aasPath));
         this.client = HttpClient.newBuilder().executor(Executors.newFixedThreadPool(5)).build();
-    }
-
-    public AspectMapper(String providerSparqlEndpoint, AssetAdministrationShellEnvironment aasEnv) {
-        this.providerSparqlEndpoint = providerSparqlEndpoint;
-        this.aasTemplate = aasEnv;
     }
 
     public CompletableFuture<ArrayNode> executeQuery(String query) throws URISyntaxException {
@@ -87,7 +84,7 @@ public abstract class AspectMapper {
         JsonSerializer jsonSerializer = new JsonSerializer();
         JsonDeserializer jsonDeserializer = new JsonDeserializer();
 
-        AssetAdministrationShellEnvironment clone = null;
+        AssetAdministrationShellEnvironment clone;
         try {
             clone = jsonDeserializer.read(jsonSerializer.write(aasTemplate));
         } catch (DeserializationException | SerializationException e) {
@@ -111,14 +108,6 @@ public abstract class AspectMapper {
         }
     }
 
-    public String getProviderSparqlEndpoint() {
-        return providerSparqlEndpoint;
-    }
-
-    public AssetAdministrationShellEnvironment getAasTemplate() {
-        return aasTemplate;
-    }
-
     protected String findValueInProperty(Property property, ObjectNode queryResponse) {
         String idShort = property.getIdShort();
         return StreamSupport.stream(Spliterators.spliteratorUnknownSize(queryResponse.fields(),0),false)
@@ -131,8 +120,5 @@ public abstract class AspectMapper {
         return queryResponse.get(responseKey).asText();
     }
 
-    protected HttpClient getClient() {
-        return this.client;
-    }
 }
 
