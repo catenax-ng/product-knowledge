@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -20,8 +21,10 @@ class MaterialForRecyclingMapperTest {
 
     @BeforeAll
     public static void instantiate() throws IOException, DeserializationException, URISyntaxException, ExecutionException, InterruptedException {
-        String devUrl = "https://knowledge.dev.demo.catena-x.net/oem-edc-data/BPNL00000003COJN/api/agent";
-        mapper = new MaterialForRecyclingMapper(devUrl);
+        String devUrl = "https://knowledge.dev.demo.catena-x.net/oem-edc-data/BPNL00000003COJN/api/agent" +
+                "?OemProviderAgent="+
+                URLEncoder.encode("http://oem-provider-agent:8082/sparql", "ISO-8859-1");
+        mapper = new MaterialForRecyclingMapper(devUrl, System.getProperty( "PROVIDER_CREDENTIAL_BASIC"));
     }
 
     @Test

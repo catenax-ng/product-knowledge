@@ -14,13 +14,11 @@ JSON {
     "componentMaterialAbbreviation": ?componentMaterialAbbreviation
 }
 WHERE {
-  SERVICE <http://oem-provider-agent:8082/sparql> {
+  SERVICE <@OemProviderAgent> {
     ?eMat cx:isMadeOf ?rMat;
         rdf:type cx:EngineeringMaterial;
         cx:engineeringMaterialName ?engineeringMaterialName;
         cx:engineeringMaterialNumber ?engineeringMaterialClass.
-
-
     ?rMat rdf:type cx:RawMaterial;
         cx:engineeringMaterialNumber ?componentMaterialClass;
         cx:hasMaterialProperty ?matProp;

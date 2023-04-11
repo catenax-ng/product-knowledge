@@ -32,21 +32,22 @@ import java.util.stream.StreamSupport;
 import static java.time.temporal.ChronoUnit.SECONDS;
 
 public abstract class AspectMapper {
-    protected String providerSparqlEndpoint;
-    protected AssetAdministrationShellEnvironment aasTemplate;
+    protected final String providerSparqlEndpoint;
+    protected final AssetAdministrationShellEnvironment aasTemplate;
 
     public AssetAdministrationShellEnvironment getAasInstances() {
         return aasInstances;
     }
 
     protected AssetAdministrationShellEnvironment aasInstances;
-    private HttpClient client;
-    private final String credentials = System.getenv("PROVIDER3_CREDENTIAL_BASIC");
+    private final HttpClient client;
+    private final String credentials;
 
-    public AspectMapper(String providerSparqlEndpoint, Path aasPath) throws IOException, DeserializationException {
+    public AspectMapper(String providerSparqlEndpoint, Path aasPath, String credentials) throws IOException, DeserializationException {
         this.providerSparqlEndpoint = providerSparqlEndpoint;
         this.aasTemplate = new XmlDeserializer().read(Files.readString(aasPath));
         this.client = HttpClient.newBuilder().executor(Executors.newFixedThreadPool(5)).build();
+        this.credentials = credentials;
     }
 
     public CompletableFuture<ArrayNode> executeQuery(String query) throws URISyntaxException {
@@ -66,7 +67,7 @@ public abstract class AspectMapper {
                     if (res.statusCode() == 200) {
                         return res.body();
                     } else {
-                        throw new RuntimeException("Sparql-Request failed with " + res.statusCode());
+                        throw new RuntimeException("Sparql-Request failed with " + res.statusCode() + res.body());
                     }
                 })
                 .thenApply(body -> {

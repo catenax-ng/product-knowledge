@@ -71,6 +71,9 @@ CMD ["java", \
      "-Dotel.javaagent.configuration-file=/app/opentelemetry.properties", \
      "-Dotel.metrics.exporter=prometheus", \
      "-Dotel.exporter.prometheus.port=9090", \
+     "-DPROVIDER_SPARQL_ENDPOINT=https://knowledge.dev.demo.catena-x.net/oem-edc-data/BPNL00000003COJN/api/agent", \
+     "-DPROVIDER_CREDENTIAL_BASIC=Basic Zm9vOg==", \
+     "-DPROVIDER_AGENT_PLANE=http://oem-provider-agent:8082/sparql", \
      "-Djava.security.edg=file:/dev/.urandom", \
      "-jar", \
      "aas-bridge.jar"]

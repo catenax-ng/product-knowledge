@@ -6,21 +6,24 @@ import io.adminshell.aas.v3.dataformat.DeserializationException;
 import io.adminshell.aas.v3.dataformat.SerializationException;
 import io.adminshell.aas.v3.model.*;
 import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironment;
+import io.adminshell.aas.v3.model.impl.DefaultIdentifier;
 import io.catenax.knowledge.dataspace.aasbridge.AspectMapper;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collector;
 import java.util.stream.StreamSupport;
 
 public class PartAsPlannedMapper extends AspectMapper {
-    public PartAsPlannedMapper(String providerSparqlEndpoint) throws IOException, DeserializationException {
-        super(providerSparqlEndpoint, Path.of("src/main/resources/aasTemplates/PartAsPlanned-aas-1.0.0.xml"));
+    public PartAsPlannedMapper(String providerSparqlEndpoint, String cred) throws IOException, DeserializationException {
+        super(providerSparqlEndpoint, Path.of( "dataspace/aas-bridge/src/main/resources/aasTemplates/PartAsPlanned-aas-1.0.0.xml"), cred);
         try {
             this.aasInstances = this.parametrizeAas();
         } catch (URISyntaxException e) {
@@ -36,7 +39,7 @@ public class PartAsPlannedMapper extends AspectMapper {
 
     protected AssetAdministrationShellEnvironment parametrizeAas() throws IOException, URISyntaxException, ExecutionException, InterruptedException, SerializationException, DeserializationException {
         CompletableFuture<ArrayNode> queryFuture =
-                executeQuery(Files.readString(Path.of("src/main/resources/queries/PartAsPlanned.rq")));
+                executeQuery(Files.readString(Path.of("dataspace/aas-bridge/src/main/resources/queries/PartAsPlanned.rq")));
 
 
         // get new AAS copy
@@ -51,11 +54,17 @@ public class PartAsPlannedMapper extends AspectMapper {
                 .map(node -> {
                             // get new AAS copy
                             AssetAdministrationShellEnvironment aasInstance = instantiateAas();
-                            List<SubmodelElement> submodelElements = aasInstance.getSubmodels().stream()
-                                    .filter(sub -> sub.getSemanticId().getKeys().stream()
-                                            .anyMatch(key -> key.getValue().equals("urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned"))
-                                    )
-                                    .findFirst().orElseThrow(() -> new RuntimeException("Desired Submodel not found in Template"))
+                    Submodel submodel = aasInstance.getSubmodels().stream()
+                            .filter(sub -> sub.getSemanticId().getKeys().stream()
+                                    .anyMatch(key -> key.getValue().equals("urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned"))
+                            )
+                            .findFirst().orElseThrow(() -> new RuntimeException("Desired Submodel not found in Template"));
+
+                    submodel.setIdentification(new DefaultIdentifier.Builder()
+                            .idType(IdentifierType.CUSTOM)
+                            .identifier(UUID.randomUUID().toString())
+                            .build());
+                    List<SubmodelElement> submodelElements = submodel
                                     .getSubmodelElements();
 
 

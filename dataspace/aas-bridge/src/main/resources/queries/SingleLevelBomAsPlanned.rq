@@ -11,7 +11,7 @@ JSON {
     "productionStartDate": ?productionStartDate
 } WHERE {
 
-  SERVICE <{{oemProviderAgent3}}/sparql> {
+  SERVICE <@OemProviderAgent> {
     ?catenaXId rdf:type cx:Part;
         cx:hasBillOfMaterial ?bom.
     ?bom cx:billOfMaterialQuantity ?childQuantity;

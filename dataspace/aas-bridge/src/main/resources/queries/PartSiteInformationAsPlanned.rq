@@ -11,7 +11,7 @@ JSON {
     "roleValidTo": ?roleValidTo
 } WHERE {
 
-  SERVICE <{{oemProviderAgent3}}/sparql> {
+  SERVICE <@OemProviderAgent> {
     ?catenaXId cx:isProducedBy ?site.
     ?site cx:isMemberOf ?legal;
         cx:roleValidFrom ?roleValidFrom;

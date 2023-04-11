@@ -6,8 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.adminshell.aas.v3.dataformat.DeserializationException;
 import io.adminshell.aas.v3.model.*;
 import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironment;
-import io.adminshell.aas.v3.model.impl.DefaultProperty;
-import io.adminshell.aas.v3.model.impl.DefaultSubmodelElementCollection;
+import io.adminshell.aas.v3.model.impl.DefaultIdentifier;
 import io.catenax.knowledge.dataspace.aasbridge.AspectMapper;
 
 import java.io.IOException;
@@ -16,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -23,14 +23,14 @@ import java.util.stream.StreamSupport;
 
 public class MaterialForRecyclingMapper extends AspectMapper {
 
-    public MaterialForRecyclingMapper(String providerSparqlEndpoint) throws IOException, DeserializationException, URISyntaxException, ExecutionException, InterruptedException {
-        super(providerSparqlEndpoint, Path.of("src/main/resources/aasTemplates/MaterialForRecycling-aas-1.1.0.xml"));
+    public MaterialForRecyclingMapper(String providerSparqlEndpoint, String cred) throws IOException, DeserializationException, URISyntaxException, ExecutionException, InterruptedException {
+        super(providerSparqlEndpoint, Path.of("dataspace/aas-bridge/src/main/resources/aasTemplates/MaterialForRecycling-aas-1.1.0.xml"), cred);
         this.aasInstances = this.parametrizeAas();
     }
 
     protected AssetAdministrationShellEnvironment parametrizeAas() throws IOException, URISyntaxException, ExecutionException, InterruptedException {
         CompletableFuture<ArrayNode> queryFuture =
-                executeQuery(Files.readString(Path.of("src/main/resources/queries/MaterialForRecyclingEngineering.rq")));
+                executeQuery(Files.readString(Path.of("dataspace/aas-bridge/src/main/resources/queries/MaterialForRecyclingEngineering.rq")));
 
         ArrayNode queryResponse = queryFuture.get();
         Map<JsonNode, List<JsonNode>> groupedByEmat = StreamSupport.stream(queryResponse.spliterator(), false)
@@ -44,6 +44,12 @@ public class MaterialForRecyclingMapper extends AspectMapper {
                             .anyMatch(key -> key.getValue().equals("urn:bamm:io.catenax.material_for_recycling:1.1.0#MaterialForRecycling"))
                     )
                     .findFirst().orElseThrow(() -> new RuntimeException("Desired Submodel not found in Template"));
+
+            submodel.setIdentification(new DefaultIdentifier.Builder()
+                    .idType(IdentifierType.CUSTOM)
+                    .identifier(UUID.randomUUID().toString())
+                    .build());
+
             List<SubmodelElement> submodelElements = submodel
                     .getSubmodelElements();
 

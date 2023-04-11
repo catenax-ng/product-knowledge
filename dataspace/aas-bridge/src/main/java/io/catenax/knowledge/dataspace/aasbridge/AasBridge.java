@@ -18,8 +18,14 @@ import io.catenax.knowledge.dataspace.aasbridge.aspects.MaterialForRecyclingMapp
 import io.catenax.knowledge.dataspace.aasbridge.aspects.PartAsPlannedMapper;
 import io.openmanufacturing.sds.aspectmodel.urn.AspectModelUrn;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -33,14 +39,15 @@ public class AasBridge {
                     AspectModelUrn.fromUrn("urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned"),
                     PartAsPlannedMapper.class);
 
-    public static void main(String[] args) throws ConfigurationException, AssetConnectionException, MessageBusException, EndpointException {
+    public static void main(String[] args) throws ConfigurationException, AssetConnectionException, MessageBusException, EndpointException, UnsupportedEncodingException {
 
-        // unsafe
-        Set<AspectModelUrn> urns = Stream.of(Arrays.copyOfRange(args, 0, args.length-1))
-                .map(AspectModelUrn::fromUrn)
-                .collect(Collectors.toSet());
 
-        AasBridge aasBridge = new AasBridge(urns, args[args.length-1]);
+        AasBridge aasBridge = new AasBridge(
+                System.getProperty("PROVIDER_SPARQL_ENDPOINT") +
+                        "?OemProviderAgent="+
+                        URLEncoder.encode(System.getProperty("PROVIDER_AGENT_PLANE"), StandardCharsets.ISO_8859_1),
+                System.getProperty("PROVIDER_CREDENTIAL_BASIC")
+        );
 
         Service faaast = new Service(ServiceConfig.builder()
                 .core(CoreConfig.builder()
@@ -54,17 +61,18 @@ public class AasBridge {
                 .build());
 
         faaast.start();
-
     }
 
-    public AasBridge(Set<AspectModelUrn> urns, String endpoint){
+    public AasBridge(String endpoint, String credentials){
 
-        Class[] parameters = new Class[1];
+        Class[] parameters = new Class[2];
         parameters[0] = String.class;
-        this.mappers = urns.stream().map(urn -> {
+        parameters[1] = String.class;
+        this.mappers = implMap.values().stream().map(aClass -> {
             try {
-                return resolve(urn).getDeclaredConstructor(parameters).newInstance(endpoint);
-            } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                return aClass.getDeclaredConstructor(parameters).newInstance(endpoint, credentials);
+            } catch (NoSuchMethodException | InstantiationException | IllegalAccessException |
+                     InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
         }).collect(Collectors.toSet());

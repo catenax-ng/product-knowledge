@@ -8,9 +8,10 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.concurrent.ExecutionException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class PartAsPlannedMapperTest {
 
@@ -18,8 +19,10 @@ class PartAsPlannedMapperTest {
 
     @BeforeAll
     public static void instantiate() throws IOException, DeserializationException {
-        String devUrl = "https://knowledge.dev.demo.catena-x.net/oem-edc-data/BPNL00000003COJN/api/agent";
-        mapper = new PartAsPlannedMapper(devUrl);
+        String devUrl = "https://knowledge.dev.demo.catena-x.net/oem-edc-data/BPNL00000003COJN/api/agent"+
+                "?OemProviderAgent="+
+                URLEncoder.encode("http://oem-provider-agent:8082/sparql", "ISO-8859-1");
+        mapper = new PartAsPlannedMapper(devUrl, System.getProperty( "PROVIDER_CREDENTIAL_BASIC"));
     }
 
     @Test
