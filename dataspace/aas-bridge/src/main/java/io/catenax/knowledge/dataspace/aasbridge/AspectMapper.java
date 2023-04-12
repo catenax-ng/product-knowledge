@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Charsets;
+import com.google.common.io.CharStreams;
 import io.adminshell.aas.v3.dataformat.DeserializationException;
 import io.adminshell.aas.v3.dataformat.SerializationException;
 import io.adminshell.aas.v3.dataformat.json.JsonDeserializer;
@@ -15,13 +17,12 @@ import io.adminshell.aas.v3.model.Property;
 import io.adminshell.aas.v3.model.Referable;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Spliterators;
@@ -43,14 +44,16 @@ public abstract class AspectMapper {
     private final HttpClient client;
     private final String credentials;
 
-    public AspectMapper(String providerSparqlEndpoint, Path aasPath, String credentials) throws IOException, DeserializationException {
+    public AspectMapper(String providerSparqlEndpoint, String aasResourcePath, String credentials) throws IOException, DeserializationException {
+        String aasTemplate = CharStreams.toString(new InputStreamReader(AspectMapper.class.getResourceAsStream(aasResourcePath), Charsets.UTF_8));
         this.providerSparqlEndpoint = providerSparqlEndpoint;
-        this.aasTemplate = new XmlDeserializer().read(Files.readString(aasPath));
+        this.aasTemplate = new XmlDeserializer().read(aasTemplate);
         this.client = HttpClient.newBuilder().executor(Executors.newFixedThreadPool(5)).build();
         this.credentials = credentials;
     }
 
-    public CompletableFuture<ArrayNode> executeQuery(String query) throws URISyntaxException {
+    public CompletableFuture<ArrayNode> executeQuery(String queryResourcePath) throws URISyntaxException, IOException {
+        String query = CharStreams.toString(new InputStreamReader(AspectMapper.class.getResourceAsStream(queryResourcePath), Charsets.UTF_8));
         HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString(query);
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI(providerSparqlEndpoint))

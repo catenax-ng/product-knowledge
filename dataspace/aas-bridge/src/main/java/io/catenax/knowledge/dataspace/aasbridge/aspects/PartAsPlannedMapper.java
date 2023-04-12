@@ -11,8 +11,6 @@ import io.catenax.knowledge.dataspace.aasbridge.AspectMapper;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -23,24 +21,17 @@ import java.util.stream.StreamSupport;
 
 public class PartAsPlannedMapper extends AspectMapper {
     public PartAsPlannedMapper(String providerSparqlEndpoint, String cred) throws IOException, DeserializationException {
-        super(providerSparqlEndpoint, Path.of( "dataspace/aas-bridge/src/main/resources/aasTemplates/PartAsPlanned-aas-1.0.0.xml"), cred);
+        super(providerSparqlEndpoint, "/aasTemplates/PartAsPlanned-aas-1.0.0.xml", cred);
         try {
             this.aasInstances = this.parametrizeAas();
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (SerializationException e) {
+        } catch (URISyntaxException | SerializationException | InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
     }
 
     protected AssetAdministrationShellEnvironment parametrizeAas() throws IOException, URISyntaxException, ExecutionException, InterruptedException, SerializationException, DeserializationException {
         CompletableFuture<ArrayNode> queryFuture =
-                executeQuery(Files.readString(Path.of("dataspace/aas-bridge/src/main/resources/queries/PartAsPlanned.rq")));
-
+                executeQuery("/queries/PartAsPlanned.rq");
 
         // get new AAS copy
         aasTemplate.getSubmodels().stream()

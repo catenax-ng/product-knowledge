@@ -11,8 +11,6 @@ import io.catenax.knowledge.dataspace.aasbridge.AspectMapper;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -24,13 +22,13 @@ import java.util.stream.StreamSupport;
 public class MaterialForRecyclingMapper extends AspectMapper {
 
     public MaterialForRecyclingMapper(String providerSparqlEndpoint, String cred) throws IOException, DeserializationException, URISyntaxException, ExecutionException, InterruptedException {
-        super(providerSparqlEndpoint, Path.of("dataspace/aas-bridge/src/main/resources/aasTemplates/MaterialForRecycling-aas-1.1.0.xml"), cred);
+        super(providerSparqlEndpoint, "/aasTemplates/MaterialForRecycling-aas-1.1.0.xml", cred);
         this.aasInstances = this.parametrizeAas();
     }
 
     protected AssetAdministrationShellEnvironment parametrizeAas() throws IOException, URISyntaxException, ExecutionException, InterruptedException {
         CompletableFuture<ArrayNode> queryFuture =
-                executeQuery(Files.readString(Path.of("dataspace/aas-bridge/src/main/resources/queries/MaterialForRecyclingEngineering.rq")));
+                executeQuery("/queries/MaterialForRecyclingEngineering.rq");
 
         ArrayNode queryResponse = queryFuture.get();
         Map<JsonNode, List<JsonNode>> groupedByEmat = StreamSupport.stream(queryResponse.spliterator(), false)
