@@ -16,8 +16,8 @@ JSON {
         cx:hasBillOfMaterial ?bom.
     ?bom cx:billOfMaterialQuantity ?childQuantity;
         cx:hasItem ?childCatenaXId; # pretty sure that this is equivalent to cx:isPartOf
-        cx:billOfMaterialUnit ?unit;
-        cx:productionStartDate ?startDate;
-        cx:productionEndDate ?endDate.
+        cx:billOfMaterialUnit ?billOfMaterialUnit;
+        cx:productionStartDate ?productionStartDate;
+        cx:productionEndDate ?productionEndDate.
   }
 }

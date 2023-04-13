@@ -16,6 +16,7 @@ import io.adminshell.aas.v3.model.Identifier;
 import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironment;
 import io.catenax.knowledge.dataspace.aasbridge.aspects.MaterialForRecyclingMapper;
 import io.catenax.knowledge.dataspace.aasbridge.aspects.PartAsPlannedMapper;
+import io.catenax.knowledge.dataspace.aasbridge.aspects.SingleLevelBomAsPlannedMapper;
 import io.openmanufacturing.sds.aspectmodel.urn.AspectModelUrn;
 
 import java.io.UnsupportedEncodingException;
@@ -37,7 +38,10 @@ public class AasBridge {
                     AspectModelUrn.fromUrn("urn:bamm:io.catenax.material_for_recycling:1.1.0#MaterialForRecycling"),
                     MaterialForRecyclingMapper.class,
                     AspectModelUrn.fromUrn("urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned"),
-                    PartAsPlannedMapper.class);
+                    PartAsPlannedMapper.class,
+                    AspectModelUrn.fromUrn("urn:bamm:io.catenax.single_level_bom_as_planned:1.0.1#SingleLevelBomAsPlanned"),
+                    SingleLevelBomAsPlannedMapper.class);
+
 
     public static void main(String[] args) throws ConfigurationException, AssetConnectionException, MessageBusException, EndpointException, UnsupportedEncodingException {
 

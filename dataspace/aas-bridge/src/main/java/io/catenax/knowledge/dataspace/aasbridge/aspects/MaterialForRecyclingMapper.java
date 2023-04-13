@@ -31,11 +31,11 @@ public class MaterialForRecyclingMapper extends AspectMapper {
                 executeQuery("/queries/MaterialForRecyclingEngineering.rq");
 
         ArrayNode queryResponse = queryFuture.get();
+
         Map<JsonNode, List<JsonNode>> groupedByEmat = StreamSupport.stream(queryResponse.spliterator(), false)
                 .collect(Collectors.groupingBy(node ->  node.get("eMat"), Collectors.toList()));
 
         List<Submodel> materialsForRecycling = groupedByEmat.values().stream().map(rmats -> {
-            // returns Submodel
             AssetAdministrationShellEnvironment aasInstance = instantiateAas();
             Submodel submodel = aasInstance.getSubmodels().stream()
                     .filter(sub -> sub.getSemanticId().getKeys().stream()
@@ -92,7 +92,5 @@ public class MaterialForRecyclingMapper extends AspectMapper {
                 .build();
 
     }
-
-
 
 }
