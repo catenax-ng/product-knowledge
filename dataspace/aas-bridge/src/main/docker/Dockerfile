@@ -34,6 +34,14 @@ ARG APP_USER=faaast
 ARG APP_UID=10100
 ARG APP_GID=30000
 
+ARG PROVIDER_SPARQL_ENDPOINT_ARG
+ARG PROVIDER_CREDENTIAL_BASIC_ARG
+ARG PROVIDER_AGENT_PLANE_ARG
+
+ENV PROVIDER_SPARQL_ENDPOINT ${PROVIDER_SPARQL_ENDPOINT_ARG}
+ENV PROVIDER_CREDENTIAL_BASIC ${PROVIDER_CREDENTIAL_BASIC_ARG}
+ENV PROVIDER_AGENT_PLANE ${PROVIDER_AGENT_PLANE_ARG}
+
 RUN apk update && \
      apk add openjdk11-jre-headless=11.0.18_p10-r0 --no-cache && \
      rm -rf /var/cache/apk/*
@@ -64,16 +72,18 @@ COPY --from=otel /tmp/opentelemetry-javaagent.jar .
 COPY ${JAR} aas-bridge.jar
 COPY ${LIB} ./lib/
 
+EXPOSE 8080
+
 HEALTHCHECK NONE
 
-CMD ["java", \
-     "-javaagent:/app/opentelemetry-javaagent.jar", \
-     "-Dotel.javaagent.configuration-file=/app/opentelemetry.properties", \
-     "-Dotel.metrics.exporter=prometheus", \
-     "-Dotel.exporter.prometheus.port=9090", \
-     "-DPROVIDER_SPARQL_ENDPOINT=https://knowledge.dev.demo.catena-x.net/oem-edc-data/BPNL00000003COJN/api/agent", \
-     "-DPROVIDER_CREDENTIAL_BASIC=Basic Zm9vOg==", \
-     "-DPROVIDER_AGENT_PLANE=http://oem-provider-agent:8082/sparql", \
-     "-Djava.security.edg=file:/dev/.urandom", \
-     "-jar", \
-     "aas-bridge.jar"]
+CMD "java" \
+     "-javaagent:/app/opentelemetry-javaagent.jar" \
+     "-Dotel.javaagent.configuration-file=/app/opentelemetry.properties" \
+     "-Dotel.metrics.exporter=prometheus" \
+     "-Dotel.exporter.prometheus.port=9090" \
+     "-DPROVIDER_SPARQL_ENDPOINT=${PROVIDER_SPARQL_ENDPOINT}" \
+     "-DPROVIDER_CREDENTIAL_BASIC=${PROVIDER_CREDENTIAL_BASIC}" \
+     "-DPROVIDER_AGENT_PLANE=${PROVIDER_AGENT_PLANE}" \
+     "-Djava.security.edg=file:/dev/.urandom" \
+     "-jar" \
+     "aas-bridge.jar"

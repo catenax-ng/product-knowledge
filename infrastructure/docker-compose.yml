@@ -123,6 +123,9 @@ services:
       args:
         JAR: target/aas-bridge.jar
         LIB: target/lib
+        PROVIDER_CREDENTIAL_BASIC_ARG: Basic Zm9vOg==
+        PROVIDER_SPARQL_ENDPOINT_ARG: https://knowledge.dev.demo.catena-x.net/oem-edc-data/BPNL00000003COJN/api/agent
+        PROVIDER_AGENT_PLANE_ARG: http://oem-provider-agent:8082/sparql
     image: ghcr.io/catenax-ng/product-knowledge/aas-bridge:0.8.1-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
@@ -130,9 +133,7 @@ services:
       - "4048:4040" # DEBUG
     environment:
       JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
-      PROVIDER_CREDENTIAL_BASIC: Basic Zm9vOg==
-      PROVIDER_SPARQL_ENDPOINT: https://knowledge.dev.demo.catena-x.net/oem-edc-data/BPNL00000003COJN/api/agent
-      PROVIDER_AGENT_PLANE: http://oem-provider-agent:8082/sparql
+
 
     #volumes:
 

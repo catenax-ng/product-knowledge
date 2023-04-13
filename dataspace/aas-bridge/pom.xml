@@ -87,9 +87,9 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                  <configuration>
                      <systemPropertyVariables>
-                         <PROVIDER_CREDENTIAL_BASIC>Basic Zm9vOg==</PROVIDER_CREDENTIAL_BASIC>
-                         <PROVIDER_SPARQL_ENDPOINT>https://knowledge.dev.demo.catena-x.net/oem-edc-data/BPNL00000003COJN/api/agent</PROVIDER_SPARQL_ENDPOINT>
-                         <PROVIDER_AGENT_PLANE>http://oem-provider-agent:8082/sparql</PROVIDER_AGENT_PLANE>
+                         <PROVIDER_CREDENTIAL_BASIC>${env.PROVIDER_CREDENTIAL_BASIC}</PROVIDER_CREDENTIAL_BASIC>
+                         <PROVIDER_SPARQL_ENDPOINT>${env.PROVIDER_SPARQL_ENDPOINT}</PROVIDER_SPARQL_ENDPOINT>
+                         <PROVIDER_AGENT_PLANE>${env.PROVIDER_AGENT_PLANE}</PROVIDER_AGENT_PLANE>
                      </systemPropertyVariables>
                  </configuration>
             </plugin>
