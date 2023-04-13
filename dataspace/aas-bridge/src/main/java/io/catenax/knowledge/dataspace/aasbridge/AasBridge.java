@@ -16,6 +16,7 @@ import io.adminshell.aas.v3.model.Identifier;
 import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironment;
 import io.catenax.knowledge.dataspace.aasbridge.aspects.MaterialForRecyclingMapper;
 import io.catenax.knowledge.dataspace.aasbridge.aspects.PartAsPlannedMapper;
+import io.catenax.knowledge.dataspace.aasbridge.aspects.PartSiteInformationAsPlannedMapper;
 import io.catenax.knowledge.dataspace.aasbridge.aspects.SingleLevelBomAsPlannedMapper;
 import io.openmanufacturing.sds.aspectmodel.urn.AspectModelUrn;
 
@@ -40,7 +41,10 @@ public class AasBridge {
                     AspectModelUrn.fromUrn("urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned"),
                     PartAsPlannedMapper.class,
                     AspectModelUrn.fromUrn("urn:bamm:io.catenax.single_level_bom_as_planned:1.0.1#SingleLevelBomAsPlanned"),
-                    SingleLevelBomAsPlannedMapper.class);
+                    SingleLevelBomAsPlannedMapper.class,
+                    AspectModelUrn.fromUrn("urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"),
+                    PartSiteInformationAsPlannedMapper.class
+            );
 
 
     public static void main(String[] args) throws ConfigurationException, AssetConnectionException, MessageBusException, EndpointException, UnsupportedEncodingException {
@@ -48,7 +52,7 @@ public class AasBridge {
 
         AasBridge aasBridge = new AasBridge(
                 System.getProperty("PROVIDER_SPARQL_ENDPOINT") +
-                        "?OemProviderAgent="+
+                        "?OemProviderAgent=" +
                         URLEncoder.encode(System.getProperty("PROVIDER_AGENT_PLANE"), StandardCharsets.ISO_8859_1),
                 System.getProperty("PROVIDER_CREDENTIAL_BASIC")
         );
@@ -67,7 +71,7 @@ public class AasBridge {
         faaast.start();
     }
 
-    public AasBridge(String endpoint, String credentials){
+    public AasBridge(String endpoint, String credentials) {
 
         Class[] parameters = new Class[2];
         parameters[0] = String.class;
@@ -83,51 +87,48 @@ public class AasBridge {
     }
 
 
-    private Class<? extends AspectMapper> resolve(AspectModelUrn urn){
+    private Class<? extends AspectMapper> resolve(AspectModelUrn urn) {
         return this.implMap.get(urn);
     }
 
-    private AssetAdministrationShellEnvironment mergeAasEnvs(Set<AssetAdministrationShellEnvironment> aasEnvs){
+    private AssetAdministrationShellEnvironment mergeAasEnvs(Set<AssetAdministrationShellEnvironment> aasEnvs) {
         return aasEnvs.stream().reduce((env1, env2) -> {
 
                     Map<Identifier, List<AssetAdministrationShell>> groups = Stream.concat(env1.getAssetAdministrationShells().stream(), env2.getAssetAdministrationShells().stream())
                             .collect(Collectors.groupingBy(AssetAdministrationShell::getIdentification));
 
-            return new DefaultAssetAdministrationShellEnvironment.Builder()
-                    .assetAdministrationShells(
-                            groups.values()
-                                    .stream()
-                                    .map(assetAdministrationShells -> assetAdministrationShells
+                    return new DefaultAssetAdministrationShellEnvironment.Builder()
+                            .assetAdministrationShells(
+                                    groups.values()
                                             .stream()
-                                            .reduce((aas1, aas2) ->
-                                            {
-                                                aas1.setSubmodels(
-                                                        Stream.concat(aas1.getSubmodels().stream(), aas2.getSubmodels().stream()).collect(Collectors.toList()));
-                                                return aas1;
-                                            }))
-                                    .filter(Optional::isPresent)
-                                    .map(Optional::get)
-                                    .collect(Collectors.toList()))
-                    .submodels(
-                            Stream.concat(env1.getSubmodels().stream(), env2.getSubmodels().stream())
-                                    .distinct().collect(Collectors.toList()))
-                    .assets(
-                            Stream.concat(env1.getAssets().stream(), env2.getAssets().stream())
-                                    .distinct().collect(Collectors.toList()))
-                    .conceptDescriptions(
-                            Stream.concat(env1.getConceptDescriptions().stream(), env2.getConceptDescriptions().stream())
-                                    .distinct().collect(Collectors.toList()))
-                    .build();
-        }
+                                            .map(assetAdministrationShells -> assetAdministrationShells
+                                                    .stream()
+                                                    .reduce((aas1, aas2) ->
+                                                    {
+                                                        aas1.setSubmodels(
+                                                                Stream.concat(aas1.getSubmodels().stream(), aas2.getSubmodels().stream()).collect(Collectors.toList()));
+                                                        return aas1;
+                                                    }))
+                                            .filter(Optional::isPresent)
+                                            .map(Optional::get)
+                                            .collect(Collectors.toList()))
+                            .submodels(
+                                    Stream.concat(env1.getSubmodels().stream(), env2.getSubmodels().stream())
+                                            .distinct().collect(Collectors.toList()))
+                            .assets(
+                                    Stream.concat(env1.getAssets().stream(), env2.getAssets().stream())
+                                            .distinct().collect(Collectors.toList()))
+                            .conceptDescriptions(
+                                    Stream.concat(env1.getConceptDescriptions().stream(), env2.getConceptDescriptions().stream())
+                                            .distinct().collect(Collectors.toList()))
+                            .build();
+                }
         ).orElseThrow(() -> new RuntimeException("No merged AasEnvironment found!"));
     }
 
-    public Set<AspectMapper> getMappers(){
+    public Set<AspectMapper> getMappers() {
         return this.mappers;
     }
-
-
-
 
 
 }

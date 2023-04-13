@@ -1,0 +1,364 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<aas:aasenv xmlns:aas="http://www.admin-shell.io/aas/3/0" xmlns:IEC61360="http://www.admin-shell.io/IEC61360/3/0"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://www.admin-shell.io/aas/3/0 AAS.xsd http://www.admin-shell.io/IEC61360/3/0 IEC61360.xsd">
+    <aas:assetAdministrationShells>
+        <aas:assetAdministrationShell>
+            <aas:idShort>defaultAdminShell</aas:idShort>
+        </aas:assetAdministrationShell>
+    </aas:assetAdministrationShells>
+    <aas:assets>
+        <aas:asset>
+            <aas:idShort>defaultAsset</aas:idShort>
+        </aas:asset>
+    </aas:assets>
+    <aas:conceptDescriptions>
+        <aas:conceptDescription>
+            <aas:idShort>PartSiteInformationAsPlanned</aas:idShort>
+            <aas:displayName>
+                <aas:langString lang="en">Part Site Information as Planned</aas:langString>
+            </aas:displayName>
+            <aas:category>APPLICATION_CLASS</aas:category>
+            <aas:description>
+                <aas:langString lang="en">The aspect provides site related information for a given as planned item (i.e. a part type or part instance that is uniquely identifiable within Catena-X via its Catena-X ID). A site is a delimited geographical area where a legal entity does business. In the "as planned" lifecycle context all potentially related sites are listed including all sites where e.g. production of this part (type) is planned.</aas:langString>
+            </aas:description>
+            <aas:identification idType="Custom">urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</aas:identification>
+            <aas:embeddedDataSpecification>
+                <aas:dataSpecificationContent>
+                    <aas:dataSpecificationIEC61360>
+                        <IEC61360:preferredName>
+                            <IEC61360:langString lang="en">Part Site Information as Planned</IEC61360:langString>
+                        </IEC61360:preferredName>
+                        <IEC61360:shortName>
+                            <IEC61360:langString lang="EN">PartSiteInformationAsPlanned</IEC61360:langString>
+                        </IEC61360:shortName>
+                        <IEC61360:definition>
+                            <IEC61360:langString lang="en">The aspect provides site related information for a given as planned item (i.e. a part type or part instance that is uniquely identifiable within Catena-X via its Catena-X ID). A site is a delimited geographical area where a legal entity does business. In the "as planned" lifecycle context all potentially related sites are listed including all sites where e.g. production of this part (type) is planned.</IEC61360:langString>
+                        </IEC61360:definition>
+                    </aas:dataSpecificationIEC61360>
+                </aas:dataSpecificationContent>
+                <aas:dataSpecification>
+                    <aas:keys>
+                        <aas:key idType="Iri" type="GlobalReference">http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0</aas:key>
+                    </aas:keys>
+                </aas:dataSpecification>
+            </aas:embeddedDataSpecification>
+        </aas:conceptDescription>
+        <aas:conceptDescription>
+            <aas:idShort>CatenaXIdTrait</aas:idShort>
+            <aas:displayName>
+                <aas:langString lang="en">Catena-X ID Trait</aas:langString>
+            </aas:displayName>
+            <aas:identification idType="Custom">urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#catenaXId</aas:identification>
+            <aas:embeddedDataSpecification>
+                <aas:dataSpecificationContent>
+                    <aas:dataSpecificationIEC61360>
+                        <IEC61360:preferredName>
+                            <IEC61360:langString lang="en">Catena-X Identifier</IEC61360:langString>
+                        </IEC61360:preferredName>
+                        <IEC61360:shortName>
+                            <IEC61360:langString lang="EN">catenaXId</IEC61360:langString>
+                        </IEC61360:shortName>
+                        <IEC61360:dataType>String</IEC61360:dataType>
+                        <IEC61360:definition>
+                            <IEC61360:langString lang="en">Trait to ensure data format for Catena-X ID</IEC61360:langString>
+                        </IEC61360:definition>
+                    </aas:dataSpecificationIEC61360>
+                </aas:dataSpecificationContent>
+                <aas:dataSpecification>
+                    <aas:keys>
+                        <aas:key idType="Iri" type="GlobalReference">http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0</aas:key>
+                    </aas:keys>
+                </aas:dataSpecification>
+            </aas:embeddedDataSpecification>
+        </aas:conceptDescription>
+        <aas:conceptDescription>
+            <aas:idShort>BpnCharacteristic</aas:idShort>
+            <aas:displayName>
+                <aas:langString lang="en">BPN Characteristic</aas:langString>
+            </aas:displayName>
+            <aas:identification idType="Custom">urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#catenaXsiteId</aas:identification>
+            <aas:embeddedDataSpecification>
+                <aas:dataSpecificationContent>
+                    <aas:dataSpecificationIEC61360>
+                        <IEC61360:preferredName>
+                            <IEC61360:langString lang="en">Catena-X site identifier</IEC61360:langString>
+                        </IEC61360:preferredName>
+                        <IEC61360:shortName>
+                            <IEC61360:langString lang="EN">catenaXsiteId</IEC61360:langString>
+                        </IEC61360:shortName>
+                        <IEC61360:dataType>String</IEC61360:dataType>
+                        <IEC61360:definition>
+                            <IEC61360:langString lang="en">A string of 16 characters:
+                                Prefix: 3 digits
+                                Classification: 1 digit
+                                Identifier: 10 digits</IEC61360:langString>
+                        </IEC61360:definition>
+                    </aas:dataSpecificationIEC61360>
+                </aas:dataSpecificationContent>
+                <aas:dataSpecification>
+                    <aas:keys>
+                        <aas:key idType="Iri" type="GlobalReference">http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0</aas:key>
+                    </aas:keys>
+                </aas:dataSpecification>
+            </aas:embeddedDataSpecification>
+        </aas:conceptDescription>
+        <aas:conceptDescription>
+            <aas:idShort>FunctionCharacteristic</aas:idShort>
+            <aas:displayName>
+                <aas:langString lang="en">Function Characteristic</aas:langString>
+            </aas:displayName>
+            <aas:identification idType="Custom">urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#function</aas:identification>
+            <aas:embeddedDataSpecification>
+                <aas:dataSpecificationContent>
+                    <aas:dataSpecificationIEC61360>
+                        <IEC61360:preferredName>
+                            <IEC61360:langString lang="en">Function</IEC61360:langString>
+                        </IEC61360:preferredName>
+                        <IEC61360:shortName>
+                            <IEC61360:langString lang="EN">function</IEC61360:langString>
+                        </IEC61360:shortName>
+                        <IEC61360:dataType>String</IEC61360:dataType>
+                        <IEC61360:valueList>
+                            <IEC61360:valueReferencePair>
+                                <IEC61360:valueId>
+                                    <IEC61360:keys>
+                                        <IEC61360:key idType="Custom" type="DataElement">urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#FunctionCharacteristic:DefaultScalarValue[value=production, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']</IEC61360:key>
+                                    </IEC61360:keys>
+                                </IEC61360:valueId>
+                                <IEC61360:value>DefaultScalarValue[value=production, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']</IEC61360:value>
+                            </IEC61360:valueReferencePair>
+                        </IEC61360:valueList>
+                    </aas:dataSpecificationIEC61360>
+                </aas:dataSpecificationContent>
+                <aas:dataSpecification>
+                    <aas:keys>
+                        <aas:key idType="Iri" type="GlobalReference">http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0</aas:key>
+                    </aas:keys>
+                </aas:dataSpecification>
+            </aas:embeddedDataSpecification>
+        </aas:conceptDescription>
+        <aas:conceptDescription>
+            <aas:idShort>Timestamp</aas:idShort>
+            <aas:displayName>
+                <aas:langString lang="en">Timestamp</aas:langString>
+            </aas:displayName>
+            <aas:identification idType="Custom">urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#functionValidFrom</aas:identification>
+            <aas:embeddedDataSpecification>
+                <aas:dataSpecificationContent>
+                    <aas:dataSpecificationIEC61360>
+                        <IEC61360:preferredName>
+                            <IEC61360:langString lang="en">Function valid from</IEC61360:langString>
+                        </IEC61360:preferredName>
+                        <IEC61360:shortName>
+                            <IEC61360:langString lang="EN">functionValidFrom</IEC61360:langString>
+                        </IEC61360:shortName>
+                        <IEC61360:dataType>String</IEC61360:dataType>
+                        <IEC61360:definition>
+                            <IEC61360:langString lang="en">Describes a Property which contains the date and time with an optional timezone.</IEC61360:langString>
+                        </IEC61360:definition>
+                    </aas:dataSpecificationIEC61360>
+                </aas:dataSpecificationContent>
+                <aas:dataSpecification>
+                    <aas:keys>
+                        <aas:key idType="Iri" type="GlobalReference">http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0</aas:key>
+                    </aas:keys>
+                </aas:dataSpecification>
+            </aas:embeddedDataSpecification>
+        </aas:conceptDescription>
+        <aas:conceptDescription>
+            <aas:idShort>Timestamp</aas:idShort>
+            <aas:displayName>
+                <aas:langString lang="en">Timestamp</aas:langString>
+            </aas:displayName>
+            <aas:identification idType="Custom">urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#functionValidUntil</aas:identification>
+            <aas:embeddedDataSpecification>
+                <aas:dataSpecificationContent>
+                    <aas:dataSpecificationIEC61360>
+                        <IEC61360:preferredName>
+                            <IEC61360:langString lang="en">functionValidUntil</IEC61360:langString>
+                        </IEC61360:preferredName>
+                        <IEC61360:shortName>
+                            <IEC61360:langString lang="EN">functionValidUntil</IEC61360:langString>
+                        </IEC61360:shortName>
+                        <IEC61360:dataType>String</IEC61360:dataType>
+                        <IEC61360:definition>
+                            <IEC61360:langString lang="en">Describes a Property which contains the date and time with an optional timezone.</IEC61360:langString>
+                        </IEC61360:definition>
+                    </aas:dataSpecificationIEC61360>
+                </aas:dataSpecificationContent>
+                <aas:dataSpecification>
+                    <aas:keys>
+                        <aas:key idType="Iri" type="GlobalReference">http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0</aas:key>
+                    </aas:keys>
+                </aas:dataSpecification>
+            </aas:embeddedDataSpecification>
+        </aas:conceptDescription>
+        <aas:conceptDescription>
+            <aas:idShort>SitesCharacteristic</aas:idShort>
+            <aas:identification idType="Custom">urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#sites</aas:identification>
+            <aas:embeddedDataSpecification>
+                <aas:dataSpecificationContent>
+                    <aas:dataSpecificationIEC61360>
+                        <IEC61360:preferredName>
+                            <IEC61360:langString lang="en">Sites</IEC61360:langString>
+                        </IEC61360:preferredName>
+                        <IEC61360:shortName>
+                            <IEC61360:langString lang="EN">sites</IEC61360:langString>
+                        </IEC61360:shortName>
+                        <IEC61360:dataType>String</IEC61360:dataType>
+                        <IEC61360:definition>
+                            <IEC61360:langString lang="en">Sites Characteristic</IEC61360:langString>
+                        </IEC61360:definition>
+                    </aas:dataSpecificationIEC61360>
+                </aas:dataSpecificationContent>
+                <aas:dataSpecification>
+                    <aas:keys>
+                        <aas:key idType="Iri" type="GlobalReference">http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0</aas:key>
+                    </aas:keys>
+                </aas:dataSpecification>
+            </aas:embeddedDataSpecification>
+        </aas:conceptDescription>
+    </aas:conceptDescriptions>
+    <aas:submodels>
+        <aas:submodel>
+            <aas:idShort>PartSiteInformationAsPlanned</aas:idShort>
+            <aas:description>
+                <aas:langString lang="en">The aspect provides site related information for a given as planned item (i.e. a part type or part instance that is uniquely identifiable within Catena-X via its Catena-X ID). A site is a delimited geographical area where a legal entity does business. In the "as planned" lifecycle context all potentially related sites are listed including all sites where e.g. production of this part (type) is planned.</aas:langString>
+            </aas:description>
+            <aas:kind>Template</aas:kind>
+            <aas:semanticId>
+                <aas:keys>
+                    <aas:key idType="Custom" type="ConceptDescription">urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned</aas:key>
+                </aas:keys>
+            </aas:semanticId>
+            <aas:submodelElements>
+                <aas:submodelElement>
+                    <aas:property>
+                        <aas:idShort>catenaXId</aas:idShort>
+                        <aas:displayName>
+                            <aas:langString lang="en">Catena-X Identifier</aas:langString>
+                        </aas:displayName>
+                        <aas:description>
+                            <aas:langString lang="en">The Catena-X ID of the given item (i.e. a part type or part instance), valid for the Catena-X dataspace.</aas:langString>
+                        </aas:description>
+                        <aas:kind>Template</aas:kind>
+                        <aas:semanticId>
+                            <aas:keys>
+                                <aas:key idType="Custom" type="ConceptDescription">urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#catenaXId</aas:key>
+                            </aas:keys>
+                        </aas:semanticId>
+                        <aas:value>DefaultScalarValue[value=580d3adf-1981-44a0-a214-13d6ceed9379, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']</aas:value>
+                        <aas:valueType>http://www.w3.org/2001/XMLSchema#string</aas:valueType>
+                    </aas:property>
+                </aas:submodelElement>
+                <aas:submodelElement>
+                    <aas:submodelElementCollection>
+                        <aas:idShort>sites</aas:idShort>
+                        <aas:displayName>
+                            <aas:langString lang="en">Sites</aas:langString>
+                        </aas:displayName>
+                        <aas:description>
+                            <aas:langString lang="en">A site is a delimited geographical area where a legal entity does business (geographical address with geo coordinates).A site always has a primary physical address. It is possible that further physical addresses are specified for the site. P.O. box details are only possible in addition to the physical address. A site has a 1:n relation to addresses, means at least 1 address is necessary and multiple addresses are possible.</aas:langString>
+                        </aas:description>
+                        <aas:allowDuplicates>false</aas:allowDuplicates>
+                        <aas:ordered>false</aas:ordered>
+                        <aas:value>
+                            <aas:submodelElement>
+                                <aas:submodelElementCollection>
+                                    <aas:idShort>SiteEntity</aas:idShort>
+                                    <aas:displayName>
+                                        <aas:langString lang="en">Site Entity</aas:langString>
+                                    </aas:displayName>
+                                    <aas:description>
+                                        <aas:langString lang="en">Site Entity</aas:langString>
+                                    </aas:description>
+                                    <aas:allowDuplicates>false</aas:allowDuplicates>
+                                    <aas:ordered>false</aas:ordered>
+                                    <aas:value>
+                                        <aas:submodelElement>
+                                            <aas:property>
+                                                <aas:idShort>catenaXsiteId</aas:idShort>
+                                                <aas:displayName>
+                                                    <aas:langString lang="en">Catena-X site identifier</aas:langString>
+                                                </aas:displayName>
+                                                <aas:description>
+                                                    <aas:langString lang="en">The identifier of the site according to Catena-X BPDM. The catenaXsiteId must be a valid Catena-X BPN. The BPN is a unique, unchangeable identifier for Business Partners / company locations from foundation to closure, regardless of the different business relationships / structures between or within the Business Partners or company locations.</aas:langString>
+                                                </aas:description>
+                                                <aas:kind>Template</aas:kind>
+                                                <aas:semanticId>
+                                                    <aas:keys>
+                                                        <aas:key idType="Custom" type="ConceptDescription">urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#catenaXsiteId</aas:key>
+                                                    </aas:keys>
+                                                </aas:semanticId>
+                                                <aas:value>DefaultScalarValue[value=BPNS1234567890ZZ, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']</aas:value>
+                                                <aas:valueType>http://www.w3.org/2001/XMLSchema#string</aas:valueType>
+                                            </aas:property>
+                                        </aas:submodelElement>
+                                        <aas:submodelElement>
+                                            <aas:property>
+                                                <aas:idShort>function</aas:idShort>
+                                                <aas:displayName>
+                                                    <aas:langString lang="en">Function</aas:langString>
+                                                </aas:displayName>
+                                                <aas:description>
+                                                    <aas:langString lang="en">The function of the site in relation to the part (i.e. the activity within the value chain of the part that is performed at the site)</aas:langString>
+                                                </aas:description>
+                                                <aas:kind>Template</aas:kind>
+                                                <aas:semanticId>
+                                                    <aas:keys>
+                                                        <aas:key idType="Custom" type="ConceptDescription">urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#function</aas:key>
+                                                    </aas:keys>
+                                                </aas:semanticId>
+                                                <aas:value>DefaultScalarValue[value=production, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']</aas:value>
+                                                <aas:valueType>http://www.w3.org/2001/XMLSchema#string</aas:valueType>
+                                            </aas:property>
+                                        </aas:submodelElement>
+                                        <aas:submodelElement>
+                                            <aas:property>
+                                                <aas:idShort>functionValidFrom</aas:idShort>
+                                                <aas:displayName>
+                                                    <aas:langString lang="en">Function valid from</aas:langString>
+                                                </aas:displayName>
+                                                <aas:description>
+                                                    <aas:langString lang="en">Timestamp, from when the site has the specified function for the given part</aas:langString>
+                                                </aas:description>
+                                                <aas:kind>Template</aas:kind>
+                                                <aas:semanticId>
+                                                    <aas:keys>
+                                                        <aas:key idType="Custom" type="ConceptDescription">urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#functionValidFrom</aas:key>
+                                                    </aas:keys>
+                                                </aas:semanticId>
+                                                <aas:value>Unknown</aas:value>
+                                                <aas:valueType>http://www.w3.org/2001/XMLSchema#dateTime</aas:valueType>
+                                            </aas:property>
+                                        </aas:submodelElement>
+                                        <aas:submodelElement>
+                                            <aas:property>
+                                                <aas:idShort>functionValidUntil</aas:idShort>
+                                                <aas:displayName>
+                                                    <aas:langString lang="en">functionValidUntil</aas:langString>
+                                                </aas:displayName>
+                                                <aas:description>
+                                                    <aas:langString lang="en">Timestamp, until when the site has the specified function for the given part</aas:langString>
+                                                </aas:description>
+                                                <aas:kind>Template</aas:kind>
+                                                <aas:semanticId>
+                                                    <aas:keys>
+                                                        <aas:key idType="Custom" type="ConceptDescription">urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#functionValidUntil</aas:key>
+                                                    </aas:keys>
+                                                </aas:semanticId>
+                                                <aas:value>Unknown</aas:value>
+                                                <aas:valueType>http://www.w3.org/2001/XMLSchema#dateTime</aas:valueType>
+                                            </aas:property>
+                                        </aas:submodelElement>
+                                    </aas:value>
+                                </aas:submodelElementCollection>
+                            </aas:submodelElement>
+                        </aas:value>
+                    </aas:submodelElementCollection>
+                </aas:submodelElement>
+            </aas:submodelElements>
+        </aas:submodel>
+    </aas:submodels>
+</aas:aasenv>
