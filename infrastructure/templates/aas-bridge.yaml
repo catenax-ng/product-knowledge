@@ -1,0 +1,124 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aas-bridge
+  namespace: {{ .Values.namespace }}
+  annotations:
+    container.apparmor.security.beta.kubernetes.io/aas-bridge: default
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: aas-bridge
+  template:
+    metadata:
+      labels:
+        app: aas-bridge
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsUser: 10000
+        runAsGroup: 30000
+        fsGroup: 30000
+        seccompProfile:
+           type: RuntimeDefault
+      containers:
+        - name: aas-bridge
+          image: ghcr.io/catenax-ng/product-knowledge/aas-bridge:{{.Values.version}}
+          imagePullPolicy: Always
+          securityContext:
+            capabilities:
+              drop:
+                - all
+              add: ['NET_BIND_SERVICE']
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+          ports:
+            - containerPort: 8080 # http
+          resources:
+           requests:
+            cpu: 0.5
+            memory: "256Mi"
+           limits:
+            cpu: 0.5
+            memory: "256Mi"
+          startupProbe:
+            failureThreshold: 18
+            httpGet:
+              path: /shells
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 5
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /shells
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 60
+            successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /shells
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 300
+            successThreshold: 1
+            timeoutSeconds: 5        
+          env:
+            - name: PROVIDER_SPARQL_ENDPOINT
+              value: http://oem-data-plane:8082/api/agent
+            - name: PROVIDER_AGENT_PLANE
+              value: http://oem-provider-agent:8082/sparql
+            - name: TIMEOUT_SECONDS
+              value: 30
+          volumeMounts:
+      volumes:
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aas-bridge
+  namespace: {{ .Values.namespace }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: aas-bridge
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: aas-bridge-ingress
+  namespace: {{ .Values.namespace }}
+  annotations:
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.issuer }}
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "https://knowledge.dev.demo.catena-x.net, http://localhost:3000"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, PUT, POST, DELETE, PATCH, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-headers: "Host,DNT,X-Api-Key,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization"
+    nginx.ingress.kubernetes.io/x-forwarded-prefix: "/aas-bridge"
+    nginx.org/mergeable-ingress-type: minion
+spec:
+  rules:
+    - host: {{ .Values.ingress.host }}
+      http:
+        paths:
+          - path: /aas-bridge(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: aas-bridge
+                port:
+                  number: 8080
