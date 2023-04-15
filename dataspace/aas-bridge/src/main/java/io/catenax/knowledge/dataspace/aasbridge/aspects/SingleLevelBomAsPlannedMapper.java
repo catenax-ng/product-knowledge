@@ -32,8 +32,8 @@ import java.util.stream.StreamSupport;
  */
 
 public class SingleLevelBomAsPlannedMapper extends AspectMapper {
-    public SingleLevelBomAsPlannedMapper(String providerSparqlEndpoint, String credentials, HttpClient client) throws IOException, DeserializationException, URISyntaxException, ExecutionException, InterruptedException {
-        super(providerSparqlEndpoint, "/aasTemplates/SingleLevelBomAsPlanned-aas-1.0.1.xml", credentials, client);
+    public SingleLevelBomAsPlannedMapper(String providerSparqlEndpoint, String credentials, HttpClient client, long timeoutSeconds) throws IOException, DeserializationException, URISyntaxException, ExecutionException, InterruptedException {
+        super(providerSparqlEndpoint, "/aasTemplates/SingleLevelBomAsPlanned-aas-1.0.1.xml", credentials, client, timeoutSeconds);
         this.aasInstances = this.parametrizeAas();
     }
 

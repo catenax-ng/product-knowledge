@@ -31,8 +31,8 @@ import java.util.stream.StreamSupport;
  */
 public class MaterialForRecyclingMapper extends AspectMapper {
 
-    public MaterialForRecyclingMapper(String providerSparqlEndpoint, String cred, HttpClient client) throws IOException, DeserializationException, URISyntaxException, ExecutionException, InterruptedException {
-        super(providerSparqlEndpoint, "/aasTemplates/MaterialForRecycling-aas-1.1.0.xml", cred, client);
+    public MaterialForRecyclingMapper(String providerSparqlEndpoint, String cred, HttpClient client, long timeoutSeconds) throws IOException, DeserializationException, URISyntaxException, ExecutionException, InterruptedException {
+        super(providerSparqlEndpoint, "/aasTemplates/MaterialForRecycling-aas-1.1.0.xml", cred, client, timeoutSeconds);
         this.aasInstances = this.parametrizeAas();
     }
 

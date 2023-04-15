@@ -40,7 +40,7 @@ class PartSiteInformationAsPlannedMapperTest extends AspectMapperTest {
         String devUrl = mockWebServer.url("/oem-edc-data/BPNL00000003COJN/api/agent" +
                 "?OemProviderAgent=" +
                 URLEncoder.encode("http://oem-provider-agent:8082/sparql", "ISO-8859-1")).toString();
-        mapper = new PartSiteInformationAsPlannedMapper(devUrl, System.getProperty("PROVIDER_CREDENTIAL_BASIC"),client);
+        mapper = new PartSiteInformationAsPlannedMapper(devUrl, System.getProperty("PROVIDER_CREDENTIAL_BASIC"),client,timeoutSeconds);
     }
     @Test
     void parametrizeAas() throws URISyntaxException, IOException, ExecutionException, InterruptedException {

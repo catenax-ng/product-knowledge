@@ -51,14 +51,16 @@ public abstract class AspectMapper {
 
     protected AssetAdministrationShellEnvironment aasInstances;
     protected final HttpClient client;
+    protected final long timeoutSeconds;
     private final String credentials;
 
-    public AspectMapper(String providerSparqlEndpoint, String aasResourcePath, String credentials, HttpClient client) throws IOException, DeserializationException {
+    public AspectMapper(String providerSparqlEndpoint, String aasResourcePath, String credentials, HttpClient client, long timeOutSeconds) throws IOException, DeserializationException {
         String aasTemplate = CharStreams.toString(new InputStreamReader(AspectMapper.class.getResourceAsStream(aasResourcePath), Charsets.UTF_8));
         this.providerSparqlEndpoint = providerSparqlEndpoint;
         this.aasTemplate = new XmlDeserializer().read(aasTemplate);
         this.client = client;
         this.credentials = credentials;
+        this.timeoutSeconds=timeOutSeconds;
     }
 
     public CompletableFuture<ArrayNode> executeQuery(String queryResourcePath) throws URISyntaxException, IOException {
@@ -69,9 +71,9 @@ public abstract class AspectMapper {
                 .POST(bodyPublisher)
                 .header("Content-Type", "application/sparql-query")
                 .header("Accept", "application/json")
-                .timeout(Duration.of(10, SECONDS));
+                .timeout(Duration.of(timeoutSeconds, SECONDS));
 
-        if(credentials!=null) {
+        if(credentials!=null && !credentials.isEmpty()) {
            requestBuilder=requestBuilder.header("Authorization", credentials);
         }
 
@@ -80,7 +82,7 @@ public abstract class AspectMapper {
         return client
                 .sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .thenApply(res -> {
-                    if (res.statusCode() == 200) {
+                    if (res.statusCode() >= 200 && res.statusCode() < 300) {
                         return res.body();
                     } else {
                         throw new RuntimeException("Sparql-Request failed with " + res.statusCode() + res.body());

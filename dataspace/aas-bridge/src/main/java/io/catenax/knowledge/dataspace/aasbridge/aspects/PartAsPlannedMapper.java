@@ -31,8 +31,8 @@ import java.util.stream.StreamSupport;
  */
 
 public class PartAsPlannedMapper extends AspectMapper {
-    public PartAsPlannedMapper(String providerSparqlEndpoint, String cred, HttpClient client) throws IOException, DeserializationException {
-        super(providerSparqlEndpoint, "/aasTemplates/PartAsPlanned-aas-1.0.0.xml", cred, client);
+    public PartAsPlannedMapper(String providerSparqlEndpoint, String cred, HttpClient client, long timeoutSeconds) throws IOException, DeserializationException {
+        super(providerSparqlEndpoint, "/aasTemplates/PartAsPlanned-aas-1.0.0.xml", cred, client, timeoutSeconds);
         try {
             this.aasInstances = this.parametrizeAas();
         } catch (URISyntaxException | SerializationException | InterruptedException | ExecutionException e) {

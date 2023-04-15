@@ -124,7 +124,9 @@ services:
         JAR: target/aas-bridge.jar
         LIB: target/lib
         PROVIDER_CREDENTIAL_BASIC_ARG: Basic Zm9vOg==
+        #PROVIDER_SPARQL_ENDPOINT_ARG: http://oem-data-plane:8082/api/agent
         PROVIDER_SPARQL_ENDPOINT_ARG: https://knowledge.dev.demo.catena-x.net/oem-edc-data/BPNL00000003COJN/api/agent
+        #PROVIDER_AGENT_PLANE_ARG: http://provider-agent:8082/sparql
         PROVIDER_AGENT_PLANE_ARG: http://oem-provider-agent:8082/sparql
     image: ghcr.io/catenax-ng/product-knowledge/aas-bridge:0.8.1-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
@@ -132,40 +134,41 @@ services:
       - "8700:8080" # AAS-API
       - "4048:4040" # DEBUG
     environment:
+      #PROVIDER_SPARQL_ENDPOINT: http://oem-data-plane:8082/api/agent
+      #PROVIDER_AGENT_PLANE: http://provider-agent:8082/sparql
       JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
-
-
+      TIMEOUT_SECONDS: 30
     #volumes:
 
   #
   # Configures the oem control plane (provider)
   #
-#  oem-control-plane:
-#    build:
-#      dockerfile: src/main/docker/Dockerfile
-#      context: ../dataspace/edc/control-plane/controlplane-memory
-#      args:
-#        JAR: target/controlplane-memory.jar
-#        LIB: target/lib
-#    image: ghcr.io/catenax-ng/product-knowledge/controlplane-memory:0.8.1-SNAPSHOT
-#    platform: ${DOCKER_PLATFORM:-linux/amd64}
-#    ports:
-#      - "8090:8080" # API
-#      - "8091:8181" # PUBLIC
-#      - "8092:8182" # VALIDATION
-#      - "8093:8282" # IDS
-#      - "8094:9998" # METRICS
-#      - "8095:9999" # CONTROL
-#      - "4040:4040" # DEBUG
-#    environment:
-#      # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
-#      EDC_FS_CONFIG: /app/configuration.properties
-#      # Uncomment to enable for debugging, please choose a different port for each endpoint
-#      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
-#    volumes:
-#      - ./oem/resources/controlplane.properties:/app/configuration.properties
-#      - ./resources/opentelemetry.properties:/app/opentelemetry.properties
-#      - ./resources/logging.properties:/app/logging.properties
+  oem-control-plane:
+    build:
+      dockerfile: src/main/docker/Dockerfile
+      context: ../dataspace/edc/control-plane/controlplane-memory
+      args:
+        JAR: target/controlplane-memory.jar
+        LIB: target/lib
+    image: ghcr.io/catenax-ng/product-knowledge/controlplane-memory:0.8.1-SNAPSHOT
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
+    ports:
+      - "8090:8080" # API
+      - "8091:8181" # PUBLIC
+      - "8092:8182" # VALIDATION
+      - "8093:8282" # IDS
+      - "8094:9998" # METRICS
+      - "8095:9999" # CONTROL
+      - "4040:4040" # DEBUG
+    environment:
+      # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
+      EDC_FS_CONFIG: /app/configuration.properties
+      # Uncomment to enable for debugging, please choose a different port for each endpoint
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
+    volumes:
+      - ./oem/resources/controlplane.properties:/app/configuration.properties
+      - ./resources/opentelemetry.properties:/app/opentelemetry.properties
+      - ./resources/logging.properties:/app/logging.properties
 
   #
   # Configures the oem control plane (consumer)
@@ -374,19 +377,19 @@ services:
       - ./resources/opentelemetry.properties:/app/opentelemetry.properties
       - ./resources/logging.properties:/app/logging.properties
 
-#  consumer-frontend:
-#    build:
-#      dockerfile: src/main/docker/Dockerfile
-#      context: ../ux
-#    image: ghcr.io/catenax-ng/product-knowledge/ux:0.8.1-SNAPSHOT
-#    platform: ${DOCKER_PLATFORM:-linux/amd64}
-#    environment:
-#      REACT_APP_SKILL_CONNECTOR_DATA: http://localhost:8500
-#      REACT_APP_SKILL_CONNECTOR_CONTROL: http://localhost:8600
-#      REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY: X-Api-Key
-#      REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_VALUE: foo
-#      REACT_APP_SKILL_BACKEND: http://localhost:3000/webvowl/index.html
-#      REACT_APP_SKILL_GITHUB_ONTOLOGYHUB: https://api.github.com/repos/catenax-ng/product-knowledge/contents/ontology
-#      REACT_APP_FOLDER: /consumer-frontend
-#    ports:
-#      - "3000:8080"  # http
+  consumer-frontend:
+    build:
+      dockerfile: src/main/docker/Dockerfile
+      context: ../ux
+    image: ghcr.io/catenax-ng/product-knowledge/ux:0.8.1-SNAPSHOT
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
+    environment:
+      REACT_APP_SKILL_CONNECTOR_DATA: http://localhost:8500
+      REACT_APP_SKILL_CONNECTOR_CONTROL: http://localhost:8600
+      REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY: X-Api-Key
+      REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_VALUE: foo
+      REACT_APP_SKILL_BACKEND: http://localhost:3000/webvowl/index.html
+      REACT_APP_SKILL_GITHUB_ONTOLOGYHUB: https://api.github.com/repos/catenax-ng/product-knowledge/contents/ontology
+      REACT_APP_FOLDER: /consumer-frontend
+    ports:
+      - "3000:8080"  # http

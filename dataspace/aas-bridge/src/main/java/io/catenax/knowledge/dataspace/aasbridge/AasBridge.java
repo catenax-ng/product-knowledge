@@ -62,12 +62,12 @@ public class AasBridge {
 
     public static void main(String[] args) throws ConfigurationException, AssetConnectionException, MessageBusException, EndpointException, UnsupportedEncodingException {
 
-
         AasBridge aasBridge = new AasBridge(
-                System.getProperty("PROVIDER_SPARQL_ENDPOINT") +
+                System.getProperty("PROVIDER_SPARQL_ENDPOINT",System.getenv("PROVIDER_SPARQL_ENDPOINT")) +
                         "?OemProviderAgent=" +
-                        URLEncoder.encode(System.getProperty("PROVIDER_AGENT_PLANE"), StandardCharsets.ISO_8859_1),
-                System.getProperty("PROVIDER_CREDENTIAL_BASIC")
+                        URLEncoder.encode(System.getProperty("PROVIDER_AGENT_PLANE",System.getenv("PROVIDER_AGENT_PLANE")), StandardCharsets.ISO_8859_1),
+                        System.getProperty("PROVIDER_CREDENTIAL_BASIC",System.getenv("PROVIDER_CREDENTIAL_BASIC")),
+                        Integer.parseInt(System.getProperty("TIMEOUT_SECONDS",System.getenv().getOrDefault("TIMEOUT_SECONDS","10")))
         );
 
         Service faaast = new Service(ServiceConfig.builder()
@@ -84,16 +84,16 @@ public class AasBridge {
         faaast.start();
     }
 
-    public AasBridge(String endpoint, String credentials) {
-
-        Class[] parameters = new Class[3];
+    public AasBridge(String endpoint, String credentials, long timeoutSeconds) {
+        Class[] parameters = new Class[4];
         parameters[0] = String.class;
         parameters[1] = String.class;
         parameters[2] = HttpClient.class;
+        parameters[3] = long.class;
 
         this.mappers = implMap.values().stream().map(aClass -> {
             try {
-                return aClass.getDeclaredConstructor(parameters).newInstance(endpoint, credentials, client);
+                return aClass.getDeclaredConstructor(parameters).newInstance(endpoint, credentials, client, timeoutSeconds);
             } catch (NoSuchMethodException | InstantiationException | IllegalAccessException |
                      InvocationTargetException e) {
                 throw new RuntimeException(e);

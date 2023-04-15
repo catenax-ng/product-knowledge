@@ -20,6 +20,8 @@ public abstract class AspectMapperTest {
     protected HttpClient client;
     protected String mockResponse="";
 
+    protected long timeoutSeconds=10;
+
     public void instantiate() throws Exception {
         mockWebServer = new MockWebServer();
         client=HttpClient.newHttpClient();
