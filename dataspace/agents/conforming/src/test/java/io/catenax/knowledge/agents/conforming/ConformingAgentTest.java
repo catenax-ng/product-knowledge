@@ -117,12 +117,16 @@ public abstract class ConformingAgentTest extends JerseyTest {
         return response.readEntity(String.class);
     }
 
+    protected int getNumberVars() {
+        return 3;
+    }
+
     protected void testJsonResultSet(Response response) throws IOException {
         String content = getEntity(response);
         JsonNode node=objectMapper.readTree(content);
-        assertEquals(3,node.get("head").get("vars").size(),"Got three variables");
+        assertEquals(getNumberVars(),node.get("head").get("vars").size(),"Got three variables");
         assertEquals(1,node.get("results").get("bindings").size(),"got one result");
-        assertEquals(3,node.get("results").get("bindings").get(0).size(),"got 3 bindings");
+        assertEquals(getNumberVars(),node.get("results").get("bindings").get(0).size(),"got 3 bindings");
     }
 
     protected void testXmlResultSet(Response response) throws IOException {
@@ -139,9 +143,9 @@ public abstract class ConformingAgentTest extends JerseyTest {
         } catch (SAXException e) {
             throw new IOException("Cannot parse XML",e);
         }
-        assertEquals(3,((Element) document.getDocumentElement().getElementsByTagName("head").item(0)).getElementsByTagName("variable").getLength(),"Got three variables");
+        assertEquals(getNumberVars(),((Element) document.getDocumentElement().getElementsByTagName("head").item(0)).getElementsByTagName("variable").getLength(),"Got three variables");
         assertEquals(1,((Element) document.getDocumentElement().getElementsByTagName("results").item(0)).getElementsByTagName("result").getLength(),"got one result");
-        assertEquals(3,((Element)((Element) document.getDocumentElement().getElementsByTagName("results").item(0)).getElementsByTagName("result").item(0)).getElementsByTagName("binding").getLength(),"got 3 bindings");
+        assertEquals(getNumberVars(),((Element)((Element) document.getDocumentElement().getElementsByTagName("results").item(0)).getElementsByTagName("result").item(0)).getElementsByTagName("binding").getLength(),"got 3 bindings");
     }
 
     /**

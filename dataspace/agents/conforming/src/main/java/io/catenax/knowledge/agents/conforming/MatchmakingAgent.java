@@ -26,6 +26,16 @@ public class MatchmakingAgent extends ConformingAgent {
     }
 
     @Override
+    protected String getSimpleJson() {
+        return simpleBindJson;
+    }
+
+    @Override
+    protected String getSimpleXml() {
+        return simpleBindXml;
+    }
+
+    @Override
     public Response getAgent(String asset, String queryLn, String query, String _vin, List<String> troubleCode) throws NotFoundException {
         if(query==null && asset==null) {
             return annotate(Response.status(400,"{ \"error\":400, \"reason\":\"KA-MATCH: query or asset parameter must be set\" }"));

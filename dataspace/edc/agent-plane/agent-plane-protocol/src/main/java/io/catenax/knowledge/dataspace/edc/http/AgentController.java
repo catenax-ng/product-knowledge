@@ -9,19 +9,18 @@ package io.catenax.knowledge.dataspace.edc.http;
 import io.catenax.knowledge.dataspace.edc.*;
 import io.catenax.knowledge.dataspace.edc.sparql.SparqlQueryProcessor;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.Response.ResponseBuilder;
-import jakarta.ws.rs.core.Response.Status;
-import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Map;
 
-import okhttp3.*;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpStatus;
 import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
@@ -83,16 +82,19 @@ public class AgentController {
 
     /**
      * endpoint for posting a sparql query (maybe as a stored skill with a bindingset)
-     * @param request context
-     * @param response context
      * @param asset can be a named graph for executing a query or a skill asset
      * @return response
      */
     @POST
     @Consumes({"application/sparql-query","application/sparql-results+json"})
-    public Response postSparqlQuery(@Context HttpServletRequest request,@Context HttpServletResponse response, @QueryParam("asset") String asset) {
+    public Response postSparqlQuery(@QueryParam("asset") String asset,
+                                    @Context HttpHeaders headers,
+                                    @Context HttpServletRequest request,
+                                    @Context HttpServletResponse response,
+                                    @Context UriInfo uri
+    ) {
         monitor.debug(String.format("Received a SparQL POST request %s for asset %s",request,asset));
-        return executeQuery(request,response,asset);
+        return executeQuery(asset, headers, request, response, uri);
     }
 
     /**
@@ -102,16 +104,18 @@ public class AgentController {
      * with the query text in the body and expects a
      * special content disposition in the response header which
      * marks the body as a kind of file attachement.
-     * @param request context
-     * @param response context
      * @param asset can be a named graph for executing a query or a skill asset
      * @return response compatible with graphdb convention
      */
     @POST
     @Consumes({"application/x-www-form-urlencoded"})
-    public Response postFormQuery(@Context HttpServletRequest request,@Context HttpServletResponse response, @QueryParam("asset") String asset) {
+    public Response postFormQuery(@QueryParam("asset") String asset,
+                                  @Context HttpHeaders headers,
+                                  @Context HttpServletRequest request,
+                                  @Context HttpServletResponse response,
+                                  @Context UriInfo uri) {
         monitor.debug(String.format("Received a Form-based POST request %s for asset %s",request,asset));
-        Response result= executeQuery(request,response,asset);
+        Response result= executeQuery(asset, headers, request, response, uri);
         response.addHeader("Content-Disposition","attachement; filename=query-result.srjs");
         return result;
     }
@@ -123,68 +127,80 @@ public class AgentController {
      * with the query text in the body and expects a
      * special content disposition in the response header which
      * marks the body as a kind of file attachement.
-     * @param request context
-     * @param response context
      * @param asset can be a named graph for executing a query or a skill asset
      * @return response compatible with graphdb convention
      */
     @POST
     @Path("/repositories/AGENT")
     @Consumes({"application/x-www-form-urlencoded"})
-    public Response postFormRepositoryQuery(@Context HttpServletRequest request,@Context HttpServletResponse response, @QueryParam("asset") String asset) {
+    public Response postFormRepositoryQuery(@QueryParam("asset") String asset,
+                                            @Context HttpHeaders headers,
+                                            @Context HttpServletRequest request,
+                                            @Context HttpServletResponse response,
+                                            @Context UriInfo uri) {
         monitor.debug(String.format("Received a Form-based POST repository request %s for asset %s",request,asset));
-        Response result= executeQuery(request,response,asset);
+        Response result= executeQuery(asset, headers, request, response, uri);
         response.addHeader("Content-Disposition","attachement; filename=query-result.srjs");
         return result;
     }
 
     /**
      * endpoint for getting a query
-     * @param request context
-     * @param response context
      * @param asset can be a named graph for executing a query or a skill asset
      * @return response
      */
     @GET
-    public Response getQuery(@Context HttpServletRequest request,@Context HttpServletResponse response, @QueryParam("asset") String asset) {
+    public Response getQuery(@QueryParam("asset") String asset,
+                             @Context HttpHeaders headers,
+                             @Context HttpServletRequest request,
+                             @Context HttpServletResponse response,
+                             @Context UriInfo uri) {
         monitor.debug(String.format("Received a GET request %s for asset %s",request,asset));
-        return executeQuery(request,response,asset);
+        return executeQuery(asset, headers, request, response, uri);
     }
 
     /**
      * 2nd endpoint for getting a query
-     * @param request context
-     * @param response context
      * @param asset can be a named graph for executing a query or a skill asset
      * @return response
      */
     @GET
     @Path("/repositories/AGENT")
-    public Response getRepositoryQuery(@Context HttpServletRequest request,@Context HttpServletResponse response, @QueryParam("asset") String asset) {
+    public Response getRepositoryQuery(@QueryParam("asset") String asset,
+                                       @Context HttpHeaders headers,
+                                       @Context HttpServletRequest request,
+                                       @Context HttpServletResponse response,
+                                       @Context UriInfo uri) {
         monitor.debug(String.format("Received a GET repository request %s for asset %s",request,asset));
-        return executeQuery(request,response,asset);
+        return executeQuery(asset, headers, request, response, uri);
     }
 
     /**
      * check import status
-     * @param request context
      * @return response
      */
     @GET
     @Path("/repositories/AGENT/import/active")
-    public Response getRepositoryImportQuery(@Context HttpServletRequest request) {
+    public Response getRepositoryImportQuery(
+            @Context HttpHeaders headers,
+            @Context HttpServletRequest request,
+            @Context HttpServletResponse response,
+            @Context UriInfo uri) {
         monitor.debug(String.format("Received a GET repository import active request %s",request));
         return Response.status(406,"Not Acceptable (HTTP status 406)").build();
     }
 
     /**
      * check size
-     * @param request context
      * @return response
      */
     @GET
     @Path("/rest/repositories/AGENT/size")
-    public Response getRestRepositorySizeQuery(@Context HttpServletRequest request) {
+    public Response getRestRepositorySizeQuery(
+            @Context HttpHeaders headers,
+            @Context HttpServletRequest request,
+            @Context HttpServletResponse response,
+            @Context UriInfo uri) {
         monitor.debug(String.format("Received a GET rest repository size request %s",request));
         return Response.ok("{\n" +
                 "    \"inferred\": 70,\n" +
@@ -195,74 +211,92 @@ public class AgentController {
 
     /**
      * check size
-     * @param request context
      * @return response
      */
     @GET
     @Path("/repositories/AGENT/size")
-    public Response getRepositorySizeQuery(@Context HttpServletRequest request) {
+    public Response getRepositorySizeQuery(
+            @Context HttpHeaders headers,
+            @Context HttpServletRequest request,
+            @Context HttpServletResponse response,
+            @Context UriInfo uri) {
         monitor.debug(String.format("Received a GET repository size request %s",request));
         return Response.ok("0" ).type(jakarta.ws.rs.core.MediaType.APPLICATION_JSON_TYPE).build();
     }
 
     /**
      * check import status
-     * @param request context
      * @return response
      */
     @GET
     @Path("/rest/repositories/AGENT/import/active")
-    public Response getRestRepositoryImportQuery(@Context HttpServletRequest request) {
+    public Response getRestRepositoryImportQuery(
+            @Context HttpHeaders headers,
+            @Context HttpServletRequest request,
+            @Context HttpServletResponse response,
+            @Context UriInfo uri) {
         monitor.debug(String.format("Received a GET rest repository import active request %s",request));
         return Response.ok("0").type(jakarta.ws.rs.core.MediaType.APPLICATION_JSON_TYPE).build();
     }
 
     /**
      * return version info for graphdb/fedx integration
-     * @param request context
      * @return version string
      */
     @GET
     @Path("/rest/info/version")
-    public String getVersion(@Context HttpServletRequest request) {
+    public String getVersion(
+            @Context HttpHeaders headers,
+            @Context HttpServletRequest request,
+            @Context HttpServletResponse response,
+            @Context UriInfo uri) {
         monitor.debug(String.format("Received a GET Version request %s",request));
-        return "0.8.1";
+        return "0.8.4";
     }
 
     /**
      * return protocol info for graphdb/fedx integration
-     * @param request context
      * @return protocol string
      */
     @GET
     @Path("/protocol")
-    public String getProtocol(@Context HttpServletRequest request) {
+    public String getProtocol(
+            @Context HttpHeaders headers,
+            @Context HttpServletRequest request,
+            @Context HttpServletResponse response,
+            @Context UriInfo uri) {
         monitor.debug(String.format("Received a GET Protocol request %s",request));
         return "12";
     }
 
     /**
      * return version info for graphdb/fedx integration
-     * @param request context
      * @return version string
      */
     @GET
     @Path("/rest/locations/id")
-    public String getId(@Context HttpServletRequest request) {
+    public String getId(
+            @Context HttpHeaders headers,
+            @Context HttpServletRequest request,
+            @Context HttpServletResponse response,
+            @Context UriInfo uri) {
         monitor.debug(String.format("Received a GET Id request %s",request));
         return "Catena-X Knowledge Agent";
     }
 
     /**
      * return repositories for graphdb/fedx integration
-     * @param request context
      * @return single repo as json
      */
     @GET
     @Path("/rest/repositories")
-    public String getRestRepositories(@Context HttpServletRequest request) {
+    public String getRestRepositories(
+            @Context HttpHeaders headers,
+            @Context HttpServletRequest request,
+            @Context HttpServletResponse response,
+            @Context UriInfo uri) {
         monitor.debug(String.format("Received a GET Rest Repositories request %s",request));
-        String url=request.getRequestURI();
+        String url=uri.toString();
         url=url.substring(0,url.length()-18);
         return "[\n" +
                 "    {\n" +
@@ -284,16 +318,19 @@ public class AgentController {
 
     /**
      * return repositories for graphdb/fedx integration
-     * @param request context
      * @return single repo as csv
      */
     @GET
     @Path("/repositories")
-    public Response getRepositories(@Context HttpServletRequest request) {
+    public Response getRepositories(
+            @Context HttpHeaders headers,
+            @Context HttpServletRequest request,
+            @Context HttpServletResponse response,
+            @Context UriInfo uri) {
         monitor.debug(String.format("Received a GET Repositories request %s",request));
-        String url=request.getRequestURI();
+        String url=uri.toString();
         url=url.substring(0,url.length()-13);
-        ResponseBuilder builder=Response.ok("uri,id,title,readable,writable\n"+url+",AGENT,Catena-X Knowledge Agent Dataspace Endpoint,true,true\n");
+        Response.ResponseBuilder builder=Response.ok("uri,id,title,readable,writable\n"+url+",AGENT,Catena-X Knowledge Agent Dataspace Endpoint,true,true\n");
         builder.type("text/csv;charset=UTF-8");
         builder.header("Content-Disposition","attachment; filename=repositories.csv");
         return builder.build();
@@ -301,14 +338,17 @@ public class AgentController {
 
     /**
      * return repositories for graphdb/fedx integration
-     * @param request context
      * @return single repo as csv
      */
     @GET
     @Path("/repositories/AGENT/namespaces")
-    public Response getNamespaces(@Context HttpServletRequest request) {
+    public Response getNamespaces(
+            @Context HttpHeaders headers,
+            @Context HttpServletRequest request,
+            @Context HttpServletResponse response,
+            @Context UriInfo uri) {
         monitor.debug(String.format("Received a GET Namespaces request %s",request));
-        ResponseBuilder builder=Response.ok("prefix,namespace\n" +
+        Response.ResponseBuilder builder=Response.ok("prefix,namespace\n" +
                 "rdf,http://www.w3.org/1999/02/22-rdf-syntax-ns#\n" +
                 "owl,http://www.w3.org/2002/07/owl#\n" +
                 "xsd,http://www.w3.org/2001/XMLSchema#\n" +
@@ -321,12 +361,10 @@ public class AgentController {
 
     /**
      * the actual execution is done by delegating to the Fuseki engine
-     * @param request http request
-     * @param response http response
      * @param asset target graph
      * @return a response
      */
-    public Response executeQuery(HttpServletRequest request,HttpServletResponse response, String asset) {
+    public Response executeQuery(String asset, HttpHeaders headers, HttpServletRequest request, HttpServletResponse response, UriInfo uri) {
         String skill=null;
         String graph=null;
         String remoteUrl=null;
@@ -342,12 +380,12 @@ public class AgentController {
                     return Response.status(Response.Status.BAD_REQUEST).build();
                 }
                 remoteUrl=matcher.group("url");
-                graph=matcher.group("skill");
+                skill=matcher.group("skill");
             }
         }
 
         if(remoteUrl!=null) {
-            return executeQueryRemote(request,response,remoteUrl,skill,graph);
+            return executeQueryRemote(remoteUrl,skill,graph, headers, request, response, uri);
         }
 
         try {
@@ -358,106 +396,100 @@ public class AgentController {
                     if (skillOption.isPresent()) {
                         skill = skillOption.get();
                     } else {
-                        return HttpUtils.respond(request, Status.NOT_FOUND.getStatusCode(), "The requested skill is not registered.", null);
+                        return HttpUtils.respond(headers, HttpStatus.SC_NOT_FOUND, "The requested skill is not registered.", null);
                     }
                 }
             }
 
-            processor.execute(request,response,skill,graph);
+            processor.execute(request, response,skill,graph);
             // kind of redundant, but javax.ws.rs likes it this way
-            return Response.ok().build();
+            return Response.status(response.getStatus()).build();
         } catch(WebApplicationException e) {
-            return HttpUtils.respond(request,e.getResponse().getStatus(),e.getMessage(),e.getCause());
+            return HttpUtils.respond(headers,e.getResponse().getStatus(),e.getMessage(),e.getCause());
         }
     }
 
     /**
      * the actual execution is done by delegating to the Dataspace
-     * @param request http request
-     * @param response http response
      * @param remoteUrl remote connector
      * @param skill target skill
      * @param graph target graph
      * @return a response
      */
-    public Response executeQueryRemote(HttpServletRequest request,HttpServletResponse response, String remoteUrl, String skill, String graph)  {
+    public Response executeQueryRemote(String remoteUrl, String skill, String graph, HttpHeaders headers, HttpServletRequest request, HttpServletResponse response, UriInfo uri)  {
         String asset = skill != null ? skill : graph;
         EndpointDataReference endpoint = agreementController.get(asset);
         if(endpoint==null) {
             try {
                 endpoint=agreementController.createAgreement(remoteUrl,asset);
             } catch(WebApplicationException e) {
-                return HttpUtils.respond(request, e.getResponse().getStatus(),String.format("Could not get an agreement from connector %s to asset %s",remoteUrl,asset),e.getCause());
+                return HttpUtils.respond(headers, e.getResponse().getStatus(),String.format("Could not get an agreement from connector %s to asset %s",remoteUrl,asset),e.getCause());
             }
         }
         if(endpoint==null) {
-            return HttpUtils.respond(request,HttpStatus.SC_FORBIDDEN,String.format("Could not get an agreement from connector %s to asset %s",remoteUrl,asset),null);
+            return HttpUtils.respond(headers,HttpStatus.SC_FORBIDDEN,String.format("Could not get an agreement from connector %s to asset %s",remoteUrl,asset),null);
         }
         if("GET".equals(request.getMethod())) {
             try {
-                sendGETRequest(endpoint, "", request,response);
+                sendGETRequest(endpoint, "", headers, response, uri);
             } catch(IOException e) {
-                return HttpUtils.respond(request, HttpStatus.SC_INTERNAL_SERVER_ERROR,String.format("Could not delegate remote GET call to connector %s asset %s",remoteUrl,asset),e);
+                return HttpUtils.respond(headers, HttpStatus.SC_INTERNAL_SERVER_ERROR,String.format("Could not delegate remote GET call to connector %s asset %s",remoteUrl,asset),e);
             }
         } else if("POST".equals(request.getMethod())) {
             try {
-                sendPOSTRequest(endpoint, "", request,response);
+                sendPOSTRequest(endpoint, "", headers, request, response, uri);
             } catch(IOException e) {
-                return HttpUtils.respond(request, HttpStatus.SC_INTERNAL_SERVER_ERROR,String.format("Could not delegate remote POST call to connector %s asset %s",remoteUrl,asset),e);
+                return HttpUtils.respond(headers, HttpStatus.SC_INTERNAL_SERVER_ERROR,String.format("Could not delegate remote POST call to connector %s asset %s",remoteUrl,asset),e);
             }
         } else {
-            return HttpUtils.respond(request, HttpStatus.SC_METHOD_NOT_ALLOWED,String.format("%s calls to connector %s asset %s are not allowed",request.getMethod(),remoteUrl,asset),null);
+            return HttpUtils.respond(headers, HttpStatus.SC_METHOD_NOT_ALLOWED,String.format("%s calls to connector %s asset %s are not allowed",request.getMethod(),remoteUrl,asset),null);
         }
-        return Response.ok().build();
+        return Response.status(response.getStatus()).build();
     }
 
     /**
      * route a get request
      * @param dataReference the encoded call embedding
      * @param subUrl protocol-specific part
-     * @param original request to route
-     * @param response response to fill in
      * @throws IOException in case something strange happens
      */
-    public void sendGETRequest(EndpointDataReference dataReference, String subUrl, HttpServletRequest original, HttpServletResponse response) throws IOException {
-        var url = getUrl(dataReference.getEndpoint(), subUrl, original);
+    public void sendGETRequest(EndpointDataReference dataReference, String subUrl, HttpHeaders headers, HttpServletResponse response, UriInfo uri) throws IOException {
+        var url = getUrl(dataReference.getEndpoint(), subUrl, headers, uri);
 
         monitor.debug(String.format("About to delegate GET %s",url));
 
-        var requestBuilder = new Request.Builder()
+        var requestBuilder = new okhttp3.Request.Builder()
                 .url(url)
                 .addHeader(Objects.requireNonNull(dataReference.getAuthKey()), Objects.requireNonNull(dataReference.getAuthCode()));
 
-        var request = requestBuilder.build();
+        var newRequest = requestBuilder.build();
 
-        sendRequest(request,response);
+        sendRequest(newRequest, response);
     }
 
     /**
      * route a post request
      * @param dataReference the encoded call embedding
      * @param subUrl protocol-specific part
-     * @param original request to route
-     * @param response response to fill
      * @throws IOException in case something strange happens
      */
-    public void sendPOSTRequest(EndpointDataReference dataReference, String subUrl, HttpServletRequest original, HttpServletResponse response) throws IOException {
-        var url = getUrl(dataReference.getEndpoint(), subUrl, original);
+    public void sendPOSTRequest(EndpointDataReference dataReference, String subUrl, HttpHeaders headers, HttpServletRequest request, HttpServletResponse response, UriInfo uri) throws IOException {
+        var url = getUrl(dataReference.getEndpoint(), subUrl, headers, uri);
 
-        String contentType=original.getContentType();
+        String contentType=request.getContentType();
 
         monitor.debug(String.format("About to delegate POST %s with content type %s",url,contentType));
 
-        var requestBuilder = new Request.Builder()
+        var requestBuilder = new okhttp3.Request.Builder()
                 .url(url)
                 .addHeader(Objects.requireNonNull(dataReference.getAuthKey()), Objects.requireNonNull(dataReference.getAuthCode()))
                 .addHeader("Content-Type", contentType);
 
-        requestBuilder.post(RequestBody.create(original.getInputStream().readAllBytes(), MediaType.parse(contentType)));
+        requestBuilder.post(okhttp3.RequestBody.create(request.getInputStream().readAllBytes(), okhttp3.MediaType.parse(contentType)));
 
-        var request = requestBuilder.build();
+        var newRequest = requestBuilder.build();
 
-        sendRequest(request,response);
+        sendRequest(newRequest, response);
     }
 
     /**
@@ -473,10 +505,9 @@ public class AgentController {
      * computes the url to target the given data plane
      * @param connectorUrl data plane url
      * @param subUrl sub-path to use
-     * @param original request to route
      * @return typed url
      */
-    protected HttpUrl getUrl(String connectorUrl, String subUrl, HttpServletRequest original) throws UnsupportedEncodingException {
+    protected HttpUrl getUrl(String connectorUrl, String subUrl, HttpHeaders headers, UriInfo uri) throws UnsupportedEncodingException {
         var url = connectorUrl;
 
         // EDC public api slash problem
@@ -488,8 +519,8 @@ public class AgentController {
             url = url + subUrl;
         }
 
-        HttpUrl.Builder httpBuilder = Objects.requireNonNull(HttpUrl.parse(url)).newBuilder();
-        for (Map.Entry<String, String[]> param : original.getParameterMap().entrySet()) {
+        HttpUrl.Builder httpBuilder = Objects.requireNonNull(okhttp3.HttpUrl.parse(url)).newBuilder();
+        for (Map.Entry<String, List<String>> param : uri.getQueryParameters().entrySet()) {
             for (String value : param.getValue()) {
                 if(allowParameter(param.getKey())) {
                     String recode = HttpUtils.urlEncodeParameter(value);
@@ -498,8 +529,8 @@ public class AgentController {
             }
         }
 
-        if(original.getHeader("Accept")!=null) {
-            httpBuilder = httpBuilder.addQueryParameter("cx_accept", HttpUtils.urlEncodeParameter(original.getHeader("Accept")));
+        if(headers.getHeaderString("Accept")!=null) {
+            httpBuilder = httpBuilder.addQueryParameter("cx_accept", HttpUtils.urlEncodeParameter(headers.getHeaderString("Accept")));
         } else {
             httpBuilder = httpBuilder.addQueryParameter("cx_accept", HttpUtils.urlEncodeParameter("application/json"));
         }
@@ -510,28 +541,27 @@ public class AgentController {
     /**
      * generic sendRequest method which extracts the result string of textual responses
      * @param request predefined request
-     * @param origResponse response to provide
      * @throws IOException in case something goes wrong
      */
-    protected void sendRequest(Request request, HttpServletResponse origResponse) throws IOException {
-        try(var response = client.newCall(request).execute()) {
+    protected void sendRequest(okhttp3.Request request, HttpServletResponse response) throws IOException {
+        try(var myResponse = client.newCall(request).execute()) {
 
-            if(!response.isSuccessful()) {
-                monitor.warning(String.format("Data plane call was not successful: %s", response.code()));
+            if(!myResponse.isSuccessful()) {
+                monitor.warning(String.format("Data plane call was not successful: %s", myResponse.code()));
             }
 
-            origResponse.setStatus(response.code());
+            response.setStatus(myResponse.code());
 
-            for(String header : response.headers().names()) {
-                for(String value : response.headers().values(header)) {
-                    origResponse.addHeader(header,value);
+            for(String header : myResponse.headers().names()) {
+                for(String value : myResponse.headers().values(header)) {
+                    response.addHeader(header,value);
                 }
             }
 
-            var body = response.body();
+            var body = myResponse.body();
 
             if (body != null) {
-                IOUtils.copy(body.byteStream(), origResponse.getOutputStream());
+                IOUtils.copy(body.byteStream(), response.getOutputStream());
             }
         }
     }
@@ -547,11 +577,11 @@ public class AgentController {
     @Consumes({"application/sparql-query"})
     public Response postSkill(String query, @QueryParam("asset") String asset) {
         monitor.debug(String.format("Received a POST skill request %s %s ",asset,query));
-        ResponseBuilder rb;
+        Response.ResponseBuilder rb;
         if(skillStore.put(asset,query)!=null) {
             rb=Response.ok();
         } else {
-            rb=Response.status(Status.CREATED);
+            rb=Response.status(HttpStatus.SC_CREATED);
         }
         return rb.build();
     }
@@ -566,10 +596,10 @@ public class AgentController {
     @Produces({"application/sparql-query"})
     public Response getSkill(@QueryParam("asset") String asset) {
         monitor.debug(String.format("Received a GET skill request %s",asset));
-        ResponseBuilder rb;
+        Response.ResponseBuilder rb;
         String query=skillStore.get(asset).orElse(null);
         if(query==null) {
-            rb = Response.status(Status.NOT_FOUND);
+            rb = Response.status(HttpStatus.SC_NOT_FOUND);
         } else {
             rb = Response.ok(query);
         }

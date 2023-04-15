@@ -12,6 +12,7 @@ import org.apache.jena.sparql.engine.QueryIterator;
 import org.apache.jena.sparql.engine.binding.Binding;
 import org.apache.jena.sparql.engine.iterator.QueryIteratorBase;
 import org.apache.jena.sparql.serializer.SerializationContext;
+import org.apache.jena.sparql.util.Context;
 import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
 
 import java.util.List;
@@ -21,6 +22,8 @@ import java.util.concurrent.Future;
 
 /**
  * A query iterator sitting on a set of future query iterators
+ * It will get and produce contextual information in order to collect any
+ * errors appearing.
  */
 public class QueryIterFutures extends QueryIteratorBase {
 
@@ -29,16 +32,32 @@ public class QueryIterFutures extends QueryIteratorBase {
     final Monitor monitor;
     final AgentConfig config;
 
+    final String sourceTenant;
+    final String sourceAsset;
+    final String targetTenant;
+    final String targetAsset;
+    final Context executionContext;
+
     /**
      * creates a new future iterator
      * @param config agent config
      * @param monitor logging subsystem
+     * @param sourceTenant the name/uri of the source tenant
+     * @param targetTenant the name/uri of the remote tenant
+     * @param sourceAsset the name of the calling/consuming graph
+     * @param targetAsset the name of the target/producing graph
+     * @param executionContext description of the execution context
      * @param futures list of futures to synchronize on
      */
-    public QueryIterFutures(AgentConfig config, Monitor monitor, List<Future<QueryIterator>> futures) {
+    public QueryIterFutures(AgentConfig config, Monitor monitor, String sourceTenant, String sourceAsset, String targetTenant, String targetAsset, Context executionContext, List<Future<QueryIterator>> futures) {
         this.futures=futures;
         this.monitor=monitor;
         this.config=config;
+        this.sourceAsset=sourceAsset;
+        this.sourceTenant=sourceTenant;
+        this.targetAsset=targetAsset;
+        this.targetTenant=targetTenant;
+        this.executionContext=executionContext;
     }
 
     /**
@@ -64,8 +83,28 @@ public class QueryIterFutures extends QueryIteratorBase {
                 } else {
                     Thread.sleep(config.getNegotiationPollInterval());
                 }
-            }  catch(InterruptedException | ExecutionException e) {
-                monitor.warning(String.format("Could not access future remoting result because of %s. Ignoring.",e));
+            }  catch(InterruptedException e) {
+                List<CatenaxWarning> warnings=CatenaxWarning.getOrSetWarnings(executionContext);
+                CatenaxWarning newWarning=new CatenaxWarning();
+                newWarning.setSourceAsset(sourceAsset);
+                newWarning.setSourceTenant(sourceTenant);
+                newWarning.setTargetAsset(targetAsset);
+                newWarning.setTargetTenant(targetTenant);
+                newWarning.setContext(executionContext.toString());
+                newWarning.setProblem(String.format("Synchronization on a remote future was interrupted with %s.",e.getMessage()));
+                warnings.add(newWarning);
+                monitor.warning(newWarning.getProblem());
+            } catch(ExecutionException e) {
+                List<CatenaxWarning> warnings=CatenaxWarning.getOrSetWarnings(executionContext);
+                CatenaxWarning newWarning=new CatenaxWarning();
+                newWarning.setSourceAsset(sourceAsset);
+                newWarning.setSourceTenant(sourceTenant);
+                newWarning.setTargetAsset(targetAsset);
+                newWarning.setTargetTenant(targetTenant);
+                newWarning.setContext(executionContext.toString());
+                newWarning.setProblem(String.format("Accessing a remote future failed because of %s. Ignoring.",e.getCause()));
+                warnings.add(newWarning);
+                monitor.warning(newWarning.getProblem());
             }
             return hasNextBinding();
         }

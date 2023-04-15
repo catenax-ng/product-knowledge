@@ -6,6 +6,8 @@
 //
 package io.catenax.knowledge.dataspace.edc.sparql;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.catenax.knowledge.dataspace.edc.*;
 import io.catenax.knowledge.dataspace.edc.http.HttpServletContextAdapter;
 import io.catenax.knowledge.dataspace.edc.http.HttpServletRequestAdapter;
@@ -44,6 +46,7 @@ import org.apache.jena.atlas.lib.Pair;
 import org.apache.jena.sparql.engine.http.QueryExceptionHTTP;
 import org.apache.jena.sparql.service.ServiceExecutorRegistry;
 import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
+import org.eclipse.dataspaceconnector.spi.types.TypeManager;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -60,7 +63,7 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
     protected final Monitor monitor;
     protected final ServiceExecutorRegistry registry;
     protected final AgentConfig config;
-
+    protected final ObjectMapper objectMapper;
 
     /**
      * state
@@ -80,12 +83,13 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
      * @param registry service execution registry
      * @param monitor EDC logging
      */
-    public SparqlQueryProcessor(ServiceExecutorRegistry registry, Monitor monitor, AgentConfig config, RDFStore rdfStore) {
+    public SparqlQueryProcessor(ServiceExecutorRegistry registry, Monitor monitor, AgentConfig config, RDFStore rdfStore, TypeManager typeManager) {
         this.monitor=monitor;
         this.registry=registry;
         this.config=config;
         this.monitorWrapper=new MonitorWrapper(getClass().getName(),monitor);
         this.rdfStore=rdfStore;
+        this.objectMapper=typeManager.getMapper();
         dataAccessPointRegistry.register(rdfStore.getDataAccessPoint());
     }
 
@@ -137,16 +141,29 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
         action.setRequest(rdfStore.getDataAccessPoint(), rdfStore.getDataService());
         ServiceExecutorRegistry.set(action.getContext(),registry);
         action.getContext().set(ARQConstants.sysOptimizerFactory,optimizerFactory);
+        List<CatenaxWarning> previous=CatenaxWarning.getWarnings(action.getContext());
+        CatenaxWarning.setWarnings(action.getContext(),null);
         try {
             if (action.getRequestMethod().equals("GET")) {
                 this.executeWithParameter(action);
             } else {
                 this.executeBody(action);
             }
+            List<CatenaxWarning> newWarnings=CatenaxWarning.getWarnings(action.getContext());
+            if(newWarnings!=null) {
+                response.addHeader("cx_warnings",objectMapper.writeValueAsString(newWarnings));
+                if(response.getStatus()==200) {
+                    response.setStatus(203);
+                }
+            }
         } catch(ActionErrorException e) {
             throw new BadRequestException(e.getMessage(),e.getCause());
         } catch(QueryExecException e) {
             throw new InternalServerErrorException(e.getMessage(),e.getCause());
+        } catch (JsonProcessingException e) {
+            throw new InternalServerErrorException(e.getMessage(),e.getCause());
+        } finally {
+            CatenaxWarning.setWarnings(action.getContext(),previous);
         }
     }
 
@@ -179,10 +196,21 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
         } else if(graph!=null) {
             action.getContext().set(DataspaceServiceExecutor.asset,graph);
         }
+        List<CatenaxWarning> previous=CatenaxWarning.getWarnings(action.getContext());
+        CatenaxWarning.setWarnings(action.getContext(),null);
         try {
             execute(action);
-        } catch(QueryExceptionHTTP e) {
+            List<CatenaxWarning> newWarnings=CatenaxWarning.getWarnings(action.getContext());
+            if(newWarnings!=null) {
+                responseAdapter.addHeader("cx_warnings",objectMapper.writeValueAsString(newWarnings));
+            }
+            if(responseAdapter.getStatus()==200) {
+                responseAdapter.setStatus(203);
+            }
+        } catch(JsonProcessingException | QueryExceptionHTTP e) {
             responseAdapter.setStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR,e.getMessage());
+        } finally {
+            CatenaxWarning.setWarnings(action.getContext(),previous);
         }
         return responseAdapter.toResponse();
     }

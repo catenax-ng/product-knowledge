@@ -99,7 +99,7 @@ public class AgentConfig {
      * @return uri of the control plane ids endpoint (without concrete api)
      */
     public String getControlPlaneIdsUrl() {
-        return config.getString(CONTROL_PLANE_IDS);
+        return config.getString(CONTROL_PLANE_IDS,config.getString(CONTROL_PLANE_URL,null));
     }
 
     /**

@@ -7,7 +7,7 @@
 package io.catenax.knowledge.dataspace.edc;
 
 import org.eclipse.dataspaceconnector.spi.system.configuration.ConfigImpl;
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * test config impl
@@ -15,7 +15,7 @@ import java.util.HashMap;
 public class TestConfig extends ConfigImpl {
 
     public TestConfig() {
-        super("edc", new HashMap<String,String>());
+        super("edc", Map.of("edc.cx.agent.controlplane.ids","test-tenant"));
     }
     
 }

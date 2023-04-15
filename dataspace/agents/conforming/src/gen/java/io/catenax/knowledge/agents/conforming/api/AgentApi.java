@@ -21,8 +21,6 @@ import io.catenax.knowledge.agents.conforming.model.JsonResultset;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.*;
 import javax.ws.rs.*;
 

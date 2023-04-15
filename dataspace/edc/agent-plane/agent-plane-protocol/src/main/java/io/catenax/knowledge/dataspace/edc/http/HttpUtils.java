@@ -7,6 +7,8 @@
 package io.catenax.knowledge.dataspace.edc.http;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.Request;
 import jakarta.ws.rs.core.Response;
 
 import java.io.UnsupportedEncodingException;
@@ -52,14 +54,14 @@ public class HttpUtils {
     /**
      * creates a response from a given setting
      * depending on the accept type
-     * @param request that originated the error
+     * @param headers of the request
      * @param message message to include
      * @param cause error
      * @return http response with the right body
      */
-    public static Response respond(HttpServletRequest request, int status, String message, Throwable cause) {
+    public static Response respond(HttpHeaders headers, int status, String message, Throwable cause) {
         var builder = Response.status(status);
-        String accept=request.getHeader("Accept");
+        String accept=headers.getHeaderString("Accept");
         if(accept==null || accept.length()==0 ) {
             accept="*/*";
         }

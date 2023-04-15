@@ -6,6 +6,7 @@
 //
 package io.catenax.knowledge.dataspace.edc.sparql;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.catenax.knowledge.dataspace.edc.AgentConfig;
 import io.catenax.knowledge.dataspace.edc.IAgreementController;
 import io.catenax.knowledge.dataspace.edc.http.HttpClientAdapter;
@@ -39,6 +40,7 @@ import org.apache.jena.sparql.service.single.ServiceExecutor;
 import org.apache.jena.sparql.util.Context;
 import org.apache.jena.sparql.util.Symbol;
 import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
+import org.eclipse.dataspaceconnector.spi.types.TypeManager;
 import org.eclipse.dataspaceconnector.spi.types.domain.edr.EndpointDataReference;
 
 import java.net.http.HttpClient;
@@ -67,7 +69,8 @@ public class DataspaceServiceExecutor implements ServiceExecutor, ChainingServic
     final AgentConfig config;
     final HttpClient client;
     final ExecutorService executor;
-
+    final ObjectMapper objectMapper;
+    final AgentConfig agentConfig;
 
     /**
      * some constants
@@ -84,12 +87,14 @@ public class DataspaceServiceExecutor implements ServiceExecutor, ChainingServic
      * @param monitor    logging subsystem
      * @param controller dataspace agreement
      */
-    public DataspaceServiceExecutor(Monitor monitor, IAgreementController controller, AgentConfig config, OkHttpClient client, ExecutorService executor) {
+    public DataspaceServiceExecutor(Monitor monitor, IAgreementController controller, AgentConfig config, OkHttpClient client, ExecutorService executor, TypeManager typeManager, AgentConfig agentConfig) {
         this.monitor = monitor;
         this.agreementController = controller;
         this.config = config;
         this.client=new HttpClientAdapter(client);
         this.executor=executor;
+        this.objectMapper=typeManager.getMapper();
+        this.agentConfig=agentConfig;
     }
 
     /**
@@ -195,7 +200,7 @@ public class DataspaceServiceExecutor implements ServiceExecutor, ChainingServic
                     List<Future<QueryIterator>> futureBindings=bindings.entrySet().stream().map(serviceSpec -> executor.submit(() ->
                             createExecution(opService, serviceSpec.getKey(), boundVars, serviceSpec.getValue(), ctx))).collect(Collectors.toList());
 
-                    batchIterator=new QueryIterFutures(config,monitor,futureBindings);
+                    batchIterator=new QueryIterFutures(config,monitor,config.getControlPlaneManagementUrl(),config.getDefaultAsset(),serviceNode.getURI(), serviceNode.getURI(), ctx.getContext(),futureBindings);
                     return hasNextBinding();
                 } else {
                     return false;
@@ -379,13 +384,15 @@ public class DataspaceServiceExecutor implements ServiceExecutor, ChainingServic
             // -- End setup
 
             // Build the execution
-            QueryExecHTTPBuilder qExecBuilder = QueryExecHTTP.newBuilder()
+            QueryExecBuilder qExecBuilder = QueryExec.newBuilder()
                     .endpoint(serviceURL)
                     .timeout(timeoutMillis, TimeUnit.MILLISECONDS)
                     .query(query)
                     .params(serviceParams)
                     .context(context)
                     .httpClient(httpClient)
+                    .objectMapper(objectMapper)
+                    .agentConfig(agentConfig)
                     .sendMode(querySendMode);
 
             if (context.isDefined(authKey)) {
@@ -395,7 +402,7 @@ public class DataspaceServiceExecutor implements ServiceExecutor, ChainingServic
                 qExecBuilder=qExecBuilder.httpHeader(authKeyProp,authCodeProp);
             }
 
-            try(QueryExecHTTP qExec = qExecBuilder.build()) {
+            try(QueryExec qExec = qExecBuilder.build()) {
                 // Detach from the network stream.
                 RowSet rowSet = qExec.select().materialize();
                 QueryIterator qIter = QueryIterPlainWrapper.create(rowSet);

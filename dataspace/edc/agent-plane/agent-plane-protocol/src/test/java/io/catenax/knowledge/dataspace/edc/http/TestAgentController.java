@@ -12,6 +12,7 @@ import io.catenax.knowledge.dataspace.edc.sparql.DataspaceServiceExecutor;
 import io.catenax.knowledge.dataspace.edc.sparql.SparqlQueryProcessor;
 import okhttp3.*;
 import org.apache.jena.sparql.service.ServiceExecutorRegistry;
+import org.eclipse.dataspaceconnector.spi.types.TypeManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -60,9 +61,12 @@ public class TestAgentController {
     OkHttpClient client=new OkHttpClient();
     IAgreementController mockController = new MockAgreementController();
     ExecutorService threadedExecutor= Executors.newSingleThreadExecutor();
-    DataspaceServiceExecutor exec=new DataspaceServiceExecutor(monitor,mockController,agentConfig,client,threadedExecutor);
+    TypeManager typeManager = new TypeManager();
+    DataspaceServiceExecutor exec=new DataspaceServiceExecutor(monitor,mockController,agentConfig,client,threadedExecutor,typeManager,agentConfig);
     RDFStore store = new RDFStore(agentConfig,monitor);
-    SparqlQueryProcessor processor=new SparqlQueryProcessor(serviceExecutorReg,monitor,agentConfig,store);
+
+
+    SparqlQueryProcessor processor=new SparqlQueryProcessor(serviceExecutorReg,monitor,agentConfig,store, typeManager);
     SkillStore skillStore=new SkillStore();
 
 
@@ -151,7 +155,7 @@ public class TestAgentController {
         ByteArrayOutputStream responseStream=new ByteArrayOutputStream();
         MockServletOutputStream mos=new MockServletOutputStream(responseStream);
         when(response.getOutputStream()).thenReturn(mos);
-        agentController.getQuery(request, response, asset);
+        agentController.getQuery(asset,null,request,response,null);
         return responseStream.toString();
     }
 
@@ -400,12 +404,75 @@ public class TestAgentController {
                 "VALUES (?chain2) { (<http://localhost:8080/sparql>)} SERVICE ?chain2 { VALUES (?what) { (\"42\"^^xsd:int)} } } }";
         Request.Builder builder=new Request.Builder();
         builder.url("http://localhost:8080");
+        builder.addHeader("Accept","application/sparql-results+json");
         builder.put(RequestBody.create(query, MediaType.parse("application/sparql-query")));
         Response response=processor.execute(builder.build(),null,null,null,null);
         assertEquals(true,response.isSuccessful(),"Response was successful");
         JsonNode root=mapper.readTree(response.body().string());
         JsonNode whatBinding0=root.get("results").get("bindings").get(0).get("what");
         assertEquals("84",whatBinding0.get("value").asText(),"Correct binding");
+    }
+
+    /**
+     * test remote call with non-existing target
+     * @throws IOException in case of an error
+     */
+    @Test
+    public void testRemoteError() throws IOException {
+        String query="PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT ?what WHERE { SERVICE <http://does-not-resolve/sparql#urn:cx:Graph:1> { VALUES (?what) { (\"42\"^^xsd:int) } } }";
+        Request.Builder builder=new Request.Builder();
+        builder.url("http://localhost:8080");
+        builder.addHeader("Accept","application/sparql-results+json");
+        builder.put(RequestBody.create(query, MediaType.parse("application/sparql-query")));
+        Response response=processor.execute(builder.build(),null,null,null,null);
+        assertEquals(true,response.isSuccessful(),"Response was successful");
+        JsonNode root=mapper.readTree(response.body().string());
+        assertEquals(0,root.get("results").get("bindings").size());
+        String warnings=response.header("cx_warnings");
+        JsonNode warningsJson=mapper.readTree(warnings);
+        assertEquals(1,warningsJson.size(),"got remote warnings");
+    }
+
+    /**
+     * test remote call with matchmaking agent
+     * @throws IOException in case of an error
+     */
+    @Test
+    @Tag("online")
+    public void testRemoteWarning() throws IOException {
+        String query="PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT ?what WHERE { SERVICE <http://localhost:8898/match?asset=urn%3Acx%3AGraphAsset%23Test> { VALUES (?what) { (\"42\"^^xsd:int) } } }";
+        Request.Builder builder=new Request.Builder();
+        builder.url("http://localhost:8080");
+        builder.addHeader("Accept","application/sparql-results+json");
+        builder.put(RequestBody.create(query, MediaType.parse("application/sparql-query")));
+        Response response=processor.execute(builder.build(),null,null,null,null);
+        assertEquals(true,response.isSuccessful(),"Response was successful");
+        JsonNode root=mapper.readTree(response.body().string());
+        assertEquals(1,root.get("results").get("bindings").size());
+        String warnings=response.header("cx_warnings");
+        JsonNode warningsJson=mapper.readTree(warnings);
+        assertEquals(1,warningsJson.size(),"got remote warnings");
+    }
+
+    /**
+     * test remote call with matchmaking agent
+     * @throws IOException in case of an error
+     */
+    @Test
+    @Tag("online")
+    public void testRemoteTransfer() throws IOException {
+        String query="PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT ?what WHERE { SERVICE <http://localhost:8898/transfer?asset=urn%3Acx%3AGraphAsset%23Test> { VALUES (?what) { (\"42\"^^xsd:int) } } }";
+        Request.Builder builder=new Request.Builder();
+        builder.url("http://localhost:8080");
+        builder.addHeader("Accept","application/sparql-results+json");
+        builder.put(RequestBody.create(query, MediaType.parse("application/sparql-query")));
+        Response response=processor.execute(builder.build(),null,null,null,null);
+        assertEquals(true,response.isSuccessful(),"Response was successful");
+        JsonNode root=mapper.readTree(response.body().string());
+        assertEquals(1,root.get("results").get("bindings").size());
+        String warnings=response.header("cx_warnings");
+        JsonNode warningsJson=mapper.readTree(warnings);
+        assertEquals(1,warningsJson.size(),"got remote warnings");
     }
 
     /**
@@ -428,7 +495,7 @@ public class TestAgentController {
                 "}";
         Request.Builder builder=new Request.Builder();
         builder.url("http://localhost:8080");
-        builder.addHeader("Accept","application/json");
+        builder.addHeader("Accept","application/sparql-results+json");
         builder.put(RequestBody.create(query, MediaType.parse("application/sparql-query")));
         Response response=processor.execute(builder.build(),null,null,null,null);
         assertEquals(true,response.isSuccessful(),"Successful result");

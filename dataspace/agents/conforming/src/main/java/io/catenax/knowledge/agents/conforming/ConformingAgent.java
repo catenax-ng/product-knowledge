@@ -52,8 +52,43 @@ public class ConformingAgent extends AgentApi {
             "                \"object\": {\n" +
             "                    \"type\": \"literal\",\n" +
             "                    \"value\": \"engine control module\",\n" +
-            "                    \"datatype\": \"http://www.w3.org/2001/XMLSchema#string\",\n" +
-            "                    \"xml:lang\": \"http://www.w3.org/2001/XMLSchema#string\"\n" +
+            "                    \"datatype\": \"http://www.w3.org/1999/02/22-rdf-syntax-ns#langString\",\n" +
+            "                    \"xml:lang\": \"en\"\n" +
+            "                }\n" +
+            "            }\n" +
+            "        ]\n" +
+            "    }\n" +
+            "}";
+
+    public static String simpleBindJson="{\n" +
+            "    \"head\": {\n" +
+            "        \"vars\": [\n" +
+            "            \"subject\",\n" +
+            "            \"predicate\",\n" +
+            "            \"object\",\n" +
+            "            \"binding113092714\"\n" +
+            "        ]\n" +
+            "    },\n" +
+            "    \"results\": {\n" +
+            "        \"bindings\": [\n" +
+            "            {\n" +
+            "                \"binding113092714\": {\n" +
+            "                    \"type\": \"literal\",\n" +
+            "                    \"value\": \"0\"\n" +
+            "                },\n" +
+            "                \"subject\": {\n" +
+            "                    \"type\": \"uri\",\n" +
+            "                    \"value\": \"urn:cx:AnonymousSerializedPart#GB4711\"\n" +
+            "                },\n" +
+            "                \"predicate\": {\n" +
+            "                    \"type\": \"uri\",\n" +
+            "                    \"value\": \"https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#hasPartType\"\n" +
+            "                },\n" +
+            "                \"object\": {\n" +
+            "                    \"type\": \"literal\",\n" +
+            "                    \"value\": \"engine control module\",\n" +
+            "                    \"datatype\": \"http://www.w3.org/1999/02/22-rdf-syntax-ns#langString\",\n" +
+            "                    \"xml:lang\": \"en\"\n" +
             "                }\n" +
             "            }\n" +
             "        ]\n" +
@@ -84,11 +119,38 @@ public class ConformingAgent extends AgentApi {
             "                <uri>https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#hasPartType</uri>\n" +
             "            </binding>\n" +
             "            <binding name=\"object\">\n" +
-            "                <literal xml:lang=\"en\" datatype=\"http://www.w3.org/2001/XMLSchema#string\">engine control module</literal>\n" +
+            "                <literal xml:lang=\"en\" datatype=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#langString\">engine control module</literal>\n" +
             "            </binding>\n" +
             "        </result>\n" +
             "    </results>\n" +
             "</sparql>";
+
+    public static String simpleBindXml="<?xml version=\"1.0\"?>\n" +
+            "<sparql xmlns=\"http://www.w3.org/2005/sparql-results#\">\n" +
+            "    <head>\n" +
+            "        <variable name=\"subject\"/>\n" +
+            "        <variable name=\"predicate\"/>\n" +
+            "        <variable name=\"object\"/>\n" +
+            "        <variable name=\"binding113092714\"/>\n" +
+            "    </head>\n" +
+            "    <results>\n" +
+            "        <result>\n" +
+            "            <binding name=\"binding113092714\">\n" +
+            "                <literal>0</literal>\n" +
+            "            </binding>\n" +
+            "            <binding name=\"subject\">\n" +
+            "                <uri>urn:cx:AnonymousSerializedPart#GB4711</uri>\n" +
+            "            </binding>\n" +
+            "            <binding name=\"predicate\">\n" +
+            "                <uri>https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#hasPartType</uri>\n" +
+            "            </binding>\n" +
+            "            <binding name=\"object\">\n" +
+            "                <literal xml:lang=\"en\" datatype=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#langString\">engine control module</literal>\n" +
+            "            </binding>\n" +
+            "        </result>\n" +
+            "    </results>\n" +
+            "</sparql>";
+
     public static MediaType srj = MediaType.valueOf("application/sparql-results+json");
     public static MediaType srx = MediaType.valueOf("application/sparql-results+xml");
     public static MediaType sq = MediaType.valueOf("application/sparql-query");
@@ -122,9 +184,9 @@ public class ConformingAgent extends AgentApi {
         String target;
         if(useSimple) {
             if(resultType.isCompatible(srj)) {
-                target=simpleJson;
+                target = getSimpleJson();
             } else {
-                target=simpleXml;
+                target=getSimpleXml();
             }
         } else {
             if(resultType.isCompatible(srj)) {
@@ -134,6 +196,14 @@ public class ConformingAgent extends AgentApi {
             }
         }
         return Map.of(resultType.toString(),target.getBytes());
+    }
+
+    protected String getSimpleJson() {
+        return simpleJson;
+    }
+
+    protected String getSimpleXml() {
+        return simpleXml;
     }
 
     /** produces a standard response */

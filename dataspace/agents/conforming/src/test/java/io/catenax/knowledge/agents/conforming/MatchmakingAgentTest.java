@@ -27,6 +27,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class MatchmakingAgentTest extends ConformingAgentTest {
 
+    @Override
+    protected int getNumberVars() {
+        return 4;
+    }
+
     @Test
     public void testMatchSkillGet() throws IOException {
         Response response =target(getPath()).queryParam("asset","urn:cx:SkillAsset#Test").request().get();

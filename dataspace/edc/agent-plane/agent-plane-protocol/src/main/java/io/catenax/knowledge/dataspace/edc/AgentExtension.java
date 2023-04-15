@@ -125,7 +125,7 @@ public class AgentExtension implements ServiceExtension {
 
         // EDC Remoting Support
         ServiceExecutorRegistry reg = new ServiceExecutorRegistry();
-        reg.addBulkLink(new DataspaceServiceExecutor(monitor,agreementController,config,httpClient,executorService));
+        reg.addBulkLink(new DataspaceServiceExecutor(monitor,agreementController,config,httpClient,executorService,typeManager,config));
         //reg.add(new DataspaceServiceExecutor(monitor,agreementController,config,httpClient));
 
         // Ontop and other deep nesting-afraid providers/optimizers
@@ -136,7 +136,7 @@ public class AgentExtension implements ServiceExtension {
         SerializerRegistry.get().addQuerySerializer(Syntax.syntaxSPARQL_11, arqQuerySerializerFactory);
 
         // the actual sparql engine inside the EDC
-        SparqlQueryProcessor processor=new SparqlQueryProcessor(reg,monitor,config,rdfStore);
+        SparqlQueryProcessor processor=new SparqlQueryProcessor(reg,monitor,config,rdfStore, typeManager);
 
         // stored procedure store and transport endpoint
         SkillStore skillStore=new SkillStore();
