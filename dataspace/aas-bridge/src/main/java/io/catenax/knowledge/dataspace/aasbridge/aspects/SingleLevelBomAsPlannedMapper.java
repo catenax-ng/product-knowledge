@@ -1,3 +1,9 @@
+//
+// Knowledge Agent AAS Bridge
+// See copyright notice in the top folder
+// See authors file in the top folder
+// See license file in the top folder
+//
 package io.catenax.knowledge.dataspace.aasbridge.aspects;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -11,6 +17,7 @@ import io.catenax.knowledge.dataspace.aasbridge.AspectMapper;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.http.HttpClient;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -20,9 +27,13 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+/**
+ * A Mapper for the Single level Bom As Planned Submodel
+ */
+
 public class SingleLevelBomAsPlannedMapper extends AspectMapper {
-    public SingleLevelBomAsPlannedMapper(String providerSparqlEndpoint, String credentials) throws IOException, DeserializationException, URISyntaxException, ExecutionException, InterruptedException {
-        super(providerSparqlEndpoint, "/aasTemplates/SingleLevelBomAsPlanned-aas-1.0.1.xml", credentials);
+    public SingleLevelBomAsPlannedMapper(String providerSparqlEndpoint, String credentials, HttpClient client) throws IOException, DeserializationException, URISyntaxException, ExecutionException, InterruptedException {
+        super(providerSparqlEndpoint, "/aasTemplates/SingleLevelBomAsPlanned-aas-1.0.1.xml", credentials, client);
         this.aasInstances = this.parametrizeAas();
     }
 

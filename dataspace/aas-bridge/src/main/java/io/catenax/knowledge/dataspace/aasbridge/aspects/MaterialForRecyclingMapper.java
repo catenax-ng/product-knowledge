@@ -1,3 +1,9 @@
+//
+// Knowledge Agent AAS Bridge
+// See copyright notice in the top folder
+// See authors file in the top folder
+// See license file in the top folder
+//
 package io.catenax.knowledge.dataspace.aasbridge.aspects;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -11,6 +17,7 @@ import io.catenax.knowledge.dataspace.aasbridge.AspectMapper;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.http.HttpClient;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -19,10 +26,13 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+/**
+ * A Mapper for the materialForRecycling Submodel
+ */
 public class MaterialForRecyclingMapper extends AspectMapper {
 
-    public MaterialForRecyclingMapper(String providerSparqlEndpoint, String cred) throws IOException, DeserializationException, URISyntaxException, ExecutionException, InterruptedException {
-        super(providerSparqlEndpoint, "/aasTemplates/MaterialForRecycling-aas-1.1.0.xml", cred);
+    public MaterialForRecyclingMapper(String providerSparqlEndpoint, String cred, HttpClient client) throws IOException, DeserializationException, URISyntaxException, ExecutionException, InterruptedException {
+        super(providerSparqlEndpoint, "/aasTemplates/MaterialForRecycling-aas-1.1.0.xml", cred, client);
         this.aasInstances = this.parametrizeAas();
     }
 

@@ -174,10 +174,6 @@
             <name>Maven Central</name>
             <url>https://repo1.maven.org/maven2</url>
         </repository>
-        <!--<repository>  To be able to use product edc patch "releases" 
-            <id>ka-edc-snapshots</id>
-            <url>https://maven.pkg.github.com/catenax/ka-product-edc</url>
-        </repository>-->
         <repository> <!-- To be able to use edc patch "releases" -->
             <id>ka-dsc-snapshots</id>
             <url>https://maven.pkg.github.com/catenax/ka-DataspaceConnector</url>

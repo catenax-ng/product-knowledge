@@ -1,3 +1,9 @@
+//
+// Knowledge Agent AAS Bridge
+// See copyright notice in the top folder
+// See authors file in the top folder
+// See license file in the top folder
+//
 package io.catenax.knowledge.dataspace.aasbridge;
 
 import de.fraunhofer.iosb.ilt.faaast.service.Service;
@@ -23,17 +29,24 @@ import io.openmanufacturing.sds.aspectmodel.urn.AspectModelUrn;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URLEncoder;
+import java.net.http.HttpClient;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Main Entry Point/Submodel Server
+ */
 public class AasBridge {
 
     private Set<AspectMapper> mappers;
+    private HttpClient client=HttpClient.newBuilder().executor(Executors.newFixedThreadPool(5)).build();
+
     private final Map<AspectModelUrn, Class<? extends AspectMapper>> implMap =
             Map.of(
                     AspectModelUrn.fromUrn("urn:bamm:io.catenax.material_for_recycling:1.1.0#MaterialForRecycling"),
@@ -73,12 +86,14 @@ public class AasBridge {
 
     public AasBridge(String endpoint, String credentials) {
 
-        Class[] parameters = new Class[2];
+        Class[] parameters = new Class[3];
         parameters[0] = String.class;
         parameters[1] = String.class;
+        parameters[2] = HttpClient.class;
+
         this.mappers = implMap.values().stream().map(aClass -> {
             try {
-                return aClass.getDeclaredConstructor(parameters).newInstance(endpoint, credentials);
+                return aClass.getDeclaredConstructor(parameters).newInstance(endpoint, credentials, client);
             } catch (NoSuchMethodException | InstantiationException | IllegalAccessException |
                      InvocationTargetException e) {
                 throw new RuntimeException(e);

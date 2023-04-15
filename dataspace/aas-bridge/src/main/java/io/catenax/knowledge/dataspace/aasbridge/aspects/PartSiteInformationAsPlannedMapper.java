@@ -1,3 +1,9 @@
+//
+// Knowledge Agent AAS Bridge
+// See copyright notice in the top folder
+// See authors file in the top folder
+// See license file in the top folder
+//
 package io.catenax.knowledge.dataspace.aasbridge.aspects;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -11,6 +17,7 @@ import io.catenax.knowledge.dataspace.aasbridge.AspectMapper;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.http.HttpClient;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -20,9 +27,13 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+/**
+ * A Mapper for the Part site information Submodel
+ */
+
 public class PartSiteInformationAsPlannedMapper extends AspectMapper {
-    public PartSiteInformationAsPlannedMapper(String providerSparqlEndpoint, String credentials) throws IOException, DeserializationException, URISyntaxException, ExecutionException, InterruptedException {
-        super(providerSparqlEndpoint, "/aasTemplates/PartSiteInformationAsPlanned-aas-1.0.0.xml", credentials);
+    public PartSiteInformationAsPlannedMapper(String providerSparqlEndpoint, String credentials, HttpClient client) throws IOException, DeserializationException, URISyntaxException, ExecutionException, InterruptedException {
+        super(providerSparqlEndpoint, "/aasTemplates/PartSiteInformationAsPlanned-aas-1.0.0.xml", credentials, client);
         this.aasInstances = this.parametrizeAas();
 
     }

@@ -1,3 +1,9 @@
+//
+// Knowledge Agent AAS Bridge
+// See copyright notice in the top folder
+// See authors file in the top folder
+// See license file in the top folder
+//
 package io.catenax.knowledge.dataspace.aasbridge;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -32,6 +38,9 @@ import java.util.stream.StreamSupport;
 
 import static java.time.temporal.ChronoUnit.SECONDS;
 
+/**
+ * Base class for all submodel mapping lggic
+ */
 public abstract class AspectMapper {
     protected final String providerSparqlEndpoint;
     protected final AssetAdministrationShellEnvironment aasTemplate;
@@ -41,28 +50,32 @@ public abstract class AspectMapper {
     }
 
     protected AssetAdministrationShellEnvironment aasInstances;
-    private final HttpClient client;
+    protected final HttpClient client;
     private final String credentials;
 
-    public AspectMapper(String providerSparqlEndpoint, String aasResourcePath, String credentials) throws IOException, DeserializationException {
+    public AspectMapper(String providerSparqlEndpoint, String aasResourcePath, String credentials, HttpClient client) throws IOException, DeserializationException {
         String aasTemplate = CharStreams.toString(new InputStreamReader(AspectMapper.class.getResourceAsStream(aasResourcePath), Charsets.UTF_8));
         this.providerSparqlEndpoint = providerSparqlEndpoint;
         this.aasTemplate = new XmlDeserializer().read(aasTemplate);
-        this.client = HttpClient.newBuilder().executor(Executors.newFixedThreadPool(5)).build();
+        this.client = client;
         this.credentials = credentials;
     }
 
     public CompletableFuture<ArrayNode> executeQuery(String queryResourcePath) throws URISyntaxException, IOException {
         String query = CharStreams.toString(new InputStreamReader(AspectMapper.class.getResourceAsStream(queryResourcePath), Charsets.UTF_8));
         HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString(query);
-        HttpRequest request = HttpRequest.newBuilder()
+        HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
                 .uri(new URI(providerSparqlEndpoint))
                 .POST(bodyPublisher)
                 .header("Content-Type", "application/sparql-query")
                 .header("Accept", "application/json")
-                .header("Authorization", credentials)
-                .timeout(Duration.of(10, SECONDS))
-                .build();
+                .timeout(Duration.of(10, SECONDS));
+
+        if(credentials!=null) {
+           requestBuilder=requestBuilder.header("Authorization", credentials);
+        }
+
+        HttpRequest request = requestBuilder.build();
 
         return client
                 .sendAsync(request, HttpResponse.BodyHandlers.ofString())
