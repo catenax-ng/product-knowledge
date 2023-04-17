@@ -18,7 +18,6 @@ import de.fraunhofer.iosb.ilt.faaast.service.messagebus.internal.MessageBusInter
 import de.fraunhofer.iosb.ilt.faaast.service.persistence.memory.PersistenceInMemoryConfig;
 import io.adminshell.aas.v3.model.AssetAdministrationShell;
 import io.adminshell.aas.v3.model.AssetAdministrationShellEnvironment;
-import io.adminshell.aas.v3.model.Identifier;
 import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironment;
 import io.catenax.knowledge.dataspace.aasbridge.aspects.MaterialForRecyclingMapper;
 import io.catenax.knowledge.dataspace.aasbridge.aspects.PartAsPlannedMapper;
@@ -109,14 +108,14 @@ public class AasBridge {
     private AssetAdministrationShellEnvironment mergeAasEnvs(Set<AssetAdministrationShellEnvironment> aasEnvs) {
         return aasEnvs.stream().reduce((env1, env2) -> {
 
-                    Map<Identifier, List<AssetAdministrationShell>> groups = Stream.concat(env1.getAssetAdministrationShells().stream(), env2.getAssetAdministrationShells().stream())
-                            .collect(Collectors.groupingBy(AssetAdministrationShell::getIdentification));
+            Map<String, List<AssetAdministrationShell>> groups = Stream.concat(env1.getAssetAdministrationShells().stream(), env2.getAssetAdministrationShells().stream())
+                    .collect(Collectors.groupingBy(aas -> aas.getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue()));
 
-                    return new DefaultAssetAdministrationShellEnvironment.Builder()
+            return new DefaultAssetAdministrationShellEnvironment.Builder()
                             .assetAdministrationShells(
                                     groups.values()
                                             .stream()
-                                            .map(assetAdministrationShells -> assetAdministrationShells
+                                            .map(shells -> shells
                                                     .stream()
                                                     .reduce((aas1, aas2) ->
                                                     {
