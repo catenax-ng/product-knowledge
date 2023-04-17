@@ -39,10 +39,10 @@ spec:
           resources:
            requests:
             cpu: 0.5
-            memory: "256Mi"
+            memory: "512Mi"
            limits:
             cpu: 0.5
-            memory: "256Mi"
+            memory: "512Mi"
           startupProbe:
             failureThreshold: 18
             httpGet:
@@ -77,7 +77,7 @@ spec:
             - name: PROVIDER_AGENT_PLANE
               value: http://oem-provider-agent:8082/sparql
             - name: TIMEOUT_SECONDS
-              value: 30
+              value: "30"
           volumeMounts:
       volumes:
 ---
@@ -115,7 +115,7 @@ spec:
     - host: {{ .Values.ingress.host }}
       http:
         paths:
-          - path: /aas-bridge(.*)
+          - path: /aas-bridge/(.*)
             pathType: Prefix
             backend:
               service:
