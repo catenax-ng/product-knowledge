@@ -1,0 +1,31 @@
+PREFIX cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+JSON {
+    "eMatId": ?eMat,
+    "materialName": ?engineeringMaterialName,
+    "materialClass": ?engineeringMaterialClass,
+    "rMatId": ?rMat,
+    "componentState": ?componentState,
+    "componentMaterialClass": ?componentMaterialClass,
+    "componentMaterialName": ?componentMaterialName,
+    "componentRecycledContent": ?componentRecycledContent,
+    "componentMaterialAbbreviation": ?componentMaterialAbbreviation
+}
+WHERE {
+  SERVICE <@OemProviderAgent> {
+    ?eMat cx:isMadeOf ?rMat;
+        rdf:type cx:EngineeringMaterial;
+        cx:engineeringMaterialName ?engineeringMaterialName;
+        cx:engineeringMaterialNumber ?engineeringMaterialClass.
+    ?rMat rdf:type cx:RawMaterial;
+        cx:engineeringMaterialNumber ?componentMaterialClass;
+        cx:hasMaterialProperty ?matProp;
+        cx:engineeringMaterialName ?componentMaterialName.
+    ?matProp #rdf:type cx:MaterialProperty;
+        cx:aggregateState ?componentState;
+        cx:recycledContent ?componentRecycledContent;
+        cx:materialCode ?componentMaterialAbbreviation.
+     }
+}

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Pom for building the KA-AAS bridge
+  See copyright notice in the top folder
+  See authors file in the top folder
+  See license file in the top folder
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>io.catenax.knowledge</groupId>
+        <artifactId>dataspace</artifactId>
+        <version>0.8.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.catenax.knowledge.dataspace</groupId>
+    <artifactId>aas-bridge</artifactId>
+    
+    <name>Catena-X Knowledge Agents AAS Bridge</name>
+    <description>This container/application implements an AAS submodel server and registry based on a (virtual) knowledge graph.</description>
+    <url>http://catena-x.net/</url>
+
+    <organization>
+        <name>Catena-X Automotive Network</name>
+        <url>http://catena-x.net/</url>
+    </organization>
+
+    <properties>
+        <symbolic.name>io.catenax.knowledge.dataspace.aas-bridge</symbolic.name>
+        <finalName>${symbolic.name}-${project.version}</finalName>
+    </properties>
+
+    <build>
+        <!-- keep it for shadowing and docker input -->
+        <finalName>${project.artifactId}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>../../</directory>
+                <targetPath>META-INF</targetPath>
+                <includes>
+                    <include>NOTICE.md</include>
+                    <include>LICENSE</include>
+                </includes>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>io.catenax.knowledge.dataspace.aasbridge.AasBridge</mainClass>
+                            <useUniqueVersions>false</useUniqueVersions>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                 <configuration>
+                     <systemPropertyVariables>
+                         <PROVIDER_CREDENTIAL_BASIC>${env.PROVIDER_CREDENTIAL_BASIC}</PROVIDER_CREDENTIAL_BASIC>
+                         <PROVIDER_SPARQL_ENDPOINT>${env.PROVIDER_SPARQL_ENDPOINT}</PROVIDER_SPARQL_ENDPOINT>
+                         <PROVIDER_AGENT_PLANE>${env.PROVIDER_AGENT_PLANE}</PROVIDER_AGENT_PLANE>
+                     </systemPropertyVariables>
+                 </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+	      <groupId>de.fraunhofer.iosb.ilt.faaast.service</groupId>
+	      <artifactId>starter</artifactId>
+          <version>0.4.0</version>
+       </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.openmanufacturing</groupId>
+            <artifactId>sds-aspect-model-aas-generator</artifactId>
+            <version>1.1.0-M5</version>
+        </dependency>
+        <dependency>
+            <groupId>io.admin-shell.aas</groupId>
+            <artifactId>model</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>mockwebserver</artifactId>
+            <version>4.9.0</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <dependencyManagement>
+    </dependencyManagement>
+
+    <profiles>
+      <profile>
+        <id>with-docker-image</id>
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                </plugin>
+            </plugins>
+        </build>
+      </profile>
+    </profiles>
+</project>

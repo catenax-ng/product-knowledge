@@ -174,10 +174,6 @@
             <name>Maven Central</name>
             <url>https://repo1.maven.org/maven2</url>
         </repository>
-        <!--<repository>  To be able to use product edc patch "releases" 
-            <id>ka-edc-snapshots</id>
-            <url>https://maven.pkg.github.com/catenax/ka-product-edc</url>
-        </repository>-->
         <repository> <!-- To be able to use edc patch "releases" -->
             <id>ka-dsc-snapshots</id>
             <url>https://maven.pkg.github.com/catenax/ka-DataspaceConnector</url>
@@ -189,6 +185,10 @@
         <repository> <!-- To be able to use product edc releases -->
             <id>edc</id>
             <url>https://maven.pkg.github.com/catenax-ng/product-edc</url>
+        </repository>
+        <repository> <!-- To be able to use Eclipse ESMF -->
+            <id>esmf</id>
+            <url>https://maven.pkg.github.com/eclipse-esmf/esmf-sdk</url>
         </repository>
         <repository> <!-- runtime meta-model -->
             <id>oss</id>

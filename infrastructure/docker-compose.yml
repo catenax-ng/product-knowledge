@@ -126,6 +126,33 @@ services:
       - ./oem/resources/logback.xml:/opt/ontop/log/logback.xml
 
   #
+  # Configures the AAS bridge
+  #
+  aas-bridge:
+    build:
+      dockerfile: src/main/docker/Dockerfile
+      context: ../dataspace/aas-bridge
+      args:
+        JAR: target/aas-bridge.jar
+        LIB: target/lib
+        PROVIDER_CREDENTIAL_BASIC_ARG: Basic Zm9vOg==
+        #PROVIDER_SPARQL_ENDPOINT_ARG: http://oem-data-plane:8082/api/agent
+        PROVIDER_SPARQL_ENDPOINT_ARG: https://knowledge.dev.demo.catena-x.net/oem-edc-data/BPNL00000003COJN/api/agent
+        #PROVIDER_AGENT_PLANE_ARG: http://provider-agent:8082/sparql
+        PROVIDER_AGENT_PLANE_ARG: http://oem-provider-agent:8082/sparql
+    image: ghcr.io/catenax-ng/product-knowledge/aas-bridge:0.8.1-SNAPSHOT
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
+    ports:
+      - "8700:8080" # AAS-API
+      - "4048:4040" # DEBUG
+    environment:
+      #PROVIDER_SPARQL_ENDPOINT: http://oem-data-plane:8082/api/agent
+      #PROVIDER_AGENT_PLANE: http://provider-agent:8082/sparql
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
+      TIMEOUT_SECONDS: 30
+    #volumes:
+
+  #
   # Configures the oem control plane (provider)
   #
   oem-control-plane:
@@ -147,7 +174,7 @@ services:
       - "4040:4040" # DEBUG
     environment:
       # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
-      EDC_FS_CONFIG: /app/configuration.properties      
+      EDC_FS_CONFIG: /app/configuration.properties
       # Uncomment to enable for debugging, please choose a different port for each endpoint
       JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
     volumes:
@@ -365,7 +392,7 @@ services:
   consumer-frontend:
     build:
       dockerfile: src/main/docker/Dockerfile
-      context: ../ux   
+      context: ../ux
     image: ghcr.io/catenax-ng/product-knowledge/ux:0.8.1-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     environment:

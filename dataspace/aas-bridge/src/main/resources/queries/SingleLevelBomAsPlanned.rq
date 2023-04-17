@@ -1,0 +1,23 @@
+PREFIX cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+JSON {
+    "catenaXId": ?catenaXId,
+    "childCatenaXId": ?childCatenaXId,
+    "childQuantity": ?childQuantity,
+    "billOfMaterialUnit": ?billOfMaterialUnit,
+    "productionEndDate": ?productionEndDate,
+    "productionStartDate": ?productionStartDate
+} WHERE {
+
+  SERVICE <@OemProviderAgent> {
+    ?catenaXId rdf:type cx:Part;
+        cx:hasBillOfMaterial ?bom.
+    ?bom cx:billOfMaterialQuantity ?childQuantity;
+        cx:hasItem ?childCatenaXId; # pretty sure that this is equivalent to cx:isPartOf
+        cx:billOfMaterialUnit ?billOfMaterialUnit;
+        cx:productionStartDate ?productionStartDate;
+        cx:productionEndDate ?productionEndDate.
+  }
+}
