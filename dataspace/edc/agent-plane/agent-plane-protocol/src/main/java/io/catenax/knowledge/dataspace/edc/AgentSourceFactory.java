@@ -62,9 +62,6 @@ public class AgentSourceFactory extends org.eclipse.dataspaceconnector.dataplane
     @Override
     public DataSource createSource(DataFlowRequest request) {
         boolean isTransfer=isTransferRequest(request);
-        if(isTransfer) {
-            return super.createSource(request);
-        }
         var dataAddress = HttpDataAddress.Builder.newInstance()
                 .copyFrom(request.getSourceDataAddress())
                 .build();

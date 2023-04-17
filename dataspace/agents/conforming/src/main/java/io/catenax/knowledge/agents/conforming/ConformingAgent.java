@@ -11,6 +11,7 @@ import io.catenax.knowledge.agents.conforming.api.AgentApi;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.regex.Matcher;
 
 import io.catenax.knowledge.agents.conforming.api.NotFoundException;
 
@@ -66,13 +67,13 @@ public class ConformingAgent extends AgentApi {
             "            \"subject\",\n" +
             "            \"predicate\",\n" +
             "            \"object\",\n" +
-            "            \"binding113092714\"\n" +
+            "            \"bindingVar\"\n" +
             "        ]\n" +
             "    },\n" +
             "    \"results\": {\n" +
             "        \"bindings\": [\n" +
             "            {\n" +
-            "                \"binding113092714\": {\n" +
+            "                \"bindingVar\": {\n" +
             "                    \"type\": \"literal\",\n" +
             "                    \"value\": \"0\"\n" +
             "                },\n" +
@@ -131,11 +132,11 @@ public class ConformingAgent extends AgentApi {
             "        <variable name=\"subject\"/>\n" +
             "        <variable name=\"predicate\"/>\n" +
             "        <variable name=\"object\"/>\n" +
-            "        <variable name=\"binding113092714\"/>\n" +
+            "        <variable name=\"bindingVar\"/>\n" +
             "    </head>\n" +
             "    <results>\n" +
             "        <result>\n" +
-            "            <binding name=\"binding113092714\">\n" +
+            "            <binding name=\"bindingVar\">\n" +
             "                <literal>0</literal>\n" +
             "            </binding>\n" +
             "            <binding name=\"subject\">\n" +
@@ -180,13 +181,13 @@ public class ConformingAgent extends AgentApi {
     }
 
     /** produces a standard response */
-    protected Map<String,byte[]> computeBody(MediaType resultType) {
+    protected Map<String,byte[]> computeBody(MediaType resultType, String bindingVar) {
         String target;
         if(useSimple) {
             if(resultType.isCompatible(srj)) {
-                target = getSimpleJson();
+                target = getSimpleJson(bindingVar);
             } else {
-                target=getSimpleXml();
+                target=getSimpleXml(bindingVar);
             }
         } else {
             if(resultType.isCompatible(srj)) {
@@ -198,18 +199,18 @@ public class ConformingAgent extends AgentApi {
         return Map.of(resultType.toString(),target.getBytes());
     }
 
-    protected String getSimpleJson() {
+    protected String getSimpleJson(String bindingVar) {
         return simpleJson;
     }
 
-    protected String getSimpleXml() {
+    protected String getSimpleXml(String bindingVar) {
         return simpleXml;
     }
 
     /** produces a standard response */
-    protected Response.ResponseBuilder compute(MediaType resultType) {
+    protected Response.ResponseBuilder compute(MediaType resultType, String bindingVar) {
         AtomicReference<Response.ResponseBuilder> response= new AtomicReference<>(Response.status(status));
-        Map<String,byte[]> body=computeBody(resultType);
+        Map<String,byte[]> body=computeBody(resultType, bindingVar);
         body.entrySet().forEach( result -> {
                     response.set(response.get().type(result.getKey()).entity(result.getValue()));
                 });
@@ -220,13 +221,22 @@ public class ConformingAgent extends AgentApi {
         return builder.header("cx_warnings",warnings).build();
     }
 
+    java.util.regex.Pattern pattern= java.util.regex.Pattern.compile("\\?(binding[0-9]+)");
+
     @Override
     public Response getAgent(String asset, String queryLn, String query, String _vin, List<String> troubleCode) throws NotFoundException {
         MediaType resultType=getDefaultResultType();
         if(resultType==null) {
             return annotate(Response.status(400,"KA-BIND/KA-MATCH: Only supports application/sparql-results+json|xml compatible Accept header"));
         }
-        return annotate(compute(resultType));
+        String bindingVar="bindingVar";
+        if(query!=null) {
+            Matcher matcher=pattern.matcher(query);
+            if(matcher.find()) {
+                bindingVar=matcher.group(1);
+            }
+        }
+        return annotate(compute(resultType,bindingVar));
     }
 
     @Override
@@ -239,7 +249,18 @@ public class ConformingAgent extends AgentApi {
         if(!bodyType.isCompatible(sq) && !bodyType.isCompatible(srj) && !bodyType.isCompatible(srx)) {
             return annotate(Response.status(400,"KA-BIND/KA-MATCH postAgent only accepts application/sparql-query|results+json|xml in body."));
         }
-        return annotate(compute(resultType));
+        String bindingVar="bindingVar";
+        String toCheck=query;
+        if(query==null) {
+            toCheck=String.valueOf(body);
+        }
+        if(toCheck!=null) {
+            Matcher matcher=pattern.matcher(toCheck);
+            if(matcher.find()) {
+                bindingVar=matcher.group(1);
+            }
+        }
+        return annotate(compute(resultType,bindingVar));
     }
 
     @Override

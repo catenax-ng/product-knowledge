@@ -124,12 +124,14 @@ public class HttpProtocolsExtension implements ServiceExtension {
         var controller = createTokenValidationApiController(keyPair.getPublic(), dataEncrypter, context.getTypeManager());
         webService.registerResource(API_CONTEXT_ALIAS, controller);
 
+        DataFlowControllerRegistry prioControllerReg=new DataFlowControllerRegistry(context.getMonitor());
         var proxyReferenceService = createProxyReferenceService(context, keyPair.getPrivate(), dataEncrypter);
         var flowController = new HttpProviderProxyDataFlowController(context.getConnectorId(), proxyResolver, dispatcherRegistry, proxyReferenceService);
-        DataFlowControllerRegistry.registerWithPriority(dataFlowManager,flowController);
+        prioControllerReg.registerWithPriority(dataFlowManager,flowController);
 
+        EndpointTransformerRegistry prioTransformerReg=new EndpointTransformerRegistry(context.getMonitor());
         var consumerProxyTransformer = new HttpTransferConsumerProxyTransformer(context.getMonitor(),proxyResolver, proxyReferenceService);
-        transformerRegistry.registerTransformer(consumerProxyTransformer);
+        prioTransformerReg.registerWithPriority(transformerRegistry,consumerProxyTransformer);
 
         Config receiverConfig=context.getConfig("edc.receiver.http");
         Config endpoints=receiverConfig.getConfig("endpoints");

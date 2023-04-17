@@ -493,10 +493,14 @@ public class QueryExec implements org.apache.jena.sparql.exec.QueryExec {
         try {
             HttpResponse<InputStream> response = execute(httpClient, request);
             String contentType=responseHeader(response,HttpNames.hContentType);
-            InputStream inputStream=HttpLib.getInputStream(response);
+            InputStream inputStream=new BufferedInputStream(HttpLib.getInputStream(response));
+            inputStream.mark(2);
+            byte[] boundaryBytes=new byte[2];
+            int all=inputStream.read(boundaryBytes);
+            String boundary=new String(boundaryBytes);
+            inputStream.reset();
             Optional<String> warnings=response.headers().firstValue("cx_warnings");
-            if(contentType.startsWith("multipart/form-data")) {
-                String boundary="--";
+            if(contentType.startsWith("multipart/form-data") || "--".equals(new String(boundary))) {
                 int boundaryIndex=contentType.indexOf(";boundary=");
                 if(boundaryIndex>=0) {
                     boundary=boundary+contentType.substring(boundaryIndex+10);
@@ -507,7 +511,7 @@ public class QueryExec implements org.apache.jena.sparql.exec.QueryExec {
                 for(String line = reader.readLine(); line!=null; line=reader.readLine()) {
                     if(boundary.equals(line)) {
                         if(nextPart!=null && embeddedContentType!=null) {
-                            if(embeddedContentType.equals("application/json")) {
+                            if(embeddedContentType.equals("application/cx-warnings+json")) {
                                 warnings=Optional.of(nextPart.toString());
                             } else {
                                 inputStream=new ByteArrayInputStream(nextPart.toString().getBytes());
@@ -523,10 +527,11 @@ public class QueryExec implements org.apache.jena.sparql.exec.QueryExec {
                         }
                     } else {
                         nextPart.append(line);
+                        nextPart.append("\n");
                     }
                 }
                 if(nextPart!=null && embeddedContentType!=null) {
-                    if(embeddedContentType.equals("application/json")) {
+                    if(embeddedContentType.equals("application/cx-warnings+json")) {
                         warnings=Optional.of(nextPart.toString());
                     } else {
                         inputStream=new ByteArrayInputStream(nextPart.toString().getBytes());

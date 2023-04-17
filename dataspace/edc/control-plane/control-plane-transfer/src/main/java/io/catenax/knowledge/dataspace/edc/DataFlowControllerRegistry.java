@@ -6,6 +6,7 @@
 //
 package io.catenax.knowledge.dataspace.edc;
 
+import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
 import org.eclipse.dataspaceconnector.spi.transfer.flow.DataFlowController;
 import org.eclipse.dataspaceconnector.spi.transfer.flow.DataFlowManager;
 import org.eclipse.dataspaceconnector.spi.types.domain.DataAddress;
@@ -20,14 +21,18 @@ import java.util.List;
 public class DataFlowControllerRegistry {
 
     /** its a hidden thingy in the manager */
-    protected static java.lang.reflect.Field controllersField=null;
+    protected java.lang.reflect.Field controllersField=null;
 
-    /** open it up */
-    static {
+    /**
+     * sets up the special registry access
+     * @param monitor
+     */
+    public DataFlowControllerRegistry(Monitor monitor) {
         try {
             controllersField= DataFlowManager.class.getClassLoader().loadClass("org.eclipse.dataspaceconnector.transfer.core.flow.DataFlowManagerImpl").getDeclaredField("controllers");
             controllersField.trySetAccessible();
         } catch(SecurityException | NoSuchFieldException | ClassNotFoundException e) {
+            monitor.warning(String.format("Could not hookup priorised controller access. Using non-priorised setup because of %s",e.getMessage()));
         }
     }
 
@@ -36,7 +41,7 @@ public class DataFlowControllerRegistry {
      * @param manager to register at
      * @param controller to register
      */
-    public static void registerWithPriority(DataFlowManager manager, DataFlowController controller) {
+    public void registerWithPriority(DataFlowManager manager, DataFlowController controller) {
         if(controllersField!=null) {
             try {
                 ((List<DataFlowController>)controllersField.get(manager)).add(0,controller);

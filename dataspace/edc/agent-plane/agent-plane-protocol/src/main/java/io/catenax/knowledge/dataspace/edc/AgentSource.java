@@ -50,6 +50,8 @@ public class AgentSource implements DataSource {
 
     protected DataFlowRequest request;
 
+    public static String AGENT_BOUNDARY="--";
+
     /**
      * creates new agent source
      */
@@ -85,7 +87,7 @@ public class AgentSource implements DataSource {
                     results.add(new AgentPart(response.body().contentType().toString(),response.body().bytes()));
                 }
                 if(response.header("cx_warnings")!=null) {
-                    results.add(new AgentPart("application/json",response.header("cx_warnings").getBytes()));
+                    results.add(new AgentPart("application/cx-warnings+json",response.header("cx_warnings").getBytes()));
                 }
                 return results.stream();
             } catch (IOException e) {
@@ -98,15 +100,17 @@ public class AgentSource implements DataSource {
                 }
                 List<Part> results=new ArrayList<>();
                 if(response.body()!=null) {
-                    if(response.body().contentType().type().equals("multipart/form-data")) {
-                        String boundary="--";
-                        String secondBoundary=response.body().contentType().parameter(boundary);
-                        boundary+=secondBoundary;
+                    BufferedInputStream bis = new BufferedInputStream(response.body().byteStream());
+                    bis.mark(AGENT_BOUNDARY.length());
+                    byte[] boundary=new byte[AGENT_BOUNDARY.length()];
+                    int all=bis.read(boundary);
+                    bis.reset();
+                    if(AGENT_BOUNDARY.equals(new String(boundary))) {
                         StringBuilder nextPart=null;
                         String embeddedContentType=null;
-                        BufferedReader reader=new BufferedReader(new InputStreamReader(response.body().byteStream()));
+                        BufferedReader reader=new BufferedReader(new InputStreamReader(bis));
                         for(String line = reader.readLine(); line!=null; line=reader.readLine()) {
-                            if(boundary.equals(line)) {
+                            if(AGENT_BOUNDARY.equals(line)) {
                                 if(nextPart!=null && embeddedContentType!=null) {
                                     results.add(new AgentPart(embeddedContentType,nextPart.toString().getBytes()));
                                 }
@@ -119,6 +123,7 @@ public class AgentSource implements DataSource {
                                 }
                             } else {
                                 nextPart.append(line);
+                                nextPart.append("\n");
                             }
                         }
                         if(nextPart!=null && embeddedContentType!=null) {
@@ -215,7 +220,8 @@ public class AgentSource implements DataSource {
             this.name = name;
             if(this.name!=null) {
                 StringBuilder newContent=new StringBuilder();
-                newContent.append("--\n");
+                newContent.append(AGENT_BOUNDARY);
+                newContent.append("\n");
                 newContent.append("Content-Type: ");
                 newContent.append(name);
                 newContent.append("\n");

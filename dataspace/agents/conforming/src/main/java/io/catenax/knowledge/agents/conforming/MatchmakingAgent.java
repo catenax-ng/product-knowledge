@@ -26,13 +26,13 @@ public class MatchmakingAgent extends ConformingAgent {
     }
 
     @Override
-    protected String getSimpleJson() {
-        return simpleBindJson;
+    protected String getSimpleJson(String bindingVar) {
+        return simpleBindJson.replaceAll("bindingVar",bindingVar);
     }
 
     @Override
-    protected String getSimpleXml() {
-        return simpleBindXml;
+    protected String getSimpleXml(String bindingVar) {
+        return simpleBindXml.replaceAll("bindingVar",bindingVar);
     }
 
     @Override
