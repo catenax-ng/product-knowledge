@@ -5,8 +5,8 @@
 // See license file in the top folder
 //
 
-import { JSONElement, JSONArray, BindingSet, Warning } from './data';
-import { IConnector, IConnectorFactory } from './connector';
+import { JSONElement, BindingSet } from './data';
+import { IConnector } from './connector';
 import { ASSETS, SEARCH_RESULT } from './mock_data';
 
 /**
