@@ -32,6 +32,6 @@ export class MockConnector implements IConnector {
   }
 
   public currentConnector(): string {
-    return "MOCK_CONNECTOR";
+    return 'MOCK_CONNECTOR';
   }
 }

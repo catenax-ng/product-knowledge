@@ -11,35 +11,33 @@ import { JSONElement, BindingSet, HeaderRecord } from './data';
  * the connector interface
  */
 export interface IConnector {
-    currentConnector: () => string;
+  currentConnector: () => string;
 
-    /**
-     * Executes a given skill
-     */
-    execute: (
-        skill: string, 
-        queryVariables: JSONElement, 
-        data_url?:string
-    ) => Promise<BindingSet>;
+  /**
+   * Executes a given skill
+   */
+  execute: (
+    skill: string,
+    queryVariables: JSONElement,
+    data_url?: string
+  ) => Promise<BindingSet>;
 
-    /**
-     * Executes a given query
-     */
-    executeQuery: (
-        query: string,
-        queryVariables: JSONElement,
-        data_url?: string
-    ) => Promise<BindingSet>;
+  /**
+   * Executes a given query
+   */
+  executeQuery: (
+    query: string,
+    queryVariables: JSONElement,
+    data_url?: string
+  ) => Promise<BindingSet>;
 }
 
 /*
  * a connector factory
  */
 export interface IConnectorFactory {
-    create: () => IConnector;
-}  
-  
-
+  create: () => IConnector;
+}
 
 /**
  * a realm mapping maps the current user
@@ -47,15 +45,12 @@ export interface IConnectorFactory {
  * any needed header information
  */
 export interface IRealmMapping {
-    getHeaderAnnotation: (targetDomain: string) => HeaderRecord;
+  getHeaderAnnotation: (targetDomain: string) => HeaderRecord;
 }
 
 /**
  * a factory for realm mappings
  */
 export interface IRealmMappingFactory {
-    create: () => IRealmMapping;
+  create: () => IRealmMapping;
 }
-
-  
-  

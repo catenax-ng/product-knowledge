@@ -3,7 +3,6 @@ import { Typography } from 'cx-portal-shared-components';
 import React from 'react';
 import ErrorTwoToneIcon from '@mui/icons-material/ErrorTwoTone';
 
-
 export const EmptyResultBox = () => {
   return (
     <Box textAlign="center" maxWidth="500px" ml="auto" mr="auto">
@@ -15,4 +14,4 @@ export const EmptyResultBox = () => {
       </Typography>
     </Box>
   );
-}
+};

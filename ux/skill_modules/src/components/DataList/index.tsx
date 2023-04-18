@@ -1,6 +1,5 @@
-import { BindingSet, Warning } from '@catenax-ng/skill-framework/dist/src';
-import { Typography } from 'cx-portal-shared-components';
-import { IconButton, Table, theme } from 'cx-portal-shared-components';
+import { BindingSet, Entry } from '@catenax-ng/skill-framework/dist/src';
+import { IconButton, Table } from 'cx-portal-shared-components';
 import React from 'react';
 import {
   GridColDef,
@@ -107,15 +106,16 @@ export const DataList = ({
 
   return (
     <>
-        <Box
-          sx={{
-            '& .highlighted': {
-              backgroundColor: '#b9d5ff91',
-              fontWeight: 'bold',
-            },
-          }}
-        >
-          {data.results.bindings.length > 0 ? (<Table
+      <Box
+        sx={{
+          '& .highlighted': {
+            backgroundColor: '#b9d5ff91',
+            fontWeight: 'bold',
+          },
+        }}
+      >
+        {data.results.bindings.length > 0 ? (
+          <Table
             density="compact"
             title={tableTitle}
             rowsCount={data.results.bindings.length}
@@ -131,11 +131,19 @@ export const DataList = ({
               }
               return '';
             }}
-          />) : (
-            <EmptyResultBox />
-          )}
-         {data.warnings && data.warnings.map((warning,index) => <Alert severity="warning">Source: ({warning['source-tenant']},{warning['source-asset']}) Target: ({warning['target-tenant']},{warning['target-asset']}) Problem: {warning.problem}</Alert>)}
-        </Box>
+          />
+        ) : (
+          <EmptyResultBox />
+        )}
+        {data.warnings &&
+          data.warnings.map((warning, index) => (
+            <Alert key={'alert' + index} severity="warning">
+              Source: ({warning['source-tenant']},{warning['source-asset']})
+              Target: ({warning['target-tenant']},{warning['target-asset']})
+              Problem: {warning.problem}
+            </Alert>
+          ))}
+      </Box>
     </>
   );
 };

@@ -25,8 +25,7 @@ export default function SparqlEditor({
       document.getElementById('yasgui') as HTMLElement,
       {
         requestConfig: {
-          endpoint:
-            connector.currentConnector(),
+          endpoint: connector.currentConnector(),
         },
         copyEndpointOnNewTab: false,
       }
@@ -36,8 +35,8 @@ export default function SparqlEditor({
     yasgui.on('queryResponse', (instance: Yasgui, tab: Tab) => {
       const yasqe = tab.getYasqe();
       //defaultCode needs to be replaced by the input of the editor
-      const code = yasqe.getValueWithoutComments();      
-      const url= tab.getEndpoint();
+      const code = yasqe.getValueWithoutComments();
+      const url = tab.getEndpoint();
       connector.executeQuery(code, {}, url).then((result) => {
         onSubmit(result);
       });

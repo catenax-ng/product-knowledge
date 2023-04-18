@@ -6,7 +6,7 @@
 //
 
 /**
- * some typescript pseudo-bindings 
+ * some typescript pseudo-bindings
  * for generic JSON objects
  */
 export type JSONElement = JSONObject | JSONArray;
@@ -20,8 +20,8 @@ export interface JSONObject {
 /**
  * Headers are string-based dictionaries
  */
-export  interface HeaderRecord {
-    [key: string]: string;
+export interface HeaderRecord {
+  [key: string]: string;
 }
 
 /**
@@ -58,6 +58,6 @@ export interface Warning {
   'source-asset'?: string;
   'target-tenant'?: string;
   'target-asset'?: string;
-  'context'?: string;
-  'problem'?: string
+  context?: string;
+  problem?: string;
 }

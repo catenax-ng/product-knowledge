@@ -37,8 +37,8 @@ export const AssetView = ({ filter, onShowOntologies }: AssetViewProps) => {
         );
       }
       setRows(data);
-      let warnings = catalogue.warnings;
-      if(warnings) {
+      const warnings = catalogue.warnings;
+      if (warnings) {
         setWarnings(warnings);
       }
     });
@@ -142,7 +142,14 @@ export const AssetView = ({ filter, onShowOntologies }: AssetViewProps) => {
         ) : (
           <EmptyResultBox />
         )}
-        {warnings && warnings.map((warning,index) => <Alert severity="warning">Source: ({warning['source-tenant']},{warning['source-asset']}) Target: ({warning['target-tenant']},{warning['target-asset']}) Problem: {warning.problem}</Alert>)}
+        {warnings &&
+          warnings.map((warning, index) => (
+            <Alert key={'alert' + index} severity="warning">
+              Source: ({warning['source-tenant']},{warning['source-asset']})
+              Target: ({warning['target-tenant']},{warning['target-asset']})
+              Problem: {warning.problem}
+            </Alert>
+          ))}
       </Grid>
     </Grid>
   );

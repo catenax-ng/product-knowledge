@@ -6,12 +6,22 @@
 //
 
 import { HeaderRecord } from './data';
-import { IConnector, IConnectorFactory, IRealmMapping, IRealmMappingFactory } from './connector';
+import {
+  IConnector,
+  IConnectorFactory,
+  IRealmMapping,
+  IRealmMappingFactory,
+} from './connector';
 import { MockConnector } from './mock_connector';
 import { RemoteConnector } from './remote_connector';
 
 export { getOntologyHubFactory, OntologyResult } from './ontology_hub';
-export { IConnector, IConnectorFactory, IRealmMapping, IRealmMappingFactory } from './connector';
+export {
+  IConnector,
+  IConnectorFactory,
+  IRealmMapping,
+  IRealmMappingFactory,
+} from './connector';
 export { JSONElement, BindingSet, Warning, HeaderRecord, Entry } from './data';
 
 /**
@@ -49,7 +59,11 @@ class EnvironmentConnectorFactory implements IConnectorFactory {
 class EnvironmentRealmMapping implements IRealmMapping {
   public getHeaderAnnotation() {
     const headers: HeaderRecord = {};
-    if (process.env.REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY != undefined && process.env.REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY!='REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY') {
+    if (
+      process.env.REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY != undefined &&
+      process.env.REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY !=
+        'REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY'
+    ) {
       headers[process.env.REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY] =
         process.env.REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_VALUE ?? '';
     }
@@ -93,7 +107,6 @@ export const getRealmMappingFactory = function () {
 export const setRealmMappingFactory = function (factory: IRealmMappingFactory) {
   realmMappingFactory = factory;
 };
-
 
 /**
  * global factory variable
