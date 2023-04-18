@@ -26,10 +26,6 @@ public class BindingAgent extends ConformingAgent {
 
     }
 
-    protected Response annotate(Response.ResponseBuilder builder) {
-        return builder.build();
-    }
-
     @Override
     public Response getAgent(String asset, String queryLn, String query, String _vin, List<String> troubleCode) throws NotFoundException {
         if(query==null) {

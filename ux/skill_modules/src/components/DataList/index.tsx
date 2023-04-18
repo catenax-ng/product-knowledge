@@ -1,4 +1,5 @@
-import { BindingSet, Entry } from '@catenax-ng/skill-framework/dist/src';
+import { BindingSet, Warning } from '@catenax-ng/skill-framework/dist/src';
+import { Typography } from 'cx-portal-shared-components';
 import { IconButton, Table, theme } from 'cx-portal-shared-components';
 import React from 'react';
 import {
@@ -8,7 +9,8 @@ import {
   GridCellParams,
 } from '@mui/x-data-grid';
 import { Box, Tooltip } from '@mui/material';
-import EmptyResultBox from '../EmptyResultBox';
+import { EmptyResultBox } from '../EmptyResultBox';
+import Alert from '@mui/material/Alert';
 
 interface DataListProps {
   search: string;
@@ -105,7 +107,6 @@ export const DataList = ({
 
   return (
     <>
-      {data.results.bindings.length > 0 ? (
         <Box
           sx={{
             '& .highlighted': {
@@ -114,7 +115,7 @@ export const DataList = ({
             },
           }}
         >
-          <Table
+          {data.results.bindings.length > 0 ? (<Table
             density="compact"
             title={tableTitle}
             rowsCount={data.results.bindings.length}
@@ -130,11 +131,11 @@ export const DataList = ({
               }
               return '';
             }}
-          />
+          />) : (
+            <EmptyResultBox />
+          )}
+         {data.warnings && data.warnings.map((warning,index) => <Alert severity="warning">Source: ({warning['source-tenant']},{warning['source-asset']}) Target: ({warning['target-tenant']},{warning['target-asset']}) Problem: {warning.problem}</Alert>)}
         </Box>
-      ) : (
-        <EmptyResultBox />
-      )}
     </>
   );
 };

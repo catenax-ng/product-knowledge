@@ -152,6 +152,7 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
             List<CatenaxWarning> newWarnings=CatenaxWarning.getWarnings(action.getContext());
             if(newWarnings!=null) {
                 response.addHeader("cx_warnings",objectMapper.writeValueAsString(newWarnings));
+                response.addHeader("Access-Control-Expose-Headers","cx_warnings, content-length, content-type");
                 if(response.getStatus()==200) {
                     response.setStatus(203);
                 }
@@ -203,6 +204,7 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
             List<CatenaxWarning> newWarnings=CatenaxWarning.getWarnings(action.getContext());
             if(newWarnings!=null) {
                 responseAdapter.addHeader("cx_warnings",objectMapper.writeValueAsString(newWarnings));
+                responseAdapter.addHeader("Access-Control-Expose-Headers","cx_warnings, content-length, content-type");
             }
             if(responseAdapter.getStatus()==200) {
                 responseAdapter.setStatus(203);

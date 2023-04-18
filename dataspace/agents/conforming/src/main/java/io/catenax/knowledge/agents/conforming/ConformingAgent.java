@@ -218,7 +218,7 @@ public class ConformingAgent extends AgentApi {
     }
 
     protected Response annotate(Response.ResponseBuilder builder) {
-        return builder.header("cx_warnings",warnings).build();
+        return builder.build();
     }
 
     java.util.regex.Pattern pattern= java.util.regex.Pattern.compile("\\?(binding[0-9]+)");
