@@ -26,6 +26,13 @@ public class MatchmakingAgent extends ConformingAgent {
     }
 
     @Override
+    protected Response annotate(Response.ResponseBuilder builder) {
+        return builder.header("cx_warnings",warnings)
+            .header("Access-Control-Expose-Headers","cx_warnings, content-length, content-type")
+            .build();
+    }
+
+    @Override
     protected String getSimpleJson(String bindingVar) {
         return simpleBindJson.replaceAll("bindingVar",bindingVar);
     }

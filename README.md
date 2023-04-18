@@ -1,7 +1,8 @@
-# Catena-X Knowledge Agents KIT (Hey Catena!) Source Repository
+# Catena-X Agent KIT Source Repository
 
 This is a [MonoRepo](https://en.wikipedia.org/wiki/Monorepo) hosting or linking all the module 
-and infrastructure codes related to the [Hey Catena!](https://catenax-ng.github.io/product-knowledge/) KIT.
+and infrastructure codes related to the 
+Catena-X [Agent KIT](https://catenax-ng.github.io/product-knowledge/) KIT.
 
 * See this [copyright notice](COPYRIGHT.md)
 * See the [authors file](AUTHORS.md)
@@ -10,9 +11,14 @@ and infrastructure codes related to the [Hey Catena!](https://catenax-ng.github.
 * See the [contribution guidelines](CONTRIBUTING.md)
 * See the [dependencies and their licenses](DEPENDENCIES.md)
 
+## Documentation
+
+With regard to any global, architectural and usage documentation, we refer to our [web page](https://catenax-ng.github.io/product-knowledge/).
+All sources are locally documented using markdown and language-specific code comments.
+
 ## Repository Linking and Initialisation
 
-The individual sources may be maintained in separate repositories (currently: none). 
+The individual modules may be maintained in separate repositories (currently: none). 
 
 If they are (currently: not), they would be linked as [git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules) 
 so you should be sure to run the following command after cloning this repo:
@@ -26,7 +32,7 @@ some of the docker images need a certain amount of memory and horsepower.
 
 ## Modules
 
-These are the sub-modules of the Hey Catena! product (and their respective sub-folders)
+These are the immediate sub-modules of the Agent KIT 
 
 - [Ontology](ontology/README.md) hosts the CX domain ontologies (including the fully merged CX ontology and tooling) describing the semantics of the Catena-X Dataspace.
 - [Dataspace](dataspace/README.md) hosts reference implementations of the Gaia-X/IDS Dataspace extensions (Agents) for both Providers and Consumers which  the semantics of Catena-X.
@@ -120,7 +126,7 @@ To bundle all deployment artifacts for a particular platform (currently supporte
 ./mvnw -s settings.xml package -Pwith-docker-image -Dplatform=linux/amd64
 ```
 
-To deploy the artifacts, choose
+To publish the artifacts, choose
 
 ```console
 ./mvnw -s settings.xml deploy -Pwith-docker-image -Dplatform=linux/amd64
@@ -153,18 +159,14 @@ To register all artifacts (including compilation artifacts, tests and container 
 
 ### Deployment
 
-Knowledge Agents containers will be deployed very individually.
-
+Agent KIT containers will be deployed very individually.
 We provide a sample environment (dataspace consisting of three business partners) using docker-compose (for local deployment) and helm (for cloud/cluster deployment) technology. 
-
 The docker compose files and helm charts can be found in the  [infrastructure](infrastructure) folder.
 
 ## Running Against the Services and APIs / Integration Tests
 
 You may use/export/fork this online [Postman Workspace/Collecion](https://www.postman.com/catena-x/workspace/catena-x-knowledge-agents/collection/2757771-6a1813a3-766d-42e2-962d-3b340fbba397?action=share&creator=2757771) a copy of which is embedded [here](cx_ka.postman_collection.json). 
-
 It contains collection of sample interactions with the various sub-products in several environments (e.g. [local](cx_ka.localhost.postman_environment.json), [development](cx_ka.development.postman_environment.json) and [integration](cx_ka.integration.postman_environment.json)) and tailored to the sample dataspace. 
-
 Also integrated there is a folder with the integrations tests which are scripted and consective Postman actions which test features and state changes within the target environment. This is used in the [Github Integration Test Workflow](.github/workflows/integrationtest.yaml).
 
 

@@ -19,13 +19,14 @@ export default function SparqlEditor({
 }: SparqlEditorProps) {
   useEffect(() => {
     Yasgui.Yasqe.defaults.value = defaultCode;
+    const connector = getConnectorFactory().create();
     //Yasgui.Yasqe.defaults.theme = 'monokai';
     const yasgui = new Yasgui(
       document.getElementById('yasgui') as HTMLElement,
       {
         requestConfig: {
           endpoint:
-            'https://knowledge.dev.demo.catena-x.net/consumer-edc-data/BPNL00000003CQI9/api/agent?()',
+            connector.currentConnector(),
         },
         copyEndpointOnNewTab: false,
       }
@@ -35,9 +36,9 @@ export default function SparqlEditor({
     yasgui.on('queryResponse', (instance: Yasgui, tab: Tab) => {
       const yasqe = tab.getYasqe();
       //defaultCode needs to be replaced by the input of the editor
-      const code = yasqe.getValueWithoutComments();
-      const connector = getConnectorFactory().create();
-      connector.executeQuery(code, {}).then((result) => {
+      const code = yasqe.getValueWithoutComments();      
+      const url= tab.getEndpoint();
+      connector.executeQuery(code, {}, url).then((result) => {
         onSubmit(result);
       });
     });

@@ -11,12 +11,13 @@ import { GridRowModel } from '@mui/x-data-grid';
 import { Grid, Tooltip } from '@mui/material';
 import { IconButton, Table } from 'cx-portal-shared-components';
 import Typography from '@mui/material/Typography';
-import { getConnectorFactory, Entry } from '../..';
-import EmptyResultBox from '../EmptyResultBox';
+import { getConnectorFactory, Entry, Warning } from '../..';
+import { EmptyResultBox } from '../EmptyResultBox';
 import DatasetLinkedIcon from '@mui/icons-material/DatasetLinked';
 import CatchingPokemonIcon from '@mui/icons-material/CatchingPokemon';
 import EastIcon from '@mui/icons-material/East';
 import WebAssetIcon from '@mui/icons-material/WebAsset';
+import Alert from '@mui/material/Alert';
 
 interface AssetViewProps {
   filter?: string;
@@ -24,6 +25,7 @@ interface AssetViewProps {
 }
 export const AssetView = ({ filter, onShowOntologies }: AssetViewProps) => {
   const [rows, setRows] = useState<Entry[]>();
+  const [warnings, setWarnings] = useState<Warning[]>();
 
   useEffect(() => {
     const connector = getConnectorFactory().create();
@@ -35,6 +37,10 @@ export const AssetView = ({ filter, onShowOntologies }: AssetViewProps) => {
         );
       }
       setRows(data);
+      let warnings = catalogue.warnings;
+      if(warnings) {
+        setWarnings(warnings);
+      }
     });
   }, [filter]);
 
@@ -136,6 +142,7 @@ export const AssetView = ({ filter, onShowOntologies }: AssetViewProps) => {
         ) : (
           <EmptyResultBox />
         )}
+        {warnings && warnings.map((warning,index) => <Alert severity="warning">Source: ({warning['source-tenant']},{warning['source-asset']}) Target: ({warning['target-tenant']},{warning['target-asset']}) Problem: {warning.problem}</Alert>)}
       </Grid>
     </Grid>
   );
