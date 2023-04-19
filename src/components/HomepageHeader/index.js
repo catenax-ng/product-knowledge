@@ -21,7 +21,7 @@
 
  import React from "react";
  import Link from "@docusaurus/Link";
- import NewsTicker from "../NewsTicker";
+ import NewsTicker from "@site/src/components/NewsTicker";
  
  import styles from "./styles.module.css";
    
