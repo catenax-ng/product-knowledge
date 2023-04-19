@@ -10,18 +10,18 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.adminshell.aas.v3.dataformat.DeserializationException;
-import io.adminshell.aas.v3.model.*;
+import io.adminshell.aas.v3.model.AssetAdministrationShellEnvironment;
+import io.adminshell.aas.v3.model.Submodel;
+import io.adminshell.aas.v3.model.SubmodelElement;
+import io.adminshell.aas.v3.model.SubmodelElementCollection;
 import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironment;
-import io.adminshell.aas.v3.model.impl.DefaultIdentifier;
 import io.catenax.knowledge.dataspace.aasbridge.AspectMapper;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -45,57 +45,29 @@ public class SingleLevelBomAsPlannedMapper extends AspectMapper {
 
         Map<JsonNode, List<JsonNode>> groupedByCxid = StreamSupport.stream(queryResponse.spliterator(), false).collect(Collectors.groupingBy(node -> node.get("catenaXId")));
 
-        List<Submodel> singleLevelBomsAsPlanned = groupedByCxid.entrySet().stream().map(byCxId -> {
+        List<Submodel> singleLevelBomsAsPlanned = groupedByCxid.values().stream().map(group -> {
             AssetAdministrationShellEnvironment aasInstance = instantiateAas();
-            Submodel submodel = aasInstance.getSubmodels().stream()
-                    .filter(sub -> sub.getSemanticId().getKeys().stream()
-                            .anyMatch(key -> key.getValue().equals("urn:bamm:io.catenax.single_level_bom_as_planned:1.0.1#SingleLevelBomAsPlanned"))
-                    )
-                    .findFirst().orElseThrow(() -> new RuntimeException("Desired Submodel not found in Template"));
+            Submodel submodel = getSubmodelFromAasenv(aasInstance, "urn:bamm:io.catenax.single_level_bom_as_planned:1.0.1#SingleLevelBomAsPlanned");
 
-            submodel.setIdentification(new DefaultIdentifier.Builder()
-                    .idType(IdentifierType.CUSTOM)
-                    .identifier(UUID.randomUUID().toString())
-                    .build());
+            setPropertyInSubmodel(submodel, "catenaXId", findValueInProperty((ObjectNode) group.get(0), "catenaXId"));
+            SubmodelElementCollection childCollection = getSmecFromSubmodel(submodel, "childParts");
+            SubmodelElementCollection childDataTemplate = (SubmodelElementCollection) getChildFromParentSmec(childCollection, "ChildData");
 
-            List<SubmodelElement> submodelElements = submodel
-                    .getSubmodelElements();
-
-            submodelElements.stream().filter(sme -> sme.getIdShort().equals("catenaXId"))
-                    .findFirst().ifPresent(mn -> ((Property) mn).setValue(findValueInProperty((ObjectNode) byCxId.getValue().get(0), "catenaXId")));
-
-            SubmodelElementCollection childCollection = (SubmodelElementCollection) submodelElements.stream().filter(sme -> sme.getIdShort().equals("childParts"))
-                    .findFirst().orElseThrow();
-
-            SubmodelElementCollection childDataTemplate = (SubmodelElementCollection) childCollection.getValues().stream().filter(sme -> sme.getIdShort().equals("ChildData"))
-                    .findFirst().orElseThrow();
-
-            List<SubmodelElement> children = byCxId.getValue().stream().map(child -> {
+            List<SubmodelElement> children = group.stream().map(child -> {
                 SubmodelElementCollection childDataInstance = cloneReferable(childDataTemplate, SubmodelElementCollection.class);
-                Collection<SubmodelElement> childSmes = childDataInstance.getValues();
-                ((Property) childSmes.stream().filter(sme -> sme.getIdShort().equals("createdOn")).findFirst().orElseThrow())
-                        .setValue(findValueInProperty((ObjectNode) child, "productionStartDate"));
 
-                ((Property) childSmes.stream().filter(sme -> sme.getIdShort().equals("lastModifiedOn")).findFirst().orElseThrow())
-                        .setValue(findValueInProperty((ObjectNode) child, "productionEndDate"));
+                setPropertyInSmec(childDataInstance,"createdOn", findValueInProperty((ObjectNode) child, "productionStartDate"));
+                setPropertyInSmec(childDataInstance,"lastModifiedOn", findValueInProperty((ObjectNode) child, "productionEndDate"));
+                setPropertyInSmec(childDataInstance,"childCatenaXId", findValueInProperty((ObjectNode) child, "childCatenaXId"));
 
-                ((Property) childSmes.stream().filter(sme -> sme.getIdShort().equals("childCatenaXId")).findFirst().orElseThrow())
-                        .setValue(findValueInProperty((ObjectNode) child, "childCatenaXId"));
-
-                Collection<SubmodelElement> quantityElements = ((SubmodelElementCollection) childSmes.stream().filter(sme -> sme.getIdShort().equals("Quantity")).findFirst().orElseThrow())
-                        .getValues();
-
-                ((Property) quantityElements.stream().filter(sme -> sme.getIdShort().equals("quantityNumber")).findFirst().orElseThrow())
-                        .setValue(findValueInProperty((ObjectNode) child, "childQuantity"));
-
-                ((Property) quantityElements.stream().filter(sme -> sme.getIdShort().equals("measurementUnit")).findFirst().orElseThrow())
-                        .setValue(findValueInProperty((ObjectNode) child, "billOfMaterialUnit"));
+                SubmodelElementCollection quantityElements = (SubmodelElementCollection) getChildFromParentSmec(childDataInstance, "Quantity");
+                setPropertyInSmec(quantityElements,"quantityNumber",findValueInProperty((ObjectNode) child, "childQuantity"));
+                setPropertyInSmec(quantityElements,"measurementUnit",findValueInProperty((ObjectNode) child, "billOfMaterialUnit"));
 
                 return childDataInstance;
             }).collect(Collectors.toList());
 
             childCollection.setValues(children);
-
             return submodel;
         }).collect(Collectors.toList());
 

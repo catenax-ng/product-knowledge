@@ -10,9 +10,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.adminshell.aas.v3.dataformat.DeserializationException;
-import io.adminshell.aas.v3.model.*;
+import io.adminshell.aas.v3.model.AssetAdministrationShellEnvironment;
+import io.adminshell.aas.v3.model.Submodel;
+import io.adminshell.aas.v3.model.SubmodelElement;
+import io.adminshell.aas.v3.model.SubmodelElementCollection;
 import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironment;
-import io.adminshell.aas.v3.model.impl.DefaultIdentifier;
 import io.catenax.knowledge.dataspace.aasbridge.AspectMapper;
 
 import java.io.IOException;
@@ -20,7 +22,6 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -47,49 +48,24 @@ public class MaterialForRecyclingMapper extends AspectMapper {
 
         List<Submodel> materialsForRecycling = groupedByEmat.values().stream().map(rmats -> {
             AssetAdministrationShellEnvironment aasInstance = instantiateAas();
-            Submodel submodel = aasInstance.getSubmodels().stream()
-                    .filter(sub -> sub.getSemanticId().getKeys().stream()
-                            .anyMatch(key -> key.getValue().equals("urn:bamm:io.catenax.material_for_recycling:1.1.0#MaterialForRecycling"))
-                    )
-                    .findFirst().orElseThrow(() -> new RuntimeException("Desired Submodel not found in Template"));
 
-            submodel.setIdentification(new DefaultIdentifier.Builder()
-                    .idType(IdentifierType.CUSTOM)
-                    .identifier(UUID.randomUUID().toString())
-                    .build());
+            Submodel submodel = getSubmodelFromAasenv(aasInstance, "urn:bamm:io.catenax.material_for_recycling:1.1.0#MaterialForRecycling");
 
-            List<SubmodelElement> submodelElements = submodel
-                    .getSubmodelElements();
+            setPropertyInSubmodel(submodel, "materialName", findValueInProperty((ObjectNode) rmats.get(0), "engineeringMaterialName"));
+            setPropertyInSubmodel(submodel, "materialClass", findValueInProperty((ObjectNode) rmats.get(0), "engineeringMaterialClass"));
 
-            submodelElements.stream().filter(sme -> sme.getIdShort().equals("materialName"))
-                    .findFirst().ifPresent(mn -> ((Property) mn).setValue(findValueInProperty((ObjectNode) rmats.get(0), "engineeringMaterialName")));
-
-            submodelElements.stream().filter(sme -> sme.getIdShort().equals("materialClass"))
-                    .findFirst().ifPresent(mn -> ((Property) mn).setValue(findValueInProperty((ObjectNode) rmats.get(0), "engineeringMaterialClass")));
-
-            SubmodelElementCollection component = submodelElements.stream().filter(sme -> sme.getIdShort().equals("component")).map(comp -> (SubmodelElementCollection) comp)
-                    .findFirst().orElseThrow();
-            SubmodelElementCollection componentEntity = component.getValues().stream().filter(sme -> sme.getIdShort().equals("ComponentEntity"))
-                    .map(sme -> (SubmodelElementCollection) sme).findFirst().orElseThrow();
+            SubmodelElementCollection component = getSmecFromSubmodel(submodel, "component");
+            SubmodelElementCollection componentEntity = (SubmodelElementCollection) getChildFromParentSmec(component, "ComponentEntity");
 
             List<SubmodelElement> components = rmats.stream().map(rmat -> {
                 SubmodelElementCollection componentClone = cloneReferable(componentEntity, SubmodelElementCollection.class);
-                componentClone.getValues()
-                        .stream().map(sme -> (Property) sme).filter(p -> p.getIdShort().equals("aggregateState"))
-                        .findFirst().orElseThrow().setValue(findValueInProperty((ObjectNode) rmat, "componentState"));
-                componentClone.getValues()
-                        .stream().map(sme -> (Property) sme).filter(p -> p.getIdShort().equals("recycledContent"))
-                        .findFirst().orElseThrow().setValue(findValueInProperty((ObjectNode) rmat, "componentRecycledContent"));
-                componentClone.getValues()
-                        .stream().map(sme -> (Property) sme).filter(p -> p.getIdShort().equals("materialAbbreviation"))
-                        .findFirst().orElseThrow().setValue(findValueInProperty((ObjectNode) rmat, "componentMaterialAbbreviation"));
-                componentClone.getValues()
-                        .stream().map(sme -> (Property) sme).filter(p -> p.getIdShort().equals("materialClass"))
-                        .findFirst().orElseThrow().setValue(findValueInProperty((ObjectNode) rmat, "componentMaterialClass"));
-                componentClone.getValues()
-                        .stream().map(sme -> (Property) sme).filter(p -> p.getIdShort().equals("materialName"))
-                        .findFirst().orElseThrow().setValue(findValueInProperty((ObjectNode) rmat, "componentMaterialName"));
+                setPropertyInSmec(componentClone, "aggregateState", findValueInProperty((ObjectNode) rmat, "componentState"));
+                setPropertyInSmec(componentClone, "recycledContent", findValueInProperty((ObjectNode) rmat, "componentRecycledContent"));
+                setPropertyInSmec(componentClone, "materialAbbreviation", findValueInProperty((ObjectNode) rmat, "componentMaterialAbbreviation"));
+                setPropertyInSmec(componentClone, "materialClass", findValueInProperty((ObjectNode) rmat, "componentMaterialClass"));
+                setPropertyInSmec(componentClone, "materialName", findValueInProperty((ObjectNode) rmat, "componentMaterialName"));
                 // quantity is in the aspect model but not in the graph currently
+
                 return componentClone;
             }).collect(Collectors.toList());
             component.setValues(components);

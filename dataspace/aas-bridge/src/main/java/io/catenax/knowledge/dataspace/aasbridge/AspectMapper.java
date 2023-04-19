@@ -17,10 +17,10 @@ import io.adminshell.aas.v3.dataformat.SerializationException;
 import io.adminshell.aas.v3.dataformat.json.JsonDeserializer;
 import io.adminshell.aas.v3.dataformat.json.JsonSerializer;
 import io.adminshell.aas.v3.dataformat.xml.XmlDeserializer;
-import io.adminshell.aas.v3.model.AssetAdministrationShellEnvironment;
-import io.adminshell.aas.v3.model.ModelingKind;
-import io.adminshell.aas.v3.model.Property;
-import io.adminshell.aas.v3.model.Referable;
+import io.adminshell.aas.v3.model.*;
+import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShell;
+import io.adminshell.aas.v3.model.impl.DefaultIdentifier;
+import io.adminshell.aas.v3.model.impl.DefaultProperty;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -32,8 +32,8 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Spliterators;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executors;
 import java.util.stream.StreamSupport;
 
 import static java.time.temporal.ChronoUnit.SECONDS;
@@ -60,7 +60,7 @@ public abstract class AspectMapper {
         this.aasTemplate = new XmlDeserializer().read(aasTemplate);
         this.client = client;
         this.credentials = credentials;
-        this.timeoutSeconds=timeOutSeconds;
+        this.timeoutSeconds = timeOutSeconds;
     }
 
     public CompletableFuture<ArrayNode> executeQuery(String queryResourcePath) throws URISyntaxException, IOException {
@@ -73,8 +73,8 @@ public abstract class AspectMapper {
                 .header("Accept", "application/json")
                 .timeout(Duration.of(timeoutSeconds, SECONDS));
 
-        if(credentials!=null && !credentials.isEmpty()) {
-           requestBuilder=requestBuilder.header("Authorization", credentials);
+        if (credentials != null && !credentials.isEmpty()) {
+            requestBuilder = requestBuilder.header("Authorization", credentials);
         }
 
         HttpRequest request = requestBuilder.build();
@@ -98,8 +98,7 @@ public abstract class AspectMapper {
     }
 
 
-    protected AssetAdministrationShellEnvironment instantiateAas()
-    {
+    protected AssetAdministrationShellEnvironment instantiateAas() {
         JsonSerializer jsonSerializer = new JsonSerializer();
         JsonDeserializer jsonDeserializer = new JsonDeserializer();
 
@@ -109,14 +108,30 @@ public abstract class AspectMapper {
         } catch (DeserializationException | SerializationException e) {
             throw new RuntimeException(e);
         }
-        clone.setAssetAdministrationShells(new ArrayList<>());
+        ArrayList<AssetAdministrationShell> shellInstance = new ArrayList<>();
+        shellInstance.add(
+                new DefaultAssetAdministrationShell.Builder()
+                        .identification(new DefaultIdentifier.Builder()
+                                .idType(IdentifierType.CUSTOM)
+                                .identifier(UUID.randomUUID().toString())
+                                .build())
+                        .build()
+        );
+        clone.setAssetAdministrationShells(shellInstance);
         clone.setAssets(new ArrayList<>());
-        clone.getSubmodels().forEach(smt -> smt.setKind(ModelingKind.INSTANCE));
+        clone.getSubmodels().forEach(smt -> {
+            smt.setKind(ModelingKind.INSTANCE);
+            smt.setIdentification(new DefaultIdentifier.Builder()
+                    .idType(IdentifierType.CUSTOM)
+                    .identifier(UUID.randomUUID().toString())
+                    .build());
+        });
+        // set SMEs to kind=INSTANCE as well
         return clone;
     }
 
 
-    protected <T extends Referable> T cloneReferable(T original, Class<T> clazz){
+    protected <T extends Referable> T cloneReferable(T original, Class<T> clazz) {
         JsonSerializer jsonSerializer = new JsonSerializer();
         JsonDeserializer jsonDeserializer = new JsonDeserializer();
 
@@ -129,15 +144,48 @@ public abstract class AspectMapper {
 
     protected String findValueInProperty(Property property, ObjectNode queryResponse) {
         String idShort = property.getIdShort();
-        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(queryResponse.fields(),0),false)
-                .filter(e->e.getKey().equals(idShort)).findFirst()
-                .orElseThrow(()->new RuntimeException("no json key found for idShort " + idShort))
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(queryResponse.fields(), 0), false)
+                .filter(e -> e.getKey().equals(idShort)).findFirst()
+                .orElseThrow(() -> new RuntimeException("no json key found for idShort " + idShort))
                 .getValue().asText();
     }
 
-    protected String findValueInProperty(ObjectNode queryResponse, String responseKey){
+    protected String findValueInProperty(ObjectNode queryResponse, String responseKey) {
         return queryResponse.get(responseKey).asText();
     }
 
+    protected void setPropertyInSmec(SubmodelElementCollection smec, String propertyIdShort, String value) {
+        smec.getValues()
+                .stream().filter(sme->sme.getClass().equals(DefaultProperty.class)).map(sme -> (Property) sme).filter(p -> p.getIdShort().equals(propertyIdShort))
+                .findFirst().orElseThrow(() -> new RuntimeException("could not find property " + propertyIdShort + " in SMEC " + smec.getIdShort()))
+                .setValue(value);
+    }
+
+    protected void setPropertyInSubmodel(Submodel sm, String propertyIdShort, String value) {
+        sm.getSubmodelElements()
+                .stream().map(sme -> (Property) sme).filter(sme -> sme.getIdShort().equals(propertyIdShort))
+                .findFirst().orElseThrow(() -> new RuntimeException("could not find property " + propertyIdShort + " in SM " + sm.getIdShort()))
+                .setValue(value);
+    }
+
+    protected Submodel getSubmodelFromAasenv(AssetAdministrationShellEnvironment aasenv, String submodelSemanticId) {
+        return aasenv.getSubmodels().stream()
+                .filter(sub -> sub.getSemanticId().getKeys().stream()
+                        .anyMatch(key -> key.getValue().equals(submodelSemanticId))
+                )
+                .findFirst().orElseThrow(() -> new RuntimeException("Desired Submodel " + submodelSemanticId + " not found in Template"));
+    }
+
+    protected SubmodelElementCollection getSmecFromSubmodel(Submodel sm, String smecIdShort) {
+        return sm.getSubmodelElements().stream()
+                .filter(sme -> sme.getIdShort().equals(smecIdShort)).map(comp -> (SubmodelElementCollection) comp)
+                .findFirst().orElseThrow(() -> new RuntimeException("Desired path of smec entry(" + smecIdShort + ") not found"));
+    }
+
+    protected SubmodelElement getChildFromParentSmec(SubmodelElementCollection parent, String childIdShort) {
+        return parent.getValues().stream().filter(sme -> sme.getIdShort().equals(childIdShort))
+                //.map(sme -> (SubmodelElementCollection) sme)
+                .findFirst().orElseThrow(() -> new RuntimeException("Desired path of smel entry(" + childIdShort + ") not found"));
+    }
 }
 
