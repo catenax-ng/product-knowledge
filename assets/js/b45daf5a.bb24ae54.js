@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkproduct_knowledge_tractusx_github_io=self.webpackChunkproduct_knowledge_tractusx_github_io||[]).push([[6524],{68121:t=>{t.exports=JSON.parse('{"label":"product","permalink":"/product-knowledge/blog/tags/product","allTagsPath":"/product-knowledge/blog/tags","count":4}')}}]);

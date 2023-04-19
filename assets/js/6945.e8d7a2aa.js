@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkproduct_knowledge_tractusx_github_io=self.webpackChunkproduct_knowledge_tractusx_github_io||[]).push([[6945],{46945:(t,u,e)=>{e.r(u)}}]);

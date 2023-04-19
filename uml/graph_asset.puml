@@ -1,0 +1,26 @@
+@startuml
+database "Complete Virtual Graph" as VKG
+database "Graph Asset 1" as GA1
+database "Graph Asset 2" as GA2
+participant "Provider Connector" as C
+participant "Consumer 1 Connector" as Co1
+participant "Consumer 2 Connector" as Co2
+Co1 -> C ++: query Offer 1
+C -> C : validate query
+C -> GA1 ++: query transferred
+GA1 -> VKG ++: query using service principal1
+VKG -> VKG : filter/restrict query
+return result1
+return result1
+C -> C : validate result1
+return result1
+Co2 -> C ++: query Offer 2
+C -> C : validate query
+C -> GA2 ++: query transferred
+GA2 -> VKG ++ : query using service principal2
+VKG -> VKG : filter/restrict query
+return result2
+return result2
+C -> C : validate result2
+return result2
+@enduml

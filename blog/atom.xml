@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://catena-x.net/product-knowledge/blog</id>
-    <title>Catena-X - Knowledge Agents Blog</title>
-    <updated>2023-01-25T11:32:00.000Z</updated>
+    <id>https://catenax-ng.github.io/product-knowledge/blog</id>
+    <title>Tractus-X Agents Kit Blog</title>
+    <updated>2023-02-20T12:57:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://catena-x.net/product-knowledge/blog"/>
-    <subtitle>Catena-X - Knowledge Agents Blog</subtitle>
-    <icon>https://catena-x.net/product-knowledge/img/favicon.ico</icon>
+    <link rel="alternate" href="https://catenax-ng.github.io/product-knowledge/blog"/>
+    <subtitle>Tractus-X Agents Kit Blog</subtitle>
+    <icon>https://catenax-ng.github.io/product-knowledge/img/logo_tractus-x-min.ico</icon>
     <entry>
-        <title type="html"><![CDATA[Minimum Viable Product]]></title>
-        <id>MVP</id>
-        <link href="https://catena-x.net/product-knowledge/blog/MVP"/>
-        <updated>2023-01-25T11:32:00.000Z</updated>
-        <summary type="html"><![CDATA[Knowledge Agents is now ready for integration testing.]]></summary>
-        <content type="html"><![CDATA[<p>Knowledge Agents is now ready for integration testing.
-See our <a href="/product-knowledge/docs/deployment">Deployment Documentation</a> and our
-<a href="/product-knowledge/infrastructure">Helm Repository</a>.</p>]]></content>
+        <title type="html"><![CDATA[Integration]]></title>
+        <id>Integration</id>
+        <link href="https://catenax-ng.github.io/product-knowledge/blog/Integration"/>
+        <updated>2023-02-20T12:57:00.000Z</updated>
+        <summary type="html"><![CDATA[The Integration release of Knowledge Agents is ready.]]></summary>
+        <content type="html"><![CDATA[<p>The <a href="https://github.com/catenax-ng/product-knowledge/tree/v0.7.4-int" target="_blank" rel="noopener noreferrer">Integration</a> release of Knowledge Agents is ready.</p><p><em>What This Release Can Do</em>
+Implements scaleable, multi-directional and semantic-web driven dataspace collaboration/scripting between Data/Service Providers, Skill Providers and App Consumers extending Catena-X Release 3.1 (EDC Version 0.2.0)</p><p><em>What This Release Contains</em>
+Complete Source Code for integrating PostgreSQL, SparQL-Anything, GraphDB, Dremio OSS, Apache Druid, Apache Fuseki, OnTop VKP and RDF4J into a Dataspace.
+Deployment Sample for Consumer/Skill Provider, OEM and Tier-A in multiple domains (diagnosis, health prognosis, sustainability, traceability).
+Helm Charts for EDC &amp; Binding Agents.
+Prerelease of the Catena-X Ontology.
+UX/UI components for asset browsing, ontology exploration and interacting with skill-based search logic.
+Postman Collection for Interaction as well as Integration Testing.</p><p><em>Documentation</em>
+<a href="https://catenax-ng.github.io/product-knowledge/docs/operation-view/deployment" target="_blank" rel="noopener noreferrer">https://catenax-ng.github.io/product-knowledge/docs/operation-view/deployment</a></p>]]></content>
         <author>
             <name>Knowledge Agents</name>
             <uri>https://github.com/catenax-ng/product-knowledge</uri>
@@ -24,12 +30,51 @@ See our <a href="/product-knowledge/docs/deployment">Deployment Documentation</a
         <category label="product" term="product"/>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Initial Release]]></title>
-        <id>Initial Release</id>
-        <link href="https://catena-x.net/product-knowledge/blog/Initial Release"/>
+        <title type="html"><![CDATA[Minimum Viable Product]]></title>
+        <id>MVP</id>
+        <link href="https://catenax-ng.github.io/product-knowledge/blog/MVP"/>
+        <updated>2022-12-15T08:33:00.000Z</updated>
+        <summary type="html"><![CDATA[The MVP of Knowledge Agents has arrived.]]></summary>
+        <content type="html"><![CDATA[<p>The <a href="https://github.com/catenax-ng/product-knowledge/releases/tag/v0.6.4-mvp" target="_blank" rel="noopener noreferrer">MVP</a> of Knowledge Agents has arrived.</p><p><em>What This Release Can Do</em>
+Implements multi-directional and semantic-web driven dataspace collaboration/scripting between Data/Service Providers, Skill Providers and App Consumers based on Catena-X Release 3 (EDC Version 0.1.2)</p><p><em>What This Release Contains</em>
+Complete Source Code for integrating Dremio OSS, Apache Druid, Apache Fuseki, OnTop VKP and RDF4J into a Dataspace.
+Deployment Sample for Consumer/Skill Provider, OEM and Tier-A in multiple domains (diagnosis, prognosis, sustainability).
+Initial Draft of the Catena-X Ontology.
+UX/UI components for asset browsing, ontology exploration and interacting with skill-based search logic.
+Postman Collection for Interaction Testing.</p><p><em>Documentation</em></p><p><a href="https://catenax-ng.github.io/product-knowledge/docs/development-view/architecture" target="_blank" rel="noopener noreferrer">https://catenax-ng.github.io/product-knowledge/docs/development-view/architecture</a></p>]]></content>
+        <author>
+            <name>Knowledge Agents</name>
+            <uri>https://github.com/catenax-ng/product-knowledge</uri>
+        </author>
+        <category label="news" term="news"/>
+        <category label="product" term="product"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Pilot Release]]></title>
+        <id>Pilot</id>
+        <link href="https://catenax-ng.github.io/product-knowledge/blog/Pilot"/>
+        <updated>2022-08-10T20:04:00.000Z</updated>
+        <summary type="html"><![CDATA[A pilot of Knowledge Agent is now available.]]></summary>
+        <content type="html"><![CDATA[<p>A <a href="https://github.com/catenax-ng/product-knowledge/releases/tag/v0.5.5-pilot" target="_blank" rel="noopener noreferrer">pilot</a> of Knowledge Agent is now available.</p><p><em>What This Release Can Do</em>
+Demonstrates dataspace collaboration/scripting of three tiers (Consumer, OEM, Tier-A) of Graph-based, SQL-based and REST-based agent protocols based on Catena-X Release 2 (EDC Version 0.1.1)</p><p><em>What This Release Contains</em></p><p>Complete Source Code for integrating Apache Fuseki, OnTop VKP and RDF4J into a Dataspace.
+Deployment Sample for Consumer, OEM and Tier-A in a combined diagnosis/prognosis domain.
+UX/UI components for showing resulting ontology and the dataspace assets related to it.
+Postman Collection for Interaction Integration Testing.</p><p><em>Documentation</em>
+<a href="https://catenax-ng.github.io/product-knowledge/docs/adoption-view/howto" target="_blank" rel="noopener noreferrer">https://catenax-ng.github.io/product-knowledge/docs/adoption-view/howto</a></p>]]></content>
+        <author>
+            <name>Knowledge Agents</name>
+            <uri>https://github.com/catenax-ng/product-knowledge</uri>
+        </author>
+        <category label="news" term="news"/>
+        <category label="product" term="product"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Spike]]></title>
+        <id>Spike</id>
+        <link href="https://catenax-ng.github.io/product-knowledge/blog/Spike"/>
         <updated>2022-05-13T17:33:00.000Z</updated>
-        <summary type="html"><![CDATA[The first spike of the knowledge agent architecture has just been released.]]></summary>
-        <content type="html"><![CDATA[<p>The first <a href="https://github.com/catenax-ng/product-knowledge/releases/tag/v0.4.6-spike" target="_blank" rel="noopener noreferrer">spike</a> of the knowledge agent architecture has just been released.</p>]]></content>
+        <summary type="html"><![CDATA[The first spike of Knowledge Agent has just been released.]]></summary>
+        <content type="html"><![CDATA[<p>The first <a href="https://github.com/catenax-ng/product-knowledge/releases/tag/v0.4.6-spike" target="_blank" rel="noopener noreferrer">spike</a> of Knowledge Agent has just been released.</p><p><em>What This Release Can Do</em></p><p>Demonstrates how multiple SPARQL tenants (Fuseki, 2Provisioning through Graph DB, 1Federation) work together in a Dataspace (IDS) to answer knowledge questions speech to speech.</p><p><em>What This Release Contains</em></p><p>Complete Source Code for patched Fuseki, EDC and the Catena-X portal. EDC extension for Triple Data Access and Pub/Sub. Sample artifacts for import, Postman Collection for Interaction, build/package/deploy scripts including helm chart (dedicated to Catena-X Hotel Budapest).</p><p><em>Documentation</em></p><p><a href="https://catenax-ng.github.io/product-knowledge/docs/development-view/spike" target="_blank" rel="noopener noreferrer">https://catenax-ng.github.io/product-knowledge/docs/development-view/spike</a></p>]]></content>
         <author>
             <name>Knowledge Agents</name>
             <uri>https://github.com/catenax-ng/product-knowledge</uri>

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkproduct_knowledge_tractusx_github_io=self.webpackChunkproduct_knowledge_tractusx_github_io||[]).push([[7436],{80810:e=>{e.exports=JSON.parse('{"title":"Agents Kit","slug":"/category/agents-kit","permalink":"/product-knowledge/docs/category/agents-kit","navigation":{"next":{"title":"Changelog","permalink":"/product-knowledge/docs/Changelog"}}}')}}]);
