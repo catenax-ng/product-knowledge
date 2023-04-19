@@ -5,22 +5,31 @@ import styles from './styles.module.css';
 const FeatureList = [
   {
     title: 'Get Informed',
-    Svg: require('@site/static/img/detective-agent-svgrepo-com.svg').default,
+    Svg: require('@site/static/img/agent_kit.svg').default,
     description: (
       <>
-          We ask you to make yourself familiar with our Documentation first by starting with our <a href="/product-knowledge/docs/intro">Introduction</a> document.
+          We ask you to make yourself familiar with our Documentation first by starting with our <a href="/product-knowledge/docs/adoption-view/intro">Introduction</a> document.
+      </>
+    ),
+  },
+  {
+    title: 'Get Involved',
+    Svg: require('@site/static/img/agent_kit.svg').default,
+    description: (
+      <>
+          Engage into Agent-Oriented Dataspaces with our <a href="/product-knowledge/docs/development-view/architecture">Architecture</a> document.
       </>
     ),
   },
   {
     title: 'Get Started',
-    Svg: require('@site/static/img/rocket-svgrepo-com.svg').default,
+    Svg: require('@site/static/img/agent_kit.svg').default,
     description: (
       <>
-          See how to deploy our technology using our <a href="/product-knowledge/docs/deployment">Deployment</a> guide.
+          Deploy our Ready-Made Artifacts with our <a href="/product-knowledge/docs/operation-view/deployment">Deployment</a> guide.
       </>
-    )
-  },
+    ),
+  }
 ];
 
 function Feature({Svg, title, description}) {

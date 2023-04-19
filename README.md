@@ -4,28 +4,23 @@ This website is built using [Docusaurus 2](https://docusaurus.io/), a modern sta
 
 ## How to deploy
 
-This deploys through github actions!
+This deploys through GitHub actions!
 
 ## How to use locally
+
+To use this site locally and see your doc rendered as website, just use the following commands.
 
 - `npm install` (only initially needed)
 - `npm start`
 
-### Verify build before pushing remote
+This will install all dependencies necessary and run the website on [http://localhost:3000/](http://localhost:3000/).
 
-If there are any issues with wrong/outdated links, the github action will fail. To reduce the feedback loop, build it locally before pushing.
+## Linting
 
-`npm run build`
+We do want to follow a specific style for our markdown based documentation.
+Therefore, this repository is configured to use a [markdown linter](https://github.com/DavidAnson/markdownlint-cli2).
+Specific rules are configured via [.markdownlint.yaml](./.markdownlint.yaml).
 
-## How to use the documentation repository
-
-Mini guide for proceeding with documentation on [Catena-X Knowledge Agents](https://github.com/catenax-ng/product-knowledge)
-
-- Documentation is written as a markdown file. Contributions are done via pull request
-- We use [markdownlint](https://www.npmjs.com/package/markdownlint) in a pre-commit hook.
-
-### How to configure markdown rules
-
-[https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md](https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md)
-Rules are configured in a file named `.markdownlint.json`
-for more detailed rules have a look at [this site](https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md) as an example
+Additionally, there is a npm script `lint-doc`, that will lint all the markdown files inside [docs](./docs).
+This script is also run as a pre-commit hook, set up via [husky](https://www.npmjs.com/package/husky).
+You can also run the linting step manually by running `npm run lint-doc`.

@@ -1,0 +1,70 @@
+@startuml
+
+actor "Consumer" as C
+participant "Consumer Agent" as CA <<Queue Listener>> <<EDC Callback>>
+queue "Consumer Queue" as CQ
+participant "Consumer Control" as CC
+participant "Provider Control" as PC
+queue "Provider Queue" as PQ
+participant "Provider Agent" as PA <<Queue Listener>> <<EDC Callback>>
+
+== Frequent Background ==
+
+CA -> CC : Synchronize Provider
+CC -> PC : IDS Get Catalogue
+CC -> CA : Provider Catalogue
+
+== Stream Setup ==
+
+C -> CA : Parameterized Query
+CA -> CA : Parse Query
+CA <-> CC : DAT Create Agreement
+CC <-> PC : IDS Negotiate Agreement
+CA -> CC : DAT Create Transfer Request (w. Parameterized Sub-Query)
+CC<-> PC : IDS Initiate Transfer
+PC -> PA : CLB Register Transfer Token (w. Parameterized Sub-Query)
+PA -> PA : Parse Sub-Query
+PA ->] : Optionally Initiate Recursive Agreements
+PA -> PQ : QUE Create Topic
+PA -> PC : Topic Reference
+CC -> CA : CLB Register Transfer Token
+CA -> CQ : QUE Create Topic
+CA -> CC : Topic Reference
+PC -> CC : IDS Reference to Provider Topic
+CC -> CA : CLB Reference to Provider Topic
+CC -> PC : IDS Reference to Consumer Topic
+PC -> PA : CLB Reference to Consumer Topic
+
+== Stream Operation ==
+
+C -> CA : Instantiated Query (incl. Tenant Token/Claims)
+CA -> PQ : QUE Enqueue Instantiated Sub-Query (incl. Tenant Token/Claims) 
+PQ -> PA : QUE Dequeue Instantiated Sub-Query (incl. Tenant Token/Claims)
+PA -> PC : DAT Validate (Transfer Token + Runtime Context incl. Tenant Token/Claims)
+PA -> PA ++ : Execute Sub-Query
+PA ->] : Optionally Enqueue Sub-Sub-Queries 
+return
+PA <-] : Optionally Dequeue Partial Subresults
+PA -> PA : Union/Explode Partial Results
+PA -> CQ : QUE Enqueue Partial Results (incl. Execution Context)
+CQ -> CA : QUE Dequeue Partial Results (incl. Execution Context)
+CA -> CC : DAT Validate (Transfer Token + Execution Context)
+CA -> CC : Union/Explode Results
+CA -> C : Results
+
+== Stream Teardown ==
+
+C -> CA : Deactivate Query
+CA -> CA : Transfer Token Timeout
+CA -> CC: DAT Close Transfer
+PA -> PA : Transfer Token Timeout
+PA -> PC: DAT Close Transfer
+CC <-> PC: IDS Close Transfer
+CC -> CA ++: CLB Deregister Transfer
+CA -> CQ : Close Topic (After )
+return
+PC -> PA ++: CLB Deregister Transfer
+PA ->]: Deactivate Query
+PA -> PQ : Close Topic
+return
+@enduml

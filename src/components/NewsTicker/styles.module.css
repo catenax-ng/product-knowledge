@@ -1,0 +1,106 @@
+/**
+ * CSS files with the .module.css suffix will be treated as CSS modules
+ * and scoped locally.
+ */
+
+ .news_ticker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 0;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: transparent;
+  }
+  
+  .container {
+    border-top: 2px solid #707277;
+    border-bottom: 2px solid #707277;
+    width: 70vw;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+  
+  .button_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10vw;
+  }
+  
+  .button {
+    padding: 0rem 1.3rem;
+    background-color: var(--ifm-color-primary);
+    color: var(--ifm-background-color);
+    border-radius: 5px;
+    font-family: "Manrope", sans-serif;
+    font-size: 14px;
+  }
+  
+  .button:hover {
+    background-color: #1e1e1e;
+    color: var(--ifm-color-primary);
+    text-decoration: none;
+  }
+  
+  .carousel_container {
+    width: 60vw;
+  }
+  
+  .slider_item {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  
+  .date {
+    color: #dcdee4;
+    margin: 0 1rem;
+    font-family: "Manrope", sans-serif;
+    font-size: 14px;
+  }
+  
+  .introduction {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: "Manrope", sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 122%;
+    opacity: 0.8;
+  }
+  
+  @media screen and (max-width: 996px) {
+    .container {
+      height: 2rem;
+      padding: 0.5rem 0;
+    }
+  
+    .button {
+      padding: 0 0.8rem;
+      font-size: 1.3vw;
+    }
+  
+    .date {
+      font-size: smaller;
+    }
+  
+    .introduction {
+      padding: 0 1rem;
+      font-size: smaller;
+    }
+  
+    .link_to_blog {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: smaller;
+      color: var(--ifm-color-primary);
+    }
+  }
+      
