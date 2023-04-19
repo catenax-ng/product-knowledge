@@ -12,7 +12,8 @@
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
-    "lint-doc": "markdownlint-cli2-config .markdownlint.yaml \"docs/**/*.md\" \"#node_modules\"",
+    "lint-doc": "markdownlint-cli2 \"docs/**/*.md\" \"#node_modules\"",
+    "lint-fix": "markdownlint-cli2-fix \"docs/**/*.md\" \"#node_modules\"",
     "prepare": "husky install"
   },
   "dependencies": {

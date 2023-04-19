@@ -19,7 +19,7 @@ All notable changes to this Kit will be documented in this file.
 
 ### Removed
 
-- 
+-
 
 ## [0.6.4] - 2022-12-15
 
@@ -59,7 +59,7 @@ All notable changes to this Kit will be documented in this file.
 
 ### Removed
 
-- Tractus-X and Jena Links 
+- Tractus-X and Jena Links
 - Spike Data
 
 ## [0.4.6] - 2022-05-13

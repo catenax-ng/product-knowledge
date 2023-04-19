@@ -7,19 +7,20 @@ This document describes the foundations of this Kit (=Keep it together).
 
 For inquiries please contact [Tom Buchert](mailto:tom.buchert@t-systems.com)
 
-For more information see 
+For more information see
+
 * Our [Target Audience](audience) description
 * Our [Frequently Asked Question](faq) list
-* An [Architecture](../development-view/architecture) documentation 
-* The [Deployment](../operation-view/deployment) guide 
+* An [Architecture](../development-view/architecture) documentation
+* The [Deployment](../operation-view/deployment) guide
 
 ## Basic Technology
 
 ### Dataspace
 
-[Data Spaces](https://en.wikipedia.org/wiki/Dataspaces) (short: dataspaces) can be seen as one of the most promising technologies for sovereign data exchange between companies or company divisions. 
-They foster new use cases and collaboration scenarios which were not possible before. 
-Furthermore, they can be used to streamline and digitize existing processes for more efficient data handling. 
+[Data Spaces](https://en.wikipedia.org/wiki/Dataspaces) (short: dataspaces) can be seen as one of the most promising technologies for sovereign data exchange between companies or company divisions.
+They foster new use cases and collaboration scenarios which were not possible before.
+Furthermore, they can be used to streamline and digitize existing processes for more efficient data handling.
 
 ### GAIA-X
 
@@ -29,16 +30,16 @@ Furthermore, they can be used to streamline and digitize existing processes for 
 
 [![Basic Dataspace Technology](/img/dataspace_small.png)](/img/dataspace.png)
 
-[Eclipse Tractus-X](https://eclipse-tractusx.github.io/) is the reference implementation of that concept that is brought forward by the [Catena-X](http://catena-x.net) association. 
+[Eclipse Tractus-X](https://eclipse-tractusx.github.io/) is the reference implementation of that concept that is brought forward by the [Catena-X](http://catena-x.net) association.
 It relies on a Peer-to-Peer networking approach where each Business Partner (Consumer or Provider) has a [Connector](https://github.com/eclipse-edc/Connector) which can securely transfer data in the form of files and service calls (payloads) according to mutual contracts. File meta-data, their intrinsic format and the download protocol are standardized using a [Digital Twin Standard](https://industrialdigitaltwin.org/).
 
 For more information, see the [Connector Kit](https://eclipse-tractusx.github.io/docs/category/connector-kit)
 
 ## Federated Operations through Agents
 
-### Agent 
+### Agent
 
-In some cases the standardized transfer of data may already be enough to create value (e.g. exchange precomputed product carbon footprints across a supply chain). 
+In some cases the standardized transfer of data may already be enough to create value (e.g. exchange precomputed product carbon footprints across a supply chain).
 
 However, other use cases such as the joint behavioural prediction of complex machines which are yet to be developed by a team of collaborating companies, require more advanced solutions.
 These are solutions in which data and information is federated into a multi-directional semantic context.
@@ -49,7 +50,7 @@ Simply put, an [Agent](https://en.wikipedia.org/wiki/Software_agent) is an exten
 
 ### Skill
 
-Using her agent, a Consumer can invoke a [Skill](https://en.wikipedia.org/wiki/Amazon_Alexa) (a kind of Stored Procedure in a standardized Scripting/Query Language) which is then executed 
+Using her agent, a Consumer can invoke a [Skill](https://en.wikipedia.org/wiki/Amazon_Alexa) (a kind of Stored Procedure in a standardized Scripting/Query Language) which is then executed
 distributedly in the Dataspace.
 
 ### Binding and Delegation
@@ -73,12 +74,9 @@ Since the raw data is never copied but rather traversed by the Skill Bindings, t
 
 The concrete choices for how the data graphs are to be constructed (using the [Resource Description Framework](https://www.w3.org/RDF/)), how Skills are to be interpreted (using the [SPARQL](https://www.w3.org/TR/sparql11-query/) language) and which vocabulary should be applied by both approaches (using the [Web Ontology Language](https://www.w3.org/OWL/)) is subject of an upcoming [Catena-X standard](https://confluence.catena-x.net/pages/viewpage.action?pageId=62835469).
 
-This Agent KIT is a FOSS reference implementation of that standard following Eclipse guidelines. 
+This Agent KIT is a FOSS reference implementation of that standard following Eclipse guidelines.
 
 If you employ any of our artifacts and/or follow our blueprints, you will be eligible for compliance to a respective Catena-X release. Appropriate assessment criteria and methods have been established as a part of the Agent standard.
 
 The Agents KIT is depending on the [Connector Kit](https://eclipse-tractusx.github.io/docs/category/connector-kit)
 This Agents KIT is the basis for other, use-case specific Agent-enabled KITs, services and applications.
-
-
-

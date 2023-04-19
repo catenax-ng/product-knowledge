@@ -5,11 +5,12 @@ title: Agent-Enabled EDC
 
 This document describes deployment for an Agent-Enabled EDC.
 
-For more information see 
+For more information see
+
 * Our [Adoption](../adoption-view/intro) guideline
 * The [Architecture](../development-view/architecture) documentation
 * The [Deployment](deployment) overview
-* A [Data Sovereignity & Graph Policy](policy) discussion 
+* A [Data Sovereignity & Graph Policy](policy) discussion
 
 For enabling your Dataspace Connector (or rather: its control plane and its data plane(s)) to speak Agent protocols, you can opt for one of three choices.
 
@@ -26,11 +27,11 @@ Version 0.8.>=5-SNAPSHOT of Knowledge Agents is compatible with Catena-X EDC Rel
 
 Download the jar from the following location and add it to the lib/ext folder of your EDC control plane installation
 
-- [Control Plane Agent Transfer Package](https://github.com/catenax-ng/product-knowledge/packages/1776419)
+* [Control Plane Agent Transfer Package](https://github.com/catenax-ng/product-knowledge/packages/1776419)
 
 Download the jar from the following location and add it to the lib/ext folder of your EDC data plane installation
 
-- [Data Plane Agent Protocol Package](https://github.com/catenax-ng/product-knowledge/packages/1781577)
+* [Data Plane Agent Protocol Package](https://github.com/catenax-ng/product-knowledge/packages/1781577)
 
 If using a docker environment, these files could be simply mounted under /app/lib/ext
 
@@ -38,23 +39,23 @@ If using a docker environment, these files could be simply mounted under /app/li
 
 Version 0.6.4-SNAPSHOT of Knowledge Agents is built against Catena-X EDC Release 0.1.2
 
-- [Agent-Enabled In-Memory Control Plane using Azure Vault](ghcr.io/catenax-ng/product-knowledge/controlplane-memory:0.6.4-SNAPSHOT)
-- [Agent-Enabled Data Plane (Http-Only) using Azure Vault](ghcr.io/catenax-ng/product-knowledge/agentplane-azurevault:0.6.4-SNAPSHOT)
+* [Agent-Enabled In-Memory Control Plane using Azure Vault](ghcr.io/catenax-ng/product-knowledge/controlplane-memory:0.6.4-SNAPSHOT)
+* [Agent-Enabled Data Plane (Http-Only) using Azure Vault](ghcr.io/catenax-ng/product-knowledge/agentplane-azurevault:0.6.4-SNAPSHOT)
 
 Version 0.7.2-SNAPSHOT of Knowledge Agents is built against Catena-X EDC Release 0.1.4 (unpublished)
 
-- [Agent-Enabled In-Memory Control Plane using Azure Vault](ghcr.io/catenax-ng/product-knowledge/controlplane-memory:0.7.2-SNAPSHOT)
-- [Agent-Enabled Data Plane (Http-Only) using Azure Vault](ghcr.io/catenax-ng/product-knowledge/agentplane-azurevault:0.7.2-SNAPSHOT)
+* [Agent-Enabled In-Memory Control Plane using Azure Vault](ghcr.io/catenax-ng/product-knowledge/controlplane-memory:0.7.2-SNAPSHOT)
+* [Agent-Enabled Data Plane (Http-Only) using Azure Vault](ghcr.io/catenax-ng/product-knowledge/agentplane-azurevault:0.7.2-SNAPSHOT)
 
 Version 0.7.4-SNAPSHOT of Knowledge Agents is built against Catena-X EDC Release 0.2.0
 
-- [Agent-Enabled In-Memory Control Plane using Azure Vault](ghcr.io/catenax-ng/product-knowledge/controlplane-memory:0.7.4-SNAPSHOT)
-- [Agent-Enabled Data Plane (Http-Only) using Azure Vault](ghcr.io/catenax-ng/product-knowledge/agentplane-azurevault:0.7.4-SNAPSHOT)
+* [Agent-Enabled In-Memory Control Plane using Azure Vault](ghcr.io/catenax-ng/product-knowledge/controlplane-memory:0.7.4-SNAPSHOT)
+* [Agent-Enabled Data Plane (Http-Only) using Azure Vault](ghcr.io/catenax-ng/product-knowledge/agentplane-azurevault:0.7.4-SNAPSHOT)
 
 Version 0.8.5-SNAPSHOT of Knowledge Agents will be built against Catena-X EDC Release 0.3.0
 
-- [Agent-Enabled In-Memory Control Plane using Azure Vault](ghcr.io/catenax-ng/product-knowledge/controlplane-memory:0.8.5-SNAPSHOT)
-- [Agent-Enabled Data Plane (Http-Only) using Azure Vault](ghcr.io/catenax-ng/product-knowledge/agentplane-azurevault:0.8.5-SNAPSHOT)
+* [Agent-Enabled In-Memory Control Plane using Azure Vault](ghcr.io/catenax-ng/product-knowledge/controlplane-memory:0.8.5-SNAPSHOT)
+* [Agent-Enabled Data Plane (Http-Only) using Azure Vault](ghcr.io/catenax-ng/product-knowledge/agentplane-azurevault:0.8.5-SNAPSHOT)
 
 ### Deployment using a Helm umbrella chart
 
@@ -87,7 +88,6 @@ helm dependencies update
 ```
 
 You may now configure the deployment instances in your values.yaml in more detail (see the documentation of the [agent control plane chart](https://github.com/catenax-ng/product-knowledge/tree/feature/KA-188-extract-sub-charts/infrastructure/charts/agent-control-plane) and [agent data plane chart](https://github.com/catenax-ng/product-knowledge/tree/feature/KA-188-extract-sub-charts/infrastructure/charts/agent-data-plane)).
-
 
 ```yaml
 # Common Api-Key Settings

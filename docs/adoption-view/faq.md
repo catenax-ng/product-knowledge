@@ -5,11 +5,12 @@ title: Frequently Asked Questions
 
 This document lists frequently asked questions about this Kit.
 
-For more information see 
+For more information see
+
 * Our [Introduction](audience) manifest
 * Our [Target Audience](audience) description
-* An [Architecture](../development-view/architecture) documentation 
-* The [Deployment](../operation-view/deployment) guide 
+* An [Architecture](../development-view/architecture) documentation
+* The [Deployment](../operation-view/deployment) guide
 
 ## Why should I Adopt Agent Technology?
 
@@ -35,11 +36,11 @@ For the app developers it will be easy to use both SDK's over a single consumer 
 
 For the modellers, there is only a loose coupling between a protocol-independent, inference-agnostic data format description, such as BAMM, and a protocol-binding, but data-format independent inference/semantic model, such as OWL-R. We expect tools to generate at least the latter from the ubiquitous Excel/Tabular specifications. We could also imagine a kind of OWL-R to BAMM embedding (but not vice versa) once this is needed by a use case.
 
-### Enhanced Security 
+### Enhanced Security
 
 #### Isn't it inherently insecure to let arbitrary Dataspace tenants invoke ad-hoc computations in my backend?
 
-First, these are not arbitrary tenants, but access is only given to business partners with which you have signed contracts (and which appear in certain roles there). 
+First, these are not arbitrary tenants, but access is only given to business partners with which you have signed contracts (and which appear in certain roles there).
 A Skill request from a non-authorized chain of computation would not be able to enter your backend at all.
 
 Furthermore, you would not expose your backend directly, but rather introduce a [virtualization layer](../development-view/architecture) between the Agent and your data source. This introduces another (role-based) security domain by appropriate sub-schemas and filters. So different contracts can be mapped to different security principals/data views in the backend.
@@ -58,6 +59,3 @@ a part of its work to other Business Partners/Agents and hence to bring the comp
 * Delegation is dynamic based on the supply chain(s) that are described in the actual data. So the actual computation chain optimizes with the data.
 * Delegation is parallelized such that several suppliers are requested simultaneously. Latency is hence minimized.
 * Delegation may be opaque from the consumer view if contracts require so.
-
-
-

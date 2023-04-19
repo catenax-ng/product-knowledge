@@ -5,13 +5,14 @@ title: Layers & Modules
 
 This chapter gives an overview how the Agent standard and Kit should be implemented in terms of layers and modules.
 
-For more information see 
+For more information see
+
 * Our [Adoption](../adoption-view/intro) guideline
 * The [High-Level Architecture](archiutecture)
 * Our [Reference Implementation](reference)
-* The [Deployment](../operation-view/deployment) guide 
+* The [Deployment](../operation-view/deployment) guide
 
-In this context generic building blocks were defined (see Figure 4) which can be implemented with different open source or COTS solutions. In the scope of Catena-X project these building blocks are instantiated with a reference implementation based on open source components (the Knowledge Agents KIT). The detailed architecture following this reference implementation can be found here: https://catenax-ng.github.io/product-knowledge/docs/architecture.
+In this context generic building blocks were defined (see Figure 4) which can be implemented with different open source or COTS solutions. In the scope of Catena-X project these building blocks are instantiated with a reference implementation based on open source components (the Knowledge Agents KIT). The detailed architecture following this reference implementation can be found here: <https://catenax-ng.github.io/product-knowledge/docs/architecture>.
 
 [![Architecture High-Level](/img/layer_architecture_small.png)](/img/layer_architecture.png)
 
@@ -19,11 +20,11 @@ In the following paragraphs, all building blocks relevant for this standard are 
 
 ## Semantic Models
 
-Ontologies, as defined by W3C Web Ontology Language OWL 2 (https://www.w3.org/OWL/) standard, provide the core of the KA catalogue. By offering rich semantic modelling possibilities, they contribute to a common understanding of existing concepts and their relations across the data space participants. To increase practical applicability, this standard contains an overview about most important concepts and best practices for ontology modelling relevant for the KA approach (see chapter 5). OWL comes with several interpretation profiles (https://www.w3.org/TR/owl2-profiles/) for different types of applications. For model checking and data validation (not part of this standard), we propose the Rule Logic (RL) profile. For query answering/data processing (part of this standard), we apply the Existential Logic (EL) profile (on the Dataspace Layer) and the Query Logic (QL) profile (on the Binding Layer). 
+Ontologies, as defined by W3C Web Ontology Language OWL 2 (<https://www.w3.org/OWL/>) standard, provide the core of the KA catalogue. By offering rich semantic modelling possibilities, they contribute to a common understanding of existing concepts and their relations across the data space participants. To increase practical applicability, this standard contains an overview about most important concepts and best practices for ontology modelling relevant for the KA approach (see chapter 5). OWL comes with several interpretation profiles (<https://www.w3.org/TR/owl2-profiles/>) for different types of applications. For model checking and data validation (not part of this standard), we propose the Rule Logic (RL) profile. For query answering/data processing (part of this standard), we apply the Existential Logic (EL) profile (on the Dataspace Layer) and the Query Logic (QL) profile (on the Binding Layer).
 
-### Ontology Editing & Visualization 
+### Ontology Editing & Visualization
 
-To create and visualize ontology models, dedicated tooling is advised. For this purpose, various open source tools (e.g. Protegé) or commercial products (e.g. metaphacts) are available. We hence standardize on the ubiquitous RDF Terse Triple Language TTL (https://www.w3.org/TR/turtle/) format which is furthermore able to divide/merge large ontologies into/from modular domain ontology files.
+To create and visualize ontology models, dedicated tooling is advised. For this purpose, various open source tools (e.g. Protegé) or commercial products (e.g. metaphacts) are available. We hence standardize on the ubiquitous RDF Terse Triple Language TTL (<https://www.w3.org/TR/turtle/>) format which is furthermore able to divide/merge large ontologies into/from modular domain ontology files.
 
 ### Ontology Management
 
@@ -31,9 +32,9 @@ To achieve model governance, a dedicated solution for ontology management is nec
 
 ## Data Consumption Layer/Query Definition
 
-This layer comprises all applications which utilize provided data and functions of business partners to achieve a direct business impact and frameworks which simplify the development of these applications. Thus, this layer focuses on using a released Semantic Model (or a use-case/role-specific excerpt thereof) as a vocabulary to build flexible queries (Skills) and integrating these Skills in data consuming apps. 
+This layer comprises all applications which utilize provided data and functions of business partners to achieve a direct business impact and frameworks which simplify the development of these applications. Thus, this layer focuses on using a released Semantic Model (or a use-case/role-specific excerpt thereof) as a vocabulary to build flexible queries (Skills) and integrating these Skills in data consuming apps.
 
-We rely on SPARQL 1.1 specification (https://www.w3.org/TR/sparql11-query/) as a language and protocol to search for and process data across different business partners. As a part of this specification, we support the QUERY RESULTS JSON (https://www.w3.org/TR/sparql11-results-json/) and the QUERY RESULTS XML (https://www.w3.org/TR/rdf-sparql-XMLres/) formats to represent both the answer sets generated by SPARQL skills and the sets of input parameters that a SPARQL skill should be applied to. For answer sets, additional formats such as the QUERY RESULTS CSV and TSV (https://www.w3.org/TR/sparql11-results-csv-tsv/) format may be supported. Required is the ability to store and invoke SPARQL queries as parameterized procedures in the dataspace; this is a KA-specific extension to the SPARQL endpoint and is captured a concise Openapi specification in the following (https://app.swaggerhub.com/apis/Catena-X/CX-KA-Agent-Specification/0.8.7#/). Also part of that specification is an extended response behaviour which introduces the warning status code “203” and a response header “cx_warning” bound to a JSON structure that lists abnormal events or trace information that appeared during the processing.
+We rely on SPARQL 1.1 specification (<https://www.w3.org/TR/sparql11-query/>) as a language and protocol to search for and process data across different business partners. As a part of this specification, we support the QUERY RESULTS JSON (<https://www.w3.org/TR/sparql11-results-json/>) and the QUERY RESULTS XML (<https://www.w3.org/TR/rdf-sparql-XMLres/>) formats to represent both the answer sets generated by SPARQL skills and the sets of input parameters that a SPARQL skill should be applied to. For answer sets, additional formats such as the QUERY RESULTS CSV and TSV (<https://www.w3.org/TR/sparql11-results-csv-tsv/>) format may be supported. Required is the ability to store and invoke SPARQL queries as parameterized procedures in the dataspace; this is a KA-specific extension to the SPARQL endpoint and is captured a concise Openapi specification in the following (<https://app.swaggerhub.com/apis/Catena-X/CX-KA-Agent-Specification/0.8.7#/>). Also part of that specification is an extended response behaviour which introduces the warning status code “203” and a response header “cx_warning” bound to a JSON structure that lists abnormal events or trace information that appeared during the processing.
 
 ### Skill Framework
 
@@ -122,7 +123,7 @@ The Federated Catalogue is an RDF data storage facility for the Matchmaking Agen
 
 The Federated Catalogue should initially download the complete Semantic Model that has been released for the target environment. It should also contain a list of business partners and their roles which form the surrounding dataspace neighborhood of the tenant. For that purpose, It could use GPDM and Self-Description Hub services in order to lookup EDC addresses and additional domain information (sites, geo addresses). It should then be frequently updated with “live” information by invoking the EDC data management API to regularly obtain catalogue information.
 
-The portion of the Semantic Model describing these meta-data (Business Partners, Sites, Addresses, Use Cases, Use Case Roles, Connectors & Assets) is called the Common domain ontology and is mandatory for all releases/excerpts of the Semantic Model (https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl).
+The portion of the Semantic Model describing these meta-data (Business Partners, Sites, Addresses, Use Cases, Use Case Roles, Connectors & Assets) is called the Common domain ontology and is mandatory for all releases/excerpts of the Semantic Model (<https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/common_ontology.ttl>).
 
 ## Backend Systems (Non-Standard Relevant)
 
@@ -142,7 +143,7 @@ This approach offers users a unified and technically abstract view for querying 
 
 ## Binding Layer
 
-Finally, the missing link between the Dataspace Layer and the Virtualization Layer is the Binding Layer. Hereby rather than mapping the data between different formats (e.g. Data Tables in CSV Format to and from Data Graphs in the TTL format) which is a mostly resource-consuming data transformation process, binding rather rewrites the actual queries (e.g. SPARQL into SQL, SPARQL into GraphQL or REST). In order to make this query rewriting not too complicated, a restricted subset of SPARQL is envisaged. 
+Finally, the missing link between the Dataspace Layer and the Virtualization Layer is the Binding Layer. Hereby rather than mapping the data between different formats (e.g. Data Tables in CSV Format to and from Data Graphs in the TTL format) which is a mostly resource-consuming data transformation process, binding rather rewrites the actual queries (e.g. SPARQL into SQL, SPARQL into GraphQL or REST). In order to make this query rewriting not too complicated, a restricted subset of SPARQL is envisaged.
 
 ### Virtual Knowledge Graph
 
@@ -155,6 +156,3 @@ The Functional Remoting building block allows translation of SPARQL queries to s
 ### Graph Database
 
 A graph database stores a pre-mapped Knowledge Graph in a dedicated RDF store. It can be combined with a Virtual Knowledge Graph in order to cache frequent accesses to the Virtualization Layer.
-
-
-

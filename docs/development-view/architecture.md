@@ -5,15 +5,16 @@ title: High-Level Architecture
 
 This document describes the High-Level Architecture of Agents Standard and Kit.
 
-For more information see 
+For more information see
+
 * Our [Adoption](../adoption-view/intro) guideline
 * The [Layers & Modules](modules) Architecture
 * Our [Reference Implementation](reference)
-* The [Deployment](../operation-view/deployment) guide 
+* The [Deployment](../operation-view/deployment) guide
 
 ## Compute-To-Data
 
-The main objective concerning the approach described in this section is to create a state-of-the-art compute-to-data architecture for automotive use cases (and beyond) based on standards and best practices around GAIA-X (https://gaia-x.eu), W3C (https://www.w3.org/) and Big Data ( https://en.wikipedia.org/wiki/Big_data). To reach this aim, full semantic integration, search and query with focus on relations between entities and data sovereignty is focused. In contrast to a simple file-based data transfer, this shifts the responsibility for the (I) access, (II) authorization to the data and (III) processing of the data from the application development to the provider and hence ultimately, the actual owner of the data. Figure 2 shows the high-level approach, introducing the most important concepts needed for the realization.
+The main objective concerning the approach described in this section is to create a state-of-the-art compute-to-data architecture for automotive use cases (and beyond) based on standards and best practices around GAIA-X (<https://gaia-x.eu>), W3C (<https://www.w3.org/>) and Big Data ( <https://en.wikipedia.org/wiki/Big_data>). To reach this aim, full semantic integration, search and query with focus on relations between entities and data sovereignty is focused. In contrast to a simple file-based data transfer, this shifts the responsibility for the (I) access, (II) authorization to the data and (III) processing of the data from the application development to the provider and hence ultimately, the actual owner of the data. Figure 2 shows the high-level approach, introducing the most important concepts needed for the realization.
 
 [![Architecture Interaction](/img/architecture_small.png)](/img/architecture.png)
 
@@ -33,7 +34,7 @@ In order to obtain the correct results in a federated system, all the participan
 
 This coordinating job is taken over by the Matchmaking Agent, an endpoint that is mandatory for any KA-enabled Dataspace Participant. For that purpose, the Matchmaking Agent supports the SparQL specification with the effect that the dataspace can be traversed as one large data structure. Hereby, the Consumer-Side Matchmaking Agent will – as driven by the builtin federation features of SparQL - interact with the KA-enabled EDC in order to negotiate and perform the transfer of Sub-Skills (=SparQL Contexts) to other Dataspace Participants.
 
-### Binding Agent 
+### Binding Agent
 
 In turn, upon successful transfer of the Sub-Skill, the Provider-Side Matchmaking Agent(s) will be activated by their respective EDC. Prior to such a success, the Provider EDC of course first needs to offer a so-called Graph Asset: Graph Assets are a variant of ordinary Data Assets in the Catena-X EDC Standard; while Data Asset typically refer to an actual backend system (e.g., an Blob in an ObjectStorey, an AAS server, a REST endpoint), Graph Assets introduce another intermediary instance, the so-called Binding Agent.
 
@@ -64,7 +65,7 @@ To summarize, the Knowledge Agent standard shall achieve the following abilities
 * the ability to define domain/use case-based ontologies which form the vocabulary used in the skill definitions.
 * the ability to visualize and develop the ontologies and skills in appropriate SDKs and User Experience components.
 
-With these abilities, the Knowledge Agent standard provides the following value propositions: 
+With these abilities, the Knowledge Agent standard provides the following value propositions:
 
 ## Democratization of added value service design for data spaces
 
@@ -72,7 +73,7 @@ Currently, the development of full-scale Apps to address use cases for cross-com
 
 [![Architecture Modules and Parties](/img/modules_roles_small.png)](/img/modules_roles.png)
 
-In addition, a third party in addition to Consumer and (Data, Function) Provider can be imagined: The Skill provider (see Figure 3). Similar to an App Provider, the Skill Provider develops queries to address various business problems. Developed Skills can be offered as Skill Assets over the dataspace and in the Marketplace, quite similar to the existing Services and Apps. 
+In addition, a third party in addition to Consumer and (Data, Function) Provider can be imagined: The Skill provider (see Figure 3). Similar to an App Provider, the Skill Provider develops queries to address various business problems. Developed Skills can be offered as Skill Assets over the dataspace and in the Marketplace, quite similar to the existing Services and Apps.
 
 It is also possible to combine Skill and App development (by using Skills as stored procedures in the App framework). By following this approach App developers can concentrate on frontend optimization and usability of the app while the skills deliver the business relevant information.
 
@@ -80,12 +81,10 @@ It is also possible to combine Skill and App development (by using Skills as sto
 
 Based on the skill concept, mighty search functionalities can be realized by utilizing the KA approach. SPARQL is already a common standard to browse large data catalogues (e.g. Wikidata). By utilizing this principle, it becomes possible to search for objects which are unknown at the beginning of the search (similar to Google). This advantage is important since comparable twin-based approaches for the semantic layer require a specific ID to find an object.
 
-##  Scalability for data consumers
+## Scalability for data consumers
 
 Utilization of dataspaces for exchanging complex product- or production data usually involves transfer of large datasets. If for example an automotive OEM wants to access information of their car fleets ranging from hundreds to millions of cars, the dataspace still needs to provide required data in short time without risking too much load on the network. Thus, the outlined approach is based on efficient federated SPARQL queries which only transport computation results across the network in contrast to full datasets (compute to data). Further potentials for streamlining performance are for example parallelized EDC contract negotiations and efficient delegations between suppliers.
 
-##  Data Sovereignty
+## Data Sovereignty
 
 One of the key requirements for dataspaces is to guarantee that data is only shared willingly and subject to specific terms and conditions of respective data providers. One core component to support definition and negotiation of contracts and policies is the Eclipse Dataspace Connector (EDC). Nevertheless, the way how data is processed via a semantic layer also contributes to data sovereignty. KA follows a strict compute to data approach. Thus, by design only computation results are shared instead of copying all data relevant for this computation (e.g. submit only weight information instead of geometry and material information). Furthermore, by utilizing data models based on ontologies definition of access rights can be made up to a high level of granularity (attribute level).
-
-

@@ -3,13 +3,14 @@ sidebar_position: 2
 title: Target Audience
 ---
 
-This document describes the target audience of this Kit. 
+This document describes the target audience of this Kit.
 
-For more information see 
+For more information see
+
 * Our [Introduction](audience) manifest
 * Our [Frequently Asked Question](faq) list
-* An [Architecture](../development-view/architecture) documentation 
-* The [Deployment](../operation-view/deployment) guide 
+* An [Architecture](../development-view/architecture) documentation
+* The [Deployment](../operation-view/deployment) guide
 
 We distinguish between Dataspace Participants and other parties (who support the Dataspace Participants).
 
@@ -17,8 +18,8 @@ We distinguish between Dataspace Participants and other parties (who support the
 
 ## Dataspace Participants
 
-The following stakeholders should [deploy](../operation-view/deployment) modules/artifacts of the Agent KIT. 
-In particular, each Dataspace Participant needs an [Agent-Enabled Connector](../operation-view/agent_edc). 
+The following stakeholders should [deploy](../operation-view/deployment) modules/artifacts of the Agent KIT.
+In particular, each Dataspace Participant needs an [Agent-Enabled Connector](../operation-view/agent_edc).
 
 ### Consumer
 
@@ -32,7 +33,7 @@ We distinguish Providers whether they want to publish data or logic using Agent 
 
 Any party that provides data (for example by a backend database or other Agent-enabled Applications or Services), for example an Automotive OEM
 
-#### Function Provider 
+#### Function Provider
 
 Any party that provides proprietary functions (for example by a REST endpoint or other Agent-enabled Applications or Services), for example a Tier1 Sensor Device Supplier
 
@@ -55,6 +56,3 @@ Any party that publishes an Application, Standard or KIT based on Agent Technolo
 ### Enablement Service Developer
 
 Any party that offers ready-made artifacts, packages and managed services which assist Dataspace Participants/Applications to process data using Agent technology (e.g. a Graph Database, a Virtual Graph Binding Engine, an EDC Package)
-
-
-

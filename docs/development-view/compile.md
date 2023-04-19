@@ -5,7 +5,7 @@ title: Compiling
 
 We publish precompiled development artifacts via the [Github Package Registry](https://github.com/orgs/catenax-ng/packages?repo_name=product-knowledge).
 All development artifacts are versioned using a semantic versioning scheme RELEASE.INCREMENT.ITERATION(-BUILDTYPE)
-The release versions are documents in the [Changelog](../Changelog). 
+The release versions are documents in the [Changelog](../Changelog).
 
 ## Compiling Against JRE Artifacts
 
@@ -58,4 +58,4 @@ Add the following dependency to your final data plane pom:
 
 ## Compiling Against Node Artifacts
 
-All Javascript-based artifcats can be found in the [Github NPM Repository](https://npm.pkg.github.com) 
+All Javascript-based artifcats can be found in the [Github NPM Repository](https://npm.pkg.github.com)

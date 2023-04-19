@@ -5,11 +5,12 @@ title: Provisioning
 
 This document describes deployment for Provider modules(Provisiong Agent for Data Provisioning, Remoting Agent for Function Provisioning) of the Agents Kit.
 
-For more information see 
+For more information see
+
 * Our [Adoption](../adoption-view/intro) guideline
 * The [Architecture](../development-view/architecture) documentation
 * The [Deployment](deployment) overview
-* A [Data Sovereignity & Graph Policy](policy) discussion 
+* A [Data Sovereignity & Graph Policy](policy) discussion
 
 ## Deployment of the Provisioning Agent
 
@@ -17,7 +18,7 @@ For more information see
 
 The provisioning agent uses a version of Ontop VKP:
 
-- [Provisioning Agent based on Ontop VKP](ghcr.io/catenax-ng/product-knowledge/provisioning-agent:0.7.4-SNAPSHOT)
+* [Provisioning Agent based on Ontop VKP](ghcr.io/catenax-ng/product-knowledge/provisioning-agent:0.7.4-SNAPSHOT)
 
 ### Deployment using a Helm umbrella chart
 
@@ -47,7 +48,7 @@ helm dependencies update
 
 You may now configure the deployment instances in your values.yaml in more detail (see the documentation of the [provisioning agent chart](https://github.com/catenax-ng/product-knowledge/tree/feature/KA-188-extract-sub-charts/infrastructure/charts/provisioning-agent)).
 
-Note that the entries under bindings represent the individual mappings/endpoints which bind to your data source. 
+Note that the entries under bindings represent the individual mappings/endpoints which bind to your data source.
 
 ```yaml
 
@@ -78,56 +79,56 @@ oem-provider-agent:
       ontology: cx-ontology.xml
       mapping: |-
         [PrefixDeclaration]
-        uuid:		urn:uuid:
-        bpnl:		bpn:legal:
+        uuid:  urn:uuid:
+        bpnl:  bpn:legal:
         oem:    urn:oem:
-        cx:			https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#
-        owl:		http://www.w3.org/2002/07/owl#
-        rdf:		http://www.w3.org/1999/02/22-rdf-syntax-ns#
-        xml:		http://www.w3.org/XML/1998/namespace
-        xsd:		http://www.w3.org/2001/XMLSchema#
-        obda:		https://w3id.org/obda/vocabulary#
-        rdfs:		http://www.w3.org/2000/01/rdf-schema#
+        cx:   https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#
+        owl:  http://www.w3.org/2002/07/owl#
+        rdf:  http://www.w3.org/1999/02/22-rdf-syntax-ns#
+        xml:  http://www.w3.org/XML/1998/namespace
+        xsd:  http://www.w3.org/2001/XMLSchema#
+        obda:  https://w3id.org/obda/vocabulary#
+        rdfs:  http://www.w3.org/2000/01/rdf-schema#
         json:   https://json-schema.org/draft/2020-12/schema#
 
         [MappingDeclaration] @collection [[
-        mappingId	vehicles
-        target		<{vehicle_id}> rdf:type cx:Vehicle ; cx:partProductionDate {production_date}^^xsd:date; cx:vehicleIdentificationNumber {van}^^xsd:string; cx:isProducedBy bpnl:{localIdentifiers_manufacturerId} .
-        source		SELECT vehicle_id, production_date, van, 'BPNL00000003AYRE' as localIdentifiers_manufacturerId FROM vehicles
+        mappingId vehicles
+        target  <{vehicle_id}> rdf:type cx:Vehicle ; cx:partProductionDate {production_date}^^xsd:date; cx:vehicleIdentificationNumber {van}^^xsd:string; cx:isProducedBy bpnl:{localIdentifiers_manufacturerId} .
+        source  SELECT vehicle_id, production_date, van, 'BPNL00000003AYRE' as localIdentifiers_manufacturerId FROM vehicles
 
-        mappingId	parts
-        target		<{gearbox_id}> rdf:type cx:AssemblyGroup ; cx:partName {partTypeInformation_nameAtManufacturer}^^xsd:string; cx:isProducedBy bpnl:{localIdentifiers_manufacturerId} .
-        source		SELECT gearbox_id, 'Differential Gear' as partTypeInformation_nameAtManufacturer, 'BPNL00000003B2OM' as localIdentifiers_manufacturerId FROM vehicles
+        mappingId parts
+        target  <{gearbox_id}> rdf:type cx:AssemblyGroup ; cx:partName {partTypeInformation_nameAtManufacturer}^^xsd:string; cx:isProducedBy bpnl:{localIdentifiers_manufacturerId} .
+        source  SELECT gearbox_id, 'Differential Gear' as partTypeInformation_nameAtManufacturer, 'BPNL00000003B2OM' as localIdentifiers_manufacturerId FROM vehicles
 
-        mappingId	vehicleparts
-        target		<{gearbox_id}> cx:isPartOf <{vehicle_id}> .
-        source		SELECT vehicle_id, gearbox_id FROM vehicles
+        mappingId vehicleparts
+        target  <{gearbox_id}> cx:isPartOf <{vehicle_id}> .
+        source  SELECT vehicle_id, gearbox_id FROM vehicles
 
         mappingId   partLoadSpectrum
-        target		<{gearbox_id}> cx:hasLoadSpectrum oem:{newest_telematics_id}/{index} .
-        source		SELECT gearbox_id, newest_telematics_id,  index FROM vehicles, (VALUES (0), (1), (2)) AS spectrum(index)
+        target  <{gearbox_id}> cx:hasLoadSpectrum oem:{newest_telematics_id}/{index} .
+        source  SELECT gearbox_id, newest_telematics_id,  index FROM vehicles, (VALUES (0), (1), (2)) AS spectrum(index)
 
         mappingId   loadspectrum
         target      oem:{id}/{index} rdf:type cx:LoadSpectrum; cx:loadSpectrumId {metadata_projectDescription}^^xsd:string; cx:loadSpectrumName {header_countingValue}^^xsd:string; cx:loadSpectrumDescription {name}^^xsd:string; rdf:type cx:VehicleCurrentState; cx:vehicleOperatingHours {metadata_status_operatingHours}^^xsd:int; cx:vehicleCurrentStateDateTime {metadata_status_date}^^xsd:dateTime; cx:vehicleCurrentMileage {metadata_status_mileage}^^xsd:int; cx:loadSpectrumType {header_channels}^^xsd:string; cx:hasLoadSpectrumValues oem:{id}/{index}/0.
-        source		SELECT id, index, name, load_spectra::jsonb->index->'metadata'->>'projectDescription' as metadata_projectDescription, load_spectra::jsonb->index->'header'->>'countingValue' as header_countingValue, floor((load_spectra::jsonb->index->'metadata'->'status'->>'operatingHours')::numeric)::integer as metadata_status_operatingHours, replace(load_spectra::jsonb->index->'metadata'->'status'->>'date','Z','.000Z') as metadata_status_date, load_spectra::jsonb->index->'metadata'->'status'->>'mileage' as metadata_status_mileage, load_spectra::jsonb->index->'header'->'channels' as header_channels FROM (VALUES (0,'GearSet'), (1,'GearOil'), (2,'Clutch')) AS spectrum(index,name), telematics_data
+        source  SELECT id, index, name, load_spectra::jsonb->index->'metadata'->>'projectDescription' as metadata_projectDescription, load_spectra::jsonb->index->'header'->>'countingValue' as header_countingValue, floor((load_spectra::jsonb->index->'metadata'->'status'->>'operatingHours')::numeric)::integer as metadata_status_operatingHours, replace(load_spectra::jsonb->index->'metadata'->'status'->>'date','Z','.000Z') as metadata_status_date, load_spectra::jsonb->index->'metadata'->'status'->>'mileage' as metadata_status_mileage, load_spectra::jsonb->index->'header'->'channels' as header_channels FROM (VALUES (0,'GearSet'), (1,'GearOil'), (2,'Clutch')) AS spectrum(index,name), telematics_data
 
         mappingId   loadspectrumChannel
         target      oem:{id}/{index}/0 rdf:type cx:LoadSpectrumValues; cx:loadSpectrumChannelIndex {body_classes}^^xsd:string; cx:loadSpectrumCountingUnit {header_countingUnit}^^xsd:string; cx:loadSpectrumCountingMethod {header_countingMethod}^^xsd:string; cx:loadSpectrumChannelValues {body_counts}^^xsd:string.
-        source		SELECT id, index, load_spectra::jsonb->index->'metadata'->>'componentDescription' as metadata_componentDescription, jsonb_extract_path(load_spectra::jsonb->index,'body','classes','0','classList','0') as body_classes, load_spectra::jsonb->index->'header'->>'countingUnit' as header_countingUnit, load_spectra::jsonb->index->'header'->>'countingMethod' as header_countingMethod, jsonb_extract_path(load_spectra::jsonb->index,'body','counts','countsList','0') as body_counts FROM (VALUES (0), (1), (2)) AS spectrum(index), telematics_data
+        source  SELECT id, index, load_spectra::jsonb->index->'metadata'->>'componentDescription' as metadata_componentDescription, jsonb_extract_path(load_spectra::jsonb->index,'body','classes','0','classList','0') as body_classes, load_spectra::jsonb->index->'header'->>'countingUnit' as header_countingUnit, load_spectra::jsonb->index->'header'->>'countingMethod' as header_countingMethod, jsonb_extract_path(load_spectra::jsonb->index,'body','counts','countsList','0') as body_counts FROM (VALUES (0), (1), (2)) AS spectrum(index), telematics_data
 
         mappingId   vehicleAdaptionValues
-        target		<{vehicle_id}> cx:hasAdaption oem:{newest_telematics_id} .
-        source		SELECT vehicle_id, newest_telematics_id FROM vehicles
+        target  <{vehicle_id}> cx:hasAdaption oem:{newest_telematics_id} .
+        source  SELECT vehicle_id, newest_telematics_id FROM vehicles
 
         mappingId   adaptionValues
-        target		oem:{id} rdf:type cx:Adaption; rdf:type cx:VehicleCurrentState; cx:vehicleOperatingHours {adaption_status_operatingHours}^^xsd:int; cx:vehicleCurrentStateDateTime {adaption_status_date}^^xsd:dateTime; cx:vehicleCurrentMileage {adaption_status_mileage}^^xsd:int; cx:hasValues {adaption_values}^^json:Object .
-        source		SELECT id, replace(adaption_values::jsonb->0->'status'->>'date','Z','.000Z') as adaption_status_date, floor((adaption_values::jsonb->0->'status'->>'operatingHours')::numeric)::integer as adaption_status_operatingHours, adaption_values::jsonb->0->'status'->>'mileage' as adaption_status_mileage, adaption_values::jsonb->0->'values' as adaption_values FROM public.telematics_data
+        target  oem:{id} rdf:type cx:Adaption; rdf:type cx:VehicleCurrentState; cx:vehicleOperatingHours {adaption_status_operatingHours}^^xsd:int; cx:vehicleCurrentStateDateTime {adaption_status_date}^^xsd:dateTime; cx:vehicleCurrentMileage {adaption_status_mileage}^^xsd:int; cx:hasValues {adaption_values}^^json:Object .
+        source  SELECT id, replace(adaption_values::jsonb->0->'status'->>'date','Z','.000Z') as adaption_status_date, floor((adaption_values::jsonb->0->'status'->>'operatingHours')::numeric)::integer as adaption_status_operatingHours, adaption_values::jsonb->0->'status'->>'mileage' as adaption_status_mileage, adaption_values::jsonb->0->'values' as adaption_values FROM public.telematics_data
         ]]  
 ```
 
 When the endpoint is running, it can be published through the associated connector using the following REST call:
 
-```
+```console
 curl --location --request POST 'https://supplier-data-plane.public/data/assets' \
 --header 'X-Api-Key: <apikey>' \
 --header 'Content-Type: application/json' \
@@ -169,7 +170,7 @@ curl --location --request POST 'https://supplier-data-plane.public/data/assets' 
 
 The remoting agent uses a version of RDF4J:
 
-- [Remotin Agent based on RDF4J](ghcr.io/catenax-ng/product-knowledge/remoting-agent:0.7.4-SNAPSHOT)
+* [Remotin Agent based on RDF4J](ghcr.io/catenax-ng/product-knowledge/remoting-agent:0.7.4-SNAPSHOT)
 
 ### Deployment using a Helm umbrella chart
 
@@ -362,7 +363,7 @@ supplier-remoting-agent:
 
 When the endpoint is running, it can be published through the associated connector using the following REST call:
 
-```
+```console
 curl --location --request POST 'https://supplier-data-plane.public/data/assets' \
 --header 'X-Api-Key: <apikey>' \
 --header 'Content-Type: application/json' \

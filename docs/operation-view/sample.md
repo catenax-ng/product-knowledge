@@ -5,7 +5,8 @@ title: Sample Dataspace
 
 This document describes the sample dataspace that is part of the Agents Kit.
 
-For more information see 
+For more information see
+
 * Our [Adoption](../adoption-view/intro) guideline
 * The [Architecture](../development-view/architecture) documentation
 * The [Deployment](deployment) overview
@@ -47,22 +48,22 @@ docker pull ghcr.io/catenax-ng/product-knowledge/dataspace/edc-dataplane-hashico
 
 ### Using a Helm Chart/Kubernetes Deployment
 
-You could mount the [infrastructure folder of the repository](https://github.com/catenax-ng/product-knowledge/tree/v0.5.5-pilot/infrastructure)  also in Argo CD or 
-an equivalent mechanism. 
+You could mount the [infrastructure folder of the repository](https://github.com/catenax-ng/product-knowledge/tree/v0.5.5-pilot/infrastructure)  also in Argo CD or
+an equivalent mechanism.
 
 Please be aware that this is currently not configurable, e.g. to non-Catena-X environments. A rudimentary configuration of the business partners/roles (Consumer, OEM and Supplier) is available.
 
 ## Interacting with the Pilot APIs and the Skill Gym
 
-You should now be able to access the APIs via this public Postman Workspace https://www.postman.com/catena-x/workspace/catena-x-knowledge-agents (choose the "Localhost" environment - no additional credentials needed - and the "Knowledge Agents Pilot" Collection).
+You should now be able to access the APIs via this public Postman Workspace <https://www.postman.com/catena-x/workspace/catena-x-knowledge-agents> (choose the "Localhost" environment - no additional credentials needed - and the "Knowledge Agents Pilot" Collection).
 
 As an alternative, you may import the [Postman Collection](https://github.com/catenax-ng/product-knowledge/blob/v0.5.5-pilot/cx_ka_pilot.postman_collection.json) into the REST IDE of your choice.
 
 If you are a member of the Catena-X consortium, you may also directly switch to the "Integration" environment and populate the lacking secrets with information from [our Catena-x confluence page](https://confluence.catena-x.net/x/1wHrAg). You will then access the already deployed system.
 
-You should then be able to access the skill gym via http://localhost:3000 for which you need an account in the Catena-X Central IDP.
+You should then be able to access the skill gym via <http://localhost:3000> for which you need an account in the Catena-X Central IDP.
 
-If you are a member of the Catena-X consortium, you may also directly login to the [Integration Environment](https://knowledge.int.demo.catena-x.net/skill_gym) information from [our Catena-x confluence page](https://confluence.catena-x.net/x/1wHrAg). 
+If you are a member of the Catena-X consortium, you may also directly login to the [Integration Environment](https://knowledge.int.demo.catena-x.net/skill_gym) information from [our Catena-x confluence page](https://confluence.catena-x.net/x/1wHrAg).
 
 ## What the demo shows
 
@@ -80,4 +81,3 @@ skill assets.
 ### Jump to the Semantic Hub in the Portal
 
 You may look at running the [forked Catena-X portal](https://github.com/catenax/ka-portal-frontend) and then jump to the [Semantic Hub Ontology View](http://localhost:3000/semantichub/https%3A%2F%2Fraw.githubusercontent.com%2Fcatenax-ng%2Fproduct-knowledge%2Fmain%2Finfrastructure%2Fconsumer%2Fresources%2Fcx-ontology.json).
-
