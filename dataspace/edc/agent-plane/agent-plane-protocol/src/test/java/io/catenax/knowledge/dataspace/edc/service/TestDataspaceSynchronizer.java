@@ -20,7 +20,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.IOException;
 import org.eclipse.dataspaceconnector.spi.monitor.ConsoleMonitor;
 import org.apache.jena.graph.NodeFactory;
 
@@ -67,7 +66,6 @@ public class TestDataspaceSynchronizer {
     
     /**
      * test quad representation of a contract offer
-     * @throws IOException in case of an error
      */
     @Test
     public void testQuadRepresentation()  {
@@ -76,7 +74,7 @@ public class TestDataspaceSynchronizer {
         Asset asset = Asset.Builder.newInstance()
                 .id("urn:cx:test:ExampleAsset")
                 .contentType("application/json, application/xml")
-                .version("0.8.1-SNAPSHOT")
+                .version("0.8.5-SNAPSHOT")
                 .name("Test Asset")
                 .description("Test Asset for RDF Representation")
                 .property("asset:prop:contract","<urn:cx:test:Contract>")

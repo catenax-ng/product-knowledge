@@ -46,7 +46,7 @@ public class OntologyMerger {
 
    public static String CX_ONTOLOGY_IRI= "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl";
    public static String CX_ONTOLOGY_TITLE= "Catena-X Ontology";
-   public static String CX_ONTOLOGY_VERSION= "0.8.1-SNAPSHOT";
+   public static String CX_ONTOLOGY_VERSION= "0.8.5-SNAPSHOT";
 
    /**
     * run the merge command on the given files and output the result to the console  
@@ -104,7 +104,7 @@ public class OntologyMerger {
             bos=new ByteArrayOutputStream();
             transformer.transform(new StreamSource(bis), new StreamResult(bos));
          } 
-         outStream.println(bos.toString());
+         outStream.println(bos);
          outStream.flush();
       } finally {
          if(outStream!=System.out) {
@@ -126,7 +126,7 @@ public class OntologyMerger {
             OWLOntology myOntology=manager.loadOntologyFromOntologyDocument(new File(arg));
             imports.add(myOntology);
          } catch(Exception e) {
-            System.err.println(String.format("Could not import ontology %s because of %s. Ignoring.",arg,e));
+            System.err.printf("Could not import ontology %s because of %s. Ignoring.%n",arg,e);
          }
       }
       
@@ -138,7 +138,7 @@ public class OntologyMerger {
           OWLNamedIndividual oInd = manager.getOWLDataFactory().getOWLNamedIndividual(oIri);
           OWLDataProperty dcTitle = manager.getOWLDataFactory().getOWLDataProperty(IRI.create("http://purl.org/dc/elements/1.1/title"));
           OWLDataProperty owlVersionInfo = manager.getOWLDataFactory().getOWLDataProperty(IRI.create("http://www.w3.org/2002/07/owl#versionInfo"));
-          OWLLiteral versionLiteral = manager.getOWLDataFactory().getOWLLiteral(version);
+          //OWLLiteral versionLiteral = manager.getOWLDataFactory().getOWLLiteral(version);
           OWLDataPropertyAssertionAxiom hasTitle = manager.getOWLDataFactory().
                   getOWLDataPropertyAssertionAxiom(dcTitle,oInd,title);
           OWLDataPropertyAssertionAxiom hasVersion = manager.getOWLDataFactory().

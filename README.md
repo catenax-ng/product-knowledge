@@ -1,8 +1,10 @@
-# Catena-X Agent KIT Source Repository
+# Catena-X Agents Kit Source Repository
+
+<img height="200" src="https://raw.githubusercontent.com/catenax-ng/product-knowledge/feature/ART3-382-documentation/static/img/agent_kit.png" align="left" style="margin-right:30px"/>
 
 This is a [MonoRepo](https://en.wikipedia.org/wiki/Monorepo) hosting or linking all the module 
 and infrastructure codes related to the 
-Catena-X [Agent KIT](https://catenax-ng.github.io/product-knowledge/) KIT.
+Catena-X [Agents Kit](https://catenax-ng.github.io/product-knowledge/).
 
 * See this [copyright notice](COPYRIGHT.md)
 * See the [authors file](AUTHORS.md)
@@ -13,8 +15,8 @@ Catena-X [Agent KIT](https://catenax-ng.github.io/product-knowledge/) KIT.
 
 ## Documentation
 
-With regard to any global, architectural and usage documentation, we refer to our [web page](https://catenax-ng.github.io/product-knowledge/).
-All sources are locally documented using markdown and language-specific code comments.
+With regard to any business, architectural and usage documentation, we refer to our [web page](https://catenax-ng.github.io/product-knowledge/).
+The sources included in this repository are self-documented using markdown and language-specific annotations.
 
 ## Repository Linking and Initialisation
 
@@ -32,12 +34,12 @@ some of the docker images need a certain amount of memory and horsepower.
 
 ## Modules
 
-These are the immediate sub-modules of the Agent KIT 
+These are the sub-modules of the Agents Kit 
 
 - [Ontology](ontology/README.md) hosts the CX domain ontologies (including the fully merged CX ontology and tooling) describing the semantics of the Catena-X Dataspace.
 - [Dataspace](dataspace/README.md) hosts reference implementations of the Gaia-X/IDS Dataspace extensions (Agents) for both Providers and Consumers which  the semantics of Catena-X.
 - [UX](ux/README.md) hosts User Experience components and a sample portal/development environment for developing and executing semantically-driven logic and apps.
-- [Infrastructure](infrastructure/README.md) hosts "Infrastructure as Code" descriptions for easy deployment of above artifacts including a sample dataspace consisting of three tenants (Consumer, OEM and supplier).
+- [Infrastructure](infrastructure/README.md) hosts "Infrastructure as Code" manifests and resources for easy deployment of above artifacts including a sample dataspace.
 
 Besides the markdown documentation including this file, we have some helper folders
 

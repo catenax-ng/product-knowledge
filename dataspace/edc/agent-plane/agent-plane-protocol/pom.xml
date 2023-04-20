@@ -10,7 +10,7 @@
     <parent>
         <groupId>io.catenax.knowledge.dataspace.edc</groupId>
         <artifactId>agent-plane</artifactId>
-        <version>0.8.1-SNAPSHOT</version>
+        <version>0.8.5-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -241,12 +241,6 @@
          <artifactId>mockito-core</artifactId>
          <scope>test</scope>
        </dependency>
-        <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
-            <version>3.0.2</version>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
