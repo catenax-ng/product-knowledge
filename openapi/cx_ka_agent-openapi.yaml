@@ -1062,7 +1062,7 @@ components:
       value: null
     Dataspace:
       summary: Skill to List Federated Data Catalogue
-      value: SELECT blabla
+      value: "SELECT ?connector ?asset \n       ?name\n       (MIN(?adescription) AS ?description) \n       ?type\n       (MAX(?aversion) AS ?version) \n       (GROUP_CONCAT(DISTINCT ?acontentType;SEPARATOR=\",\") AS ?contentType) \n       (CONCAT(\"<\",GROUP_CONCAT(?aontology;SEPARATOR=\">,<\"),\">\") AS ?isDefinedBy) \n       (MIN(?ashape) AS ?shape)\n WHERE { \n     ?connector <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#offersAsset> ?asset. \n     ?asset <https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#contentType> ?acontentType; \n            <https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#name> ?name; \n            <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?type; \n            <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> ?aontology; \n            <https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#version> ?aversion; \n            <https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#description> ?adescription.\n\n    OPTIONAL {\n        ?asset <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#shape> ?ashape\n    }\n} GROUP BY ?connector ?asset ?name ?type"
     Resultset:
       summary: Sample Json-Based Resultset
     AuthorsWithLimits:

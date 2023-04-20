@@ -51,7 +51,20 @@ const sidebars = {
                         'development-view/reference',
                         'development-view/build',
                         'development-view/compile',
-                        'development-view/api'
+                        {
+                            type: 'category',
+                            label: 'API',
+                            link: {
+                                type: 'doc',
+                                id: 'development-view/api',
+                            },
+                            collapsed: true,
+                            items: [
+                                'development-view/api/agent/getAgent',
+                                'development-view/api/agent/postAgent',
+                                'development-view/api/agent/skill/postSkill'
+                            ],
+                        }
                     ],
                 },
                 {
