@@ -14,15 +14,14 @@ import io.adminshell.aas.v3.model.AssetAdministrationShellEnvironment;
 import io.adminshell.aas.v3.model.Submodel;
 import io.adminshell.aas.v3.model.SubmodelElement;
 import io.adminshell.aas.v3.model.SubmodelElementCollection;
-import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironment;
 import io.catenax.knowledge.dataspace.aasbridge.AspectMapper;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -47,33 +46,34 @@ public class PartSiteInformationAsPlannedMapper extends AspectMapper {
 
         Map<JsonNode, List<JsonNode>> groupedByCxid = StreamSupport.stream(queryResponse.spliterator(), false).collect(Collectors.groupingBy(node -> node.get("catenaXId")));
 
-        List<Submodel> singleLevelBomsAsPlanned = groupedByCxid.values().stream().map(group -> {
+        Optional<AssetAdministrationShellEnvironment> partSiteInformation = groupedByCxid.values().stream().map(group -> {
             AssetAdministrationShellEnvironment aasInstance = instantiateAas();
-            Submodel submodel = getSubmodelFromAasenv(aasInstance, "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned");
+            setGlobalAssetId(aasInstance.getAssetAdministrationShells().get(0),(ObjectNode) group.get(0), "catenaXId");
 
-            setPropertyInSubmodel(submodel, "catenaXId", findValueInProperty((ObjectNode) group.get(0), "catenaXId"));
+            Submodel submodel = getSubmodelFromAasenv(aasInstance, "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned");
+            setProperty(submodel, "catenaXId", getValueByKey((ObjectNode) group.get(0), "catenaXId"));
             SubmodelElementCollection siteCollection = getSmecFromSubmodel(submodel, "sites");
             SubmodelElementCollection siteEntityTemplate = (SubmodelElementCollection) getChildFromParentSmec(siteCollection, "SiteEntity");
 
             List<SubmodelElement> sites = group.stream().map(site -> {
                 SubmodelElementCollection siteEntityInstance = cloneReferable(siteEntityTemplate, SubmodelElementCollection.class);
-                Collection<SubmodelElement> siteSmes = siteEntityInstance.getValues();
-                setPropertyInSmec(siteEntityInstance, "catenaXsiteId", findValueInProperty((ObjectNode) site, "site"));
-                setPropertyInSmec(siteEntityInstance, "function", findValueInProperty((ObjectNode) site, "function"));
-                setPropertyInSmec(siteEntityInstance, "functionValidFrom", findValueInProperty((ObjectNode) site, "roleValidFrom"));
-                setPropertyInSmec(siteEntityInstance, "functionValidUntil", findValueInProperty((ObjectNode) site, "roleValidTo"));
+                setProperty(siteEntityInstance, "catenaXsiteId", getValueByKey((ObjectNode) site, "site"));
+                setProperty(siteEntityInstance, "function", getValueByKey((ObjectNode) site, "function"));
+                setProperty(siteEntityInstance, "functionValidFrom", getValueByKey((ObjectNode) site, "roleValidFrom"));
+                setProperty(siteEntityInstance, "functionValidUntil", getValueByKey((ObjectNode) site, "roleValidTo"));
 
                 return siteEntityInstance;
             }).collect(Collectors.toList());
 
             siteCollection.setValues(sites);
-            return submodel;
-        }).collect(Collectors.toList());
+            return aasInstance;
+        }).reduce((env1, env2) -> {
+            env1.setSubmodels(join(env1.getSubmodels(), env2.getSubmodels()));
+            env1.setAssetAdministrationShells(join(env1.getAssetAdministrationShells(), env2.getAssetAdministrationShells()));
+            env1.setConceptDescriptions(join(env1.getConceptDescriptions(), env2.getConceptDescriptions()));
 
-        return new DefaultAssetAdministrationShellEnvironment.Builder()
-                .submodels(singleLevelBomsAsPlanned)
-                .conceptDescriptions(aasTemplate.getConceptDescriptions())
-                .build();
+            return env1;
+        });
+        return partSiteInformation.orElseThrow();
     }
-
 }

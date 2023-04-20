@@ -14,7 +14,6 @@ import io.adminshell.aas.v3.model.AssetAdministrationShellEnvironment;
 import io.adminshell.aas.v3.model.Submodel;
 import io.adminshell.aas.v3.model.SubmodelElement;
 import io.adminshell.aas.v3.model.SubmodelElementCollection;
-import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironment;
 import io.catenax.knowledge.dataspace.aasbridge.AspectMapper;
 
 import java.io.IOException;
@@ -22,6 +21,7 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -46,37 +46,38 @@ public class MaterialForRecyclingMapper extends AspectMapper {
         Map<JsonNode, List<JsonNode>> groupedByEmat = StreamSupport.stream(queryResponse.spliterator(), false)
                 .collect(Collectors.groupingBy(node ->  node.get("eMat"), Collectors.toList()));
 
-        List<Submodel> materialsForRecycling = groupedByEmat.values().stream().map(rmats -> {
+        Optional<AssetAdministrationShellEnvironment> materialsForRecycling = groupedByEmat.values().stream().map(rmats -> {
             AssetAdministrationShellEnvironment aasInstance = instantiateAas();
+            setGlobalAssetId(aasInstance.getAssetAdministrationShells().get(0), (ObjectNode) rmats.get(0), "eMat" );
 
             Submodel submodel = getSubmodelFromAasenv(aasInstance, "urn:bamm:io.catenax.material_for_recycling:1.1.0#MaterialForRecycling");
 
-            setPropertyInSubmodel(submodel, "materialName", findValueInProperty((ObjectNode) rmats.get(0), "engineeringMaterialName"));
-            setPropertyInSubmodel(submodel, "materialClass", findValueInProperty((ObjectNode) rmats.get(0), "engineeringMaterialClass"));
+            setProperty(submodel, "materialName", getValueByKey((ObjectNode) rmats.get(0), "engineeringMaterialName"));
+            setProperty(submodel, "materialClass", getValueByKey((ObjectNode) rmats.get(0), "engineeringMaterialClass"));
 
             SubmodelElementCollection component = getSmecFromSubmodel(submodel, "component");
             SubmodelElementCollection componentEntity = (SubmodelElementCollection) getChildFromParentSmec(component, "ComponentEntity");
 
             List<SubmodelElement> components = rmats.stream().map(rmat -> {
                 SubmodelElementCollection componentClone = cloneReferable(componentEntity, SubmodelElementCollection.class);
-                setPropertyInSmec(componentClone, "aggregateState", findValueInProperty((ObjectNode) rmat, "componentState"));
-                setPropertyInSmec(componentClone, "recycledContent", findValueInProperty((ObjectNode) rmat, "componentRecycledContent"));
-                setPropertyInSmec(componentClone, "materialAbbreviation", findValueInProperty((ObjectNode) rmat, "componentMaterialAbbreviation"));
-                setPropertyInSmec(componentClone, "materialClass", findValueInProperty((ObjectNode) rmat, "componentMaterialClass"));
-                setPropertyInSmec(componentClone, "materialName", findValueInProperty((ObjectNode) rmat, "componentMaterialName"));
+                setProperty(componentClone, "aggregateState", getValueByKey((ObjectNode) rmat, "componentState"));
+                setProperty(componentClone, "recycledContent", getValueByKey((ObjectNode) rmat, "componentRecycledContent"));
+                setProperty(componentClone, "materialAbbreviation", getValueByKey((ObjectNode) rmat, "componentMaterialAbbreviation"));
+                setProperty(componentClone, "materialClass", getValueByKey((ObjectNode) rmat, "componentMaterialClass"));
+                setProperty(componentClone, "materialName", getValueByKey((ObjectNode) rmat, "componentMaterialName"));
                 // quantity is in the aspect model but not in the graph currently
 
                 return componentClone;
             }).collect(Collectors.toList());
             component.setValues(components);
-            return submodel;
+            return aasInstance;
 
-        }).collect(Collectors.toList());
-        return new DefaultAssetAdministrationShellEnvironment.Builder()
-                .submodels(materialsForRecycling)
-                .conceptDescriptions(aasTemplate.getConceptDescriptions())
-                .build();
-
+        }).reduce((env1, env2)-> {
+            env1.setSubmodels(join(env1.getSubmodels(), env2.getSubmodels()));
+            env1.setAssetAdministrationShells(join(env1.getAssetAdministrationShells(), env2.getAssetAdministrationShells()));
+            env1.setConceptDescriptions(join(env1.getConceptDescriptions(), env2.getConceptDescriptions()));
+            return env1;
+        });
+        return materialsForRecycling.orElseThrow();
     }
-
 }

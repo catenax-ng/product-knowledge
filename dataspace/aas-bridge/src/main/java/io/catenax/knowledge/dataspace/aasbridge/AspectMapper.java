@@ -18,9 +18,7 @@ import io.adminshell.aas.v3.dataformat.json.JsonDeserializer;
 import io.adminshell.aas.v3.dataformat.json.JsonSerializer;
 import io.adminshell.aas.v3.dataformat.xml.XmlDeserializer;
 import io.adminshell.aas.v3.model.*;
-import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShell;
-import io.adminshell.aas.v3.model.impl.DefaultIdentifier;
-import io.adminshell.aas.v3.model.impl.DefaultProperty;
+import io.adminshell.aas.v3.model.impl.*;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -31,9 +29,11 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Spliterators;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static java.time.temporal.ChronoUnit.SECONDS;
@@ -97,7 +97,6 @@ public abstract class AspectMapper {
                 });
     }
 
-
     protected AssetAdministrationShellEnvironment instantiateAas() {
         JsonSerializer jsonSerializer = new JsonSerializer();
         JsonDeserializer jsonDeserializer = new JsonDeserializer();
@@ -130,7 +129,6 @@ public abstract class AspectMapper {
         return clone;
     }
 
-
     protected <T extends Referable> T cloneReferable(T original, Class<T> clazz) {
         JsonSerializer jsonSerializer = new JsonSerializer();
         JsonDeserializer jsonDeserializer = new JsonDeserializer();
@@ -142,7 +140,7 @@ public abstract class AspectMapper {
         }
     }
 
-    protected String findValueInProperty(Property property, ObjectNode queryResponse) {
+    protected String getValueByMatch(Property property, ObjectNode queryResponse) {
         String idShort = property.getIdShort();
         return StreamSupport.stream(Spliterators.spliteratorUnknownSize(queryResponse.fields(), 0), false)
                 .filter(e -> e.getKey().equals(idShort)).findFirst()
@@ -150,22 +148,34 @@ public abstract class AspectMapper {
                 .getValue().asText();
     }
 
-    protected String findValueInProperty(ObjectNode queryResponse, String responseKey) {
+    protected String getValueByKey(ObjectNode queryResponse, String responseKey) {
         return queryResponse.get(responseKey).asText();
     }
 
-    protected void setPropertyInSmec(SubmodelElementCollection smec, String propertyIdShort, String value) {
+    protected void setProperty(SubmodelElementCollection smec, String propertyIdShort, String value) {
         smec.getValues()
-                .stream().filter(sme->sme.getClass().equals(DefaultProperty.class)).map(sme -> (Property) sme).filter(p -> p.getIdShort().equals(propertyIdShort))
+                .stream().filter(sme -> sme.getClass().equals(DefaultProperty.class)).map(sme -> (Property) sme).filter(p -> p.getIdShort().equals(propertyIdShort))
                 .findFirst().orElseThrow(() -> new RuntimeException("could not find property " + propertyIdShort + " in SMEC " + smec.getIdShort()))
                 .setValue(value);
     }
 
-    protected void setPropertyInSubmodel(Submodel sm, String propertyIdShort, String value) {
+    protected void setProperty(Submodel sm, String propertyIdShort, String value) {
         sm.getSubmodelElements()
                 .stream().map(sme -> (Property) sme).filter(sme -> sme.getIdShort().equals(propertyIdShort))
                 .findFirst().orElseThrow(() -> new RuntimeException("could not find property " + propertyIdShort + " in SM " + sm.getIdShort()))
                 .setValue(value);
+    }
+
+    protected void setGlobalAssetId(AssetAdministrationShell aas, ObjectNode queryResponse, String globalAssetIdKey) {
+        aas.setAssetInformation(new DefaultAssetInformation.Builder()
+                .globalAssetId(new DefaultReference.Builder()
+                        .key(new DefaultKey.Builder()
+                                .type(KeyElements.ASSET)
+                                .value(queryResponse.get(globalAssetIdKey).asText())
+                                .build())
+                        .build())
+                .build());
+
     }
 
     protected Submodel getSubmodelFromAasenv(AssetAdministrationShellEnvironment aasenv, String submodelSemanticId) {
@@ -187,5 +197,14 @@ public abstract class AspectMapper {
                 //.map(sme -> (SubmodelElementCollection) sme)
                 .findFirst().orElseThrow(() -> new RuntimeException("Desired path of smel entry(" + childIdShort + ") not found"));
     }
+
+    protected <T extends Identifiable> List<T> join(List<T> left, List<T> right) {
+        List<String> rightIds = right.stream().map(leftCd -> leftCd.getIdentification().getIdentifier()).collect(Collectors.toList());
+        right.addAll(left.stream()
+                .filter(l -> rightIds.stream().noneMatch(rightId -> l.getIdentification().getIdentifier().equals(rightId)))
+                .collect(Collectors.toList()));
+        return right;
+    }
+
 }
 

@@ -14,7 +14,6 @@ import io.adminshell.aas.v3.model.AssetAdministrationShellEnvironment;
 import io.adminshell.aas.v3.model.Submodel;
 import io.adminshell.aas.v3.model.SubmodelElement;
 import io.adminshell.aas.v3.model.SubmodelElementCollection;
-import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironment;
 import io.catenax.knowledge.dataspace.aasbridge.AspectMapper;
 
 import java.io.IOException;
@@ -22,6 +21,7 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -45,35 +45,38 @@ public class SingleLevelBomAsPlannedMapper extends AspectMapper {
 
         Map<JsonNode, List<JsonNode>> groupedByCxid = StreamSupport.stream(queryResponse.spliterator(), false).collect(Collectors.groupingBy(node -> node.get("catenaXId")));
 
-        List<Submodel> singleLevelBomsAsPlanned = groupedByCxid.values().stream().map(group -> {
+        Optional<AssetAdministrationShellEnvironment> singleLevelBomsAsPlanned = groupedByCxid.values().stream().map(group -> {
             AssetAdministrationShellEnvironment aasInstance = instantiateAas();
-            Submodel submodel = getSubmodelFromAasenv(aasInstance, "urn:bamm:io.catenax.single_level_bom_as_planned:1.0.1#SingleLevelBomAsPlanned");
+            setGlobalAssetId(aasInstance.getAssetAdministrationShells().get(0),(ObjectNode) group.get(0), "catenaXId");
 
-            setPropertyInSubmodel(submodel, "catenaXId", findValueInProperty((ObjectNode) group.get(0), "catenaXId"));
+            Submodel submodel = getSubmodelFromAasenv(aasInstance, "urn:bamm:io.catenax.single_level_bom_as_planned:1.0.1#SingleLevelBomAsPlanned");
+            setProperty(submodel, "catenaXId", getValueByKey((ObjectNode) group.get(0), "catenaXId"));
             SubmodelElementCollection childCollection = getSmecFromSubmodel(submodel, "childParts");
             SubmodelElementCollection childDataTemplate = (SubmodelElementCollection) getChildFromParentSmec(childCollection, "ChildData");
 
             List<SubmodelElement> children = group.stream().map(child -> {
                 SubmodelElementCollection childDataInstance = cloneReferable(childDataTemplate, SubmodelElementCollection.class);
 
-                setPropertyInSmec(childDataInstance,"createdOn", findValueInProperty((ObjectNode) child, "productionStartDate"));
-                setPropertyInSmec(childDataInstance,"lastModifiedOn", findValueInProperty((ObjectNode) child, "productionEndDate"));
-                setPropertyInSmec(childDataInstance,"childCatenaXId", findValueInProperty((ObjectNode) child, "childCatenaXId"));
+                setProperty(childDataInstance,"createdOn", getValueByKey((ObjectNode) child, "productionStartDate"));
+                setProperty(childDataInstance,"lastModifiedOn", getValueByKey((ObjectNode) child, "productionEndDate"));
+                setProperty(childDataInstance,"childCatenaXId", getValueByKey((ObjectNode) child, "childCatenaXId"));
 
                 SubmodelElementCollection quantityElements = (SubmodelElementCollection) getChildFromParentSmec(childDataInstance, "Quantity");
-                setPropertyInSmec(quantityElements,"quantityNumber",findValueInProperty((ObjectNode) child, "childQuantity"));
-                setPropertyInSmec(quantityElements,"measurementUnit",findValueInProperty((ObjectNode) child, "billOfMaterialUnit"));
+                setProperty(quantityElements,"quantityNumber", getValueByKey((ObjectNode) child, "childQuantity"));
+                setProperty(quantityElements,"measurementUnit", getValueByKey((ObjectNode) child, "billOfMaterialUnit"));
 
                 return childDataInstance;
             }).collect(Collectors.toList());
 
             childCollection.setValues(children);
-            return submodel;
-        }).collect(Collectors.toList());
+            return aasInstance;
+        }).reduce((env1, env2) -> {
+            env1.setSubmodels(join(env1.getSubmodels(), env2.getSubmodels()));
+            env1.setAssetAdministrationShells(join(env1.getAssetAdministrationShells(), env2.getAssetAdministrationShells()));
+            env1.setConceptDescriptions(join(env1.getConceptDescriptions(), env2.getConceptDescriptions()));
 
-        return new DefaultAssetAdministrationShellEnvironment.Builder()
-                .submodels(singleLevelBomsAsPlanned)
-                .conceptDescriptions(aasTemplate.getConceptDescriptions())
-                .build();
+            return env1;
+        });
+        return singleLevelBomsAsPlanned.orElseThrow();
     }
 }

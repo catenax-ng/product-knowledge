@@ -14,16 +14,14 @@ import io.adminshell.aas.v3.model.AssetAdministrationShellEnvironment;
 import io.adminshell.aas.v3.model.Property;
 import io.adminshell.aas.v3.model.Submodel;
 import io.adminshell.aas.v3.model.SubmodelElementCollection;
-import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironment;
 import io.catenax.knowledge.dataspace.aasbridge.AspectMapper;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
-import java.util.ArrayList;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collector;
 import java.util.stream.StreamSupport;
 
 /**
@@ -45,43 +43,35 @@ public class PartAsPlannedMapper extends AspectMapper {
                 executeQuery("/queries/PartAsPlanned.rq");
 
         // stream over returned parts
-        ArrayList<Submodel> partsAsPlanned = StreamSupport.stream(queryFuture.get().spliterator(), false)
+        Optional<AssetAdministrationShellEnvironment> partsAsPlanned = StreamSupport.stream(queryFuture.get().spliterator(), false)
                 .map(node -> {
-                            // get new AAS copy
                             AssetAdministrationShellEnvironment aasInstance = instantiateAas();
+                            setGlobalAssetId(aasInstance.getAssetAdministrationShells().get(0), (ObjectNode) node, "catenaXId");
+
                             Submodel submodel = getSubmodelFromAasenv(aasInstance, "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned");
 
                             SubmodelElementCollection validityPeriodEntity = getSmecFromSubmodel(submodel, "ValidityPeriodEntity");
                             validityPeriodEntity
                                     .getValues().forEach(p ->
-                                            ((Property) p).setValue(findValueInProperty((Property) p, (ObjectNode) node))
+                                            ((Property) p).setValue(getValueByMatch((Property) p, (ObjectNode) node))
                                     );
 
-                            setPropertyInSubmodel(submodel, "catenaXId", findValueInProperty((ObjectNode) node, "catenaXId"));
+                            setProperty(submodel, "catenaXId", getValueByKey((ObjectNode) node, "catenaXId"));
 
                             SubmodelElementCollection partTypeInformationEntity = getSmecFromSubmodel(submodel, "PartTypeInformationEntity");
                             partTypeInformationEntity
                                     .getValues().forEach(p ->
-                                            ((Property) p).setValue(findValueInProperty((Property) p, (ObjectNode) node))
+                                            ((Property) p).setValue(getValueByMatch((Property) p, (ObjectNode) node))
                                     );
 
                             return aasInstance;
                         }
-                )
-                // good to return AASEnvs but problematic to only collect SMs
-                .collect(Collector.of(
-                                ArrayList<Submodel>::new,
-                                (list, aas) -> list.addAll(aas.getSubmodels()),
-                                (left, right) -> {
-                                    left.addAll(right);
-                                    return left;
-                                }
-                        )
-                );
-        return new DefaultAssetAdministrationShellEnvironment.Builder()
-                .submodels(partsAsPlanned)
-                .conceptDescriptions(aasTemplate.getConceptDescriptions())
-                .build();
+                ).reduce((env1, env2) -> {
+                    env1.setSubmodels(join(env1.getSubmodels(), env2.getSubmodels()));
+                    env1.setAssetAdministrationShells(join(env1.getAssetAdministrationShells(), env2.getAssetAdministrationShells()));
+                    env1.setConceptDescriptions(join(env1.getConceptDescriptions(), env2.getConceptDescriptions()));
+                    return env1;
+                });
+        return partsAsPlanned.orElseThrow();
     }
-
 }

@@ -50,7 +50,6 @@ class MaterialForRecyclingMapperTest extends AspectMapperTest {
                                 .findFirst().get())
                 .filter(comp -> comp.getValues().size() > 1).collect(Collectors.toSet());
 
-
         assertNotEquals(0, componentsPerSubmodel.size());
 
     }
