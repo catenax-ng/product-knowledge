@@ -1,6 +1,6 @@
 # Catena-X Agents Kit Source Repository
 
-<img height="200" src="https://raw.githubusercontent.com/catenax-ng/product-knowledge/feature/ART3-382-documentation/static/img/agent_kit.png" align="left" style="margin-right:30px"/>
+<img height="200" src="https://raw.githubusercontent.com/catenax-ng/product-knowledge/feature/ART3-382-documentation/static/img/agents_kit.png" align="left" style="margin-right:30px"/>
 
 This is a [MonoRepo](https://en.wikipedia.org/wiki/Monorepo) hosting or linking all the module 
 and infrastructure codes related to the 
@@ -15,8 +15,8 @@ Catena-X [Agents Kit](https://catenax-ng.github.io/product-knowledge/).
 
 ## Documentation
 
-With regard to any business, architectural and usage documentation, we refer to our [web page](https://catenax-ng.github.io/product-knowledge/).
-The sources included in this repository are self-documented using markdown and language-specific annotations.
+With regard to any global, architectural and usage documentation, we refer to our [web page](https://catenax-ng.github.io/product-knowledge/).
+All sources are locally documented using markdown and language-specific code comments.
 
 ## Repository Linking and Initialisation
 
@@ -161,7 +161,7 @@ To register all artifacts (including compilation artifacts, tests and container 
 
 ### Deployment
 
-Agent KIT containers will be deployed very individually.
+Agents KIT containers will be deployed very individually.
 We provide a sample environment (dataspace consisting of three business partners) using docker-compose (for local deployment) and helm (for cloud/cluster deployment) technology. 
 The docker compose files and helm charts can be found in the  [infrastructure](infrastructure) folder.
 
