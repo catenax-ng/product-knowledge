@@ -14,6 +14,7 @@ import io.adminshell.aas.v3.model.AssetAdministrationShellEnvironment;
 import io.adminshell.aas.v3.model.Submodel;
 import io.adminshell.aas.v3.model.SubmodelElement;
 import io.adminshell.aas.v3.model.SubmodelElementCollection;
+import io.catenax.knowledge.dataspace.aasbridge.AasUtils;
 import io.catenax.knowledge.dataspace.aasbridge.AspectMapper;
 
 import java.io.IOException;
@@ -47,23 +48,23 @@ public class SingleLevelBomAsPlannedMapper extends AspectMapper {
 
         Optional<AssetAdministrationShellEnvironment> singleLevelBomsAsPlanned = groupedByCxid.values().stream().map(group -> {
             AssetAdministrationShellEnvironment aasInstance = instantiateAas();
-            setGlobalAssetId(aasInstance.getAssetAdministrationShells().get(0),(ObjectNode) group.get(0), "catenaXId");
+            setGlobalAssetId(aasInstance.getAssetAdministrationShells().get(0), (ObjectNode) group.get(0), "catenaXId");
 
-            Submodel submodel = getSubmodelFromAasenv(aasInstance, "urn:bamm:io.catenax.single_level_bom_as_planned:1.0.1#SingleLevelBomAsPlanned");
+            Submodel submodel = AasUtils.getSubmodelFromAasenv(aasInstance, "urn:bamm:io.catenax.single_level_bom_as_planned:1.0.1#SingleLevelBomAsPlanned");
             setProperty(submodel, "catenaXId", getValueByKey((ObjectNode) group.get(0), "catenaXId"));
-            SubmodelElementCollection childCollection = getSmecFromSubmodel(submodel, "childParts");
-            SubmodelElementCollection childDataTemplate = (SubmodelElementCollection) getChildFromParentSmec(childCollection, "ChildData");
+            SubmodelElementCollection childCollection = AasUtils.getSmecFromSubmodel(submodel, "childParts");
+            SubmodelElementCollection childDataTemplate = (SubmodelElementCollection) AasUtils.getChildFromParentSmec(childCollection, "ChildData");
 
             List<SubmodelElement> children = group.stream().map(child -> {
-                SubmodelElementCollection childDataInstance = cloneReferable(childDataTemplate, SubmodelElementCollection.class);
+                SubmodelElementCollection childDataInstance = AasUtils.cloneReferable(childDataTemplate, SubmodelElementCollection.class);
 
-                setProperty(childDataInstance,"createdOn", getValueByKey((ObjectNode) child, "productionStartDate"));
-                setProperty(childDataInstance,"lastModifiedOn", getValueByKey((ObjectNode) child, "productionEndDate"));
-                setProperty(childDataInstance,"childCatenaXId", getValueByKey((ObjectNode) child, "childCatenaXId"));
+                setProperty(childDataInstance, "createdOn", getValueByKey((ObjectNode) child, "productionStartDate"));
+                setProperty(childDataInstance, "lastModifiedOn", getValueByKey((ObjectNode) child, "productionEndDate"));
+                setProperty(childDataInstance, "childCatenaXId", getValueByKey((ObjectNode) child, "childCatenaXId"));
 
-                SubmodelElementCollection quantityElements = (SubmodelElementCollection) getChildFromParentSmec(childDataInstance, "Quantity");
-                setProperty(quantityElements,"quantityNumber", getValueByKey((ObjectNode) child, "childQuantity"));
-                setProperty(quantityElements,"measurementUnit", getValueByKey((ObjectNode) child, "billOfMaterialUnit"));
+                SubmodelElementCollection quantityElements = (SubmodelElementCollection) AasUtils.getChildFromParentSmec(childDataInstance, "Quantity");
+                setProperty(quantityElements, "quantityNumber", getValueByKey((ObjectNode) child, "childQuantity"));
+                setProperty(quantityElements, "measurementUnit", getValueByKey((ObjectNode) child, "billOfMaterialUnit"));
 
                 return childDataInstance;
             }).collect(Collectors.toList());
@@ -71,9 +72,9 @@ public class SingleLevelBomAsPlannedMapper extends AspectMapper {
             childCollection.setValues(children);
             return aasInstance;
         }).reduce((env1, env2) -> {
-            env1.setSubmodels(join(env1.getSubmodels(), env2.getSubmodels()));
-            env1.setAssetAdministrationShells(join(env1.getAssetAdministrationShells(), env2.getAssetAdministrationShells()));
-            env1.setConceptDescriptions(join(env1.getConceptDescriptions(), env2.getConceptDescriptions()));
+            env1.setSubmodels(AasUtils.join(env1.getSubmodels(), env2.getSubmodels()));
+            env1.setAssetAdministrationShells(AasUtils.join(env1.getAssetAdministrationShells(), env2.getAssetAdministrationShells()));
+            env1.setConceptDescriptions(AasUtils.join(env1.getConceptDescriptions(), env2.getConceptDescriptions()));
 
             return env1;
         });

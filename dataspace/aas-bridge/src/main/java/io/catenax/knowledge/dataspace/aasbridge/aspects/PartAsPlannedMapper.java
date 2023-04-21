@@ -14,6 +14,7 @@ import io.adminshell.aas.v3.model.AssetAdministrationShellEnvironment;
 import io.adminshell.aas.v3.model.Property;
 import io.adminshell.aas.v3.model.Submodel;
 import io.adminshell.aas.v3.model.SubmodelElementCollection;
+import io.catenax.knowledge.dataspace.aasbridge.AasUtils;
 import io.catenax.knowledge.dataspace.aasbridge.AspectMapper;
 
 import java.io.IOException;
@@ -38,7 +39,7 @@ public class PartAsPlannedMapper extends AspectMapper {
         }
     }
 
-    protected AssetAdministrationShellEnvironment parametrizeAas() throws IOException, URISyntaxException, ExecutionException, InterruptedException, SerializationException, DeserializationException {
+    protected AssetAdministrationShellEnvironment parametrizeAas() throws IOException, URISyntaxException, ExecutionException, InterruptedException, SerializationException {
         CompletableFuture<ArrayNode> queryFuture =
                 executeQuery("/queries/PartAsPlanned.rq");
 
@@ -48,9 +49,9 @@ public class PartAsPlannedMapper extends AspectMapper {
                             AssetAdministrationShellEnvironment aasInstance = instantiateAas();
                             setGlobalAssetId(aasInstance.getAssetAdministrationShells().get(0), (ObjectNode) node, "catenaXId");
 
-                            Submodel submodel = getSubmodelFromAasenv(aasInstance, "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned");
+                            Submodel submodel = AasUtils.getSubmodelFromAasenv(aasInstance, "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned");
 
-                            SubmodelElementCollection validityPeriodEntity = getSmecFromSubmodel(submodel, "ValidityPeriodEntity");
+                            SubmodelElementCollection validityPeriodEntity = AasUtils.getSmecFromSubmodel(submodel, "ValidityPeriodEntity");
                             validityPeriodEntity
                                     .getValues().forEach(p ->
                                             ((Property) p).setValue(getValueByMatch((Property) p, (ObjectNode) node))
@@ -58,7 +59,7 @@ public class PartAsPlannedMapper extends AspectMapper {
 
                             setProperty(submodel, "catenaXId", getValueByKey((ObjectNode) node, "catenaXId"));
 
-                            SubmodelElementCollection partTypeInformationEntity = getSmecFromSubmodel(submodel, "PartTypeInformationEntity");
+                            SubmodelElementCollection partTypeInformationEntity = AasUtils.getSmecFromSubmodel(submodel, "PartTypeInformationEntity");
                             partTypeInformationEntity
                                     .getValues().forEach(p ->
                                             ((Property) p).setValue(getValueByMatch((Property) p, (ObjectNode) node))
@@ -67,9 +68,9 @@ public class PartAsPlannedMapper extends AspectMapper {
                             return aasInstance;
                         }
                 ).reduce((env1, env2) -> {
-                    env1.setSubmodels(join(env1.getSubmodels(), env2.getSubmodels()));
-                    env1.setAssetAdministrationShells(join(env1.getAssetAdministrationShells(), env2.getAssetAdministrationShells()));
-                    env1.setConceptDescriptions(join(env1.getConceptDescriptions(), env2.getConceptDescriptions()));
+                    env1.setSubmodels(AasUtils.join(env1.getSubmodels(), env2.getSubmodels()));
+                    env1.setAssetAdministrationShells(AasUtils.join(env1.getAssetAdministrationShells(), env2.getAssetAdministrationShells()));
+                    env1.setConceptDescriptions(AasUtils.join(env1.getConceptDescriptions(), env2.getConceptDescriptions()));
                     return env1;
                 });
         return partsAsPlanned.orElseThrow();

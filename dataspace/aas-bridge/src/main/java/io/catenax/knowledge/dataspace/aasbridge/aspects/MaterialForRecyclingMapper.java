@@ -14,6 +14,7 @@ import io.adminshell.aas.v3.model.AssetAdministrationShellEnvironment;
 import io.adminshell.aas.v3.model.Submodel;
 import io.adminshell.aas.v3.model.SubmodelElement;
 import io.adminshell.aas.v3.model.SubmodelElementCollection;
+import io.catenax.knowledge.dataspace.aasbridge.AasUtils;
 import io.catenax.knowledge.dataspace.aasbridge.AspectMapper;
 
 import java.io.IOException;
@@ -50,16 +51,16 @@ public class MaterialForRecyclingMapper extends AspectMapper {
             AssetAdministrationShellEnvironment aasInstance = instantiateAas();
             setGlobalAssetId(aasInstance.getAssetAdministrationShells().get(0), (ObjectNode) rmats.get(0), "eMat" );
 
-            Submodel submodel = getSubmodelFromAasenv(aasInstance, "urn:bamm:io.catenax.material_for_recycling:1.1.0#MaterialForRecycling");
+            Submodel submodel = AasUtils.getSubmodelFromAasenv(aasInstance, "urn:bamm:io.catenax.material_for_recycling:1.1.0#MaterialForRecycling");
 
             setProperty(submodel, "materialName", getValueByKey((ObjectNode) rmats.get(0), "engineeringMaterialName"));
             setProperty(submodel, "materialClass", getValueByKey((ObjectNode) rmats.get(0), "engineeringMaterialClass"));
 
-            SubmodelElementCollection component = getSmecFromSubmodel(submodel, "component");
-            SubmodelElementCollection componentEntity = (SubmodelElementCollection) getChildFromParentSmec(component, "ComponentEntity");
+            SubmodelElementCollection component = AasUtils.getSmecFromSubmodel(submodel, "component");
+            SubmodelElementCollection componentEntity = (SubmodelElementCollection) AasUtils.getChildFromParentSmec(component, "ComponentEntity");
 
             List<SubmodelElement> components = rmats.stream().map(rmat -> {
-                SubmodelElementCollection componentClone = cloneReferable(componentEntity, SubmodelElementCollection.class);
+                SubmodelElementCollection componentClone = AasUtils.cloneReferable(componentEntity, SubmodelElementCollection.class);
                 setProperty(componentClone, "aggregateState", getValueByKey((ObjectNode) rmat, "componentState"));
                 setProperty(componentClone, "recycledContent", getValueByKey((ObjectNode) rmat, "componentRecycledContent"));
                 setProperty(componentClone, "materialAbbreviation", getValueByKey((ObjectNode) rmat, "componentMaterialAbbreviation"));
@@ -73,9 +74,9 @@ public class MaterialForRecyclingMapper extends AspectMapper {
             return aasInstance;
 
         }).reduce((env1, env2)-> {
-            env1.setSubmodels(join(env1.getSubmodels(), env2.getSubmodels()));
-            env1.setAssetAdministrationShells(join(env1.getAssetAdministrationShells(), env2.getAssetAdministrationShells()));
-            env1.setConceptDescriptions(join(env1.getConceptDescriptions(), env2.getConceptDescriptions()));
+            env1.setSubmodels(AasUtils.join(env1.getSubmodels(), env2.getSubmodels()));
+            env1.setAssetAdministrationShells(AasUtils.join(env1.getAssetAdministrationShells(), env2.getAssetAdministrationShells()));
+            env1.setConceptDescriptions(AasUtils.join(env1.getConceptDescriptions(), env2.getConceptDescriptions()));
             return env1;
         });
         return materialsForRecycling.orElseThrow();

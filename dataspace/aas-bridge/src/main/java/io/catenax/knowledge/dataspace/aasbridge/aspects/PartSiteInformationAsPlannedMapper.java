@@ -14,6 +14,7 @@ import io.adminshell.aas.v3.model.AssetAdministrationShellEnvironment;
 import io.adminshell.aas.v3.model.Submodel;
 import io.adminshell.aas.v3.model.SubmodelElement;
 import io.adminshell.aas.v3.model.SubmodelElementCollection;
+import io.catenax.knowledge.dataspace.aasbridge.AasUtils;
 import io.catenax.knowledge.dataspace.aasbridge.AspectMapper;
 
 import java.io.IOException;
@@ -50,13 +51,13 @@ public class PartSiteInformationAsPlannedMapper extends AspectMapper {
             AssetAdministrationShellEnvironment aasInstance = instantiateAas();
             setGlobalAssetId(aasInstance.getAssetAdministrationShells().get(0),(ObjectNode) group.get(0), "catenaXId");
 
-            Submodel submodel = getSubmodelFromAasenv(aasInstance, "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned");
+            Submodel submodel = AasUtils.getSubmodelFromAasenv(aasInstance, "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned");
             setProperty(submodel, "catenaXId", getValueByKey((ObjectNode) group.get(0), "catenaXId"));
-            SubmodelElementCollection siteCollection = getSmecFromSubmodel(submodel, "sites");
-            SubmodelElementCollection siteEntityTemplate = (SubmodelElementCollection) getChildFromParentSmec(siteCollection, "SiteEntity");
+            SubmodelElementCollection siteCollection = AasUtils.getSmecFromSubmodel(submodel, "sites");
+            SubmodelElementCollection siteEntityTemplate = (SubmodelElementCollection) AasUtils.getChildFromParentSmec(siteCollection, "SiteEntity");
 
             List<SubmodelElement> sites = group.stream().map(site -> {
-                SubmodelElementCollection siteEntityInstance = cloneReferable(siteEntityTemplate, SubmodelElementCollection.class);
+                SubmodelElementCollection siteEntityInstance = AasUtils.cloneReferable(siteEntityTemplate, SubmodelElementCollection.class);
                 setProperty(siteEntityInstance, "catenaXsiteId", getValueByKey((ObjectNode) site, "site"));
                 setProperty(siteEntityInstance, "function", getValueByKey((ObjectNode) site, "function"));
                 setProperty(siteEntityInstance, "functionValidFrom", getValueByKey((ObjectNode) site, "roleValidFrom"));
@@ -68,9 +69,9 @@ public class PartSiteInformationAsPlannedMapper extends AspectMapper {
             siteCollection.setValues(sites);
             return aasInstance;
         }).reduce((env1, env2) -> {
-            env1.setSubmodels(join(env1.getSubmodels(), env2.getSubmodels()));
-            env1.setAssetAdministrationShells(join(env1.getAssetAdministrationShells(), env2.getAssetAdministrationShells()));
-            env1.setConceptDescriptions(join(env1.getConceptDescriptions(), env2.getConceptDescriptions()));
+            env1.setSubmodels(AasUtils.join(env1.getSubmodels(), env2.getSubmodels()));
+            env1.setAssetAdministrationShells(AasUtils.join(env1.getAssetAdministrationShells(), env2.getAssetAdministrationShells()));
+            env1.setConceptDescriptions(AasUtils.join(env1.getConceptDescriptions(), env2.getConceptDescriptions()));
 
             return env1;
         });
