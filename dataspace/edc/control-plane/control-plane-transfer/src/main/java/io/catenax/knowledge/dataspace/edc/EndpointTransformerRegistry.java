@@ -6,11 +6,9 @@
 //
 package io.catenax.knowledge.dataspace.edc;
 
-import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
-import org.eclipse.dataspaceconnector.spi.transfer.edr.EndpointDataReferenceTransformer;
-import org.eclipse.dataspaceconnector.spi.transfer.edr.EndpointDataReferenceTransformerRegistry;
-import org.eclipse.dataspaceconnector.spi.transfer.flow.DataFlowController;
-import org.eclipse.dataspaceconnector.spi.transfer.flow.DataFlowManager;
+import org.eclipse.edc.connector.transfer.spi.edr.EndpointDataReferenceTransformer;
+import org.eclipse.edc.connector.transfer.spi.edr.EndpointDataReferenceTransformerRegistry;
+import org.eclipse.edc.spi.monitor.Monitor;
 
 import java.util.List;
 
@@ -30,7 +28,7 @@ public class EndpointTransformerRegistry {
      */
     public EndpointTransformerRegistry(Monitor monitor) {
         try {
-            transformersField= EndpointDataReferenceTransformerRegistry.class.getClassLoader().loadClass("org.eclipse.dataspaceconnector.transfer.core.edr.EndpointDataReferenceTransformerRegistryImpl").getDeclaredField("transformers");
+            transformersField= EndpointDataReferenceTransformerRegistry.class.getClassLoader().loadClass("org.eclipse.edc.transfer.core.edr.EndpointDataReferenceTransformerRegistryImpl").getDeclaredField("transformers");
             transformersField.trySetAccessible();
         } catch(SecurityException | NoSuchFieldException | ClassNotFoundException e) {
             monitor.warning(String.format("Could not hookup priorised transformer access. Using non-priorised setup because of %s",e.getMessage()));

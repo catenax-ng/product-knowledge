@@ -8,7 +8,7 @@ package io.catenax.knowledge.dataspace.edc.http;
 
 import java.lang.reflect.*;
 
-import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
+import org.eclipse.edc.spi.monitor.Monitor;
 
 /**
  * An invocation handler which maps all jakarta objects

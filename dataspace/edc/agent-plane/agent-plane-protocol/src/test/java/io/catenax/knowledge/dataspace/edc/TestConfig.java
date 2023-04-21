@@ -6,7 +6,7 @@
 //
 package io.catenax.knowledge.dataspace.edc;
 
-import org.eclipse.dataspaceconnector.spi.system.configuration.ConfigImpl;
+import org.eclipse.edc.spi.system.configuration.ConfigImpl;
 import java.util.Map;
 
 /**

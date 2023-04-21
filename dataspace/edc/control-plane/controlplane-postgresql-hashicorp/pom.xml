@@ -59,7 +59,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>org.eclipse.dataspaceconnector.boot.system.runtime.BaseRuntime</mainClass>
+                            <mainClass>org.eclipse.edc.boot.system.runtime.BaseRuntime</mainClass>
                             <useUniqueVersions>false</useUniqueVersions>
                         </manifest>
                     </archive>
@@ -93,7 +93,7 @@
             <artifactId>edc-controlplane-postgresql</artifactId>
             <exclusions>
                 <exclusion>
-                    <groupId>org.eclipse.dataspaceconnector</groupId>
+                    <groupId>org.eclipse.edc</groupId>
                     <artifactId>azure-vault</artifactId>
                 </exclusion>
             </exclusions>
@@ -102,7 +102,7 @@
 
         <!-- Vault -->
         <dependency>
-            <groupId>org.eclipse.tractusx.edc.extensions</groupId>
+            <groupId>org.eclipse.tractusx.edc</groupId>
             <artifactId>hashicorp-vault</artifactId>
             <version>${tx.edc.version}</version>
         </dependency>

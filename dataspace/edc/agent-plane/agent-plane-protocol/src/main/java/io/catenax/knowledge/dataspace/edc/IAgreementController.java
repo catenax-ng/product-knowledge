@@ -7,7 +7,7 @@
 package io.catenax.knowledge.dataspace.edc;
 
 import jakarta.ws.rs.WebApplicationException;
-import org.eclipse.dataspaceconnector.spi.types.domain.edr.EndpointDataReference;
+import org.eclipse.edc.spi.types.domain.edr.EndpointDataReference;
 
 /**
  * Interface to any agreement controller

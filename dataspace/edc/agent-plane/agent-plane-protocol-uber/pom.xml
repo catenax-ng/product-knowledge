@@ -65,9 +65,9 @@
                     <artifactSet>
                     <includes>
                      <include>io.catenax.knowledge.dataspace.edc.agent-plane:agent-plane-protocol</include>
-                     <include>org.eclipse.dataspaceconnector:catalog-spi</include>
-                     <include>org.eclipse.dataspaceconnector:contract-spi</include>
-                     <include>org.eclipse.dataspaceconnector:transfer-spi</include>
+                     <include>org.eclipse.edc:catalog-spi</include>
+                     <include>org.eclipse.edc:contract-spi</include>
+                     <include>org.eclipse.edc:transfer-spi</include>
                      <include>javax.servlet:javax.servlet-api</include>
                      <include>org.apache.jena:*</include>
                      <include>org.apache.commons:commons-csv</include>

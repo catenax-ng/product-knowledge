@@ -59,7 +59,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>org.eclipse.dataspaceconnector.boot.system.runtime.BaseRuntime</mainClass>
+                            <mainClass>org.eclipse.edc.boot.system.runtime.BaseRuntime</mainClass>
                             <useUniqueVersions>false</useUniqueVersions>
                         </manifest>
                     </archive>
@@ -76,26 +76,32 @@
 
         <!-- EDC hookups -->
         <dependency>
-            <groupId>org.eclipse.dataspaceconnector</groupId>
+            <groupId>org.eclipse.edc</groupId>
             <artifactId>jwt-core</artifactId>
             <version>${edc.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.eclipse.dataspaceconnector</groupId>
-            <artifactId>data-plane-transfer-sync</artifactId>
+            <groupId>org.eclipse.edc</groupId>
+            <artifactId>transfer-data-plane</artifactId>
             <version>${edc.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.eclipse.dataspaceconnector</groupId>
-            <artifactId>data-plane-transfer-client</artifactId>
+            <groupId>org.eclipse.edc</groupId>
+            <artifactId>data-plane-spi</artifactId>
             <version>${edc.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.eclipse.dataspaceconnector</groupId>
-            <artifactId>http-receiver</artifactId>
+            <groupId>org.eclipse.edc</groupId>
+            <artifactId>data-plane-selector-spi</artifactId>
+            <version>${edc.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.edc</groupId>
+            <artifactId>data-plane-client</artifactId>
             <version>${edc.version}</version>
         </dependency>
 

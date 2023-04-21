@@ -11,7 +11,7 @@ import java.io.IOException;
 import javax.servlet.ReadListener;
 
 import jakarta.servlet.ServletInputStream;
-import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
+import org.eclipse.edc.spi.monitor.Monitor;
 
 /**
  * An invocation handler which maps all jakarta input stream

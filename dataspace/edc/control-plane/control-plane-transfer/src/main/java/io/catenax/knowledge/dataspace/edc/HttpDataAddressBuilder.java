@@ -6,7 +6,7 @@
 //
 package io.catenax.knowledge.dataspace.edc;
 
-import org.eclipse.dataspaceconnector.spi.types.domain.DataAddress;
+import org.eclipse.edc.spi.types.domain.DataAddress;
 
 /**
  * A helper to build HttpDataAddress with the right type‚^

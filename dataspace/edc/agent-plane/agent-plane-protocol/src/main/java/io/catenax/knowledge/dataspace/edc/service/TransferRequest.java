@@ -9,8 +9,8 @@ package io.catenax.knowledge.dataspace.edc.service;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import org.eclipse.dataspaceconnector.spi.types.domain.DataAddress;
-import org.eclipse.dataspaceconnector.spi.types.domain.transfer.TransferType;
+import org.eclipse.edc.spi.types.domain.DataAddress;
+import org.eclipse.edc.connector.transfer.spi.types.TransferType;
 
 import java.util.HashMap;
 import java.util.Map;

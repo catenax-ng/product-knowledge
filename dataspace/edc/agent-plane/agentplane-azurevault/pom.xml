@@ -59,7 +59,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>org.eclipse.dataspaceconnector.boot.system.runtime.BaseRuntime</mainClass>
+                            <mainClass>org.eclipse.edc.boot.system.runtime.BaseRuntime</mainClass>
                             <useUniqueVersions>false</useUniqueVersions>
                         </manifest>
                     </archive>
@@ -95,11 +95,11 @@
             <version>${tx.edc.version}</version>
             <exclusions>
                 <exclusion>
-                    <groupId>org.eclipse.dataspaceconnector</groupId>
+                    <groupId>org.eclipse.edc</groupId>
                     <artifactId>data-plane-s3</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>org.eclipse.dataspaceconnector</groupId>
+                    <groupId>org.eclipse.edc</groupId>
                     <artifactId>s3-core</artifactId>
                 </exclusion>
             </exclusions>

@@ -9,6 +9,8 @@ package io.catenax.knowledge.dataspace.edc;
 import dev.failsafe.RetryPolicy;
 import io.catenax.knowledge.dataspace.edc.http.AgentController;
 import io.catenax.knowledge.dataspace.edc.http.HttpClientFactory;
+import io.catenax.knowledge.dataspace.edc.http.transfer.AgentSourceFactory;
+import io.catenax.knowledge.dataspace.edc.http.transfer.AgentSourceRequestParamsSupplier;
 import io.catenax.knowledge.dataspace.edc.rdf.RDFStore;
 import io.catenax.knowledge.dataspace.edc.service.DataspaceSynchronizer;
 import io.catenax.knowledge.dataspace.edc.sparql.DataspaceServiceExecutor;
@@ -18,26 +20,27 @@ import io.catenax.knowledge.dataspace.edc.validation.SwitchingDataPlaneTokenVali
 import org.apache.jena.query.Syntax;
 import org.apache.jena.sparql.serializer.*;
 import org.apache.jena.sparql.service.ServiceExecutorRegistry;
-import org.eclipse.dataspaceconnector.dataplane.http.pipeline.HttpSinkRequestParamsSupplier;
-import org.eclipse.dataspaceconnector.dataplane.spi.pipeline.DataTransferExecutorServiceContainer;
-import org.eclipse.dataspaceconnector.spi.WebService;
-import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
-import org.eclipse.dataspaceconnector.spi.security.Vault;
-import org.eclipse.dataspaceconnector.runtime.metamodel.annotation.Inject;
-import org.eclipse.dataspaceconnector.spi.system.ServiceExtension;
-import org.eclipse.dataspaceconnector.spi.system.ServiceExtensionContext;
+import org.eclipse.edc.connector.dataplane.http.params.HttpRequestFactory;
+import org.eclipse.edc.connector.dataplane.spi.pipeline.DataTransferExecutorServiceContainer;
+import org.eclipse.edc.spi.http.EdcHttpClient;
+import org.eclipse.edc.web.spi.WebService;
+import org.eclipse.edc.spi.monitor.Monitor;
+import org.eclipse.edc.spi.security.Vault;
+import org.eclipse.edc.runtime.metamodel.annotation.Inject;
+import org.eclipse.edc.spi.system.ServiceExtension;
+import org.eclipse.edc.spi.system.ServiceExtensionContext;
 import okhttp3.OkHttpClient;
 import io.catenax.knowledge.dataspace.edc.service.DataManagement;
 
-import org.eclipse.dataspaceconnector.dataplane.spi.pipeline.PipelineService;
-import org.eclipse.dataspaceconnector.spi.types.TypeManager;
+import org.eclipse.edc.connector.dataplane.spi.pipeline.PipelineService;
+import org.eclipse.edc.spi.types.TypeManager;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.regex.Pattern;
 
 /**
- * EDC extension that initializes the Agent subsystem (Agent Sources, Agent Sinks, Agent Endpoint and Federation Callbacks
+ * EDC extension that initializes the Agent subsystem (Agent Sources, Agent Endpoint and Federation Callbacks
  */
 public class AgentExtension implements ServiceExtension {
 
@@ -67,6 +70,8 @@ public class AgentExtension implements ServiceExtension {
 
     @Inject
     protected DataTransferExecutorServiceContainer executorContainer;
+    @Inject
+    private EdcHttpClient edcHttpClient;
 
     /**
      * refers a scheduler
@@ -146,11 +151,9 @@ public class AgentExtension implements ServiceExtension {
 
         monitor.debug(String.format("Initialized %s",name()));
 
-        AgentSourceFactory sourceFactory = new AgentSourceFactory(httpClient, retryPolicy, new AgentSourceRequestParamsSupplier(vault,config,monitor),monitor, processor, skillStore);
+        HttpRequestFactory httpRequestFactory = new HttpRequestFactory();
+        AgentSourceFactory sourceFactory = new AgentSourceFactory(edcHttpClient, new AgentSourceRequestParamsSupplier(vault,typeManager,config,monitor),monitor,httpRequestFactory, processor, skillStore);
         pipelineService.registerFactory(sourceFactory);
-
-        AgentSinkFactory sinkFactory = new AgentSinkFactory(httpClient, executorContainer.getExecutorService(), 5, monitor, new HttpSinkRequestParamsSupplier(vault));
-        pipelineService.registerFactory(sinkFactory);
     }
 
     /**

@@ -6,8 +6,8 @@
 //
 package io.catenax.knowledge.dataspace.edc;
 
-import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
-import org.eclipse.dataspaceconnector.spi.system.configuration.Config;
+import org.eclipse.edc.spi.monitor.Monitor;
+import org.eclipse.edc.spi.system.configuration.Config;
 
 import java.util.Map;
 
@@ -51,6 +51,8 @@ public class AgentConfig {
     public static String READ_TIMEOUT_PROPERTY = "cx.agent.read.timeout";
     public static int DEFAULT_READ_TIMEOUT=1080000;
 
+    public static String CALLBACK_ENDPOINT="cx.agent.callback";
+
     /**
      * references to EDC services
      */
@@ -65,6 +67,13 @@ public class AgentConfig {
     public AgentConfig(Monitor monitor, Config config) {
         this.monitor = monitor;
         this.config = config;
+    }
+
+    /**
+     * @return callback endpoint
+     */
+    public String getCallbackEndpoint() {
+        return config.getString(CALLBACK_ENDPOINT);
     }
 
     /**

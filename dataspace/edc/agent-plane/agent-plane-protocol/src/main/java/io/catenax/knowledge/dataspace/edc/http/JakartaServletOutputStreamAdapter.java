@@ -11,7 +11,7 @@ import java.io.IOException;
 import javax.servlet.WriteListener;
 
 import jakarta.servlet.ServletOutputStream;
-import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
+import org.eclipse.edc.spi.monitor.Monitor;
 
 /**
  * An invocation handler which maps jakarta output stream

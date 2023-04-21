@@ -4,11 +4,12 @@
 // See authors file in the top folder
 // See license file in the top folder
 //
-package io.catenax.knowledge.dataspace.edc;
+package io.catenax.knowledge.dataspace.edc.http;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import io.catenax.knowledge.dataspace.edc.TupleSet;
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import javax.servlet.http.HttpServletRequest;

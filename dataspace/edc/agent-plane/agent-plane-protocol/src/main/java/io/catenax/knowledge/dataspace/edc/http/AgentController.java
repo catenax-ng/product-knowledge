@@ -23,23 +23,23 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpStatus;
-import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
-import org.eclipse.dataspaceconnector.spi.types.domain.edr.EndpointDataReference;
+import org.eclipse.edc.spi.monitor.Monitor;
+import org.eclipse.edc.spi.types.domain.edr.EndpointDataReference;
 
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
 /**
- * The Agent Controller provides an API endpoint
+ * The Agent Controller provides a REST API endpoint
  * with which the EDC tenant can issue queries and execute
  * skills in interaction with local resources and the complete
- * Dataspace.
+ * Dataspace (the so-called Matchmaking Agent).
  * It is currently implemented using a single query language (SparQL) 
  * on top of an Apache Fuseki Engine using a memory store (for local
  * graphs=assets).
- * TODO deal with remote skills
- * TODO exchange fixed store by configurable options
+ * TODO deal with remote (textual) skills
+ * TODO exchange fixed memory store by configurable options
  * TODO generalize sub-protocols from SparQL
  */
 @Path("/agent")

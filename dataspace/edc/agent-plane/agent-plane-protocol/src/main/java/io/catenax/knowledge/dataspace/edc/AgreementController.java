@@ -10,14 +10,15 @@ import io.catenax.knowledge.dataspace.edc.service.*;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.eclipse.dataspaceconnector.policy.model.Action;
-import org.eclipse.dataspaceconnector.policy.model.Permission;
-import org.eclipse.dataspaceconnector.policy.model.Policy;
-import org.eclipse.dataspaceconnector.policy.model.PolicyType;
-import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
-import org.eclipse.dataspaceconnector.spi.types.domain.DataAddress;
-import org.eclipse.dataspaceconnector.spi.types.domain.contract.offer.ContractOffer;
-import org.eclipse.dataspaceconnector.spi.types.domain.edr.EndpointDataReference;
+import org.eclipse.edc.policy.model.Action;
+import org.eclipse.edc.policy.model.Permission;
+import org.eclipse.edc.policy.model.Policy;
+import org.eclipse.edc.policy.model.PolicyType;
+import org.eclipse.edc.spi.monitor.Monitor;
+import org.eclipse.edc.spi.types.domain.DataAddress;
+import org.eclipse.edc.connector.contract.spi.types.offer.ContractOffer;
+import org.eclipse.edc.spi.types.domain.edr.EndpointDataReference;
+import org.eclipse.edc.connector.transfer.spi.types.TransferType;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -25,7 +26,6 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import java.io.IOException;
 import java.util.*;
 
-import org.eclipse.dataspaceconnector.spi.types.domain.transfer.TransferType;
 
 /**
  * An endpoint/service that receives information from the control plane
@@ -322,6 +322,7 @@ public class AgreementController implements IAgreementController {
                 .protocol("ids-multipart")
                 .dataDestination(dataDestination)
                 .managedResources(false)
+                .properties(Map.of("receiver.http.endpoint",config.getCallbackEndpoint()))
                 .transferType(transferType)
                 .build();
 

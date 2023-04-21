@@ -6,18 +6,18 @@
 //
 package io.catenax.knowledge.dataspace.edc;
 
-import org.eclipse.dataspaceconnector.spi.message.RemoteMessageDispatcherRegistry;
-import org.eclipse.dataspaceconnector.transfer.dataplane.spi.proxy.DataPlaneTransferProxyReferenceService;
-import org.eclipse.dataspaceconnector.transfer.dataplane.sync.flow.ProviderDataPlaneProxyDataFlowController;
-import org.eclipse.dataspaceconnector.transfer.dataplane.sync.proxy.DataPlaneTransferProxyResolver;
-import org.eclipse.dataspaceconnector.spi.types.domain.transfer.DataRequest;
-import org.eclipse.dataspaceconnector.spi.types.domain.DataAddress;
+import org.eclipse.edc.connector.transfer.dataplane.flow.ConsumerPullTransferDataFlowController;
+import org.eclipse.edc.spi.message.RemoteMessageDispatcherRegistry;
+import org.eclipse.edc.connector.transfer.dataplane.proxy.ConsumerPullTransferProxyResolver;
+import org.eclipse.edc.connector.transfer.dataplane.spi.proxy.ConsumerPullTransferEndpointDataReferenceService;
+import org.eclipse.edc.connector.transfer.spi.types.DataRequest;
+import org.eclipse.edc.spi.types.domain.DataAddress;
 
 /**
  * Subclass of provider data plane proxy data flow
  * in order to be able to deploy "HttpProcols" alongside "HttpProxy"
  */
-public class HttpProviderProxyDataFlowController extends ProviderDataPlaneProxyDataFlowController {
+public class HttpProviderProxyDataFlowController extends ConsumerPullTransferDataFlowController {
     
     /**
      * constructor
@@ -27,10 +27,10 @@ public class HttpProviderProxyDataFlowController extends ProviderDataPlaneProxyD
      * @param proxyReferenceService helping to build proxy reference addresses
      */
     public HttpProviderProxyDataFlowController(String connectorId,
-                                               DataPlaneTransferProxyResolver proxyResolver,
+                                               ConsumerPullTransferProxyResolver proxyResolver,
                                                RemoteMessageDispatcherRegistry dispatcherRegistry,
-                                               DataPlaneTransferProxyReferenceService proxyReferenceService) {
-        super(connectorId,proxyResolver,dispatcherRegistry,proxyReferenceService);
+                                               ConsumerPullTransferEndpointDataReferenceService proxyReferenceService) {
+        super(connectorId,proxyResolver,proxyReferenceService,dispatcherRegistry);
     }
 
     /**
