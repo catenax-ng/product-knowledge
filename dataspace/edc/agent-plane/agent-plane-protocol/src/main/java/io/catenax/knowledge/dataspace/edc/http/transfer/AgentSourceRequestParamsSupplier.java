@@ -58,14 +58,17 @@ public class AgentSourceRequestParamsSupplier implements HttpRequestParamsProvid
         this.monitor=monitor;
     }
 
+    @Override
     public void registerSourceDecorator(HttpParamsDecorator decorator) {
         this.sourceDecorators.add(decorator);
     }
 
+    @Override
     public void registerSinkDecorator(HttpParamsDecorator decorator) {
         this.sinkDecorators.add(decorator);
     }
 
+    @Override
     public HttpRequestParams provideSourceParams(DataFlowRequest request) {
         HttpRequestParams.Builder params = HttpRequestParams.Builder.newInstance();
         HttpDataAddress address = org.eclipse.edc.spi.types.domain.HttpDataAddress.Builder.newInstance().copyFrom(request.getSourceDataAddress()).build();
@@ -73,6 +76,7 @@ public class AgentSourceRequestParamsSupplier implements HttpRequestParamsProvid
         return params.build();
     }
 
+    @Override
     public HttpRequestParams provideSinkParams(DataFlowRequest request) {
         HttpRequestParams.Builder params = HttpRequestParams.Builder.newInstance();
         HttpDataAddress address = org.eclipse.edc.spi.types.domain.HttpDataAddress.Builder.newInstance().copyFrom(request.getDestinationDataAddress()).build();
