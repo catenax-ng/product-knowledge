@@ -6,10 +6,9 @@
 //
 package io.catenax.knowledge.dataspace.edc;
 
-import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
-import org.eclipse.dataspaceconnector.spi.transfer.flow.DataFlowController;
-import org.eclipse.dataspaceconnector.spi.transfer.flow.DataFlowManager;
-import org.eclipse.dataspaceconnector.spi.types.domain.DataAddress;
+import org.eclipse.edc.connector.transfer.spi.flow.DataFlowController;
+import org.eclipse.edc.connector.transfer.spi.flow.DataFlowManager;
+import org.eclipse.edc.spi.monitor.Monitor;
 
 import java.util.List;
 
@@ -25,11 +24,11 @@ public class DataFlowControllerRegistry {
 
     /**
      * sets up the special registry access
-     * @param monitor
+     * @param monitor logging facility
      */
     public DataFlowControllerRegistry(Monitor monitor) {
         try {
-            controllersField= DataFlowManager.class.getClassLoader().loadClass("org.eclipse.dataspaceconnector.transfer.core.flow.DataFlowManagerImpl").getDeclaredField("controllers");
+            controllersField= DataFlowManager.class.getClassLoader().loadClass("org.eclipse.edc.connector.transfer.flow.DataFlowManagerImpl").getDeclaredField("controllers");
             controllersField.trySetAccessible();
         } catch(SecurityException | NoSuchFieldException | ClassNotFoundException e) {
             monitor.warning(String.format("Could not hookup priorised controller access. Using non-priorised setup because of %s",e.getMessage()));

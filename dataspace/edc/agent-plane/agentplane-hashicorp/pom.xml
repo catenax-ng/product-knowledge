@@ -59,7 +59,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>org.eclipse.dataspaceconnector.boot.system.runtime.BaseRuntime</mainClass>
+                            <mainClass>org.eclipse.edc.boot.system.runtime.BaseRuntime</mainClass>
                             <useUniqueVersions>false</useUniqueVersions>
                         </manifest>
                     </archive>
@@ -105,7 +105,7 @@
 
         <!-- Vault -->
         <dependency>
-            <groupId>org.eclipse.tractusx.edc.extensions</groupId>
+            <groupId>org.eclipse.tractusx.edc</groupId>
             <artifactId>hashicorp-vault</artifactId>
             <version>${tx.edc.version}</version>
         </dependency>

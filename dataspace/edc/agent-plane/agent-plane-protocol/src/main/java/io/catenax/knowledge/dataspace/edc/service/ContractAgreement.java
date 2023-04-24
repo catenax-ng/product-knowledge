@@ -6,12 +6,10 @@
 //
 package io.catenax.knowledge.dataspace.edc.service;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import org.eclipse.dataspaceconnector.policy.model.Policy;
-import org.eclipse.dataspaceconnector.spi.types.domain.contract.negotiation.ContractNegotiation.Type;
+import org.eclipse.edc.policy.model.Policy;
 
 @JsonDeserialize(builder = ContractAgreement.Builder.class)
 public class ContractAgreement {

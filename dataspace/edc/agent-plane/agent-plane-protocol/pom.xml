@@ -59,7 +59,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>org.eclipse.dataspaceconnector.boot.system.runtime.BaseRuntime</mainClass>
+                            <mainClass>org.eclipse.edc.boot.system.runtime.BaseRuntime</mainClass>
                             <useUniqueVersions>false</useUniqueVersions>
                         </manifest>
                     </archive>
@@ -91,35 +91,35 @@
 
         <!-- Http Transfer -->
         <dependency>
-            <groupId>org.eclipse.dataspaceconnector</groupId>
+            <groupId>org.eclipse.edc</groupId>
             <artifactId>data-plane-http</artifactId>
             <version>${edc.version}</version>
         </dependency>
 
         <!-- Http Transfer -->
         <dependency>
-            <groupId>org.eclipse.dataspaceconnector</groupId>
+            <groupId>org.eclipse.edc</groupId>
             <artifactId>web-spi</artifactId>
             <version>${edc.version}</version>
         </dependency>
 
         <!-- Catalog SPI/SDK -->
         <dependency>
-            <groupId>org.eclipse.dataspaceconnector</groupId>
+            <groupId>org.eclipse.edc</groupId>
             <artifactId>catalog-spi</artifactId>
             <version>${edc.version}</version>
         </dependency>
 
         <!-- Contract SPI/SDK -->
         <dependency>
-            <groupId>org.eclipse.dataspaceconnector</groupId>
+            <groupId>org.eclipse.edc</groupId>
             <artifactId>contract-spi</artifactId>
             <version>${edc.version}</version>
         </dependency>
 
         <!-- Transfer SPI/SDK -->
         <dependency>
-            <groupId>org.eclipse.dataspaceconnector</groupId>
+            <groupId>org.eclipse.edc</groupId>
             <artifactId>transfer-spi</artifactId>
             <version>${edc.version}</version>
         </dependency>
@@ -248,8 +248,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.eclipse.dataspaceconnector</groupId>
-            <artifactId>jersey</artifactId>
+            <groupId>org.eclipse.edc</groupId>
+            <artifactId>jersey-core</artifactId>
             <version>${edc.version}</version>
             <scope>test</scope>
         </dependency>

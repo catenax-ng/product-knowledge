@@ -20,7 +20,7 @@
     <artifactId>controlplane-memory</artifactId>
     <packaging>jar</packaging>
 
-    <name>Catena-X Knowledge Agents EDC Controlplane (Memory)</name>
+    <name>Catena-X Knowledge Agents EDC Ctrlplane (Memory)</name>
     <description>Builds an Extended Memory Controlplane.</description>
     <url>http://catena-x.net/</url>
 
@@ -59,7 +59,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>org.eclipse.dataspaceconnector.boot.system.runtime.BaseRuntime</mainClass>
+                            <mainClass>org.eclipse.edc.boot.system.runtime.BaseRuntime</mainClass>
                             <useUniqueVersions>false</useUniqueVersions>
                         </manifest>
                     </archive>
@@ -99,7 +99,7 @@
 
         <!-- Core Extensions (previously contained in base) -->
         <dependency>
-            <groupId>org.eclipse.dataspaceconnector</groupId>
+            <groupId>org.eclipse.edc</groupId>
             <artifactId>control-plane-core</artifactId>
             <version>${edc.version}</version>
         </dependency>
@@ -111,20 +111,10 @@
             <version>${project.version}</version>
         </dependency>
 
-        <!-- Vault -->
+
         <dependency>
-            <groupId>org.eclipse.dataspaceconnector</groupId>
-            <artifactId>azure-vault</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.azure</groupId>
-                    <artifactId>azure-security-keyvault-secrets</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.azure</groupId>
-                    <artifactId>azure-identity</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.eclipse.edc</groupId>
+            <artifactId>vault-azure</artifactId>
             <version>${edc.version}</version>
         </dependency>
 

@@ -8,7 +8,7 @@ package io.catenax.knowledge.dataspace.edc.http;
 
 import java.lang.reflect.*;
 
-import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
+import org.eclipse.edc.spi.monitor.Monitor;
 
 /**
  * An invocation handler which maps all jakarta objects
@@ -34,6 +34,7 @@ public class JakartaAdapter implements InvocationHandler, IJakartaAdapter<Object
         return monitor;
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Class[] types=method.getParameterTypes();

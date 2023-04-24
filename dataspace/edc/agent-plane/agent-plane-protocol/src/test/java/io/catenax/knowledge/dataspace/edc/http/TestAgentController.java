@@ -12,7 +12,7 @@ import io.catenax.knowledge.dataspace.edc.sparql.DataspaceServiceExecutor;
 import io.catenax.knowledge.dataspace.edc.sparql.SparqlQueryProcessor;
 import okhttp3.*;
 import org.apache.jena.sparql.service.ServiceExecutorRegistry;
-import org.eclipse.dataspaceconnector.spi.types.TypeManager;
+import org.eclipse.edc.spi.types.TypeManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.jena.fuseki.Fuseki;
-import org.eclipse.dataspaceconnector.spi.monitor.ConsoleMonitor;
+import org.eclipse.edc.spi.monitor.ConsoleMonitor;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

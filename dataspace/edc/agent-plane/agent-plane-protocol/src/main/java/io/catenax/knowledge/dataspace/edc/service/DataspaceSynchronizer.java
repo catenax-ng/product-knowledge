@@ -5,9 +5,9 @@ import io.catenax.knowledge.dataspace.edc.rdf.RDFStore;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.NodeFactory;
 import org.apache.jena.sparql.core.Quad;
-import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
-import org.eclipse.dataspaceconnector.spi.types.domain.catalog.Catalog;
-import org.eclipse.dataspaceconnector.spi.types.domain.contract.offer.ContractOffer;
+import org.eclipse.edc.spi.monitor.Monitor;
+import org.eclipse.edc.catalog.spi.Catalog;
+import org.eclipse.edc.connector.contract.spi.types.offer.ContractOffer;
 
 import java.util.*;
 import java.util.concurrent.ScheduledExecutorService;

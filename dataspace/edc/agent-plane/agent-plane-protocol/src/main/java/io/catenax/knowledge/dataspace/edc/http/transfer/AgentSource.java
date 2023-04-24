@@ -4,16 +4,18 @@
 // See authors file in the top folder
 // See license file in the top folder
 //
-package io.catenax.knowledge.dataspace.edc;
+package io.catenax.knowledge.dataspace.edc.http.transfer;
 
-import dev.failsafe.RetryPolicy;
+import io.catenax.knowledge.dataspace.edc.AgentExtension;
+import io.catenax.knowledge.dataspace.edc.SkillStore;
 import io.catenax.knowledge.dataspace.edc.sparql.SparqlQueryProcessor;
-import okhttp3.OkHttpClient;
 import okhttp3.Response;
-import org.eclipse.dataspaceconnector.dataplane.http.pipeline.HttpRequestParams;
-import org.eclipse.dataspaceconnector.dataplane.spi.pipeline.DataSource;
-import org.eclipse.dataspaceconnector.spi.EdcException;
-import org.eclipse.dataspaceconnector.spi.types.domain.transfer.DataFlowRequest;
+import org.eclipse.edc.connector.dataplane.http.params.HttpRequestFactory;
+import org.eclipse.edc.connector.dataplane.http.spi.HttpRequestParams;
+import org.eclipse.edc.connector.dataplane.spi.pipeline.DataSource;
+import org.eclipse.edc.spi.EdcException;
+import org.eclipse.edc.spi.http.EdcHttpClient;
+import org.eclipse.edc.spi.types.domain.transfer.DataFlowRequest;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -22,7 +24,6 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.stream.Stream;
 
-import static dev.failsafe.Failsafe.with;
 import static java.lang.String.format;
 
 /**
@@ -42,8 +43,8 @@ public class AgentSource implements DataSource {
     protected String name;
     protected HttpRequestParams params;
     protected String requestId;
-    protected RetryPolicy<Object> retryPolicy;
-    protected OkHttpClient httpClient;
+    protected HttpRequestFactory requestFactory;
+    protected EdcHttpClient httpClient;
     protected boolean isTransfer;
     protected SparqlQueryProcessor processor;
     protected SkillStore skillStore;
@@ -67,7 +68,7 @@ public class AgentSource implements DataSource {
             String graph=null;
             String asset= request.getSourceDataAddress().getProperties().get("asset:prop:id");
             if(asset!=null && asset.length() > 0) {
-                Matcher graphMatcher=AgentExtension.GRAPH_PATTERN.matcher(asset);
+                Matcher graphMatcher= AgentExtension.GRAPH_PATTERN.matcher(asset);
                 if(graphMatcher.matches()) {
                     graph=asset;
                 }
@@ -78,7 +79,7 @@ public class AgentSource implements DataSource {
             }
             String authKey=request.getSourceDataAddress().getProperties().getOrDefault("authKey",null);
             String authCode=request.getSourceDataAddress().getProperties().getOrDefault("authCode",null);
-            try (Response response = processor.execute(params.toRequest(),skill,graph,authKey,authCode)) {
+            try (Response response = processor.execute(this.requestFactory.toRequest(params),skill,graph,authKey,authCode)) {
                 if(!response.isSuccessful()) {
                     throw new EdcException(format("Received code transferring HTTP data for request %s: %s - %s.", requestId, response.code(), response.message()));
                 }
@@ -94,7 +95,7 @@ public class AgentSource implements DataSource {
                 throw new EdcException(e);
             }
         } else {
-            try (var response = with(retryPolicy).get(() -> httpClient.newCall(params.toRequest()).execute())) {
+            try (var response = httpClient.execute(this.requestFactory.toRequest(params))) {
                 if(!response.isSuccessful()) {
                     throw new EdcException(format("Received code transferring HTTP data for request %s: %s - %s.", requestId, response.code(), response.message()));
                 }
@@ -170,12 +171,12 @@ public class AgentSource implements DataSource {
             return this;
         }
 
-        public AgentSource.Builder retryPolicy(RetryPolicy<Object> retryPolicy) {
-            dataSource.retryPolicy = retryPolicy;
+        public AgentSource.Builder requestFactory(HttpRequestFactory requestFactory) {
+            dataSource.requestFactory = requestFactory;
             return this;
         }
 
-        public AgentSource.Builder httpClient(OkHttpClient httpClient) {
+        public AgentSource.Builder httpClient(EdcHttpClient httpClient) {
             dataSource.httpClient = httpClient;
             return this;
         }
@@ -203,7 +204,7 @@ public class AgentSource implements DataSource {
         public AgentSource build() {
             Objects.requireNonNull(dataSource.requestId, "requestId");
             Objects.requireNonNull(dataSource.httpClient, "httpClient");
-            Objects.requireNonNull(dataSource.retryPolicy, "retryPolicy");
+            Objects.requireNonNull(dataSource.requestFactory, "requestFactory");
             return dataSource;
         }
 

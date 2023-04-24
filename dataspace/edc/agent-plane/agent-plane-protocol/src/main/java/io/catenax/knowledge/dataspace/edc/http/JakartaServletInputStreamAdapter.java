@@ -11,7 +11,8 @@ import java.io.IOException;
 import javax.servlet.ReadListener;
 
 import jakarta.servlet.ServletInputStream;
-import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
+import org.eclipse.edc.spi.monitor.Monitor;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * An invocation handler which maps all jakarta input stream
@@ -58,12 +59,12 @@ public class JakartaServletInputStreamAdapter extends javax.servlet.ServletInput
     }
 
     @Override
-    public int read(byte[] buf) throws IOException {
+    public int read(byte @NotNull [] buf) throws IOException {
         return jakartaDelegate.read(buf);
     }
 
     @Override
-    public int read(byte[] b, int off, int len) throws IOException {
+    public int read(byte @NotNull [] b, int off, int len) throws IOException {
         return jakartaDelegate.read(b, off, len);
     }
 

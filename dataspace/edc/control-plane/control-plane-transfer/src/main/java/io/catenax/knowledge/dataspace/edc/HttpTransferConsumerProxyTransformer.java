@@ -5,19 +5,20 @@ package io.catenax.knowledge.dataspace.edc;
 // See authors file in the top folder
 // See license file in the top folder
 //
-import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
-import org.eclipse.dataspaceconnector.spi.result.Result;
-import org.eclipse.dataspaceconnector.spi.transfer.edr.EndpointDataReferenceTransformer;
-import org.eclipse.dataspaceconnector.spi.types.domain.DataAddress;
-import org.eclipse.dataspaceconnector.spi.types.domain.HttpDataAddress;
-import org.eclipse.dataspaceconnector.spi.types.domain.edr.EndpointDataReference;
-import org.eclipse.dataspaceconnector.transfer.dataplane.spi.proxy.DataPlaneTransferProxyCreationRequest;
-import org.eclipse.dataspaceconnector.transfer.dataplane.spi.proxy.DataPlaneTransferProxyReferenceService;
-import org.eclipse.dataspaceconnector.transfer.dataplane.sync.proxy.DataPlaneTransferProxyResolver;
+import org.eclipse.edc.spi.monitor.Monitor;
+import org.eclipse.edc.spi.result.Result;
+import org.eclipse.edc.connector.transfer.spi.edr.EndpointDataReferenceTransformer;
+import org.eclipse.edc.spi.types.domain.DataAddress;
+import org.eclipse.edc.spi.types.domain.HttpDataAddress;
+import org.eclipse.edc.spi.types.domain.edr.EndpointDataReference;
+import org.eclipse.edc.connector.transfer.dataplane.spi.proxy.ConsumerPullTransferEndpointDataReferenceCreationRequest;
+import org.eclipse.edc.connector.transfer.dataplane.spi.proxy.ConsumerPullTransferEndpointDataReferenceService;
+import org.eclipse.edc.connector.transfer.dataplane.proxy.ConsumerPullTransferProxyResolver;
 import org.jetbrains.annotations.NotNull;
 
 import static java.lang.String.format;
-import static org.eclipse.dataspaceconnector.transfer.dataplane.spi.DataPlaneTransferConstants.CONTRACT_ID;
+
+import static org.eclipse.edc.connector.transfer.dataplane.spi.TransferDataPlaneConstants.CONTRACT_ID;
 
 /**
  * a consumer side proxy transformer which uses the "protocol" field in the EDR
@@ -27,16 +28,17 @@ import static org.eclipse.dataspaceconnector.transfer.dataplane.spi.DataPlaneTra
  */
 public class HttpTransferConsumerProxyTransformer implements EndpointDataReferenceTransformer {
 
-    protected final DataPlaneTransferProxyResolver proxyResolver;
-    protected final DataPlaneTransferProxyReferenceService proxyReferenceCreator;
+    protected final ConsumerPullTransferProxyResolver proxyResolver;
+    protected final ConsumerPullTransferEndpointDataReferenceService proxyReferenceCreator;
     protected final Monitor monitor;
 
     /**
      * create a new transformer
-     * @param proxyResolver
-     * @param proxyCreator
+     * @param monitor logging facility
+     * @param proxyResolver proxy resolver
+     * @param proxyCreator proxy creator
      */
-    public HttpTransferConsumerProxyTransformer(Monitor monitor, DataPlaneTransferProxyResolver proxyResolver, DataPlaneTransferProxyReferenceService proxyCreator) {
+    public HttpTransferConsumerProxyTransformer(Monitor monitor, ConsumerPullTransferProxyResolver proxyResolver, ConsumerPullTransferEndpointDataReferenceService proxyCreator) {
         this.proxyResolver = proxyResolver;
         this.proxyReferenceCreator = proxyCreator;
         this.monitor=monitor;
@@ -44,7 +46,7 @@ public class HttpTransferConsumerProxyTransformer implements EndpointDataReferen
 
     /**
      * access edr extension
-     * @param edr
+     * @param edr endpoint reference
      * @return protocol part
      */
     protected String getProtocol(@NotNull EndpointDataReference edr) {
@@ -68,16 +70,17 @@ public class HttpTransferConsumerProxyTransformer implements EndpointDataReferen
     @Override
     public Result<EndpointDataReference> transform(@NotNull EndpointDataReference edr) {
         var address = toHttpDataAddress(edr);
-        monitor.debug(String.format("Derived address %s with protocol %s for edr %s",address,address.getType(),edr));
         var contractId = edr.getProperties().get(CONTRACT_ID);
         if (contractId == null) {
             return Result.failure(format("Cannot transform endpoint data reference with id %s as contract id is missing", edr.getId()));
         }
+
         var proxyUrl = proxyResolver.resolveProxyUrl(address);
         if (proxyUrl.failed()) {
             return Result.failure(format("Failed to resolve proxy url for endpoint data reference %s\n %s", edr.getId(), String.join(",", proxyUrl.getFailureMessages())));
         }
-        var builder = DataPlaneTransferProxyCreationRequest.Builder.newInstance()
+
+        var builder = ConsumerPullTransferEndpointDataReferenceCreationRequest.Builder.newInstance()
                 .id(edr.getId())
                 .contentAddress(address)
                 .proxyEndpoint(proxyUrl.getContent())
@@ -88,11 +91,11 @@ public class HttpTransferConsumerProxyTransformer implements EndpointDataReferen
 
     /**
      * convert edr into a typed dataaddress
-     * @param edr
+     * @param edr endpoint reference
      * @return dataddress
      */
     protected DataAddress toHttpDataAddress(EndpointDataReference edr) {
-        DataAddress.Builder addressBuilder= HttpDataAddress.Builder.newInstance()
+        HttpDataAddress.Builder addressBuilder= HttpDataAddress.Builder.newInstance()
                 .baseUrl(edr.getEndpoint())
                 .authKey(edr.getAuthKey())
                 .authCode(edr.getAuthCode())

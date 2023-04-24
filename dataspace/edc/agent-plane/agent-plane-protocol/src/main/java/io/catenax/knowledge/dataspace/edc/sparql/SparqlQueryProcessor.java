@@ -9,10 +9,8 @@ package io.catenax.knowledge.dataspace.edc.sparql;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.catenax.knowledge.dataspace.edc.*;
-import io.catenax.knowledge.dataspace.edc.http.HttpServletContextAdapter;
-import io.catenax.knowledge.dataspace.edc.http.HttpServletRequestAdapter;
-import io.catenax.knowledge.dataspace.edc.http.HttpServletResponseAdapter;
-import io.catenax.knowledge.dataspace.edc.http.IJakartaAdapter;
+import io.catenax.knowledge.dataspace.edc.http.*;
+import io.catenax.knowledge.dataspace.edc.http.transfer.AgentSourceHttpParamsDecorator;
 import io.catenax.knowledge.dataspace.edc.rdf.RDFStore;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,7 +19,6 @@ import jakarta.ws.rs.InternalServerErrorException;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.http.HttpStatus;
-import org.apache.jena.atlas.web.ContentType;
 import org.apache.jena.fuseki.Fuseki;
 import org.apache.jena.fuseki.metrics.MetricsProviderRegistry;
 import org.apache.jena.fuseki.server.DataAccessPointRegistry;
@@ -29,7 +26,7 @@ import org.apache.jena.fuseki.server.OperationRegistry;
 import org.apache.jena.fuseki.servlets.*;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import java.net.URLDecoder;
@@ -38,17 +35,14 @@ import java.util.regex.Pattern;
 
 import org.apache.jena.query.QueryExecException;
 import org.apache.jena.query.Query;
-import org.apache.jena.riot.WebContent;
 import org.apache.jena.sparql.ARQConstants;
 import org.apache.jena.sparql.algebra.optimize.RewriteFactory;
 import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.atlas.lib.Pair;
 import org.apache.jena.sparql.engine.http.QueryExceptionHTTP;
 import org.apache.jena.sparql.service.ServiceExecutorRegistry;
-import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
-import org.eclipse.dataspaceconnector.spi.types.TypeManager;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
+import org.eclipse.edc.spi.monitor.Monitor;
+import org.eclipse.edc.spi.types.TypeManager;
 
 /**
  * dedicated SparQL query processor which is skill-enabled and open for edc-based services:
@@ -159,9 +153,7 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
             }
         } catch(ActionErrorException e) {
             throw new BadRequestException(e.getMessage(),e.getCause());
-        } catch(QueryExecException e) {
-            throw new InternalServerErrorException(e.getMessage(),e.getCause());
-        } catch (JsonProcessingException e) {
+        } catch(QueryExecException | JsonProcessingException e) {
             throw new InternalServerErrorException(e.getMessage(),e.getCause());
         } finally {
             CatenaxWarning.setWarnings(action.getContext(),previous);
@@ -253,15 +245,16 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
      */
     @Override
     protected void execute(String queryString, HttpAction action) {
+        // support for the special www-forms form
         if(action.getRequestContentType() != null && action.getRequestContentType().contains("application/x-www-form-urlencoded")) {
-            Map<String,String> parts=AgentSourceRequestParamsSupplier.parseFormBody(queryString);
-            try {
-                queryString=URLDecoder.decode(parts.get("query"), "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                System.err.println(e.getMessage());
-                action.getResponse().setStatus(HttpStatus.SC_BAD_REQUEST);
-                return;
-            }
+            Map<String,List<String>> parts= AgentSourceHttpParamsDecorator.parseParams(queryString);
+                Optional<String> query=parts.getOrDefault("query",List.of()).stream().findFirst();
+                if(query.isEmpty()) {
+                    action.getResponse().setStatus(HttpStatus.SC_BAD_REQUEST);
+                    return;
+                } else {
+                    queryString = URLDecoder.decode(query.get(), StandardCharsets.UTF_8);
+                }
         }
         TupleSet ts = ((AgentHttpAction) action).getInputBindings();
         Pattern tuplePattern = Pattern.compile("\\([^()]*\\)");
@@ -336,7 +329,7 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
             lastStart=0;
             while(graphMatcher.find()) {
                 replaceQuery.append(queryString.substring(lastStart,graphMatcher.start()-1));
-                replaceQuery.append(String.format("SERVICE <%s>",request.url().uri().toString()));
+                replaceQuery.append(String.format("SERVICE <%s>",request.url().uri()));
                 lastStart=graphMatcher.end();
             }
             replaceQuery.append(queryString.substring(lastStart));

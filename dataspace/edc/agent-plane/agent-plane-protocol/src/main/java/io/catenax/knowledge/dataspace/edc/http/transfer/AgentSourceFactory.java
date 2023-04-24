@@ -4,43 +4,48 @@
 // See authors file in the top folder
 // See license file in the top folder
 //
-package io.catenax.knowledge.dataspace.edc;
+package io.catenax.knowledge.dataspace.edc.http.transfer;
 
+import io.catenax.knowledge.dataspace.edc.AgentProtocol;
+import io.catenax.knowledge.dataspace.edc.SkillStore;
 import io.catenax.knowledge.dataspace.edc.sparql.SparqlQueryProcessor;
-import okhttp3.OkHttpClient;
-import org.eclipse.dataspaceconnector.dataplane.spi.pipeline.DataSource;
-import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
-import dev.failsafe.RetryPolicy;
-import org.eclipse.dataspaceconnector.spi.types.domain.HttpDataAddress;
-import org.eclipse.dataspaceconnector.spi.types.domain.transfer.DataFlowRequest;
+import org.eclipse.edc.connector.dataplane.http.params.HttpRequestFactory;
+import org.eclipse.edc.connector.dataplane.spi.pipeline.DataSource;
+import org.eclipse.edc.spi.http.EdcHttpClient;
+import org.eclipse.edc.spi.monitor.Monitor;
+import org.eclipse.edc.spi.types.domain.HttpDataAddress;
+import org.eclipse.edc.spi.types.domain.transfer.DataFlowRequest;
 
 /**
  * A factory for Agent Sources (representing backend SparQL endpoints)
  */
-public class AgentSourceFactory extends org.eclipse.dataspaceconnector.dataplane.http.pipeline.HttpDataSourceFactory {
+public class AgentSourceFactory extends org.eclipse.edc.connector.dataplane.http.pipeline.HttpDataSourceFactory {
 
     final AgentSourceRequestParamsSupplier supplier;
     final Monitor monitor;
-    final OkHttpClient httpClient;
-    final RetryPolicy<Object> retryPolicy;
+    final EdcHttpClient httpClient;
     final SparqlQueryProcessor processor;
     final SkillStore skillStore;
+    final HttpRequestFactory requestFactory;
+
 
     /**
      * create a new agent source factory
      * @param httpClient http outgoing system
-     * @param retryPolicy a retry policy to use
      * @param supplier a parameter supplier helper
+     * @param monitor logging facility
+     * @param requestFactory for outgoing calls
+     * @param processor the query processor/sparql engine
      * @param skillStore store for skills
      */
-    public AgentSourceFactory(OkHttpClient httpClient, RetryPolicy<Object> retryPolicy, AgentSourceRequestParamsSupplier supplier, Monitor monitor, SparqlQueryProcessor processor, SkillStore skillStore) {
-        super(httpClient,retryPolicy,supplier);
+    public AgentSourceFactory(EdcHttpClient httpClient, AgentSourceRequestParamsSupplier supplier, Monitor monitor, HttpRequestFactory requestFactory, SparqlQueryProcessor processor, SkillStore skillStore) {
+        super(httpClient,supplier,monitor,requestFactory);
         this.supplier=supplier;
         this.monitor=monitor;
         this.httpClient=httpClient;
-        this.retryPolicy=retryPolicy;
         this.skillStore=skillStore;
         this.processor=processor;
+        this.requestFactory=requestFactory;
     }
 
     /**
@@ -61,7 +66,7 @@ public class AgentSourceFactory extends org.eclipse.dataspaceconnector.dataplane
      */
     @Override
     public DataSource createSource(DataFlowRequest request) {
-        boolean isTransfer=isTransferRequest(request);
+        boolean isTransfer= AgentSourceHttpParamsDecorator.isTransferRequest(request);
         var dataAddress = HttpDataAddress.Builder.newInstance()
                 .copyFrom(request.getSourceDataAddress())
                 .build();
@@ -69,8 +74,8 @@ public class AgentSourceFactory extends org.eclipse.dataspaceconnector.dataplane
                 .httpClient(httpClient)
                 .requestId(request.getId())
                 .name(dataAddress.getName())
-                .params(supplier.apply(request))
-                .retryPolicy(retryPolicy)
+                .params(supplier.provideSourceParams(request))
+                .requestFactory(requestFactory)
                 .isTransfer(isTransfer)
                 .skillStore(skillStore)
                 .processor(processor)
@@ -82,12 +87,4 @@ public class AgentSourceFactory extends org.eclipse.dataspaceconnector.dataplane
         return dataSource;
     }
 
-    /**
-     * a check that distinguishes between http transfer and http data requests
-     * @param request incoming data flow request
-     * @return flag indicating whether its a transfer or protocol request
-     */
-    public static boolean isTransferRequest(DataFlowRequest request) {
-        return request.getSourceDataAddress().getProperties().getOrDefault("asset:prop:id", null)==null;
-    }
 }

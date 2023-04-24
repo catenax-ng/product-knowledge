@@ -25,8 +25,8 @@
        <com.azure.sdk.bom.version>1.2.2</com.azure.sdk.bom.version>
        <junit.version>5.9.0</junit.version>
        <mockito.version>4.6.1</mockito.version>
-       <tx.edc.version>0.2.0</tx.edc.version>
-       <edc.version>0.0.1-20221006-SNAPSHOT</edc.version>
+       <tx.edc.version>0.3.3-SNAPSHOT</tx.edc.version>
+       <edc.version>0.0.1-20230220.patch1</edc.version>
        <failsafe.version>3.2.4</failsafe.version>
        <okhttp.version>4.10.0</okhttp.version>
        <rdf4j.version>4.2.0</rdf4j.version>
@@ -176,7 +176,7 @@
         </repository>
         <repository> <!-- To be able to use edc patch "releases" -->
             <id>ka-dsc-snapshots</id>
-            <url>https://maven.pkg.github.com/catenax/ka-DataspaceConnector</url>
+            <url>https://drcgjung.github.io/DataSpaceConnector</url>
         </repository>
         <repository> <!-- webvowl -->
 		      <id>jitpack.io</id>
@@ -193,6 +193,10 @@
         <repository> <!-- runtime meta-model -->
             <id>oss</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+        <repository> <!-- ids -->
+            <id>ids</id>
+            <url>https://maven.iais.fraunhofer.de/artifactory/eis-ids-public/</url>
         </repository>
     </repositories>
 

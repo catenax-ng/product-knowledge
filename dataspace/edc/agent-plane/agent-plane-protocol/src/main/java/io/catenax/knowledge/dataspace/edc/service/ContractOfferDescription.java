@@ -6,7 +6,7 @@
 //
 package io.catenax.knowledge.dataspace.edc.service;
 
-import org.eclipse.dataspaceconnector.policy.model.Policy;
+import org.eclipse.edc.policy.model.Policy;
 
 public class ContractOfferDescription {
     private final String offerId;
@@ -20,7 +20,6 @@ public class ContractOfferDescription {
         this.assetId = assetId;
         this.policy = policy;
     }
-
 
     public String getOfferId() {
         return this.offerId;

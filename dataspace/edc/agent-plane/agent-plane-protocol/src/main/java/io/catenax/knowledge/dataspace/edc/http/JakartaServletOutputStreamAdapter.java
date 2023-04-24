@@ -11,7 +11,8 @@ import java.io.IOException;
 import javax.servlet.WriteListener;
 
 import jakarta.servlet.ServletOutputStream;
-import org.eclipse.dataspaceconnector.spi.monitor.Monitor;
+import org.eclipse.edc.spi.monitor.Monitor;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * An invocation handler which maps jakarta output stream
@@ -53,12 +54,12 @@ public class JakartaServletOutputStreamAdapter extends javax.servlet.ServletOutp
     }
 
     @Override
-    public void write(byte[] b) throws IOException {
+    public void write(byte @NotNull [] b) throws IOException {
         jakartaDelegate.write(b);
     }
 
     @Override
-    public void write(byte[] b, int off, int len) throws IOException {
+    public void write(byte @NotNull [] b, int off, int len) throws IOException {
         jakartaDelegate.write(b, off, len);
     }
 
