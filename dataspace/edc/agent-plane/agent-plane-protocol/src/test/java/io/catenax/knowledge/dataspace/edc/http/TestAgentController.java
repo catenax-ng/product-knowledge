@@ -70,7 +70,7 @@ public class TestAgentController {
     SkillStore skillStore=new SkillStore();
 
 
-    AgentController agentController=new AgentController(monitor,mockController,agentConfig,null,processor,skillStore);
+    AgentController agentController=new AgentController(monitor,mockController,agentConfig,null,processor,skillStore,typeManager);
 
     AutoCloseable mocks=null;
 

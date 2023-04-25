@@ -6,7 +6,10 @@
 //
 package io.catenax.knowledge.dataspace.edc.http;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import io.catenax.knowledge.dataspace.edc.*;
+import io.catenax.knowledge.dataspace.edc.sparql.CatenaxWarning;
 import io.catenax.knowledge.dataspace.edc.sparql.SparqlQueryProcessor;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
@@ -14,8 +17,7 @@ import jakarta.ws.rs.core.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +25,10 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpStatus;
+import org.apache.jena.http.HttpLib;
+import org.apache.jena.sparql.algebra.Op;
 import org.eclipse.edc.spi.monitor.Monitor;
+import org.eclipse.edc.spi.types.TypeManager;
 import org.eclipse.edc.spi.types.domain.edr.EndpointDataReference;
 
 import java.util.Objects;
@@ -53,7 +58,8 @@ public class AgentController {
     protected final SkillStore skillStore;
 
     // the actual Fuseki engine components
-    private final SparqlQueryProcessor processor;
+    protected final SparqlQueryProcessor processor;
+    protected final TypeManager typeManager;
 
     /** 
      * creates a new agent controller 
@@ -63,13 +69,14 @@ public class AgentController {
      * @param client http client
      * @param processor sparql processor
      */
-    public AgentController(Monitor monitor, IAgreementController agreementController, AgentConfig config, OkHttpClient client, SparqlQueryProcessor processor, SkillStore skillStore) {
+    public AgentController(Monitor monitor, IAgreementController agreementController, AgentConfig config, OkHttpClient client, SparqlQueryProcessor processor, SkillStore skillStore, TypeManager typeManager) {
         this.monitor = monitor;
         this.agreementController = agreementController;
         this.client=client;
         this.config=config;
         this.processor=processor;
         this.skillStore=skillStore;
+        this.typeManager=typeManager;
     }
 
     /**
@@ -552,16 +559,91 @@ public class AgentController {
 
             response.setStatus(myResponse.code());
 
+            Optional<List<CatenaxWarning>> warnings=Optional.empty();
+
             for(String header : myResponse.headers().names()) {
                 for(String value : myResponse.headers().values(header)) {
-                    response.addHeader(header,value);
+                    if(header.equals("cx_warnings")) {
+                        warnings=Optional.of(typeManager.getMapper().readValue(value, new TypeReference<List<CatenaxWarning>>(){}));
+                    } else if(!header.equals("Content-Length")) {
+                        response.addHeader(header, value);
+                    }
                 }
             }
 
             var body = myResponse.body();
 
             if (body != null) {
-                IOUtils.copy(body.byteStream(), response.getOutputStream());
+                okhttp3.MediaType contentType=body.contentType();
+                InputStream inputStream=new BufferedInputStream(myResponse.body().byteStream());
+                inputStream.mark(2);
+                byte[] boundaryBytes=new byte[2];
+                int all=inputStream.read(boundaryBytes);
+                String boundary=new String(boundaryBytes);
+                inputStream.reset();
+
+                if("--".equals(new String(boundary))) {
+                    int boundaryIndex=0;
+                    if(contentType!=null) {
+                        boundaryIndex=contentType.toString().indexOf(";boundary=");
+                    }
+                    if(boundaryIndex>=0) {
+                        boundary=boundary+contentType.toString().substring(boundaryIndex+10);
+                    }
+                    StringBuilder nextPart=null;
+                    String embeddedContentType=null;
+                    BufferedReader reader=new BufferedReader(new InputStreamReader(inputStream));
+                    for(String line = reader.readLine(); line!=null; line=reader.readLine()) {
+                        if(boundary.equals(line)) {
+                            if(nextPart!=null && embeddedContentType!=null) {
+                                if(embeddedContentType.equals("application/cx-warnings+json")) {
+                                    List<CatenaxWarning> nextWarnings=typeManager.readValue(nextPart.toString(),new TypeReference<List<CatenaxWarning>>(){});
+                                    if(warnings.isPresent()) {
+                                        warnings.get().addAll(nextWarnings);
+                                    } else {
+                                        warnings=Optional.of(nextWarnings);
+                                    }
+                                } else {
+                                    inputStream=new ByteArrayInputStream(nextPart.toString().getBytes());
+                                    contentType=okhttp3.MediaType.parse(embeddedContentType);
+                                }
+                            }
+                            nextPart=new StringBuilder();
+                            String contentLine=reader.readLine();
+                            if(contentLine!=null && contentLine.startsWith("Content-Type: ")) {
+                                embeddedContentType=contentLine.substring(14);
+                            } else {
+                                embeddedContentType=null;
+                            }
+                        } else {
+                            nextPart.append(line);
+                            nextPart.append("\n");
+                        }
+                    }
+                    reader.close();
+                    if(nextPart!=null && embeddedContentType!=null) {
+                        if(embeddedContentType.equals("application/cx-warnings+json")) {
+                            List<CatenaxWarning> nextWarnings=typeManager.readValue(nextPart.toString(),new TypeReference<List<CatenaxWarning>>(){});
+                            if(warnings.isPresent()) {
+                                warnings.get().addAll(nextWarnings);
+                            } else {
+                                warnings=Optional.of(nextWarnings);
+                            }
+                        } else {
+                            inputStream=new ByteArrayInputStream(nextPart.toString().getBytes());
+                            contentType=okhttp3.MediaType.parse(embeddedContentType);
+                        }
+                    }
+                }
+                if(warnings.isPresent()) {
+                    response.addHeader("cx_warnings",typeManager.writeValueAsString(warnings.get()));
+                }
+                if(contentType!=null) {
+                    response.setContentType(contentType.toString());
+                }
+                IOUtils.copy(inputStream, response.getOutputStream());
+                inputStream.close();
+                //response.getOutputStream().close();
             }
         }
     }

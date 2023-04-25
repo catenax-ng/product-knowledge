@@ -44,6 +44,7 @@ public class HttpProtocolsExtension implements ServiceExtension {
     @Inject
     private EndpointDataReferenceTransformerRegistry transformerRegistry;
 
+    @Inject
     private Clock clock;
 
     @Inject

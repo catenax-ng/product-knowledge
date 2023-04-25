@@ -51,6 +51,7 @@ public class AgentSourceHttpParamsDecorator implements HttpParamsDecorator {
     public static String PARAM_GROUP="param";
     public static String VALUE_GROUP="value";
 
+
     public static Pattern PARAMS = Pattern.compile(String.format("(\\?|&)(?<%s>[^=&]+)=(?<%s>[^=&]*)",PARAM_GROUP,VALUE_GROUP));
 
     public static String WWW_FORM_ENCODED="application/x-www-form-urlencoded";
@@ -124,7 +125,7 @@ public class AgentSourceHttpParamsDecorator implements HttpParamsDecorator {
     public HttpRequestParams.Builder decorate(DataFlowRequest request, HttpDataAddress address, HttpRequestParams.Builder params) {
         String contentType=this.extractContentType(address, request);
         String body= this.extractBody(address,request);
-        Map<String,List<String>> queryParams=parseParams(getRequestQueryParams(address,request));
+        Map<String,List<String>> queryParams=parseParams("?"+getRequestQueryParams(address,request));
 
         if(isTransferRequest(request)) {
             if(!address.getProperty(BASE_URL).endsWith(SLASH)) {
@@ -136,7 +137,7 @@ public class AgentSourceHttpParamsDecorator implements HttpParamsDecorator {
             // we may get query parameters in the body
             // in this case we leave the query in the body (and rewriting the content type)
             if (contentType != null && contentType.contains(WWW_FORM_ENCODED)) {
-                Map<String,List<String>> bodyParams=parseParams(body);
+                Map<String,List<String>> bodyParams=parseParams("&"+body);
                 contentType=SPARQL_QUERY;
                 List<String> queries=queryParams.getOrDefault(QUERY_PARAM,bodyParams.getOrDefault(QUERY_PARAM,List.of()));
                 if(queries.size()!=1) {
@@ -170,13 +171,15 @@ public class AgentSourceHttpParamsDecorator implements HttpParamsDecorator {
                 params.header(ACCEPT_HEADER,accept);
             }
         }
-        Map<String,List<String>> addressParams=parseParams(address.getQueryParams());
+        Map<String,List<String>> addressParams=parseParams("?"+address.getQueryParams());
         mergeParams(queryParams,addressParams);
         String paramString=queryParams.entrySet().stream().flatMap((param) -> param.getValue().stream().map( (value) -> param.getKey()+"="+value)).collect(Collectors.joining("&"));
         params.queryParams(!paramString.isEmpty() ? paramString : null);
         params.method(this.extractMethod(address, request));
         params.path(this.extractPath(address, request));
-        params.contentType(contentType);
+        if(contentType!=null) {
+            params.contentType(contentType);
+        }
         params.body(body);
         params.nonChunkedTransfer(false);
         return params;

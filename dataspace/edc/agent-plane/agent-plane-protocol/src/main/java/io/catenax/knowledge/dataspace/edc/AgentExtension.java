@@ -145,7 +145,7 @@ public class AgentExtension implements ServiceExtension {
 
         // stored procedure store and transport endpoint
         SkillStore skillStore=new SkillStore();
-        AgentController agentController=new AgentController(monitor,agreementController,config,httpClient,processor,skillStore);
+        AgentController agentController=new AgentController(monitor,agreementController,config,httpClient,processor,skillStore,typeManager);
         monitor.debug(String.format("Registering agent controller %s",agentController));
         webService.registerResource(DEFAULT_CONTEXT_ALIAS, agentController);
 

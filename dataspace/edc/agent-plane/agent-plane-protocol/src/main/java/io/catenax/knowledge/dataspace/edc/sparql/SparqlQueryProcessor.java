@@ -26,6 +26,8 @@ import org.apache.jena.fuseki.server.OperationRegistry;
 import org.apache.jena.fuseki.servlets.*;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -245,6 +247,9 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
      */
     @Override
     protected void execute(String queryString, HttpAction action) {
+        if (queryString.indexOf("%20") > 0 || queryString.indexOf("%3F") > 0 || queryString.indexOf("%3A")>0) {
+            queryString=URLDecoder.decode(queryString,StandardCharsets.UTF_8);
+        }
         // support for the special www-forms form
         if(action.getRequestContentType() != null && action.getRequestContentType().contains("application/x-www-form-urlencoded")) {
             Map<String,List<String>> parts= AgentSourceHttpParamsDecorator.parseParams(queryString);
@@ -329,7 +334,17 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
             lastStart=0;
             while(graphMatcher.find()) {
                 replaceQuery.append(queryString.substring(lastStart,graphMatcher.start()-1));
-                replaceQuery.append(String.format("SERVICE <%s>",request.url().uri()));
+                URI serviceUri=request.url().uri();
+                try {
+                    serviceUri = new URI(serviceUri.getScheme(),
+                            serviceUri.getAuthority(),
+                            serviceUri.getPath(),
+                            null, // Ignore the query part of the input url
+                            serviceUri.getFragment());
+                } catch(URISyntaxException e) {
+
+                }
+                replaceQuery.append(String.format("SERVICE <%s>",serviceUri));
                 lastStart=graphMatcher.end();
             }
             replaceQuery.append(queryString.substring(lastStart));
