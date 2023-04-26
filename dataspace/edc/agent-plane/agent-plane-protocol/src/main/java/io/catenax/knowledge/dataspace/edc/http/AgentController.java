@@ -6,7 +6,6 @@
 //
 package io.catenax.knowledge.dataspace.edc.http;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.catenax.knowledge.dataspace.edc.*;
 import io.catenax.knowledge.dataspace.edc.sparql.CatenaxWarning;
@@ -25,8 +24,6 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpStatus;
-import org.apache.jena.http.HttpLib;
-import org.apache.jena.sparql.algebra.Op;
 import org.eclipse.edc.spi.monitor.Monitor;
 import org.eclipse.edc.spi.types.TypeManager;
 import org.eclipse.edc.spi.types.domain.edr.EndpointDataReference;
@@ -60,6 +57,7 @@ public class AgentController {
     // the actual Fuseki engine components
     protected final SparqlQueryProcessor processor;
     protected final TypeManager typeManager;
+    public final static TypeReference<List<CatenaxWarning>> warningTypeReference = new TypeReference<>(){};
 
     /** 
      * creates a new agent controller 
@@ -564,7 +562,7 @@ public class AgentController {
             for(String header : myResponse.headers().names()) {
                 for(String value : myResponse.headers().values(header)) {
                     if(header.equals("cx_warnings")) {
-                        warnings=Optional.of(typeManager.getMapper().readValue(value, new TypeReference<List<CatenaxWarning>>(){}));
+                        warnings=Optional.of(typeManager.getMapper().readValue(value,warningTypeReference ));
                     } else if(!header.equals("Content-Length")) {
                         response.addHeader(header, value);
                     }
@@ -575,20 +573,21 @@ public class AgentController {
 
             if (body != null) {
                 okhttp3.MediaType contentType=body.contentType();
-                InputStream inputStream=new BufferedInputStream(myResponse.body().byteStream());
+                InputStream inputStream=new BufferedInputStream(body.byteStream());
                 inputStream.mark(2);
                 byte[] boundaryBytes=new byte[2];
-                int all=inputStream.read(boundaryBytes);
+                //noinspection ResultOfMethodCallIgnored
+                inputStream.read(boundaryBytes);
                 String boundary=new String(boundaryBytes);
                 inputStream.reset();
 
                 if("--".equals(boundary)) {
-                    int boundaryIndex=0;
                     if(contentType!=null) {
+                        int boundaryIndex;
                         boundaryIndex=contentType.toString().indexOf(";boundary=");
-                    }
-                    if(boundaryIndex>=0) {
-                        boundary=boundary+contentType.toString().substring(boundaryIndex+10);
+                        if(boundaryIndex>=0) {
+                            boundary=boundary+contentType.toString().substring(boundaryIndex+10);
+                        }
                     }
                     StringBuilder nextPart=null;
                     String embeddedContentType=null;
@@ -597,7 +596,7 @@ public class AgentController {
                         if(boundary.equals(line)) {
                             if(nextPart!=null && embeddedContentType!=null) {
                                 if(embeddedContentType.equals("application/cx-warnings+json")) {
-                                    List<CatenaxWarning> nextWarnings=typeManager.readValue(nextPart.toString(),new TypeReference<List<CatenaxWarning>>(){});
+                                    List<CatenaxWarning> nextWarnings=typeManager.readValue(nextPart.toString(),warningTypeReference);
                                     if(warnings.isPresent()) {
                                         warnings.get().addAll(nextWarnings);
                                     } else {
@@ -615,7 +614,7 @@ public class AgentController {
                             } else {
                                 embeddedContentType=null;
                             }
-                        } else {
+                        } else if(nextPart!=null) {
                             nextPart.append(line);
                             nextPart.append("\n");
                         }
@@ -623,7 +622,7 @@ public class AgentController {
                     reader.close();
                     if(nextPart!=null && embeddedContentType!=null) {
                         if(embeddedContentType.equals("application/cx-warnings+json")) {
-                            List<CatenaxWarning> nextWarnings=typeManager.readValue(nextPart.toString(),new TypeReference<List<CatenaxWarning>>(){});
+                            List<CatenaxWarning> nextWarnings=typeManager.readValue(nextPart.toString(), warningTypeReference);
                             if(warnings.isPresent()) {
                                 warnings.get().addAll(nextWarnings);
                             } else {
@@ -635,9 +634,7 @@ public class AgentController {
                         }
                     }
                 }
-                if(warnings.isPresent()) {
-                    response.addHeader("cx_warnings",typeManager.writeValueAsString(warnings.get()));
-                }
+                warnings.ifPresent(catenaxWarnings -> response.addHeader("cx_warnings", typeManager.writeValueAsString(catenaxWarnings)));
                 if(contentType!=null) {
                     response.setContentType(contentType.toString());
                 }
