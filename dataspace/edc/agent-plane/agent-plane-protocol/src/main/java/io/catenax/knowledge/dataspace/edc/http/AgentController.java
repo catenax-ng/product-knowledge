@@ -582,7 +582,7 @@ public class AgentController {
                 String boundary=new String(boundaryBytes);
                 inputStream.reset();
 
-                if("--".equals(new String(boundary))) {
+                if("--".equals(boundary)) {
                     int boundaryIndex=0;
                     if(contentType!=null) {
                         boundaryIndex=contentType.toString().indexOf(";boundary=");
