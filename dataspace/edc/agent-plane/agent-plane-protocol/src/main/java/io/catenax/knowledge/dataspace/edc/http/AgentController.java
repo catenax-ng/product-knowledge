@@ -576,11 +576,11 @@ public class AgentController {
                 InputStream inputStream=new BufferedInputStream(body.byteStream());
                 inputStream.mark(2);
                 byte[] boundaryBytes=new byte[2];
-                //noinspection ResultOfMethodCallIgnored
-                inputStream.read(boundaryBytes);
-                String boundary=new String(boundaryBytes);
+                String boundary="";
+                if(inputStream.read(boundaryBytes)>0) {
+                    boundary = new String(boundaryBytes);
+                }
                 inputStream.reset();
-
                 if("--".equals(boundary)) {
                     if(contentType!=null) {
                         int boundaryIndex;
