@@ -53,7 +53,7 @@ public class AasBridge {
             );
 
 
-    public static void main(String[] args) throws ConfigurationException, AssetConnectionException, MessageBusException, EndpointException, UnsupportedEncodingException {
+    public static void main(String[] args) throws ConfigurationException, AssetConnectionException, MessageBusException, EndpointException, NumberFormatException {
 
         AasBridge aasBridge = new AasBridge(
                 System.getProperty("PROVIDER_SPARQL_ENDPOINT", System.getenv("PROVIDER_SPARQL_ENDPOINT")) +
