@@ -25,9 +25,6 @@ import org.apache.jena.fuseki.server.DataAccessPointRegistry;
 import org.apache.jena.fuseki.server.OperationRegistry;
 import org.apache.jena.fuseki.servlets.*;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -182,7 +179,7 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
         // Should we check whether this already has been done? the context should be quite static
         action.setRequest(rdfStore.getDataAccessPoint(), rdfStore.getDataService());
         ServiceExecutorRegistry.set(action.getContext(),registry);
-        action.getContext().set(DataspaceServiceExecutor.targetUrl,request);
+        action.getContext().set(DataspaceServiceExecutor.targetUrl,request.header(DataspaceServiceExecutor.targetUrl.getSymbol()));
         action.getContext().set(DataspaceServiceExecutor.authKey,authKey);
         action.getContext().set(DataspaceServiceExecutor.authCode,authCode);
         action.getContext().set(ARQConstants.sysOptimizerFactory,optimizerFactory);
@@ -326,7 +323,7 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
             throw new BadRequestException(String.format("Error: Could not bind variables"),e);
         }
         if(action.getContext().isDefined(DataspaceServiceExecutor.asset)) {
-            Request request=action.getContext().get(DataspaceServiceExecutor.targetUrl);
+            String targetUrl=action.getContext().get(DataspaceServiceExecutor.targetUrl);
             String asset=action.getContext().get(DataspaceServiceExecutor.asset);
             String graphPattern=String.format("GRAPH\\s*<%s>",asset);
             Matcher graphMatcher=Pattern.compile(graphPattern).matcher(queryString);
@@ -334,17 +331,7 @@ public class SparqlQueryProcessor extends SPARQL_QueryGeneral.SPARQL_QueryProc {
             lastStart=0;
             while(graphMatcher.find()) {
                 replaceQuery.append(queryString.substring(lastStart,graphMatcher.start()-1));
-                URI serviceUri=request.url().uri();
-                try {
-                    serviceUri = new URI(serviceUri.getScheme(),
-                            serviceUri.getAuthority(),
-                            serviceUri.getPath(),
-                            null, // Ignore the query part of the input url
-                            serviceUri.getFragment());
-                } catch(URISyntaxException e) {
-
-                }
-                replaceQuery.append(String.format("SERVICE <%s>",serviceUri));
+                replaceQuery.append(String.format("SERVICE <%s>",targetUrl));
                 lastStart=graphMatcher.end();
             }
             replaceQuery.append(queryString.substring(lastStart));

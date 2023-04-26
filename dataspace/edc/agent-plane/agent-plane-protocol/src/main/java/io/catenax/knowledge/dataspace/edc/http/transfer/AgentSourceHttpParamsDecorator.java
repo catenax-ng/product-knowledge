@@ -1,6 +1,7 @@
 package io.catenax.knowledge.dataspace.edc.http.transfer;
 
 import io.catenax.knowledge.dataspace.edc.AgentConfig;
+import io.catenax.knowledge.dataspace.edc.sparql.DataspaceServiceExecutor;
 import org.eclipse.edc.connector.dataplane.http.spi.HttpParamsDecorator;
 import org.eclipse.edc.connector.dataplane.http.spi.HttpRequestParams;
 import org.eclipse.edc.spi.EdcException;
@@ -132,6 +133,8 @@ public class AgentSourceHttpParamsDecorator implements HttpParamsDecorator {
                 params.baseUrl(address.getProperty(BASE_URL)+SLASH);
             }
         } else {
+            // we need to annotate the base url "pure" because we do not directly hit the endpoint
+            params.header(DataspaceServiceExecutor.targetUrl.getSymbol(),address.getProperty(BASE_URL));
             // there is the case where a KA-BIND protocol call is
             // one-to-one routed through the transfer plane ... in which case
             // we may get query parameters in the body
