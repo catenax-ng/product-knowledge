@@ -10,18 +10,19 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.adminshell.aas.v3.dataformat.DeserializationException;
-import io.adminshell.aas.v3.model.*;
-import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironment;
-import io.adminshell.aas.v3.model.impl.DefaultIdentifier;
+import io.adminshell.aas.v3.model.AssetAdministrationShellEnvironment;
+import io.adminshell.aas.v3.model.Submodel;
+import io.adminshell.aas.v3.model.SubmodelElement;
+import io.adminshell.aas.v3.model.SubmodelElementCollection;
+import io.catenax.knowledge.dataspace.aasbridge.AasUtils;
 import io.catenax.knowledge.dataspace.aasbridge.AspectMapper;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -45,63 +46,38 @@ public class SingleLevelBomAsPlannedMapper extends AspectMapper {
 
         Map<JsonNode, List<JsonNode>> groupedByCxid = StreamSupport.stream(queryResponse.spliterator(), false).collect(Collectors.groupingBy(node -> node.get("catenaXId")));
 
-        List<Submodel> singleLevelBomsAsPlanned = groupedByCxid.entrySet().stream().map(byCxId -> {
+        Optional<AssetAdministrationShellEnvironment> singleLevelBomsAsPlanned = groupedByCxid.values().stream().map(group -> {
             AssetAdministrationShellEnvironment aasInstance = instantiateAas();
-            Submodel submodel = aasInstance.getSubmodels().stream()
-                    .filter(sub -> sub.getSemanticId().getKeys().stream()
-                            .anyMatch(key -> key.getValue().equals("urn:bamm:io.catenax.single_level_bom_as_planned:1.0.1#SingleLevelBomAsPlanned"))
-                    )
-                    .findFirst().orElseThrow(() -> new RuntimeException("Desired Submodel not found in Template"));
+            setGlobalAssetId(aasInstance.getAssetAdministrationShells().get(0), (ObjectNode) group.get(0), "catenaXId");
 
-            submodel.setIdentification(new DefaultIdentifier.Builder()
-                    .idType(IdentifierType.CUSTOM)
-                    .identifier(UUID.randomUUID().toString())
-                    .build());
+            Submodel submodel = AasUtils.getSubmodelFromAasenv(aasInstance, "urn:bamm:io.catenax.single_level_bom_as_planned:1.0.1#SingleLevelBomAsPlanned");
+            setProperty(submodel, "catenaXId", getValueByKey((ObjectNode) group.get(0), "catenaXId"));
+            SubmodelElementCollection childCollection = AasUtils.getSmecFromSubmodel(submodel, "childParts");
+            SubmodelElementCollection childDataTemplate = (SubmodelElementCollection) AasUtils.getChildFromParentSmec(childCollection, "ChildData");
 
-            List<SubmodelElement> submodelElements = submodel
-                    .getSubmodelElements();
+            List<SubmodelElement> children = group.stream().map(child -> {
+                SubmodelElementCollection childDataInstance = AasUtils.cloneReferable(childDataTemplate, SubmodelElementCollection.class);
 
-            submodelElements.stream().filter(sme -> sme.getIdShort().equals("catenaXId"))
-                    .findFirst().ifPresent(mn -> ((Property) mn).setValue(findValueInProperty((ObjectNode) byCxId.getValue().get(0), "catenaXId")));
+                setProperty(childDataInstance, "createdOn", getValueByKey((ObjectNode) child, "productionStartDate"));
+                setProperty(childDataInstance, "lastModifiedOn", getValueByKey((ObjectNode) child, "productionEndDate"));
+                setProperty(childDataInstance, "childCatenaXId", getValueByKey((ObjectNode) child, "childCatenaXId"));
 
-            SubmodelElementCollection childCollection = (SubmodelElementCollection) submodelElements.stream().filter(sme -> sme.getIdShort().equals("childParts"))
-                    .findFirst().orElseThrow();
-
-            SubmodelElementCollection childDataTemplate = (SubmodelElementCollection) childCollection.getValues().stream().filter(sme -> sme.getIdShort().equals("ChildData"))
-                    .findFirst().orElseThrow();
-
-            List<SubmodelElement> children = byCxId.getValue().stream().map(child -> {
-                SubmodelElementCollection childDataInstance = cloneReferable(childDataTemplate, SubmodelElementCollection.class);
-                Collection<SubmodelElement> childSmes = childDataInstance.getValues();
-                ((Property) childSmes.stream().filter(sme -> sme.getIdShort().equals("createdOn")).findFirst().orElseThrow())
-                        .setValue(findValueInProperty((ObjectNode) child, "productionStartDate"));
-
-                ((Property) childSmes.stream().filter(sme -> sme.getIdShort().equals("lastModifiedOn")).findFirst().orElseThrow())
-                        .setValue(findValueInProperty((ObjectNode) child, "productionEndDate"));
-
-                ((Property) childSmes.stream().filter(sme -> sme.getIdShort().equals("childCatenaXId")).findFirst().orElseThrow())
-                        .setValue(findValueInProperty((ObjectNode) child, "childCatenaXId"));
-
-                Collection<SubmodelElement> quantityElements = ((SubmodelElementCollection) childSmes.stream().filter(sme -> sme.getIdShort().equals("Quantity")).findFirst().orElseThrow())
-                        .getValues();
-
-                ((Property) quantityElements.stream().filter(sme -> sme.getIdShort().equals("quantityNumber")).findFirst().orElseThrow())
-                        .setValue(findValueInProperty((ObjectNode) child, "childQuantity"));
-
-                ((Property) quantityElements.stream().filter(sme -> sme.getIdShort().equals("measurementUnit")).findFirst().orElseThrow())
-                        .setValue(findValueInProperty((ObjectNode) child, "billOfMaterialUnit"));
+                SubmodelElementCollection quantityElements = (SubmodelElementCollection) AasUtils.getChildFromParentSmec(childDataInstance, "Quantity");
+                setProperty(quantityElements, "quantityNumber", getValueByKey((ObjectNode) child, "childQuantity"));
+                setProperty(quantityElements, "measurementUnit", getValueByKey((ObjectNode) child, "billOfMaterialUnit"));
 
                 return childDataInstance;
             }).collect(Collectors.toList());
 
             childCollection.setValues(children);
+            return aasInstance;
+        }).reduce((env1, env2) -> {
+            env1.setSubmodels(AasUtils.join(env1.getSubmodels(), env2.getSubmodels()));
+            env1.setAssetAdministrationShells(AasUtils.join(env1.getAssetAdministrationShells(), env2.getAssetAdministrationShells()));
+            env1.setConceptDescriptions(AasUtils.join(env1.getConceptDescriptions(), env2.getConceptDescriptions()));
 
-            return submodel;
-        }).collect(Collectors.toList());
-
-        return new DefaultAssetAdministrationShellEnvironment.Builder()
-                .submodels(singleLevelBomsAsPlanned)
-                .conceptDescriptions(aasTemplate.getConceptDescriptions())
-                .build();
+            return env1;
+        });
+        return singleLevelBomsAsPlanned.orElseThrow();
     }
 }

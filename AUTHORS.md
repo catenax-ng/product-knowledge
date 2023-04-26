@@ -9,5 +9,6 @@ The following people have contributed to this repository:
 * Hans Sperker, Microsoft, https://github.com/hsperker
 * Lenny Hofmann, T-Systems International GmbH, https://github.com/ManusManum
 * Sebastian Scherer, Mercedes Benz, https://github.com/the-tatanka
+* Arno Weiß, SAP SE, https://github.com/arnoweiss
 
 Please add yourself to this list, if you contribute to the content.

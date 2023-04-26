@@ -8,6 +8,7 @@ package io.catenax.knowledge.dataspace.aasbridge.aspects;
 
 import io.adminshell.aas.v3.dataformat.DeserializationException;
 import io.adminshell.aas.v3.dataformat.SerializationException;
+import io.adminshell.aas.v3.model.AssetAdministrationShell;
 import io.adminshell.aas.v3.model.AssetAdministrationShellEnvironment;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -16,8 +17,11 @@ import org.junit.jupiter.api.TestInstance;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
@@ -46,5 +50,28 @@ class PartAsPlannedMapperTest extends AspectMapperTest {
         assertNotEquals(0, assetAdministrationShellEnvironment.getConceptDescriptions().size());
         assertNotEquals(0, assetAdministrationShellEnvironment.getSubmodels().size());
 
+    }
+
+    @Test
+    public void idProvisioning() {
+        // all submodels in a mapper have different Ids
+        List<String> submodelIds = mapper.getAasInstances().getSubmodels().stream()
+                .map(sm -> sm.getIdentification().getIdentifier()).collect(Collectors.toList());
+        List<String> distinctSubmodelIds = submodelIds.stream()
+                .distinct().collect(Collectors.toList());
+        assertEquals(submodelIds, distinctSubmodelIds);
+
+        List<AssetAdministrationShell> aass = mapper.getAasInstances().getAssetAdministrationShells();
+        List<String> aasIds = aass.stream().map(aas -> aas.getIdentification().getIdentifier()).collect(Collectors.toList());
+        List<String> distinctAasIds = aasIds.stream().distinct().collect(Collectors.toList());
+        assertEquals(aasIds, distinctAasIds);
+
+        List<String> assetIds = aass.stream().map(aas -> aas.getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue()).collect(Collectors.toList());
+        List<String> distinctAssetIds = assetIds.stream().distinct().collect(Collectors.toList());
+        assertEquals(assetIds, distinctAssetIds);
+
+        aass.forEach(aas->
+                assertEquals(1, aas.getSubmodels().stream().map(sm->sm.getKeys().get(0).getValue()).distinct().count())
+        );
     }
 }
