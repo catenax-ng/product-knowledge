@@ -52,5 +52,8 @@ and registering it in the KA-AAS Bridge. For each submodel template, there will 
 * a shell/submodel template providing the basic structure of the target AAS
 * a mapper class which populates the query results into the AAS representation
 
+To reduce the complexity of implementing new mappings, a mechanism that works on configuration only will be integrated into
+the KA-AAS Bridge in the future.
+
 [FAAAST framework](https://github.com/FraunhoferIOSB/FAAAST-Service/) is used as SDK providing the AAS tooling required for the implementation
 of all relevant AAS-APIs. 
