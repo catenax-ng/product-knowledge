@@ -3,7 +3,7 @@ sidebar_position: 1
 title: High-Level Architecture
 ---
 
-This document describes the High-Level Architecture of Agents Standard and Kit.
+This document describes the High-Level Architecture of the Agents Standard and Kit.
 
 For more information see
 

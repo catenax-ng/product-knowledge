@@ -47,7 +47,18 @@ const sidebars = {
                     collapsed: true,
                     items: [
                         'development-view/architecture',
-                        'development-view/modules',
+                        {
+                            type: 'category',
+                            label: 'Layers & Modules',
+                            link: {
+                                type: 'doc',
+                                id: 'development-view/modules',
+                            },
+                            collapsed: true,
+                            items: [
+                                'development-view/aas/bridge',
+                            ],
+                        },
                         'development-view/reference',
                         'development-view/build',
                         'development-view/compile',

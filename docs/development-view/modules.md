@@ -8,7 +8,7 @@ This chapter gives an overview how the Agent standard and Kit should be implemen
 For more information see
 
 * Our [Adoption](../adoption-view/intro) guideline
-* The [High-Level Architecture](archiutecture)
+* The [High-Level Architecture](architecture)
 * Our [Reference Implementation](reference)
 * The [Deployment](../operation-view/deployment) guide
 
@@ -127,11 +127,32 @@ The portion of the Semantic Model describing these meta-data (Business Partners,
 
 ## Backend Systems (Non-Standard Relevant)
 
-Legacy IT landscape of data space participants consisting of various backend systems, such as PLM, ERP, ObjectStores mostly located in the Enterprise Intranet and hosted/goverened by the business departments. Here, the actual data sources of all Catena-X participants is originated where they are served using custom, but mission-critical business or technological APIs in specific, transaction-oriented formats.
+(Legacy, Non-Dataspace) IT landscape of data space participants consisting of various backend systems, such as PLM, ERP, ObjectStores mostly located in the Enterprise Intranet and hosted/goverened by the business departments.
+Here, the actual data sources of all Catena-X participants is originated
+where they are served using custom, but mission-critical business or
+technological APIs in specific, transaction-oriented formats.
+
+### AAS Servers and Databases
+
+As a special case of backend systems, we also regard existing AAS servers and databases as valid data sources
+to form a semantic dataspace.
+
+See [AAS Bridge](aas/bridge.md) for a more detailed explanation.
 
 ## Virtualization Layer (Non-Standard Relevant)
 
-The data virtualization layer fulfills the function of making the company internal, department-hosted data available for cross-company data exchange scenarios, e.g. via data lakes, data warehouses or other enterprise middleware. Instead of connecting each and every backend system separatly to an external data source/sink (such as Catena-X) it often makes sense to have this additional layer on top of backend systems which orchestrates data demand and supply across the systems. Depending on company IT architecture different technologies can be used to build up this layer.
+The data virtualization layer fulfills the function of making the company
+internal, department-hosted data available for cross-company data exchange
+scenarios, e.g. via data lakes, data warehouses or other enterprise
+middleware.
+
+Instead of connecting each and every backend system separately to
+an published data source/sink (such as provided by Catena-X) it often makes
+sense to have this additional layer on top of backend systems
+which orchestrates data demand and supply across the systems.
+
+Depending on company IT architecture different technologies can be used
+to build up this layer.
 
 ### ETL/Data Lakes
 
@@ -140,6 +161,14 @@ In this scenario data from connected backend systems is stored in a central repo
 ### API Gateway
 
 This approach offers users a unified and technically abstract view for querying and manipulating data across a range of disparate sources. As such, it can be used to create virtualized and integrated views of data in memory rather than executing data movement and physically storing integrated views.
+
+### AAS->KA Bridge
+
+Special form of virtualization component which denormalizes/flattens & caches the often hierarchical
+information (Shells, Submodels, Submodel Elements) stored in backend AAS servers in order to make it
+accessible for ad-hoc querying.
+
+See [AAS Bridge](aas/bridge.md) for a more detailed explanation.
 
 ## Binding Layer
 
@@ -156,3 +185,12 @@ The Functional Remoting building block allows translation of SPARQL queries to s
 ### Graph Database
 
 A graph database stores a pre-mapped Knowledge Graph in a dedicated RDF store. It can be combined with a Virtual Knowledge Graph in order to cache frequent accesses to the Virtualization Layer.
+
+### KA-AAS Bridge
+
+In order to form a twin-based, highly-standarized access to any graphTo allow for a more strict
+In order to form a graph-based, flexible access to AAS backend components, we
+employ a bridge virtualization module which denormalizes/caches the information
+inside Shells and Submodels.
+
+See [AAS Bridge](aas/bridge.md) for a more detailed explanation.
