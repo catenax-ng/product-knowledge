@@ -162,14 +162,6 @@ In this scenario data from connected backend systems is stored in a central repo
 
 This approach offers users a unified and technically abstract view for querying and manipulating data across a range of disparate sources. As such, it can be used to create virtualized and integrated views of data in memory rather than executing data movement and physically storing integrated views.
 
-### AAS->KA Bridge
-
-Special form of virtualization component which denormalizes/flattens & caches the often hierarchical
-information (Shells, Submodels, Submodel Elements) stored in backend AAS servers in order to make it
-accessible for ad-hoc querying.
-
-See [AAS Bridge](aas/bridge.md) for a more detailed explanation.
-
 ## Binding Layer
 
 Finally, the missing link between the Dataspace Layer and the Virtualization Layer is the Binding Layer. Hereby rather than mapping the data between different formats (e.g. Data Tables in CSV Format to and from Data Graphs in the TTL format) which is a mostly resource-consuming data transformation process, binding rather rewrites the actual queries (e.g. SPARQL into SQL, SPARQL into GraphQL or REST). In order to make this query rewriting not too complicated, a restricted subset of SPARQL is envisaged.
@@ -186,7 +178,15 @@ The Functional Remoting building block allows translation of SPARQL queries to s
 
 A graph database stores a pre-mapped Knowledge Graph in a dedicated RDF store. It can be combined with a Virtual Knowledge Graph in order to cache frequent accesses to the Virtualization Layer.
 
-### KA-AAS Bridge
+### AAS->KA Bridge
+
+Special form of virtualization component which denormalizes/flattens & caches the often hierarchical
+information (Shells, Submodels, Submodel Elements) stored in backend AAS servers in order to make it
+accessible for ad-hoc querying.
+
+See [AAS Bridge](aas/bridge.md) for a more detailed explanation.
+
+### KA->AAS Bridge
 
 In order to form a twin-based, highly-standarized access to any graphTo allow for a more strict
 In order to form a graph-based, flexible access to AAS backend components, we
