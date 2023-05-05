@@ -9,13 +9,19 @@
  */
 
 const fs = require('fs');
-const crypto = require('node:crypto');
+const crypto = require('crypto');
 
 // Test Data Generation Module
 // defines useful functions for randomized, but controlled generation of json objects
 
+// use safe crypto random
+exports.randomFloat = function() {
+  return crypto.webcrypto.randomInt(0,Number.MAX_SAFE_INTEGER)*1.0/Number.MAX_SAFE_INTEGER;
+};
+
 // The export context is a stack (list) of context maps.
 // Each context map is an object containing the current generation context.
+
 exports.context = {};
 
 exports.getContext = function(property, def) {
@@ -37,11 +43,7 @@ exports.putContext = function(property, value) {
 exports.noop = function(iterator) {
   console.log("Noop iterator called on argument "+iterator);
   return {};
-}
-
-exports.randomFloat = function() {
-  return crypto.getRandomValues(new Uint32Array(1))[0]/4294967295;
-}
+};
 
 exports.repeat = function() {
  var continuation=exports.noop;
@@ -70,7 +72,11 @@ const loremipsumwords = loremipsumtext.replace(","," ").replace("."," ").replace
 const loremipsumsentences = loremipsumtext.split(".");
 
 exports.loremIpsum = function(spec) {
- return loremipsumwords[Math.floor(exports.randomFloat()*loremipsumwords.length)];
+ return loremipsumwords[Math.round(exports.randomFloat()*loremipsumwords.length)];
+};
+
+exports.loremIpsumSentence = function(spec) {
+ return loremipsumsentences[Math.round(exports.randomFloat()*loremipsumsentences.length)];
 };
 
 exports.guid = function() {
@@ -91,14 +97,15 @@ exports.guid = function() {
 
 exports.objectId = function() {
   return 'xxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    var r = exports.randomFloat() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    var r = exports.randomFloat * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
     return v.toString(16);
   });
 };
 
+
 exports.random = function() {
     var candidates=Array.from(arguments);
-    return candidates[Math.floor(exports.randomFloat()*candidates.length)];
+    return candidates[Math.round(exports.randomFloat*candidates.length)];
 };
 
 exports.writeTestFile = function(fileName,object) {
@@ -138,7 +145,7 @@ exports.writeFile = function(fileName,object) {
             console.log(`Error writing file: ${err}`);
         }
     });
-}
+};
 
 exports.readFile = function(fileName) {
   var content=fs.readFileSync(fileName, 'utf8');
@@ -170,38 +177,38 @@ exports.integer = function() {
     }
     var rand=Math.ceil(exports.randomFloat()*(max-min))+min;
     return rand;
-}
+};
 
 const streets = [ "In den Dellen", "Unter den Linden", "Auf Hobels", "Am Turm", "Martin-Luther-Strasse", "Friedrich-Nietzsche Allee", "Altes Wasserwerk", "Schlossallee", "Badstrasse", "Turmstrasse"];
 
 exports.street = function() {
     return exports.random(...streets);
-}
+};
 
 const domains = [ "microsoft", "apple", "youtube", "overleaf", "catena-x", "t-systems", "bosch", "bmw"];
 const toplevel = [ "com","org","io","ai","de","uk","gov","net"];
 
 exports.domainZone = function() {
     return "."+exports.random(...domains)+"."+exports.random(...toplevel);
-}
+};
 
 const firstNames = [ "Adam", "Berta", "Carsten", "Dietlinde", "Emma", "Friedolin", "Gerlinde", "Hugo", "Ingrid", "Julia", "Krisztof", "Ludwig", "Margot", "Nike", "Oskar", "Peter", "Quentin", "Roswitha", "Sandra", "Titus", "Uwe", "Vanessa", "Wilfried"];
 
 exports.firstName = function() {
     return exports.random(...firstNames);
-}
+};
 
 const lastNames = [ "Antonov", "Breitzkreuz", "Ceaucescu", "Deutscher", "Edel", "Fischbach", "Günther", "Holzapfel", "Igel", "Jung", "Klein", "Lammert", "Mozart", "Nonnweiler", "Ondraczek", "Paul", "Rost", "Sawatzki", "Thomas", "Underberg", "Vanderfart", "Willich", "Zimmer"];
 
 exports.lastName = function() {
     return exports.random(...lastNames);
-}
+};
 
 const cities = [ "Amsterdam", "Berlin", "Cairo", "Dortmund", "Essen", "Friedrichshafen", "Gross-Gerau", "Hamburg", "Ingolstadt", "Jülich", "Köln", "Ludwigsburg", "München", "Nagold", "Oberkirchen", "Potsdam", "Quatar City", "Regensburg", "Stuttgart", "Tuttlingen", "Ulm", "Vancouver", "Wiesbaden", "Xanten", "York"];
 
 exports.city = function() {
     return exports.random(...cities);
-}
+};
 
 exports.floating = function() {
     var min = 0;
@@ -217,30 +224,25 @@ exports.floating = function() {
         scale=Math.pow(10,arguments[2]);
     }
     return Math.floor(exports.randomFloat()*(max-min)*scale)/scale;
-}
+};
 
 exports.bool = function() {
  return exports.randomFloat()>0.5;
-}
+};
 
 const companyName = [ "VW", "BMW", "MERCEDES", "Trafalga", "Petrochem", "Lumberjack", "Dack Janiels", "Bim Jeam"];
 const companyForm = [ "AG","KG","GmbH","GmbH & Co KG","Ltd","Inc","Corp"];
 
 exports.company = function() {
  return exports.random(...companyName)+" "+exports.random(...companyForm);
-}
+};
 
 function partition(array, n) {
   return array.length ? [array.splice(0, n)].concat(partition(array, n)) : [];
 }
 
-
-const partNumberBattery = ["8844604-01"]
-
-const partNumberBatteryModule = ["8840841-04","8840838-04" ];
-
 exports.partNamesRealisticCX = function() {
-  var partNamesMap = new Map()
+  var partNamesMap = new Map();
   partNamesMap.set('5A047C7-01', "LU GETRIEBE GA8L51CZ B48B20M1  CODE SXJ8");
   partNamesMap.set('8849262-01', "ZB LU HVS SP41 G30 G31"); 
   partNamesMap.set('8840838-04', "ZB ZELLMODUL PHEV1 34AH NEG 16S1P U3"); 
@@ -253,13 +255,13 @@ exports.partNamesRealisticCX = function() {
   partNamesMap.set('PE17-247', "PE Cover Spec 24.7");
 
   return partNamesMap;
-}
+};
 
 const vehicleModel = [ "BMW 320e", "C 300 e", "BMW X1 xDrive30e", "GOLF VARIANT 1,5 BLUEMOTION TECHNOLOGY HIGHLINE"];
 
 exports.vehicleModel = function() {
     return exports.random(...vehicleModel);
-}
+};
 
 const eqtDescription = [
 
@@ -780,4 +782,4 @@ const materialClass = [
 
 exports.materialClass = function() {
     return exports.random(...materialClass);
-}
+};

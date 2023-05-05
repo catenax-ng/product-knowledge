@@ -33,7 +33,7 @@ public class HttpUtils {
      * @return a url encoded string which additionally encodes some URL-prefix related symbols
      */
     public static String urlEncodeParameter(String parameter) throws UnsupportedEncodingException {
-        if(parameter==null || parameter.length()==0) return parameter;
+        if(parameter==null || parameter.length()==0) return "";
         return encodeParameter(URLEncoder.encode(URLDecoder.decode(parameter,DEFAULT_ENCODING),DEFAULT_ENCODING));
     }
 
@@ -45,7 +45,7 @@ public class HttpUtils {
      * @return a url encoded string which additionally encodes some URL-prefix related symbols
      */
     public static String encodeParameter(String parameter) throws UnsupportedEncodingException {
-        if(parameter==null || parameter.length()==0) return parameter;
+        if(parameter==null || parameter.length()==0) return "";
         return parameter.replace("?","%3F")
                 .replace("{","%7B")
                 .replace("}","%7D")

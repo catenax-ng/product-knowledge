@@ -166,7 +166,7 @@ var rubber= {
             "materialAbbreviation" : "NR"
            } ]
       } ]
-    }
+    };
 
 twins[rubber.catenaXId]=rubber;
 
@@ -233,7 +233,7 @@ var wheel= {
             "materialAbbreviation" : "SR"
           } ]
        } ]
-    }
+    };
 
 twins[wheel.catenaXId]=wheel;
 for(var id in twins){
@@ -287,7 +287,7 @@ for(let i = 0; i < 0; i++) {
     }
 }
 
-plainObject.UIDPOOL=JSON.stringify(UIDPOOL).replaceAll('"',"'")
+plainObject.UIDPOOL=JSON.stringify(UIDPOOL).replaceAll('"',"'");
 testObjects.unshift(testHeader);
 testDataContainer={};
 testDataContainer['https://catenax.io/schema/TestDataContainer/1.0.0']=testObjects;

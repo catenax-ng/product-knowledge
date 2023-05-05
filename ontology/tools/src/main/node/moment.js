@@ -488,9 +488,9 @@
 
     function removeFormattingTokens(input) {
         if (input.match(/\[[\s\S]/)) {
-            return input.replace(/^\[|\]$/g, '');
+            return input.replaceAll(/^\[|\]$/g, '');
         }
-        return input.replace(/\\/g, '');
+        return input.replaceAll(/\\/g, '');
     }
 
     function makeFormatFunction(format) {
@@ -3209,8 +3209,8 @@
             i;
         for (i = 0; i < len; i++) {
             if (
-                (dontConvert && array1[i] !== array2[i]) ||
-                (!dontConvert && toInt(array1[i]) !== toInt(array2[i]))
+                (!(dontConvert!==true) && array1[i] !== array2[i]) ||
+                (dontConvert!==true && toInt(array1[i]) !== toInt(array2[i]))
             ) {
                 diffs++;
             }
