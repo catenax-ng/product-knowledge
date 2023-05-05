@@ -33,6 +33,7 @@ class MaterialForRecyclingMapperTest extends AspectMapperTest {
     private MaterialForRecyclingMapper mapper;
 
     @BeforeAll
+    @Override
     public void instantiate() throws Exception {
         mockResponse = new String(getClass().getClassLoader()
                 .getResourceAsStream("MaterialForRecycling-sparql-results.json")

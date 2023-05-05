@@ -77,11 +77,11 @@ EXPOSE 8080
 
 HEALTHCHECK NONE
 
-CMD "java" \
-     "-javaagent:/app/opentelemetry-javaagent.jar" \
-     "-Dotel.javaagent.configuration-file=/app/opentelemetry.properties" \
-     "-Dotel.metrics.exporter=prometheus" \
-     "-Dotel.exporter.prometheus.port=9090" \
-     "-Djava.security.edg=file:/dev/.urandom" \
-     "-jar" \
-     "aas-bridge.jar"
+CMD [ "java", \
+     "-javaagent:/app/opentelemetry-javaagent.jar", \
+     "-Dotel.javaagent.configuration-file=/app/opentelemetry.properties", \
+     "-Dotel.metrics.exporter=prometheus", \
+     "-Dotel.exporter.prometheus.port=9090", \
+     "-Djava.security.edg=file:/dev/.urandom", \
+     "-jar", \
+     "aas-bridge.jar"]

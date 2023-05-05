@@ -18,6 +18,7 @@ import io.adminshell.aas.v3.model.*;
 import io.adminshell.aas.v3.model.impl.*;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -49,50 +50,65 @@ public abstract class AspectMapper {
     private final String credentials;
 
     public AspectMapper(String providerSparqlEndpoint, String aasResourcePath, String credentials, HttpClient client, long timeOutSeconds) throws IOException, DeserializationException {
-        String aasTemplate = CharStreams.toString(new InputStreamReader(AspectMapper.class.getResourceAsStream(aasResourcePath), Charsets.UTF_8));
         this.providerSparqlEndpoint = providerSparqlEndpoint;
-        this.aasTemplate = new XmlDeserializer().read(aasTemplate);
         this.client = client;
         this.credentials = credentials;
         this.timeoutSeconds = timeOutSeconds;
+
+        try(InputStream stream = AspectMapper.class.getResourceAsStream(aasResourcePath))
+        {
+            if(stream!=null) {
+                String aasTemplate = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+                this.aasTemplate = new XmlDeserializer().read(aasTemplate);
+            } else {
+                this.aasTemplate = null;
+            }
+        }
     }
 
     public CompletableFuture<ArrayNode> executeQuery(String queryResourcePath) throws URISyntaxException, IOException {
-        String query = CharStreams.toString(new InputStreamReader(AspectMapper.class.getResourceAsStream(queryResourcePath), Charsets.UTF_8));
-        HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString(query);
-        HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
-                .uri(new URI(providerSparqlEndpoint))
-                .POST(bodyPublisher)
-                .header("Content-Type", "application/sparql-query")
-                .header("Accept", "application/json")
-                .timeout(Duration.of(timeoutSeconds, SECONDS));
+        try(InputStream stream = AspectMapper.class.getResourceAsStream(queryResourcePath)) {
+            if(stream!=null) {
+                String query = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+                HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString(query);
+                HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
+                        .uri(new URI(providerSparqlEndpoint))
+                        .POST(bodyPublisher)
+                        .header("Content-Type", "application/sparql-query")
+                        .header("Accept", "application/json")
+                        .timeout(Duration.of(timeoutSeconds, SECONDS));
 
-        if (credentials != null && !credentials.isEmpty()) {
-            requestBuilder = requestBuilder.header("Authorization", credentials);
+                if (credentials != null && !credentials.isEmpty()) {
+                    requestBuilder = requestBuilder.header("Authorization", credentials);
+                }
+
+                HttpRequest request = requestBuilder.build();
+
+                return client
+                        .sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                        .thenApply(res -> {
+                            if (res.statusCode() >= 200 && res.statusCode() < 300) {
+                                return res.body();
+                            } else {
+                                throw new RuntimeException("Sparql-Request failed with " + res.statusCode() + res.body());
+                            }
+                        })
+                        .thenApply(body -> {
+                            try {
+                                return new ObjectMapper().readValue(body, ArrayNode.class);
+                            } catch (JsonProcessingException e) {
+                                throw new RuntimeException("No proper json response string!" + e);
+                            }
+                        });
+            } else {
+                return CompletableFuture.completedFuture(null);
+            }
+
         }
-
-        HttpRequest request = requestBuilder.build();
-
-        return client
-                .sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                .thenApply(res -> {
-                    if (res.statusCode() >= 200 && res.statusCode() < 300) {
-                        return res.body();
-                    } else {
-                        throw new RuntimeException("Sparql-Request failed with " + res.statusCode() + res.body());
-                    }
-                })
-                .thenApply(body -> {
-                    try {
-                        return new ObjectMapper().readValue(body, ArrayNode.class);
-                    } catch (JsonProcessingException e) {
-                        throw new RuntimeException("No proper json response string!" + e);
-                    }
-                });
     }
 
     public static String getRandomIRI() {
-        return "urn:uuid:"+UUID.randomUUID().toString();
+        return "urn:uuid:"+UUID.randomUUID();
     }
 
     protected AssetAdministrationShellEnvironment instantiateAas() {

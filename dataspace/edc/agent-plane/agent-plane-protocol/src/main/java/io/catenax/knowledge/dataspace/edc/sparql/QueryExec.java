@@ -182,7 +182,7 @@ public class QueryExec implements org.apache.jena.sparql.exec.QueryExec {
 
         retainedConnection = in; // This will be closed on close()
 
-        if (actualContentType == null || actualContentType.equals(""))
+        if (actualContentType == null || actualContentType.length()==0)
             actualContentType = WebContent.contentTypeResultsXML;
 
         // Map to lang, with pragmatic alternatives.
@@ -211,7 +211,7 @@ public class QueryExec implements org.apache.jena.sparql.exec.QueryExec {
 
         // If the server fails to return a Content-Type then we will assume
         // the server returned the type we asked for
-        if (actualContentType == null || actualContentType.equals(""))
+        if (actualContentType == null || actualContentType.length()==0)
             actualContentType = askAcceptHeader;
 
         Lang lang = RDFLanguages.contentTypeToLang(actualContentType);
@@ -500,7 +500,7 @@ public class QueryExec implements org.apache.jena.sparql.exec.QueryExec {
             String boundary=new String(boundaryBytes);
             inputStream.reset();
             Optional<String> warnings=response.headers().firstValue("cx_warnings");
-            if(contentType.startsWith("multipart/form-data") || "--".equals(new String(boundary))) {
+            if(all==boundaryBytes.length && contentType.startsWith("multipart/form-data") || "--".equals(boundary)) {
                 int boundaryIndex=contentType.indexOf(";boundary=");
                 if(boundaryIndex>=0) {
                     boundary=boundary+contentType.substring(boundaryIndex+10);
@@ -525,7 +525,7 @@ public class QueryExec implements org.apache.jena.sparql.exec.QueryExec {
                         } else {
                             embeddedContentType=null;
                         }
-                    } else {
+                    } else if(nextPart!=null) {
                         nextPart.append(line);
                         nextPart.append("\n");
                     }

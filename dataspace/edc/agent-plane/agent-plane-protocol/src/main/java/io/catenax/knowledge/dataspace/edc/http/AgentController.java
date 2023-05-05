@@ -500,26 +500,8 @@ public class AgentController {
         sendRequest(newRequest, response);
     }
 
-    protected static Pattern PARAMETER_KEY_ALLOW = Pattern.compile("^(?!asset$)[^&\\?=]+$");
-    protected static Pattern PARAMETER_VALUE_ALLOW = Pattern.compile("^[^&\\?=]+$");
-
-    /**
-     * filter particular parameters
-     * @param key parameter key
-     * @return whether to filter the parameter
-     */
-    protected boolean allowParameterKey(String key) {
-        return PARAMETER_KEY_ALLOW.matcher(key).matches();
-    }
-
-    /**
-     * filter particular parameters
-     * @param value parameter value
-     * @return whether to filter the parameter
-     */
-    protected boolean allowParameterValue(String value) {
-        return PARAMETER_VALUE_ALLOW.matcher(value).matches();
-    }
+    protected static Pattern PARAMETER_KEY_ALLOW = Pattern.compile("^(?!asset$)[^&?=]+$");
+    protected static Pattern PARAMETER_VALUE_ALLOW = Pattern.compile("^[^&?=]+$");
 
     /**
      * computes the url to target the given data plane
@@ -543,24 +525,22 @@ public class AgentController {
         HttpUrl.Builder httpBuilder = Objects.requireNonNull(okhttp3.HttpUrl.parse(url)).newBuilder();
         for (Map.Entry<String, List<String>> param : uri.getQueryParameters().entrySet()) {
             String key=param.getKey();
-            if(allowParameterKey(key)) {
+            if(PARAMETER_KEY_ALLOW.matcher(key).matches()) {
                 for (String value : param.getValue()) {
-                    if(allowParameterValue(value)) {
-                        String recode = HttpUtils.urlEncodeParameter(value);
-                        httpBuilder = httpBuilder.addQueryParameter(key, recode);
+                    if(PARAMETER_VALUE_ALLOW.matcher(value).matches()) {
+                        String recodeKey = HttpUtils.urlEncodeParameter(key);
+                        String recodeValue = HttpUtils.urlEncodeParameter(value);
+                        httpBuilder = httpBuilder.addQueryParameter(recodeKey, recodeValue);
                     }
                 }
             }
         }
 
-        String acceptHeader=headers.getHeaderString("Accept");
         List<MediaType> mediaTypes=headers.getAcceptableMediaTypes();
-        if(mediaTypes.isEmpty() || mediaTypes.stream().anyMatch( mediaType -> {
-         return MediaType.APPLICATION_JSON_TYPE.isCompatible(mediaType);
-        })) {
+        if(mediaTypes.isEmpty() || mediaTypes.stream().anyMatch(MediaType.APPLICATION_JSON_TYPE::isCompatible)) {
             httpBuilder = httpBuilder.addQueryParameter("cx_accept", HttpUtils.urlEncodeParameter("application/json"));
         } else {
-            String mediaParam=mediaTypes.stream().map(mediaType -> mediaType.toString()).collect(Collectors.joining(", "));
+            String mediaParam=mediaTypes.stream().map(MediaType::toString).collect(Collectors.joining(", "));
             mediaParam=HttpUtils.urlEncodeParameter(mediaParam);
             httpBuilder.addQueryParameter("cx_accept",mediaParam);
         }

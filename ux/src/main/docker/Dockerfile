@@ -8,7 +8,7 @@
 ###
 # Build Stage, add --platform=linux/arm64 if the build is slow on Apple Silicon
 ###
-FROM --platform=linux/arm64 node:18 as build
+FROM node:18 as build
 
 WORKDIR /app
 COPY . /app

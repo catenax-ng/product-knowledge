@@ -12,6 +12,7 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaJerseyServerCodegen", date = "2023-03-23T11:28:11.277776230Z[GMT]")public class ApiOriginFilter implements javax.servlet.Filter {
+    @Override
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain) throws IOException, ServletException {
         HttpServletResponse res = (HttpServletResponse) response;
@@ -21,7 +22,9 @@ import javax.servlet.http.HttpServletResponse;
         chain.doFilter(request, response);
     }
 
+    @Override
     public void destroy() {}
 
+    @Override
     public void init(FilterConfig filterConfig) throws ServletException {}
 }

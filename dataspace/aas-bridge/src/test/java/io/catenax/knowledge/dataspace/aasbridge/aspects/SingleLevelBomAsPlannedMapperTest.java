@@ -35,6 +35,7 @@ public class SingleLevelBomAsPlannedMapperTest extends AspectMapperTest {
     private SingleLevelBomAsPlannedMapper mapper;
 
     @BeforeAll
+    @Override
     public void instantiate() throws Exception {
         mockResponse=new String(getClass().getClassLoader()
                 .getResourceAsStream("SingleLevelBomAsPlanned-sparql-results.json")

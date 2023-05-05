@@ -33,6 +33,7 @@ class PartAsPlannedMapperTest extends AspectMapperTest {
     private PartAsPlannedMapper mapper;
 
     @BeforeAll
+    @Override
     public void instantiate() throws Exception {
         mockResponse=new String(getClass().getClassLoader()
                 .getResourceAsStream("PartAsPlanned-sparql-results.json")

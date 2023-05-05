@@ -101,37 +101,39 @@ public class AgentSource implements DataSource {
                 }
                 List<Part> results=new ArrayList<>();
                 if(response.body()!=null) {
-                    BufferedInputStream bis = new BufferedInputStream(response.body().byteStream());
-                    bis.mark(AGENT_BOUNDARY.length());
-                    byte[] boundary=new byte[AGENT_BOUNDARY.length()];
-                    int all=bis.read(boundary);
-                    bis.reset();
-                    if(AGENT_BOUNDARY.equals(new String(boundary))) {
-                        StringBuilder nextPart=null;
-                        String embeddedContentType=null;
-                        BufferedReader reader=new BufferedReader(new InputStreamReader(bis));
-                        for(String line = reader.readLine(); line!=null; line=reader.readLine()) {
-                            if(AGENT_BOUNDARY.equals(line)) {
-                                if(nextPart!=null && embeddedContentType!=null) {
-                                    results.add(new AgentPart(embeddedContentType,nextPart.toString().getBytes()));
+                    try(BufferedInputStream bis = new BufferedInputStream(response.body().byteStream())) {
+                        bis.mark(AGENT_BOUNDARY.length());
+                        byte[] boundary = new byte[AGENT_BOUNDARY.length()];
+                        int all = bis.read(boundary);
+                        bis.reset();
+                        if (all==boundary.length && AGENT_BOUNDARY.equals(new String(boundary))) {
+                            StringBuilder nextPart = null;
+                            String embeddedContentType = null;
+                            try (BufferedReader reader = new BufferedReader(new InputStreamReader(bis))) {
+                                for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+                                    if (AGENT_BOUNDARY.equals(line)) {
+                                        if (nextPart != null && embeddedContentType != null) {
+                                            results.add(new AgentPart(embeddedContentType, nextPart.toString().getBytes()));
+                                        }
+                                        nextPart = new StringBuilder();
+                                        String contentLine = reader.readLine();
+                                        if (contentLine != null && contentLine.startsWith("Content-Type: ")) {
+                                            embeddedContentType = contentLine.substring(14);
+                                        } else {
+                                            embeddedContentType = null;
+                                        }
+                                    } else if(nextPart!=null) {
+                                        nextPart.append(line);
+                                        nextPart.append("\n");
+                                    }
                                 }
-                                nextPart=new StringBuilder();
-                                String contentLine=reader.readLine();
-                                if(contentLine!=null && contentLine.startsWith("Content-Type: ")) {
-                                    embeddedContentType=contentLine.substring(14);
-                                } else {
-                                    embeddedContentType=null;
-                                }
-                            } else {
-                                nextPart.append(line);
-                                nextPart.append("\n");
                             }
+                            if (nextPart != null && embeddedContentType != null) {
+                                results.add(new AgentPart(embeddedContentType, nextPart.toString().getBytes()));
+                            }
+                        } else {
+                            results.add(new AgentPart(name, response.body().bytes()));
                         }
-                        if(nextPart!=null && embeddedContentType!=null) {
-                            results.add(new AgentPart(embeddedContentType,nextPart.toString().getBytes()));
-                        }
-                    } else {
-                        results.add(new AgentPart(name,response.body().bytes()));
                     }
                 }
                 return results.stream();

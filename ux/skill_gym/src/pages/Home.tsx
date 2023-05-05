@@ -1,5 +1,4 @@
 import { Typography } from 'cx-portal-shared-components';
-import logo from '../images/ka_arch.png';
 import { Box } from '@mui/material';
 import { QueryEditor } from '@catenax-ng/skill-modules';
 
