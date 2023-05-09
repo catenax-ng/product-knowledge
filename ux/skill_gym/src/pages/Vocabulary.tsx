@@ -14,8 +14,8 @@ export default function Vocabulary() {
   }
 
   const valRegex = /([^&=]+)/;
-  const params = new URLSearchParams(search)
-  const assetFilter = valRegex.match()params.get('ontologies').match(valRegex)[1];
+  const params = new URLSearchParams(search);
+  const assetFilter = params.get('ontologies').match(valRegex)[1];
 
   return (
     <Box mt={4}>
