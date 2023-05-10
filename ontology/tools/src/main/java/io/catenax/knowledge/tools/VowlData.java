@@ -46,19 +46,13 @@ public class VowlData extends de.uni_stuttgart.vis.vowl.owl2vowl.model.data.Vowl
     /** filters entities based on redundancies */
     public boolean filter(Map<IRI, AbstractEntity> entities, AbstractEntity entity) {
         if (entity instanceof VowlObjectProperty && entity.getType().equals("owl:objectProperty")) {
-            if (((VowlObjectProperty) entity).getDomains().size() == 1) {
-                return false;
-            }
+            return ((VowlObjectProperty) entity).getDomains().size() != 1;
         } else if (entity instanceof VowlDatatypeProperty && entity.getType().equals("owl:datatypeProperty")) {
-            if (((VowlDatatypeProperty) entity).getDomains().size() == 1) {
-                return false;
-            }
+            return ((VowlDatatypeProperty) entity).getDomains().size() != 1;
         } else if (entity instanceof DatatypeReference && entity.getType().equals("rdfs:Datatype")) {
             Set<IRI> allIngoing=((DatatypeReference) entity).getInGoingProperties();
-            if (allIngoing.size()>0 &&
-                    allIngoing.stream().allMatch( iri -> !filter(entities,entities.get(iri)))) {
-                return false;
-            }
+            return allIngoing.size() == 0 ||
+                    allIngoing.stream().anyMatch(iri -> filter(entities, entities.get(iri)));
         }
         return true;
     }
@@ -67,6 +61,7 @@ public class VowlData extends de.uni_stuttgart.vis.vowl.owl2vowl.model.data.Vowl
      * filters the entities when in export mode
      * @return map of entities with object properties filtered
      */
+    @Override
     public Map<IRI, AbstractEntity> getEntityMap() {
         Map<IRI, AbstractEntity> entities=super.getEntityMap();
         if(isExport) {

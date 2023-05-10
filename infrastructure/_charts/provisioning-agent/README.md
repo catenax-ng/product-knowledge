@@ -1,6 +1,6 @@
 # provisioning-agent
 
-![Version: 0.8.5-SNAPSHOT](https://img.shields.io/badge/Version-0.8.5--SNAPSHOT-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.8.5-SNAPSHOT](https://img.shields.io/badge/AppVersion-0.8.5--SNAPSHOT-informational?style=flat-square)
+![Version: 0.8.6-SNAPSHOT](https://img.shields.io/badge/Version-0.8.5--SNAPSHOT-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.8.6-SNAPSHOT](https://img.shields.io/badge/AppVersion-0.8.5--SNAPSHOT-informational?style=flat-square)
 
 Catena-X Provisioning Agent - Knowledge-Agents Compatible Data Binding Layer
 
@@ -9,7 +9,7 @@ Catena-X Provisioning Agent - Knowledge-Agents Compatible Data Binding Layer
 ## TL;DR
 ```shell
 $ helm repo add catenax-ng-product-knowledge https://catenax-ng.github.io/product-knowledge/infrastructure
-$ helm install my-release catenax-ng-product-knowledge/provisioning-agent --version 0.8.5-SNAPSHOT
+$ helm install my-release catenax-ng-product-knowledge/provisioning-agent --version 0.8.6-SNAPSHOT
 ```
 
 ## Maintainers

@@ -272,6 +272,16 @@ data:
     web.http.control.port=9999
     web.http.control.path=/api/dataplane/control
         
+    tractusx.api.observability.allow-insecure=true
+    web.http.observability.port=8083
+    web.http.observability.path=/observability
+ 
+    tractusx.auth.agent.type=jwt
+    tractusx.auth.agent.publickey=https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
+    tractusx.auth.agent.register=true
+    tractusx.auth.agent.checkexpiry=false
+    tractusx.auth.agent.paths=default
+  
     edc.api.auth.key={{ .Values.security.xApiKey }}
     edc.api.control.auth.apikey.key=X-Api-Key
     edc.api.control.auth.apikey.value={{ .Values.security.xApiKey }}
@@ -339,6 +349,7 @@ spec:
             readOnlyRootFilesystem: true
           ports:
             - containerPort: 8082 # API
+            - containerPort: 8083 # OBSERVABILITY
             - containerPort: 8185 # PUBLIC
             - containerPort: 8186 # AGREEMENT CALLBACK
             - containerPort: 9999 # CONTROL
@@ -355,8 +366,8 @@ spec:
           startupProbe:
             failureThreshold: 17
             httpGet:
-              path: /api/check/startup
-              port: 8082
+              path: /observability/check/startup
+              port: 8083
               scheme: HTTP
             initialDelaySeconds: 90
             periodSeconds: 30
@@ -365,8 +376,8 @@ spec:
           livenessProbe:
             failureThreshold: 4
             httpGet:
-              path: /api/check/liveness
-              port: 8082
+              path: /observability/check/liveness
+              port: 8083
               scheme: HTTP
             periodSeconds: 60
             successThreshold: 1
@@ -374,8 +385,8 @@ spec:
           readinessProbe:
             failureThreshold: 2
             httpGet:
-              path: /api/check/readiness
-              port: 8082
+              path: /observability/check/readiness
+              port: 8083
               scheme: HTTP
             periodSeconds: 30
             successThreshold: 1
@@ -420,6 +431,9 @@ spec:
     - port: 8082
       name: api
       targetPort: 8082
+    - port: 8083
+      name: observability
+      targetPort: 8083
     - port: 8185
       name: public
       targetPort: 8185

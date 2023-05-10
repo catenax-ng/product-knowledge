@@ -347,7 +347,7 @@ public class QueryExec implements org.apache.jena.sparql.exec.QueryExec {
 
         // If the server fails to return a Content-Type then we will assume
         // the server returned the type we asked for
-        if (actualContentType == null || actualContentType.equals(""))
+        if (actualContentType == null || actualContentType.length()==0)
             actualContentType = ifNoContentType;
 
         Lang lang = RDFLanguages.contentTypeToLang(actualContentType);

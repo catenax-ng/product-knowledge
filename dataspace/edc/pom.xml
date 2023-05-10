@@ -6,7 +6,7 @@
     <parent>
         <groupId>io.catenax.knowledge</groupId>
         <artifactId>dataspace</artifactId>
-        <version>0.8.5-SNAPSHOT</version>
+        <version>0.8.6-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>    
     </parent>
     <name>Catena-X Knowledge Agents Dataspace EDC Extensions</name>
@@ -16,6 +16,7 @@
     <properties>
     </properties>
     <modules>
+        <module>common/auth-jwt</module>
         <module>agent-plane</module>
         <module>control-plane</module>
     </modules>

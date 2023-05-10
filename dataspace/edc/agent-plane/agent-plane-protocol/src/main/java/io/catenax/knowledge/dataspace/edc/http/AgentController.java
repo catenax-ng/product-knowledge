@@ -35,13 +35,11 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
- * The Agent Controller provides a REST API endpoint
+ * The Agent Controller exposes a REST API endpoint
  * with which the EDC tenant can issue queries and execute
  * skills in interaction with local resources and the complete
- * Dataspace (the so-called Matchmaking Agent).
- * It is currently implemented using a single query language (SparQL) 
- * on top of an Apache Fuseki Engine using a memory store (for local
- * graphs=assets).
+ * Dataspace (the so-called Matchmaking Agent that is also hit by
+ * incoming Agent transfers).
  * TODO deal with remote (textual) skills
  * TODO exchange fixed memory store by configurable options
  * TODO generalize sub-protocols from SparQL
@@ -56,7 +54,7 @@ public class AgentController {
     protected final AgentConfig config;
     protected final SkillStore skillStore;
 
-    // the actual Fuseki engine components
+    // the actual Matchmaking Agent is a Fuseki engine
     protected final SparqlQueryProcessor processor;
     protected final TypeManager typeManager;
     public final static TypeReference<List<CatenaxWarning>> warningTypeReference = new TypeReference<>(){};

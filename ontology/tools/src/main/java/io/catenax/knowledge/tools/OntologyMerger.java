@@ -46,7 +46,7 @@ public class OntologyMerger {
 
    public static String CX_ONTOLOGY_IRI= "https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl";
    public static String CX_ONTOLOGY_TITLE= "Catena-X Ontology";
-   public static String CX_ONTOLOGY_VERSION= "0.8.5-SNAPSHOT";
+   public static String CX_ONTOLOGY_VERSION= "0.8.6-SNAPSHOT";
 
    /**
     * run the merge command on the given files and output the result to the console  

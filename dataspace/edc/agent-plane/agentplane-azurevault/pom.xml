@@ -10,7 +10,7 @@
     <parent>
         <groupId>io.catenax.knowledge.dataspace.edc</groupId>
         <artifactId>agent-plane</artifactId>
-        <version>0.8.5-SNAPSHOT</version>
+        <version>0.8.6-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -105,6 +105,12 @@
         <dependency>
             <groupId>io.catenax.knowledge.dataspace.edc.agent-plane</groupId>
             <artifactId>agent-plane-protocol</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.tractusx.edc</groupId>
+            <artifactId>auth-jwt</artifactId>
             <version>${project.version}</version>
         </dependency>
 

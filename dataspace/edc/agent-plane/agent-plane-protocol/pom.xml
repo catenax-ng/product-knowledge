@@ -10,7 +10,7 @@
     <parent>
         <groupId>io.catenax.knowledge.dataspace.edc</groupId>
         <artifactId>agent-plane</artifactId>
-        <version>0.8.5-SNAPSHOT</version>
+        <version>0.8.6-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -131,6 +131,13 @@
             <version>3.1.0</version>
         </dependency>
 
+        <!-- JWT code -->
+        <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+            <version>9.31</version>
+        </dependency>
+
         <!-- we need both version of the servlet api, one for jetty, one for jakarta -->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -186,12 +193,6 @@
                     <artifactId>jetty-servlet</artifactId>
                 </exclusion>            
           </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>com.auth0</groupId>
-            <artifactId>java-jwt</artifactId>
-            <version>4.0.0</version>
         </dependency>
 
         <!-- maybe we need advanced storage capacities <dependency>

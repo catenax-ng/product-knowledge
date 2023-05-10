@@ -6,6 +6,7 @@
 //
 package io.catenax.knowledge.dataspace.edc;
 
+import com.nimbusds.jose.JWSObject;
 import io.catenax.knowledge.dataspace.edc.service.*;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -20,10 +21,8 @@ import org.eclipse.edc.connector.contract.spi.types.offer.ContractOffer;
 import org.eclipse.edc.spi.types.domain.edr.EndpointDataReference;
 import org.eclipse.edc.connector.transfer.spi.types.TransferType;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.interfaces.DecodedJWT;
-
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.*;
 
 
@@ -124,9 +123,16 @@ public class AgreementController implements IAgreementController {
                 if (result != null) {
                     String token = result.getAuthCode();
                     if (token != null) {
-                        DecodedJWT jwt = JWT.decode(token);
-                        if (!jwt.getExpiresAt().before(new Date(System.currentTimeMillis() + 30 * 1000))) {
-                            return result;
+                        try {
+                            JWSObject jwt = JWSObject.parse(token);
+                            Object expiryObject=jwt.getPayload().toJSONObject().get("exp");
+                            if(expiryObject instanceof Long) {
+                                if(!new Date((Long) expiryObject).before(new Date(System.currentTimeMillis() + 30 * 1000))) {
+                                    return result;
+                                }
+                            }
+                        } catch(ParseException | NumberFormatException e) {
+                            monitor.debug(String.format("Active asset %s has invalid agreement token.", assetId));
                         }
                     }
                     endpointStore.remove(assetId);

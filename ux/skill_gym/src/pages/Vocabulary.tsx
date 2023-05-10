@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function Vocabulary() {
   const [selectedOntology, setSelectedOntology] = useState<string>('');
-  const { search } = useLocation()
+  const { search } = useLocation();
   const navigate = useNavigate();
 
   const onNavigateToAsset = (ontologyName: string) => {
@@ -13,8 +13,9 @@ export default function Vocabulary() {
     navigate(path);
   }
 
-  const params = new URLSearchParams(search)
-  const assetFilter = params.get('ontologies')
+  const valRegex = /([^&=]+)/;
+  const params = new URLSearchParams(search);
+  const assetFilter = params.get('ontologies').match(valRegex)[1];
 
   return (
     <Box mt={4}>

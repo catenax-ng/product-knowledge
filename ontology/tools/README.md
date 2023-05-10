@@ -25,19 +25,19 @@ mvn package
 Run the following command to merge the CX ontology to the standard output (RDF XML format)
 
 ```console
-java -jar target/tools-0.8.5-SNAPSHOT.jar ../*_ontology.ttl 
+java -jar target/tools-0.8.6-SNAPSHOT.jar ../*_ontology.ttl 
 ```
 
 To run the merger with an XML-based stylesheet, for example to render the ontology as a graph
 
 ```console
-java -jar target/tools-0.8.5-SNAPSHOT.jar -styleSheet src/main/resources/graph.xslt ../*_ontology.ttl
+java -jar target/tools-0.8.6-SNAPSHOT.jar -styleSheet src/main/resources/graph.xslt ../*_ontology.ttl
 ```
 
 To run the merger with RDF JSON LD output
 
 ```console
-java -jar target/tools-0.8.5-SNAPSHOT.jar +jsonld ../*_ontology.ttl
+java -jar target/tools-0.8.6-SNAPSHOT.jar +jsonld ../*_ontology.ttl
 ```
 
 To run the merger with VOWL stylesheet on all domain ontologies and create vowl graphs
@@ -46,7 +46,7 @@ To run the merger with VOWL stylesheet on all domain ontologies and create vowl 
 for file in ../*_ontology.ttl; 
 do 
   echo Processing ${file:t} into ${file:t:r}.json 
-  java -jar target/tools-0.8.5-SNAPSHOT.jar -styleSheet src/main/resources/vowl.xslt $file 1>../vowl/${file:t:r}.json 
+  java -jar target/tools-0.8.6-SNAPSHOT.jar -styleSheet src/main/resources/vowl.xslt $file 1>../vowl/${file:t:r}.json 
 done
 ```
 
