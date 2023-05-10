@@ -41,6 +41,8 @@ public class AasBridge {
 
 
 
+
+
     private final Map<AspectModelUrn, Class<? extends AspectMapper>> implMap =
             Map.of(
                     AspectModelUrn.fromUrn("urn:bamm:io.catenax.material_for_recycling:1.1.0#MaterialForRecycling"),
