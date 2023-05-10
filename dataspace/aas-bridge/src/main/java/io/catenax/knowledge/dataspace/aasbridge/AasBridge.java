@@ -22,7 +22,6 @@ import io.catenax.knowledge.dataspace.aasbridge.aspects.PartSiteInformationAsPla
 import io.catenax.knowledge.dataspace.aasbridge.aspects.SingleLevelBomAsPlannedMapper;
 import io.openmanufacturing.sds.aspectmodel.urn.AspectModelUrn;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
@@ -39,6 +38,8 @@ public class AasBridge {
 
     private List<AspectMapper> mappers;
     private HttpClient client = HttpClient.newBuilder().executor(Executors.newFixedThreadPool(5)).build();
+
+
 
     private final Map<AspectModelUrn, Class<? extends AspectMapper>> implMap =
             Map.of(
@@ -68,11 +69,12 @@ public class AasBridge {
                         .requestHandlerThreadPoolSize(5)
                         .build())
                 .persistence(PersistenceInMemoryConfig.builder()
-                        .environment(AasUtils.mergeAasEnvs(
+                        .initialModel(AasUtils.mergeAasEnvs(
                                 aasBridge.getMappers().stream().map(AspectMapper::getAasInstances).collect(Collectors.toList()))).build())
                 .endpoint(HttpEndpointConfig.builder().cors(true).build())
                 .messageBus(MessageBusInternalConfig.builder().build())
                 .build());
+
 
         faaast.start();
     }
