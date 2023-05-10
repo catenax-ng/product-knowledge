@@ -10,7 +10,7 @@
     <groupId>io.catenax</groupId>
     <artifactId>knowledge</artifactId>
     <packaging>pom</packaging>
-    <version>0.8.5-SNAPSHOT</version>
+    <version>0.8.6-SNAPSHOT</version>
     <name>Catena-X Knowledge Agents</name>
     <description>Top Level Project for all Knowledge Agents Modules</description>
 
@@ -25,7 +25,7 @@
        <com.azure.sdk.bom.version>1.2.2</com.azure.sdk.bom.version>
        <junit.version>5.9.0</junit.version>
        <mockito.version>4.6.1</mockito.version>
-       <tx.edc.version>0.3.3-SNAPSHOT</tx.edc.version>
+       <tx.edc.version>0.3.3</tx.edc.version>
        <edc.version>0.0.1-20230220.patch1</edc.version>
        <failsafe.version>3.2.4</failsafe.version>
        <okhttp.version>4.10.0</okhttp.version>
@@ -184,7 +184,7 @@
 	    </repository>
         <repository> <!-- To be able to use product edc releases -->
             <id>edc</id>
-            <url>https://maven.pkg.github.com/catenax-ng/product-edc</url>
+            <url>https://maven.pkg.github.com/eclipse-tractusx/tractusx-edc</url>
         </repository>
         <repository> <!-- To be able to use Eclipse ESMF -->
             <id>esmf</id>

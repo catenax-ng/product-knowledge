@@ -3203,14 +3203,18 @@
 
     // compare two arrays, return the number of differences
     function compareArrays(array1, array2, dontConvert) {
+        var isConvert=true;
+        if(typeof dontConvert !== 'undefined' ) {
+            isConvert=false;
+        }
         var len = Math.min(array1.length, array2.length),
             lengthDiff = Math.abs(array1.length - array2.length),
             diffs = 0,
             i;
         for (i = 0; i < len; i++) {
             if (
-                (!(dontConvert!==true) && array1[i] !== array2[i]) ||
-                (dontConvert!==true && toInt(array1[i]) !== toInt(array2[i]))
+                (isConvert && array1[i] !== array2[i]) ||
+                (!isConvert && toInt(array1[i]) !== toInt(array2[i]))
             ) {
                 diffs++;
             }

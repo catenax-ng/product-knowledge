@@ -14,13 +14,15 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.eclipse.edc.spi.monitor.Monitor;
+import org.eclipse.edc.spi.query.Criterion;
+import org.eclipse.edc.spi.query.QuerySpec;
 import org.eclipse.edc.spi.types.TypeManager;
 import org.eclipse.edc.catalog.spi.Catalog;
 import org.eclipse.edc.connector.contract.spi.types.offer.ContractOffer;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
@@ -35,8 +37,8 @@ public class DataManagement {
      * some constants when interacting with control plane
      */
     public static final String IDS_PATH="%s/api/v1/ids/data";
-    public static final String CATALOG_CALL = "%s/catalog?providerUrl="+IDS_PATH;
-    public static final String URL_ENCODING = "UTF-8";
+    public static final String CATALOG_CALL = "%s/catalog/request";
+    public static final String CATALOG_REQUEST_BODY="{ \"providerUrl\": \"%s%s\", \"querySpec\": %s }";
     public static final String NEGOTIATION_INITIATE_CALL = "%s/contractnegotiations";
     public static final String NEGOTIATION_CHECK_CALL = "%s/contractnegotiations/%s";
     public static final String TRANSFER_INITIATE_CALL = "%s/transferprocess";
@@ -75,7 +77,10 @@ public class DataManagement {
      * @throws IOException in case that the remote call did not succeed
      */
     public Collection<ContractOffer> findContractOffers(String remoteControlPlaneIdsUrl, String assetId) throws IOException {
-        Catalog catalog = getCatalog(remoteControlPlaneIdsUrl);
+        QuerySpec findAsset=QuerySpec.Builder.newInstance().filter(
+                List.of(new Criterion("asset:prop:id","=",assetId))
+        ).build();
+        Catalog catalog = getCatalog(remoteControlPlaneIdsUrl,findAsset);
         return catalog.getContractOffers().stream()
                 .filter(it -> it.getAsset().getId().equals(assetId))
                 .collect(Collectors.toList());
@@ -84,12 +89,16 @@ public class DataManagement {
     /**
      * Access the catalogue
      * @param remoteControlPlaneIdsUrl url of the remote control plane ids endpoint
+     * @param spec query specification
      * @return catalog object
      * @throws IOException in case something went wrong
      */
-    public Catalog getCatalog(String remoteControlPlaneIdsUrl) throws IOException {
-        var url = String.format(CATALOG_CALL,config.getControlPlaneManagementUrl() , URLEncoder.encode(remoteControlPlaneIdsUrl,URL_ENCODING));
-        var request = new Request.Builder().url(url);
+    public Catalog getCatalog(String remoteControlPlaneIdsUrl, QuerySpec spec) throws IOException {
+
+        var url = String.format(CATALOG_CALL,config.getControlPlaneManagementUrl());
+        var catalogSpec =String.format(CATALOG_REQUEST_BODY,remoteControlPlaneIdsUrl,IDS_PATH,objectMapper.writeValueAsString(spec));
+
+        var request = new Request.Builder().url(url).post(RequestBody.create(catalogSpec,MediaType.parse("application/json")));
         config.getControlPlaneManagementHeaders().forEach(request::addHeader);
 
         try (var response = httpClient.newCall(request.build()).execute()) {

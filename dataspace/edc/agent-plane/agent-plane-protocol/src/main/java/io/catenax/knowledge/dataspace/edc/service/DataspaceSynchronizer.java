@@ -8,6 +8,8 @@ import org.apache.jena.sparql.core.Quad;
 import org.eclipse.edc.spi.monitor.Monitor;
 import org.eclipse.edc.catalog.spi.Catalog;
 import org.eclipse.edc.connector.contract.spi.types.offer.ContractOffer;
+import org.eclipse.edc.spi.query.Criterion;
+import org.eclipse.edc.spi.query.QuerySpec;
 
 import java.util.*;
 import java.util.concurrent.ScheduledExecutorService;
@@ -23,8 +25,8 @@ public class DataspaceSynchronizer implements Runnable {
      * constants
      */
     protected final static Node CX_ASSET=NodeFactory.createURI("https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#offersAsset");
-
     protected final static Map<String,Node> assetPropertyMap=new HashMap<>();
+    protected final static QuerySpec federatedAssetQuery = QuerySpec.Builder.newInstance().filter(List.of(new Criterion("cx:isFederated","=","true"))).build();
 
     static {
         assetPropertyMap.put("asset:prop:id",NodeFactory.createURI("https://github.com/catenax-ng/product-knowledge/ontology/common_ontology.ttl#id"));
@@ -89,7 +91,7 @@ public class DataspaceSynchronizer implements Runnable {
      */
     public synchronized void shutdown() {
         if(isStarted) {
-            monitor.info(String.format("Shutting down dataspace synchronization"));
+            monitor.info("Shutting down dataspace synchronization");
             isStarted=false;
             service.shutdown();
         }
@@ -100,14 +102,14 @@ public class DataspaceSynchronizer implements Runnable {
      */
     @Override
     public void run() {
-        monitor.debug(String.format("Synchronization run has been started"));
+        monitor.debug("Synchronization run has been started");
         if(isStarted) {
             for (String remote : config.getDataspaceSynchronizationConnectors()) {
                 if(isStarted) {
                     monitor.debug(String.format("About to synchronize remote connector %s", remote));
                     rdfStore.startTx();
                     try {
-                        Catalog catalog = dataManagement.getCatalog(remote);
+                        Catalog catalog = dataManagement.getCatalog(remote,federatedAssetQuery);
                         monitor.debug(String.format("Found a catalog with %d entries for remote connector %s", catalog.getContractOffers().size(), remote));
                         Node graph = rdfStore.getDefaultGraph();
                         Node connector = NodeFactory.createURI(remote.replace("https", "edcs").replace("http", "edc"));
@@ -146,10 +148,10 @@ public class DataspaceSynchronizer implements Runnable {
                 }
             } // for
             if(isStarted) {
-                monitor.debug(String.format("Schedule next synchronization run"));
+                monitor.debug("Schedule next synchronization run");
                 service.schedule(this, config.getDataspaceSynchronizationInterval(), TimeUnit.MILLISECONDS);
             } else {
-                monitor.debug(String.format("Synchronization is no more active. Disable next run."));
+                monitor.debug("Synchronization is no more active. Disable next run.");
             }
         }
     }
