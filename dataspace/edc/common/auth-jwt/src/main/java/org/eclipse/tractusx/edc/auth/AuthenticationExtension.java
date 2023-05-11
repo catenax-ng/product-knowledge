@@ -15,6 +15,7 @@ import org.eclipse.edc.runtime.metamodel.annotation.Setting;
 import org.eclipse.edc.spi.system.ServiceExtension;
 import org.eclipse.edc.spi.system.ServiceExtensionContext;
 import org.eclipse.edc.spi.system.configuration.Config;
+import org.eclipse.edc.spi.types.TypeManager;
 import org.eclipse.edc.web.spi.WebService;
 
 /**
@@ -69,7 +70,10 @@ public class AuthenticationExtension implements ServiceExtension {
      */
     @Inject
     protected WebService webService;
+    @Inject
+    protected TypeManager typeManager;
 
+    @Override
     public void initialize(ServiceExtensionContext ctx) {
         ctx.getConfig(AUTH_SETTING).partition().forEach( authenticationServiceConfig ->
                 createAuthenticationService(ctx,authenticationServiceConfig));
@@ -79,7 +83,7 @@ public class AuthenticationExtension implements ServiceExtension {
         String type=authenticationServiceConfig.getString(TYPE_SETTING);
         AuthenticationService newService=null;
         if("jwt".equals(type)) {
-            CompositeJwsVerifier.Builder jwsVerifierBuilder = new CompositeJwsVerifier.Builder(ctx.getTypeManager().getMapper());
+            CompositeJwsVerifier.Builder jwsVerifierBuilder = new CompositeJwsVerifier.Builder(typeManager.getMapper());
             String key = authenticationServiceConfig.getString(KEY_SETTING);
             if (key != null) {
                 jwsVerifierBuilder.addKey(key);
