@@ -40,9 +40,6 @@ public class AasBridge {
     private final HttpClient client = HttpClient.newBuilder().executor(Executors.newFixedThreadPool(5)).build();
 
 
-
-
-
     private final Map<AspectModelUrn, Class<? extends AspectMapper>> implMap =
             Map.of(
                     AspectModelUrn.fromUrn("urn:bamm:io.catenax.material_for_recycling:1.1.0#MaterialForRecycling"),

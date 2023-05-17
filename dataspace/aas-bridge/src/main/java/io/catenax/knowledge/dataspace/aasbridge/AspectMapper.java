@@ -118,7 +118,6 @@ public abstract class AspectMapper {
     protected AssetAdministrationShellEnvironment instantiateAas() {
         AssetAdministrationShellEnvironment clone = AasUtils.cloneAasEnv(aasTemplate);
         Submodel smClone = AasUtils.cloneReferable(aasTemplate.getSubmodels().get(0), Submodel.class);
-        smClone.setKind(ModelingKind.INSTANCE);
         String smId=getRandomIRI();
         smClone.setIdentification(new DefaultIdentifier.Builder()
                 .idType(IdentifierType.IRI)
@@ -149,6 +148,9 @@ public abstract class AspectMapper {
                         ).collect(Collectors.toList()))
                         .build()
         )));
+        InstantiationVisitor visitor = new InstantiationVisitor();
+        visitor.visit(clone);
+
         return clone;
     }
 
