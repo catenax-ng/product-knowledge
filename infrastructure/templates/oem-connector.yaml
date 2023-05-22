@@ -165,7 +165,7 @@ spec:
         seccompProfile:
             type: RuntimeDefault
       containers:
-        - image: ghcr.io/catenax-ng/product-knowledge/controlplane-memory:{{.Values.version}}
+        - image: ghcr.io/catenax-ng/product-agents-edc/controlplane-memory:{{.Values.version}}
           imagePullPolicy: Always
           name: oem-control-plane
           securityContext:
@@ -341,7 +341,7 @@ spec:
         seccompProfile:
             type: RuntimeDefault
       containers:
-        - image: ghcr.io/catenax-ng/product-knowledge/controlplane-memory:{{.Values.version}}
+        - image: ghcr.io/catenax-ng/product-agents-edc/controlplane-memory:{{.Values.version}}
           imagePullPolicy: Always
           name: oem-control-plane2
           securityContext:
@@ -573,7 +573,7 @@ spec:
         seccompProfile:
           type: RuntimeDefault
       containers:
-        - image: ghcr.io/catenax-ng/product-knowledge/agentplane-azure-vault:{{.Values.version}}
+        - image: ghcr.io/catenax-ng/product-agents-edc/agentplane-azure-vault:{{.Values.version}}
           imagePullPolicy: Always
           name: oem-data-plane
           securityContext:

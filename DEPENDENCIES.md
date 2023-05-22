@@ -1,4 +1,4 @@
-# Dependencies of Catena-X Knowledge Agents
+# Dependencies of Catena-X Knowledge Agents Kit
 
 The following is a simple type of single-level Software-BOM for all official open source products of Catena-X Knowledge Agents. 
 
@@ -74,13 +74,4 @@ The following is a simple type of single-level Software-BOM for all official ope
 | Dataspace | Agents>Remoting | [SLF4J](https://www.slf4j.org) | >=2.0.0 | All | MIT |     |
 | Dataspace | Agents>Remoting | [Jackson](https://github.com/FasterXML/jackson) | >=2.13.4 | All | Apache License 2.0 |     |
 | Dataspace | Agents>Remoting | [Apache HttpComponents](https://hc.apache.org/) | >=4.5.13 | All | Apache License 2.0 |     |
-| Dataspace | EDC Agent Plane | [EDC](https://github.com/eclipse-edc) | >=0.0.1-milestone-6 | All | Apache License 2.0 |     |
-| Dataspace | EDC Agent Plane | [Tractus-X EDC](https://github.com/eclipse-tractusx/tractusx-edc) | >=0.1.2 | All | Apache License 2.0 |     |
-| Dataspace | EDC Agent Plane | [Apache Jena Fuseki](https://jena.apache.org/) | >=2.0.0 | All | Apache License 2.0 |     |
-| Dataspace | EDC Agent Plane | [Jakarta RESTful Web Services](https://projects.eclipse.org/projects/ee4j.rest) | >=3.1.0 | All | Eclipse Public License (2.0) |     |
-| Dataspace | EDC Agent Plane | [Javax Servlet API](https://de.wikipedia.org/wiki/Jakarta_Servlet) | >=4.0.1 | All | Common Development & Distribution License |     |
-| Dataspace | EDC Agent Plane | [Jakarta Servlet API](https://projects.eclipse.org/projects/ee4j.servlet) | >=5.0.2 | All | Eclipse Public License (2.0) |     |
-| Dataspace | EDC Agent Plane | [Java JWT](https://github.com/auth0/java-jwt) | >=4.0.0 | All | MIT |     |
-| Dataspace | EDC Agent Plane | [Azure SDK for Java](https://github.com/Azure/azure-sdk-for-java) | >=1.5 | All | MIT |     |
-| Dataspace | EDC Agent Plane | [Failsafe](https://failsafe.dev/) | >=3.2.4 | All | Apache License 2.0 |     |
-| Dataspace | EDC Agent Plane | [Mockito](https://site.mockito.org/) | >=4.6.1 | Test | MIT |     | 
+| Dataspace | EDC Extensions | [Tractus-X Knowledge Agents EDC Extensions](https://github.com/catenax-ng/product-agents-edc/blob/main/Dependencies.md) | >=1.9.1 | All | Apache License 2.0 |     |

@@ -1,6 +1,6 @@
 # remoting-agent
 
-![Version: 0.9.1-SNAPSHOT](https://img.shields.io/badge/Version-0.8.5--SNAPSHOT-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.9.1-SNAPSHOT](https://img.shields.io/badge/AppVersion-0.8.5--SNAPSHOT-informational?style=flat-square)
+![Version: 1.9.1-SNAPSHOT](https://img.shields.io/badge/Version-0.8.5--SNAPSHOT-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.9.1-SNAPSHOT](https://img.shields.io/badge/AppVersion-0.8.5--SNAPSHOT-informational?style=flat-square)
 
 Catena-X Remoting Agent - Knowledge-Agents Compatible API Binding Layer
 
@@ -9,7 +9,7 @@ Catena-X Remoting Agent - Knowledge-Agents Compatible API Binding Layer
 ## TL;DR
 ```shell
 $ helm repo add catenax-ng-product-knowledge https://catenax-ng.github.io/product-knowledge/infrastructure
-$ helm install my-release catenax-ng-product-knowledge/remoting-agent --version 0.9.1-SNAPSHOT
+$ helm install my-release catenax-ng-product-knowledge/remoting-agent --version 1.9.1-SNAPSHOT
 ```
 
 ## Maintainers

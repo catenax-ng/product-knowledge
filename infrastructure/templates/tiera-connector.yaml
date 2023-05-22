@@ -102,7 +102,7 @@ spec:
         seccompProfile:
           type: RuntimeDefault
       containers:
-        - image: ghcr.io/catenax-ng/product-knowledge/controlplane-memory:{{.Values.version}}
+        - image: ghcr.io/catenax-ng/product-agents-edc/controlplane-memory:{{.Values.version}}
           imagePullPolicy: Always
           name: tiera-control-plane
           securityContext:
@@ -338,7 +338,7 @@ spec:
         seccompProfile:
             type: RuntimeDefault
       containers:
-        - image: ghcr.io/catenax-ng/product-knowledge/agentplane-azure-vault:{{.Values.version}}
+        - image: ghcr.io/catenax-ng/product-agents-edc/agentplane-azure-vault:{{.Values.version}}
           imagePullPolicy: Always
           name: tiera-data-plane
           securityContext:
