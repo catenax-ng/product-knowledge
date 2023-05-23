@@ -240,7 +240,7 @@ services:
       # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
       EDC_FS_CONFIG: /app/configuration.properties
       # Uncomment to enable for debugging, please choose a different port for each endpoint
-      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:4040
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
     volumes:
       - ./oem/resources/dataplane.properties:/app/configuration.properties
       - ./resources/dataspace_local.ttl:/app/dataspace.ttl
