@@ -34,9 +34,9 @@ of the graph can be exposed via the AAS-APIs that has mapper implementing the tr
 
 There are two main components whose interplay implements the AAS-KA bridge:
 
-* A flexible SQL/JSON engine, such as Dremio or in parts also Postgresql which is able to mount raw data in various 
-formats from remote filesystems and APIs. This engine is used to build flat relational views onto a hierarchical 
-json structure that may originate in the value-only-serialization of the AAS. Typically there will be one table/view 
+* A flexible SQL/JSON engine, such as Dremio or in parts also Postgresql which is able to mount raw data in various
+formats from remote filesystems and APIs. This engine is used to build flat relational views onto a hierarchical
+json structure that may originate in the value-only-serialization of the AAS. Typically there will be one table/view
 per json-schema/submodel template. As an example, see these [scripts](https://github.com/catenax-ng/product-knowledge/tree/main/infrastructure/resources/dremio)
 * A graph engine (such as [ontop](https://ontop-vkg.org/guide/) ) that is able to bind/translate SPARQL queries into SQL. As an example, see these [bindings](https://github.com/catenax-ng/product-knowledge/tree/main/infrastructure/oem/resources/trace.obda)
 
@@ -45,7 +45,7 @@ can be left out if a sparql-capable database holds its data in conformance to th
 
 ## KA-AAS Bridge
 
-Exposing substructures of the distributed knowledge graph via the AAS APIs is possible by implementing [a mapper](https://github.com/catenax-ng/product-knowledge/tree/main/dataspace/aas-bridge/src/main/java/io/catenax/knowledge/dataspace/aasbridge/aspects) 
+Exposing substructures of the distributed knowledge graph via the AAS APIs is possible by implementing [a mapper](https://github.com/catenax-ng/product-knowledge/tree/main/dataspace/aas-bridge/src/main/java/io/catenax/knowledge/dataspace/aasbridge/aspects)
 and registering it in the KA-AAS Bridge. For each submodel template, there will be a combination of
 
 * a SPARQL query extracting "flat" information out of the virtual graph
@@ -56,4 +56,4 @@ To reduce the complexity of implementing new mappings, a mechanism that works on
 the KA-AAS Bridge in the future.
 
 [FAAAST framework](https://github.com/FraunhoferIOSB/FAAAST-Service/) is used as SDK providing the AAS tooling required for the implementation
-of all relevant AAS-APIs. 
+of all relevant AAS-APIs.
