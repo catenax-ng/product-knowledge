@@ -50,7 +50,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -91,6 +90,9 @@ public class Invocation {
         objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'"));
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
+
+    public static SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+    public static SimpleDateFormat dateTimeFormat=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sssX");
 
     /**
      * creates a new invocaiton
@@ -166,15 +168,24 @@ public class Invocation {
                         }
                     case "http://www.w3.org/2001/XMLSchema#dateTime":
                         try {
-                            return (Target) objectMapper.getNodeFactory().textNode(objectMapper.getDateFormat().format(objectMapper.getDateFormat().parse(binding.stringValue())));
+                            return (Target) objectMapper.getNodeFactory().textNode(dateTimeFormat.format(dateTimeFormat.parse(binding.stringValue())));
                         } catch(ParseException pe) {
-                            throw new SailException(String.format("Could not convert %s of to json date.", binding),pe);
+                            throw new SailException(String.format("Could not convert %s to json date.", binding),pe);
+                        }
+                    case "http://www.w3.org/2001/XMLSchema#date":
+                        try {
+                            return (Target) objectMapper.getNodeFactory().textNode(dateFormat.format(dateFormat.parse(binding.stringValue())));
+                        } catch(ParseException pe) {
+                            throw new SailException(String.format("Could not convert %s to json date.", binding),pe);
                         }
                     case "https://json-schema.org/draft/2020-12/schema#Object":
                         try {
-                            return (Target) objectMapper.readTree(binding.stringValue());
+                            String representation=binding.stringValue();
+                            // remove UTF8 linefeeds.
+                            representation=representation.replace("\\x0A","");
+                            return (Target) objectMapper.readTree(representation);
                         } catch(JsonProcessingException jpe) {
-                            throw new SailException(String.format("Could not convert %s of to json object.", binding),jpe);
+                            throw new SailException(String.format("Could not convert %s to json object.", binding),jpe);
                         }
                     default:
                         throw new SailException(String.format("Could not convert %s of data type %s.", binding,dataTypeName));

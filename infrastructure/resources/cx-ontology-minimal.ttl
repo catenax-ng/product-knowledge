@@ -1,0 +1,4 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix json: <https://json-schema.org/draft/2020-12/schema#> .
+
+json:Object a rdfs:Datatype.

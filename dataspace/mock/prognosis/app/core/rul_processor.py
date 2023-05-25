@@ -2,7 +2,9 @@
 File contains the core logic which would power RUL resource.
 """
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
+import json
+import random
 
 from app.utils.exceptions import CustomException
 
@@ -31,6 +33,12 @@ class RulService:
                               f"{','.join(errors)} information which are mandatory.",
                 metadata=self.lc_metadata
             )
+
+        self.hi_hash = hash(json.dumps(lc_data,sort_keys=True))
+        self.mileage = int(self.lc_data["Metadata"]["Mileage"]["Value"])
+        registered_date = self.lc_data["Metadata"]["RegistrationDate"]["Value"]
+        registered_format = self.lc_data["Metadata"]["RegistrationDate"]["Unit"]
+        self.registration = datetime.strptime(str(registered_date), registered_format)
 
         LOGGER.info("Load Collective file passed all the validations")
 
@@ -71,8 +79,9 @@ class RulService:
                 )
 
             registered_date = self.lc_data["Metadata"]["RegistrationDate"]["Value"]
+            registered_format = self.lc_data["Metadata"]["RegistrationDate"]["Unit"]
             try:
-                _ = datetime.strptime(str(registered_date), "%Y%m%d")
+                _ = datetime.strptime(str(registered_date), registered_format)
             except (ValueError, SyntaxError) as err:
                 LOGGER.exception("Converting registered date from string to object "
                                  "failed with error : %s", err)
@@ -90,15 +99,26 @@ class RulService:
         Returns: result is a mock response
 
         """
+
+        random.seed(self.hi_hash)
+
+        now = datetime.today()
+        diff = now - self.registration
+
+        kmPerHour = self.mileage / diff.total_seconds()
+        problem = random.random() * 3600 * 24 * 365 * 2
+        problem_delta = int(timedelta(seconds=problem) / timedelta(days=1))
+        distance = int(problem * kmPerHour)
+
         result = {
             "RUL": {
                 "remainingDistance": {
-                        "Value": 150,
+                        "Value": distance,
                         "Unit": "km"
                     },
                 "remainingTime": {
-                        "Value": 2,
-                        "Unit": "years"
+                        "Value": problem_delta,
+                        "Unit": "days"
                     }
             }
         }

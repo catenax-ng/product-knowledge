@@ -126,6 +126,8 @@ data:
 {{- .Files.Get "tiera/resources/rdf4j/repositories/health/config.ttl" | nindent 4 }}
   prognosis.ttl: |-
 {{- .Files.Get "tiera/resources/rdf4j/repositories/prognosis/config.ttl" | nindent 4 }}
+  rul.ttl: |-
+{{- .Files.Get "tiera/resources/rdf4j/repositories/rul/config.ttl" | nindent 4 }}
   logback.xml: |-
 {{- .Files.Get "tiera/resources/rdf4j/conf/logback.xml" | nindent 4 }}
 ---
@@ -211,6 +213,10 @@ spec:
             - name: tiera-remoting-agent-config
               mountPath: /var/rdf4j/server/repositories/health/config.ttl
               subPath: health.ttl
+              readOnly: true
+            - name: tiera-remoting-agent-config
+              mountPath: /var/rdf4j/server/repositories/rul/config.ttl
+              subPath: rul.ttl
               readOnly: true
             - name: tiera-remoting-agent-config
               mountPath: /var/rdf4j/server/conf/logback.xml

@@ -1,0 +1,40 @@
+[PrefixDeclaration]
+cx-common:          https://catena-x.net/product-knowledge/ontology/common#
+cx-core:            https://catena-x.net/product-knowledge/ontology/core#
+cx-vehicle:         https://catena-x.net/product-knowledge/ontology/vehicle#
+cx-vinfo:           https://catena-x.net/product-knowledge/ontology/vehicle-information#
+cx-part:            https://catena-x.net/product-knowledge/ontology/part#
+cx-load:            https://catena-x.net/product-knowledge/ontology/loadspectrum#
+uuid:		        urn:uuid:
+bpnl:		        bpn:legal:
+owl:		        http://www.w3.org/2002/07/owl#
+rdf:		        http://www.w3.org/1999/02/22-rdf-syntax-ns#
+xml:		        http://www.w3.org/XML/1998/namespace
+xsd:		        http://www.w3.org/2001/XMLSchema#
+json:               https://json-schema.org/draft/2020-12/schema#
+obda:		        https://w3id.org/obda/vocabulary#
+rdfs:		        http://www.w3.org/2000/01/rdf-schema#
+
+[MappingDeclaration] @collection [[
+mappingId	vehicles
+target		uuid:{catenaXId} rdf:type cx-vehicle:Vehicle ; cx-part:partId {localIdentifiers_partInstanceId}^^xsd:string; cx-part:partName {partTypeInformation_nameAtManufacturer}^^xsd:string; cx-part:partSeries {partTypeInformation_manufacturerPartId}^^xsd:string; cx-part:isProducedBy bpnl:{localIdentifiers_manufacturerId}; cx-part:partProductionDate {manufacturingInformation_date}^^xsd:date; cx-vehicle:vehicleIdentificationNumber {localIdentifiers_van}^^xsd:string .
+source		SELECT "catenaXId", "localIdentifiers_partInstanceId", "partTypeInformation_nameAtManufacturer", "partTypeInformation_manufacturerPartId", "localIdentifiers_manufacturerId", "manufacturingInformation_date", "localIdentifiers_van" FROM "HI_TEST_OEM"."CX_RUL_SerialPartTypization_Vehicle" vehicles
+
+mappingId	vehicleparts
+target		uuid:{childCatenaXId} cx-part:isPartOf uuid:{catenaXId} .
+source		SELECT "catenaXId", "childCatenaXId" FROM  "HI_TEST_OEM"."CX_RUL_AssemblyPartRelationship" vehicleparts
+
+mappingId	parts
+target		uuid:{catenaXId} rdf:type cx-part:AssemblyGroup ; cx-part:partId {localIdentifiers_partInstanceId}^^xsd:string; cx-part:partName {partTypeInformation_nameAtManufacturer}^^xsd:string; cx-part:partSeries {partTypeInformation_manufacturerPartId}^^xsd:string; cx-part:isProducedBy bpnl:{localIdentifiers_manufacturerId}; cx-part:partProductionDate {manufacturingInformation_date}^^xsd:date .
+source		SELECT "catenaXId", "localIdentifiers_partInstanceId", "partTypeInformation_nameAtManufacturer", "partTypeInformation_manufacturerPartId", "localIdentifiers_manufacturerId", "manufacturingInformation_date" FROM "HI_TEST_OEM"."CX_RUL_SerialPartTypization_Component" parts 
+
+mappingId   partLoadSpectrum
+target		uuid:{targetComponentId} cx-load:hasLoadSpectrum uuid:{catenaXId}/{targetComponentId}/{metadata_componentDescription} .
+source		SELECT "catenaXId", "targetComponentId", "metadata_componentDescription" FROM "HI_TEST_OEM"."CX_RUL_LoadCollective" loadspectrum
+
+mappingId   loadspectrum
+target      uuid:{catenaXId}/{targetComponentId}/{metadata_componentDescription} rdf:type cx-vinfo:VehicleCurrentState; cx-vinfo:vehicleOperatingHours {metadata_status_operatingHours}^^xsd:float; cx-vinfo:vehicleCurrentStateDateTime {metadata_status_date}^^xsd:dateTime; cx-vinfo:vehicleCurrentMileage {metadata_status_mileage}^^xsd:int; rdf:type cx-load:LoadSpectrum; cx-load:loadSpectrumId {metadata_componentDescription}^^xsd:string; cx-load:loadSpectrumName {metadata_projectDescription}^^xsd:string; cx-load:loadSpectrumDescription {metadata_routeDescription}^^xsd:string; cx-load:loadSpectrumValue {header_countingValue}^^xsd:string; cx-load:loadSpectrumUnit {header_countingUnit}^^xsd:string; cx-load:loadSpectrumMethod {header_countingMethod}^^xsd:string; cx-load:loadSpectrumChannels {header_channels}^^json:Object; cx-load:loadSpectrumClasses {body_classes}^^json:Object; cx-load:loadSpectrumValues {body_counts_countsList}^^json:Object .
+source		SELECT "catenaXId", "targetComponentId", "metadata_projectDescription", "metadata_componentDescription", "metadata_routeDescription", "metadata_status_operatingHours", "metadata_status_date", "metadata_status_mileage", "header_countingValue", "header_countingUnit", "header_countingMethod", "header_channels", "body_counts_countsList", "body_classes" FROM "HI_TEST_OEM"."CX_RUL_LoadCollective" loadspectrum
+
+]]
+

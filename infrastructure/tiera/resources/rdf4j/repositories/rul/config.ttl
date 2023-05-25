@@ -1,0 +1,135 @@
+#
+# Rdf4j configuration for a health-specific remoting
+#
+@prefix rdf:        <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs:       <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix rep:        <http://www.openrdf.org/config/repository#>.
+@prefix sr:         <http://www.openrdf.org/config/repository/sail#>.
+@prefix sail:       <http://www.openrdf.org/config/sail#>.
+@prefix sp:         <http://spinrdf.org/sp#>.
+@prefix xsd:        <http://www.w3.org/2001/XMLSchema#> .
+@prefix json:       <https://json-schema.org/draft/2020-12/schema#> .
+@prefix dcterms:    <http://purl.org/dc/terms/> .
+@prefix cx-fx:      <https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl#>.
+@prefix cx-rt:      <urn:io.catenax.knowledge.agents.remoting#>.
+@prefix cx-common:   <https://catena-x.net/product-knowledge/ontology/common#>.
+@prefix cx-core:     <https://catena-x.net/product-knowledge/ontology/core#>.
+@prefix cx-vehicle:  <https://catena-x.net/product-knowledge/ontology/vehicle#>.
+@prefix cx-vinfo:    <https://catena-x.net/product-knowledge/ontology/vehicle-information#>.
+@prefix cx-part:     <https://catena-x.net/product-knowledge/ontology/part#>.
+@prefix cx-load:     <https://catena-x.net/product-knowledge/ontology/loadspectrum#>.
+@prefix cx-life:     <https://catena-x.net/product-knowledge/ontology/lifetime-prognosis#>.
+
+[] rdf:type rep:Repository ;
+   rep:repositoryID "rul" ;
+   rdfs:label "Remainig Useful Life Functions" ;
+   rep:repositoryImpl [
+      rep:repositoryType "openrdf:SailRepository" ;
+      sr:sailImpl [
+         sail:sailType "io.catenax.knowledge:Remoting" ;
+         cx-fx:supportsInvocation cx-life:LifetimePrognosis;
+      ]
+   ].
+
+cx-life:LifetimePrognosis rdf:type cx-fx:Function;
+  dcterms:description "Lifetime prognosis is an evaluation function operating on a load collective."@en ;
+  dcterms:title "Lifetime Prognosis" ;
+  cx-fx:targetUri "http://service-backend:5005/api/rul";
+  cx-fx:invocationMethod "POST-JSON-MF";
+  cx-fx:input cx-life:loadSpectrumFile;
+  cx-fx:input cx-load:loadSpectrumMethod;
+  cx-fx:input cx-load:loadSpectrumUnit;
+  cx-fx:input cx-load:loadSpectrumId;
+  cx-fx:input cx-load:loadSpectrumChannels;
+  cx-fx:input cx-load:loadSpectrumClasses;
+  cx-fx:input cx-load:loadSpectrumValues;
+  cx-fx:input cx-vehicle:vehicleIdentificationNumber;
+  cx-fx:input cx-part:isProducedBy;
+  cx-fx:input cx-vinfo:vehicleCurrentMileage;
+  cx-fx:input cx-life:vehicleCurrentMileageUnit;
+  cx-fx:input cx-vinfo:vehicleRegistrationDate;
+  cx-fx:input cx-life:vehicleRegistrationDateFormat;
+  cx-fx:result cx-life:LifetimeResult.
+
+cx-life:LifetimeResult rdf:type cx-fx:Result;
+  dcterms:description "Lifetime Prognosis Result is a RUL projection."@en ;
+  dcterms:title "Lifetime Prognosis Result" ;
+  cx-fx:output cx-life:remainingDistance;
+  cx-fx:output cx-life:remainingTime.
+
+cx-life:remainingDistance rdf:type cx-fx:ReturnValue;
+     dcterms:description "Remaining Distance is an integer-based prediction of kilometers."@en ;
+     dcterms:title "Remaining Distance" ;
+     cx-fx:valuePath "RUL.RUL.remainingDistance.Value";
+     cx-fx:dataType xsd:int.
+
+cx-life:remainingTime rdf:type cx-fx:ReturnValue;
+     dcterms:description "Remaining Time is an integer-based prediction of years."@en ;
+     dcterms:title "Remaining Time" ;
+     cx-fx:valuePath "RUL.RUL.remainingTime.Value";
+     cx-fx:dataType xsd:int.
+
+cx-life:loadSpectrumFile rdf:type cx-fx:Argument;
+  dcterms:description "A Load Spectrum has a file description which is a json structure consisting of a 'Type' and a 'Version' ."@en ;
+  dcterms:title "Load Spectrum File";
+  cx-fx:argumentName "load_collective_file.File".
+
+cx-load:loadSpectrumMethod rdf:type cx-fx:Argument;
+  dcterms:description "A Load Spectrum has a method with which the values are accumulated."@en ;
+  dcterms:title "Load Spectrum Method";
+  cx-fx:argumentName "load_collective_file.Header.CountingMethod".
+
+cx-load:loadSpectrumUnit rdf:type cx-fx:Argument;
+  dcterms:description "A Load Spectrum has a unit of the accumulated values."@en ;
+  dcterms:title "Load Spectrum Unit";
+  cx-fx:argumentName "load_collective_file.Header.CountingUnit".
+
+cx-load:loadSpectrumId rdf:type cx-fx:Argument;
+  dcterms:description "A Load Spectrum has a an id which describes the measured system."@en ;
+  dcterms:title "Load Spectrum Id";
+  cx-fx:argumentName "load_collective_file.Metadata.Component".
+
+cx-load:loadSpectrumChannels rdf:type cx-fx:Argument;
+  dcterms:description "A Load Spectrum has a set of channels associated."@en ;
+  dcterms:title "Load Spectrum Channels";
+  cx-fx:argumentName "load_collective_file.Header.Channels".
+
+cx-load:loadSpectrumClasses rdf:type cx-fx:Argument;
+  dcterms:description "A Load Spectrum has a set of classes which determine the values inside the channle dimensions."@en ;
+  dcterms:title "Load Spectrum Classes";
+  cx-fx:argumentName "load_collective_file.Body.Classes".
+
+cx-load:loadSpectrumValues rdf:type cx-fx:Argument;
+  dcterms:description "A Load Spectrum has a set of values measured."@en ;
+  dcterms:title "Load Spectrum Values";
+  cx-fx:argumentName "load_collective_file.Body.Counts".
+
+cx-vehicle:vehicleIdentificationNumber rdf:type cx-fx:Argument;
+  dcterms:description "A Load Spectrum has a vehicle id for which it was recorded."@en ;
+  dcterms:title "Load Spectrum VIN";
+  cx-fx:argumentName "load_collective_file.Metadata.VIN".
+
+cx-part:isProducedBy rdf:type cx-fx:Argument;
+  dcterms:description "A Load Spectrum has an OEM which captures it."@en ;
+  dcterms:title "Load Spectrum OEM";
+  cx-fx:argumentName "load_collective_file.Metadata.OEM".
+
+cx-vinfo:vehicleCurrentMileage rdf:type cx-fx:Argument;
+  dcterms:description "A Load Spectrum was recorded at a particular mileage."@en ;
+  dcterms:title "Load Spectrum Mileage";
+  cx-fx:argumentName "load_collective_file.Metadata.Mileage.Value".
+
+cx-life:vehicleCurrentMileageUnit rdf:type cx-fx:Argument;
+  dcterms:description "the unit of the recording mileage."@en ;
+  dcterms:title "Load Spectrum Mileage Unit";
+  cx-fx:argumentName "load_collective_file.Metadata.Mileage.Unit".
+
+cx-vinfo:vehicleRegistrationDate rdf:type cx-fx:Argument;
+  dcterms:description "A Load Spectrum was recorded by vehiclar that was registered at a particular date."@en ;
+  dcterms:title "Load Spectrum Registration Date";
+  cx-fx:argumentName "load_collective_file.Metadata.RegistrationDate.Value".
+
+cx-life:vehicleRegistrationDateFormat rdf:type cx-fx:Argument;
+  dcterms:description "the unit of the registration date."@en ;
+  dcterms:title "Load Spectrum Registration Format";
+  cx-fx:argumentName "load_collective_file.Metadata.RegistrationDate.Unit".
