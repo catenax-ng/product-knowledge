@@ -7,8 +7,10 @@ This document describes the target audience of this Kit.
 
 For more information see
 
-* Our [Introduction](audience) manifest
+* Our [Introduction](intro) manifest
 * Our [Frequently Asked Question](faq) list
+* The [CX-0084](CX-0084-Federated_Queries_In_Data_Spaces_v1.0.0) standard
+* The [conformity](testbed) testbed
 * An [Architecture](../development-view/architecture) documentation
 * The [Deployment](../operation-view/deployment) guide
 

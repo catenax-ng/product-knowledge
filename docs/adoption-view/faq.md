@@ -9,6 +9,8 @@ For more information see
 
 * Our [Introduction](audience) manifest
 * Our [Target Audience](audience) description
+* The [CX-0084](CX-0084-Federated_Queries_In_Data_Spaces_v1.0.0) standard
+* The [conformity](testbed) testbed
 * An [Architecture](../development-view/architecture) documentation
 * The [Deployment](../operation-view/deployment) guide
 

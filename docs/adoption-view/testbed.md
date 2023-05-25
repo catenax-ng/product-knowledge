@@ -1,18 +1,17 @@
 ---
 sidebar_position: 1
-title: Introduction
+title: Testbed
 ---
 
-This document describes the foundations of this Kit (=Keep it together).
-
-For inquiries please contact [Tom Buchert](mailto:tom.buchert@t-systems.com)
+This document describes a testbed for checking the conformance of this Kit (=Keep it together) and other
+standard-related artifacts.
 
 For more information see
 
-* Our [Target Audience](audience) description
-* A [Frequently Asked Question](faq) list
 * The [CX-0084](CX-0084-Federated_Queries_In_Data_Spaces_v1.0.0) standard
-* The [conformity](testbed) testbed
+* Our [Introduction](intro) manifest
+* A [Frequently Asked Question](faq) list
+* Our [Target Audience](audience) description
 * An [Architecture](../development-view/architecture) documentation
 * The [Deployment](../operation-view/deployment) guide
 
