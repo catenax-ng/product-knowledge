@@ -87,12 +87,11 @@ public class Invocation {
     public static ObjectMapper objectMapper=new ObjectMapper();
 
     static {
-        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'"));
+        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sssX"));
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 
-    public static SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
-    public static SimpleDateFormat dateTimeFormat=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sssX");
+    public SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * creates a new invocaiton
@@ -168,7 +167,7 @@ public class Invocation {
                         }
                     case "http://www.w3.org/2001/XMLSchema#dateTime":
                         try {
-                            return (Target) objectMapper.getNodeFactory().textNode(dateTimeFormat.format(dateTimeFormat.parse(binding.stringValue())));
+                            return (Target) objectMapper.getNodeFactory().textNode(objectMapper.getDateFormat().format(objectMapper.getDateFormat().parse(binding.stringValue())));
                         } catch(ParseException pe) {
                             throw new SailException(String.format("Could not convert %s to json date.", binding),pe);
                         }
