@@ -72,7 +72,7 @@ Since the raw data is never copied but rather traversed by the Skill Bindings, t
 
 ## Catena-X Standard and KITs
 
-The concrete choices for how the data graphs are to be constructed (using the [Resource Description Framework](https://www.w3.org/RDF/)), how Skills are to be interpreted (using the [SPARQL](https://www.w3.org/TR/sparql11-query/) language) and which vocabulary should be applied by both approaches (using the [Web Ontology Language](https://www.w3.org/OWL/)) is subject of an upcoming [Catena-X standard](https://confluence.catena-x.net/pages/viewpage.action?pageId=62835469).
+The concrete choices for how the data graphs are to be constructed (using the [Resource Description Framework](https://www.w3.org/RDF/)), how Skills are to be interpreted (using the [SPARQL](https://www.w3.org/TR/sparql11-query/) language) and which vocabulary should be applied by both approaches (using the [Web Ontology Language](https://www.w3.org/OWL/)) is subject of an upcoming [Catena-X standard](CX-0084-Federated_Queries_in_Data_Spaces_v1.0.0).
 
 This Agent KIT is a FOSS reference implementation of that standard following Eclipse guidelines.
 
