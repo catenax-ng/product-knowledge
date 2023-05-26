@@ -50,6 +50,12 @@ This document provides a standard for a semantically-driven and state-of-the-art
 ### 1.1 AUDIENCE & SCOPE
 
 > _This section is non-normative_
+The standard is relevant for the following roles:
+- Business Application Provider
+- Enablement Service Provider
+- Data Consumer
+- Data Provider
+
 
 In the following, we call one of the following affected stakeholders/solutions KA-enabled if it passes the Conformity Assessment Criteria (CAC, see Section 1.2 and Chapter 2):
 
