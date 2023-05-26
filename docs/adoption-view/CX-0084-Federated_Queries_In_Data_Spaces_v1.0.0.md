@@ -50,6 +50,7 @@ This document provides a standard for a semantically-driven and state-of-the-art
 ### 1.1 AUDIENCE & SCOPE
 
 > _This section is non-normative_
+
 The standard is relevant for the following roles:
 - Business Application Provider
 - Enablement Service Provider
