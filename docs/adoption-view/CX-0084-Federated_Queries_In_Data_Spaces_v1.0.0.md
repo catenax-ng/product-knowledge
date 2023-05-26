@@ -23,7 +23,7 @@ Rolf Bosse (Mercedes-Benz GmbH)
   - [2. CONFORMITY ASSESSMENT CRITERIA](#2-conformity-assessment-criteria)
     - [2.1 CAC FOR EDC](#21-cac-for-edc)
     - [2.2 CAC FOR Matchmaking Agent](#22-cac-for-matchmaking-agent)
-    - [2.3 CAC FOR Federated Data Catalogue](#23-cac-for-federated-data-catalogue)
+    - [2.3 CAC FOR Federated Catalogue](#23-cac-for-federated-catalogue)
     - [2.4 CAC FOR Binding Agent](#24-cac-for-binding-agents)
     - [2.5 CAC FOR Ontology Hub](#25-cac-for-ontology-hub)
   - [3 REFERENCES](#3-references)
@@ -97,15 +97,15 @@ Figure 1: Basic Overview about Knowledge Agents approach
 
 The most important concepts needed for the realization are summarized in Figure 1. The App in the figure serves the consumer by gathering, analyzing, and presenting the knowledge about business questions such as: How much of a certain material can be found in a specific vehicle series? It is assumed that the data which is needed to answer such questions is distributed over the network and cannot be found at one central place.
 
-To help collecting the data over the network, **Skills** are introduced. A Skill is a pre-formulated query (or: procedure) with limited scope such as: List all vehicle series that contain material produced in a certain location. The Skill is used to access all federated data instances via the tenant (= authentication and authorization scope) of the caller. The following paragraph shows an example how a skill could look like with SPARQL syntax:
+To help collecting the data over the network, **Skills** are introduced. A Skill is a pre-formulated query (or: procedure) with limited scope such as: List all vehicle series that contain material produced in a certain location. The Skill is used to access all federated data instances via the tenant (= authentication and authorization scope) of the caller.
 
-A skill receives input in the form of a data set
+A skill receives input in the form of a data set (we use a JSON notation in the following example):
 
 ```csharp
 [{"material":{"type":"literal","value":“Rubber”},"location":{"type":"literal","value":“Phuket”}}]
 ```
 
-which drives the control flow, the filtering and aggregating  of the information, and finally producing an output data set
+which drives the control flow, the filtering and aggregating  of the information, and finally producing an output data set, for example:
 
 ```csharp
 [
@@ -116,13 +116,13 @@ which drives the control flow, the filtering and aggregating  of the information
 
 In order to obtain the correct results in a federated system, all the participants of the skill execution need to have common understanding over the vocabulary (see following chapter). Relying on these conventions, an executor of a skill can calculate which providers are able to contribute or yield the necessary information in which sequence such that the resulting distributed operation will be performant.
 
-This coordinating job is taken over by the **Matchmaking Agent**, an endpoint that is mandatory for any KA-enabled Dataspace Participant. For that purpose, the Matchmaking Agent supports the SPARQL specification (see chapter 3) with the effect that the dataspace can be traversed as one large data structure. Hereby, the Consumer-Side Matchmaking Agent will – as driven by the builtin federation features of the KA-MATCH SPARQL profile (see the ANNEX) - interact with the KA-enabled EDC in order to negotiate and perform the transfer of Sub-Skills (=SPARQL Contexts) to other Dataspace Participants.
+This coordinating job is taken over by the **Matchmaking Agent**, an endpoint that is mandatory for any KA-enabled Dataspace Participant. For that purpose, the Matchmaking Agent supports the SPARQL specification (see chapter 3) with the effect that the dataspace can be traversed as one large data structure. Hereby, the Consumer-Side Matchmaking Agent will – as driven by the builtin federation features of SPARQL - interact with the KA-enabled EDC in order to negotiate and perform the transfer of Sub-Skills which are partial expressions of the original SPARQL command to other Dataspace Participants.
 
-In turn, upon successful transfer of the Sub-Skill, the Provider-Side Matchmaking Agent(s) will be activated by their respective EDC. Prior to such a success, the Provider EDC of course first needs to offer a so-called Graph Asset:
+In turn, upon successful transfer of the Sub-Skill, the Provider-Side Matchmaking Agent(s) will be activated by their respective EDC. The precondition for this activation is of course that the Provider EDC first needs to offer a so-called Graph Asset:
 
-**Graph Assets** are a variant of ordinary Data Assets (see the ANNEX) in the Catena-X EDC Standard; while Data Asset typically refer to an actual backend system (e.g., an Blob in an Object Store, an AAS server, a REST endpoint), Graph Assets introduce another intermediary instance, the so-called Binding Agent.
+**Graph Assets** are a variant of ordinary Data Assets (see the ANNEX) in the Catena-X EDC Standard; while Data Assets typically refer to an actual backend system (e.g., an Blob in an Object Store, an AAS server, a REST endpoint), Graph Assets introduce another intermediary instance, the so-called Binding Agent.
 
-Simply put, the **Binding Agent** is a restricted version of the Matchmaking Agent (which speaks the KA-BIND profile, i.e., a subset of the complete OWL/SPARQL specification, see the ANNEX) which is just focused on translating Sub-Skils of a particular business domain (Bill-Of-Material, Chemical Materials, Production Sites, etc.) into proper SQL- or REST based backend system calls. This scheme has several advantages:
+Simply put, the **Binding Agent** is a restricted version of the Matchmaking Agent (which speaks a profile, i.e., a subset of SPARQL specification, see the ANNEX) which is just focused on translating Sub-Skils of a particular business domain (Bill-Of-Material, Chemical Materials, Production Sites, etc.) into proper SQL- or REST based backend system calls. This scheme has several advantages:
 
 - For different types of backend systems, business domains and usage scenarios, different Binding Agent implementations (Caching Graph Store, SQL Binding Engine, REST Binding Engine) can be switched-in without affecting both the shared dataspace/semantic model and the mostly immutable backend systems/data models as well.
 - Access to the backend systems can be optimized by JIT compilation technology.
@@ -130,7 +130,7 @@ Simply put, the **Binding Agent** is a restricted version of the Matchmaking Age
 - Access to the backend system is decoupled by another layer of security, such that additional types of policies (role-based row-level and attribute-level access) can be implemented in the interplay of Matchmaking and Binding Agents.
 - There is a clear distinction between advanced graph operations (including type inference and transitive/recursive traversal also via EDC) on the Matchmaking Level and efficient, but more restricted and secure graph operations on the Binding/Data Level.
 
-As mentioned earlier, essential for the realization of the idea is the creation, governance and discoverability of a well-defined semantic catalogue (the **Federated Data Catalogue**), which forms together with the data inside the Graph Assets a **Federated Knowledge Graph**. In this context, the definition of a Knowledge Graph (KG) as "a multi relational graph composed of entities and relations which are regarded as nodes and different types of edges, respectively" is extended with aspect of federation. We see a Federated KG as a KG where entities and relations reside physically distributed over multiple systems connected through a network and a common query language. We see semantic metadata as structural information to scope the entities and relations of the KG based on ontological principles. This is the agreement, necessary for the successful interplay of the distributed parties within the data space.
+As mentioned earlier, essential for the realization of the idea is the creation, governance and discoverability of a well-defined semantic catalogue (the **Federated Catalogue**) which together with the data inside the Graph Assets forms a **Federated Knowledge Graph**. In this context, the definition of a Knowledge Graph (KG) as "a multi relational graph composed of entities and relations which are regarded as nodes and different types of edges, respectively" is extended with aspect of federation. We see a Federated KG as a KG where entities and relations reside physically distributed over multiple systems connected through a network and a common query language. We see semantic metadata as structural information to scope the entities and relations of the KG based on ontological principles. This is the agreement, necessary for the successful interplay of the distributed parties within the data space.
 
 To summarize, the Knowledge Agent standard shall achieve the following abilities:
 
@@ -161,23 +161,25 @@ In the following paragraphs, all building blocks relevant for this standard are 
 
 Ontologies, as defined by W3C Web Ontology Language OWL 2 (<https://www.w3.org/OWL/>) standard, provide the core of the KA catalogue. OWL comes with several interpretation profiles (<https://www.w3.org/TR/owl2-profiles/>) for different types of applications. For model checking and data validation (not part of this standard), the Rule Logic (RL) profile is used. For query answering/data processing (part of this standard), the Existential Logic (EL) profile (on the Dataspace Layer) and the Query Logic (QL) profile (on the Binding Layer) is used. Furthermore, RDF Terse Triple Language TTL (<https://www.w3.org/TR/turtle/>) format is used to divide/merge large ontologies into/from modular domain ontology files.
 
-Semantic Models are hosted in the Ontology Hub that is a central service to the dataspace.
+Semantic Models are hosted in the Ontology Hub that is a central service to the dataspace based on git over http(<https://www.git-scm.com/docs/http-protocol>).
 
 #### Data Consumption Layer/Query Definition
 
 This layer comprises all applications which utilize provided data and functions of business partners to achieve a direct business impact and frameworks which simplify the development of these applications. Thus, this layer focuses on using a released Semantic Model (or a use-case/role-specific excerpt thereof) as a vocabulary to build flexible queries (Skills) and integrating these Skills in data consuming apps. Skills can be easily integrated in these apps as stored procedure. Hence, skill and app development can be decoupled to increase efficiency of the app development process.
 
-SPARQL 1.1 specification (<https://www.w3.org/TR/sparql11-query/>) is used as a language and protocol to search for and process data across different business partners. As a part of this specification,  the QUERY RESULTS JSON (<https://www.w3.org/TR/sparql11-results-json/>) and the QUERY RESULTS XML (<https://www.w3.org/TR/rdf-sparql-XMLres/>) formats are used to represent both the answer sets generated by SPARQL skills and the sets of input parameters that a SPARQL skill should be applied to. For answer sets, additional formats such as the QUERY RESULTS CSV and TSV (<https://www.w3.org/TR/sparql11-results-csv-tsv/>) format may be supported. Required is the ability to store and invoke SPARQL queries as parameterized procedures in the dataspace; this is a KA-specific extension to the SPARQL endpoint (KA-MATCH) that is captured a concise Openapi specification  (<https://catenax-ng.github.io/product-knowledge/docs/development-view/api>). Also part of that specification is an extended response behaviour which introduces the warning status code “203” and a response header “cx_warning” bound to a JSON structure that lists abnormal events or trace information that appeared during the processing.
+SPARQL 1.1 specification (<https://www.w3.org/TR/sparql11-query/>) is used as a language and protocol to search for and process data across different business partners. As a part of this specification,  the QUERY RESULTS JSON (<https://www.w3.org/TR/sparql11-results-json/>) and the QUERY RESULTS XML (<https://www.w3.org/TR/rdf-sparql-XMLres/>) formats are used to represent both the answer sets generated by SPARQL skills and the sets of input parameters that a SPARQL skill should be applied to. For answer sets, additional formats such as the QUERY RESULTS CSV and TSV (<https://www.w3.org/TR/sparql11-results-csv-tsv/>) format may be supported. Required is the ability to store and invoke SPARQL queries as parameterized procedures in the dataspace; this is a KA-specific extension to the SPARQL endpoint (KA-MATCH, see ANNEX) that is captured the concise Openapi specification  (<https://catenax-ng.github.io/product-knowledge/docs/development-view/api>). This API allows for an extended response behaviour which introduces a warning status code “203” and an additional response header “cx_warning” that lists abnormal events or trace information that appeared during the processing in a data-sovereign manner.
 
 #### Dataspace Layer
 
 The base Dataspace-building technology is the Eclipse Dataspace Connector (EDC) which should be extended to operate as a HTTP/S contracting & transfer facility for the SPARQL-speaking Matchmaking Agent. To resolve dataspace offers and addresses using the ontological vocabulary, the Matchmaking Agent keeps a default meta-graph, the Federated Catalogue, that is used to host the Semantic Model and that is regularly synchronized with the relevant dataspace information including the offers of surrounding business partners/EDCs.
 
-The EDC interacts with the so-called Matchmaking Agent which is the first stage of SPARQL processing. It operates as the main invocation point to the Data Consuming Layer. Furthermore, It operates as the main bridging point between incoming EDC transfers (from an “Agent Source”) and the underlying Binding Layer. And it implements federation by delegating any outgoing SERVICE/GRAPH contexts to the EDC.
+The EDC interacts with the so-called Matchmaking Agent which is the first stage of SPARQL processing. It operates as the main invocation point to the Data Consuming Layer (using the KA-MATCH SPARQL profile). Furthermore, It operates as the main bridging point between incoming EDC transfers (from an “Agent Source” in the KA-TRANSFER SPARQL profile) and the underlying Binding Layer (speaking the KA-BIND SPARQL profile). And it implements federation by delegating any outgoing SERVICE/GRAPH contexts back to the EDC.
 
 [![Dataspace Layer](/img/dataspace_layer_small.png)](/img/dataspace_layer.png)
 
 Figure 4: Standard-Affected Dataspace Components
+
+The relevant profiles and asset descriptions are explained in detail in the ANNEX.
 
 Since EDC and Matchmaking Agent are bidirectionally coupled, implementations could merge Data Plane and Matchmaking Agent into a single package, the so-called Agent Plane. Agent Planes and ordinary Data Planes can co-exist due to our design choices.
 
@@ -230,6 +232,7 @@ following CACs and CAMs.
 <table>
 <thead>
  <tr>
+  <th>CAC</th>
   <th>Component</th>
   <th>Normative Statement</th>
   <th>Proposed Method</th>
@@ -237,40 +240,47 @@ following CACs and CAMs.
 </thead>
 <tbody>
  <tr>
+  <td>2.1.1</td>
   <td>EDC Control Plane</td>
   <td>MUST conform to the CX EDC HTTP Standard,<br/> specifically MUST support the “HttpProxy” transfer process type</td>
   <td>See CX-0018</td>
  </tr>
  <tr>
+  <td>2.1.2</td>
   <td>EDC Control Plane</td>
   <td>MUST support the “HttpProtocol” transfer process type which <br/> operates as the “HttpProxy” standard, but additionally memorizes <br/> the “type” property of the transferred asset in  <br/> the endpoint data reference properties (as property “protocol”). <br/> When recreating the data address, this attribute is replacing the <br/> original “HttpData” constant.</td>
   <td>
- Configuration Review<br/> EDC property<br/> edc.dataplane.selector.*<br/> destinationtypes<br/> should contain<br/> HttpProtocol<br/>  <br/> CAB offers TESTGRAPHASSET<br/> Assessed Party performs 02_ALL_EDC&gt;<br/> 020101_EDC to successfully initiate a transfer<div></div></td>
+ Configuration Review<br/> EDC property<br/> edc.dataplane.selector.*<br/> destinationtypes<br/> should contain<br/> HttpProtocol<br/>  <br/> Data Consumers: CAB offers a TESTGRAPHASSET<br/> Assessed Party successfully initiates a transfer <br/> Data Providers: Assessed Party offers a TESTGRAPHASSET<br/> CAB successfully initiates a transfer</td>
  </tr>
  <tr>
+  <td>2.1.3</td>
   <td>EDC Control Plane</td>
   <td>MUST register at least one KA-Enabled Data Plane</td>
-  <td>Configuration Review<br/> EDC property <br/> dc.dataplane.selector.*<br/> sourcetypes<br/> should contain<br/> urn:cx-common#Protocol:w3c:Http=SPARQL<div></div></td>
+  <td>Configuration Review<br/> EDC property <br/> dc.dataplane.selector.*<br/> sourcetypes<br/> should contain<br/>urn:cx-common#Protocol:w3c:Http=SPARQL</td>
  </tr>
  <tr>
+  <td>2.1.4</td>
   <td>EDC Control Plane</td>
-  <td>SHOULD support multiple endpoint callback listeners.<br/> MUST register at least one Matchmaking Agent <br/> callback endpoint as listener</td>
-  <td>Code/Configuration Review<br/> EDC property <br/> edc.receiver.http<div></div></td>
+  <td>SHOULD support dynamic endpoint callback listeners.<br/> OR MUST register at least one Matchmaking Agent <br/> callback endpoint as listener</td>
+  <td>Code/Configuration Review<br/> EDC extension org.eclipse.edc:transfer-pull-http-dynamic-receiver is installed <br/> OR edc.receiver.http <br/> EDC property points to the Matchmaking Agent callback endpoint</td>
  </tr>
  <tr>
+  <td>2.1.5</td>
   <td>EDC Control Plane</td>
   <td>MAY support an extended validation endpoint for extended <br/> graph policies which need access to a runtime context</td>
-  <td>Assessed Party demonstrates an endpoint which accepts a <br/> DAPS-signed graph policy backed claim token together <br/> with a JSON object representing the runtime context.<div></div></td>
+  <td>Assessed Party demonstrates an endpoint which accepts a <br/> DAPS-signed graph policy backed claim token together <br/> with a JSON object representing the runtime context.</td>
  </tr>
  <tr>
-  <td>EDC <br/> Data <br/> Plane</td>
-  <td>MUST conform to the CX EDC HTTP Standard, <br/> specifically MUST support the “HttpProxy” transfer process type <br/> in combination with the “HttpData” asset type<div></div></td>
-  <td/>
+  <td>2.1.6</td>
+  <td>EDC Data Plane</td>
+  <td>MUST conform to the CX EDC HTTP Standard, <br/> specifically MUST support the “HttpProxy” transfer process type <br/> in combination with the “HttpData” asset type</td>
+  <td>See CX-0018</td>
  </tr>
  <tr>
-  <td>EDC <br/> Data <br/> Plane</td>
-  <td>MUST support the “HttpProtocol” transfer process type in <br/> combination with the “urn:cx-common#Protocol:w3c:Http=SPARQL” <br/> and “urn:cx-common#Protocol:w3c:Http=SKILL” asset types.<br/> The registered Source implementation MUST support the “cx_header” parameter. <br/> MUST support the “header:Accepts” and “header:Host” asset address properties.<br/> MUST require the “proxyBody”, “proxyQueryParams” and <br/> “proxyMethod” asset address properties to be true.<br/> MUST require the “proxyPath” asset address properties to be false.<br/> MUST rewrite the query (as parameter or body)  <br/> to replace all occurrences of the asset:prop:id property <br/> by the “baseUrl” property<br/> MAY rewrite the query driven by additional asset address properties (“cx:shape”)<br/> MAY validate the query using an extended validation <br/> endpoint in the Control Plane and by deriving <br/> additional runtime context from parsing the query and the payload<br/> MUST delegate to the Matchmaking Agent</td>
-  <td>Code/Configuration Review<br/> Assessed Party offers<br/> TESTGRAPHASSET<br/> CAB performs<br/> 02_ALL_EDC&gt;<br/> 020201_EDC to successfully perform a transfer<div></div></td>
+  <td>2.1.6</td>
+  <td>EDC Data Plane</td>
+  <td>MUST support the “HttpProtocol” transfer process type in <br/> combination with the urn:cx-common#Protocol:w3c:Http=SPARQL <br/> and urn:cx-common#Protocol:w3c:Http=SKILL asset types.<br/> The registered Source implementation MUST support Graph Asset specifications and support the KA-TRANSFER protocol listed in the ANNEX. <br/> In particular it must process the “cx_header” parameter <br/> MUST support the “header:Accepts” and “header:Host” asset address properties.<br/> MUST require the “proxyBody”, “proxyQueryParams” and <br/> “proxyMethod” asset address properties to be true.<br/> MUST require the “proxyPath” asset address properties to be false.<br/> MUST rewrite the query (as parameter or body)  <br/> to replace all occurrences of the asset:prop:id property <br/> by the “baseUrl” property<br/> MAY rewrite the query driven by additional asset address properties (“sh:shapeGraph”)<br/> MAY validate the query using an extended validation <br/> endpoint in the Control Plane and by deriving <br/> additional runtime context from parsing the query and the payload<br/> MUST delegate to the Matchmaking Agent using the KA-MATCH profile</td>
+  <td>Code/Configuration Review<br/> Data Provider: Assessed Party offers a TESTGRAPHASSET<br/> CAB performs a transfer <br/> Data Consumer: CAB offers a TESTGRAPHASSET<br/> Assessed Party performs a transfer</td>
  </tr>
 </tbody>
 </table>
@@ -280,6 +290,7 @@ following CACs and CAMs.
 <table>
 <thead>
  <tr>
+  <th>CAC</th>
   <th>Component</th>
   <th>Normative Statement</th>
   <th>Proposed Method</th>
@@ -287,48 +298,56 @@ following CACs and CAMs.
 </thead>
 <tbody>
  <tr>
+  <th>2.2.1</th>
   <td>Matchmaking Agent</td>
   <td>MUST support an endpoint callback conforming to the CX EDC HTTP</td>
-  <td>See CX-0018<br/> Assessed Party performs<br/> 02_ALL_EDC&gt;<br/> 020301_CALLBACK to simulate an endpoint callback<div></div></td>
+  <td>See CX-0018<br/> Assessed Party performs a call with a TESTENDPOINTDATAREFERENCE with a CAB-given KA-MATCH endpoint. <br/> A subsequent call with a TESTENDPOINTSPARQL will hit the given target. </td>
  </tr>
  <tr>
+  <th>2.2.2</th>
   <td>Matchmaking Agent</td>
   <td>MUST execute “Service &lt;url&gt;” contexts where the <br/> url starts with the “edc” or “edcs” schema, <br/> by parsing the sub-context or the url <br/> for an assetName (url#assetName or “Graph &lt;assetName&gt;”) <br/> and subsequently engage into a “HttpProtocol” <br/> negotiation/transfer process with the Control plane addressed <br/> by the url when replacing the “edc” scheme <br/> with “http” and the “edcs” scheme with “https” respectively<br/> MAY perform “Service &lt;url&gt;” calls where url <br/> is bound to multiple addresses simultaneously</td>
-  <td>CAB offers TESTGRAPHASSET<br/> Assessed Party performs<br/> 02_ALL_EDC&gt;<br/> 020302_DELEGATE to demonstrate successful delegation<div></div></td>
+  <td>CAB offers TESTGRAPHASSET<br/> Assessed Party performs a TESTSERVICESPARQL to demonstrate successful delegation<div></div></td>
  </tr>
  <tr>
+  <th>2.2.3</th>
   <td>Matchmaking Agent</td>
   <td>MUST support the “/agent” GET endpoint <br/> of the KA-MATCH SPARQL profile</td>
-  <td>CAB offers TESTSKILLASSET<br/> Assessed Party performs<br/> 02_ALL_EDC&gt;<br/> 020302_GET to successfully demonstrate invocation variants and error behaviour<div></div></td>
+  <td>CAB offers TESTSKILLASSET<br/> Assessed Party performs a parameterized TESTGETSKILL request to successfully demonstrate invocation variants and error behaviour<div></div></td>
  </tr>
  <tr>
+  <th>2.2.4</th>
   <td>Matchmaking Agent</td>
   <td>MUST implement the “/agent” POST endpoint of the <br/> KA-MATCH SPARQL profile</td>
-  <td>CAB offers TESTSKILLASSET<br/> Assessed Party performs<br/> 02_ALL_EDC&gt;<br/> 020303_POST to successfully demonstrate invocation variants and error behaviour<div></div></td>
+  <td>CAB offers TESTSKILLASSET<br/> Assessed Party performs a parameterized TESTPOSTSKILL request to successfully demonstrate invocation variants and error behaviour<div></div></td>
  </tr>
  <tr>
+  <th>2.2.5</th>
   <td>Matchmaking Agent</td>
   <td>MUST implement the “/agent/skill” POST endpoint <br/> of the KA-MATCH SPARQL profile</td>
-  <td>Assessed Party performs<br/> performs<br/> 02_ALL_EDC&gt;<br/> 020304_SKILL to successfully register a skill<div></div></td>
+  <td>Assessed Party invokes the endpoint using a TESTSKILL <br/> to successfully register a skill <br/> Assessed Party then performs a parameterized TESTGETREGISTEREDSKILL request to successfully demonstrate invocation.</td>
  </tr>
  <tr>
+  <th>2.2.6</th>
   <td>Matchmaking Agent</td>
   <td>MAY perform a realm-mapping from the tenant domain <br/>(Authentication Scheme, such as API-Key and Oauth2) <br/> into the dataspace domain (EDC tokens)</td>
-  <td>Assessed Party performs<br/> performs<br/> 02_ALL_EDC&gt;<br/> 020304_SKILL to successfully register a skill<div></div></td>
+  <td>Assessed Party demonstrates three TESTAUTHENTICATION calls, a successful one with a valid authentication code/token and two failing calls one with an invalid and one with a lacking code/token</td>
  </tr>
  <tr>
+  <th>2.2.7</th>
   <td>Matchmaking Agent</td>
   <td>SHOULD operate on the Federated Catalogue as an RDF store.</td>
-  <td>Assessed Party performs<br/> performs<br/> 02_ALL_EDC&gt;<br/> 020304_SKILL to successfully register a skill<div></div></td>
+  <td>CAB changes its catalogue <br/> Assessed Party demonstrates the DATASPACE skill reflecting that change</td>
  </tr>
 </tbody>
 </table>
 
-### 2.3 CAC for Federated Data Catalogue
+### 2.3 CAC for Federated Catalogue
 
 <table>
 <thead>
  <tr>
+  <th>CAC</th>
   <th>Component</th>
   <th>Normative Statement</th>
   <th>Proposed Method</th>
@@ -336,14 +355,22 @@ following CACs and CAMs.
 </thead>
 <tbody>
  <tr>
+  <td>2.3.1</td>
   <td>Federated Catalog</td>
-  <td>MUST contain data instantiating the Common Domain Ontology <br/> of the Semantic Model related to business partners of the assessed tenant</td>
-  <td>Assessed Party performs<br/> 02_ALL_EDC&gt;<br/> 020402_COMMON to validate the available instance data<div></div></td>
+  <td>MUST contain the Catena-X Ontology <br/> relevant to the respective release.</td>
+  <td>CAB accesses the Catena-X Ontology in the Ontology Hub.<br/>Assessed Party performs a TESTONTOLOGY retrieval to validate they are equivalent.</td>
  </tr>
  <tr>
+  <td>2.3.2</td>
+  <td>Federated Catalog</td>
+  <td>MUST contain data instantiating the Catena-X Common Domain Ontology (cx-common) <br/> related to the business partners of the assessed tenant</td>
+  <td>Assessed Party performs a TESTCATALOGUE retrieval to validate the available instance data against the BPNLs including the CAB</td>
+ </tr>
+ <tr>
+  <td>2.3.3</td>
   <td>Federated Catalog</td>
   <td>MUST frequently update catalogue data instantiating <br/> the Common Domain Ontology of the Semantic Model</td>
-  <td>Assessed Party performs<br/> 02_ALL_EDC&gt;<br/> 020403_SYNC to validate the available instance data<div></div></td>
+  <td>Assessed Party performs an EDC catalogue lookup with the CAB EDC as a provider <br/> Assessed Party performs a TESTCABASSETS retrieval to demonstrate that both catalogues are synchronized.</td>
  </tr>
 </tbody>
 </table>
@@ -353,6 +380,7 @@ following CACs and CAMs.
 <table>
 <thead>
  <tr>
+  <th>CAC</th>
   <th>Component</th>
   <th>Normative Statement</th>
   <th>Proposed Method</th>
@@ -360,24 +388,28 @@ following CACs and CAMs.
 </thead>
 <tbody>
  <tr>
+  <td>2.4.1</td>
   <td>Data Binding Agent (Only relevant for Enablement Service Provider)</td>
   <td>MUST implement the POST endpoint of the KA-BIND SPARQL profile</td>
-  <td>Assessed Party performs<br/> 03_PROVIDER&gt;<br/> 030101_DATA to demonstrate profile support<div></div></td>
+  <td>Assessed Party performs a TESTBINDINGSPARQLPOST call to demonstrate profile support</td>
  </tr>
  <tr>
+  <td>2.4.2</td>
   <td>Data Binding Agent (Only relevant for Enablement Service Provider)</td>
   <td>MAY implement the GET endpoint of the KA-BIND SPARQL profile</td>
-  <td>Assessed Party performs<br/> 03_PROVIDER&gt;<br/> 030101_DATA to demonstrate profile support<div></div></td>
+  <td>Assessed Party performs a TESTBINDINGSPARQLGET call to demonstrate profile support</td>
  </tr>
  <tr>
+  <td>2.4.3</td>
   <td>Function Binding Agent (Only relevant for Enablement Service Provider)</td>
   <td>MUST implement the POST endpoint of the FUNCTION RESTRICTED KA-BIND profile</td>
-  <td>Assessed Party performs<br/> 03_PROVIDER&gt;<br/> 030102_FUNCTION to demonstrate profile support<div></div></td>
+  <td>Assessed Party performs a TESTFUNCTIONBINDINGSPARQLPOST call to demonstrate profile support</td>
  </tr>
  <tr>
+  <td>2.4.4</td>
   <td>Function Binding Agent (Only relevant for Enablement Service Provider)</td>
   <td>MAY implement the GET endpoint of the FUNCTION RESTRICTED KA-BIND profile</td>
-  <td>Assessed Party performs<br/> 03_ PROVIDER&gt;<br/> 030102_FUNCTION to demonstrate profile support<div></div></td>
+  <td>Assessed Party performs a TESTFUNCTIONBINDINGSPARQLGET call to demonstrate profile support</td>
  </tr>
 </tbody>
 </table>
@@ -387,6 +419,7 @@ following CACs and CAMs.
 <table>
 <thead>
  <tr>
+  <th>CAC</th>
   <th>Component</th>
   <th>Normative Statement</th>
   <th>Proposed Method</th>
@@ -394,9 +427,16 @@ following CACs and CAMs.
 </thead>
 <tbody>
  <tr>
-  <td>Ontology Hub</td>
-  <td>MUST conform to the CX EDC HTTP Standard,<br/> specifically MUST support the “HttpProxy” transfer process type</td>
-  <td>See CX-0018</td>
+  <td>2.5.1</td>
+  <td>Ontology Hub (only for Core Service Provider)</td>
+  <td>MUST implement the git/http protocol</td>
+  <td>Assessed Party authorizes the CAB for acccess. <br/> CAB uses a git client to perform the most common git operations (clone, checkout, commit/push, fetch). <br/> CAB verifies the folder layout and compliance of the files with the TTL standard.</td>
+ </tr>
+ <tr>
+  <td>2.5.2</td>
+  <td>Ontology Hub (only for Core Service Provider)</td>
+  <td>MUST offer a public raw http/get access to the Catena-X ontology</td>
+  <td>CAB uses an http client such as curl to test the raw file access and checks the file for compliance with the TTL standard.</td>
  </tr>
 </tbody>
 </table>
@@ -408,10 +448,12 @@ following CACs and CAMs.
 - CX–0018 Sovereign Data Exchange
 - [OWL 2 Web Ontology Language Profiles (Second Edition)](https://www.w3.org/TR/owl2-profiles/)
 - [SPARQL 1.1 Query Language](https://www.w3.org/TR/sparql11-query/)
+- [Turtle - Terse RDF Triple Language](https://www.w3.org/TeamSubmission/turtle/)
 - [Functional Requirements for Internet Resource Locators](https://www.rfc-editor.org/rfc/rfc1736)
 - [Functional Requirements for Unique Resource Names](https://www.rfc-editor.org/rfc/rfc1737)
 - [Uniform Resource Locators](https://www.rfc-editor.org/rfc/rfc1738)
 - [Internationalized Resource Identifiers](https://www.rfc-editor.org/rfc/rfc3987)
+- [git/http](https://www.git-scm.com/docs/http-protocol)
 
 ## ANNEXES
 
@@ -547,7 +589,7 @@ The asset definition in EDC contains of two parts:
 - the "asset" part containing a description that is part of any published/offered catalogue that contains the asset.
 - the "dataAddress" part containing EDC internal routing configuration for performing data transfers from/to the asset.
 
-In particular, the "asset" part has a natural correspondence in the RDF representation of the Federated Data Catalogue. To
+In particular, the "asset" part has a natural correspondence in the RDF representation of the Federated Catalogue. To
 define this correspondence in the following, we assume the following prefix abbreviations to denote complete IRIs.
 
 | Prefix    | Namespace                                            |
@@ -575,7 +617,7 @@ In the following table, we list those keys which are of relevance for both Graph
 | rdfs:isDefinedBy | yes | Use Case / Domain Ontology IRIs  | ?asset rdfs:isDefinedBy value.| &lt;urn:cx-telematics&gt; |
 | common:protocol | yes | Asset Protocol IRI | ?asset cx-common:protocol value. | &lt;urn:cx-common#Protocol:w3c:Http=SPARQL&gt; |
 | sh:shapesGraph | yes | SHACL Description of Graph | ?asset sh:shapesGraph &lt;graph&gt;. where the constraints can be accessed via GRAPH &lt;graph&gt; {} | SHACL TTL |
-| cx-common:isFederated    | yes | Determines whether this asset should be synchronized in the Federated Data Catalogue  | ?asset cx-common:protocol "value"^^xsd:boolean. | true |
+| cx-common:isFederated    | yes | Determines whether this asset should be synchronized in the Federated Catalogue  | ?asset cx-common:protocol "value"^^xsd:boolean. | true |
 
 #### Graph Assets
 
