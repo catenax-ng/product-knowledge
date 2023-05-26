@@ -1,5 +1,10 @@
 export const newsTitles = [
   {
+    date: " 2023-05-19",
+    title: "Beta Release",
+    blogLink: "/blog/beta"
+  },
+  {
     date: " 2023-02-20",
     title: "Integration Release",
     blogLink: "/blog/int"

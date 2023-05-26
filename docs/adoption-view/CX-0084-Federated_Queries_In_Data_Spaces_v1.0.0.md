@@ -8,30 +8,34 @@ Rolf Bosse (Mercedes-Benz GmbH)
 ## Table of Contents
 
 - [CX - 0084 Federated Queries in Data Spaces (Knowledge Agents) v.1.0.0](#cx---0084-federated-queries-in-data-spaces-knowledge-agents-v100)
-  - [Table of Contents](#table-of-contents)
-  - [ABOUT THIS DOCUMENT \& MOTIVATION](#about-this-document--motivation)
-  - [DISCLAIMER \& LIABILITY](#disclaimer--liability)
-  - [REVISIONS \& UPDATE](#revisions--update)
-  - [COPYRIGHT \& TRADEMARKS](#copyright--trademarks)
+  - [TABLE OF CONTENTS](#table-of-contents)
+  - [ABOUT THIS DOCUMENT & MOTIVATION](#about-this-document--motivation)
+  - [DISCLAIMER & LIABILITY](#disclaimer--liability)
+  - [REVISIONS & UPDATE](#revisions--update)
+  - [COPYRIGHT & TRADEMARKS](#copyright--trademarks)
   - [ABSTRACT](#abstract)
   - [1. INTRODUCTION](#1-introduction)
-    - [1.1 AUDIENCE \& SCOPE](#11-audience--scope)
+    - [1.1 AUDIENCE & SCOPE](#11-audience--scope)
     - [1.2 CONTEXT](#12-context)
     - [1.3 ARCHITECTURE OVERVIEW](#13-architecture-overview)
     - [1.4 CONFORMANCE](#14-conformance)
     - [1.5 PROOF OF CONFORMITY](#15-proof-of-conformity)
-  - [2. Conformity Assessment Criteria](#2-conformity-assessment-criteria)
-    - [2.1 CAC for EDC](#21-cac-for-edc)
-    - [2.2 CAC for Matchmaking Agent](#22-cac-for-matchmaking-agent)
-    - [2.3 CAC for Federated Data Catalogue](#23-cac-for-federated-data-catalogue)
-    - [2.4 CAC for Binding Agent](#24-cac-for-binding-agents)
-    - [2.5 CAC for Ontology Hub](#25-cac-for-ontology-hub)
+  - [2. CONFORMITY ASSESSMENT CRITERIA](#2-conformity-assessment-criteria)
+    - [2.1 CAC FOR EDC](#21-cac-for-edc)
+    - [2.2 CAC FOR Matchmaking Agent](#22-cac-for-matchmaking-agent)
+    - [2.3 CAC FOR Federated Data Catalogue](#23-cac-for-federated-data-catalogue)
+    - [2.4 CAC FOR Binding Agent](#24-cac-for-binding-agents)
+    - [2.5 CAC FOR Ontology Hub](#25-cac-for-ontology-hub)
   - [3 REFERENCES](#3-references)
     - [3.1 NORMATIVE REFERENCES](#31-normative-references)
   - [ANNEXES](#annexes)
-    - [KA-BIND](#ka-bind)
-    - [KA-MATCH](#ka-match)
-    - [KA-TRANSFER](#ka-transfer)
+    - [Agent-Related EDC Assets](#agent-related-edc-assets)
+      - [Graph Assets](#graph-assets)
+      - [Skill Assets](#skill-assets)
+    - [SPARQL Profiles](#sparql-profiles)
+      - [KA-MATCH](#ka-match)
+      - [KA-TRANSFER](#ka-transfer)
+      - [KA-BIND](#ka-bind)
 
 ## ABOUT THIS DOCUMENT & MOTIVATION
 
@@ -52,11 +56,11 @@ This document provides a standard for a semantically-driven and state-of-the-art
 > _This section is non-normative_
 
 The standard is relevant for the following roles:
+
 - Business Application Provider
 - Enablement Service Provider
 - Data Consumer
 - Data Provider
-
 
 In the following, we call one of the following affected stakeholders/solutions KA-enabled if it passes the Conformity Assessment Criteria (CAC, see Section 1.2 and Chapter 2):
 
@@ -70,7 +74,7 @@ As a second path, Companies are addressed that want to provide compute resources
 
 The CAC formulated in this standard comprise the following scope:
 
-- Query and Search (Basic Mechanism, Integration in User Experiences
+- Query and Search (Basic Mechanism, Integration in User Experiences)
 - Services for making use of various federated data sources being part of a data space (Data & Function Provisioning, Logic Development & Provisioning)
 - Semantic Modelling
 - Publishing, Negotiation, Transfer Protocols and Policy Enforcement via IDS (EDC) connector
@@ -97,20 +101,28 @@ To help collecting the data over the network, **Skills** are introduced. A Skill
 
 A skill receives input in the form of a data set
 
-[{?material:“Rubber”,?location:“Phuket”}]
+```csharp
+[{"material":{"type":"literal","value":“Rubber”},"location":{"type":"literal","value":“Phuket”}}]
+```
 
 which drives the control flow, the filtering and aggregating  of the information, and finally producing an output data set
 
-[{?series:<4711>,?oem:&lt;OEM&gt;,?weightKg:”3.2”},{?series:<0815>,?oem:&lt;EMO&gt;, ?weightKg:”1.4”}]}.
+```csharp
+[
+  {"series":{"type":"uri","value":"OEM#4711"},"oem":{"type":"uri","value":"OEM"},"weightKg":{"type":"literal","datatype":"http://www.w3.org/2001/XMLSchema#float",”3.2”}},
+  {"series":{"type":"uri","value":"EMO:0815"},"oem":{"type":"uri","value":"EMO"},"weightKg":{"type":"literal","datatype":"http://www.w3.org/2001/XMLSchema#float",”1.4”}}
+]
+```
 
 In order to obtain the correct results in a federated system, all the participants of the skill execution need to have common understanding over the vocabulary (see following chapter). Relying on these conventions, an executor of a skill can calculate which providers are able to contribute or yield the necessary information in which sequence such that the resulting distributed operation will be performant.
 
-This coordinating job is taken over by the **Matchmaking Agent**, an endpoint that is required for any KA-enabled Dataspace Participant. For that purpose, the Matchmaking Agent supports the SparQL specification with the effect that the dataspace can be traversed as one large data structure. Hereby, the Consumer-Side Matchmaking Agent will – as driven by the builtin federation features of SparQL - interact with the KA-enabled EDC in order to negotiate and perform the transfer of Sub-Skills (=SparQL Contexts) to other Dataspace Participants.
+This coordinating job is taken over by the **Matchmaking Agent**, an endpoint that is mandatory for any KA-enabled Dataspace Participant. For that purpose, the Matchmaking Agent supports the SPARQL specification (see chapter 3) with the effect that the dataspace can be traversed as one large data structure. Hereby, the Consumer-Side Matchmaking Agent will – as driven by the builtin federation features of the KA-MATCH SPARQL profile (see the ANNEX) - interact with the KA-enabled EDC in order to negotiate and perform the transfer of Sub-Skills (=SPARQL Contexts) to other Dataspace Participants.
+
 In turn, upon successful transfer of the Sub-Skill, the Provider-Side Matchmaking Agent(s) will be activated by their respective EDC. Prior to such a success, the Provider EDC of course first needs to offer a so-called Graph Asset:
 
-**Graph Assets** are a variant of ordinary Data Assets in the Catena-X EDC Standard; while Data Asset typically refer to an actual backend system (e.g., an Blob in an Object Store, an AAS server, a REST endpoint), Graph Assets introduce another intermediary instance, the so-called Binding Agent.
+**Graph Assets** are a variant of ordinary Data Assets (see the ANNEX) in the Catena-X EDC Standard; while Data Asset typically refer to an actual backend system (e.g., an Blob in an Object Store, an AAS server, a REST endpoint), Graph Assets introduce another intermediary instance, the so-called Binding Agent.
 
-Simply put, the **Binding Agent** is a restricted version of the Matchmaking Agent (subset of OWL/SparQL, e.g., without federation) which is just focused on translating Sub-Skils of a particular business domain (Bill-Of-Material, Chemical Materials, Production Sites, etc.)  into proper SQL- or REST based backend system calls. This scheme has several advantages:
+Simply put, the **Binding Agent** is a restricted version of the Matchmaking Agent (which speaks the KA-BIND profile, i.e., a subset of the complete OWL/SPARQL specification, see the ANNEX) which is just focused on translating Sub-Skils of a particular business domain (Bill-Of-Material, Chemical Materials, Production Sites, etc.) into proper SQL- or REST based backend system calls. This scheme has several advantages:
 
 - For different types of backend systems, business domains and usage scenarios, different Binding Agent implementations (Caching Graph Store, SQL Binding Engine, REST Binding Engine) can be switched-in without affecting both the shared dataspace/semantic model and the mostly immutable backend systems/data models as well.
 - Access to the backend systems can be optimized by JIT compilation technology.
@@ -118,7 +130,7 @@ Simply put, the **Binding Agent** is a restricted version of the Matchmaking Age
 - Access to the backend system is decoupled by another layer of security, such that additional types of policies (role-based row-level and attribute-level access) can be implemented in the interplay of Matchmaking and Binding Agents.
 - There is a clear distinction between advanced graph operations (including type inference and transitive/recursive traversal also via EDC) on the Matchmaking Level and efficient, but more restricted and secure graph operations on the Binding/Data Level.
 
-As mentioned earlier, essential for the realization of the idea is the creation, governance and discoverability of a well-defined semantic catalogue, which forms together with the data a **Federated Knowledge Graph**. In this context, the definition of a Knowledge Graph (KG) as "a multi relational graph composed of entities and relations which are regarded as nodes and different types of edges, respectively" is extended with aspect of federation. We see a Federated KG as a KG where entities and relations reside physically distributed over multiple systems connected through a network and a common query language. We see semantic metadata as structural information to scope the entities and relations of the KG based on ontological principles. This is the agreement, necessary for the successful interplay of the distributed parties within the data space.
+As mentioned earlier, essential for the realization of the idea is the creation, governance and discoverability of a well-defined semantic catalogue (the **Federated Data Catalogue**), which forms together with the data inside the Graph Assets a **Federated Knowledge Graph**. In this context, the definition of a Knowledge Graph (KG) as "a multi relational graph composed of entities and relations which are regarded as nodes and different types of edges, respectively" is extended with aspect of federation. We see a Federated KG as a KG where entities and relations reside physically distributed over multiple systems connected through a network and a common query language. We see semantic metadata as structural information to scope the entities and relations of the KG based on ontological principles. This is the agreement, necessary for the successful interplay of the distributed parties within the data space.
 
 To summarize, the Knowledge Agent standard shall achieve the following abilities:
 
@@ -155,7 +167,7 @@ Semantic Models are hosted in the Ontology Hub that is a central service to the 
 
 This layer comprises all applications which utilize provided data and functions of business partners to achieve a direct business impact and frameworks which simplify the development of these applications. Thus, this layer focuses on using a released Semantic Model (or a use-case/role-specific excerpt thereof) as a vocabulary to build flexible queries (Skills) and integrating these Skills in data consuming apps. Skills can be easily integrated in these apps as stored procedure. Hence, skill and app development can be decoupled to increase efficiency of the app development process.
 
-SPARQL 1.1 specification (<https://www.w3.org/TR/sparql11-query/>) is used as a language and protocol to search for and process data across different business partners. As a part of this specification,  the QUERY RESULTS JSON (<https://www.w3.org/TR/sparql11-results-json/>) and the QUERY RESULTS XML (<https://www.w3.org/TR/rdf-sparql-XMLres/>) formats are used to represent both the answer sets generated by SPARQL skills and the sets of input parameters that a SPARQL skill should be applied to. For answer sets, additional formats such as the QUERY RESULTS CSV and TSV (<https://www.w3.org/TR/sparql11-results-csv-tsv/>) format may be supported. Required is the ability to store and invoke SPARQL queries as parameterized procedures in the dataspace; this is a KA-specific extension to the SPARQL endpoint and is captured a concise Openapi specification in the following (<https://catenax-ng.github.io/product-knowledge/docs/development-view/api>). Also part of that specification is an extended response behaviour which introduces the warning status code “203” and a response header “cx_warning” bound to a JSON structure that lists abnormal events or trace information that appeared during the processing.
+SPARQL 1.1 specification (<https://www.w3.org/TR/sparql11-query/>) is used as a language and protocol to search for and process data across different business partners. As a part of this specification,  the QUERY RESULTS JSON (<https://www.w3.org/TR/sparql11-results-json/>) and the QUERY RESULTS XML (<https://www.w3.org/TR/rdf-sparql-XMLres/>) formats are used to represent both the answer sets generated by SPARQL skills and the sets of input parameters that a SPARQL skill should be applied to. For answer sets, additional formats such as the QUERY RESULTS CSV and TSV (<https://www.w3.org/TR/sparql11-results-csv-tsv/>) format may be supported. Required is the ability to store and invoke SPARQL queries as parameterized procedures in the dataspace; this is a KA-specific extension to the SPARQL endpoint (KA-MATCH) that is captured a concise Openapi specification  (<https://catenax-ng.github.io/product-knowledge/docs/development-view/api>). Also part of that specification is an extended response behaviour which introduces the warning status code “203” and a response header “cx_warning” bound to a JSON structure that lists abnormal events or trace information that appeared during the processing.
 
 #### Dataspace Layer
 
@@ -238,7 +250,7 @@ following CACs and CAMs.
  <tr>
   <td>EDC Control Plane</td>
   <td>MUST register at least one KA-Enabled Data Plane</td>
-  <td>Configuration Review<br/> EDC property <br/> dc.dataplane.selector.*<br/> sourcetypes<br/> should contain<br/> urn:cx:Protocol:w3c:Http#SPARQL<div></div></td>
+  <td>Configuration Review<br/> EDC property <br/> dc.dataplane.selector.*<br/> sourcetypes<br/> should contain<br/> urn:cx-common#Protocol:w3c:Http=SPARQL<div></div></td>
  </tr>
  <tr>
   <td>EDC Control Plane</td>
@@ -257,7 +269,7 @@ following CACs and CAMs.
  </tr>
  <tr>
   <td>EDC <br/> Data <br/> Plane</td>
-  <td>MUST support the “HttpProtocol” transfer process type in <br/> combination with the “urn:cx:Protocol:w3c:Http#SPARQL” <br/> and “urn:cx:Protocol:w3c:Http#SKILL” asset types.<br/> The registered Source implementation MUST support the “cx_header” parameter. <br/> MUST support the “header:Accepts” and “header:Host” asset address properties.<br/> MUST require the “proxyBody”, “proxyQueryParams” and <br/> “proxyMethod” asset address properties to be true.<br/> MUST require the “proxyPath” asset address properties to be false.<br/> MUST rewrite the query (as parameter or body)  <br/> to replace all occurrences of the asset:prop:id property <br/> by the “baseUrl” property<br/> MAY rewrite the query driven by additional asset address properties (“cx:shape”)<br/> MAY validate the query using an extended validation <br/> endpoint in the Control Plane and by deriving <br/> additional runtime context from parsing the query and the payload<br/> MUST delegate to the Matchmaking Agent</td>
+  <td>MUST support the “HttpProtocol” transfer process type in <br/> combination with the “urn:cx-common#Protocol:w3c:Http=SPARQL” <br/> and “urn:cx-common#Protocol:w3c:Http=SKILL” asset types.<br/> The registered Source implementation MUST support the “cx_header” parameter. <br/> MUST support the “header:Accepts” and “header:Host” asset address properties.<br/> MUST require the “proxyBody”, “proxyQueryParams” and <br/> “proxyMethod” asset address properties to be true.<br/> MUST require the “proxyPath” asset address properties to be false.<br/> MUST rewrite the query (as parameter or body)  <br/> to replace all occurrences of the asset:prop:id property <br/> by the “baseUrl” property<br/> MAY rewrite the query driven by additional asset address properties (“cx:shape”)<br/> MAY validate the query using an extended validation <br/> endpoint in the Control Plane and by deriving <br/> additional runtime context from parsing the query and the payload<br/> MUST delegate to the Matchmaking Agent</td>
   <td>Code/Configuration Review<br/> Assessed Party offers<br/> TESTGRAPHASSET<br/> CAB performs<br/> 02_ALL_EDC&gt;<br/> 020201_EDC to successfully perform a transfer<div></div></td>
  </tr>
 </tbody>
@@ -286,17 +298,27 @@ following CACs and CAMs.
  </tr>
  <tr>
   <td>Matchmaking Agent</td>
-  <td>MUST support the “/agent” GET endpoint <br/> of the KA SPARQL Openapi specification</td>
+  <td>MUST support the “/agent” GET endpoint <br/> of the KA-MATCH SPARQL profile</td>
   <td>CAB offers TESTSKILLASSET<br/> Assessed Party performs<br/> 02_ALL_EDC&gt;<br/> 020302_GET to successfully demonstrate invocation variants and error behaviour<div></div></td>
  </tr>
  <tr>
   <td>Matchmaking Agent</td>
-  <td>MUST support the “/agent” POST endpoint of the <br/> KA SPARQL Openapi specification</td>
+  <td>MUST implement the “/agent” POST endpoint of the <br/> KA-MATCH SPARQL profile</td>
   <td>CAB offers TESTSKILLASSET<br/> Assessed Party performs<br/> 02_ALL_EDC&gt;<br/> 020303_POST to successfully demonstrate invocation variants and error behaviour<div></div></td>
  </tr>
  <tr>
   <td>Matchmaking Agent</td>
-  <td>MUST support the “/agent/register” POST endpoint <br/> of the KA SPARQL Openapi specification</td>
+  <td>MUST implement the “/agent/skill” POST endpoint <br/> of the KA-MATCH SPARQL profile</td>
+  <td>Assessed Party performs<br/> performs<br/> 02_ALL_EDC&gt;<br/> 020304_SKILL to successfully register a skill<div></div></td>
+ </tr>
+ <tr>
+  <td>Matchmaking Agent</td>
+  <td>MAY perform a realm-mapping from the tenant domain <br/>(Authentication Scheme, such as API-Key and Oauth2) <br/> into the dataspace domain (EDC tokens)</td>
+  <td>Assessed Party performs<br/> performs<br/> 02_ALL_EDC&gt;<br/> 020304_SKILL to successfully register a skill<div></div></td>
+ </tr>
+ <tr>
+  <td>Matchmaking Agent</td>
+  <td>SHOULD operate on the Federated Catalogue as an RDF store.</td>
   <td>Assessed Party performs<br/> performs<br/> 02_ALL_EDC&gt;<br/> 020304_SKILL to successfully register a skill<div></div></td>
  </tr>
 </tbody>
@@ -339,12 +361,22 @@ following CACs and CAMs.
 <tbody>
  <tr>
   <td>Data Binding Agent (Only relevant for Enablement Service Provider)</td>
-  <td>MUST implement the DATA RESTRICTED KA SPARQL profile</td>
+  <td>MUST implement the POST endpoint of the KA-BIND SPARQL profile</td>
+  <td>Assessed Party performs<br/> 03_PROVIDER&gt;<br/> 030101_DATA to demonstrate profile support<div></div></td>
+ </tr>
+ <tr>
+  <td>Data Binding Agent (Only relevant for Enablement Service Provider)</td>
+  <td>MAY implement the GET endpoint of the KA-BIND SPARQL profile</td>
   <td>Assessed Party performs<br/> 03_PROVIDER&gt;<br/> 030101_DATA to demonstrate profile support<div></div></td>
  </tr>
  <tr>
   <td>Function Binding Agent (Only relevant for Enablement Service Provider)</td>
-  <td>MUST implement the FUNCTION RESTRICTED KA SPARQL profile</td>
+  <td>MUST implement the POST endpoint of the FUNCTION RESTRICTED KA-BIND profile</td>
+  <td>Assessed Party performs<br/> 03_PROVIDER&gt;<br/> 030102_FUNCTION to demonstrate profile support<div></div></td>
+ </tr>
+ <tr>
+  <td>Function Binding Agent (Only relevant for Enablement Service Provider)</td>
+  <td>MAY implement the GET endpoint of the FUNCTION RESTRICTED KA-BIND profile</td>
   <td>Assessed Party performs<br/> 03_ PROVIDER&gt;<br/> 030102_FUNCTION to demonstrate profile support<div></div></td>
  </tr>
 </tbody>
@@ -383,6 +415,8 @@ following CACs and CAMs.
 
 ## ANNEXES
 
+### SPARQL Profiles
+
 The SPARQL Protocol And RDF Query Language is a query language and protocol for the Semantic Web. SPARQL provides powerful constructs to search, filter, traverse and even update globally dispersed information written in the Resource Description Framework. In particular, it operates very well with self-contained sources which have been modelled using the Web Ontology Language OWL2.
 
 OWL2 provides several profiles (language restrictions and/or computational barriers) with decreasing degrees of complexity and expressivity: RL (rule logic), EL (existential logic) and QL (query logic). The lower the degree, the more reasoning engines are likely to support the given profile in practical applications.
@@ -403,7 +437,7 @@ The profiles defined in this document are implemented in the KA API specificatio
 
 [![Dataspace Layer](/img/sparql_profiles_small.png)](/img/sparql_profiles.png)
 
-### KA-BIND
+#### KA-BIND
 
 KA-BIND restricts SPARQL 1.1 (<https://www.w3.org/TR/sparql11-query/>) in the following manner
 
@@ -421,13 +455,19 @@ KA-BIND restricts SPARQL 1.1 (<https://www.w3.org/TR/sparql11-query/>) in the fo
 - NO-NEGATION: no negated predicates (NegatedPath)
 - NO-BLANK-SOURCE-NODE: no blank nodes in the source documents (but working with anonymous nodes in the query is still allowed)
 
-### KA-MATCH
+##### FUNCTION RESTRICTED KA-BIND
+
+FUNCTION RESTRICTED KA-BIND restricts KA-BIND in the following manner:
+
+- VALUES_STATEMENTS: The WHERE body of the SELECT query must consist of a (possibly empty) series of VALUES statements followed by a (possibly empty) series of triple patterns.
+
+#### KA-MATCH
 
 Let DRN be the subset of URN (and hence IRI) which denote assets in the Dataspace. Examples are
 
 ```console
-urn:cx:GraphAsset#TelematicsOEM
-urn:cx:SkillAsset#RemainingUsefulLife
+urn:cx-common#GraphAsset:oem:Diagnosis2022
+urn:cx-common#SkillAsset:RemainingUsefulLife
 ```
 
 GDRN is the subset of DRN which denote proper graph assets.
@@ -444,8 +484,8 @@ Examples are
 
 ```console
 edc://consumer-connector.private:8199
-edcs://oem-connector.public.io#urn%3Acx%3AGraphAsset%23TelematicsOEM
-edcs://supplier-connector.public.io#urn%3Acx%3ASkillAsset%23RemaniningUsefulLife?vin=@vehicle&troubleCode=@dtc
+edcs://oem-connector.public.io#urn%3Acx-common%23GraphAsset%3Aoem%3ADiagnosis2022
+edcs://supplier-connector.public.io#urn%3Acx-common%23SkillAsset%3ARemaniningUsefulLife?vin=@vehicle&troubleCode=@dtc
 ```
 
 KA-MATCH restricts SPARQL (<https://www.w3.org/TR/sparql11-query/>) in the following manner
@@ -453,7 +493,7 @@ KA-MATCH restricts SPARQL (<https://www.w3.org/TR/sparql11-query/>) in the follo
 - LIMITED-FEDERATION: any SERVICE context which binds to a DRL
   - if the DRL is unqualified, it must have EXACTLY ONE GRAPH sub-context which points to a GDRN. You may use only KA-BIND inside of that GRAPH context.
   - If the DRL is qualified:
-    - if it anchors a SDRN then the context must be empty, because the SERVICE represents a (multi-valued) skill call.  
+    - if it anchors a SDRN then the context must only contain a sequence of BIND statements, because the SERVICE represents a (multi-valued) skill call.  
     - it must NOT have ANY GRAPH sub-context. You may use only KA-BIND inside of the service context.
 - OWL-EL: only interoperates with the OWL2 EL profile
 - LIMITED-GRAPH: GRAPH references (FROM, TO or GRAPH contexts) must point to a GDRN or qualified DRL anchoring a GDRN.
@@ -466,8 +506,25 @@ KA-MATCH extends SPARQL in the following manner
 - ASSET-TARGET: In both the GET and POST Http Verbs, you may use the query parameter "asset" which should be set to some qualified DRL (global dataspace asset) or DRN (local asset). If the body of the request (POST) or the query parameter (POST or GET) is a valid SPARQL query (media type "application/sparql-query") then the asset MUST anchor a valid GDRN (in which case the query should be executed as if the TO/FROM clause would be set to the GDRN). Otherwise, the asset MUST anchor a valid SDRN (in which case the previously store query text from POST-SKILL is executed). We call the query text from either the query parameter (GET), the body (POST) or the skill asset lookup (GET and POST) the resolved query.
 - PARAMETRIZED-QUERY: The resolved query may contain variable references (literals or iris starting with @ e.g., "@troubleCode"^^xsd:string or <@vin^^cx:Vehicle>). For each referenced variable, there must be either at least one correspondingly-named query parameter (GET, POST) or the media type of the body (POST) is one of "application/sparql-results+json" or "application/sparql-results+xml" and the variable is bound there. For variables bound as query parameters, there is the option to build tuple-based combinations by using a parenthesis as the prefix of a variable/parameter name "(" and a closing parenthesis ")" as a suffix of a substitution.
 - QUERY-LANG: The query parameter "queryLn" can be used, but is currently fixed to SPARQL.
+- WARNINGS: KA-MATCH may indicate a successful result that has been generated with additional warnings regarding the execution with the status code "203". Both in that case as well as in case of technically unsuccessful calls (Status Code <200 or >299), a response header “cx_warning” bound to a JSON structure that lists abnormal events or trace information that appeared during the processing.
 
-### KA-TRANSFER
+The cx_warning JSON structure is a list of objects which contain at least the following properties
+
+- source-tenant
+- source-asset
+- target-tenant
+- target-asset
+- problem
+- context
+
+```csharp
+[{"source-tenant":"http://consumer-control-plane:8181/management","source-asset":"urn:x-arq:DefaultGraph","target-tenant":"edcs://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN","target-asset":"urn:cx-common#GraphAsset:oem:Diagnosis20222","problem":"Failure invoking a remote batch: Result may be partial.","context":"-1414472378"}]
+```
+
+Depending on data sovereignty rules, the individual fields may be shaded or replaced by pseudonyms such that they could be looked up via different (organizational)
+channels if needed.
+
+#### KA-TRANSFER
 
 KA-TRANSFER is a variant of KA-MATCH which allows to proxy the payloads over headerless or fixed-header protocols by implementing the following "WRAP-HEADERS" strategy:
 
@@ -476,179 +533,78 @@ KA-TRANSFER is a variant of KA-MATCH which allows to proxy the payloads over hea
 | Request Header     | Accept          | Request URL Query Parameter| cx_accepts    | This header is integral part of the protocol, since federating agents may require a particular result format in their internal processing. |
 | Response Header    | cx_warnings     | Response multi-part body   | cx_warnings   | This header is integral part of the protocol in order to annotate and analyze a robust distributed processing which is always subject to unforeseen failures. |
 
-### Check if these EDC statements should be normative. If yes include in table(s) above if not already there
+### Agent-Related EDC Assets
 
-#### EDC
+In the following, we describe the convention how agent-related assets should be defined and represented in EDC.
 
-Actually, the Eclipse Dataspace Connector (see Catena-X Standard CX-00001) consists of two components which both have to be extended (using the EDC extension mechanism) for KA enablement. The Control Plane hosts the actual management/negotiation engine and is usually a singleton that is exposing
+Agent-related assets are
 
-- an internal (api-key secured) API for managing the control plane by administrative accounts/apps and the Matchmaking Agent
-  - Manages Assets (=Internal Addresses including security and other contextual information into the Binding/Virtualization/Backend Layers together with External meta-data/properties of the Assets for discovery and self-description)
-  - Manages Policies (=Conditions regarding the validity of Asset negotiations and interactions)
-  - Manages Contract Definitions (=Offers are combinations of Assets and Policies and are used to build up a Catalogue)
-- a public (DAPS-secured) IDS API for coordination with other control planes of other business partners to setup transfer routings between the data planes.
-- state machines for monitoring (data) transfer processes which are actually executed by the (multiple, scalable) data plane(s). KA introduces a new transfer process type “HttpProtocol” which works like the standard “HttpProxy” transfer but enables sub-protocols of http/s (such as SPARQL) installing dedicated routing logic in the data plane(s) (see below)
-- a validation engine which currently operates on static tokens/claims which are extracted from the transfer flow but may be extended with additional properties in order to check additional runtime information in the form of properties
-- callback triggers for announcing transfer endpoints to the data plane to external applications, such as the Matchmaking Agent (or other direct EDC clients, frameworks and applications). We want to support multiple Matchmaking Agent instances per EDC for load-balancing purposes and we also like to allow for a bridged operation with other non-KA use cases, so it should be possible to configure several endpoint callback listeners per control plane.
-The Data Plane (multiple instances) performs the actual data transfer tasks as instrumented by the control plane. The data plane exposes transfer-specific capabilities (Sinks and Sources) to adapt the actual endpoint/asset protocols (in the EDC standard: the asset type).
-- Graph Assets use the asset type “urn:cx:Protocol:w3c:Http#SPARQL”. In their address part, the following properties are supported
-  - “asset:prop:id” – The name under which the Graph will be offered. Should be a proper IRI/URN, such as urn:io.catenax.knowledge.dataspace:GraphAsset#TelematicsSupplier
-  - “baseUrl” – The endpoint URL of the binding agent (see below). Should be a proper http/s SPARQL endpoint.
-  - “proxyPath” – must be set to “false”
-  - “proxyQueryParams” – must be set to “true”
-  - “proxyBody” – must be set to “true”
-  - “authKey” – optional authentication header, e.g. “X-Api-Key”
-  - “authCode” – optional authentication value, such as an API key
-  - “header:Host” – optional fixed Host header forwarded to the endpoint
-  - “header:Accepts” – optional fixed Accepts header forwarded to the endpoint, e.g., “application/sparql-results+json”
-- Skill Assets use the asset type “urn:cx:Protocol:w3c:Http#SKILL”. In their address part, the following properties are supported
-  - “asset:prop:id” – The name under which the Skill will be offered. Should be a proper IRI/URN, such as urn:io.catenax.knowledge.dataspace:SkillAsset#TelematicsOEM
-  - “baseUrl” – should be empty or will be ignored
-  - “query” – A valid and parameterized SPARQL query
-  - “proxyPath” – must be set to “false”
-  - “proxyQueryParams” – must be set to “true”
-  - “proxyBody” – must be set to “false”
-- In their description part, Skill Assets and Graph Assets can have the following properties:
-  - “asset:prop:id” – Equal to the corresponding field in the internal address.
-  - “cx:hasRole” – An RDF description listing the Use case Roles that this asset belongs to, e.g. “<urn:io.catenax.knowledge.dataspace:UseCaseRole#TelematicsOEM>”
-  - “asset:prop:name” – Title of the asset in the default language.
-  - “asset:prop:name@de” – Title of the asset in German (or other languages accordingly.
-  - “asset:prop:description”, “asset:prop:name@de”, … - Description of the Asset
-  - “asset:prop:version” – A version IRI which is a download URI for the Asset Desccription as a separate file
-  - “asset:prop:contenttype” – A valid Content-Type constraint to list the available response formats, e.g. “application/sparql-results+json, application/sparql-results+xml”
-  - “rdf:type” – Iri of the Asset Type, “<urn:io.catenax.knowledge.dataspace:GraphAsset>” for graph assets and “<urn:io.catenax.knowledge.dataspace:SkillAsset>” for skill assets.
-  - “rdfs:isDefinedBy” – An RDF description listing the Use case ontologies that this asset belongs to, e.g., “<urn:io.catenax.knowledge.dataspace:UseCase#Telematics>”
-  - “cx:protocol” – should be set to “<urn:cx:Protocol:w3c:Http#SPARQL>”
-  - “cx:shape” – contains a SHACL constraint description which describes the contents of the Graph Asset or the SPARQL text of the query (in case this is a “free” Skill)
-  - “cx:isFederated” – a Boolean indicating whether this asset should appear in the federated data catalogue (and hence can be dynamically resolved)
-- For both Graph and Skill Assets, appropriate Sink and Source implementations have to be registered which operate just as the standard HttpSink and HttpSource, but cater for some additional peculiarities. In particular, the “AgentSource”
-  - should unwrap the original “Accepts” header from the payload that is enclosed within the “cx_accepts” parameter
-  - complete the payload with any additional headers (and the query parameter) as given in the assets address properties.
-  - May parse the query and validate the given data address using additional runtime information from the query, the header, the parameters and extended  policies with the help of the extended control plane.
-  - rewrite the resulting SPARQL query parameter/body by replacing any occurrence of the Asset-URI “GRAPH <?assetUri>” with the actual URL of the asset baseUrl (SERVICE <?baseUrl>).
-  - May rewrite the query using the “cx:shape” property of the GraphAsset in order to enforce particular constraints.
-  - Delegate the resulting call to the Matchmaking Agent.
+- Graph Assets: Assets providing access to a binding agent.
+- Skill Assets: Assets providing access to logic that is stored in the matchmaking agent.
 
-The Matchmaking Agent
+The asset definition in EDC contains of two parts:
 
-- Should  perform a realm-mapping from the tenant domain (Authentication Scheme, such as API-Key and Oauth2) into the dataspace domain (EDC tokens)
-- Should use the EDC management API in order to negotiate outgoing “HttpProtocol” transfers. It may use parallelism and asynchronity to perform multiple such calls simultaneously. It will wrap any inbound “Accept” header requirements as an additional “cx_accept” parameter to the transfer sink.
-- Should operate as a endpoint callback listener, such that the setup transfers can invoke the data plane
-- Uses and Maintains the Federated Catalogue as an RDF store.
-- Should be able to access Binding Agents by means of “SERVICE” contexts in the SPARQL standard. Hereby, the Matchmaking Agent should be able to restrict the type of sub-queries that are forwarded. For practicability purposes, Binding Agents need only support a subset of SPARQL and OWL (no embedded GRAPH/SERVICE contexts, no transitive closures and inversion, no object variables in rdf:type, no owl:sameAs lookups, …).
+- the "asset" part containing a description that is part of any published/offered catalogue that contains the asset.
+- the "dataAddress" part containing EDC internal routing configuration for performing data transfers from/to the asset.
 
-### Move to Github documentation
+In particular, the "asset" part has a natural correspondence in the RDF representation of the Federated Data Catalogue. To
+define this correspondence in the following, we assume the following prefix abbreviations to denote complete IRIs.
 
-#### Test Scripts
+| Prefix    | Namespace                                            |
+|-----------|------------------------------------------------------|
+| rdf       | <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  |
+| rdfs      | <http://www.w3.org/2000/01/rdf-schema#>        |
+| xsd       | <http://www.w3.org/2001/XMLSchema#>            |
+| sh        | <http://www.w3.org/ns/shacl#>                  |
+| cx-common | &lt;urn:cx_common#&gt;                               |
 
-The CAB MAY use a set of predefined API interactions to run against its own dataspace tenant or let the assessed party run these scripts depending on the assessment method. The scripts  are hierarchically organized in a POSTMAN Collection and can be found under <https://elements.getpostman.com/redirect?entityId=2757771-0ad1b7a6-734c-4289-9221-667fc56a21da&entityType=collection>
+The "asset" part itself consists of a "properties" section which is a set of string-based key-value pairs.
+In the following table, we list those keys which are of relevance for both Graph and Skill Assets and hence are mapped to an RDF expression.
 
-#### Test Graph Assets
+| Property Key | Mandatory | Description                | RDF Representation                                     |  Example Property Value                                |
+|----------|-----|----------------------------------|--------------------------------------------|------------------------------------------------------|
+| asset:prop:id | yes | Plain Id of the Asset | BIND(&lt;value&gt; as ?asset). ?asset cx-common:id &lt;value&gt;. | urn:cx-common#GraphAsset?oem:Diagnosis2022 |
+| cx-common:role | yes | Use Case Role IRI | ?asset cx-common:role value. | &lt;urn:cx-telematics#OEM&gt; |
+| asset:prop:name | yes | Default Name of the Asset | ?asset cx-common:name "value"^^xsd:string. | Diagnosis Data 2022 |
+| asset:prop:name@de | no  | German Name of the Asset | ?asset cx-common:name "value"^^xsd:string@de. | Diagnose Daten 2022 |
+| asset:prop:description | no  | Default Description of the Asset   | ?asset cx-common:description "value"^^xsd:string. | Telematics Data for Series 213 from 20022 |
+| asset:prop:description@de| no  | German Description of the Asset  | ?asset cx-common:description "value"^^xsd:string@de. | Telematik Daten für BR 213 aus 20022 |
+| asset:prop:version       | no  | Version of the Asset  | ?asset cx-common:version &lt;value&gt;.  | Diagnosis Data 2022 |
+| asset:prop:contenttype | yes | Mime Type of Asset response | ?asset cx-common:contenttpe "value". | application/sparql-results+json, application/sparql-results+xml |
+| rdf:type | yes | Type IRI of the asset | ?asset rdf:type value.| &lt;urn:cx-common#GraphAsset&gt for Graphs, &lt; urn:cx-common#SkillAsset&gt; for Skills|
+| rdfs:isDefinedBy | yes | Use Case / Domain Ontology IRIs  | ?asset rdfs:isDefinedBy value.| &lt;urn:cx-telematics&gt; |
+| common:protocol | yes | Asset Protocol IRI | ?asset cx-common:protocol value. | &lt;urn:cx-common#Protocol:w3c:Http=SPARQL&gt; |
+| sh:shapesGraph | yes | SHACL Description of Graph | ?asset sh:shapesGraph &lt;graph&gt;. where the constraints can be accessed via GRAPH &lt;graph&gt; {} | SHACL TTL |
+| cx-common:isFederated    | yes | Determines whether this asset should be synchronized in the Federated Data Catalogue  | ?asset cx-common:protocol "value"^^xsd:boolean. | true |
 
-The CAB MAY use the following Asset Description, Policy Definition and Contract Definition in its assessment method. The CAB MAY deploy these objects in its own dataspace tenant or let the assessed party deploy these objects depending on the assessment method.
+#### Graph Assets
 
-```csharp
-{    “asset": {
-        "properties": {
-            "asset:prop:id": "urn:cx:Graph:oem:Diagnosis2022",
-            "asset:prop:contract": "<urn:cx:Graph:oem>",
-            "asset:prop:name": "Diagnostic Trouble Code Catalogue Version 2022",
-            "asset:prop:description": "A sample graph asset/offering referring to a specific diagnosis resource.",
-            "asset:prop:version": "0.7.4-SNAPSHOT",
-            "asset:prop:contenttype": "application/json, application/xml",
-            "rdf:type": "<{{cxOntologyRoot}}/cx_ontology.ttl#GraphAsset>",
-            "rdfs:isDefinedBy": "<{{cxOntologyRoot}}/diagnosis_ontology.ttl>",
-            "cx:protocol": "<urn:cx:Protocol:w3c:Http#SPARQL>",
-            "cx:shape": “[ rdf:type sh:NodeShape ;\n  sh:targetClass cx:DTC ;\n  sh:property [\n        sh:path cx:provisionedBy ;\n        sh:hasValue <urn:bpn:legal:BPNL00000003COJN> ;\n    ] ;\n  sh:property [\n        sh:path cx:Version ;\n        sh:hasValue 0^^xsd:long ;\n    ] ;\n  sh:property [\n        sh:path cx:affects ;\n        sh:class [ rdf:type sh:NodeShape ;\n  sh:targetClass cx:DiagnosedPart ;\n  sh:property [\n        sh:path cx:provisionedBy ;\n        sh:hasValue <urn:bpn:legal:BPNL00000003COJN> ;\n    ]]] ;\n",
-            "cx:isFederated": true
-        }},
-    "dataAddress": {
-        "properties": {
-            "asset:prop:id": "urn:cx:Graph:oem:Diagnosis2022",
-            "baseUrl": "{{oemProviderAgent}}/sparql",
-            "type": "urn:cx:Protocol:w3c:Http#SPARQL",
-            "proxyPath": "false",
-            "proxyMethod": "true",
-            "proxyQueryParams": "true",
-            "proxyBody": "true",
-            "authKey": "{{oemBackendAuthKey}}",
-            "authCode": "{{oemBackendAuthCode}}"
-        }
-    }
-}
+The "dataAddress" part for Graph Assets also consists of a "properties" section which is a set of string-based key-value pairs. Since that part is not public, it will not have an RDF representation.
 
-{
-  "id": "urn:cx:Policy:oem",
-  "policy": {
-    "permissions": [
-        {
-            "action": {
-                "type": "USE"
-            },
-            "edctype": "dataspaceconnector:permission"
-        }
-    ],
-    "@type": {
-        "@policytype": "set"
-    }
-  }
-}
+In the following table, we list those keys which are of relevance for both Graph and Skill Assets and hence are mapped to an RDF expression.
 
+| Property Key | Mandatory | Description                | Example Property Value                 |
+|--------------|-----|----------------------------------|--------------------------------------------|
+| asset:prop:id | yes | Plain Id of the Graph Asset | urn:cx-common#GraphAsset:oem:Diagnosis2022 |
+| type | yes | Asset Protocol IRI | &lt;urn:cx-common#Protocol:w3c:Http=SPARQL&gt; |
+| baseUrl | yes | URL of the binding Agent | <https://binding-agent:8082/sparql> |
+| proxyPath | yes | must be set to “false” | false |
+| proxyQueryParams | yes | must be set to "true" | true |
+| proxyBody | yes | must be set to "true" | true |
+| authKey | no | optional authentication header | X-Api-Key, Authorization |
+| authCode | no | optional authentication value | my-api-key, Basic Adm9axmJhcg==  |
+| header:Host | no | optional fixed Host header forwarded to the endpoint | 127.0.0.1  |
+| header:Accepts | no | optional fixed Accepts header forwarded to the endpoint | application/sparql-results+json |
 
-{
-  "id":"urn_cx_Graph_oem",
-  "accessPolicyId": "urn:cx:Policy:oem",
-  "contractPolicyId": "urn:cx:Policy:oem",
-  "criteria": [ {
-      "operandLeft": "asset:prop:contract",
-      "operator":"=",
-      "operandRight":"<urn:cx:Graph:oem>"
-  }]
-}
-```
+#### Skill Assets
 
-#### Test Skill Asset
+In the following table, we list those keys which are of relevance for both Graph and Skill Assets and hence are mapped to an RDF expression.
 
-The CAB MAY use the following Asset Description and Contract Definition in combination with the Policy Definition of 2.2 in its assessment method. The CAB MAY deploy these objects in its own dataspace tenant or let the assessed party deploy these objects depending on the assessment method.
-
-```csharp
-{
-  "asset": {
-    "properties": {
-      "asset:prop:id": "urn:cx:Skill:oem:HealthIndication",
-      "asset:prop:contract": "<urn:cx:Skill:oem>",
-      "asset:prop:name": "Health Indication Skill",
-      "asset:prop:description": "Obtains Health-Indication Score for Particular Vehicles Based on Telematics Data",
-      "asset:prop:version": "0.7.4-SNAPSHOT",
-      "asset:prop:contenttype": "application/json, application/xml",
-      "cx:protocol": "<urn:cx:Protocol:w3c:Http#SPARQL>",
-      "rdf:type":"<{{cxOntologyRoot}}/cx_ontology.ttl#SkillAsset>",
-      "rdfs:isDefinedBy": "<{{cxOntologyRoot}}/common_ontology.ttl>,<{{cxOntologyRoot}}/diagnosis_ontology.ttl>,<{{cxOntologyRoot}}/part_ontology.ttl>",
-      "cx:isFederated": true
-    }
-  },
-  "dataAddress": {
-    "properties": {
-      "asset:prop:id": "urn:cx:Skill:oem:HealthIndication",
-      "type": "urn:cx:Protocol:w3c:Http#SKILL#SPARQL",
-      "query": “SELECT ?subject ?predicate ?object WHERE [ ?subject ?predicate ?object }",
-      "proxyPath": "false",
-      "proxyMethod": "false",
-      "proxyQueryParams": "true",
-      "proxyBody": "false"
-    }
-  }
-}
-
-
-{
-  "id":"urn_cx_Skill_oem",
-  "accessPolicyId": "urn:cx:Policy:oem",
-  "contractPolicyId": "urn:cx:Policy:oem",
-  "criteria": [ {
-      "operandLeft": "asset:prop:contract",
-      "operator":"=",
-      "operandRight":"<urn:cx:Skill:oem>"
-  }]
-}
-```
+| Property Key | Mandatory | Description                | Example Property Value                 |
+|--------------|-----|----------------------------------|--------------------------------------------|
+| asset:prop:id | yes | Plain Id of the Skill Asset | urn:cx-common#SkillAsset:RemainingUsefulLife |
+| baseUrl | yes | must be empty |  |
+| query | yes | A valid KA-MATCH SPARQL query |  |
+| proxyPath | yes | must be set to “false” | false |
+| proxyQueryParams | yes | must be set to "true" | true |
+| proxyBody | yes | must be set to "false" | false |
