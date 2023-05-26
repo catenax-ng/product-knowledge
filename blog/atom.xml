@@ -2,11 +2,34 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://catenax-ng.github.io/product-knowledge/blog</id>
     <title>Tractus-X Agents Kit Blog</title>
-    <updated>2023-02-20T12:57:00.000Z</updated>
+    <updated>2023-05-19T15:32:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://catenax-ng.github.io/product-knowledge/blog"/>
     <subtitle>Tractus-X Agents Kit Blog</subtitle>
     <icon>https://catenax-ng.github.io/product-knowledge/img/logo_tractus-x-min.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[Beta]]></title>
+        <id>Beta</id>
+        <link href="https://catenax-ng.github.io/product-knowledge/blog/Beta"/>
+        <updated>2023-05-19T15:32:00.000Z</updated>
+        <summary type="html"><![CDATA[The Beta release of Knowledge Agents is ready.]]></summary>
+        <content type="html"><![CDATA[<p>The <a href="https://github.com/catenax-ng/product-knowledge/releases/tag/v0.8.6-beta" target="_blank" rel="noopener noreferrer">Beta</a> release of Knowledge Agents is ready.</p><p><em>What This Release Can Do</em>
+Implements scaleable, multi-directional, robust and semantic-web driven dataspace collaboration/scripting between Data/Service Providers, Skill Providers and App Consumers extending Catena-X Release 3.2 (EDC Version 0.3.3)</p><p><em>What This Release Contains</em>
+Complete Source Code for integrating PostgreSQL, SparQL-Anything, GraphDB, Dremio OSS, Apache Druid, Apache Fuseki, OnTop VKP and RDF4J into a Dataspace.
+Deployment Sample for Consumer/Skill Provider, OEM and Tier-A in multiple domains (diagnosis, health prognosis, sustainability, traceability).
+Helm Charts for EDC &amp; Binding Agents.
+Prerelease of the Catena-X Ontology.
+UX/UI components for asset browsing, ontology exploration and interacting with skill-based search logic.
+Postman Collection for Interaction as well as Integration Testing.
+AAS Bridge Prototype</p><p><em>Documentation</em>
+<a href="https://catenax-ng.github.io/product-knowledge/docs/operation-view/deployment" target="_blank" rel="noopener noreferrer">https://catenax-ng.github.io/product-knowledge/docs/operation-view/deployment</a></p>]]></content>
+        <author>
+            <name>Knowledge Agents</name>
+            <uri>https://github.com/catenax-ng/product-knowledge</uri>
+        </author>
+        <category label="news" term="news"/>
+        <category label="product" term="product"/>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Integration]]></title>
         <id>Integration</id>
