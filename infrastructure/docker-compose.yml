@@ -71,10 +71,7 @@ services:
   # Configures the provider agent
   #
   conforming-agent:
-    build:
-      dockerfile: src/main/docker/Dockerfile
-      context: ../dataspace/agents/conforming
-    image: ghcr.io/catenax-ng/product-knowledge/conforming-agent:1.9.1-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-agents/conforming-agent:1.9.1-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     environment:
       # Uncomment to enable for debugging, please choose a different port for each endpoint
@@ -87,10 +84,7 @@ services:
   # Configures the provider agent
   #
   provider-agent:
-    build:
-      dockerfile: src/main/docker/Dockerfile
-      context: ../dataspace/agents/provisioning
-    image: ghcr.io/catenax-ng/product-knowledge/provisioning-agent:1.9.1-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-agents/provisioning-agent:1.9.1-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8080:8080" # sparql endpoint
@@ -163,12 +157,6 @@ services:
   # Configures the oem control plane (provider)
   #
   oem-control-plane:
-    build:
-      dockerfile: src/main/docker/Dockerfile
-      context: ../dataspace/edc/control-plane/controlplane-memory
-      args:
-        JAR: target/controlplane-memory.jar
-        LIB: target/lib
     image: ghcr.io/catenax-ng/product-agents-edc/controlplane-memory:1.9.1-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
@@ -194,12 +182,6 @@ services:
   # Configures the oem control plane (consumer)
   #
   oem-control-plane2:
-    build:
-      dockerfile: src/main/docker/Dockerfile
-      context: ../dataspace/edc/control-plane/controlplane-memory
-      args:
-        JAR: target/controlplane-memory.jar
-        LIB: target/lib
     image: ghcr.io/catenax-ng/product-agents-edc/controlplane-memory:1.9.1-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
@@ -223,12 +205,6 @@ services:
   # Configures the OEM data plane
   #
   oem-data-plane:
-    build:
-      dockerfile: src/main/docker/Dockerfile
-      context: ../dataspace/edc/agent-plane/agentplane-azurevault
-      args:
-        JAR: target/agentplane-azure-vault.jar
-        LIB: target/lib
     image: ghcr.io/catenax-ng/product-agents-edc/agentplane-azure-vault:1.9.1-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
@@ -264,10 +240,7 @@ services:
   # Configures the tier1 agent 
   #
   remoting-agent:
-    build:
-      dockerfile: src/main/docker/Dockerfile
-      context: ../dataspace/agents/remoting
-    image: ghcr.io/catenax-ng/product-knowledge/remoting-agent:1.9.1-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-agents/remoting-agent:1.9.1-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8200:8081" # sparql endpoint
@@ -284,12 +257,6 @@ services:
   # Configures the tiera control plane
   #
   tiera-control-plane:
-    build:
-      dockerfile: src/main/docker/Dockerfile
-      context: ../dataspace/edc/control-plane/controlplane-memory
-      args:
-        JAR: target/controlplane-memory.jar
-        LIB: target/lib
     image: ghcr.io/catenax-ng/product-agents-edc/controlplane-memory:1.9.1-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
@@ -315,12 +282,6 @@ services:
   # Configures the supplier data plane
   #
   tiera-data-plane:
-    build:
-      dockerfile: src/main/docker/Dockerfile
-      context: ../dataspace/edc/agent-plane/agentplane-azurevault
-      args:
-        JAR: target/agentplane-azure-vault.jar
-        LIB: target/lib
     image: ghcr.io/catenax-ng/product-agents-edc/agentplane-azure-vault:1.9.1-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
@@ -344,12 +305,6 @@ services:
   # Configures the consumer control plane
   #
   consumer-control-plane:
-    build:
-      dockerfile: src/main/docker/Dockerfile
-      context: ../dataspace/edc/control-plane/controlplane-memory
-      args:
-        JAR: target/controlplane-memory.jar
-        LIB: target/lib
     image: ghcr.io/catenax-ng/product-agents-edc/controlplane-memory:1.9.1-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
@@ -374,12 +329,6 @@ services:
   # Configures the consumer data plane
   #
   consumer-data-plane:
-    build:
-      dockerfile: src/main/docker/Dockerfile
-      context: ../dataspace/edc/agent-plane/agentplane-azurevault
-      args:
-        JAR: target/agentplane-azure-vault.jar
-        LIB: target/lib
     image: ghcr.io/catenax-ng/product-agents-edc/agentplane-azure-vault:1.9.1-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
