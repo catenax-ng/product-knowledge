@@ -1,5 +1,4 @@
 @prefix : <https://catena-x.net/product-knowledge/ontology/core#> .
-@prefix cx-core: <https://catena-x.net/product-knowledge/ontology/core#> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -8,14 +7,15 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix schema: <https://schema.org/> .
-@base <https://catena-x.net/product-knowledge/ontology/core#> .
+@prefix cx-core: <https://catena-x.net/product-knowledge/ontology/core#> .
+@base <https://catena-x.net/product-knowledge/ontology/core> .
 
 <https://catena-x.net/product-knowledge/ontology/core> rdf:type owl:Ontology ;
-         dc:creator "Oguzhan Balandi" ;
-         dc:date "2023-05-05"^^xsd:date ;
-         dc:description "The Catena-X core ontology contains main domain-independent classes, attributes and relations." ;
-         dc:title "Core Ontology" ;
-         owl:versionInfo "0.9.1" .
+                                                        dc:creator "Oguzhan Balandi" ;
+                                                        dc:date "2023-05-05"^^xsd:date ;
+                                                        dc:description "The Catena-X core ontology contains main domain-independent classes, attributes and relations." ;
+                                                        dc:title "Core Ontology" ;
+                                                        owl:versionInfo "0.9.1" .
 
 #################################################################
 #    Annotation properties
@@ -57,81 +57,81 @@ skos:prefLabel rdf:type owl:AnnotationProperty .
 #    Object Properties
 #################################################################
 
-###  http://www.w3.org/2002/07/owl#topObjectProperty
-owl:topObjectProperty rdfs:label "This property refers to the hosted activities in a place."@en ,
-                                 "hosts"@en .
-
-
 ###  https://catena-x.net/product-knowledge/ontology/core#describesPhysicalObject
 cx-core:describesPhysicalObject rdf:type owl:ObjectProperty ;
-                           rdfs:subPropertyOf owl:topObjectProperty ;
-                           rdfs:domain cx-core:ConceptualObject ;
-                           rdfs:range cx-core:PhysicalObject ;
-                           rdfs:comment "This property describes that a conceptual object has a descriptive relationship to a physical object."@en ;
-                           rdfs:label "describes physical object"@en .
+                                rdfs:subPropertyOf owl:topObjectProperty ;
+                                rdfs:domain cx-core:ConceptualObject ;
+                                rdfs:range cx-core:PhysicalObject ;
+                                rdfs:comment "This property describes that a conceptual object has a descriptive relationship to a physical object."@en ;
+                                rdfs:label "describes physical object"@en .
 
 
 ###  https://catena-x.net/product-knowledge/ontology/core#hasParticipant
 cx-core:hasParticipant rdf:type owl:ObjectProperty ;
-                  rdfs:subPropertyOf owl:topObjectProperty ;
-                  rdfs:domain cx-core:Activity ;
-                  rdfs:range cx-core:Actor ;
-                  rdfs:comment "This property describes the active or passive participation of instances of Actors in an Activity." ;
-                  rdfs:label "has participant"@en .
+                       rdfs:subPropertyOf owl:topObjectProperty ;
+                       rdfs:domain cx-core:Activity ;
+                       rdfs:range cx-core:Actor ;
+                       rdfs:comment "This property describes the active or passive participation of instances of Actors in an Activity." ;
+                       rdfs:label "has participant"@en .
 
 
 ###  https://catena-x.net/product-knowledge/ontology/core#hosts
 cx-core:hosts rdf:type owl:ObjectProperty ;
-         rdfs:subPropertyOf owl:topObjectProperty .
+              rdfs:subPropertyOf owl:topObjectProperty ;
+              rdfs:domain cx-core:Place ;
+              rdfs:range cx-core:Activity .
 
 
 ###  https://catena-x.net/product-knowledge/ontology/core#involvedIn
 cx-core:involvedIn rdf:type owl:ObjectProperty ;
-              rdfs:comment "This property describes in which activity the physical object is involved."@en ;
-              rdfs:label "involved in"@en .
+                   rdfs:domain cx-core:ConceptualObject ,
+                               cx-core:PhysicalObject ;
+                   rdfs:range cx-core:Activity ;
+                   rdfs:comment "This property describes in which activity the physical object is involved."@en ;
+                   rdfs:label "involved in"@en .
 
 
 ###  https://catena-x.net/product-knowledge/ontology/core#participatesIn
 cx-core:participatesIn rdf:type owl:ObjectProperty ;
-                  rdfs:subPropertyOf owl:topObjectProperty ;
-                  rdfs:domain cx-core:Actor ;
-                  rdfs:range cx-core:Activity ;
-                  rdfs:comment "Inverse of 'has participant'"@en ;
-                  rdfs:label "participates in"@en .
+                       rdfs:subPropertyOf owl:topObjectProperty ;
+                       rdfs:domain cx-core:Actor ;
+                       rdfs:range cx-core:Activity ;
+                       rdfs:comment "Inverse of 'has participant'"@en ;
+                       rdfs:label "participates in"@en .
 
 
 ###  https://catena-x.net/product-knowledge/ontology/core#refersToConceptualObject
 cx-core:refersToConceptualObject rdf:type owl:ObjectProperty ;
-                            rdfs:subPropertyOf owl:topObjectProperty ;
-                            rdfs:domain cx-core:Activity ;
-                            rdfs:range cx-core:ConceptualObject ;
-                            rdfs:comment "This property refers to actively or passively used conceptual objects in an Activity."@en ;
-                            rdfs:label "refers to conceptual object"@en .
+                                 rdfs:subPropertyOf owl:topObjectProperty ;
+                                 rdfs:domain cx-core:Activity ;
+                                 rdfs:range cx-core:ConceptualObject ;
+                                 rdfs:comment "This property refers to actively or passively used conceptual objects in an Activity."@en ;
+                                 rdfs:label "refers to conceptual object"@en .
 
 
 ###  https://catena-x.net/product-knowledge/ontology/core#refersToPhysicalObject
 cx-core:refersToPhysicalObject rdf:type owl:ObjectProperty ;
-                          rdfs:subPropertyOf owl:topObjectProperty ;
-                          rdfs:domain cx-core:Activity ;
-                          rdfs:range cx-core:ConceptualObject ;
-                          rdfs:comment "This property refers to actively or passively used physical objects in an Activity."@en ;
-                          rdfs:label "refers to physical object"@en .
+                               rdfs:subPropertyOf owl:topObjectProperty ;
+                               rdfs:domain cx-core:Activity ;
+                               rdfs:range cx-core:ConceptualObject ;
+                               rdfs:comment "This property refers to actively or passively used physical objects in an Activity."@en ;
+                               rdfs:label "refers to physical object"@en .
 
 
 ###  https://catena-x.net/product-knowledge/ontology/core#relatedToPlace
 cx-core:relatedToPlace rdf:type owl:ObjectProperty ;
-                  rdfs:domain cx-core:Actor ;
-                  rdfs:range cx-core:Place ;
-                  rdfs:label "This property describes that an actor has a relationship to a particular place, such as reside, own, or manage, etc."@en ,
-                             "related to place"@en .
+                       rdfs:domain cx-core:Actor ;
+                       rdfs:range cx-core:Place ;
+                       rdfs:label "This property describes that an actor has a relationship to a particular place, such as reside, own, or manage, etc."@en ,
+                                  "related to place"@en .
 
 
 ###  https://catena-x.net/product-knowledge/ontology/core#takesPlaceAt
 cx-core:takesPlaceAt rdf:type owl:ObjectProperty ;
-                rdfs:domain cx-core:Activity ;
-                rdfs:range cx-core:Place ;
-                rdfs:comment "This property describes the spatial location of an activity."@en ;
-                rdfs:label "takes place at"@en .
+                     rdfs:domain cx-core:Activity ;
+                     rdfs:range cx-core:Place ;
+                     rdfs:comment "This property describes the spatial location of an activity."@en ;
+                     rdfs:label "takes place at"@en .
 
 
 #################################################################
@@ -140,39 +140,41 @@ cx-core:takesPlaceAt rdf:type owl:ObjectProperty ;
 
 ###  https://catena-x.net/product-knowledge/ontology/core#endDateTime
 cx-core:endDateTime rdf:type owl:DatatypeProperty ;
-               rdfs:subPropertyOf owl:topDataProperty ;
-               rdfs:domain cx-core:Activity ;
-               rdfs:range xsd:dateTime ;
-               rdfs:comment "End time of the activity."@en ;
-               rdfs:label "end datatime"@en .
+                    rdfs:subPropertyOf owl:topDataProperty ;
+                    rdfs:domain cx-core:Activity ;
+                    rdfs:range xsd:dateTime ;
+                    rdfs:comment "End time of the activity."@en ;
+                    rdfs:label "end dateTime"@en .
 
 
 ###  https://catena-x.net/product-knowledge/ontology/core#id
 cx-core:id rdf:type owl:DatatypeProperty ;
-      rdfs:subPropertyOf owl:topDataProperty ;
-      rdfs:domain owl:Thing ;
-      rdfs:range xsd:string .
+           rdfs:subPropertyOf owl:topDataProperty ;
+           rdfs:domain owl:Thing ;
+           rdfs:range xsd:string .
 
 
 ###  https://catena-x.net/product-knowledge/ontology/core#name
 cx-core:name rdf:type owl:DatatypeProperty ;
-        rdfs:subPropertyOf owl:topDataProperty ;
-        rdfs:range xsd:string .
+             rdfs:subPropertyOf owl:topDataProperty ;
+             rdfs:domain owl:Thing ;
+             rdfs:range xsd:string .
 
 
 ###  https://catena-x.net/product-knowledge/ontology/core#role
 cx-core:role rdf:type owl:DatatypeProperty ;
-        rdfs:subPropertyOf owl:topDataProperty ;
-        rdfs:range xsd:string .
+             rdfs:subPropertyOf owl:topDataProperty ;
+             rdfs:domain owl:Thing ;
+             rdfs:range xsd:string .
 
 
 ###  https://catena-x.net/product-knowledge/ontology/core#startDateTime
 cx-core:startDateTime rdf:type owl:DatatypeProperty ;
-                 rdfs:subPropertyOf owl:topDataProperty ;
-                 rdfs:domain cx-core:Activity ;
-                 rdfs:range xsd:dateTime ;
-                 rdfs:comment "Start time of the activity."@en ;
-                 rdfs:label "start datatime"@en .
+                      rdfs:subPropertyOf owl:topDataProperty ;
+                      rdfs:domain cx-core:Activity ;
+                      rdfs:range xsd:dateTime ;
+                      rdfs:comment "Start time of the activity."@en ;
+                      rdfs:label "start dateTime"@en .
 
 
 #################################################################
@@ -181,18 +183,18 @@ cx-core:startDateTime rdf:type owl:DatatypeProperty ;
 
 ###  https://catena-x.net/product-knowledge/ontology/core#Activity
 cx-core:Activity rdf:type owl:Class ;
-            owl:disjointUnionOf ( cx-core:Actor
-                                  cx-core:Address
-                                  cx-core:ConceptualObject
-                                  cx-core:PhysicalObject
-                                  cx-core:Place
-                                ) ;
-            rdfs:comment "This class comprises actions intentionally carried out by instances of Actor that result in changes of state in physical and conceptual objects."@en .
+                 owl:disjointUnionOf ( cx-core:Actor
+                                       cx-core:Address
+                                       cx-core:ConceptualObject
+                                       cx-core:PhysicalObject
+                                       cx-core:Place
+                                     ) ;
+                 rdfs:comment "This class comprises actions intentionally carried out by instances of Actor that result in changes of state in physical and conceptual objects."@en .
 
 
 ###  https://catena-x.net/product-knowledge/ontology/core#Actor
 cx-core:Actor rdf:type owl:Class ;
-         dc:description "This class comprises organization or people, either individually or in groups, who have the potential to perform intentional actions of kinds for which someone may be held responsible." .
+              dc:description "This class comprises organization or people, either individually or in groups, who have the potential to perform intentional actions of kinds for which someone may be held responsible." .
 
 
 ###  https://catena-x.net/product-knowledge/ontology/core#Address
@@ -201,19 +203,19 @@ cx-core:Address rdf:type owl:Class .
 
 ###  https://catena-x.net/product-knowledge/ontology/core#ConceptualObject
 cx-core:ConceptualObject rdf:type owl:Class ;
-                    dc:description "This class includes non-material products, human-produced data related to physical objects. The production of such information may have been supported by the use of technical tools."@en ;
-                    rdfs:label "Conceptual Object"@en .
+                         dc:description "This class includes non-material products, human-produced data related to physical objects. The production of such information may have been supported by the use of technical tools."@en ;
+                         rdfs:label "Conceptual Object"@en .
 
 
 ###  https://catena-x.net/product-knowledge/ontology/core#PhysicalObject
 cx-core:PhysicalObject rdf:type owl:Class ;
-                  dc:description "This class includes objects of a material nature, which are documentation units and have physical boundaries."@en ;
-                  rdfs:label "Physical Object"@en .
+                       dc:description "This class includes objects of a material nature, which are documentation units and have physical boundaries."@en ;
+                       rdfs:label "Physical Object"@en .
 
 
 ###  https://catena-x.net/product-knowledge/ontology/core#Place
 cx-core:Place rdf:type owl:Class ;
-         rdfs:comment "The class Place is determined by reference to the position of objects such as buildings, cities, or special geographic markers."@en .
+              rdfs:comment "The class Place is determined by reference to the position of objects such as buildings, cities, or special geographic markers."@en .
 
 
 ###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
