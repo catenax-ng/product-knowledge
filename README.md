@@ -36,10 +36,12 @@ some of the docker images need a certain amount of memory and horsepower.
 
 These are the sub-modules of the Agents Kit 
 
-- [Ontology](ontology/README.md) hosts the CX domain ontologies (including the fully merged CX ontology and tooling) describing the semantics of the Catena-X Dataspace.
 - [Dataspace](dataspace/README.md) hosts reference implementations of the Gaia-X/IDS Dataspace extensions (Agents) for both Providers and Consumers which  the semantics of Catena-X.
 - [UX](ux/README.md) hosts User Experience components and a sample portal/development environment for developing and executing semantically-driven logic and apps.
 - [Infrastructure](infrastructure/README.md) hosts "Infrastructure as Code" manifests and resources for easy deployment of above artifacts including a sample dataspace.
+
+Carved out external repositories
+- [Ontology](https://github.com/catenax-ng/product-ontology) hosts the CX domain ontologies (including the fully merged CX ontology and tooling) describing the semantics of the Catena-X Dataspace.
 
 Besides the markdown documentation including this file, we have some helper folders
 
@@ -84,25 +86,6 @@ and activated with:
 conda env create -f environment.yaml
 conda activate knowledgeagents
 ```
-
-### Ontology Create
-
-Creating a new ontology excel source can be done by invoking
-
-```
-python 
->>> import ontology.ontology_tools.create_ontology as co
->>>  co.create_ontology_table('test','Schorsch','1.0.0')
-```
-
-### Ontology Merge
-
-Creating a merged ontology out of several domain ontologies may be done by invoking
-
-```
-python -m ontology.ontology_tools.merge_ontology vehicle_ontology.ttl load_spectrum_ontology.ttl vehicle_information_ontology.ttl part_ontology.json vehicle_component.ttl
-```
-
 
 ### Compile
 

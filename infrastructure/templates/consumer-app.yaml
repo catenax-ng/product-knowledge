@@ -83,7 +83,7 @@ spec:
             - name: REACT_APP_SKILL_BACKEND
               value: https://{{ .Values.ingress.host }}/consumer-frontend/webvowl/index.html
             - name: REACT_APP_SKILL_GITHUB_ONTOLOGYHUB
-              value: https://api.github.com/repos/catenax-ng/product-knowledge/contents/ontology?ref={{ .Values.dataspace.ontologyRef }}
+              value: https://api.github.com/repos/catenax-ng/product-ontology/contents/?ref={{ .Values.dataspace.ontologyRef }}
             - name: REACT_APP_FOLDER
               value: /consumer-frontend
           volumeMounts:

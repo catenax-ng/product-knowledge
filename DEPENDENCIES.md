@@ -22,13 +22,6 @@ The following is a simple type of single-level Software-BOM for all official ope
 | * | * | Docker Engine | >=20.10.17 | Packaging + Provided | Apache License 2.0 |     |
 | * | * | [kubernetes](https://kubernetes.io/de/)/[helm](https://helm.sh/) | >=1.20/3.9 | Provided | Apache License 2.0 |     |
 | * | * | [Python](https://www.python.org/) | >=3.9 | Test + Packaging + Provided | Zero Clause BSD |     |
-| Ontology | Tools | [OWLApi](https://github.com/owlcs/owlapi) | >=5.1 | Compile + Test + Packaging | LGPL and Apache License |     |
-| Ontology | Tools | [OWL2VOWL](https://github.com/VisualDataWeb/OWL2VOWL) | >=0.3.7 | Compile + Test + Packaging | MIT License |     |
-| Ontology | Tools | [SLF4J](https://www.slf4j.org) | >=2.0.0 | Compile + Test + Packaging | MIT |     |
-| Ontology | Tools | [Junit Jupiter](https://junit.org) | >=5 | Test | MIT |     |
-| Ontology | Tools | [NodeJS](https://nodejs.org/en/) | >=14 | Compile + Packaging | MIT (Main) + Various Extensions | Only for Json2Sql|
-| Ontology | Tools | [Jackson](https://github.com/FasterXML/jackson) | >=2.12.6 | Compile + Test + Packaging | Apache License 2.0 |     |
-| Ontology | Tools | [RDFlib](https://rdflib.readthedocs.io/en/stable/) | >=6.2 | Compile + Test + Packaging | BSD-3 |     |
 | UX | * | [NodeJS](https://nodejs.org/en/) | >=14 | All | MIT (Main) + Various Extensions |     |
 | UX | * | [Typescript](https://www.typescriptlang.org/) | >=4.7 | Compile + Runtime | Apache License 2.0 |     |
 | UX | * | [JEST](https://jestjs.io/) | >=28.1 | Test | MIT |     |
