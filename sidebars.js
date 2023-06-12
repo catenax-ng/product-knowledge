@@ -36,6 +36,7 @@ const sidebars = {
                         'adoption-view/audience',
                         'adoption-view/faq',
                         'adoption-view/CX-0084-Federated_Queries_In_Data_Spaces_v1.0.0',
+                        'adoption-view/testbed',
                     ],
                 },
                 {
