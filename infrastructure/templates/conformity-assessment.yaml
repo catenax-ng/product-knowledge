@@ -21,7 +21,7 @@ metadata:
   name: conforming-agent
   namespace: {{ .Values.namespace }}
   annotations:
-    container.apparmor.security.beta.kubernetes.io/confirming-agent: default
+    container.apparmor.security.beta.kubernetes.io/conforming-agent: default
 spec:
   replicas: 1
   revisionHistoryLimit: 1

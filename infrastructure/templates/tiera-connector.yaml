@@ -102,7 +102,7 @@ spec:
         seccompProfile:
           type: RuntimeDefault
       containers:
-        - image: ghcr.io/catenax-ng/product-agents-edc/controlplane-memory:{{.Values.version}}
+        - image: tractusx//edc-controlplane-memory:latest
           imagePullPolicy: Always
           name: tiera-control-plane
           securityContext:
