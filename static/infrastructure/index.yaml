@@ -3,9 +3,9 @@ entries:
   agent-connector:
   - apiVersion: v2
     appVersion: 1.9.1
-    created: "2023-06-14T09:21:08.780562+02:00"
+    created: "2023-06-14T09:39:28.35409+02:00"
     description: A Helm chart for Tractus-X Agent-Enabled Eclipse Data Space Connector
-    digest: 7ab09ca0fafcf1901d39fa895ae2843c073185f7c43636950bc872565aea52d6
+    digest: 604c72919729b2bb81b964516a7739f7b7fd4f49b10ec64844318fc2bf3c9fa9
     home: https://github.com/catenax-ng/product-agents-edc/tree/main/charts/agent-connector
     name: agent-connector
     sources:
@@ -17,7 +17,7 @@ entries:
   agent-control-plane:
   - apiVersion: v2
     appVersion: 0.9.1-SNAPSHOT
-    created: "2023-06-14T09:21:08.806437+02:00"
+    created: "2023-06-14T09:39:28.376266+02:00"
     description: Agent-Enabled EDC Control-Plane - Eclipse DataSpaceConnector administration
       layer with Agent Protocols extensions
     digest: c22aa547f4beea298049ff134bf9df888143eefba109b786c6ff86addf75ff9a
@@ -32,7 +32,7 @@ entries:
     version: 0.9.1-SNAPSHOT
   - apiVersion: v2
     appVersion: 0.8.1-SNAPSHOT
-    created: "2023-06-14T09:21:08.799571+02:00"
+    created: "2023-06-14T09:39:28.370696+02:00"
     description: Agent-Enabled EDC Control-Plane - Eclipse DataSpaceConnector administration
       layer with Agent Protocols extensions
     digest: b3db4ad668afdf22654d69e0865e2693646402f59a4b448dc09e9edf119f62d2
@@ -47,7 +47,7 @@ entries:
     version: 0.8.1-SNAPSHOT
   - apiVersion: v2
     appVersion: 0.7.4-SNAPSHOT
-    created: "2023-06-14T09:21:08.793988+02:00"
+    created: "2023-06-14T09:39:28.364761+02:00"
     description: Agent-Enabled EDC Control-Plane - Eclipse DataSpaceConnector administration
       layer with Agent Protocols extensions
     digest: 5a2d1c8bdc619215243e99403da1775da8836bc18e471941d480fb2efdab35ae
@@ -62,7 +62,7 @@ entries:
     version: 0.7.4-SNAPSHOT
   - apiVersion: v2
     appVersion: 0.7.3-SNAPSHOT
-    created: "2023-06-14T09:21:08.78535+02:00"
+    created: "2023-06-14T09:39:28.358768+02:00"
     description: Agent-Enabled EDC Control-Plane - Eclipse DataSpaceConnector administration
       layer with Agent Protocols extensions
     digest: 1e925e5484051ad981db22f6ae928091932215fc490124376ebbc6f867251898
@@ -78,7 +78,7 @@ entries:
   agent-data-plane:
   - apiVersion: v2
     appVersion: 0.9.1-SNAPSHOT
-    created: "2023-06-14T09:21:08.832222+02:00"
+    created: "2023-06-14T09:39:28.401123+02:00"
     description: Agent-Enabled EDC Data-Plane - Eclipse DataSpaceConnector data layer
       with Agent Protocol Extensions
     digest: e434b2df94b9938fe55f2729a8e99dad0ce7780fc98d20114836c3134b7c2d23
@@ -93,7 +93,7 @@ entries:
     version: 0.9.1-SNAPSHOT
   - apiVersion: v2
     appVersion: 0.8.1-SNAPSHOT
-    created: "2023-06-14T09:21:08.82633+02:00"
+    created: "2023-06-14T09:39:28.39495+02:00"
     description: Agent-Enabled EDC Data-Plane - Eclipse DataSpaceConnector data layer
       with Agent Protocol Extensions
     digest: dbd8b57aaedae9bb7dc383f5801bf92222577a3d24f794a4ac3b86a2b887ee38
@@ -108,7 +108,7 @@ entries:
     version: 0.8.1-SNAPSHOT
   - apiVersion: v2
     appVersion: 0.7.4-SNAPSHOT
-    created: "2023-06-14T09:21:08.819332+02:00"
+    created: "2023-06-14T09:39:28.389342+02:00"
     description: Agent-Enabled EDC Data-Plane - Eclipse DataSpaceConnector data layer
       with Agent Protocol Extensions
     digest: 15978e463393e6327e762737aa489560f163d8d85cdfdff6f0dfe948b525b077
@@ -123,7 +123,7 @@ entries:
     version: 0.7.4-SNAPSHOT
   - apiVersion: v2
     appVersion: 0.7.3-SNAPSHOT
-    created: "2023-06-14T09:21:08.81516+02:00"
+    created: "2023-06-14T09:39:28.383345+02:00"
     description: Agent-Enabled EDC Data-Plane - Eclipse DataSpaceConnector data layer
       with Agent Protocol Extensions
     digest: f3bfb93ea2878d23a87346b36c99889ba9f093f0774716fd56f585b2ae54a679
@@ -139,7 +139,7 @@ entries:
   provisioning-agent:
   - apiVersion: v2
     appVersion: 1.9.1-SNAPSHOT
-    created: "2023-06-14T09:21:08.864149+02:00"
+    created: "2023-06-14T09:39:28.429795+02:00"
     description: Tractus-X Provisioning Agent - Knowledge-Agents Compatible Data Binding
       Layer
     digest: 83326027b342ef4afd61f8d8c7b9375e31f5e649ad948864ef57d18cddd52ddd
@@ -154,7 +154,7 @@ entries:
     version: 1.9.1-SNAPSHOT
   - apiVersion: v2
     appVersion: 0.9.1-SNAPSHOT
-    created: "2023-06-14T09:21:08.859912+02:00"
+    created: "2023-06-14T09:39:28.425555+02:00"
     description: Catena-X Provisioning Agent - Knowledge-Agents Compatible Data Binding
       Layer
     digest: 8edcdb555177e5a0e47f00430e0effaaef5f4d6eba3de2217ba9618e865dd152
@@ -169,7 +169,7 @@ entries:
     version: 0.9.1-SNAPSHOT
   - apiVersion: v2
     appVersion: 0.8.1-SNAPSHOT
-    created: "2023-06-14T09:21:08.851518+02:00"
+    created: "2023-06-14T09:39:28.421663+02:00"
     description: Catena-X Provisioning Agent - Knowledge-Agents Compatible Data Binding
       Layer
     digest: fe0d02d39e23653544b0e9676c231f83fdab8063e1434e1177f64baf3cd8f8f8
@@ -184,7 +184,7 @@ entries:
     version: 0.8.1-SNAPSHOT
   - apiVersion: v2
     appVersion: 0.7.4-SNAPSHOT
-    created: "2023-06-14T09:21:08.846225+02:00"
+    created: "2023-06-14T09:39:28.413945+02:00"
     description: Catena-X Provisioning Agent - Knowledge-Agents Compatible Data Binding
       Layer
     digest: 078760b536a75dfe2adf2d67c3465195d9896b3c892d7f5d17e79d5b58f5af52
@@ -199,7 +199,7 @@ entries:
     version: 0.7.4-SNAPSHOT
   - apiVersion: v2
     appVersion: 0.7.3-SNAPSHOT
-    created: "2023-06-14T09:21:08.839392+02:00"
+    created: "2023-06-14T09:39:28.407632+02:00"
     description: Catena-X Provisioning Agent - Knowledge-Agents Compatible Data Binding
       Layer
     digest: 1d69501990a2d1226d8b6936ca549b7b29b542e199cc0dd708387aeef154c2b9
@@ -215,7 +215,7 @@ entries:
   remoting-agent:
   - apiVersion: v2
     appVersion: 1.9.1-SNAPSHOT
-    created: "2023-06-14T09:21:08.885261+02:00"
+    created: "2023-06-14T09:39:28.450252+02:00"
     description: Tractus-X Remoting Agent - Knowledge-Agents Compatible API Binding
       Layer
     digest: c639e587c363873dfae8d1211c2c8e693e67ba8980b502eac0f025825a2dffe5
@@ -230,7 +230,7 @@ entries:
     version: 1.9.1-SNAPSHOT
   - apiVersion: v2
     appVersion: 0.9.1-SNAPSHOT
-    created: "2023-06-14T09:21:08.882803+02:00"
+    created: "2023-06-14T09:39:28.447531+02:00"
     description: Catena-X Remoting Agent - Knowledge-Agents Compatible API Binding
       Layer
     digest: 27f8557708812939e47dc7aeee1d14fa45d9b68f3624ca934e4b2d94ae1c6beb
@@ -245,7 +245,7 @@ entries:
     version: 0.9.1-SNAPSHOT
   - apiVersion: v2
     appVersion: 0.8.1-SNAPSHOT
-    created: "2023-06-14T09:21:08.880147+02:00"
+    created: "2023-06-14T09:39:28.442376+02:00"
     description: Catena-X Remoting Agent - Knowledge-Agents Compatible API Binding
       Layer
     digest: f2349ac072e37d473459e4bd0639fcb7594bcd379208e877e0f96ffd79c2f690
@@ -260,7 +260,7 @@ entries:
     version: 0.8.1-SNAPSHOT
   - apiVersion: v2
     appVersion: 0.7.4-SNAPSHOT
-    created: "2023-06-14T09:21:08.873947+02:00"
+    created: "2023-06-14T09:39:28.438587+02:00"
     description: Catena-X Remoting Agent - Knowledge-Agents Compatible API Binding
       Layer
     digest: 601a7092c74a34f337fbdb62360ed2f32d77cbc5dab3d380f77978dda445dbf7
@@ -275,7 +275,7 @@ entries:
     version: 0.7.4-SNAPSHOT
   - apiVersion: v2
     appVersion: 0.7.3-SNAPSHOT
-    created: "2023-06-14T09:21:08.866548+02:00"
+    created: "2023-06-14T09:39:28.43585+02:00"
     description: Catena-X Remoting Agent - Knowledge-Agents Compatible API Binding
       Layer
     digest: 0bf6f4bec8811d9aab62e00b87f9f50bc5b9b1d6931fe06e048f1f648abb568e
@@ -288,4 +288,4 @@ entries:
     urls:
     - remoting-agent-0.7.3-SNAPSHOT.tgz
     version: 0.7.3-SNAPSHOT
-generated: "2023-06-14T09:21:08.778218+02:00"
+generated: "2023-06-14T09:39:28.35274+02:00"
