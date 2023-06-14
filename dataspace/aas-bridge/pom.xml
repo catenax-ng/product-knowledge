@@ -107,7 +107,6 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>io.openmanufacturing</groupId>
             <artifactId>sds-aspect-model-aas-generator</artifactId>
@@ -118,7 +117,11 @@
             <artifactId>model</artifactId>
             <version>1.2.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.sap.dsc.aas.lib</groupId>
+            <artifactId>aas-transformation-library</artifactId>
+            <version>0.1.1</version>
+        </dependency>
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>mockwebserver</artifactId>

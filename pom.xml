@@ -182,6 +182,10 @@
             <id>esmf</id>
             <url>https://maven.pkg.github.com/eclipse-esmf/esmf-sdk</url>
         </repository>
+        <repository> <!-- To be able to use Eclipse aas4j -->
+            <id>aas4j</id>
+            <url>https://maven.pkg.github.com/eclipse-aas4j/aas4j-transformation-library</url>
+        </repository>
         <repository> <!-- runtime meta-model -->
             <id>oss</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
