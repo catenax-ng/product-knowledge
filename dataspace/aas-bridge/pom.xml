@@ -108,9 +108,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>io.openmanufacturing</groupId>
-            <artifactId>sds-aspect-model-aas-generator</artifactId>
-            <version>1.1.0-M5</version>
+            <groupId>org.eclipse.esmf</groupId>
+            <artifactId>esmf-aspect-model-aas-generator</artifactId>
+            <version>2.2.1</version>
         </dependency>
         <dependency>
             <groupId>io.admin-shell.aas</groupId>
@@ -118,9 +118,9 @@
             <version>1.2.0</version>
         </dependency>
         <dependency>
-            <groupId>com.sap.dsc.aas.lib</groupId>
+            <groupId>org.eclipse.digitaltwin.aas4j</groupId>
             <artifactId>aas-transformation-library</artifactId>
-            <version>0.1.1</version>
+            <version>0.1.2</version>
         </dependency>
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
