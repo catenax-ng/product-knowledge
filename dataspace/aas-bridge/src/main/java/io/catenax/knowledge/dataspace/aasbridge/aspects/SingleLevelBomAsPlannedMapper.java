@@ -40,7 +40,7 @@ public class SingleLevelBomAsPlannedMapper extends AspectMapper {
 
     protected AssetAdministrationShellEnvironment parametrizeAas() throws URISyntaxException, IOException, ExecutionException, InterruptedException {
         CompletableFuture<ArrayNode> queryFuture =
-                executeQuery("/queries/SingleLevelBomAsPlanned.rq");
+                executeQuery("/jsonQueries/SingleLevelBomAsPlanned.rq");
 
         ArrayNode queryResponse = queryFuture.get();
 

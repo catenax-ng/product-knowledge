@@ -20,7 +20,7 @@ import io.catenax.knowledge.dataspace.aasbridge.aspects.MaterialForRecyclingMapp
 import io.catenax.knowledge.dataspace.aasbridge.aspects.PartAsPlannedMapper;
 import io.catenax.knowledge.dataspace.aasbridge.aspects.PartSiteInformationAsPlannedMapper;
 import io.catenax.knowledge.dataspace.aasbridge.aspects.SingleLevelBomAsPlannedMapper;
-import io.openmanufacturing.sds.aspectmodel.urn.AspectModelUrn;
+import org.eclipse.esmf.aspectmodel.urn.AspectModelUrn;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.URLEncoder;

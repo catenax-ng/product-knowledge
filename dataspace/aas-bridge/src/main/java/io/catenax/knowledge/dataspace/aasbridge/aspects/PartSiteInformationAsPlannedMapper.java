@@ -41,7 +41,7 @@ public class PartSiteInformationAsPlannedMapper extends AspectMapper {
 
     protected AssetAdministrationShellEnvironment parametrizeAas() throws URISyntaxException, IOException, ExecutionException, InterruptedException {
         CompletableFuture<ArrayNode> queryFuture =
-                executeQuery("/queries/PartSiteInformationAsPlanned.rq");
+                executeQuery("/jsonQueries/PartSiteInformationAsPlanned.rq");
 
         ArrayNode queryResponse = queryFuture.get();
 

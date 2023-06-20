@@ -38,7 +38,7 @@ class PartSiteInformationAsPlannedMapperTest extends AspectMapperTest {
 
     public void instantiate() throws Exception {
         mockResponse=new String(getClass().getClassLoader()
-                .getResourceAsStream("PartSiteInformationAsPlanned-sparql-results.json")
+                .getResourceAsStream("sparqlResponseJson/PartSiteInformationAsPlanned-sparql-results.json")
                 .readAllBytes());
         super.instantiate();
         String devUrl = mockWebServer.url("/oem-edc-data/BPNL00000003COJN/api/agent" +

@@ -36,7 +36,7 @@ class MaterialForRecyclingMapperTest extends AspectMapperTest {
     @Override
     public void instantiate() throws Exception {
         mockResponse = new String(getClass().getClassLoader()
-                .getResourceAsStream("MaterialForRecycling-sparql-results.json")
+                .getResourceAsStream("sparqlResponseJson/MaterialForRecycling-sparql-results.json")
                 .readAllBytes());
         super.instantiate();
         String devUrl = mockWebServer.url("/oem-edc-data/BPNL00000003COJN/api/agent" +

@@ -40,7 +40,7 @@ public class MaterialForRecyclingMapper extends AspectMapper {
 
     protected AssetAdministrationShellEnvironment parametrizeAas() throws IOException, URISyntaxException, ExecutionException, InterruptedException {
         CompletableFuture<ArrayNode> queryFuture =
-                executeQuery("/queries/MaterialForRecyclingEngineering.rq");
+                executeQuery("/jsonQueries/MaterialForRecyclingEngineering.rq");
 
         ArrayNode queryResponse = queryFuture.get();
 

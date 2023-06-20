@@ -1,5 +1,10 @@
 package io.catenax.knowledge.dataspace.aasbridge;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.google.common.base.Charsets;
+import com.google.common.io.CharStreams;
 import io.adminshell.aas.v3.dataformat.DeserializationException;
 import io.adminshell.aas.v3.dataformat.SerializationException;
 import io.adminshell.aas.v3.dataformat.json.JsonDeserializer;
@@ -7,10 +12,21 @@ import io.adminshell.aas.v3.dataformat.json.JsonSerializer;
 import io.adminshell.aas.v3.model.*;
 import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironment;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
+
+import static java.time.temporal.ChronoUnit.SECONDS;
 
 public class AasUtils {
 
@@ -78,6 +94,7 @@ public class AasUtils {
                 .collect(Collectors.toList()));
         return right;
     }
+
 
 
 

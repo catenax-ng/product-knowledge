@@ -41,7 +41,7 @@ public class PartAsPlannedMapper extends AspectMapper {
 
     protected AssetAdministrationShellEnvironment parametrizeAas() throws IOException, URISyntaxException, ExecutionException, InterruptedException, SerializationException {
         CompletableFuture<ArrayNode> queryFuture =
-                executeQuery("/queries/PartAsPlanned.rq");
+                executeQuery("/jsonQueries/PartAsPlanned.rq");
 
         // stream over returned parts
         Optional<AssetAdministrationShellEnvironment> partsAsPlanned = StreamSupport.stream(queryFuture.get().spliterator(), false)
