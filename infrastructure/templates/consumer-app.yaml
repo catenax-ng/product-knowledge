@@ -38,11 +38,11 @@ spec:
             - containerPort: 8080 # http
           resources:
            requests:
-            cpu: 0.5
-            memory: "256Mi"
+            cpu: 500m
+            memory: 1Gi
            limits:
-            cpu: 0.5
-            memory: "256Mi"
+            cpu: 500m
+            memory: 1Gi
           startupProbe:
             failureThreshold: 18
             httpGet:

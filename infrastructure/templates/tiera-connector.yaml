@@ -9,12 +9,10 @@ data:
     web.http.default.path=/api
     web.http.management.port=8181
     web.http.management.path=/management
-    web.http.validation.port=8182
-    web.http.validation.path=/validation
     web.http.control.port=9999
-    web.http.control.path=/api/controlplane/control
-    web.http.ids.port=8282
-    web.http.ids.path=/api/v1/ids
+    web.http.control.path=/control
+    web.http.protocol.port=8282
+    web.http.protocol.path=/api/v1/dsp
     web.http.metrics.port=9998
     web.http.metrics.path=/metrics
     
@@ -23,24 +21,13 @@ data:
     web.http.observability.path=/observability
   
     edc.api.auth.key={{ .Values.security.xApiKey }}
-    edc.api.control.auth.apikey.key=X-Api-Key
-    edc.api.control.auth.apikey.value={{ .Values.security.xApiKey }}
     
     edc.fs.config=/connector-config/configuration.properties
     edc.hostname={{ .Values.ingress.host }}
     
-    edc.ids.catalog.id=urn:catalog:catenax
-    edc.ids.curator=http://catenax.net
-    edc.ids.description=Eclipse Dataspace Connector for Knowledge Agents Supplier
-    # whatever that is needed
-    edc.ids.endpoint=https://{{ .Values.ingress.host }}/tiera-edc-control/{{ .Values.dataspace.bpnTier1 }}/api/v1/ids
     # This is send as the audience to outgoing ids messages/tokens
-    ids.webhook.address=https://{{ .Values.ingress.host }}/tiera-edc-control/{{ .Values.dataspace.bpnTier1 }}
-    edc.ids.validation.referringconnector=false
-    edc.ids.id=urn:connector:edc:tiera
-    edc.ids.maintainer=http://catenax.net
-    edc.ids.security.profile=base
-    edc.ids.title=Supplier Dataspace Connector
+    edc.dsp.callback.address=https://{{ .Values.ingress.host }}/tiera-edc-control/{{ .Values.dataspace.bpnTier1 }}/api/v1/dsp
+    edc.participant.id=BPNL00000003CPIY
     
     edc.oauth.client.id={{ .Values.dataspace.dapsClientIdTier1 }}
     edc.oauth.private.key.alias={{ .Values.dataspace.privateKeyAliasTier1 }}
@@ -55,18 +42,24 @@ data:
     edc.oauth.token.url={{ .Values.security.dapsUrl }}/token
     
     edc.dataplane.selector.agentplane.url=http://tiera-data-plane:8082/
-    edc.dataplane.selector.agentplane.sourcetypes=urn:cx:Protocol:w3c:Http#SPARQL,HttpData
-    edc.dataplane.selector.agentplane.destinationtypes=HttpProxy,HttpProtocol
+    edc.dataplane.selector.agentplane.sourcetypes=cx-common:Protocol?w3c:http:SPARQL,HttpData
+    edc.dataplane.selector.agentplane.destinationtypes=HttpProxy
     edc.dataplane.selector.agentplane.properties={ "publicApiUrl": "https://{{ .Values.ingress.host }}/tiera-edc-data/{{ .Values.dataspace.bpnTier1 }}/data/" }
     
     edc.transfer.proxy.endpoint=https://{{ .Values.ingress.host }}/tiera-edc-data/{{ .Values.dataspace.bpnTier1 }}
     edc.transfer.proxy.token.signer.privatekey.alias={{ .Values.dataspace.privateKeyAliasTier1 }}
     edc.transfer.proxy.token.verifier.publickey.alias={{ .Values.dataspace.publicKeyAliasTier1 }}
-    
-    edc.vault.clientid={{ .Values.security.vaultClientId }} 
-    edc.vault.clientsecret={{ .Values.security.vaultClientSecret }}
-    edc.vault.name={{ .Values.security.vaultName }}
-    edc.vault.tenantid={{ .Values.security.vaultTenant }}
+    edc.transfer.send.retry.limit=0
+    edc.negotiation.consumer.send.retry.limit=0
+    edc.negotiation.provider.send.retry.limit=0
+
+    edc.vault.hashicorp.url={{ .Values.security.vaultUrl }}
+    edc.vault.hashicorp.token={{ .Values.security.vaultToken }}
+    edc.vault.hashicorp.timeout.seconds=30
+    edc.vault.hashicorp.health.check.enabled=false
+    edc.vault.hashicorp.health.check.standby.ok=false
+    edc.vault.hashicorp.api.secret.path=/v1/knowledge
+    edc.vault.hashicorp.api.health.check.path=/v1/sys/health
   opentelemetry.properties: |-
     otel.javaagent.enabled=false
     otel.javaagent.debug=false
@@ -102,7 +95,7 @@ spec:
         seccompProfile:
           type: RuntimeDefault
       containers:
-        - image: tractusx//edc-controlplane-memory:latest
+        - image: tractusx/edc-controlplane-memory-hashicorp-vault:0.4.1
           imagePullPolicy: Always
           name: tiera-control-plane
           securityContext:
@@ -116,8 +109,7 @@ spec:
             - containerPort: 8080 # API
             - containerPort: 8081 # OBSERVABILITY
             - containerPort: 8181 # MANAGEMENT
-            - containerPort: 8182 # VALIDATION
-            - containerPort: 8282 # IDS
+            - containerPort: 8282 # PROTOCOL
             - containerPort: 9999 # CONTROL
             - containerPort: 9998 # METRICS
           env:
@@ -125,11 +117,11 @@ spec:
               value: /connector-config/configuration.properties
           resources:
             requests:
-              cpu: 0.5
-              memory: "512Mi"
+              cpu: 500m
+              memory: 512Mi
             limits:
-              cpu: 0.5
-              memory: "512Mi"
+              cpu: 500m
+              memory: 512Mi
           startupProbe:
             failureThreshold: 17
             httpGet:
@@ -196,9 +188,6 @@ spec:
     - port: 8181
       name: management
       targetPort: 8181
-    - port: 8182
-      name: validation
-      targetPort: 8182
     - port: 8282
       name: ids
       targetPort: 8282
@@ -239,7 +228,7 @@ spec:
                 name: tiera-control-plane
                 port:
                   number: 8181
-          - path: /tiera-edc-control/{{ .Values.dataspace.bpnTier1 }}/(api/v1/ids)(.*)
+          - path: /tiera-edc-control/{{ .Values.dataspace.bpnTier1 }}/(api/v1/dsp)(.*)
             pathType: Prefix
             backend:
               service:
@@ -261,13 +250,11 @@ metadata:
   namespace: {{ .Values.namespace }}
 data:
   configuration.properties: |-
-    ids.webhook.address=http://tiera-data-plane:8080
-    
     web.http.default.port=8082
     web.http.default.path=/api
     web.http.public.port=8185
     web.http.public.path=/data
-    web.http.callback.port=8186
+    web.http.callback.port=8187
     web.http.callback.path=/callback
     web.http.control.port=9999
     web.http.control.path=/api/dataplane/control
@@ -283,22 +270,25 @@ data:
     tractusx.auth.agent.paths=default
   
     edc.api.auth.key={{ .Values.security.xApiKey }}
-    edc.api.control.auth.apikey.key=X-Api-Key
-    edc.api.control.auth.apikey.value={{ .Values.security.xApiKey }}
+    edc.participant.id=BPNL00000003CPIY
     
-    cx.agent.callback=http://tiera-data-plane:8186/callback/endpoint-data-reference
+    cx.agent.callback=http://tiera-data-plane:8187/callback/endpoint-data-reference
     cx.agent.controlplane.url=http://tiera-control-plane:8282
-    cx.agent.controlplane.management=http://tiera-control-plane:8181/management
+    cx.agent.controlplane.management=http://tiera-control-plane:8181/management/v2
     cx.agent.asset.file=dataspace.ttl
     cx.agent.dataspace.synchronization=-1
     cx.agent.dataspace.remotes=
     
-    edc.dataplane.token.validation.endpoint=http://tiera-control-plane:8182/validation/token
-
-    edc.vault.clientid={{ .Values.security.vaultClientId }} 
-    edc.vault.clientsecret={{ .Values.security.vaultClientSecret }}
-    edc.vault.name={{ .Values.security.vaultName }}
-    edc.vault.tenantid={{ .Values.security.vaultTenant }}
+    edc.dataplane.token.validation.endpoint=http://tiera-control-plane:9999/control/token
+    edc.core.retry.retries.max= 0
+    
+    edc.vault.hashicorp.url={{ .Values.security.vaultUrl }}
+    edc.vault.hashicorp.token={{ .Values.security.vaultToken }}
+    edc.vault.hashicorp.timeout.seconds=30
+    edc.vault.hashicorp.health.check.enabled=false
+    edc.vault.hashicorp.health.check.standby.ok=false
+    edc.vault.hashicorp.api.secret.path=/v1/knowledge
+    edc.vault.hashicorp.api.health.check.path=/v1/sys/health
   opentelemetry.properties: |-
     otel.javaagent.enabled=false
     otel.javaagent.debug=false
@@ -338,7 +328,7 @@ spec:
         seccompProfile:
             type: RuntimeDefault
       containers:
-        - image: ghcr.io/catenax-ng/product-agents-edc/agentplane-azure-vault:{{.Values.version}}
+        - image: ghcr.io/catenax-ng/product-agents-edc/agentplane-hashicorp:1.9.3-SNAPSHOT
           imagePullPolicy: Always
           name: tiera-data-plane
           securityContext:
@@ -352,18 +342,18 @@ spec:
             - containerPort: 8082 # API
             - containerPort: 8083 # OBSERVABILITY
             - containerPort: 8185 # PUBLIC
-            - containerPort: 8186 # AGREEMENT CALLBACK
+            - containerPort: 8187 # AGREEMENT CALLBACK
             - containerPort: 9999 # CONTROL
           env:
             - name:  EDC_FS_CONFIG
               value: /connector-config/configuration.properties
           resources:
            requests:
-            cpu: 0.5
-            memory: "512Mi"
+            cpu: 500m
+            memory: 512Mi
            limits:
-            cpu: 0.5
-            memory: "512Mi"
+            cpu: 500m
+            memory: 512Mi
           startupProbe:
             failureThreshold: 17
             httpGet:
@@ -440,7 +430,7 @@ spec:
       targetPort: 8185
     - port: 8186
       name: callback
-      targetPort: 8186
+      targetPort: 8187
     - port: 9999
       name: control
       targetPort: 9999
@@ -482,11 +472,4 @@ spec:
                 name: tiera-data-plane
                 port:
                   number: 8082
-          - path: /tiera-edc-data/{{ .Values.dataspace.bpnTier1 }}/(callback)(.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: tiera-data-plane
-                port:
-                  number: 8186
 

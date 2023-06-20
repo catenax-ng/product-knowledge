@@ -107,7 +107,7 @@ spec:
            type: RuntimeDefault
       containers:
         - name: oem-provider-agent
-          image: ghcr.io/catenax-ng/product-knowledge/provisioning-agent:{{.Values.version}}
+          image: ghcr.io/catenax-ng/product-knowledge/provisioning-agent:1.9.1-SNAPSHOT
           imagePullPolicy: Always
           securityContext:
             capabilities:
@@ -124,11 +124,11 @@ spec:
             - containerPort: 8084 # RUL
           resources:
            requests:
-            cpu: 0.5
-            memory: "1.5Gi"
+            cpu: 500m
+            memory: 1536Mi
            limits:
-            cpu: 0.5
-            memory: "1.5Gi"
+            cpu: 500m
+            memory: 1536Mi
           startupProbe:
             failureThreshold: 18
             httpGet:
@@ -343,11 +343,11 @@ spec:
             - containerPort: 45678  # Dremio Exec
           resources:
            requests:
-            cpu: 0.5
-            memory: "4Gi"
+            cpu: 500m
+            memory: 4Gi
            limits:
-            cpu: 0.5
-            memory: "4Gi"
+            cpu: 500m
+            memory: 4Gi"
           startupProbe:
             failureThreshold: 18
             httpGet:
