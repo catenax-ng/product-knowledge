@@ -1,0 +1,431 @@
+<?xml version="1.0"?>
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+    <head>
+        <variable name="eMat"/>
+        <variable name="engineeringMaterialName"/>
+        <variable name="engineeringMaterialClass"/>
+        <variable name="rMat"/>
+        <variable name="componentState"/>
+        <variable name="componentMaterialClass"/>
+        <variable name="componentRecycledContent"/>
+        <variable name="componentMaterialAbbreviation"/>
+    </head>
+    <results>
+        <result>
+            <binding name="eMat">
+                <uri>urn:material:0733946c-59c6-41ae-9570-cb43a6e4c79e</uri>
+            </binding>
+            <binding name="engineeringMaterialName">
+                <literal>bla</literal>
+            </binding>
+            <binding name="engineeringMaterialClass">
+                <literal>EngineeringMaterial</literal>
+            </binding>
+            <binding name="rMat">
+                <uri>urn:material:0733946c-59c6-41ae-9570-cb43a6e4c79e/magna</uri>
+            </binding>
+            <binding name="componentState">
+                <literal>gasenous</literal>
+            </binding>
+            <binding name="componentMaterialClass">
+                <literal>CathodeMaterial_LeadDioxide</literal>
+            </binding>
+            <binding name="componentRecycledContent">
+                <literal datatype="http://www.w3.org/2001/XMLSchema#float">366.334</literal>
+            </binding>
+            <binding name="componentMaterialAbbreviation">
+                <literal>c45b360d25e137b0</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name="eMat">
+                <uri>urn:material:0733946c-59c6-41ae-9570-cb43a6e4c79e</uri>
+            </binding>
+            <binding name="engineeringMaterialName">
+                <literal>bla</literal>
+            </binding>
+            <binding name="engineeringMaterialClass">
+                <literal>EngineeringMaterial</literal>
+            </binding>
+            <binding name="rMat">
+                <uri>urn:material:0733946c-59c6-41ae-9570-cb43a6e4c79e/justo</uri>
+            </binding>
+            <binding name="componentState">
+                <literal>solid</literal>
+            </binding>
+            <binding name="componentMaterialClass">
+                <literal>MetalMaterial_Copper</literal>
+            </binding>
+            <binding name="componentRecycledContent">
+                <literal datatype="http://www.w3.org/2001/XMLSchema#float">625.883</literal>
+            </binding>
+            <binding name="componentMaterialAbbreviation">
+                <literal>b05db5f6dcbd6a54</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name="eMat">
+                <uri>urn:material:0733946c-59c6-41ae-9570-cb43a6e4c79e</uri>
+            </binding>
+            <binding name="engineeringMaterialName">
+                <literal>bla</literal>
+            </binding>
+            <binding name="engineeringMaterialClass">
+                <literal>EngineeringMaterial</literal>
+            </binding>
+            <binding name="rMat">
+                <uri>urn:material:0733946c-59c6-41ae-9570-cb43a6e4c79e/blup</uri>
+            </binding>
+            <binding name="componentState">
+                <literal>liquid</literal>
+            </binding>
+            <binding name="componentMaterialClass">
+                <literal>Alloy</literal>
+            </binding>
+            <binding name="componentRecycledContent">
+                <literal datatype="http://www.w3.org/2001/XMLSchema#float">20.189</literal>
+            </binding>
+            <binding name="componentMaterialAbbreviation">
+                <literal>87d98ff04207abf5</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name="eMat">
+                <uri>urn:material:aad27ddb-43aa-4e42-98c2-01e529ef127c</uri>
+            </binding>
+            <binding name="engineeringMaterialName">
+                <literal>dolor</literal>
+            </binding>
+            <binding name="engineeringMaterialClass">
+                <literal>CeramicMaterial</literal>
+            </binding>
+            <binding name="rMat">
+                <uri>urn:material:aad27ddb-43aa-4e42-98c2-01e529ef127c/sit</uri>
+            </binding>
+            <binding name="componentState">
+                <literal>solid</literal>
+            </binding>
+            <binding name="componentMaterialClass">
+                <literal>PolymerMaterial_Plastic</literal>
+            </binding>
+            <binding name="componentRecycledContent">
+                <literal datatype="http://www.w3.org/2001/XMLSchema#float">596.412</literal>
+            </binding>
+            <binding name="componentMaterialAbbreviation">
+                <literal>6773cd16102cd260</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name="eMat">
+                <uri>urn:material:e5c96ab5-896a-482c-8761-efd74777ca97</uri>
+            </binding>
+            <binding name="engineeringMaterialName">
+                <literal>quis</literal>
+            </binding>
+            <binding name="engineeringMaterialClass">
+                <literal>OrganicMaterial</literal>
+            </binding>
+            <binding name="rMat">
+                <uri>urn:material:e5c96ab5-896a-482c-8761-efd74777ca97/erat%2C</uri>
+            </binding>
+            <binding name="componentState">
+                <literal>liquid</literal>
+            </binding>
+            <binding name="componentMaterialClass">
+                <literal>CompositeMaterial</literal>
+            </binding>
+            <binding name="componentRecycledContent">
+                <literal datatype="http://www.w3.org/2001/XMLSchema#float">217.984</literal>
+            </binding>
+            <binding name="componentMaterialAbbreviation">
+                <literal>400a5817832a3693</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name="eMat">
+                <uri>urn:material:e5c96ab5-896a-482c-8761-efd74777ca97</uri>
+            </binding>
+            <binding name="engineeringMaterialName">
+                <literal>quis</literal>
+            </binding>
+            <binding name="engineeringMaterialClass">
+                <literal>OrganicMaterial</literal>
+            </binding>
+            <binding name="rMat">
+                <uri>urn:material:e5c96ab5-896a-482c-8761-efd74777ca97/ipsum</uri>
+            </binding>
+            <binding name="componentState">
+                <literal>gasenous</literal>
+            </binding>
+            <binding name="componentMaterialClass">
+                <literal>CompositeMaterial_Carbon</literal>
+            </binding>
+            <binding name="componentRecycledContent">
+                <literal datatype="http://www.w3.org/2001/XMLSchema#float">658.567</literal>
+            </binding>
+            <binding name="componentMaterialAbbreviation">
+                <literal>f3848cf74a02b38a</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name="eMat">
+                <uri>urn:material:c7a2b803-f8fe-4b79-b6fc-967ce847c9a9</uri>
+            </binding>
+            <binding name="engineeringMaterialName">
+                <literal>magna</literal>
+            </binding>
+            <binding name="engineeringMaterialClass">
+                <literal>OrganicMaterial_Leather</literal>
+            </binding>
+            <binding name="rMat">
+                <uri>urn:material:c7a2b803-f8fe-4b79-b6fc-967ce847c9a9/ipsum</uri>
+            </binding>
+            <binding name="componentState">
+                <literal>gasenous</literal>
+            </binding>
+            <binding name="componentMaterialClass">
+                <literal>MetalMaterial</literal>
+            </binding>
+            <binding name="componentRecycledContent">
+                <literal datatype="http://www.w3.org/2001/XMLSchema#float">854.107</literal>
+            </binding>
+            <binding name="componentMaterialAbbreviation">
+                <literal>6e5af4fd1501dd17</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name="eMat">
+                <uri>urn:material:2c57b0e9-a653-411d-bdcd-64787e9fd3a7</uri>
+            </binding>
+            <binding name="engineeringMaterialName">
+                <literal>eirmod</literal>
+            </binding>
+            <binding name="engineeringMaterialClass">
+                <literal>PolymerMaterial_Plastic</literal>
+            </binding>
+            <binding name="rMat">
+                <uri>urn:material:2c57b0e9-a653-411d-bdcd-64787e9fd3a7/eum</uri>
+            </binding>
+            <binding name="componentState">
+                <literal>solid</literal>
+            </binding>
+            <binding name="componentMaterialClass">
+                <literal>SemiconductorMaterial</literal>
+            </binding>
+            <binding name="componentRecycledContent">
+                <literal datatype="http://www.w3.org/2001/XMLSchema#float">471.5</literal>
+            </binding>
+            <binding name="componentMaterialAbbreviation">
+                <literal>e67a190c311fb24d</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name="eMat">
+                <uri>urn:material:bee5614f-9e46-4c98-9209-61a6f2b2a7fc</uri>
+            </binding>
+            <binding name="engineeringMaterialName">
+                <literal>diam</literal>
+            </binding>
+            <binding name="engineeringMaterialClass">
+                <literal>PolymerMaterial_Plastic</literal>
+            </binding>
+            <binding name="rMat">
+                <uri>urn:material:bee5614f-9e46-4c98-9209-61a6f2b2a7fc/dolores</uri>
+            </binding>
+            <binding name="componentState">
+                <literal>liquid</literal>
+            </binding>
+            <binding name="componentMaterialClass">
+                <literal>CompositeMaterial_Carbon</literal>
+            </binding>
+            <binding name="componentRecycledContent">
+                <literal datatype="http://www.w3.org/2001/XMLSchema#float">943.254</literal>
+            </binding>
+            <binding name="componentMaterialAbbreviation">
+                <literal>cefe095b20095e3a</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name="eMat">
+                <uri>urn:material:07cb071f-8716-45fe-89f1-f2f77a1ce93b</uri>
+            </binding>
+            <binding name="engineeringMaterialName">
+                <literal>voluptua</literal>
+            </binding>
+            <binding name="engineeringMaterialClass">
+                <literal>NativeMetal</literal>
+            </binding>
+            <binding name="rMat">
+                <uri>urn:material:07cb071f-8716-45fe-89f1-f2f77a1ce93b/elitr%2C</uri>
+            </binding>
+            <binding name="componentState">
+                <literal>gasenous</literal>
+            </binding>
+            <binding name="componentMaterialClass">
+                <literal>CathodeMaterial</literal>
+            </binding>
+            <binding name="componentRecycledContent">
+                <literal datatype="http://www.w3.org/2001/XMLSchema#float">318.858</literal>
+            </binding>
+            <binding name="componentMaterialAbbreviation">
+                <literal>243bf6f77734e50d</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name="eMat">
+                <uri>urn:material:68904173-ad59-4a77-8412-3e73fcafbd8b</uri>
+            </binding>
+            <binding name="engineeringMaterialName">
+                <literal>sed</literal>
+            </binding>
+            <binding name="engineeringMaterialClass">
+                <literal>CathodeMaterial_LeadDioxide</literal>
+            </binding>
+            <binding name="rMat">
+                <uri>urn:material:68904173-ad59-4a77-8412-3e73fcafbd8b/elitr%2C</uri>
+            </binding>
+            <binding name="componentState">
+                <literal>gasenous</literal>
+            </binding>
+            <binding name="componentMaterialClass">
+                <literal>PolymerMaterial_Plastic</literal>
+            </binding>
+            <binding name="componentRecycledContent">
+                <literal datatype="http://www.w3.org/2001/XMLSchema#float">357.245</literal>
+            </binding>
+            <binding name="componentMaterialAbbreviation">
+                <literal>74df8d95d9a51db0</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name="eMat">
+                <uri>urn:material:68904173-ad59-4a77-8412-3e73fcafbd8b</uri>
+            </binding>
+            <binding name="engineeringMaterialName">
+                <literal>sed</literal>
+            </binding>
+            <binding name="engineeringMaterialClass">
+                <literal>CathodeMaterial_LeadDioxide</literal>
+            </binding>
+            <binding name="rMat">
+                <uri>urn:material:68904173-ad59-4a77-8412-3e73fcafbd8b/nonumy</uri>
+            </binding>
+            <binding name="componentState">
+                <literal>solid</literal>
+            </binding>
+            <binding name="componentMaterialClass">
+                <literal>CathodeMaterial</literal>
+            </binding>
+            <binding name="componentRecycledContent">
+                <literal datatype="http://www.w3.org/2001/XMLSchema#float">966.25</literal>
+            </binding>
+            <binding name="componentMaterialAbbreviation">
+                <literal>feabbe5f0417fc67</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name="eMat">
+                <uri>urn:material:65e1554e-e5cd-4560-bac1-1352582122fb</uri>
+            </binding>
+            <binding name="engineeringMaterialName">
+                <literal>nulla</literal>
+            </binding>
+            <binding name="engineeringMaterialClass">
+                <literal>SemiconductorMaterial</literal>
+            </binding>
+            <binding name="rMat">
+                <uri>urn:material:65e1554e-e5cd-4560-bac1-1352582122fb/dolor</uri>
+            </binding>
+            <binding name="componentState">
+                <literal>liquid</literal>
+            </binding>
+            <binding name="componentMaterialClass">
+                <literal>MetalMaterial</literal>
+            </binding>
+            <binding name="componentRecycledContent">
+                <literal datatype="http://www.w3.org/2001/XMLSchema#float">445.087</literal>
+            </binding>
+            <binding name="componentMaterialAbbreviation">
+                <literal>813e3a95da3887b7</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name="eMat">
+                <uri>urn:material:e3e2a4d8-58bc-4ae9-afa2-e8946fda1f77</uri>
+            </binding>
+            <binding name="engineeringMaterialName">
+                <literal>sadipscing</literal>
+            </binding>
+            <binding name="engineeringMaterialClass">
+                <literal>CeramicMaterial</literal>
+            </binding>
+            <binding name="rMat">
+                <uri>urn:material:e3e2a4d8-58bc-4ae9-afa2-e8946fda1f77/liber</uri>
+            </binding>
+            <binding name="componentState">
+                <literal>liquid</literal>
+            </binding>
+            <binding name="componentMaterialClass">
+                <literal>CeramicMaterial</literal>
+            </binding>
+            <binding name="componentRecycledContent">
+                <literal datatype="http://www.w3.org/2001/XMLSchema#float">747.423</literal>
+            </binding>
+            <binding name="componentMaterialAbbreviation">
+                <literal>f71434043f5bbede</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name="eMat">
+                <uri>urn:material:0255ac81-6e0f-4dce-bbac-82d7bae91202</uri>
+            </binding>
+            <binding name="engineeringMaterialName">
+                <literal>Synthetic Rubber Class 3</literal>
+            </binding>
+            <binding name="engineeringMaterialClass">
+                <literal>PolymerMaterial_Rubber</literal>
+            </binding>
+            <binding name="rMat">
+                <uri>urn:material:0255ac81-6e0f-4dce-bbac-82d7bae91202/Natural%20Rubber%20Class%205</uri>
+            </binding>
+            <binding name="componentState">
+                <literal>solid</literal>
+            </binding>
+            <binding name="componentMaterialClass">
+                <literal>OrganicMaterial_Rubber</literal>
+            </binding>
+            <binding name="componentRecycledContent">
+                <literal datatype="http://www.w3.org/2001/XMLSchema#float">0.2</literal>
+            </binding>
+            <binding name="componentMaterialAbbreviation">
+                <literal>NR</literal>
+            </binding>
+        </result>
+        <result>
+            <binding name="eMat">
+                <uri>urn:material:4ee895b2-0778-43f4-87cf-c433d805e87f</uri>
+            </binding>
+            <binding name="engineeringMaterialName">
+                <literal>Wheel Rubber</literal>
+            </binding>
+            <binding name="engineeringMaterialClass">
+                <literal>PolymerMaterial</literal>
+            </binding>
+            <binding name="rMat">
+                <uri>urn:material:4ee895b2-0778-43f4-87cf-c433d805e87f/Synthetic%20Rubber%20Class%203</uri>
+            </binding>
+            <binding name="componentState">
+                <literal>solid</literal>
+            </binding>
+            <binding name="componentMaterialClass">
+                <literal>PolymerMaterial_Rubber</literal>
+            </binding>
+            <binding name="componentRecycledContent">
+                <literal datatype="http://www.w3.org/2001/XMLSchema#float">0.2</literal>
+            </binding>
+            <binding name="componentMaterialAbbreviation">
+                <literal>SR</literal>
+            </binding>
+        </result>
+    </results>
+</sparql>
