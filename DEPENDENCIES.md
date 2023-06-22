@@ -43,8 +43,8 @@ The following is a simple type of single-level Software-BOM for all official ope
 | Dataspace | * | [Java Runtime Environment (JRE)](https://de.wikipedia.org/wiki/Java-Laufzeitumgebung) | >=11 | Test + Provided | * | License (GPL, BCL, ...) depends on choosen runtime. |
 | Dataspace | * | [Java Development Kit (JDK)](https://de.wikipedia.org/wiki/Java_Development_Kit) | >=11 | Compile + Packaging | * | License (GPL, BCL, ...) depends on choosen kit. |
 | Dataspace | * | [Junit Jupiter](https://junit.org) | >=5 | Test | MIT |     |
-| Dataspace | * | [Tractus-X EDC Extensions](https://github.com/catenax-ng/product-agents-edc) | >=1.9.1-SNAPSHOT | All | Apache License 2.0 |     |
-| Dataspace | * | [Tractus-X Agent Implementations](https://github.com/catenax-ng/product-agents) | >=1.9.1-SNAPSHOT | All | Apache License 2.0 |     |
+| Dataspace | * | [Tractus-X EDC Extensions](https://github.com/catenax-ng/product-agents-edc) | >=1.9.3-SNAPSHOT | All | Apache License 2.0 |     |
+| Dataspace | * | [Tractus-X Agent Implementations](https://github.com/catenax-ng/product-agents) | >=1.9.3-SNAPSHOT | All | Apache License 2.0 |     |
 | Dataspace | AAS Bridge | [FAAST Service](https://github.com/FraunhoferIOSB/FAAAST-Service) | >=0.4.0 | All | Apache License 2.0 |
 | Dataspace | AAS Bridge | [Eclipse Semantic Modeling Framework](https://github.com/eclipse-esmf/esmf-sdk) | >=1.1.0-M5 | Compile | MPL 2.0 |
 | Dataspace | AAS Bridge | [AAS4J](https://github.com/eclipse-aas4j/aas4j) | >=1.2.0 | All | Apache License 2.0 |

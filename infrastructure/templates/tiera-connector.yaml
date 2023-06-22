@@ -273,7 +273,7 @@ data:
     edc.participant.id=BPNL00000003CPIY
     
     cx.agent.callback=http://tiera-data-plane:8187/callback/endpoint-data-reference
-    cx.agent.controlplane.url=http://tiera-control-plane:8282
+    cx.agent.controlplane.protocol=http://tiera-control-plane:8282
     cx.agent.controlplane.management=http://tiera-control-plane:8181/management/v2
     cx.agent.asset.file=dataspace.ttl
     cx.agent.dataspace.synchronization=-1

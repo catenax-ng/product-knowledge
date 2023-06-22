@@ -17,7 +17,7 @@ services:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/virtualize/druid
-    image: ghcr.io/catenax-ng/product-knowledge/virtualizer-druid:1.9.1-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/virtualizer-druid:1.9.3-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8888:8888" # http
@@ -41,7 +41,7 @@ services:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/virtualize/dremio
-    image: ghcr.io/catenax-ng/product-knowledge/virtualizer-dremio:1.9.1-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/virtualizer-dremio:1.9.3-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "9047:9047" # http
@@ -56,7 +56,7 @@ services:
 #    build:
 #      dockerfile: src/main/docker/Dockerfile
 #      context: ../dataspace/agents/sparql-anything
-#    image: ghcr.io/catenax-ng/product-knowledge/facadex-agent:1.9.1-SNAPSHOT
+#    image: ghcr.io/catenax-ng/product-knowledge/facadex-agent:1.9.3-SNAPSHOT
 #    ports:
 #      - "3000:3000"
 #    volumes:
@@ -71,7 +71,7 @@ services:
   # Configures the provider agent
   #
   conforming-agent:
-    image: ghcr.io/catenax-ng/product-agents/conforming-agent:1.9.1-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-agents/conforming-agent:1.9.3-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     environment:
       # Uncomment to enable for debugging, please choose a different port for each endpoint
@@ -84,13 +84,14 @@ services:
   # Configures the provider agent
   #
   provider-agent:
-    image: ghcr.io/catenax-ng/product-agents/provisioning-agent:1.9.1-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-agents/provisioning-agent:1.9.3-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8080:8080" # sparql endpoint
       - "8081:8081" # possible second, third, ... sparql endpoint
       - "8082:8082" # possible second, third, ... sparql endpoint
       - "8083:8083" # possible second, third, ... sparql endpoint
+      - "8084:8084" # possible second, third, ... sparql endpoint
       - "4039:4040" # DEBUG
     environment:
       # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
@@ -139,7 +140,7 @@ services:
         PROVIDER_SPARQL_ENDPOINT_ARG: https://knowledge.dev.demo.catena-x.net/oem-edc-data/BPNL00000003COJN/api/agent
         #PROVIDER_AGENT_PLANE_ARG: http://provider-agent:8082/sparql
         PROVIDER_AGENT_PLANE_ARG: http://oem-provider-agent:8082/sparql
-    image: ghcr.io/catenax-ng/product-knowledge/aas-bridge:1.9.1-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/aas-bridge:1.9.3-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8700:8080" # AAS-API
@@ -162,7 +163,6 @@ services:
     ports:
       - "8090:8080" # API
       - "8091:8181" # PUBLIC
-      - "8092:8182" # VALIDATION
       - "8093:8282" # DPS
       - "8094:9998" # METRICS
       - "8095:9999" # CONTROL
@@ -187,7 +187,6 @@ services:
     ports:
       - "8097:8080" # API
       - "8098:8181" # PUBLIC
-      - "8099:8182" # VALIDATION
       - "8100:8282" # DPS
       - "8101:8081" # OBSERVABILITY
       - "4047:4040" # DEBUG
@@ -231,7 +230,7 @@ services:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/mock/prognosis
-    image: ghcr.io/catenax-ng/product-knowledge/prognosis:1.9.1-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/prognosis:1.9.3-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "5005:5005" # API
@@ -240,7 +239,7 @@ services:
   # Configures the tier1 agent 
   #
   remoting-agent:
-    image: ghcr.io/catenax-ng/product-agents/remoting-agent:1.9.1-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-agents/remoting-agent:1.9.3-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8200:8081" # sparql endpoint
@@ -262,8 +261,7 @@ services:
     ports:
       - "8300:8080" # API
       - "8301:8181" # PUBLIC
-      - "8302:8182" # VALIDATION
-      - "8303:8282" # IDS
+      - "8303:8282" # PROTOCOL
       - "8304:9998" # METRICS
       - "8305:9999" # CONTROL
       - "8306:8081" # Observability
@@ -282,7 +280,7 @@ services:
   # Configures the supplier data plane
   #
   tiera-data-plane:
-    image: ghcr.io/catenax-ng/product-agents-edc/agentplane-azure-vault:1.9.3-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-agents-edc/agentplane-hashicorp:1.9.3-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8400:8082"  # API/sparql endpoint
@@ -310,8 +308,7 @@ services:
     ports:
       - "8500:8080" # API
       - "8501:8181" # PUBLIC
-      - "8502:8182" # VALIDATION
-      - "8503:8282" # IDS
+      - "8503:8282" # PROTOCOL
       - "8504:9998" # METRICS
       - "8505:9999" # CONTROL
       - "4045:4040" # DEBUG
@@ -329,12 +326,12 @@ services:
   # Configures the consumer data plane
   #
   consumer-data-plane:
-    image: ghcr.io/catenax-ng/product-agents-edc/agentplane-azure-vault:1.9.3-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-agents-edc/agentplane-hashicorp:1.9.3-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8600:8082"  # API/sparql endpoint
       - "8601:8185"  # PUBLIC
-      - "8602:8186"  # AGREEMENT CALLBACK
+      - "8602:8187"  # AGREEMENT CALLBACK
       - "8603:9999" # CONTROL
       - "4046:4040"  # DEBUG
     environment:
@@ -352,7 +349,7 @@ services:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../ux
-    image: ghcr.io/catenax-ng/product-knowledge/ux:1.9.1-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/ux:1.9.3-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     environment:
       REACT_APP_SKILL_CONNECTOR_DATA: http://localhost:8500

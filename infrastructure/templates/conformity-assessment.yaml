@@ -42,7 +42,7 @@ spec:
            type: RuntimeDefault
       containers:
         - name: conforming-agent
-          image: ghcr.io/catenax-ng/product-knowledge/conforming-agent:1.9.1-SNAPSHOT
+          image: ghcr.io/catenax-ng/product-knowledge/conforming-agent:1.9.3-SNAPSHOT
           imagePullPolicy: Always
           securityContext:
             capabilities:

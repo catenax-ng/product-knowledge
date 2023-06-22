@@ -10,15 +10,14 @@
 @prefix xsd:        <http://www.w3.org/2001/XMLSchema#> .
 @prefix json:       <https://json-schema.org/draft/2020-12/schema#> .
 @prefix dcterms:    <http://purl.org/dc/terms/> .
-@prefix cx-fx:      <https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl#>.
-@prefix cx-rt:      <urn:io.catenax.knowledge.agents.remoting#>.
-@prefix cx-common:   <https://catena-x.net/product-knowledge/ontology/common#>.
-@prefix cx-core:     <https://catena-x.net/product-knowledge/ontology/core#>.
-@prefix cx-vehicle:  <https://catena-x.net/product-knowledge/ontology/vehicle#>.
-@prefix cx-vinfo:    <https://catena-x.net/product-knowledge/ontology/vehicle-information#>.
-@prefix cx-part:     <https://catena-x.net/product-knowledge/ontology/part#>.
-@prefix cx-load:     <https://catena-x.net/product-knowledge/ontology/loadspectrum#>.
-@prefix cx-life:     <https://catena-x.net/product-knowledge/ontology/lifetime-prognosis#>.
+@prefix cx-fx:      <https://www.w3id.org/catenax/ontology/function#>.
+@prefix cx-common:   <https://www.w3id.org/catenax/ontology/common#>.
+@prefix cx-core:     <https://www.w3id.org/catenax/ontology/core#>.
+@prefix cx-vehicle:  <https://www.w3id.org/catenax/ontology/vehicle#>.
+@prefix cx-vinfo:    <https://www.w3id.org/catenax/ontology/vehicle-information#>.
+@prefix cx-part:     <https://www.w3id.org/catenax/ontology/part#>.
+@prefix cx-load:     <https://www.w3id.org/catenax/ontology/loadspectrum#>.
+@prefix cx-life:     <https://www.w3id.org/catenax/ontology/lifetime-prognosis#>.
 
 [] rdf:type rep:Repository ;
    rep:repositoryID "rul" ;
@@ -26,7 +25,7 @@
    rep:repositoryImpl [
       rep:repositoryType "openrdf:SailRepository" ;
       sr:sailImpl [
-         sail:sailType "io.catenax.knowledge:Remoting" ;
+         sail:sailType "org.eclipse.tractusx.agents:Remoting" ;
          cx-fx:supportsInvocation cx-life:LifetimePrognosis;
       ]
    ].

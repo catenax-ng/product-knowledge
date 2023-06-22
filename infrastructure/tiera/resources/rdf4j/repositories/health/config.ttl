@@ -10,7 +10,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix json: <https://json-schema.org/draft/2020-12/schema#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix cx-fx: <https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl#>.
+@prefix cx-fx: <https://www.w3id.org/catenax/ontology/function#>.
 @prefix cx-health: <https://github.com/catenax-ng/product-knowledge/ontology/health.ttl#>.
 @prefix cx-rt: <urn:io.catenax.knowledge.agents.remoting#>.
 
@@ -20,7 +20,7 @@
    rep:repositoryImpl [
       rep:repositoryType "openrdf:SailRepository" ;
       sr:sailImpl [
-         sail:sailType "io.catenax.knowledge:Remoting" ;
+         sail:sailType "org.eclipse.tractusx.agents:Remoting" ;
          cx-fx:supportsInvocation cx-health:HealthIndication;
       ]
    ].

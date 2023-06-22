@@ -107,7 +107,7 @@ spec:
            type: RuntimeDefault
       containers:
         - name: oem-provider-agent
-          image: ghcr.io/catenax-ng/product-knowledge/provisioning-agent:1.9.1-SNAPSHOT
+          image: ghcr.io/catenax-ng/product-knowledge/provisioning-agent:1.9.3-SNAPSHOT
           imagePullPolicy: Always
           securityContext:
             capabilities:
