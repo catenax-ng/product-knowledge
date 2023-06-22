@@ -8,7 +8,7 @@ standard-related artifacts.
 
 For more information see
 
-* The [CX-0084](CX-0084-Federated_Queries_In_Data_Spaces_v1.0.0) standard
+* The [CX-0084](https://github.com/catenax-ng/product-catena-x-standardization/blob/CX-0084-FederatedQueriesInDataSpaces/standards/CX-0084-FederatedQueriesInDataSpaces/1.0.0/CX-0084-FederatedQueriesInDataSpaces-v1.0.0.md) standard
 * Our [Introduction](intro) manifest
 * A [Frequently Asked Question](faq) list
 * Our [Target Audience](audience) description

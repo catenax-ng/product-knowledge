@@ -35,7 +35,11 @@ const sidebars = {
                         'adoption-view/intro',
                         'adoption-view/audience',
                         'adoption-view/faq',
-                        'adoption-view/CX-0084-Federated_Queries_In_Data_Spaces_v1.0.0',
+                        {
+                            type: 'link',
+                            label: 'Catena-X Standard CX-0084',
+                            href: 'https://github.com/catenax-ng/product-catena-x-standardization/blob/CX-0084-FederatedQueriesInDataSpaces/standards/CX-0084-FederatedQueriesInDataSpaces/1.0.0/CX-0084-FederatedQueriesInDataSpaces-v1.0.0.md'
+                        },
                         'adoption-view/testbed',
                     ],
                 },
