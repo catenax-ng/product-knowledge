@@ -1,0 +1,417 @@
+{
+  "@header": {
+    "version": "0.0.1",
+    "aasVersion": "3.0RC02",
+    "@namespaces": {
+      "sparql": "http://www.w3.org/2005/sparql-results#"
+    }
+  },
+  "aasEnvironmentMapping": {
+    "assetAdministrationShells": [
+      {
+        "@foreach": {
+          "@xpath": "//sparql:result/sparql:binding[@name='eMat']"
+        },
+        "assetInformation": {
+          "assetKind": "Instance",
+          "globalAssetId": {
+            "keys": [
+              {
+                "@bind": {
+                  "value": {
+                    "@xpath": "./sparql:uri"
+                  }
+                },
+                "idType": "Custom"
+              }
+            ]
+          }
+        },
+        "idShort": "defaultAdminShell",
+        "identification": {
+          "@bind": {
+            "id": {
+              "@generateId": "urn:uuid"
+            }
+          },
+          "idType": "Iri"
+        }
+      }
+    ],
+    "submodels": [
+      {
+        "@foreach": {
+          "@xpath": "//sparql:result/sparql:binding[@name='eMat']/sparql:uri[not(.=../../ following::sparql:result/sparql:binding[@name='eMat']/sparql:uri)]"
+        },
+        "kind": "Instance",
+        "semanticId": {
+          "keys": [
+            {
+              "idType": "Custom",
+              "type": "ConceptDescription",
+              "value": "urn:bamm:io.catenax.material_for_recycling:1.1.0#MaterialForRecycling"
+            }
+          ]
+        },
+        "identification": {
+          "@bind": {
+            "id": {
+              "@generateId": "urn:uuid"
+            }
+          },
+          "idType": "Iri"
+        },
+        "idShort": "MaterialForRecycling",
+        "submodelElements": [
+          {
+            "modelType": {
+              "name": "Property"
+            },
+            "kind": "Instance",
+            "semanticId": {
+              "keys": [
+                {
+                  "idType": "Custom",
+                  "type": "ConceptDescription",
+                  "value": "urn:bamm:io.catenax.material_for_recycling:1.1.0#materialName"
+                }
+              ]
+            },
+            "@bind": {
+              "value": {
+                "@xpath": "./sparql:binding[@name='engineeringMaterialName']/sparql:literal"
+              }
+            },
+            "valueType": "http://www.w3.org/2001/XMLSchema#string",
+            "idShort": "materialName",
+            "description": [
+              {
+                "language": "en",
+                "text": "The commercial name of a material"
+              }
+            ]
+          },
+          {
+            "modelType": {
+              "name": "Property"
+            },
+            "kind": "Instance",
+            "semanticId": {
+              "keys": [
+                {
+                  "idType": "Custom",
+                  "type": "ConceptDescription",
+                  "value": "urn:bamm:io.catenax.material_for_recycling:1.1.0#materialClass"
+                }
+              ]
+            },
+            "@bind": {
+              "value": {
+                "@xpath": "./sparql:binding[@name='engineeringMaterialClass']/sparql:literal"
+              }
+            },
+            "value": "DefaultScalarValue[value=plastic, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']",
+            "valueType": "http://www.w3.org/2001/XMLSchema#string",
+            "idShort": "materialClass",
+            "description": [
+              {
+                "language": "en",
+                "text": "The class of a material following the referenced standard."
+              }
+            ]
+          },
+          {
+            "@foreach": {
+              "@xpath": {
+                "@concatenate": [
+                  "/sparql/sparql:results/sparql:result[sparql:binding[@name='eMat'][sparql:uri='",
+                  {"@xpath":  "sparql/sparql:results/sparql:result/sparql:binding[@name='eMat']/uri"},
+                  "']]"
+                ]
+              }
+            },
+            "modelType": {
+              "name": "SubmodelElementCollection"
+            },
+            "idShort": "component",
+            "description": [
+              {
+                "language": "en",
+                "text": "Components the material consists of"
+              }
+            ],
+            "displayName": [
+              {
+                "language": "en",
+                "text": "component"
+              }
+            ],
+            "value": [
+              {
+                "modelType": {
+                  "name": "SubmodelElementCollection"
+                },
+                "idShort": "ComponentEntity",
+                "description": [
+                  {
+                    "language": "en",
+                    "text": "The properties that describe a component"
+                  }
+                ],
+                "displayName": [
+                  {
+                    "language": "en",
+                    "text": "component entity"
+                  }
+                ],
+                "value": [
+                  {
+                    "modelType": {
+                      "name": "Property"
+                    },
+                    "kind": "Instance",
+                    "semanticId": {
+                      "keys": [
+                        {
+                          "idType": "Custom",
+                          "type": "ConceptDescription",
+                          "value": "urn:bamm:io.catenax.material_for_recycling:1.1.0#aggregateState"
+                        }
+                      ]
+                    },
+                    "@bind": {
+                      "value": {
+                        "@xpath": "sparql[@name='componentState']/literal"
+                      }
+                    },
+                    "value": "DefaultScalarValue[value=liquid, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']",
+                    "valueType": "http://www.w3.org/2001/XMLSchema#string",
+                    "idShort": "aggregateState",
+                    "description": [
+                      {
+                        "language": "en",
+                        "text": "The aggregate state the materialis in at the timepoint the item is disassembled"
+                      }
+                    ]
+                  },
+                  {
+                    "modelType": {
+                      "name": "Property"
+                    },
+                    "kind": "Instance",
+                    "semanticId": {
+                      "keys": [
+                        {
+                          "idType": "Custom",
+                          "type": "ConceptDescription",
+                          "value": "urn:bamm:io.catenax.material_for_recycling:1.1.0#recycledContent"
+                        }
+                      ]
+                    },
+                    "value": "Unknown",
+                    "valueType": "http://www.w3.org/2001/XMLSchema#double",
+                    "idShort": "recycledContent",
+                    "description": [
+                      {
+                        "language": "en",
+                        "text": "Indicates if the material was is recycled. Percentage of how much of the material was recycled. This can be an aggregation regarding the materials below."
+                      }
+                    ],
+                    "displayName": [
+                      {
+                        "language": "en",
+                        "text": "recycled content"
+                      }
+                    ]
+                  },
+                  {
+                    "modelType": {
+                      "name": "Property"
+                    },
+                    "kind": "Instance",
+                    "semanticId": {
+                      "keys": [
+                        {
+                          "idType": "Custom",
+                          "type": "ConceptDescription",
+                          "value": "urn:bamm:io.catenax.material_for_recycling:1.1.0#materialAbbreviation"
+                        }
+                      ]
+                    },
+                    "value": "DefaultScalarValue[value=PA66G40, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']",
+                    "valueType": "http://www.w3.org/2001/XMLSchema#string",
+                    "idShort": "materialAbbreviation",
+                    "description": [
+                      {
+                        "language": "en",
+                        "text": "A short abbreviation of the materialName"
+                      }
+                    ]
+                  },
+                  {
+                    "modelType": {
+                      "name": "Property"
+                    },
+                    "kind": "Instance",
+                    "semanticId": {
+                      "keys": [
+                        {
+                          "idType": "Custom",
+                          "type": "ConceptDescription",
+                          "value": "urn:bamm:io.catenax.material_for_recycling:1.1.0#materialClass"
+                        }
+                      ]
+                    },
+                    "value": "DefaultScalarValue[value=plastic, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']",
+                    "valueType": "http://www.w3.org/2001/XMLSchema#string",
+                    "idShort": "materialClass",
+                    "description": [
+                      {
+                        "language": "en",
+                        "text": "The class of a material following the referenced standard."
+                      }
+                    ]
+                  },
+                  {
+                    "modelType": {
+                      "name": "Property"
+                    },
+                    "kind": "Instance",
+                    "semanticId": {
+                      "keys": [
+                        {
+                          "idType": "Custom",
+                          "type": "ConceptDescription",
+                          "value": "urn:bamm:io.catenax.material_for_recycling:1.1.0#materialName"
+                        }
+                      ]
+                    },
+                    "value": "DefaultScalarValue[value=Polyamid, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']",
+                    "valueType": "http://www.w3.org/2001/XMLSchema#string",
+                    "idShort": "materialName",
+                    "description": [
+                      {
+                        "language": "en",
+                        "text": "The commercial name of a material"
+                      }
+                    ]
+                  },
+                  {
+                    "modelType": {
+                      "name": "SubmodelElementCollection"
+                    },
+                    "idShort": "QuantityEntity",
+                    "description": [
+                      {
+                        "language": "en",
+                        "text": "Quantity of the material"
+                      }
+                    ],
+                    "displayName": [
+                      {
+                        "language": "en",
+                        "text": "QuantityEntity"
+                      }
+                    ],
+                    "value": [
+                      {
+                        "modelType": {
+                          "name": "Property"
+                        },
+                        "kind": "Instance",
+                        "semanticId": {
+                          "keys": [
+                            {
+                              "idType": "Custom",
+                              "type": "ConceptDescription",
+                              "value": "urn:bamm:io.catenax.material_for_recycling:1.1.0#unit"
+                            }
+                          ]
+                        },
+                        "value": "DefaultScalarValue[value=kilogram, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='urn:bamm:io.openmanufacturing:meta-model:2.0.0#curie']']",
+                        "valueType": "urn:bamm:io.openmanufacturing:meta-model:2.0.0#curie",
+                        "idShort": "unit",
+                        "description": [
+                          {
+                            "language": "en",
+                            "text": "Unit of Measurement for the quantity of serialized objects.\n                                                                    The recommended units are the SI units such as unit:kilogram or additional unit:percent"
+                          }
+                        ]
+                      },
+                      {
+                        "modelType": {
+                          "name": "Property"
+                        },
+                        "kind": "Instance",
+                        "semanticId": {
+                          "keys": [
+                            {
+                              "idType": "Custom",
+                              "type": "ConceptDescription",
+                              "value": "urn:bamm:io.catenax.material_for_recycling:1.1.0#value"
+                            }
+                          ]
+                        },
+                        "value": "Unknown",
+                        "valueType": "http://www.w3.org/2001/XMLSchema#double",
+                        "idShort": "value",
+                        "description": [
+                          {
+                            "language": "en",
+                            "text": "Measurement value as a double. The unit is saved in the property measurementUnit"
+                          }
+                        ],
+                        "displayName": [
+                          {
+                            "language": "en",
+                            "text": "value"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "modelType": {
+              "name": "Property"
+            },
+            "kind": "Instance",
+            "semanticId": {
+              "keys": [
+                {
+                  "idType": "Custom",
+                  "type": "ConceptDescription",
+                  "value": "urn:bamm:io.catenax.material_for_recycling:1.1.0#recycledContent"
+                }
+              ]
+            },
+            "value": "Unknown",
+            "valueType": "http://www.w3.org/2001/XMLSchema#double",
+            "idShort": "recycledContent",
+            "description": [
+              {
+                "language": "en",
+                "text": "Indicates if the material was is recycled. Percentage of how much of the material was recycled. This can be an aggregation regarding the materials below."
+              }
+            ],
+            "displayName": [
+              {
+                "language": "en",
+                "text": "recycled content"
+              }
+            ]
+          }
+        ],
+        "description": [
+          {
+            "language": "en",
+            "text": "This model depicts a material as seen by the recycler at the end of the lifecycle of a product. If a material consists of only one single component the name and class for the aspect are not used"
+          }
+        ]
+      }
+    ]
+  }
+}
