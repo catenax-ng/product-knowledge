@@ -1,7 +1,7 @@
 {
   "@header": {
     "version": "0.0.1",
-    "aasVersion": "3.0RC02",
+    "aasVersion": "3.0RC01",
     "@namespaces": {
       "sparql": "http://www.w3.org/2005/sparql-results#"
     }
@@ -43,6 +43,11 @@
         "@foreach": {
           "@xpath": "//sparql:result/sparql:binding[@name='eMat']/sparql:uri[not(.=../../ following::sparql:result/sparql:binding[@name='eMat']/sparql:uri)]"
         },
+        "@variables": {
+          "eMat": {
+            "@xpath": "."
+          }
+        },
         "kind": "Instance",
         "semanticId": {
           "keys": [
@@ -79,7 +84,7 @@
             },
             "@bind": {
               "value": {
-                "@xpath": "./sparql:binding[@name='engineeringMaterialName']/sparql:literal"
+                "@xpath": "../../sparql:binding[@name='engineeringMaterialName']/sparql:literal"
               }
             },
             "valueType": "http://www.w3.org/2001/XMLSchema#string",
@@ -107,10 +112,9 @@
             },
             "@bind": {
               "value": {
-                "@xpath": "./sparql:binding[@name='engineeringMaterialClass']/sparql:literal"
+                "@xpath": "../../sparql:binding[@name='engineeringMaterialClass']/sparql:literal"
               }
             },
-            "value": "DefaultScalarValue[value=plastic, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']",
             "valueType": "http://www.w3.org/2001/XMLSchema#string",
             "idShort": "materialClass",
             "description": [
@@ -121,15 +125,6 @@
             ]
           },
           {
-            "@foreach": {
-              "@xpath": {
-                "@concatenate": [
-                  "/sparql/sparql:results/sparql:result[sparql:binding[@name='eMat'][sparql:uri='",
-                  {"@xpath":  "sparql/sparql:results/sparql:result/sparql:binding[@name='eMat']/uri"},
-                  "']]"
-                ]
-              }
-            },
             "modelType": {
               "name": "SubmodelElementCollection"
             },
@@ -148,6 +143,15 @@
             ],
             "value": [
               {
+                "@foreach": {
+                  "@xpath": {
+                    "@concatenate": [
+                      "//sparql:results/sparql:result[sparql:binding[@name='eMat'][sparql:uri='",
+                      {"@var":  "eMat"},
+                      "']]"
+                    ]
+                  }
+                },
                 "modelType": {
                   "name": "SubmodelElementCollection"
                 },
@@ -181,10 +185,9 @@
                     },
                     "@bind": {
                       "value": {
-                        "@xpath": "sparql[@name='componentState']/literal"
+                        "@xpath": "./sparql:binding[@name='componentState']/sparql:literal"
                       }
                     },
-                    "value": "DefaultScalarValue[value=liquid, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']",
                     "valueType": "http://www.w3.org/2001/XMLSchema#string",
                     "idShort": "aggregateState",
                     "description": [
@@ -208,7 +211,11 @@
                         }
                       ]
                     },
-                    "value": "Unknown",
+                    "@bind": {
+                      "value": {
+                        "@xpath": "./sparql:binding[@name='componentRecycledContent']/sparql:literal"
+                      }
+                    },                    
                     "valueType": "http://www.w3.org/2001/XMLSchema#double",
                     "idShort": "recycledContent",
                     "description": [
@@ -238,7 +245,11 @@
                         }
                       ]
                     },
-                    "value": "DefaultScalarValue[value=PA66G40, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']",
+                    "@bind": {
+                      "value": {
+                        "@xpath": "./sparql:binding[@name='rMat']/sparql:literal"
+                      }
+                    },
                     "valueType": "http://www.w3.org/2001/XMLSchema#string",
                     "idShort": "materialAbbreviation",
                     "description": [
@@ -262,7 +273,11 @@
                         }
                       ]
                     },
-                    "value": "DefaultScalarValue[value=plastic, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']",
+                    "@bind": {
+                      "value": {
+                        "@xpath": "./sparql:binding[@name='componentMaterialClass']/sparql:literal"
+                      }
+                    },
                     "valueType": "http://www.w3.org/2001/XMLSchema#string",
                     "idShort": "materialClass",
                     "description": [
@@ -286,87 +301,17 @@
                         }
                       ]
                     },
-                    "value": "DefaultScalarValue[value=Polyamid, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']",
+                    "@bind": {
+                      "value": {
+                        "@xpath": "./sparql:binding[@name='componentMaterialAbbreviation']/sparql:literal"
+                      }
+                    },
                     "valueType": "http://www.w3.org/2001/XMLSchema#string",
                     "idShort": "materialName",
                     "description": [
                       {
                         "language": "en",
                         "text": "The commercial name of a material"
-                      }
-                    ]
-                  },
-                  {
-                    "modelType": {
-                      "name": "SubmodelElementCollection"
-                    },
-                    "idShort": "QuantityEntity",
-                    "description": [
-                      {
-                        "language": "en",
-                        "text": "Quantity of the material"
-                      }
-                    ],
-                    "displayName": [
-                      {
-                        "language": "en",
-                        "text": "QuantityEntity"
-                      }
-                    ],
-                    "value": [
-                      {
-                        "modelType": {
-                          "name": "Property"
-                        },
-                        "kind": "Instance",
-                        "semanticId": {
-                          "keys": [
-                            {
-                              "idType": "Custom",
-                              "type": "ConceptDescription",
-                              "value": "urn:bamm:io.catenax.material_for_recycling:1.1.0#unit"
-                            }
-                          ]
-                        },
-                        "value": "DefaultScalarValue[value=kilogram, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='urn:bamm:io.openmanufacturing:meta-model:2.0.0#curie']']",
-                        "valueType": "urn:bamm:io.openmanufacturing:meta-model:2.0.0#curie",
-                        "idShort": "unit",
-                        "description": [
-                          {
-                            "language": "en",
-                            "text": "Unit of Measurement for the quantity of serialized objects.\n                                                                    The recommended units are the SI units such as unit:kilogram or additional unit:percent"
-                          }
-                        ]
-                      },
-                      {
-                        "modelType": {
-                          "name": "Property"
-                        },
-                        "kind": "Instance",
-                        "semanticId": {
-                          "keys": [
-                            {
-                              "idType": "Custom",
-                              "type": "ConceptDescription",
-                              "value": "urn:bamm:io.catenax.material_for_recycling:1.1.0#value"
-                            }
-                          ]
-                        },
-                        "value": "Unknown",
-                        "valueType": "http://www.w3.org/2001/XMLSchema#double",
-                        "idShort": "value",
-                        "description": [
-                          {
-                            "language": "en",
-                            "text": "Measurement value as a double. The unit is saved in the property measurementUnit"
-                          }
-                        ],
-                        "displayName": [
-                          {
-                            "language": "en",
-                            "text": "value"
-                          }
-                        ]
                       }
                     ]
                   }

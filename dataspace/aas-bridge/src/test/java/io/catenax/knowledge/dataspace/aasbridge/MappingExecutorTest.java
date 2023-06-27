@@ -1,17 +1,14 @@
 package io.catenax.knowledge.dataspace.aasbridge;
 
-import io.adminshell.aas.v3.model.AssetAdministrationShellEnvironment;
-import io.adminshell.aas.v3.model.Property;
-import io.adminshell.aas.v3.model.Submodel;
+import io.adminshell.aas.v3.model.*;
 import io.adminshell.aas.v3.model.impl.DefaultProperty;
+import io.adminshell.aas.v3.model.impl.DefaultSubmodelElementCollection;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.eclipse.digitaltwin.aas4j.exceptions.TransformationException;
 import org.eclipse.digitaltwin.aas4j.mapping.MappingSpecificationParser;
 import org.eclipse.digitaltwin.aas4j.mapping.model.MappingSpecification;
 import org.eclipse.digitaltwin.aas4j.transform.GenericDocumentTransformer;
-import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -19,11 +16,15 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.*;
+import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -50,10 +51,13 @@ class MappingExecutorTest {
         env.getSubmodels().stream().map(sm -> getProperty(sm, "materialName")).anyMatch(p -> p.equals("bla"));
         env.getSubmodels().stream().map(sm -> getProperty(sm, "materialClass")).anyMatch(p -> p.equals("CeramicMaterial"));
 
+        assertEquals(3,env.getSubmodels().stream()
+                .filter(sm->getProperty(sm,"materialName").equals("bla"))
+                .map(sm -> getSmcValues(sm, "component")).findFirst().get().size());
+
         // env.getSubmodels().forEach(sm -> assertEquals("EngineeringMaterial", getProperty(sm, "materialClass")));
 
     }
-
 
     @Disabled
     @ParameterizedTest
@@ -101,4 +105,20 @@ class MappingExecutorTest {
                 .findFirst().map(Property::getValue)
                 .orElseThrow(()-> new RuntimeException("propertyNotFound"));
     }
+
+    private Collection<SubmodelElement> getSmcValues(Submodel submodel, String idShort) {
+        return submodel.getSubmodelElements().stream()
+                .filter(sme->sme.getClass().equals(DefaultSubmodelElementCollection.class))
+                .map(sme->(SubmodelElementCollection)sme)
+                .filter(smc -> smc.getIdShort().equals(idShort))
+                .findFirst().map(SubmodelElementCollection::getValues)
+                .orElseThrow(()-> new RuntimeException("smcNotFound"));
+
+    }
+
+    private List<SubmodelElement> getSmes(Collection<SubmodelElement> smc, String idShort) {
+        return smc.stream().filter(sme -> sme.getIdShort().equals(idShort)).collect(Collectors.toList());
+    }
+
+
 }

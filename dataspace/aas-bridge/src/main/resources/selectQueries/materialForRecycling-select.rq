@@ -19,3 +19,4 @@ WHERE {
         cx:materialCode ?componentMaterialAbbreviation.
      }
 }
+ORDER BY DESC(?eMat)
