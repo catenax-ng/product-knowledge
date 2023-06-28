@@ -42,6 +42,7 @@ class MappingExecutorTest {
         executeGenericTests(env);
 
         assertEquals(12, env.getSubmodels().size());
+        assertEquals(12, env.getSubmodels().size());
         env.getAssetAdministrationShells().forEach(aas ->
                 assertTrue(aas.getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue().startsWith("urn:material")));
         assertTrue(env.getSubmodels().stream().map(sm -> getProperty(sm, "materialName")).anyMatch(p -> p.equals("bla")));
@@ -68,22 +69,39 @@ class MappingExecutorTest {
                 .map(sm -> getSmcValues(sm, "sites")).findFirst().get().size());
     }
 
+    @Test
+    void executePartAsPlannedTest() throws TransformationException, IOException {
+        AssetAdministrationShellEnvironment env = getTransformedAasEnv("partAsPlanned");
+        executeGenericTests(env);
+
+        assertEquals(18, env.getSubmodels().size());
+        env.getAssetAdministrationShells().forEach(aas ->
+                assertTrue(aas.getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue().startsWith("urn:uuid")));
+        assertTrue(env.getSubmodels().stream().map(sm -> getProperty(sm, "catenaXId")).anyMatch(p -> p.equals("urn:uuid:e3e2a4d8-58bc-4ae9-afa2-e8946fda1f77")));
+        assertEquals(9, env.getConceptDescriptions().size());
+    }
+
+    @Test
+
     private static AssetAdministrationShellEnvironment getTransformedAasEnv(String submodelIdShort) throws IOException, TransformationException {
         MappingSpecification mapping = new MappingSpecificationParser().loadMappingSpecification("src/main/resources/mappingSpecifications/" + submodelIdShort + "-mapping.json");
         GenericDocumentTransformer transformer = new GenericDocumentTransformer();
         InputStream instream = MappingExecutorTest.class.getResourceAsStream("/sparqlResponseXml/" + submodelIdShort + "-sparql-results.xml");
         String s = new String(instream.readAllBytes());
-        AssetAdministrationShellEnvironment env = transformer.execute(new ByteArrayInputStream(s.getBytes()), mapping);
-        return env;
+        return transformer.execute(new ByteArrayInputStream(s.getBytes()), mapping);
     }
 
     private static void executeGenericTests(AssetAdministrationShellEnvironment env) {
+        // each AAS only holds a single Submodel
         env.getAssetAdministrationShells().forEach(aas -> assertEquals(1, aas.getSubmodels().size()));
-        env.getSubmodels().stream().forEach(sm -> {
+
+        // each Submodel is referred to by a single AAS only
+        env.getSubmodels().forEach(sm -> {
             long aasPerSm = env.getAssetAdministrationShells().stream()
-                    .filter(aas ->
-                            aas.getSubmodels().stream().anyMatch(smref ->
-                                    smref.getKeys().get(0).getValue().equals(sm.getIdentification().getIdentifier())))
+                    .map(AssetAdministrationShell::getSubmodels)
+                    .filter(smrefs ->
+                            smrefs.stream().anyMatch(smref -> smref.getKeys().get(0).getValue().equals(sm.getIdentification().getIdentifier())
+                                    ))
                     .count();
             assertEquals(1, aasPerSm);
         });

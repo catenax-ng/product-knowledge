@@ -1,0 +1,668 @@
+{
+  "@header": {
+    "version": "0.0.1",
+    "aasVersion": "3.0RC01",
+    "@namespaces": {
+      "sparql": "http://www.w3.org/2005/sparql-results#"
+    },
+    "@definitions": {
+      "genSubmodelId": {
+        "@generateUuid": {
+          "@concatenate": [
+            {
+              "@xpath": "."
+            },
+            "/submodel"
+          ]
+        }
+      }
+    }
+  },
+  "aasEnvironmentMapping": {
+    "assetAdministrationShells": [
+      {
+        "@foreach": {
+          "@xpath": "//sparql:result/sparql:binding[@name='catenaXId']/sparql:uri[not(.=../../ following::sparql:result/sparql:binding[@name='catenaXId']/sparql:uri)]"
+        },
+        "assetInformation": {
+          "assetKind": "Instance",
+          "globalAssetId": {
+            "keys": [
+              {
+                "@bind": {
+                  "value": {
+                    "@xpath": "."
+                  }
+                },
+                "idType": "Custom"
+              }
+            ]
+          }
+        },
+        "idShort": "defaultAdminShell",
+        "identification": {
+          "@bind": {
+            "id": {
+              "@generateUuid": {
+                "@xpath": "."
+              }
+            }
+          },
+          "idType": "Iri"
+        },
+        "submodels": [
+          {
+            "keys": [
+              {
+                "idType": "Iri",
+                "type": "Submodel",
+                "@bind": {
+                  "value": {
+                    "@def": "genSubmodelId"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "submodels": [
+      {
+        "@foreach": {
+          "@xpath": "//sparql:result/sparql:binding[@name='catenaXId']/sparql:uri[not(.=../../ following::sparql:result/sparql:binding[@name='catenaXId']/sparql:uri)]"
+        },
+        "kind": "Instance",
+        "semanticId": {
+          "keys": [
+            {
+              "idType": "Custom",
+              "type": "ConceptDescription",
+              "value": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"
+            }
+          ]
+        },
+        "identification": {
+          "idType": "Iri",
+          "@bind": {
+            "id": {
+              "@def": "genSubmodelId"
+            }
+          }
+        },
+        "idShort": "PartSiteInformationAsPlanned",
+        "submodelElements": [
+          {
+            "modelType": {
+              "name": "Property"
+            },
+            "kind": "Instance",
+            "semanticId": {
+              "keys": [
+                {
+                  "idType": "Custom",
+                  "type": "ConceptDescription",
+                  "value": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#catenaXId"
+                }
+              ]
+            },
+            "@bind": {
+              "value": {
+                "@xpath": "."
+              }
+            },
+            "valueType": "http://www.w3.org/2001/XMLSchema#string",
+            "idShort": "catenaXId",
+            "description": [
+              {
+                "language": "en",
+                "text": "The Catena-X ID of the given item (i.e. a part type or part instance), valid for the Catena-X dataspace."
+              }
+            ],
+            "displayName": [
+              {
+                "language": "en",
+                "text": "Catena-X Identifier"
+              }
+            ]
+          },
+          {
+            "modelType": {
+              "name": "SubmodelElementCollection"
+            },
+            "idShort": "sites",
+            "description": [
+              {
+                "language": "en",
+                "text": "A site is a delimited geographical area where a legal entity does business (geographical address with geo coordinates).A site always has a primary physical address. It is possible that further physical addresses are specified for the site. P.O. box details are only possible in addition to the physical address. A site has a 1:n relation to addresses, means at least 1 address is necessary and multiple addresses are possible."
+              }
+            ],
+            "displayName": [
+              {
+                "language": "en",
+                "text": "Sites"
+              }
+            ],
+            "value": [
+              {
+                "@foreach": {
+                  "@xpath": {
+                    "@concatenate": [
+                      "//sparql:results/sparql:result[sparql:binding[@name='catenaXId'][sparql:uri='",
+                      {
+                        "@xpath": "."
+                      },
+                      "']]"
+                    ]
+                  }
+                },
+                "modelType": {
+                  "name": "SubmodelElementCollection"
+                },
+                "idShort": "SiteEntity",
+                "description": [
+                  {
+                    "language": "en",
+                    "text": "Site Entity"
+                  }
+                ],
+                "displayName": [
+                  {
+                    "language": "en",
+                    "text": "Site Entity"
+                  }
+                ],
+                "value": [
+                  {
+                    "modelType": {
+                      "name": "Property"
+                    },
+                    "kind": "Instance",
+                    "semanticId": {
+                      "keys": [
+                        {
+                          "idType": "Custom",
+                          "type": "ConceptDescription",
+                          "value": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#catenaXsiteId"
+                        }
+                      ]
+                    },
+                    "@bind": {
+                      "value": {
+                        "@xpath": "./sparql:binding[@name='site']/sparql:uri"
+                      }
+                    },
+                    "valueType": "http://www.w3.org/2001/XMLSchema#string",
+                    "idShort": "catenaXsiteId",
+                    "description": [
+                      {
+                        "language": "en",
+                        "text": "The identifier of the site according to Catena-X BPDM. The catenaXsiteId must be a valid Catena-X BPN. The BPN is a unique, unchangeable identifier for Business Partners / company locations from foundation to closure, regardless of the different business relationships / structures between or within the Business Partners or company locations."
+                      }
+                    ],
+                    "displayName": [
+                      {
+                        "language": "en",
+                        "text": "Catena-X site identifier"
+                      }
+                    ]
+                  },
+                  {
+                    "modelType": {
+                      "name": "Property"
+                    },
+                    "kind": "Instance",
+                    "semanticId": {
+                      "keys": [
+                        {
+                          "idType": "Custom",
+                          "type": "ConceptDescription",
+                          "value": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#function"
+                        }
+                      ]
+                    },
+                    "@bind": {
+                      "value": {
+                        "@xpath": "./sparql:binding[@name='function']/sparql:literal"
+                      }
+                    },
+                    "valueType": "http://www.w3.org/2001/XMLSchema#string",
+                    "idShort": "function",
+                    "description": [
+                      {
+                        "language": "en",
+                        "text": "The function of the site in relation to the part (i.e. the activity within the value chain of the part that is performed at the site)"
+                      }
+                    ],
+                    "displayName": [
+                      {
+                        "language": "en",
+                        "text": "Function"
+                      }
+                    ]
+                  },
+                  {
+                    "modelType": {
+                      "name": "Property"
+                    },
+                    "kind": "Instance",
+                    "semanticId": {
+                      "keys": [
+                        {
+                          "idType": "Custom",
+                          "type": "ConceptDescription",
+                          "value": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#functionValidFrom"
+                        }
+                      ]
+                    },
+                    "@bind": {
+                      "value": {
+                        "@xpath": "./sparql:binding[@name='roleValidFrom']/sparql:literal"
+                      }
+                    },
+
+                    "valueType": "http://www.w3.org/2001/XMLSchema#dateTime",
+                    "idShort": "functionValidFrom",
+                    "description": [
+                      {
+                        "language": "en",
+                        "text": "Timestamp, from when the site has the specified function for the given part"
+                      }
+                    ],
+                    "displayName": [
+                      {
+                        "language": "en",
+                        "text": "Function valid from"
+                      }
+                    ]
+                  },
+                  {
+                    "modelType": {
+                      "name": "Property"
+                    },
+                    "kind": "Instance",
+                    "semanticId": {
+                      "keys": [
+                        {
+                          "idType": "Custom",
+                          "type": "ConceptDescription",
+                          "value": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#functionValidUntil"
+                        }
+                      ]
+                    },
+                    "@bind": {
+                      "value": {
+                        "@xpath": "./sparql:binding[@name='roleValidTo']/sparql:literal"
+                      }
+                    },
+                    "valueType": "http://www.w3.org/2001/XMLSchema#dateTime",
+                    "idShort": "functionValidUntil",
+                    "description": [
+                      {
+                        "language": "en",
+                        "text": "Timestamp, until when the site has the specified function for the given part"
+                      }
+                    ],
+                    "displayName": [
+                      {
+                        "language": "en",
+                        "text": "functionValidUntil"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "description": [
+          {
+            "language": "en",
+            "text": "The aspect provides site related information for a given as planned item (i.e. a part type or part instance that is uniquely identifiable within Catena-X via its Catena-X ID). A site is a delimited geographical area where a legal entity does business. In the \"as planned\" lifecycle context all potentially related sites are listed including all sites where e.g. production of this part (type) is planned."
+          }
+        ]
+      }
+    ],
+    "conceptDescriptions": [
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "The aspect provides site related information for a given as planned item (i.e. a part type or part instance that is uniquely identifiable within Catena-X via its Catena-X ID). A site is a delimited geographical area where a legal entity does business. In the \"as planned\" lifecycle context all potentially related sites are listed including all sites where e.g. production of this part (type) is planned."
+                }
+              ],
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "Part Site Information as Planned"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "PartSiteInformationAsPlanned"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Custom",
+          "id": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"
+        },
+        "category": "APPLICATION_CLASS",
+        "idShort": "PartSiteInformationAsPlanned",
+        "description": [
+          {
+            "language": "en",
+            "text": "The aspect provides site related information for a given as planned item (i.e. a part type or part instance that is uniquely identifiable within Catena-X via its Catena-X ID). A site is a delimited geographical area where a legal entity does business. In the \"as planned\" lifecycle context all potentially related sites are listed including all sites where e.g. production of this part (type) is planned."
+          }
+        ],
+        "displayName": [
+          {
+            "language": "en",
+            "text": "Part Site Information as Planned"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Trait to ensure data format for Catena-X ID"
+                }
+              ],
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "Catena-X Identifier"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "catenaXId"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Custom",
+          "id": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#catenaXId"
+        },
+        "idShort": "CatenaXIdTrait",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "Catena-X ID Trait"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "A string of 16 characters:\n                                Prefix: 3 digits\n                                Classification: 1 digit\n                                Identifier: 10 digits"
+                }
+              ],
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "Catena-X site identifier"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "catenaXsiteId"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Custom",
+          "id": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#catenaXsiteId"
+        },
+        "idShort": "BpnCharacteristic",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "BPN Characteristic"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "valueList": {
+                "valueReferencePairTypes": [
+                  {
+                    "value": "DefaultScalarValue[value=production, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']",
+                    "valueId": {
+                      "keys": [
+                        {
+                          "idType": "Custom",
+                          "type": "DataElement",
+                          "value": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#FunctionCharacteristic:DefaultScalarValue[value=production, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "Function"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "function"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Custom",
+          "id": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#function"
+        },
+        "idShort": "FunctionCharacteristic",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "Function Characteristic"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Describes a Property which contains the date and time with an optional timezone."
+                }
+              ],
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "Function valid from"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "functionValidFrom"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Custom",
+          "id": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#functionValidFrom"
+        },
+        "idShort": "Timestamp",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "Timestamp"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Describes a Property which contains the date and time with an optional timezone."
+                }
+              ],
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "functionValidUntil"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "functionValidUntil"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Custom",
+          "id": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#functionValidUntil"
+        },
+        "idShort": "Timestamp",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "Timestamp"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Sites Characteristic"
+                }
+              ],
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "Sites"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "sites"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Custom",
+          "id": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#sites"
+        },
+        "idShort": "SitesCharacteristic"
+      }
+    ]
+  }
+}
