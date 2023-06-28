@@ -13,3 +13,4 @@ WHERE {
         cx:partProductionDate ?validTo.
   }
 }
+ORDER BY DESC(?catenaXId)

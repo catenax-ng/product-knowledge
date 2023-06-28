@@ -75,13 +75,26 @@ class MappingExecutorTest {
         executeGenericTests(env);
 
         assertEquals(18, env.getSubmodels().size());
+        assertEquals(9, env.getConceptDescriptions().size());
         env.getAssetAdministrationShells().forEach(aas ->
                 assertTrue(aas.getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue().startsWith("urn:uuid")));
         assertTrue(env.getSubmodels().stream().map(sm -> getProperty(sm, "catenaXId")).anyMatch(p -> p.equals("urn:uuid:e3e2a4d8-58bc-4ae9-afa2-e8946fda1f77")));
-        assertEquals(9, env.getConceptDescriptions().size());
     }
 
     @Test
+    void executeSingleLevelBomAsPlannedTest() throws TransformationException, IOException {
+        AssetAdministrationShellEnvironment env = getTransformedAasEnv("singleLevelBomAsPlanned");
+        executeGenericTests(env);
+
+        assertEquals(12, env.getSubmodels().size());
+        assertEquals(12, env.getConceptDescriptions().size());
+        env.getAssetAdministrationShells().forEach(aas ->
+                assertTrue(aas.getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue().startsWith("urn:uuid")));
+        assertTrue(env.getSubmodels().stream().map(sm -> getProperty(sm, "catenaXId")).anyMatch(p -> p.equals("urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca97")));
+        assertEquals(3, env.getSubmodels().stream()
+                .filter(sm -> getProperty(sm, "catenaXId").equals("urn:uuid:68904173-ad59-4a77-8412-3e73fcafbd8b"))
+                .map(sm -> getSmcValues(sm, "childParts")).findFirst().get().size());
+    }
 
     private static AssetAdministrationShellEnvironment getTransformedAasEnv(String submodelIdShort) throws IOException, TransformationException {
         MappingSpecification mapping = new MappingSpecificationParser().loadMappingSpecification("src/main/resources/mappingSpecifications/" + submodelIdShort + "-mapping.json");
