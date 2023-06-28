@@ -11,3 +11,4 @@ SELECT ?catenaXId ?site ?function ?roleValidFrom ?roleValidTo WHERE {
   }
   BIND("production" AS ?function)
 }
+ORDER BY DESC(?catenaXId)

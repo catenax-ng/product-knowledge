@@ -28,10 +28,10 @@ class AasUtilsTest {
     @BeforeAll
     void instantiate() throws IOException, DeserializationException {
 
-        envs = Arrays.asList(deser.read(fromResource("PartAsPlanned.xml")),
-                deser.read(fromResource("PartSiteInformation.xml")),
-                deser.read(fromResource("SingleLevelBomAsPlanned.xml")),
-                deser.read(fromResource("MaterialForRecycling.xml")));
+        envs = Arrays.asList(deser.read(fromResource("partAsPlanned.xml")),
+                deser.read(fromResource("partSiteInformation.xml")),
+                deser.read(fromResource("singleLevelBomAsPlanned.xml")),
+                deser.read(fromResource("materialForRecycling.xml")));
 
         merged = AasUtils.mergeAasEnvs(envs);
     }

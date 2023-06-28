@@ -36,7 +36,7 @@ class PartAsPlannedMapperTest extends AspectMapperTest {
     @Override
     public void instantiate() throws Exception {
         mockResponse=new String(getClass().getClassLoader()
-                .getResourceAsStream("sparqlResponseJson/PartAsPlanned-sparql-results.json")
+                .getResourceAsStream("sparqlResponseJson/partAsPlanned-sparql-results.json")
                 .readAllBytes());
         super.instantiate();
         String devUrl = mockWebServer.url("/oem-edc-data/BPNL00000003COJN/api/agent"+

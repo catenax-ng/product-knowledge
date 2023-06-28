@@ -37,31 +37,61 @@ class MappingExecutorTest {
             URLEncoder.encode("http://oem-provider-agent:8082/sparql", StandardCharsets.ISO_8859_1);
 
     @Test
-    @Disabled
-    void executeMapping() throws IOException, TransformationException {
-        MappingSpecification mapping = new MappingSpecificationParser().loadMappingSpecification("src/main/resources/mappingSpecifications/materialForRecycling-mapping.json");
-        GenericDocumentTransformer transformer = new GenericDocumentTransformer();
-        InputStream instream = MappingExecutorTest.class.getResourceAsStream("/sparqlResponseXml/MaterialForRecycling-sparql-results.xml");
-        String s = new String(instream.readAllBytes());
-        AssetAdministrationShellEnvironment env = transformer.execute(new ByteArrayInputStream(s.getBytes()), mapping);
+    void executeMaterialForRecyclingTest() throws IOException, TransformationException {
+        AssetAdministrationShellEnvironment env = getTransformedAasEnv("materialForRecycling");
+        executeGenericTests(env);
+
         assertEquals(12, env.getSubmodels().size());
         env.getAssetAdministrationShells().forEach(aas ->
                 assertTrue(aas.getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue().startsWith("urn:material")));
+        assertTrue(env.getSubmodels().stream().map(sm -> getProperty(sm, "materialName")).anyMatch(p -> p.equals("bla")));
+        assertTrue(env.getSubmodels().stream().map(sm -> getProperty(sm, "materialClass")).anyMatch(p -> p.equals("CeramicMaterial")));
+        assertEquals(13, env.getConceptDescriptions().size());
 
-        env.getSubmodels().stream().map(sm -> getProperty(sm, "materialName")).anyMatch(p -> p.equals("bla"));
-        env.getSubmodels().stream().map(sm -> getProperty(sm, "materialClass")).anyMatch(p -> p.equals("CeramicMaterial"));
-
-        assertEquals(3,env.getSubmodels().stream()
-                .filter(sm->getProperty(sm,"materialName").equals("bla"))
+        assertEquals(3, env.getSubmodels().stream()
+                .filter(sm -> getProperty(sm, "materialName").equals("bla"))
                 .map(sm -> getSmcValues(sm, "component")).findFirst().get().size());
+    }
 
-        // env.getSubmodels().forEach(sm -> assertEquals("EngineeringMaterial", getProperty(sm, "materialClass")));
+    @Test
+    void executePartSiteInformationTest() throws TransformationException, IOException {
+        AssetAdministrationShellEnvironment env = getTransformedAasEnv("partSiteInformation");
+        executeGenericTests(env);
 
+        assertEquals(18, env.getSubmodels().size());
+        env.getAssetAdministrationShells().forEach(aas ->
+                assertTrue(aas.getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue().startsWith("urn:uuid")));
+        assertTrue(env.getSubmodels().stream().map(sm -> getProperty(sm, "catenaXId")).anyMatch(p -> p.equals("urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef127c")));
+        assertEquals(7, env.getConceptDescriptions().size());
+        assertEquals(8, env.getSubmodels().stream()
+                .filter(sm -> getProperty(sm, "catenaXId").equals("urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef127c"))
+                .map(sm -> getSmcValues(sm, "sites")).findFirst().get().size());
+    }
+
+    private static AssetAdministrationShellEnvironment getTransformedAasEnv(String submodelIdShort) throws IOException, TransformationException {
+        MappingSpecification mapping = new MappingSpecificationParser().loadMappingSpecification("src/main/resources/mappingSpecifications/" + submodelIdShort + "-mapping.json");
+        GenericDocumentTransformer transformer = new GenericDocumentTransformer();
+        InputStream instream = MappingExecutorTest.class.getResourceAsStream("/sparqlResponseXml/" + submodelIdShort + "-sparql-results.xml");
+        String s = new String(instream.readAllBytes());
+        AssetAdministrationShellEnvironment env = transformer.execute(new ByteArrayInputStream(s.getBytes()), mapping);
+        return env;
+    }
+
+    private static void executeGenericTests(AssetAdministrationShellEnvironment env) {
+        env.getAssetAdministrationShells().forEach(aas -> assertEquals(1, aas.getSubmodels().size()));
+        env.getSubmodels().stream().forEach(sm -> {
+            long aasPerSm = env.getAssetAdministrationShells().stream()
+                    .filter(aas ->
+                            aas.getSubmodels().stream().anyMatch(smref ->
+                                    smref.getKeys().get(0).getValue().equals(sm.getIdentification().getIdentifier())))
+                    .count();
+            assertEquals(1, aasPerSm);
+        });
     }
 
     @Disabled
     @ParameterizedTest
-    @ValueSource(strings = {"MaterialForRecycling", "PartAsPlanned", "PartSiteInformation", "SingleLevelBomAsPlanned"})
+    @ValueSource(strings = {"materialForRecycling", "partAsPlanned", "partSiteInformation", "singleLevelBomAsPlanned"})
     void executeQuery(String aspectName) throws IOException, URISyntaxException, ExecutionException, InterruptedException {
         MockWebServer mockWebServer = instantiateMockServer(aspectName);
         MappingExecutor executor = new MappingExecutor(

@@ -4,13 +4,25 @@
     "aasVersion": "3.0RC01",
     "@namespaces": {
       "sparql": "http://www.w3.org/2005/sparql-results#"
+    },
+    "@definitions": {
+      "genSubmodelId": {
+        "@generateUuid": {
+          "@concatenate": [
+            {
+              "@xpath": "."
+            },
+            "/submodel"
+          ]
+        }
+      }
     }
   },
   "aasEnvironmentMapping": {
     "assetAdministrationShells": [
       {
         "@foreach": {
-          "@xpath": "//sparql:result/sparql:binding[@name='eMat']"
+          "@xpath": "//sparql:result/sparql:binding[@name='eMat']/sparql:uri[not(.=../../ following::sparql:result/sparql:binding[@name='eMat']/sparql:uri)]"
         },
         "assetInformation": {
           "assetKind": "Instance",
@@ -19,7 +31,7 @@
               {
                 "@bind": {
                   "value": {
-                    "@xpath": "./sparql:uri"
+                    "@xpath": "."
                   }
                 },
                 "idType": "Custom"
@@ -31,22 +43,34 @@
         "identification": {
           "@bind": {
             "id": {
-              "@generateId": "urn:uuid"
+              "@generateUuid": {
+                "@xpath": "."
+              }
             }
           },
           "idType": "Iri"
-        }
+        },
+        "submodels": [
+          {
+            "keys": [
+              {
+                "idType": "Iri",
+                "type": "Submodel",
+                "@bind": {
+                  "value": {
+                    "@def": "genSubmodelId"
+                  }
+                }
+              }
+            ]
+          }
+        ]
       }
     ],
     "submodels": [
       {
         "@foreach": {
           "@xpath": "//sparql:result/sparql:binding[@name='eMat']/sparql:uri[not(.=../../ following::sparql:result/sparql:binding[@name='eMat']/sparql:uri)]"
-        },
-        "@variables": {
-          "eMat": {
-            "@xpath": "."
-          }
         },
         "kind": "Instance",
         "semanticId": {
@@ -61,7 +85,7 @@
         "identification": {
           "@bind": {
             "id": {
-              "@generateId": "urn:uuid"
+              "@def": "genSubmodelId"
             }
           },
           "idType": "Iri"
@@ -147,7 +171,7 @@
                   "@xpath": {
                     "@concatenate": [
                       "//sparql:results/sparql:result[sparql:binding[@name='eMat'][sparql:uri='",
-                      {"@var":  "eMat"},
+                      {"@xpath":  "."},
                       "']]"
                     ]
                   }
@@ -356,6 +380,613 @@
             "text": "This model depicts a material as seen by the recycler at the end of the lifecycle of a product. If a material consists of only one single component the name and class for the aspect are not used"
           }
         ]
+      }
+    ],
+    "conceptDescriptions": [
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "This model depicts a material as seen by the recycler at the end of the lifecycle of a product. If a material consists of only one single component the name and class for the aspect are not used"
+                }
+              ],
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "material for recycling"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "MaterialForRecycling"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Custom",
+          "id": "urn:bamm:io.catenax.material_for_recycling:1.1.0#MaterialForRecycling"
+        },
+        "category": "APPLICATION_CLASS",
+        "idShort": "MaterialForRecycling",
+        "description": [
+          {
+            "language": "en",
+            "text": "This model depicts a material as seen by the recycler at the end of the lifecycle of a product. If a material consists of only one single component the name and class for the aspect are not used"
+          }
+        ],
+        "displayName": [
+          {
+            "language": "en",
+            "text": "material for recycling"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Describes a Property which contains plain text. This is intended exclusively for human readable strings, not for identifiers, measurement values, etc."
+                }
+              ],
+              "preferredName": [],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "materialName"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Custom",
+          "id": "urn:bamm:io.catenax.material_for_recycling:1.1.0#materialName"
+        },
+        "idShort": "Text",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "Text"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Class according to the refernced standard the material belongs to. The IMDS recommendations and the IMDS rules are exclusevily accessible within the IMDS portal to members of the IMDS association. In order to access the data one needs to be member of the association."
+                }
+              ],
+              "preferredName": [],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "materialClass"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Custom",
+          "id": "urn:bamm:io.catenax.material_for_recycling:1.1.0#materialClass"
+        },
+        "idShort": "MaterialClass",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "material class"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "valueList": {
+                "valueReferencePairTypes": [
+                  {
+                    "value": "DefaultScalarValue[value=solid, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']",
+                    "valueId": {
+                      "keys": [
+                        {
+                          "idType": "Custom",
+                          "type": "DataElement",
+                          "value": "urn:bamm:io.catenax.material_for_recycling:1.1.0#AggregateState:DefaultScalarValue[value=solid, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "value": "DefaultScalarValue[value=liquid, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']",
+                    "valueId": {
+                      "keys": [
+                        {
+                          "idType": "Custom",
+                          "type": "DataElement",
+                          "value": "urn:bamm:io.catenax.material_for_recycling:1.1.0#AggregateState:DefaultScalarValue[value=liquid, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "value": "DefaultScalarValue[value=gasenous, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']",
+                    "valueId": {
+                      "keys": [
+                        {
+                          "idType": "Custom",
+                          "type": "DataElement",
+                          "value": "urn:bamm:io.catenax.material_for_recycling:1.1.0#AggregateState:DefaultScalarValue[value=gasenous, typeUri='DefaultScalar[metaModelVersion=BAMM_2_0_0, urn='http://www.w3.org/2001/XMLSchema#string']']"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              "preferredName": [],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "aggregateState"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Custom",
+          "id": "urn:bamm:io.catenax.material_for_recycling:1.1.0#aggregateState"
+        },
+        "idShort": "AggregateState",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "aggregate state"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "RealMeasure",
+              "unit": "percent",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Percentage of already recycled material contained."
+                }
+              ],
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "recycled content"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "recycledContent"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Custom",
+          "id": "urn:bamm:io.catenax.material_for_recycling:1.1.0#recycledContent"
+        },
+        "idShort": "Percentage"
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Describes a Property which contains plain text. This is intended exclusively for human readable strings, not for identifiers, measurement values, etc."
+                }
+              ],
+              "preferredName": [],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "materialAbbreviation"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Custom",
+          "id": "urn:bamm:io.catenax.material_for_recycling:1.1.0#materialAbbreviation"
+        },
+        "idShort": "Text",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "Text"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Class according to the refernced standard the material belongs to. The IMDS recommendations and the IMDS rules are exclusevily accessible within the IMDS portal to members of the IMDS association. In order to access the data one needs to be member of the association."
+                }
+              ],
+              "preferredName": [],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "materialClass"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Custom",
+          "id": "urn:bamm:io.catenax.material_for_recycling:1.1.0#materialClass"
+        },
+        "idShort": "MaterialClass",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "material class"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Describes a Property which contains plain text. This is intended exclusively for human readable strings, not for identifiers, measurement values, etc."
+                }
+              ],
+              "preferredName": [],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "materialName"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Custom",
+          "id": "urn:bamm:io.catenax.material_for_recycling:1.1.0#materialName"
+        },
+        "idShort": "Text",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "Text"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Describes a Property containing a reference to one of the units in the Unit Catalog."
+                }
+              ],
+              "preferredName": [],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "unit"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Custom",
+          "id": "urn:bamm:io.catenax.material_for_recycling:1.1.0#unit"
+        },
+        "idShort": "UnitReference",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "Unit Reference"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "RealMeasure",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Quantifiable value as double in reference to the measurementUnit"
+                }
+              ],
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "value"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "value"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Custom",
+          "id": "urn:bamm:io.catenax.material_for_recycling:1.1.0#value"
+        },
+        "idShort": "Value",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "Value"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "quantity characteristic for the material expressed in value and unit"
+                }
+              ],
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "quantity"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "quantity"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Custom",
+          "id": "urn:bamm:io.catenax.material_for_recycling:1.1.0#quantity"
+        },
+        "idShort": "QuantityCharacteristic",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "quantity characteristic"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "String",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Describes the consistency"
+                }
+              ],
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "component"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "component"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Custom",
+          "id": "urn:bamm:io.catenax.material_for_recycling:1.1.0#component"
+        },
+        "idShort": "ComponentCharacteristic",
+        "displayName": [
+          {
+            "language": "en",
+            "text": "component characteristic"
+          }
+        ]
+      },
+      {
+        "embeddedDataSpecifications": [
+          {
+            "dataSpecification": {
+              "keys": [
+                {
+                  "idType": "Iri",
+                  "type": "GlobalReference",
+                  "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
+                }
+              ]
+            },
+            "dataSpecificationContent": {
+              "dataType": "RealMeasure",
+              "definition": [
+                {
+                  "language": "en",
+                  "text": "Percentage of already recycled material contained."
+                }
+              ],
+              "preferredName": [
+                {
+                  "language": "en",
+                  "text": "recycled content"
+                }
+              ],
+              "shortName": [
+                {
+                  "language": "EN",
+                  "text": "recycledContent"
+                }
+              ]
+            }
+          }
+        ],
+        "identification": {
+          "idType": "Custom",
+          "id": "urn:bamm:io.catenax.material_for_recycling:1.1.0#recycledContent"
+        },
+        "idShort": "Percentage"
       }
     ]
   }
