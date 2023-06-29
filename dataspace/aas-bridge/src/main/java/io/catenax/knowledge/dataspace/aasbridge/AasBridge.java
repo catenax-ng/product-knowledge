@@ -38,11 +38,6 @@ public class AasBridge {
 
     private final List<AspectMapper> mappers;
     private final HttpClient client = HttpClient.newBuilder().executor(Executors.newFixedThreadPool(5)).build();
-
-
-
-
-
     private final Map<AspectModelUrn, Class<? extends AspectMapper>> implMap =
             Map.of(
                     AspectModelUrn.fromUrn("urn:bamm:io.catenax.material_for_recycling:1.1.0#MaterialForRecycling"),
@@ -54,8 +49,6 @@ public class AasBridge {
                     AspectModelUrn.fromUrn("urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"),
                     PartSiteInformationAsPlannedMapper.class
             );
-
-
     public static void main(String[] args) throws ConfigurationException, AssetConnectionException, MessageBusException, EndpointException, NumberFormatException {
 
         AasBridge aasBridge = new AasBridge(

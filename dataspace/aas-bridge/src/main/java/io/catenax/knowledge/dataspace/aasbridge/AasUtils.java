@@ -1,34 +1,48 @@
 package io.catenax.knowledge.dataspace.aasbridge;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.google.common.base.Charsets;
-import com.google.common.io.CharStreams;
 import io.adminshell.aas.v3.dataformat.DeserializationException;
 import io.adminshell.aas.v3.dataformat.SerializationException;
 import io.adminshell.aas.v3.dataformat.json.JsonDeserializer;
 import io.adminshell.aas.v3.dataformat.json.JsonSerializer;
 import io.adminshell.aas.v3.model.*;
 import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironment;
+import org.eclipse.digitaltwin.aas4j.mapping.MappingSpecificationParser;
+import org.eclipse.digitaltwin.aas4j.mapping.model.MappingSpecification;
 
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.time.Duration;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-import static java.time.temporal.ChronoUnit.SECONDS;
-
 public class AasUtils {
+
+    public static Map<File, MappingSpecification> loadMappingsFromResources() {
+        try {
+            return Files.walk(Path.of("dataspace/aas-bridge/src/main/resources/selectQueries"))
+                    .filter(obj -> !obj.endsWith("selectQueries"))
+                    .map(obj -> {
+                        String mappingFileFolder = obj.getParent().getParent().toString() + "/mappingSpecifications/";
+                        String mappingFileName = obj.getFileName().toString().split("-")[0] + "-mapping.json";
+                        try {
+                            MappingSpecification spec =
+                                    new MappingSpecificationParser().loadMappingSpecification(mappingFileFolder+mappingFileName);
+                            return new AbstractMap.SimpleEntry<>(obj, spec);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    })
+                    .collect(Collectors.toMap(e -> e.getKey().toFile(), e -> e.getValue()));
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public static AssetAdministrationShellEnvironment mergeAasEnvs(List<AssetAdministrationShellEnvironment> aasEnvs){
         Set<AssetAdministrationShell> collect = aasEnvs.stream().flatMap(env -> env.getAssetAdministrationShells().stream()).collect(Collectors.toSet());

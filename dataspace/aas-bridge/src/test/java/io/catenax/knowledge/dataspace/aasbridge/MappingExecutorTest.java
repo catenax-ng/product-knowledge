@@ -9,25 +9,23 @@ import org.eclipse.digitaltwin.aas4j.exceptions.TransformationException;
 import org.eclipse.digitaltwin.aas4j.mapping.MappingSpecificationParser;
 import org.eclipse.digitaltwin.aas4j.mapping.model.MappingSpecification;
 import org.eclipse.digitaltwin.aas4j.transform.GenericDocumentTransformer;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MappingExecutorTest {
@@ -96,6 +94,25 @@ class MappingExecutorTest {
                 .map(sm -> getSmcValues(sm, "childParts")).findFirst().get().size());
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"materialForRecycling", "partAsPlanned", "partSiteInformation", "singleLevelBomAsPlanned"})
+    void executeQuery(String aspectName) throws IOException, URISyntaxException, ExecutionException, InterruptedException {
+        MockWebServer mockWebServer = instantiateMockServer(aspectName);
+        MappingExecutor executor = new MappingExecutor(
+                new URI(mockWebServer.url(MOCK_URL).toString()),
+                null,
+                System.getProperty("PROVIDER_CREDENTIAL_BASIC"),
+                3,
+                5,
+                AasUtils.loadMappingsFromResources());
+
+        InputStream inputStream = executor.executeQuery(
+                        new File(MappingExecutor.class.getClassLoader().getResource("selectQueries/" + aspectName + "-select.rq").getFile()))
+                .get();
+        String result = new String(inputStream.readAllBytes());
+        assertEquals(result, getMockResponseBody(aspectName));
+    }
+
     private static AssetAdministrationShellEnvironment getTransformedAasEnv(String submodelIdShort) throws IOException, TransformationException {
         MappingSpecification mapping = new MappingSpecificationParser().loadMappingSpecification("src/main/resources/mappingSpecifications/" + submodelIdShort + "-mapping.json");
         GenericDocumentTransformer transformer = new GenericDocumentTransformer();
@@ -103,6 +120,7 @@ class MappingExecutorTest {
         String s = new String(instream.readAllBytes());
         return transformer.execute(new ByteArrayInputStream(s.getBytes()), mapping);
     }
+
 
     private static void executeGenericTests(AssetAdministrationShellEnvironment env) {
         // each AAS only holds a single Submodel
@@ -114,28 +132,27 @@ class MappingExecutorTest {
                     .map(AssetAdministrationShell::getSubmodels)
                     .filter(smrefs ->
                             smrefs.stream().anyMatch(smref -> smref.getKeys().get(0).getValue().equals(sm.getIdentification().getIdentifier())
-                                    ))
+                            ))
                     .count();
             assertEquals(1, aasPerSm);
         });
+
+        // check no value remains unmapped
+        env.getSubmodels().forEach(sm->recurseSmecAndCheckForNull(sm.getSubmodelElements()));
+        ;
+
     }
 
-    @Disabled
-    @ParameterizedTest
-    @ValueSource(strings = {"materialForRecycling", "partAsPlanned", "partSiteInformation", "singleLevelBomAsPlanned"})
-    void executeQuery(String aspectName) throws IOException, URISyntaxException, ExecutionException, InterruptedException {
-        MockWebServer mockWebServer = instantiateMockServer(aspectName);
-        MappingExecutor executor = new MappingExecutor(
-                new URI(mockWebServer.url(MOCK_URL).toString()),
-                System.getProperty("PROVIDER_CREDENTIAL_BASIC"),
-                3,
-                5 );
-
-        InputStream inputStream = executor.executeQuery(
-                new File(MappingExecutor.class.getClassLoader().getResource("/selectQueries/select" + aspectName + ".rq").getFile()))
-                .get();
-        String result = new String(inputStream.readAllBytes());
-        assertEquals(result, getMockResponseBody(aspectName));
+    private static void recurseSmecAndCheckForNull(Collection<SubmodelElement> smes) {
+        smes.stream().filter(sme -> sme.getClass().equals(DefaultProperty.class))
+                .map(sme -> (DefaultProperty) sme)
+                .forEach(p->{
+                    assertNotNull(p.getValue());
+                    assertNotEquals("", p.getValue());
+                });
+        smes.stream().filter(sme -> sme.getClass().equals(DefaultSubmodelElementCollection.class))
+                .map(sme -> (DefaultSubmodelElementCollection) sme)
+                .forEach(smec->recurseSmecAndCheckForNull(smec.getValues()));
     }
 
     private MockWebServer instantiateMockServer(String aspectName) throws IOException, URISyntaxException {
@@ -176,10 +193,5 @@ class MappingExecutorTest {
                 .orElseThrow(()-> new RuntimeException("smcNotFound"));
 
     }
-
-    private List<SubmodelElement> getSmes(Collection<SubmodelElement> smc, String idShort) {
-        return smc.stream().filter(sme -> sme.getIdShort().equals(idShort)).collect(Collectors.toList());
-    }
-
 
 }
