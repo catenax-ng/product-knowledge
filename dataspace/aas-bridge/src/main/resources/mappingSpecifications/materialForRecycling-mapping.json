@@ -179,7 +179,13 @@
                 "modelType": {
                   "name": "SubmodelElementCollection"
                 },
-                "idShort": "ComponentEntity",
+                "@bind": {
+                  "idShort": {
+                    "@concatenate": [
+                      "ComponentEntity"
+                    ]
+                  }
+                },
                 "description": [
                   {
                     "language": "en",

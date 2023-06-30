@@ -54,8 +54,24 @@ public class PersistenceInKnowledge implements Persistence<PersistenceInKnowledg
     }
 
     @Override
-    public <T extends Identifiable> T get(Identifier identifier, QueryModifier queryModifier, Class<T> aClass) throws ResourceNotFoundException {
-        throw new UnsupportedOperationException();
+    public <T extends Identifiable> T get(Identifier id, QueryModifier modifier, Class<T> type) throws ResourceNotFoundException {
+        updatePersistenceManagers();
+        Ensure.requireNonNull(id, "id must be non-null");
+        Ensure.requireNonNull(modifier, MSG_MODIFIER_NOT_NULL);
+        Ensure.requireNonNull(type, "type must be non-null");
+        Identifiable result = identifiablePersistenceManager.getIdentifiableById(id);
+        if (result == null) {
+            throw new ResourceNotFoundException(id, type);
+        }
+        if (!type.isAssignableFrom(result.getClass())) {
+            throw new ResourceNotFoundException(String.format("Resource found but does not match expected type (id: %s, expected type: %s, actual type: %s)",
+                    id,
+                    type,
+                    result.getClass()));
+        }
+        return QueryModifierHelper.applyQueryModifier(
+                type.cast(result),
+                modifier);
     }
 
     @Override
@@ -157,7 +173,6 @@ public class PersistenceInKnowledge implements Persistence<PersistenceInKnowledg
     @Override
     public OperationVariable[] getOperationOutputVariables(Reference reference) {
         throw new UnsupportedOperationException();
-
     }
 
     @Override
