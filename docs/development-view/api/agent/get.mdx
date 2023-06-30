@@ -12,18 +12,20 @@ GET /agent
 
 ## Parameters
 
-| name        | in    | type   | required | description                                                                   |
-| ----------- | ----- | ------ | -------- | ----------------------------------------------------------------------------- |
-| asset       | query | string | false    | The Target Asset of the Query (targets the complete dataspace if empty)       |
-| query       | query | string | false    | The SPARQL query                                                              |
-| (vin        | query | string | false    | A sample bound parameter &#x27;vin&#x27; which opens a new input tuple        |
-| troubleCode | query | array  | false    | A sample multi-bound parameter &#x27;troubleCode&#x27; which closes the tuple |
+| name        | in    | type   | required | description                                                                                                                                                                                                                                                                                                                                                                    |
+| ----------- | ----- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| asset       | query | string | false    | The Target Asset of the Query (targets the complete dataspace if empty)                                                                                                                                                                                                                                                                                                        |
+| runMode     | query | string | false    | Determines the preferred execution location which may be &quot;consumer&quot; (in the computing environment of the endpoint agent), &quot;provider&quot; (in the computing environment of the remote agent providing the targetted asset) or &quot;all&quot; (the agent will choose the best computing environment based on contracts and policies, this is the default mode). |
+| queryLn     | query | string | false    | Determines the query language. Currently only &quot;SPARQL&quot; is supported.                                                                                                                                                                                                                                                                                                 |
+| query       | query | string | false    | The SPARQL query                                                                                                                                                                                                                                                                                                                                                               |
+| (vin        | query | string | false    | A sample bound parameter &#x27;vin&#x27; which opens a new input tuple                                                                                                                                                                                                                                                                                                         |
+| troubleCode | query | array  | false    | A sample multi-bound parameter &#x27;troubleCode&#x27; which closes the tuple                                                                                                                                                                                                                                                                                                  |
 
 ## Code Snippets
 
 ```shell title="Shell + Curl"
 curl --request GET \
-  --url 'https://knowledge.dev.demo.catena-x.net/consumer-edc-data/BPNL00000003CQI9/api/agent?asset=SOME_STRING_VALUE&query=SOME_STRING_VALUE&(vin=SOME_STRING_VALUE&troubleCode=SOME_ARRAY_VALUE'
+  --url 'https://knowledge.dev.demo.catena-x.net/consumer-edc-data/BPNL00000003CQI9/api/agent?asset=SOME_STRING_VALUE&runMode=SOME_STRING_VALUE&queryLn=SOME_STRING_VALUE&query=SOME_STRING_VALUE&(vin=SOME_STRING_VALUE&troubleCode=SOME_ARRAY_VALUE'
 ```
 
 ## Responses

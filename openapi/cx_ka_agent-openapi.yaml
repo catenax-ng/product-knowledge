@@ -9,7 +9,7 @@ info:
   license:
     name: Eclipse Public License
     url: https://www.eclipse.org/legal/epl-2.0/
-  version: 0.8.7
+  version: 1.9.4
 servers:
 - url: https://knowledge.dev.demo.catena-x.net/consumer-edc-data/BPNL00000003CQI9/api
   description: Development Consumer
@@ -43,6 +43,32 @@ paths:
             $ref: '#/components/examples/NullSkill'
           DataspaceSkill:
             $ref: '#/components/examples/DataspaceSkill'
+      - name: runMode
+        in: query
+        description: Determines the preferred execution location which may be "consumer" (in the computing environment of the endpoint agent), "provider" (in the computing environment of the remote agent providing the targetted asset) or "all" (the agent will choose the best computing environment based on contracts and policies, this is the default mode).
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        examples:
+          consumer:
+            $ref: '#/components/examples/RunModeConsumer'
+          provider:
+            $ref: '#/components/examples/RunModeProvider'
+          all:
+            $ref: '#/components/examples/RunModeAll'
+      - name: queryLn
+        in: query
+        description: Determines the query language. Currently only "SPARQL" is supported.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        examples:
+          sparql:
+            $ref: '#/components/examples/QuerySparql'
       - name: query
         in: query
         description: The SPARQL query
@@ -341,6 +367,45 @@ paths:
             $ref: '#/components/examples/NullSkill'
           DataspaceSkill:
             $ref: '#/components/examples/DataspaceSkill'
+      - name: runMode
+        in: query
+        description: Determines the preferred execution location which may be "consumer" (in the computing environment of the endpoint agent), "provider" (in the computing environment of the remote agent providing the targetted asset) or "all" (the agent will choose the best computing environment based on contracts and policies, this is the default mode).
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        examples:
+          consumer:
+            $ref: '#/components/examples/RunModeConsumer'
+          provider:
+            $ref: '#/components/examples/RunModeProvider'
+          all:
+            $ref: '#/components/examples/RunModeAll'
+      - name: queryLn
+        in: query
+        description: Determines the query language. Currently only "SPARQL" is supported.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        examples:
+          sparql:
+            $ref: '#/components/examples/QuerySparql'
+      - name: query
+        in: query
+        description: The SPARQL query (in case that the body contains a tuple set)
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        examples:
+          Null:
+            $ref: '#/components/examples/NullText'
+          Dataspace:
+            $ref: '#/components/examples/Dataspace'
       - name: (vin
         in: query
         description: A sample bound parameter 'vin' which opens a new input tuple
@@ -1080,3 +1145,17 @@ components:
                   clvapit:hasCity [rdfs:label ?comune] .
          FILTER regex(str(?comune), "Vinci", "i")
         }  ORDER BY ?luogo LIMIT 100
+        LifetimeSkill:
+    RunModeConsumer:
+      summary: Local Consumer Execution
+      value: consumer
+    RunModeProvider:
+      summary: Remote Provider Execution
+      value: provider
+    RunModeAll:
+      summary: Best Possible Execution
+      value: all
+    QuerySparql:
+      summary: SPARQL Query Language
+      value: SPARQL
+

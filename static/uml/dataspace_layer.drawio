@@ -1,0 +1,149 @@
+<mxfile host="app.diagrams.net" modified="2023-06-30T09:34:41.418Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="lneJQlPekR2yebKe-HbP" version="21.5.2" type="device">
+  <diagram name="Seite-1" id="two_NGvqsVv6sBNIv3Sw">
+    <mxGraphModel dx="717" dy="417" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="nUViu---wIl8Duizfva0-1" value="Binding Layer" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12" parent="1" vertex="1">
+          <mxGeometry x="40" y="290" width="681" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nUViu---wIl8Duizfva0-2" value="Data Consumption Layer/Query Definition" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12" parent="1" vertex="1">
+          <mxGeometry x="40" y="30" width="682" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="nUViu---wIl8Duizfva0-3" value="Transfer&lt;br&gt;Initiation&lt;br&gt;/Validation" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=none;fontColor=#000000;startArrow=classic;startFill=1;endArrow=classic;endFill=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="nUViu---wIl8Duizfva0-4" target="nUViu---wIl8Duizfva0-17" edge="1">
+          <mxGeometry x="0.0588" y="-33" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nUViu---wIl8Duizfva0-4" value="EDC Control Plane" style="html=1;dropTarget=0;" parent="1" vertex="1">
+          <mxGeometry x="168" y="130" width="110" height="37.5" as="geometry" />
+        </mxCell>
+        <mxCell id="nUViu---wIl8Duizfva0-5" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=13;startArrow=none;startFill=0;endArrow=none;endFill=0;" parent="1" target="nUViu---wIl8Duizfva0-10" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="468" y="207.5" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nUViu---wIl8Duizfva0-6" value="Management/Catalogue API" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="nUViu---wIl8Duizfva0-7" target="nUViu---wIl8Duizfva0-4" edge="1">
+          <mxGeometry x="0.745" y="-10" relative="1" as="geometry">
+            <mxPoint x="340" y="140" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="666" y="100" />
+              <mxPoint x="223" y="100" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nUViu---wIl8Duizfva0-7" value="&lt;div&gt;Federated&amp;nbsp;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Catalogue&lt;/span&gt;&lt;/div&gt;" style="html=1;dropTarget=0;" parent="1" vertex="1">
+          <mxGeometry x="611" y="152.5" width="110" height="72.5" as="geometry" />
+        </mxCell>
+        <mxCell id="nUViu---wIl8Duizfva0-8" value="Core Services" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12" parent="1" vertex="1">
+          <mxGeometry x="780" y="110" width="150" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="nUViu---wIl8Duizfva0-9" value="RDF &lt;br&gt;Storage &lt;br&gt;(e.g.&lt;br&gt;SAIL)" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.669;entryDx=0;entryDy=0;fontSize=13;startArrow=none;startFill=0;endArrow=classic;endFill=1;entryPerimeter=0;exitX=1;exitY=0.638;exitDx=0;exitDy=0;exitPerimeter=0;fontColor=#000000;labelBackgroundColor=none;" parent="1" source="nUViu---wIl8Duizfva0-10" target="nUViu---wIl8Duizfva0-7" edge="1">
+          <mxGeometry x="0.0689" y="12" relative="1" as="geometry">
+            <mxPoint x="530" y="196" as="sourcePoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nUViu---wIl8Duizfva0-10" value="Matchmaking &lt;br&gt;Agent" style="html=1;dropTarget=0;" parent="1" vertex="1">
+          <mxGeometry x="413" y="159.75" width="110" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="nUViu---wIl8Duizfva0-11" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;startArrow=none;startFill=0;endFill=1;" parent="1" source="nUViu---wIl8Duizfva0-7" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="740" y="110" as="sourcePoint" />
+            <mxPoint x="780" y="189" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nUViu---wIl8Duizfva0-12" value="git/http&lt;br&gt;Download&lt;br&gt;On&lt;br&gt;Init" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=#000000;labelBackgroundColor=none;" parent="nUViu---wIl8Duizfva0-11" vertex="1" connectable="0">
+          <mxGeometry x="0.3509" y="2" relative="1" as="geometry">
+            <mxPoint x="-11" y="2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nUViu---wIl8Duizfva0-13" value="KA-MATCH SPARQL Profile" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0;entryDx=50;entryDy=255;entryPerimeter=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;startArrow=classic;startFill=1;" parent="1" source="nUViu---wIl8Duizfva0-10" target="nUViu---wIl8Duizfva0-2" edge="1">
+          <mxGeometry x="0.7263" y="-73" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="520" y="470" as="sourcePoint" />
+            <mxPoint x="570" y="420" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nUViu---wIl8Duizfva0-14" value="KA-BIND SPARQL Profile" style="endArrow=none;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;startArrow=classic;startFill=1;exitX=0;exitY=0.372;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="nUViu---wIl8Duizfva0-1" target="nUViu---wIl8Duizfva0-10" edge="1">
+          <mxGeometry x="-0.7465" y="-72" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="470" y="270" as="sourcePoint" />
+            <mxPoint x="220" y="220" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nUViu---wIl8Duizfva0-15" value="Dataspace &lt;br&gt;Layer" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" parent="1" vertex="1">
+          <mxGeometry x="50" y="159.75" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nUViu---wIl8Duizfva0-16" value="" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=none;fontColor=#000000;startArrow=none;startFill=0;endArrow=none;endFill=0;" parent="1" source="nUViu---wIl8Duizfva0-17" target="nUViu---wIl8Duizfva0-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nUViu---wIl8Duizfva0-17" value="EDC Data Plane(s)" style="html=1;dropTarget=0;" parent="1" vertex="1">
+          <mxGeometry x="168" y="210" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nUViu---wIl8Duizfva0-18" value="&lt;div&gt;Semantic Model&lt;/div&gt;" style="html=1;dropTarget=0;" parent="1" vertex="1">
+          <mxGeometry x="800" y="144.5" width="110" height="35.5" as="geometry" />
+        </mxCell>
+        <mxCell id="nUViu---wIl8Duizfva0-19" value="&lt;div&gt;GPDM&lt;/div&gt;" style="html=1;dropTarget=0;" parent="1" vertex="1">
+          <mxGeometry x="800" y="189.25" width="110" height="35.5" as="geometry" />
+        </mxCell>
+        <mxCell id="nUViu---wIl8Duizfva0-20" value="&lt;div&gt;Self-Description Hub&lt;/div&gt;" style="html=1;dropTarget=0;" parent="1" vertex="1">
+          <mxGeometry x="800" y="232.5" width="110" height="35.5" as="geometry" />
+        </mxCell>
+        <mxCell id="nUViu---wIl8Duizfva0-21" value="Endpoint Callback" style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=none;fontColor=#000000;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" parent="1" source="nUViu---wIl8Duizfva0-4" target="nUViu---wIl8Duizfva0-10" edge="1">
+          <mxGeometry x="0.232" y="-10" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="500" y="480" as="sourcePoint" />
+            <mxPoint x="550" y="430" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="250" y="110" />
+              <mxPoint x="440" y="110" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nUViu---wIl8Duizfva0-22" value="Management/Asset API" style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=none;fontColor=#000000;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" parent="1" target="nUViu---wIl8Duizfva0-4" edge="1">
+          <mxGeometry x="0.1169" y="11" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="420" y="160" as="sourcePoint" />
+            <mxPoint x="340" y="170" as="targetPoint" />
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="420" y="139" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nUViu---wIl8Duizfva0-23" value="" style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=none;fontColor=#000000;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" parent="1" target="nUViu---wIl8Duizfva0-17" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="410" y="219" as="sourcePoint" />
+            <mxPoint x="550" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nUViu---wIl8Duizfva0-24" value="Invoke (Sink)&lt;br&gt;KA-TRANSFER" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=#000000;" parent="nUViu---wIl8Duizfva0-23" vertex="1" connectable="0">
+          <mxGeometry x="0.3217" y="2" relative="1" as="geometry">
+            <mxPoint x="16" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nUViu---wIl8Duizfva0-25" value="(Source) &lt;br&gt;Delegate KA-TRANSFER &lt;br&gt;SPARQL&amp;nbsp;Profile" style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=none;fontColor=#000000;exitX=0.986;exitY=0.888;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="nUViu---wIl8Duizfva0-17" edge="1">
+          <mxGeometry x="-0.1071" y="-20" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="500" y="480" as="sourcePoint" />
+            <mxPoint x="440" y="228" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="440" y="246" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nUViu---wIl8Duizfva0-26" value="Transfer Negotiation" style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=none;fontColor=#000000;exitX=0.009;exitY=0.373;exitDx=0;exitDy=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;exitPerimeter=0;" parent="1" source="nUViu---wIl8Duizfva0-10" target="nUViu---wIl8Duizfva0-4" edge="1">
+          <mxGeometry x="0.1587" y="-4" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="500" y="470" as="sourcePoint" />
+            <mxPoint x="550" y="420" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="251" y="184" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
