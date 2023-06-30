@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-05-03T07:59:28.058Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="gR-DSkPNrFX-Es8FhTaO" version="21.2.4" type="device">
+<mxfile host="app.diagrams.net" modified="2023-06-30T07:04:23.567Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="efFEC99IT-fsGYF8Y41Z" version="21.5.0" type="device">
   <diagram name="Seite-1" id="czZ_okZ2e_bdQaQwKu25">
-    <mxGraphModel dx="989" dy="597" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1434" dy="891" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -198,8 +198,8 @@
         <mxCell id="M8DzNMlzCb1Y_9jBvf9F-49" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;fontColor=#B0B0B0;endArrow=none;endFill=0;" parent="1" source="M8DzNMlzCb1Y_9jBvf9F-15" target="M8DzNMlzCb1Y_9jBvf9F-15" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="LxbIOjgqNjj1BTrbTDbK-1" value="CX Release 3.2" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
-          <mxGeometry x="220" y="575" width="140" height="20" as="geometry" />
+        <mxCell id="LxbIOjgqNjj1BTrbTDbK-1" value="CX Release 3.2 (CX-0084 1.0.0)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="220" y="575" width="180" height="20" as="geometry" />
         </mxCell>
         <mxCell id="WgcNYmb1BChU2yKsjwGe-2" value="AAS REST API" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.946;exitY=0.982;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;exitPerimeter=0;" parent="1" source="M8DzNMlzCb1Y_9jBvf9F-15" target="WgcNYmb1BChU2yKsjwGe-1" edge="1">
           <mxGeometry x="0.6647" y="10" relative="1" as="geometry">
@@ -210,20 +210,20 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="WgcNYmb1BChU2yKsjwGe-1" value="KA-AAS Bridge" style="html=1;dropTarget=0;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+        <mxCell id="WgcNYmb1BChU2yKsjwGe-1" value="KA-AAS Bridge" style="html=1;dropTarget=0;fillColor=#fff2cc;strokeColor=#d6b656;dashed=1;" parent="1" vertex="1">
           <mxGeometry x="591" y="300" width="110" height="35" as="geometry" />
         </mxCell>
-        <mxCell id="-xbaCT6yHNN_1rn9ii7L-1" value="AAS-KA Bridge" style="html=1;dropTarget=0;dashed=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+        <mxCell id="-xbaCT6yHNN_1rn9ii7L-1" value="AAS-KA Bridge" style="html=1;dropTarget=0;dashed=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
           <mxGeometry x="607" y="400" width="110" height="35" as="geometry" />
         </mxCell>
-        <mxCell id="-xbaCT6yHNN_1rn9ii7L-2" value="" style="shape=datastore;whiteSpace=wrap;html=1;dashed=1;" vertex="1" parent="1">
+        <mxCell id="-xbaCT6yHNN_1rn9ii7L-2" value="" style="shape=datastore;whiteSpace=wrap;html=1;dashed=1;" parent="1" vertex="1">
           <mxGeometry x="633" y="490" width="80" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="-xbaCT6yHNN_1rn9ii7L-3" value="other" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+        <mxCell id="-xbaCT6yHNN_1rn9ii7L-3" value="other" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="643" y="530" width="60" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="-xbaCT6yHNN_1rn9ii7L-4" value="CX Release 3.3" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
-          <mxGeometry x="370" y="575" width="140" height="20" as="geometry" />
+        <mxCell id="-xbaCT6yHNN_1rn9ii7L-4" value="planned for CX Release 3.3" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="411" y="575" width="195" height="20" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
