@@ -136,7 +136,7 @@ paths:
                       value: edcs://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN
                     asset:
                       type: uri
-                      value: urn:cx:Graph:oem:Quality
+                      value: GraphAsset?oem=Quality
                     name:
                       type: literal
                       value: Quality Data.
@@ -145,7 +145,7 @@ paths:
                       value: A graph asset/offering mounting Quality data.
                     type:
                       type: uri,
-                      value: https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#GraphAsset
+                      value: https://w3id.org/catenax/ontology/common#GraphAsset
                     version:
                       type: literal,
                       value: v0.7.2
@@ -154,10 +154,10 @@ paths:
                       value: application/json, application/xml
                     isDefinedBy:
                       type: literal,
-                      value: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/error_ontology.ttl>
+                      value: <https://w3id.org/catenax/ontology/reliability>
                     shape:
                       type: literal,
-                      value: '@prefix : <urn:cx:Graph:oem:Quality> .'
+                      value: '@prefix : <GraphAsset?oem=Quality#> .'
             application/sparql-results+xml:
               schema:
                 $ref: '#/components/schemas/XmlResultset'
@@ -181,7 +181,7 @@ paths:
                                 <uri>edcs://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN</uri>
                             </binding>
                             <binding name="asset">
-                                <uri>urn:cx:Graph:oem:Quality</uri>
+                                <uri>GraphAsset?oem=Quality</uri>
                             </binding>
                             <binding name="name">
                                 <literal>Quality Data.</literal>
@@ -190,7 +190,7 @@ paths:
                                 <literal>A graph asset/offering mounting Quality data.</literal>
                             </binding>
                             <binding name="type">
-                                <uri>https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#GraphAsset</uri>
+                                <uri>https://w3id.org/catenax/ontology/common#GraphAsset</uri>
                             </binding>
                             <binding name="version">
                                 <literal>v0.7.2</literal>
@@ -199,10 +199,10 @@ paths:
                                 <literal>application/json, application/xml</literal>
                             </binding>
                             <binding name="isDefinedBy">
-                                <literal>&lt;https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/error_ontology.ttl&gt;</literal>
+                                <literal>&lt;https://w3id.org/catenax/ontology/reliability&gt;</literal>
                             </binding>
                             <binding name="shape">
-                                <literal>@prefix : &lt;urn:cx:Graph:oem:Quality&gt; .</literal>
+                                <literal>@prefix : &lt;GraphAsset?oem=Quality#&gt; .</literal>
                             </binding>
                         </result>
                     </results>
@@ -256,7 +256,7 @@ paths:
                       value: edcs://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN
                     asset:
                       type: uri
-                      value: urn:cx:Graph:oem:Quality
+                      value: GraphAsset?oem=Quality
                     name:
                       type: literal
                       value: Quality Data.
@@ -265,7 +265,7 @@ paths:
                       value: A graph asset/offering mounting Quality data.
                     type:
                       type: uri,
-                      value: https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#GraphAsset
+                      value: https://w3id.org/catenax/ontology/common#GraphAsset
                     version:
                       type: literal,
                       value: v0.7.2
@@ -274,10 +274,10 @@ paths:
                       value: application/json, application/xml
                     isDefinedBy:
                       type: literal,
-                      value: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/error_ontology.ttl>
+                      value: <https://w3id.org/catenax/ontology/reliability>
                     shape:
                       type: literal,
-                      value: '@prefix : <urn:cx:Graph:oem:Quality> .'
+                      value: '@prefix : <GraphAsset?oem=Quality#> .'
             application/sparql-results+xml:
               schema:
                 $ref: '#/components/schemas/XmlResultset'
@@ -301,7 +301,7 @@ paths:
                                 <uri>edcs://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN</uri>
                             </binding>
                             <binding name="asset">
-                                <uri>urn:cx:Graph:oem:Quality</uri>
+                                <uri>GraphAsset?oem=Quality</uri>
                             </binding>
                             <binding name="name">
                                 <literal>Quality Data.</literal>
@@ -310,7 +310,7 @@ paths:
                                 <literal>A graph asset/offering mounting Quality data.</literal>
                             </binding>
                             <binding name="type">
-                                <uri>https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#GraphAsset</uri>
+                                <uri>https://w3id.org/catenax/ontology/common#GraphAsset</uri>
                             </binding>
                             <binding name="version">
                                 <literal>v0.7.2</literal>
@@ -319,10 +319,10 @@ paths:
                                 <literal>application/json, application/xml</literal>
                             </binding>
                             <binding name="isDefinedBy">
-                                <literal>&lt;https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/error_ontology.ttl&gt;</literal>
+                                <literal>&lt;https://w3id.org/catenax/ontology/reliability&gt;</literal>
                             </binding>
                             <binding name="shape">
-                                <literal>@prefix : &lt;urn:cx:Graph:oem:Quality&gt; .</literal>
+                                <literal>@prefix : &lt;GraphAsset?oem=Quality#&gt; .</literal>
                             </binding>
                         </result>
                     </results>
@@ -541,7 +541,7 @@ paths:
                       value: edcs://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN
                     asset:
                       type: uri
-                      value: urn:cx:Graph:oem:Quality
+                      value: GraphAsset?oem=Quality
                     name:
                       type: literal
                       value: Quality Data.
@@ -550,7 +550,7 @@ paths:
                       value: A graph asset/offering mounting Quality data.
                     type:
                       type: uri,
-                      value: https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#GraphAsset
+                      value: https://w3id.org/catenax/ontology/common#GraphAsset
                     version:
                       type: literal,
                       value: v0.7.2
@@ -559,10 +559,10 @@ paths:
                       value: application/json, application/xml
                     isDefinedBy:
                       type: literal,
-                      value: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/error_ontology.ttl>
+                      value: <https://w3id.org/catenax/ontology/reliability>
                     shape:
                       type: literal,
-                      value: '@prefix : <urn:cx:Graph:oem:Quality> .'
+                      value: '@prefix : <GraphAsset?oem=Quality#> .'
             application/sparql-results+xml:
               schema:
                 $ref: '#/components/schemas/XmlResultset'
@@ -586,7 +586,7 @@ paths:
                                 <uri>edcs://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN</uri>
                             </binding>
                             <binding name="asset">
-                                <uri>urn:cx:Graph:oem:Quality</uri>
+                                <uri>GraphAsset?oem=Quality</uri>
                             </binding>
                             <binding name="name">
                                 <literal>Quality Data.</literal>
@@ -595,7 +595,7 @@ paths:
                                 <literal>A graph asset/offering mounting Quality data.</literal>
                             </binding>
                             <binding name="type">
-                                <uri>https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#GraphAsset</uri>
+                                <uri>https://w3id.org/catenax/ontology/common#GraphAsset</uri>
                             </binding>
                             <binding name="version">
                                 <literal>v0.7.2</literal>
@@ -604,10 +604,10 @@ paths:
                                 <literal>application/json, application/xml</literal>
                             </binding>
                             <binding name="isDefinedBy">
-                                <literal>&lt;https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/error_ontology.ttl&gt;</literal>
+                                <literal>&lt;https://w3id.org/catenax/ontology/reliability&gt;</literal>
                             </binding>
                             <binding name="shape">
-                                <literal>@prefix : &lt;urn:cx:Graph:oem:Quality&gt; .</literal>
+                                <literal>@prefix : &lt;GraphAsset?oem=Quality#&gt; .</literal>
                             </binding>
                         </result>
                     </results>
@@ -661,7 +661,7 @@ paths:
                       value: edcs://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN
                     asset:
                       type: uri
-                      value: urn:cx:Graph:oem:Quality
+                      value: GraphAsset?oem=Quality
                     name:
                       type: literal
                       value: Quality Data.
@@ -670,7 +670,7 @@ paths:
                       value: A graph asset/offering mounting Quality data.
                     type:
                       type: uri,
-                      value: https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#GraphAsset
+                      value: https://w3id.org/catenax/ontology/common#GraphAsset
                     version:
                       type: literal,
                       value: v0.7.2
@@ -679,10 +679,10 @@ paths:
                       value: application/json, application/xml
                     isDefinedBy:
                       type: literal,
-                      value: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/error_ontology.ttl>
+                      value: <https://w3id.org/catenax/ontology/reliability>
                     shape:
                       type: literal,
-                      value: '@prefix : <urn:cx:Graph:oem:Quality> .'
+                      value: '@prefix : <GraphAsset?oem=Quality#> .'
             application/sparql-results+xml:
               schema:
                 $ref: '#/components/schemas/XmlResultset'
@@ -706,7 +706,7 @@ paths:
                                 <uri>edcs://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN</uri>
                             </binding>
                             <binding name="asset">
-                                <uri>urn:cx:Graph:oem:Quality</uri>
+                                <uri>GraphAsset?oem=Quality</uri>
                             </binding>
                             <binding name="name">
                                 <literal>Quality Data.</literal>
@@ -715,7 +715,7 @@ paths:
                                 <literal>A graph asset/offering mounting Quality data.</literal>
                             </binding>
                             <binding name="type">
-                                <uri>https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#GraphAsset</uri>
+                                <uri>https://w3id.org/catenax/ontology/common#GraphAsset</uri>
                             </binding>
                             <binding name="version">
                                 <literal>v0.7.2</literal>
@@ -724,10 +724,10 @@ paths:
                                 <literal>application/json, application/xml</literal>
                             </binding>
                             <binding name="isDefinedBy">
-                                <literal>&lt;https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/error_ontology.ttl&gt;</literal>
+                                <literal>&lt;https://w3id.org/catenax/ontology/reliability&gt;</literal>
                             </binding>
                             <binding name="shape">
-                                <literal>@prefix : &lt;urn:cx:Graph:oem:Quality&gt; .</literal>
+                                <literal>@prefix : &lt;GraphAsset?oem=Quality#&gt; .</literal>
                             </binding>
                         </result>
                     </results>
@@ -771,6 +771,51 @@ paths:
             $ref: '#/components/examples/DataspaceSkill'
           LifetimeSkill:
             $ref: '#/components/examples/LifetimeSkill'
+      - name: distributionMode
+        in: query
+        description: The distribution mode under which to publish the skill
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        examples:
+          Provider:
+            $ref: '#/components/examples/DistributionModeProvider'
+          Consumer:
+            $ref: '#/components/examples/DistributionModeConsumer'
+          All:
+            $ref: '#/components/examples/DistributionModeAll'
+      - name: contract
+        in: query
+        description: The contract under which the skill should be published
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        examples:
+          Provider:
+            $ref: '#/components/examples/Contract'
+      - name: isFederated
+        in: query
+        description: Whether the skill should be visible in the Federated Catalogue
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: ontology
+        in: query
+        description: Multiple references to ontologies which are referenced in the skill
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        examples:
+          Provider:
+            $ref: '#/components/examples/Ontology'
       requestBody:
         description: The body either contains the parameterized query
         content:
@@ -894,7 +939,7 @@ components:
                   value: edcs://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN
                 asset:
                   type: uri
-                  value: urn:cx:Graph:oem:Quality
+                  value: GraphAsset?oem=Quality
                 name:
                   type: literal
                   value: Quality Data.
@@ -903,7 +948,7 @@ components:
                   value: A graph asset/offering mounting Quality data.
                 type:
                   type: uri,
-                  value: https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#GraphAsset
+                  value: https://w3id.org/catenax/ontology/common#GraphAsset
                 version:
                   type: literal,
                   value: v0.7.2
@@ -912,10 +957,10 @@ components:
                   value: application/json, application/xml
                 isDefinedBy:
                   type: literal,
-                  value: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/error_ontology.ttl>
+                  value: <https://w3id.org/catenax/ontology/reliability>
                 shape:
                   type: literal,
-                  value: '@prefix : <urn:cx:Graph:oem:Quality> .'
+                  value: '@prefix : <GraphAsset?oem=Quality#> .'
         application/sparql-results+xml:
           schema:
             $ref: '#/components/schemas/XmlResultset'
@@ -939,7 +984,7 @@ components:
                             <uri>edcs://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN</uri>
                         </binding>
                         <binding name="asset">
-                            <uri>urn:cx:Graph:oem:Quality</uri>
+                            <uri>GraphAsset?oem=Quality</uri>
                         </binding>
                         <binding name="name">
                             <literal>Quality Data.</literal>
@@ -948,7 +993,7 @@ components:
                             <literal>A graph asset/offering mounting Quality data.</literal>
                         </binding>
                         <binding name="type">
-                            <uri>https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#GraphAsset</uri>
+                            <uri>https://w3id.org/catenax/ontology/common#GraphAsset</uri>
                         </binding>
                         <binding name="version">
                             <literal>v0.7.2</literal>
@@ -957,10 +1002,10 @@ components:
                             <literal>application/json, application/xml</literal>
                         </binding>
                         <binding name="isDefinedBy">
-                            <literal>&lt;https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/error_ontology.ttl&gt;</literal>
+                            <literal>&lt;https://w3id.org/catenax/ontology/reliability&gt;</literal>
                         </binding>
                         <binding name="shape">
-                            <literal>@prefix : &lt;urn:cx:Graph:oem:Quality&gt; .</literal>
+                            <literal>@prefix : &lt;GraphAsset?oem=Quality#&gt; .</literal>
                         </binding>
                     </result>
                 </results>
@@ -1005,7 +1050,7 @@ components:
                   value: edcs://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN
                 asset:
                   type: uri
-                  value: urn:cx:Graph:oem:Quality
+                  value: GraphAsset?oem=Quality
                 name:
                   type: literal
                   value: Quality Data.
@@ -1014,7 +1059,7 @@ components:
                   value: A graph asset/offering mounting Quality data.
                 type:
                   type: uri,
-                  value: https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#GraphAsset
+                  value: https://w3id.org/catenax/ontology/common#GraphAsset
                 version:
                   type: literal,
                   value: v0.7.2
@@ -1023,10 +1068,10 @@ components:
                   value: application/json, application/xml
                 isDefinedBy:
                   type: literal,
-                  value: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/error_ontology.ttl>
+                  value: <https://w3id.org/catenax/ontology/reliability>
                 shape:
                   type: literal,
-                  value: '@prefix : <urn:cx:Graph:oem:Quality> .'
+                  value: '@prefix : <GraphAsset?oem=Quality#> .'
         application/sparql-results+xml:
           schema:
             $ref: '#/components/schemas/XmlResultset'
@@ -1050,7 +1095,7 @@ components:
                             <uri>edcs://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN</uri>
                         </binding>
                         <binding name="asset">
-                            <uri>urn:cx:Graph:oem:Quality</uri>
+                            <uri>GraphAsset?oem=Quality</uri>
                         </binding>
                         <binding name="name">
                             <literal>Quality Data.</literal>
@@ -1059,7 +1104,7 @@ components:
                             <literal>A graph asset/offering mounting Quality data.</literal>
                         </binding>
                         <binding name="type">
-                            <uri>https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#GraphAsset</uri>
+                            <uri>hhttps://w3id.org/catenax/ontology/common#GraphAsset</uri>
                         </binding>
                         <binding name="version">
                             <literal>v0.7.2</literal>
@@ -1068,10 +1113,10 @@ components:
                             <literal>application/json, application/xml</literal>
                         </binding>
                         <binding name="isDefinedBy">
-                            <literal>&lt;https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/error_ontology.ttl&gt;</literal>
+                            <literal>&lt;https://w3id.org/catenax/ontology/reliability&gt;</literal>
                         </binding>
                         <binding name="shape">
-                            <literal>@prefix : &lt;urn:cx:Graph:oem:Quality&gt; .</literal>
+                            <literal>@prefix : &lt;GraphAsset?oem=Quality#&gt; .</literal>
                         </binding>
                     </result>
                 </results>
@@ -1101,10 +1146,10 @@ components:
       value: null
     DataspaceSkill:
       summary: Predefined Skill to List Federated Data Catalogue
-      value: urn:cx:Skill:consumer:Dataspace
+      value: SkillAsset?consumer=Dataspace
     LifetimeSkill:
       summary: Predefined Skill to Perform a Lifetime Prognosis
-      value: urn:cx:Skill:consumer:Lifetime
+      value: SkillAsset?consumer=RemainingUsefulLife
     Vehicle1:
       summary: Vehicle Parameter
       value: WBAAL31029PZ00001
@@ -1155,7 +1200,22 @@ components:
     RunModeAll:
       summary: Best Possible Execution
       value: all
+    DistributionModeConsumer:
+      summary: Local Consumer Execution
+      value: CONSUMER
+    DistributionModeProvider:
+      summary: Remote Provider Execution
+      value: PROVIDER
+    DistributionModeAll:
+      summary: Best Possible Execution
+      value: ALL
     QuerySparql:
       summary: SPARQL Query Language
       value: SPARQL
+    Contract:
+      summary: An example contract name
+      value: Contract?oem=Skill
+    Ontology:
+      summary: An example reference to an ontology 
+      value: https://w3id.org/catenax/ontology/behaviour
 
