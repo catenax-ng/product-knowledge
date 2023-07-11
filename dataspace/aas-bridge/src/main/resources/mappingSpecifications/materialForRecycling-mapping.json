@@ -50,7 +50,7 @@
         "identification": {
           "@bind": {
             "id": {
-              "@generateUuid": {
+              "@generate_uuid": {
                 "@xpath": "."
               }
             }
