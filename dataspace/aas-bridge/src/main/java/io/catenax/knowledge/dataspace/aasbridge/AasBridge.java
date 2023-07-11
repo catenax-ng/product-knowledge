@@ -22,7 +22,7 @@ public class AasBridge {
                         .build())
                 .persistence(PersistenceInKnowledgeConfig.builder()
                         .initialModel(new DefaultAssetAdministrationShellEnvironment.Builder().build())
-                        .mappings(AasUtils.loadMappingsFromResources())
+                        .mappings(AasUtils.loadConfigsFromResources())
                         .threadPoolSize(5)
                         .timeoutSeconds(5)
                         .providerAgentPlane(URI.create(System.getProperty("PROVIDER_AGENT_PLANE", System.getenv("PROVIDER_AGENT_PLANE"))))

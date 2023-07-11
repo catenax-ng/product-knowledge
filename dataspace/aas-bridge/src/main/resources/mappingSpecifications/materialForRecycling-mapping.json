@@ -2,19 +2,26 @@
   "@header": {
     "version": "0.0.1",
     "aasVersion": "3.0RC01",
-    "@namespaces": {
-      "sparql": "http://www.w3.org/2005/sparql-results#"
+    "@variables": {
+      "semanticId": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned"
     },
+
+    "@namespaces": {
+      "sparql": "http://www.w3.org/2005/sparql-results#",
+      "semanticId": "urn:bamm:io.catenax.material_for_recycling:1.1.0#MaterialForRecycling"
+    },
+
     "@definitions": {
       "genSubmodelId": {
-        "@generateUuid": {
-          "@concatenate": [
-            {
-              "@xpath": "."
-            },
-            "/submodel"
-          ]
-        }
+        "@concatenate": [
+          {
+            "@var": "semanticId"
+          },
+          "/",
+          {
+            "@xpath": "."
+          }
+        ]
       }
     }
   },
@@ -182,7 +189,14 @@
                 "@bind": {
                   "idShort": {
                     "@concatenate": [
-                      "ComponentEntity"
+                      "ComponentEntity",
+                      {
+                        "@concatenate_and_hash": [
+                          {
+                            "@xpath": "."
+                          }
+                        ]
+                      }
                     ]
                   }
                 },
@@ -277,7 +291,7 @@
                     },
                     "@bind": {
                       "value": {
-                        "@xpath": "./sparql:binding[@name='rMat']/sparql:literal"
+                        "@xpath": "./sparql:binding[@name='componentMaterialAbbreviation']/sparql:literal"
                       }
                     },
                     "valueType": "http://www.w3.org/2001/XMLSchema#string",

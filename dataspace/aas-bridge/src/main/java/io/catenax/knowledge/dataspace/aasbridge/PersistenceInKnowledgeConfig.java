@@ -1,18 +1,16 @@
 package io.catenax.knowledge.dataspace.aasbridge;
 
 import de.fraunhofer.iosb.ilt.faaast.service.persistence.PersistenceConfig;
-import org.eclipse.digitaltwin.aas4j.mapping.model.MappingSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.net.URI;
-import java.util.Map;
+import java.util.List;
 
 public class PersistenceInKnowledgeConfig extends PersistenceConfig<PersistenceInKnowledge> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PersistenceInKnowledgeConfig.class);
-    private Map<File, MappingSpecification> mappings;
+    private List<MappingConfiguration> mappings; // query to mappingspecification
     private URI providerSparqlEndpoint;
     private URI providerAgentPlane;
     private String credentials;
@@ -20,11 +18,11 @@ public class PersistenceInKnowledgeConfig extends PersistenceConfig<PersistenceI
     private int timeoutSeconds;
 
 
-    public Map<File, MappingSpecification> getMappings() {
+    public List<MappingConfiguration> getMappings() {
         return mappings;
     }
 
-    public void setMappings(Map<File, MappingSpecification> mappings) {
+    public void setMappings(List<MappingConfiguration> mappings) {
         this.mappings = mappings;
     }
 
@@ -74,7 +72,7 @@ public class PersistenceInKnowledgeConfig extends PersistenceConfig<PersistenceI
     }
 
     private abstract static class AbstractBuilder<T extends PersistenceInKnowledgeConfig, B extends AbstractBuilder<T, B>> extends PersistenceConfig.AbstractBuilder<PersistenceInKnowledge, T, B> {
-        public B mappings(Map<File, MappingSpecification> value) {
+        public B mappings(List<MappingConfiguration> value) {
             getBuildingInstance().setMappings(value);
             return getSelf();
         }

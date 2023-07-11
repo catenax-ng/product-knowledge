@@ -6,7 +6,6 @@ import org.eclipse.digitaltwin.aas4j.mapping.model.MappingSpecification;
 import org.eclipse.digitaltwin.aas4j.transform.GenericDocumentTransformer;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -19,7 +18,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.time.Duration;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
@@ -37,11 +35,9 @@ public class MappingExecutor {
     private final int timeoutSeconds;
     private final HttpClient client;
 
-    private Map<File, MappingSpecification> mappings;
-    private URI agentPlane;
+    private List<MappingConfiguration> mappings;
 
-
-    public MappingExecutor(URI sparqlEndpoint, URI agentPlane, String credentials, int timeoutSeconds, int fixedThreadPoolSize, Map<File, MappingSpecification> mappings) {
+    public MappingExecutor(URI sparqlEndpoint, URI agentPlane, String credentials, int timeoutSeconds, int fixedThreadPoolSize, List<MappingConfiguration> mappings) {
         this.mappings = mappings;
         this.transformer = new GenericDocumentTransformer();
         this.parametrizedSparqlEndpoint = URI.create(sparqlEndpoint.toString() + "?OemProviderAgent="
@@ -51,31 +47,43 @@ public class MappingExecutor {
         this.client = HttpClient.newBuilder().executor(Executors.newFixedThreadPool(fixedThreadPoolSize)).build();
     }
 
-
     /**
      * @return the resulting AAS Environment contains multiple AAS with a single submodel each.
      */
-    public AssetAdministrationShellEnvironment executeMappings() {
-        List<AssetAdministrationShellEnvironment> envs = mappings.entrySet().stream().map(e -> {
-            try {
-                InputStream queryResult = executeQuery(e.getKey()).get();
-                return transformer.execute(queryResult, e.getValue());
-            } catch (URISyntaxException | InterruptedException | ExecutionException | IOException |
-                     TransformationException ex) {
-                throw new RuntimeException(ex);
-            }
-        }).collect(Collectors.toList());
+    public AssetAdministrationShellEnvironment executeGetAllMappings() {
+        List<AssetAdministrationShellEnvironment> envs = mappings.stream()
+                .map(m -> {
+                    try {
+                        return executeMapping(Files.readString(m.getGetAllQuery().toPath()), m.getMappingSpecification());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }).collect(Collectors.toList());
+
         return AasUtils.mergeAasEnvs(envs);
     }
 
+    public AssetAdministrationShellEnvironment executeMapping(String query, MappingSpecification specification) {
+        try {
+            InputStream queryResult = executeQuery(query).get();
+            return transformer.execute(queryResult, specification);
+        } catch (URISyntaxException | InterruptedException | ExecutionException | IOException |
+                 TransformationException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public List<MappingConfiguration> getMappings() {
+        return mappings;
+    }
+
     /**
-     * @param queryFile the file containing the query, probably loaded from resources
+     * @param query the string containing the (if necessary parametrized) query, probably loaded from resources
      * @return xml structure of the query response
      * @throws URISyntaxException
      * @throws IOException
      */
-    CompletableFuture<InputStream> executeQuery(File queryFile) throws URISyntaxException, IOException {
-        String query = Files.readString(queryFile.toPath());
+    CompletableFuture<InputStream> executeQuery(String query) throws URISyntaxException, IOException {
 
         HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString(query);
         HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
@@ -99,6 +107,7 @@ public class MappingExecutor {
             }
         }).thenApply(body -> new ByteArrayInputStream(body.getBytes()));
     }
+
 
 }
 

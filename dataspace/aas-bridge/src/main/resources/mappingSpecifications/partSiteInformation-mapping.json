@@ -2,19 +2,26 @@
   "@header": {
     "version": "0.0.1",
     "aasVersion": "3.0RC01",
+    "@variables": {
+      "semanticId": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned"
+    },
+
     "@namespaces": {
-      "sparql": "http://www.w3.org/2005/sparql-results#"
+      "sparql": "http://www.w3.org/2005/sparql-results#",
+      "semanticId": "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"
+
     },
     "@definitions": {
       "genSubmodelId": {
-        "@generateUuid": {
-          "@concatenate": [
-            {
-              "@xpath": "."
-            },
-            "/submodel"
-          ]
-        }
+        "@concatenate": [
+          {
+            "@var": "semanticId"
+          },
+          "/",
+          {
+            "@xpath": "."
+          }
+        ]
       }
     }
   },
@@ -159,7 +166,20 @@
                 "modelType": {
                   "name": "SubmodelElementCollection"
                 },
-                "idShort": "SiteEntity",
+                "@bind": {
+                  "idShort": {
+                    "@concatenate": [
+                      "SiteEntity",
+                      {
+                        "@concatenate_and_hash": [
+                          {
+                            "@xpath": "."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
                 "description": [
                   {
                     "language": "en",

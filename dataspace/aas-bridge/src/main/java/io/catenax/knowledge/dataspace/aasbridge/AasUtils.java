@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -18,28 +17,37 @@ import java.util.stream.Collectors;
 
 public class AasUtils {
 
-    public static Map<File, MappingSpecification> loadMappingsFromResources() {
+    public static List<MappingConfiguration> loadConfigsFromResources() {
         try {
-            return Files.walk(Path.of("dataspace/aas-bridge/src/main/resources/selectQueries"))
-                    .filter(obj -> !obj.endsWith("selectQueries"))
-                    .map(obj -> {
-                        String mappingFileFolder = obj.getParent().getParent().toString() + "/mappingSpecifications/";
-                        String mappingFileName = obj.getFileName().toString().split("-")[0] + "-mapping.json";
+            return Files.walk(Path.of(System.getProperty("user.dir") + "/src/main/resources/paramSelectQueries"))
+                    .filter(obj -> !obj.endsWith("paramSelectQueries"))
+                    .map(getOnePath -> {
+                        String nameInclSelect = getOnePath.getFileName().toString();
+                        String mappingFileFolder = getOnePath.getParent().getParent().toString() + "/mappingSpecifications/";
+                        String mappingFileName = nameInclSelect.split("-")[0] + "-mapping.json";
+                        MappingSpecification spec =
+                                null;
                         try {
-                            MappingSpecification spec =
-                                    new MappingSpecificationParser().loadMappingSpecification(mappingFileFolder+mappingFileName);
-                            return new AbstractMap.SimpleEntry<>(obj, spec);
+                            spec = new MappingSpecificationParser().loadMappingSpecification(mappingFileFolder + mappingFileName);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
+                        String getAllPath = getOnePath.getParent().getParent().toString() + "/selectQueries/"+nameInclSelect;
+                        return new MappingConfiguration(
+                                spec,
+                                new File(getOnePath.toString()),
+                                new File(getAllPath),
+                                spec.getHeader().getNamespaces().get("semanticId")
+                        );
                     })
-                    .collect(Collectors.toMap(e -> e.getKey().toFile(), e -> e.getValue()));
+                    .collect(Collectors.toList());
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    public static AssetAdministrationShellEnvironment mergeAasEnvs(List<AssetAdministrationShellEnvironment> aasEnvs){
+
+    public static AssetAdministrationShellEnvironment mergeAasEnvs(List<AssetAdministrationShellEnvironment> aasEnvs) {
         Set<AssetAdministrationShell> collect = aasEnvs.stream().flatMap(env -> env.getAssetAdministrationShells().stream()).collect(Collectors.toSet());
         Map<String, List<AssetAdministrationShell>> collect1 = collect.stream().collect(Collectors.groupingBy(aas -> aas.getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue()));
         List<AssetAdministrationShell> mergedShells = collect1.values().stream().map(group ->

@@ -2,19 +2,24 @@
   "@header": {
     "version": "0.0.1",
     "aasVersion": "3.0RC01",
+    "@variables": {
+      "semanticId": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned"
+    },
     "@namespaces": {
-      "sparql": "http://www.w3.org/2005/sparql-results#"
+      "sparql": "http://www.w3.org/2005/sparql-results#",
+      "semanticId": "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned"
     },
     "@definitions": {
       "genSubmodelId": {
-        "@generateUuid": {
-          "@concatenate": [
-            {
-              "@xpath": "."
-            },
-            "/submodel"
-          ]
-        }
+        "@concatenate": [
+          {
+            "@var": "semanticId"
+          },
+          "/",
+          {
+            "@xpath": "."
+          }
+        ]
       }
     }
   },
@@ -276,7 +281,7 @@
                 },
                 "@bind": {
                   "value": {
-                    "@xpath": "./../../sparql:binding[@name='ValidTo']/sparql:literal"
+                    "@xpath": "./../../sparql:binding[@name='validTo']/sparql:literal"
                   }
                 },
                 "valueType": "http://www.w3.org/2001/XMLSchema#dateTime",

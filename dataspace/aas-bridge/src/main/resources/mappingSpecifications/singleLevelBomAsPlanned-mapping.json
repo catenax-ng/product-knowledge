@@ -2,19 +2,24 @@
   "@header": {
     "version": "0.0.1",
     "aasVersion": "3.0RC01",
+    "@variables": {
+      "semanticId": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned"
+    },
     "@namespaces": {
-      "sparql": "http://www.w3.org/2005/sparql-results#"
+      "sparql": "http://www.w3.org/2005/sparql-results#",
+      "semanticId": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned"
     },
     "@definitions": {
       "genSubmodelId": {
-        "@generateUuid": {
-          "@concatenate": [
-            {
-              "@xpath": "."
-            },
-            "/submodel"
-          ]
-        }
+        "@concatenate": [
+          {
+            "@var": "semanticId"
+          },
+          "/",
+          {
+            "@xpath": "."
+          }
+        ]
       }
     }
   },
@@ -149,7 +154,9 @@
                   "@xpath": {
                     "@concatenate": [
                       "//sparql:results/sparql:result[sparql:binding[@name='catenaXId'][sparql:uri='",
-                      {"@xpath":  "."},
+                      {
+                        "@xpath": "."
+                      },
                       "']]"
                     ]
                   }
@@ -157,7 +164,20 @@
                 "modelType": {
                   "name": "SubmodelElementCollection"
                 },
-                "idShort": "ChildData",
+                "@bind": {
+                  "idShort": {
+                    "@concatenate": [
+                      "ChildData",
+                      {
+                        "@concatenate_and_hash": [
+                          {
+                            "@xpath": "."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
                 "description": [
                   {
                     "language": "en",
@@ -273,7 +293,7 @@
                         },
                         "@bind": {
                           "value": {
-                            "@xpath": "./sparql:binding[@name='billOfMaterialUnit']/sparql:literal"
+                            "@xpath": "./sparql:binding[@name='billOfMaterialUnit']/sparql:uri"
                           }
                         },
                         "valueType": "urn:bamm:io.openmanufacturing:meta-model:2.0.0#curie",

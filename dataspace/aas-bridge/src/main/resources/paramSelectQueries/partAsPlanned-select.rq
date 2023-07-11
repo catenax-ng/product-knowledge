@@ -5,6 +5,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT ?catenaXId ?validFrom ?validTo ?classification ?manufacturerPartId ?nameAtManufacturer
 WHERE {
 
+  BIND(<%s> AS ?catenaXId)
   SERVICE <@OemProviderAgent> {
     ?catenaXId rdf:type cx:Part;
         cx:partSeries ?manufacturerPartId;

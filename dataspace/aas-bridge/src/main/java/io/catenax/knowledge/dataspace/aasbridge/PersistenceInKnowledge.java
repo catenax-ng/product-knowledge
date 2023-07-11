@@ -11,13 +11,12 @@ import de.fraunhofer.iosb.ilt.faaast.service.model.api.operation.OperationHandle
 import de.fraunhofer.iosb.ilt.faaast.service.model.api.operation.OperationResult;
 import de.fraunhofer.iosb.ilt.faaast.service.model.asset.AssetIdentification;
 import de.fraunhofer.iosb.ilt.faaast.service.persistence.Persistence;
-import de.fraunhofer.iosb.ilt.faaast.service.persistence.manager.IdentifiablePersistenceManager;
-import de.fraunhofer.iosb.ilt.faaast.service.persistence.manager.PackagePersistenceManager;
-import de.fraunhofer.iosb.ilt.faaast.service.persistence.manager.ReferablePersistenceManager;
 import de.fraunhofer.iosb.ilt.faaast.service.persistence.util.QueryModifierHelper;
 import de.fraunhofer.iosb.ilt.faaast.service.typing.TypeInfo;
 import de.fraunhofer.iosb.ilt.faaast.service.util.Ensure;
 import io.adminshell.aas.v3.model.*;
+import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironment;
+import io.catenax.knowledge.dataspace.aasbridge.managers.IdentifiableKnowledgeManager;
 
 import java.util.List;
 import java.util.Set;
@@ -31,14 +30,9 @@ public class PersistenceInKnowledge implements Persistence<PersistenceInKnowledg
     AssetAdministrationShellEnvironment model;
     MappingExecutor executor;
 
-    IdentifiablePersistenceManager identifiablePersistenceManager;
-    ReferablePersistenceManager referablePersistenceManager;
-    PackagePersistenceManager packagePersistenceManager;
+    IdentifiableKnowledgeManager manager;
 
     public PersistenceInKnowledge() {
-        identifiablePersistenceManager = new IdentifiablePersistenceManager();
-        referablePersistenceManager = new ReferablePersistenceManager();
-        packagePersistenceManager = new PackagePersistenceManager();
     }
 
     @Override
@@ -47,19 +41,23 @@ public class PersistenceInKnowledge implements Persistence<PersistenceInKnowledg
         Ensure.requireNonNull(persistenceInKnowledgeConfig, "config must be non-null");
         Ensure.requireNonNull(serviceContext, "context must be non-null");
         this.persistenceConfig = persistenceInKnowledgeConfig;
+        this.manager = new IdentifiableKnowledgeManager(persistenceInKnowledgeConfig);
         this.coreConfig = coreConfig;
         this.serviceContext = serviceContext;
-        this.executor = new MappingExecutor(persistenceConfig.getProviderSparqlEndpoint(), persistenceConfig.getProviderAgentPlane(), persistenceConfig.getCredentials(), persistenceConfig.getTimeoutSeconds(), persistenceConfig.getThreadPoolSize(), persistenceConfig.getMappings());
-        this.model = executor.executeMappings();
+        this.executor = new MappingExecutor(
+                persistenceConfig.getProviderSparqlEndpoint(),
+                persistenceConfig.getProviderAgentPlane(), persistenceConfig.getCredentials(),
+                persistenceConfig.getTimeoutSeconds(), persistenceConfig.getThreadPoolSize(),
+                persistenceConfig.getMappings());
+        this.model = new DefaultAssetAdministrationShellEnvironment.Builder().build();
     }
 
     @Override
     public <T extends Identifiable> T get(Identifier id, QueryModifier modifier, Class<T> type) throws ResourceNotFoundException {
-        updatePersistenceManagers();
         Ensure.requireNonNull(id, "id must be non-null");
         Ensure.requireNonNull(modifier, MSG_MODIFIER_NOT_NULL);
         Ensure.requireNonNull(type, "type must be non-null");
-        Identifiable result = identifiablePersistenceManager.getIdentifiableById(id);
+        Identifiable result = manager.getIdentifiableById(id, type);
         if (result == null) {
             throw new ResourceNotFoundException(id, type);
         }
@@ -81,16 +79,14 @@ public class PersistenceInKnowledge implements Persistence<PersistenceInKnowledg
 
     @Override
     public List<AssetAdministrationShell> get(String idShort, List<AssetIdentification> assetIds, QueryModifier modifier) {
-        updatePersistenceManagers();
         Ensure.requireNonNull(modifier, MSG_MODIFIER_NOT_NULL);
-        return QueryModifierHelper.applyQueryModifier(identifiablePersistenceManager.getAASs(idShort, assetIds), modifier);
+        return QueryModifierHelper.applyQueryModifier(manager.getAASs(idShort, assetIds), modifier);
     }
 
     @Override
     public List<Submodel> get(String idShort, Reference semanticId, QueryModifier modifier) {
-        updatePersistenceManagers();
         Ensure.requireNonNull(modifier, MSG_MODIFIER_NOT_NULL);
-        return QueryModifierHelper.applyQueryModifier(identifiablePersistenceManager.getSubmodels(idShort, semanticId), modifier);
+        return QueryModifierHelper.applyQueryModifier(manager.getSubmodels(idShort, semanticId), modifier);
     }
 
     @Override
@@ -179,11 +175,5 @@ public class PersistenceInKnowledge implements Persistence<PersistenceInKnowledg
     public PersistenceInKnowledgeConfig asConfig() {
         return persistenceConfig;
     }
-
-    private void updatePersistenceManagers() {
-        AssetAdministrationShellEnvironment newEnv = executor.executeMappings();
-        identifiablePersistenceManager.setAasEnvironment(newEnv);
-        referablePersistenceManager.setAasEnvironment(newEnv);
-        packagePersistenceManager.setAasEnvironment(newEnv);
-    }
+    
 }

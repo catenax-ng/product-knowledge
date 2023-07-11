@@ -15,7 +15,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -92,6 +91,9 @@ class MappingExecutorTest {
         assertEquals(3, env.getSubmodels().stream()
                 .filter(sm -> getProperty(sm, "catenaXId").equals("urn:uuid:68904173-ad59-4a77-8412-3e73fcafbd8b"))
                 .map(sm -> getSmcValues(sm, "childParts")).findFirst().get().size());
+        env.getSubmodels().forEach(sm -> {
+            assertEquals(2, sm.getIdentification().getIdentifier().split("/").length);
+        });
     }
 
     @ParameterizedTest
@@ -100,15 +102,14 @@ class MappingExecutorTest {
         MockWebServer mockWebServer = instantiateMockServer(aspectName);
         MappingExecutor executor = new MappingExecutor(
                 new URI(mockWebServer.url(MOCK_URL).toString()),
-                null,
+                new URI("ignoredAgentPlaneUri"),
                 System.getProperty("PROVIDER_CREDENTIAL_BASIC"),
                 3,
                 5,
-                AasUtils.loadMappingsFromResources());
+                AasUtils.loadConfigsFromResources());
 
         InputStream inputStream = executor.executeQuery(
-                        new File(MappingExecutor.class.getClassLoader().getResource("selectQueries/" + aspectName + "-select.rq").getFile()))
-                .get();
+                        new String(MappingExecutor.class.getClassLoader().getResourceAsStream("selectQueries/" + aspectName + "-select.rq").readAllBytes())).get();
         String result = new String(inputStream.readAllBytes());
         assertEquals(result, getMockResponseBody(aspectName));
     }
@@ -149,6 +150,7 @@ class MappingExecutorTest {
                 .forEach(p->{
                     assertNotNull(p.getValue());
                     assertNotEquals("", p.getValue());
+                    assertNotEquals("null", p.getValue(), p.getIdShort());
                 });
         smes.stream().filter(sme -> sme.getClass().equals(DefaultSubmodelElementCollection.class))
                 .map(sme -> (DefaultSubmodelElementCollection) sme)
