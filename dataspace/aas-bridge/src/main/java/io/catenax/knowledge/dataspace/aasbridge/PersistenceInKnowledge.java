@@ -46,8 +46,9 @@ public class PersistenceInKnowledge implements Persistence<PersistenceInKnowledg
         this.serviceContext = serviceContext;
         this.executor = new MappingExecutor(
                 persistenceConfig.getProviderSparqlEndpoint(),
-                persistenceConfig.getProviderAgentPlane(), persistenceConfig.getCredentials(),
-                persistenceConfig.getTimeoutSeconds(), persistenceConfig.getThreadPoolSize(),
+                persistenceConfig.getCredentials(),
+                persistenceConfig.getTimeoutSeconds(),
+                persistenceConfig.getThreadPoolSize(),
                 persistenceConfig.getMappings());
         this.model = new DefaultAssetAdministrationShellEnvironment.Builder().build();
     }

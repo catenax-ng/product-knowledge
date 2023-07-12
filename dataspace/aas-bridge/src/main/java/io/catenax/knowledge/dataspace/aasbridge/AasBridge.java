@@ -25,7 +25,6 @@ public class AasBridge {
                         .mappings(AasUtils.loadConfigsFromResources())
                         .threadPoolSize(5)
                         .timeoutSeconds(5)
-                        .providerAgentPlane(URI.create(System.getProperty("PROVIDER_AGENT_PLANE", System.getenv("PROVIDER_AGENT_PLANE"))))
                         .providerSparqlEndpoint(URI.create(System.getProperty("PROVIDER_SPARQL_ENDPOINT", System.getenv("PROVIDER_SPARQL_ENDPOINT"))))
                         .credentials(System.getProperty("PROVIDER_CREDENTIAL_BASIC", System.getenv("PROVIDER_CREDENTIAL_BASIC")))
                         .build())

@@ -12,7 +12,6 @@ public class PersistenceInKnowledgeConfig extends PersistenceConfig<PersistenceI
     private static final Logger LOGGER = LoggerFactory.getLogger(PersistenceInKnowledgeConfig.class);
     private List<MappingConfiguration> mappings; // query to mappingspecification
     private URI providerSparqlEndpoint;
-    private URI providerAgentPlane;
     private String credentials;
     private int threadPoolSize;
     private int timeoutSeconds;
@@ -63,14 +62,6 @@ public class PersistenceInKnowledgeConfig extends PersistenceConfig<PersistenceI
         this.timeoutSeconds = timeoutSeconds;
     }
 
-    public URI getProviderAgentPlane() {
-        return providerAgentPlane;
-    }
-
-    public void setProviderAgentPlane(URI providerAgentPlane) {
-        this.providerAgentPlane = providerAgentPlane;
-    }
-
     private abstract static class AbstractBuilder<T extends PersistenceInKnowledgeConfig, B extends AbstractBuilder<T, B>> extends PersistenceConfig.AbstractBuilder<PersistenceInKnowledge, T, B> {
         public B mappings(List<MappingConfiguration> value) {
             getBuildingInstance().setMappings(value);
@@ -81,12 +72,6 @@ public class PersistenceInKnowledgeConfig extends PersistenceConfig<PersistenceI
             getBuildingInstance().setProviderSparqlEndpoint(value);
             return getSelf();
         }
-
-        public B providerAgentPlane(URI value) {
-            getBuildingInstance().setProviderAgentPlane(value);
-            return getSelf();
-        }
-
 
         public B credentials(String value) {
             getBuildingInstance().setCredentials(value);

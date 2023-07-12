@@ -102,7 +102,6 @@ class MappingExecutorTest {
         MockWebServer mockWebServer = instantiateMockServer(aspectName);
         MappingExecutor executor = new MappingExecutor(
                 new URI(mockWebServer.url(MOCK_URL).toString()),
-                new URI("ignoredAgentPlaneUri"),
                 System.getProperty("PROVIDER_CREDENTIAL_BASIC"),
                 3,
                 5,

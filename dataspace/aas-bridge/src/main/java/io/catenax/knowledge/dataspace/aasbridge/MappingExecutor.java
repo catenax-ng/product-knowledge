@@ -10,11 +10,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.time.Duration;
 import java.util.List;
@@ -29,7 +27,7 @@ public class MappingExecutor {
     //Client config
 
     private final GenericDocumentTransformer transformer;
-    private final URI parametrizedSparqlEndpoint;
+    private final URI sparqlEndpoint;
 
     private final String credentials;
     private final int timeoutSeconds;
@@ -37,11 +35,10 @@ public class MappingExecutor {
 
     private List<MappingConfiguration> mappings;
 
-    public MappingExecutor(URI sparqlEndpoint, URI agentPlane, String credentials, int timeoutSeconds, int fixedThreadPoolSize, List<MappingConfiguration> mappings) {
+    public MappingExecutor(URI sparqlEndpoint, String credentials, int timeoutSeconds, int fixedThreadPoolSize, List<MappingConfiguration> mappings) {
         this.mappings = mappings;
         this.transformer = new GenericDocumentTransformer();
-        this.parametrizedSparqlEndpoint = URI.create(sparqlEndpoint.toString() + "?OemProviderAgent="
-                + URLEncoder.encode(agentPlane.toString(), StandardCharsets.ISO_8859_1));
+        this.sparqlEndpoint = URI.create(sparqlEndpoint.toString());
         this.credentials = credentials;
         this.timeoutSeconds = timeoutSeconds;
         this.client = HttpClient.newBuilder().executor(Executors.newFixedThreadPool(fixedThreadPoolSize)).build();
@@ -87,7 +84,7 @@ public class MappingExecutor {
 
         HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString(query);
         HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
-                .uri(parametrizedSparqlEndpoint)
+                .uri(sparqlEndpoint)
                 .POST(bodyPublisher)
                 .header("Content-Type", "application/sparql-query")
                 .header("Accept", "application/xml")

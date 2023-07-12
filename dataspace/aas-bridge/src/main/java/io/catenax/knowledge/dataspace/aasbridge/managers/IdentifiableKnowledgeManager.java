@@ -23,7 +23,6 @@ public class IdentifiableKnowledgeManager {
     public IdentifiableKnowledgeManager(PersistenceInKnowledgeConfig config) {
         this.executor = new MappingExecutor(
                 config.getProviderSparqlEndpoint(),
-                config.getProviderAgentPlane(),
                 config.getCredentials(),
                 config.getTimeoutSeconds(),
                 config.getThreadPoolSize(),
@@ -79,6 +78,8 @@ public class IdentifiableKnowledgeManager {
                     }
                 })
                 .collect(Collectors.toSet());
+
+
 
         // check for existence of submodels
         // create new AAS maybe (maybe even here)

@@ -4,7 +4,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT ?eMat ?engineeringMaterialName ?engineeringMaterialClass ?rMat ?componentState ?componentMaterialClass ?componentRecycledContent ?componentMaterialAbbreviation
 WHERE {
-  SERVICE <@OemProviderAgent> {
+
     ?eMat cx:isMadeOf ?rMat;
         rdf:type cx:EngineeringMaterial;
         cx:engineeringMaterialName ?engineeringMaterialName;
@@ -18,5 +18,5 @@ WHERE {
         cx:recycledContent ?componentRecycledContent;
         cx:materialCode ?componentMaterialAbbreviation.
      }
-}
+
 ORDER BY DESC(?eMat)

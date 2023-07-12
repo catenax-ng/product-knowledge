@@ -4,13 +4,12 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT ?catenaXId ?site ?function ?roleValidFrom ?roleValidTo WHERE {
 
-  BIND(<%s> AS ?catenaXId)
-  SERVICE <@OemProviderAgent> {
+    BIND(<%s> AS ?catenaXId)
     ?catenaXId cx:isProducedBy ?site.
     ?site cx:isMemberOf ?legal;
         cx:roleValidFrom ?roleValidFrom;
         cx:roleValidTo ?roleValidTo .
-  }
-  BIND("production" AS ?function)
+
+    BIND("production" AS ?function)
 }
 ORDER BY DESC(?catenaXId)
