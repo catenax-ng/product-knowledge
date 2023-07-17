@@ -31,7 +31,8 @@ data:
     web.http.protocol.path=/api/v1/dsp
     web.http.metrics.port=9998
     web.http.metrics.path=/metrics
-
+    edc.jsonld.https.enabled=true
+    
     ###
     # Chapter Security
     ###
@@ -103,6 +104,7 @@ data:
     web.http.protocol.path=/api/v1/dsp
     web.http.metrics.port=9998
     web.http.metrics.path=/metrics
+    edc.jsonld.https.enabled=true
     
     ###
     # Chapter Security
