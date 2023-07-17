@@ -5,6 +5,22 @@ metadata:
   namespace: {{ .Values.namespace }}
 data:
   configuration.properties: |-
+    ###############################################
+    # LOCAL EDC CONTROL PLANE CONFIG (SUPPLIER)
+    ###############################################
+
+    ###
+    # Chapter General Settings
+    ###
+
+    edc.fs.config=/connector-config/configuration.properties
+    edc.hostname={{ .Values.ingress.host }}
+    edc.participant.id=BPNL00000003CPIY
+
+    ###
+    # Chapter Web Server / Ports
+    ###
+
     web.http.default.port=8080
     web.http.default.path=/api
     web.http.management.port=8181
@@ -15,44 +31,17 @@ data:
     web.http.protocol.path=/api/v1/dsp
     web.http.metrics.port=9998
     web.http.metrics.path=/metrics
-    
-    tractusx.api.observability.allow-insecure=true
-    web.http.observability.port=8081
-    web.http.observability.path=/observability
-  
-    edc.api.auth.key={{ .Values.security.xApiKey }}
-    
-    edc.fs.config=/connector-config/configuration.properties
-    edc.hostname={{ .Values.ingress.host }}
-    
-    # This is send as the audience to outgoing ids messages/tokens
-    edc.dsp.callback.address=https://{{ .Values.ingress.host }}/tiera-edc-control/{{ .Values.dataspace.bpnTier1 }}/api/v1/dsp
-    edc.participant.id=BPNL00000003CPIY
-    
-    edc.oauth.client.id={{ .Values.dataspace.dapsClientIdTier1 }}
-    edc.oauth.private.key.alias={{ .Values.dataspace.privateKeyAliasTier1 }}
-    edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
-    edc.oauth.endpoint.audience=https://{{ .Values.ingress.host }}/tiera-edc-control/{{ .Values.dataspace.bpnTier1 }}/api/v1/ids/data
+      
+    ###
+    # Chapter Security
+    ###
+    edc.transfer.proxy.token.signer.privatekey.alias=supplier-key
+    edc.transfer.proxy.token.verifier.publickey.alias=supplier-cert
 
     edc.data.encryption.algorithm=AES
     edc.data.encryption.keys.alias=supplier-symmetric-key
+    edc.api.auth.key={{ .Values.security.xApiKey }}
     
-    edc.oauth.provider.jwks.url={{ .Values.security.dapsUrl }}/.well-known/jwks.json
-    edc.oauth.public.key.alias={{ .Values.dataspace.publicKeyAliasTier1 }}
-    edc.oauth.token.url={{ .Values.security.dapsUrl }}/token
-    
-    edc.dataplane.selector.agentplane.url=http://tiera-data-plane:8082/
-    edc.dataplane.selector.agentplane.sourcetypes=cx-common:Protocol?w3c:http:SPARQL,HttpData
-    edc.dataplane.selector.agentplane.destinationtypes=HttpProxy
-    edc.dataplane.selector.agentplane.properties={ "publicApiUrl": "https://{{ .Values.ingress.host }}/tiera-edc-data/{{ .Values.dataspace.bpnTier1 }}/data/" }
-    
-    edc.transfer.proxy.endpoint=https://{{ .Values.ingress.host }}/tiera-edc-data/{{ .Values.dataspace.bpnTier1 }}
-    edc.transfer.proxy.token.signer.privatekey.alias={{ .Values.dataspace.privateKeyAliasTier1 }}
-    edc.transfer.proxy.token.verifier.publickey.alias={{ .Values.dataspace.publicKeyAliasTier1 }}
-    edc.transfer.send.retry.limit=0
-    edc.negotiation.consumer.send.retry.limit=0
-    edc.negotiation.provider.send.retry.limit=0
-
     edc.vault.hashicorp.url={{ .Values.security.vaultUrl }}
     edc.vault.hashicorp.token={{ .Values.security.vaultToken }}
     edc.vault.hashicorp.timeout.seconds=30
@@ -60,6 +49,31 @@ data:
     edc.vault.hashicorp.health.check.standby.ok=false
     edc.vault.hashicorp.api.secret.path=/v1/knowledge
     edc.vault.hashicorp.api.health.check.path=/v1/sys/health
+
+    ###
+    # Chapter Trust & Dataspace
+    ###
+
+    tx.ssi.miw.url=https://managed-identity-wallets-new.int.demo.catena-x.net
+    tx.ssi.miw.authority.id=BPNL00000003CRHK
+    tx.ssi.oauth.token.url=https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+    tx.ssi.oauth.client.id=sa231
+    tx.ssi.oauth.client.secret.alias=miw_supplier_secret
+    tx.ssi.endpoint.audience=https://{{ .Values.ingress.host }}/tiera-edc-control/{{ .Values.dataspace.bpnTier1 }}/api/v1/dsp
+    edc.dsp.callback.address=https://{{ .Values.ingress.host }}/tiera-edc-control/{{ .Values.dataspace.bpnTier1 }}/api/v1/dsp
+    
+    edc.transfer.proxy.endpoint=https://{{ .Values.ingress.host }}/tiera-edc-data/{{ .Values.dataspace.bpnTier1 }}
+    edc.transfer.send.retry.limit=0
+    edc.negotiation.consumer.send.retry.limit=0
+    edc.negotiation.provider.send.retry.limit=0
+
+    ###
+    # Chapter Data Planes
+    ###
+    edc.dataplane.selector.agentplane.url=http://tiera-data-plane:8082/
+    edc.dataplane.selector.agentplane.sourcetypes=cx-common:Protocol?w3c:http:SPARQL,cx-common:Protocol?w3c:http:SKILL,HttpData,AmazonS3
+    edc.dataplane.selector.agentplane.destinationtypes=HttpProxy,AmazonS3
+    edc.dataplane.selector.agentplane.properties={ "publicApiUrl": "https://{{ .Values.ingress.host }}/tiera-edc-data/{{ .Values.dataspace.bpnTier1 }}/data/" }
   opentelemetry.properties: |-
     otel.javaagent.enabled=false
     otel.javaagent.debug=false
@@ -95,7 +109,7 @@ spec:
         seccompProfile:
           type: RuntimeDefault
       containers:
-        - image: tractusx/edc-controlplane-memory-hashicorp-vault:0.4.1
+        - image: tractusx/edc-controlplane-memory-hashicorp-vault:0.5.0
           imagePullPolicy: Always
           name: tiera-control-plane
           securityContext:
@@ -107,7 +121,6 @@ spec:
             readOnlyRootFilesystem: true
           ports:
             - containerPort: 8080 # API
-            - containerPort: 8081 # OBSERVABILITY
             - containerPort: 8181 # MANAGEMENT
             - containerPort: 8282 # PROTOCOL
             - containerPort: 9999 # CONTROL
@@ -125,8 +138,8 @@ spec:
           startupProbe:
             failureThreshold: 17
             httpGet:
-              path: /observability/check/startup
-              port: 8081
+              path: /api/check/startup
+              port: 8080
               scheme: HTTP
             initialDelaySeconds: 90
             periodSeconds: 30
@@ -135,8 +148,8 @@ spec:
           livenessProbe:
             failureThreshold: 4
             httpGet:
-              path: /observability/check/liveness
-              port: 8081
+              path: /api/check/liveness
+              port: 8080
               scheme: HTTP
             periodSeconds: 60
             successThreshold: 1
@@ -144,8 +157,8 @@ spec:
           readinessProbe:
             failureThreshold: 2
             httpGet:
-              path: /observability/check/readiness
-              port: 8081
+              path: /api/check/readiness
+              port: 8080
               scheme: HTTP
             periodSeconds: 30
             successThreshold: 1
@@ -182,9 +195,6 @@ spec:
     - port: 8080
       name: api
       targetPort: 8080
-    - port: 8081
-      name: observability
-      targetPort: 8081
     - port: 8181
       name: management
       targetPort: 8181
@@ -235,13 +245,13 @@ spec:
                 name: tiera-control-plane
                 port:
                   number: 8282
-          - path: /tiera-edc-control/{{ .Values.dataspace.bpnTier1 }}/(observability/check)(.*)
+          - path: /tiera-edc-control/{{ .Values.dataspace.bpnTier1 }}/(api/check)(.*)
             pathType: Prefix
             backend:
               service:
                 name: tiera-control-plane
                 port:
-                  number: 8081
+                  number: 8080
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -250,6 +260,20 @@ metadata:
   namespace: {{ .Values.namespace }}
 data:
   configuration.properties: |-
+    ###########################################
+    # LOCAL EDC AGENT PLANE CONFIG (SUPPLIER)
+    ###########################################
+
+    ###
+    # Chapter General Settings
+    ###
+
+    edc.participant.id=BPNL00000003CPIY
+
+    ###
+    # Chapter Web Server / Ports
+    ###
+
     web.http.default.port=8082
     web.http.default.path=/api
     web.http.public.port=8185
@@ -258,30 +282,20 @@ data:
     web.http.callback.path=/callback
     web.http.control.port=9999
     web.http.control.path=/api/dataplane/control
-        
-    tractusx.api.observability.allow-insecure=true
-    web.http.observability.port=8083
-    web.http.observability.path=/observability
- 
+         
+    ###
+    # Chapter Security
+    ###
+
+    edc.api.auth.key={{ .Values.security.xApiKey }}
+
+    # Configure a flexible (JWT-based) Application-Side Authentication
     tractusx.auth.agent.type=jwt
     tractusx.auth.agent.publickey=https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
     tractusx.auth.agent.register=true
     tractusx.auth.agent.checkexpiry=false
     tractusx.auth.agent.paths=default
   
-    edc.api.auth.key={{ .Values.security.xApiKey }}
-    edc.participant.id=BPNL00000003CPIY
-    
-    cx.agent.callback=http://tiera-data-plane:8187/callback/endpoint-data-reference
-    cx.agent.controlplane.protocol=http://tiera-control-plane:8282
-    cx.agent.controlplane.management=http://tiera-control-plane:8181/management/v2
-    cx.agent.asset.file=dataspace.ttl
-    cx.agent.dataspace.synchronization=-1
-    cx.agent.dataspace.remotes=
-    
-    edc.dataplane.token.validation.endpoint=http://tiera-control-plane:9999/control/token
-    edc.core.retry.retries.max= 0
-    
     edc.vault.hashicorp.url={{ .Values.security.vaultUrl }}
     edc.vault.hashicorp.token={{ .Values.security.vaultToken }}
     edc.vault.hashicorp.timeout.seconds=30
@@ -289,6 +303,25 @@ data:
     edc.vault.hashicorp.health.check.standby.ok=false
     edc.vault.hashicorp.api.secret.path=/v1/knowledge
     edc.vault.hashicorp.api.health.check.path=/v1/sys/health
+    
+    ###
+    # Chapter Trust & Dataspace
+    ###
+
+    edc.dataplane.token.validation.endpoint=http://tiera-control-plane:9999/control/token
+    edc.core.retry.retries.max= 0
+    cx.agent.controlplane.protocol=http://tiera-control-plane:8282
+    cx.agent.controlplane.management=http://tiera-control-plane:8181/management/v2
+    cx.agent.callback=http://tiera-data-plane:8187/callback/endpoint-data-reference
+    cx.agent.skill.contract.default=Contract?supplier=Skill
+
+    ###
+    # Chapter Agent Catalogue
+    ###
+
+    cx.agent.asset.file=dataspace.ttl
+    cx.agent.dataspace.synchronization=60000
+    cx.agent.dataspace.remotes=http://tiera-control-plane:8282,https://{{ .Values.ingress.host}}/oem-edc-control/BPNL00000003COJN
   opentelemetry.properties: |-
     otel.javaagent.enabled=false
     otel.javaagent.debug=false
@@ -328,7 +361,7 @@ spec:
         seccompProfile:
             type: RuntimeDefault
       containers:
-        - image: ghcr.io/catenax-ng/product-agents-edc/agentplane-hashicorp:1.9.4-SNAPSHOT
+        - image: ghcr.io/catenax-ng/product-agents-edc/agentplane-hashicorp:1.9.5-SNAPSHOT
           imagePullPolicy: Always
           name: tiera-data-plane
           securityContext:
@@ -340,7 +373,6 @@ spec:
             readOnlyRootFilesystem: true
           ports:
             - containerPort: 8082 # API
-            - containerPort: 8083 # OBSERVABILITY
             - containerPort: 8185 # PUBLIC
             - containerPort: 8187 # AGREEMENT CALLBACK
             - containerPort: 9999 # CONTROL
@@ -357,8 +389,8 @@ spec:
           startupProbe:
             failureThreshold: 17
             httpGet:
-              path: /observability/check/startup
-              port: 8083
+              path: /api/check/startup
+              port: 8082
               scheme: HTTP
             initialDelaySeconds: 90
             periodSeconds: 30
@@ -367,8 +399,8 @@ spec:
           livenessProbe:
             failureThreshold: 4
             httpGet:
-              path: /observability/check/liveness
-              port: 8083
+              path: /api/check/liveness
+              port: 8082
               scheme: HTTP
             periodSeconds: 60
             successThreshold: 1
@@ -376,8 +408,8 @@ spec:
           readinessProbe:
             failureThreshold: 2
             httpGet:
-              path: /observability/check/readiness
-              port: 8083
+              path: /api/check/readiness
+              port: 8082
               scheme: HTTP
             periodSeconds: 30
             successThreshold: 1
@@ -422,9 +454,6 @@ spec:
     - port: 8082
       name: api
       targetPort: 8082
-    - port: 8083
-      name: observability
-      targetPort: 8083
     - port: 8185
       name: public
       targetPort: 8185
@@ -465,7 +494,7 @@ spec:
                 name: tiera-data-plane
                 port:
                   number: 8185
-          - path: /tiera-edc-data/{{ .Values.dataspace.bpnTier1 }}/(api/agent)(.*)
+          - path: /tiera-edc-data/{{ .Values.dataspace.bpnTier1 }}/(api)(.*)
             pathType: Prefix
             backend:
               service:

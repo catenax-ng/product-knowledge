@@ -8,35 +8,91 @@
 # that is the version of the docker compose runtime
 version: "3.9"
 
+###
+# All Services
+###
 services:
 
-  #
-  # https://download.ontotext.com/owlim/71864e00-43b9-11ed-9c34-42843b1b6b38/ontorefine-1.1.0-dist.zip
-  #
-  data-backend2:
-    build:
-      dockerfile: src/main/docker/Dockerfile
-      context: ../dataspace/virtualize/druid
-    image: ghcr.io/catenax-ng/product-knowledge/virtualizer-druid:1.9.4-SNAPSHOT
-    platform: ${DOCKER_PLATFORM:-linux/amd64}
-    ports:
-      - "8888:8888" # http
-      - "8889:8082" # jdbc
-    profiles: ["backend"]
-    volumes:
-      - ./resources/druid.runtime.properties:/opt/druid/conf/druid/single-server/micro-quickstart/_common/common.runtime.properties
-      - ./resources/data:/opt/druid/data
+   ###
+   # Core Services
+   ###
 
-  db-backend:
-    image: postgres
-    environment:
-      POSTGRES_PASSWORD: postgres
-      PGPASSWD: postgres
-    ports:
-      - 5432:5432
+  ###
+  # A relational database for data and service persistence
+  postgres:
+    image: postgres:15.3-alpine3.18
     volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./resources/psql/db.sh:/docker-entrypoint-initdb.d/init-database.sh
+      - ./resources/psql/seed.sh:/opt/seed.sh
       - ./resources/data:/tmp/data
+    env_file:
+      - resources/env.docker
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 30s
+      retries: 10
 
+  ###
+  # The managed wallet identity for self-sovereign identities
+  # Note: after initial setup, you may need to create the wallets
+  miw:
+    image: ghcr.io/catenax-ng/tx-managed-identity-wallets_miw_service:latest-java-did-web
+    platform: linux/amd64
+    container_name: miw
+    env_file:
+      - resources/env.docker
+#    environment:
+      # Uncomment to enable for debugging, please choose a different port for each endpoint
+#      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
+    ports:
+      - "8000:8000"
+#      - "8090:8090"
+#      - "5005:5005"
+#      - "4040:4040"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      keycloak:
+        condition: service_started
+
+  ###
+  # An identity provider for sign-on
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.1
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HOSTNAME: keycloak
+      KC_HEALTH_ENABLED: true
+      KC_HOSTNAME_PORT: 6060
+    command:
+      - start-dev
+      - --http-port=6060
+      - --import-realm
+    volumes:
+      - ./resources/keycloak/miw_test_realm.json:/opt/keycloak/data/import/miw_test_realm.json
+      - ./resources/keycloak/health-check.sh:/opt/keycloak/health-check.sh
+    ports:
+      - "6060:6060"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: "timeout 10s bash -c ':> /dev/tcp/127.0.0.1/6060' || exit 1"
+      interval: 10s
+      timeout: 10s
+      retries: 15
+
+  ###
+  # Backend Services
+  ###
+
+  ###
+  # An data virtualizer (SQL-Over-FS) engine for reviving business data at rest
   data-backend:
     build:
       dockerfile: src/main/docker/Dockerfile
@@ -52,24 +108,71 @@ services:
       - ./resources/data:/opt/dremio/local/data
       - ./oem/resources/dremio.conf:/opt/dremio/conf/dremio.conf
 
-#  search-backend:
-#    build:
-#      dockerfile: src/main/docker/Dockerfile
-#      context: ../dataspace/agents/sparql-anything
-#    image: ghcr.io/catenax-ng/product-knowledge/facadex-agent:1.9.4-SNAPSHOT
-#    ports:
-#      - "3000:3000"
-#    volumes:
-#      - ./resources/data/zag_fmea.xml:/opt/xyz/zag_fmea.xml
+  ###
+  # An alternative data virtualizer (SQL-Over-FS) engine for reviving business data at rest
+  #data-backend:
+  #  build:
+  #    dockerfile: src/main/docker/Dockerfile
+  #    context: ../dataspace/virtualize/druid
+  #  image: ghcr.io/catenax-ng/product-knowledge/virtualizer-druid:1.9.4-SNAPSHOT
+  #  platform: ${DOCKER_PLATFORM:-linux/amd64}
+  #  ports:
+  #    - "8888:8888" # http
+  #    - "8889:8082" # jdbc
+  #  profiles: ["backend"]
+  #  volumes:
+  #    - ./resources/druid.runtime.properties:/opt/druid/conf/druid/single-server/micro-quickstart/_common/common.runtime.properties
+  #    - ./resources/data:/opt/druid/data
 
-  graph-backend:
-    image: ontotext/graphdb:10.1.4
+  ###
+  # An binding agent (SPARQL-Over-Fs) for binding business data at rest
+  #search-backend:
+  #    build:
+  #      dockerfile: src/main/docker/Dockerfile
+  #      context: ../dataspace/agents/sparql-anything
+  #    image: ghcr.io/catenax-ng/product-knowledge/facadex-agent:1.9.4-SNAPSHOT
+  #    ports:
+  #      - "3000:3000"
+  #    volumes:
+  #      - ./resources/data/zag_fmea.xml:/opt/xyz/zag_fmea.xml
+
+  ###
+  # An binding agent (SPARQL-DB) for binding business data via a dedicated engine
+  #graph-backend:
+  #  image: ontotext/graphdb:10.1.4
+  #  ports:
+  #    - "7200:7200"
+
+  ###
+  # A REST backend 
+  service-backend:
+    build:
+      dockerfile: src/main/docker/Dockerfile
+      context: ../dataspace/mock/prognosis
+    image: ghcr.io/catenax-ng/product-knowledge/prognosis:1.9.4-SNAPSHOT
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
-      - "7200:7200"
+      - "5005:5005" # API
 
-  #
-  # Configures the provider agent
-  #
+  ###
+  # Another REST backend (asynchronozs)
+  rul-backend:
+    image: ghcr.io/catenax-ng/product-oem-rul-backend:release
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
+    environment:
+      # Uncomment to enable for debugging, please choose a different port for each endpoint
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
+    ports:
+      - "8899:35553" # sparql endpoint
+#      - "4038:4040" # debug
+    volumes:
+      - ./tiera/resources/application.properties:/opt/app/application-rulbackendservice.properties
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  ###
+  # A conformity-testing binding agent
   conforming-agent:
     image: ghcr.io/catenax-ng/product-agents/conforming-agent:1.9.4-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
@@ -78,22 +181,10 @@ services:
       JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
     ports:
       - "8898:8080" # sparql endpoint
-      - "4038:4040" # sparql endpoint
+#      - "4038:4040" # debug
 
-  rul-backend:
-    image: ghcr.io/catenax-ng/product-oem-rul-backend:release
-    platform: ${DOCKER_PLATFORM:-linux/amd64}
-    environment:
-      # Uncomment to enable for debugging, please choose a different port for each endpoint
-      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
-    ports:
-      - "8898:35553" # sparql endpoint
-      - "4038:4040" # sparql endpoint
-    volumes:
-      - ./tiera/resources/application.properties:/opt/app/application-rulbackendservice.properties
-
-  #
-  # Configures the provider agent
+  ###
+  # A data provisioning agent
   #
   provider-agent:
     image: ghcr.io/catenax-ng/product-agents/provisioning-agent:1.9.4-SNAPSHOT
@@ -113,9 +204,9 @@ services:
       # If you want to enable multiple ontologies, simply list them with spaces, like ONTOP_ONTOLOGY_FILE: /input/cx-ontology.xml /input/cx-ontology2.xml 
       ONTOP_ONTOLOGY_FILE: /opt/ontop/input/cx-ontology.xml /opt/ontop/input/cx-ontology-minimal.ttl /opt/ontop/input/ontology.ttl /opt/ontop/input/cx-ontology-minimal.ttl /opt/ontop/input/cx-ontology.ttl
       # If you want to enable multiple mappings, simply list them with spaces, like ONTOP_MAPPING_FILE: /input/dtc.obda /input/loadspectrum.obda 
-      ONTOP_MAPPING_FILE: /opt/ontop/input/dtc.obda /opt/ontop/input/hi.obda /opt/ontop/input/rul.obda /opt/ontop/input/trace.obda /opt/ontop/input/quality.obda
+      ONTOP_MAPPING_FILE: /opt/ontop/input/dtc.obda /opt/ontop/input/hi.obda /opt/ontop/input/rul.psql.obda /opt/ontop/input/trace.obda /opt/ontop/input/quality.obda
       # If you want to enable multiple settings, simply list them with spaces, like ONTOP_PROPERTIES_FILE: /input/settings.properties /input/settings.dremio.properties
-      ONTOP_PROPERTIES_FILE: /opt/ontop/input/settings.local.properties /opt/ontop/input/settings.dremio.properties /opt/ontop/input/settings.dremio.properties /opt/ontop/input/settings.dremio.properties /opt/ontop/input/settings.dremio.properties
+      ONTOP_PROPERTIES_FILE: /opt/ontop/input/settings.local.properties /opt/ontop/input/settings.dremio.properties /opt/ontop/input/settings.psql.properties /opt/ontop/input/settings.dremio.properties /opt/ontop/input/settings.dremio.properties
       # If you want to enable multiple portals, simply list them with spaces, like ONTOP_PORTAL_FILE: /input/portal.toml /input/portal2.toml 
       ONTOP_PORTAL_FILE: /opt/ontop/input/portal.toml /opt/ontop/input/portal.toml /opt/ontop/input/portal.toml /opt/ontop/input/portal.toml /opt/ontop/input/portal.toml
       # If you want to enable different developer modes, simply list them with spaces, like NTOP_DEV_MODE: true false 
@@ -130,6 +221,7 @@ services:
       - ./oem/resources/hi.psql.obda:/opt/ontop/input/hi.psql.obda
       - ./oem/resources/trace.obda:/opt/ontop/input/trace.obda
       - ./oem/resources/rul.obda:/opt/ontop/input/rul.obda
+      - ./oem/resources/rul.psql.obda:/opt/ontop/input/rul.psql.obda
       - ./oem/resources/quality.obda:/opt/ontop/input/quality.obda
       - ./oem/resources/settings.local.properties:/opt/ontop/input/settings.local.properties
       - ./oem/resources/settings.dremio.properties:/opt/ontop/input/settings.dremio.properties
@@ -137,10 +229,35 @@ services:
       - ./oem/resources/settings.psql.properties:/opt/ontop/input/settings.psql.properties
       - ./oem/resources/portal.toml:/opt/ontop/input/portal.toml
       - ./oem/resources/logback.xml:/opt/ontop/log/logback.xml
+    depends_on:
+      postgres:
+        condition: service_healthy
+      data-backend:
+        condition: service_started
 
-  #
-  # Configures the AAS bridge
-  #
+  ###
+  # A function providing agent
+  remoting-agent:
+    image: ghcr.io/catenax-ng/product-agents/remoting-agent:1.9.4-SNAPSHOT
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
+    ports:
+      - "8200:8081" # sparql endpoint
+      - "4042:4040" # debugging endpoint
+    environment:
+      # dummy environment var
+      FOO: bar
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
+    volumes:
+      - ./tiera/resources/rdf4j/conf:/var/rdf4j/server/conf
+      - ./tiera/resources/rdf4j/repositories:/var/rdf4j/server/repositories
+    depends_on:
+      rul-backend:
+        condition: service_started
+      service-backend:
+        condition: service_started
+
+  ###
+  # Bridge from provising agent to AAS API
   aas-bridge:
     build:
       dockerfile: src/main/docker/Dockerfile
@@ -166,12 +283,18 @@ services:
       JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
       TIMEOUT_SECONDS: 30
     #volumes:
+    depends_on:
+      provider-agent:
+        condition: service_started
 
-  #
+  ###
+  # Tenant/Dataspace Section
+  ###
+
+  ###
   # Configures the oem control plane (provider)
-  #
   oem-control-plane:
-    image: tractusx/edc-controlplane-memory-hashicorp-vault:0.4.1
+    image: tractusx/edc-controlplane-memory-hashicorp-vault:0.5.0-rc5
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8090:8080" # API
@@ -190,12 +313,14 @@ services:
       - ./oem/resources/controlplane.properties:/app/configuration.properties
       - ./resources/opentelemetry.properties:/app/opentelemetry.properties
       - ./resources/logging.properties:/app/logging.properties
+    depends_on:
+      miw:
+        condition: service_started
 
-  #
+  ###
   # Configures the oem control plane (consumer)
-  #
   oem-control-plane2:
-    image: tractusx/edc-controlplane-memory-hashicorp-vault:0.4.1
+    image: tractusx/edc-controlplane-memory-hashicorp-vault:0.5.0-rc5
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8097:8080" # API
@@ -212,12 +337,14 @@ services:
       - ./oem/resources/controlplane2.properties:/app/configuration.properties
       - ./resources/opentelemetry.properties:/app/opentelemetry.properties
       - ./resources/logging.properties:/app/logging.properties
+    depends_on:
+      miw:
+        condition: service_started
 
-  #
+  ###
   # Configures the OEM data plane
-  #
   oem-data-plane:
-    image: ghcr.io/catenax-ng/product-agents-edc/agentplane-hashicorp:1.9.4-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-agents-edc/agentplane-hashicorp:1.9.5-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8102:8082"  # API/sparql endpoint
@@ -235,41 +362,18 @@ services:
       - ./resources/dataspace_local.ttl:/app/dataspace.ttl
       - ./resources/opentelemetry.properties:/app/opentelemetry.properties
       - ./resources/logging.properties:/app/logging.properties
+    depends_on:
+      oem-control-plane:
+        condition: service_started
+      oem-control-plane2:
+        condition: service_started
+      tiera-control-plane:
+        condition: service_started
 
-  #
-  # Configures the tiera backend 
-  #
-  service-backend:
-    build:
-      dockerfile: src/main/docker/Dockerfile
-      context: ../dataspace/mock/prognosis
-    image: ghcr.io/catenax-ng/product-knowledge/prognosis:1.9.4-SNAPSHOT
-    platform: ${DOCKER_PLATFORM:-linux/amd64}
-    ports:
-      - "5005:5005" # API
-
-  #
-  # Configures the tier1 agent 
-  #
-  remoting-agent:
-    image: ghcr.io/catenax-ng/product-agents/remoting-agent:1.9.4-SNAPSHOT
-    platform: ${DOCKER_PLATFORM:-linux/amd64}
-    ports:
-      - "8200:8081" # sparql endpoint
-      - "4042:4040" # debugging endpoint
-    environment:
-      # dummy environment var
-      FOO: bar
-      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
-    volumes:
-      - ./tiera/resources/rdf4j/conf:/var/rdf4j/server/conf
-      - ./tiera/resources/rdf4j/repositories:/var/rdf4j/server/repositories
-
-  #
+  ###
   # Configures the tiera control plane
-  #
   tiera-control-plane:
-    image: tractusx/edc-controlplane-memory-hashicorp-vault:0.4.1
+    image: tractusx/edc-controlplane-memory-hashicorp-vault:0.5.0-rc5
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8300:8080" # API
@@ -288,12 +392,14 @@ services:
       - ./tiera/resources/controlplane.properties:/app/configuration.properties
       - ./resources/opentelemetry.properties:/app/opentelemetry.properties
       - ./resources/logging.properties:/app/logging.properties
+    depends_on:
+      miw:
+        condition: service_started
 
-  #
+  ###
   # Configures the supplier data plane
-  #
   tiera-data-plane:
-    image: ghcr.io/catenax-ng/product-agents-edc/agentplane-hashicorp:1.9.4-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-agents-edc/agentplane-hashicorp:1.9.5-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8400:8082"  # API/sparql endpoint
@@ -311,12 +417,16 @@ services:
       - ./resources/dataspace_local.ttl:/app/dataspace.ttl
       - ./resources/opentelemetry.properties:/app/opentelemetry.properties
       - ./resources/logging.properties:/app/logging.properties
+    depends_on:
+      tiera-control-plane:
+        condition: service_started
+      oem-control-plane:
+        condition: service_started
 
-  #
+  ###
   # Configures the consumer control plane
-  #
   consumer-control-plane:
-    image: tractusx/edc-controlplane-memory-hashicorp-vault:0.4.1
+    image: tractusx/edc-controlplane-memory-hashicorp-vault:0.5.0-rc5
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8500:8080" # API
@@ -334,12 +444,14 @@ services:
       - ./consumer/resources/controlplane.properties:/app/configuration.properties
       - ./resources/opentelemetry.properties:/app/opentelemetry.properties
       - ./resources/logging.properties:/app/logging.properties
+    depends_on:
+      miw:
+        condition: service_started
 
-  #
+  ###
   # Configures the consumer data plane
-  #
   consumer-data-plane:
-    image: ghcr.io/catenax-ng/product-agents-edc/agentplane-hashicorp:1.9.4-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-agents-edc/agentplane-hashicorp:1.9.5-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8600:8082"  # API/sparql endpoint
@@ -357,7 +469,20 @@ services:
       - ./resources/dataspace_local.ttl:/app/dataspace.ttl
       - ./resources/opentelemetry.properties:/app/opentelemetry.properties
       - ./resources/logging.properties:/app/logging.properties
+    depends_on:
+      consumer-control-plane:
+        condition: service_started
+      tiera-control-plane:
+        condition: service_started
+      oem-control-plane:
+        condition: service_started
 
+  ###
+  # Application/UX/Portal Section
+  ###
+
+  ###
+  # The skill gym over the consumer
   consumer-frontend:
     build:
       dockerfile: src/main/docker/Dockerfile
@@ -374,3 +499,14 @@ services:
       REACT_APP_FOLDER: /consumer-frontend
     ports:
       - "3000:8080"  # http
+    depends_on:
+      consumer-data-plane:
+        condition: service_started
+
+###
+# All Volumes
+###
+
+volumes:
+  postgres_data:
+    driver: local

@@ -52,6 +52,7 @@ cx-behaviour:RemainingUsefulLife rdf:type cx-fx:Function;
   cx-fx:input cx-behaviour:timeStamp;
   cx-fx:input cx-behaviour:classification;
   cx-fx:input cx-behaviour:component;
+  cx-fx:input cx-behaviour:observationType;
   cx-fx:input cx-behaviour:metadata;
   cx-fx:input cx-behaviour:statusDate;
   cx-fx:input cx-behaviour:statusOperatingHours;
@@ -70,7 +71,7 @@ cx-behaviour:notification rdf:type cx-fx:Argument;
   cx-fx:argumentName ".";
   cx-fx:dataType json:Object;
   cx-fx:priority "-1"^^xsd:integer;
-  cx-fx:default "{ \"content\": { \"endurancePredictorInputs\": [ { \"classifiedLoadSpectrumGearOil\": { \"bammId\": \"urn:bamm:io.openmanufacturing.digitaltwin:1.0.0#ClassifiedLoadSpectrum\" }}]}}"^^json:Object.
+  cx-fx:default "{ \"content\": { \"endurancePredictorInputs\": []}}"^^json:Object.
 
 cx-behaviour:sender rdf:type cx-fx:Argument;
   dcterms:description "Sender of the notification as a BPN."@en ;
@@ -132,87 +133,93 @@ cx-behaviour:classification rdf:type cx-fx:Argument;
 cx-behaviour:component rdf:type cx-fx:Argument;
   dcterms:description "Component of the Predicition."@en ;
   dcterms:title "Predicted Component";
-  cx-fx:argumentName "content.endurancePredictorInputs.0.componentId,content.endurancePredictorInputs.0.classifiedLoadSpectrumGearOil.targetComponentId".
+  cx-fx:formsBatchGroup "true"^^xsd:boolean;
+  cx-fx:argumentName "content.endurancePredictorInputs.0.componentId,content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.targetComponentId".
+
+cx-behaviour:observationType rdf:type cx-fx:Argument;
+  dcterms:description "The type of observation made."@en ;
+  dcterms:title "Observation Type";
+  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.metadata.componentDescription";
+  cx-fx:dataType xsd:string.
 
 cx-behaviour:metadata rdf:type cx-fx:Argument;
   dcterms:description "Metadata of the Loadspectrum."@en ;
   dcterms:title "Loadspectrum Metadata";
-  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrumGearOil.metadata";
+  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}";
   cx-fx:dataType json:Object;
-  cx-fx:default "{ \"projectDescription\": \"pnr_76543\", \"componentDescription\": \"GearOil\", \"routeDescription\": \"logged\" }"^^json:Object.
+  cx-fx:priority "0"^^xsd:integer;
+  cx-fx:default "{ \"metadata\":{ \"projectDescription\": \"pnr_76543\", \"routeDescription\": \"logged\" }, \"bammId\": \"urn:bamm:io.openmanufacturing.digitaltwin:1.0.0#ClassifiedLoadSpectrum\" }"^^json:Object.
 
 cx-behaviour:statusDate rdf:type cx-fx:Argument;
   dcterms:description "Time of Recording."@en ;
   dcterms:title "Loadspectrum Recording Time";
   cx-fx:dataType xsd:dateTime;
-  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrumGearOil.metadata.status.date".
+  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.metadata.status.date".
 
 cx-behaviour:statusOperatingHours rdf:type cx-fx:Argument;
   dcterms:description "Operating Hours of Target Component at Time of Recording."@en ;
   dcterms:title "Loadspectrum Operating Hours";
   cx-fx:dataType xsd:float;
-  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrumGearOil.metadata.status.operatingHours".
+  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.metadata.status.operatingHours".
 
 cx-behaviour:statusMileage rdf:type cx-fx:Argument;
   dcterms:description "Mileage of Component at Time of Recording."@en ;
   dcterms:title "Loadspectrum Mileage";
   cx-fx:dataType xsd:int;
-  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrumGearOil.metadata.status.mileage".
+  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.metadata.status.mileage".
 
 cx-behaviour:countingUnit rdf:type cx-fx:Argument;
   dcterms:description "Counting Unit of Load Spectrum."@en ;
   dcterms:title "Loadspectrum Counting Unit";
   cx-fx:dataType xsd:string;
-  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrumGearOil.header.countingUnit".
+  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.header.countingUnit".
 
 cx-behaviour:countingValue rdf:type cx-fx:Argument;
   dcterms:description "Counting Value Name of Load Spectrum."@en ;
   dcterms:title "Loadspectrum Counting Value";
   cx-fx:dataType xsd:string;
-  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrumGearOil.header.countingValue,content.endurancePredictorInputs.0.classifiedLoadSpectrumGearOil.body.counts.countsName".
+  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.header.countingValue,content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.body.counts.countsName".
 
 cx-behaviour:countingMethod rdf:type cx-fx:Argument;
   dcterms:description "Counting Method of Load Spectrum."@en ;
   dcterms:title "Loadspectrum Counting Method";
   cx-fx:dataType xsd:string;
-  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrumGearOil.header.countingMethod".
+  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.header.countingMethod".
 
 cx-behaviour:headerChannels rdf:type cx-fx:Argument;
   dcterms:description "Channels of Load Spectrum."@en ;
   dcterms:title "Loadspectrum Channels";
   cx-fx:dataType json:Object;
-  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrumGearOil.header.channels".
+  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.header.channels".
 
 cx-behaviour:bodyClasses rdf:type cx-fx:Argument;
   dcterms:description "Classes of Load Spectrum."@en ;
   dcterms:title "Loadspectrum Classes";
   cx-fx:dataType json:Object;
-  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrumGearOil.body.classes".
+  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.body.classes".
 
 cx-behaviour:bodyCountsList rdf:type cx-fx:Argument;
   dcterms:description "Counts List of Load Spectrum."@en ;
   dcterms:title "Loadspectrum Counts List";
   cx-fx:dataType json:Object;
-  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrumGearOil.body.counts.countslist".
+  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.body.counts.countsList".
 
 cx-behaviour:response rdf:type cx-fx:Result;
   dcterms:description "The asynchronous notification response."@en ;
   dcterms:title "Asynchronous notification response." ;
   cx-fx:callbackProperty "header.referencedNotificationID";
   cx-fx:outputProperty "content.endurancePredictorOutputs";
-  cx-fx:resultIdProperty "componentType";
-  cx-fx:correlationInput cx-behaviour:component;
   cx-fx:output cx-behaviour:remainingOperatingHours;
   cx-fx:output cx-behaviour:remainingRunningDistance.
 
 cx-behaviour:remainingOperatingHours rdf:type cx-fx:ReturnValue;
   dcterms:description "Predicted Operating Hours of Remaining Useful Life Response"@en ;
   dcterms:title "Remaining Useful Life Operating Hours" ;
-  cx-fx:valuePath "remainingUsefulLife.remainingOperatingHours";
+  cx-fx:valuePath "0.remainingUsefulLife.remainingOperatingHours";
   cx-fx:dataType xsd:float.
 
 cx-behaviour:remainingRunningDistance rdf:type cx-fx:ReturnValue;
   dcterms:description "Predicted Distance of Remaining Useful Life Response"@en ;
   dcterms:title "Remaining Useful Life Distance" ;
-  cx-fx:valuePath "remainingUsefulLife.remainingRunningDistance";
+  cx-fx:valuePath "0.remainingUsefulLife.remainingRunningDistance";
   cx-fx:dataType xsd:int.
