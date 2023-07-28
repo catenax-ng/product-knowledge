@@ -81,13 +81,54 @@ Non-standard relevant, but provided as a best practice/blueprint architecture ar
       * RDF4J/SAIL configuration for REST remoting
     * SQL- and REST-based Virtualizers which bridge public Dataspace Operations with internal/private backend systems/data sources.
 
+  [![Example_Graph_Standards](/img/Example_Graph.jpg)](/img/Example_Graph.jpg)
+
+Knowledge Agents regards the peer-to-peer Dataspace as one large federated execution engine.
+
+Federation means distributed that is there is no central endpoint/resource which controls the computation, but the execution may be entered/triggered on any tenant and uses a scalable set of resources which are contributed by each participant.
+
+Federation means independent in that there is no central authentication/authorization regime, but the computation is validated, controled and (transparently) delegated by decentral policies as given/defined be each particpant.
+
+See also [High-Level Architecture](architecture).
+
 ## Building Block View
 
 See chapter [Layers & Modules](modules)
 
+ [![Detailed_Architecture](/img/Detailed_Architecture.png)](/img/Detailed_Architecture.png)
+ 
 ## Runtime View
 
+[![Runtime View](/img/dataspace_layer.png)](/img/dataspace_layer.png)
+
+[![Runtime View2](/img/Runtime_View2.png)](/img/Runtime_View2.png)
+
+Sequence of actions:
+
+    A data provider provides a self description of the piece of knowledge he likes to provide including the terms of conditions in his own data catalogue
+        * Graph assets describe
+          * node classes
+          * relations (arity) and 
+          * constraints on nodes and relations (temporal, value ranges, ...) 
+          * constraints on the queries/skills that may be executed on the graph
+        * Graph usage policies can restrict the following operations on graphs (given an execution context)
+          * selection
+          * traversion
+          * the storage
+          * the manipulation and the
+          * deletion of nodes and relations  
+    A data provider marks particular graph assets as being visible in the federated data catalog. The federated data catalogues of the federated companies/EDCs will be automatically synchronized.
+    Any consuming app can employ an agent with a suitable skill/query (which can be provided locally or as a remote asset, too)
+    The agent will match the requirements in the skill with the offers in the federated data catalog to fill in the endpoints and usage policies from the self description. Optional: If necessary, needed attributes/claims have to be requested from a suitable issuer to get the verifiable credentials into the wallet.
+    Agreements (between XA, XC, eventually between XB) have to be set up in such a way that the corresponding agents will be available through the data plane. Optional: Within EDC the contracts are negotiated and the needed attributes/claims are verified (see PEP, PDP and PIP).
+    The agent delegates a sub-query/sub-skill to the respective knowledge owners (data provider) for the knowledge via an instance of EDC. It annotates the sub-queries with a call context which contains the EDC/agent calling sequence and the other assets with which the result data → ohne data oder resulting data will be joined.
+    The data plane will validate the calling context together with the claims inside the agreement token. → im Schaubild gibt es zweimal Schritt "7"; eine der Beschreibungen fehlt hier also, oder?
+    The agent executes the actual query by mapping to a backend data system and finally provides the app the result → "provides the result to the app"? → auf "8" kommt zweimal vor; einmal als "bind" Schritt ins Backend, einmal als request
+    The agent can decide to delegate further down the line → sollte das auch im Schaubild zu sehen sein?
+
 ## Deployment View
+
+See chapter [Deployment](../operation-view/deployment).
 
 ## Crosscutting Concepts
 
