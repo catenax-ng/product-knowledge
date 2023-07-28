@@ -1,24 +1,103 @@
 ---
-sidebar_position: 1
-title: High-Level Architecture
+sidebar_position: 7
+title: Detailed Architecture
 ---
 
-This document describes the High-Level Architecture of the Agents Standard and Kit.
+This document describes the detailed Architecture of the Agents Standard and Kit based on ARC42 standard.
 
-For more information see
+## Introduction and Goals
 
-* Our [Adoption](../adoption-view/intro) guideline
-* The [Layers & Modules](modules) Architecture
-* Our [Reference Implementation](reference)
-* The [Deployment](../operation-view/deployment) guide
+The main objective concerning the approach described in this section is to create a state-of-the-art compute-to-data architecture for automotive use cases (and beyond) based on standards and best practices around GAIA-X and W3C. To reach this aim, full semantic integration, search and query with focus on relations between entities and data sovereignty is focused. In contrast to a simple file-based data transfer, this shifts the responsibility for the access, authorization to the data and processing of the data from the application development to the provider and hence ultimately, the actual owner of the data. To achieve this aim, the Knowledge Agent standard shall achieve the following abilities:
 
-## Compute-To-Data
+* the ability to define well-formed and composable computations/scripts (skills) which operate over various assets of various business partners.
+* the ability to invoke and dynamically distribute these (sub-)skills over the relevant partners/connectors using an extensible agent interface.
+* the ability to safely provide data and service assets via appropriate agent implementations which "bind" the skill to the backend execution engines (rather than mapping data).
+* the ability for an agent/connector/business partner to decide
+  * whether to hide particular data and computations inside a sub-skill
+  * whether to delegate/federate particular computations/sub-skills to other agents
+  * whether to migrate or clone an agent/asset from a partner
+* the ability to describe data and service assets as well as appropriate federation policies in the IDS vocabulary in order to allow for a dynamic matchmaking of skills and agents.
+* the ability to define domain/use case-based ontologies which form the vocabulary used in the skill definitions.
+* the ability to visualize and develop the ontologies and skills in appropriate SDKs and User Experience components.
 
-The main objective concerning the approach described in this section is to create a state-of-the-art compute-to-data architecture for automotive use cases (and beyond) based on standards and best practices around GAIA-X (<https://gaia-x.eu>), W3C (<https://www.w3.org/>) and Big Data ( <https://en.wikipedia.org/wiki/Big_data>). To reach this aim, full semantic integration, search and query with focus on relations between entities and data sovereignty is focused. In contrast to a simple file-based data transfer, this shifts the responsibility for the (I) access, (II) authorization to the data and (III) processing of the data from the application development to the provider and hence ultimately, the actual owner of the data. Figure 2 shows the high-level approach, introducing the most important concepts needed for the realization.
+See also the KIT [Introduction](../adoption-view/intro) section and The [High-Level Architecture](architecture).
 
-[![Architecture Interaction](/img/architecture_small.png)](/img/architecture.png)
+## Constraints
 
-### App
+The Knowledge Agents Architecture is based on the Catena-X Dataspace Architecture with a specific focus on the Eclipse Dataspace Connector (EDC). It integrates with Catena-X Portal/Core Services & Identity Management principles and supports the typical interaction models as required by Catena-X Use Cases, such as
+* Traceability with Focus on Low-Volume Bills-Of-Material Data and Deep Supply Chains with One-Up and One-Down Visibility
+* Behaviour Twin with Focus on High-Volume Telematics Data and Flat and Trustful Supply Chain  
+
+Furthermore, on the vocabulary/script level it utilizes and extends well-defined profiles of W3C Semantic Web Standards, such as OWL, RDF, SHACL, SPARQL.
+
+## Context and Scope
+
+The standard is relevant for the following roles:
+
+- Business Application Provider
+- Enablement Service Provider
+- Data Consumer
+- Data Provider
+
+The following Catena-X stakeholders are affected by Knowledge Agent approach
+
+- **Business Application Provider:** Applications that use KA technology on behalf of a Dataspace Participant (e.g. a Fleet Monitor, an Incident Reporting Solution).
+
+- **Enablement Service Provider:** Services to assist Dataspace Participants/Applications in processing data based on KA technology (e.g. a Graph Database, a Virtual Graph Binding Engine, an EDC Package).
+As a second path, Companies are addressed that want to provide compute resources (for example by a server or other KA-enabled Applications or Services) based on instances/configurations of KA-enabled EDC Packages, for example a Recycling Software Specialist
+
+- **Data Consumer:** Companies that want to use data and logic (for example by KA-enabled Applications or Services) based on instances/configurations of KA-enabled EDC Packages, such as a Recycling Company or a Tier-2 Automotive Supplier
+- **Data Provider:** Companies that want to provide data (for example by a backend database or other KA-enabled Applications or Services) based on instances/configurations of KA-enabled EDC Packages, for example an Automotive OEM. Companies that want to provide functions (for example by a REST endpoint or other KA-enabled Applications or Services) based on instances/configurations of KA-enabled EDC Packages, for example a Tier1 Sensor Device Supplier
+
+Content-wise the following capabilities of Catena-X are addressed:
+
+- Query and Search (Basic Mechanism, Integration in User Experiences)
+- Services for making use of various federated data sources being part of a data space (Data & Function Provisioning, Logic Development & Provisioning)
+- Semantic Modelling
+- Publishing, Negotiation, Transfer Protocols and Policy Enforcement via IDS (EDC) connector
+
+## Solution Strategy
+
+Knowledge Agents regards the peer-to-peer Dataspace as one large (virtual) knowledge graph.
+
+A graph, because the representation of data as a set of Triples (Outgoing-Node = Subject, Edge = Predicate, Receiving-Node = Object) is the highest form of normalization to which all other forms of structured data can be abstracted.
+
+Virtual, because this graph is not centrally instantiated in a dedicated database, but it is manifested by a computation (traversal) which jumps from node to node (and hereby: from the sovereignity domain of one business partner to the another one including taking over authentication and authorization information).  
+
+Knowledge because computations and graph contents are not arbitrary, but share common meta-data (again in the form of a graph interlinked with the actual instance graph) such that the vocabulary (at least: edge names) is standardized and computations can be formulated (offered)  independent of the data.
+
+To reach that metaphor, the Knowledge Agents Architecture uses the following specifications, some of which are standard-relevant:
+
+    * A general description language based on the Resource Description Framework (RDF)
+    * A Meta-Model defined by OWL-R
+    * A platform Ontology (consisting of several domain ontologies) as the Semantic Model
+    * A description of graphs (=graph assets) which contain instance data for the Semantic Model (or: use-case driven and role-driven subsets thereof) and which may be described as SHACL constraints
+    * A query language to traverse the graphs in SparQL and store these queries as skills (=skill assets) in the database
+
+Non-standard relevant, but provided as a best practice/blueprint architecture are
+
+    * Bindings for relational and functional data
+      * R2RML or OBDA for relational data
+      * RDF4J/SAIL configuration for REST remoting
+    * SQL- and REST-based Virtualizers which bridge public Dataspace Operations with internal/private backend systems/data sources.
+
+## Building Block View
+
+See chapter [Layers & Modules](modules)
+
+## Runtime View
+
+## Deployment View
+
+## Crosscutting Concepts
+
+## Architectural Decisions
+
+## Quality Requirements
+
+## Risks & Technical Debt
+
+## Glossary
 
 The App in the figure serves the Consumer by gathering, analyzing, and presenting the knowledge about business questions such as: How much of a certain material can be found in a different vehicle series? It is assumed that the data which is needed to answer such questions is distributed over the network and cannot be found at one central place.
 
@@ -50,41 +129,4 @@ Simply put, the Binding Agent is a restricted version of the Matchmaking Agent (
 
 As mentioned earlier, essential for the realization of the idea is the creation, governance and discoverability of a well-defined semantic catalogue, which forms together with the data a Federated Knowledge Graph. In this context, the definition of a Knowledge Graph (KG) as "a multi relational graph composed of entities and relations which are regarded as nodes and different types of edges, respectively" is extended with aspect of federation. We see a Federated KG as a KG where entities and relations reside physically distributed over multiple systems connected through a network and a common query language. We see semantic metadata as structural information to scope the entities and relations of the KG based on ontological principles. This is the agreement, necessary for the successful interplay of the distributed parties within the data space.
 
-## Abilities
 
-To summarize, the Knowledge Agent standard shall achieve the following abilities:
-
-* the ability to define well-formed and composable computations/scripts (skills) which operate over various assets of various business partners.
-* the ability to invoke and dynamically distribute these (sub-)skills over the relevant partners/connectors using an extensible agent interface.
-* the ability to safely provide data and service assets via appropriate agent implementations which "bind" the skill to the backend execution engines (rather than mapping data).
-* the ability for an agent/connector/business partner to decide
-  * whether to hide particular data and computations inside a sub-skill
-  * whether to delegate/federate particular computations/sub-skills to other agents
-  * whether to migrate or clone an agent/asset from a partner
-* the ability to describe data and service assets as well as appropriate federation policies in the IDS vocabulary in order to allow for a dynamic matchmaking of skills and agents.
-* the ability to define domain/use case-based ontologies which form the vocabulary used in the skill definitions.
-* the ability to visualize and develop the ontologies and skills in appropriate SDKs and User Experience components.
-
-With these abilities, the Knowledge Agent standard provides the following value propositions:
-
-## Democratization of added value service design for data spaces
-
-Currently, the development of full-scale Apps to address use cases for cross-company exchange requires a lot of development effort. By proceeding this way, addressing new business problems or fast prototyping of solution ideas are not straightforward to achieve. Thus, the idea of a fast-growing ecosystems based on data exchange between companies is at risk. KA introduces Skills as a new concept to support query of data spaces with small effort. A new Skill can be developed in few days in comparison to weeks or months for app development. In this context it is aimed that data consumers are able to create skills by themselves based on their very specific business demand.
-
-[![Architecture Modules and Parties](/img/modules_roles_small.png)](/img/modules_roles.png)
-
-In addition, a third party in addition to Consumer and (Data, Function) Provider can be imagined: The Skill provider (see Figure 3). Similar to an App Provider, the Skill Provider develops queries to address various business problems. Developed Skills can be offered as Skill Assets over the dataspace and in the Marketplace, quite similar to the existing Services and Apps.
-
-It is also possible to combine Skill and App development (by using Skills as stored procedures in the App framework). By following this approach App developers can concentrate on frontend optimization and usability of the app while the skills deliver the business relevant information.
-
-## Custom Search
-
-Based on the skill concept, mighty search functionalities can be realized by utilizing the KA approach. SPARQL is already a common standard to browse large data catalogues (e.g. Wikidata). By utilizing this principle, it becomes possible to search for objects which are unknown at the beginning of the search (similar to Google). This advantage is important since comparable twin-based approaches for the semantic layer require a specific ID to find an object.
-
-## Scalability for data consumers
-
-Utilization of dataspaces for exchanging complex product- or production data usually involves transfer of large datasets. If for example an automotive OEM wants to access information of their car fleets ranging from hundreds to millions of cars, the dataspace still needs to provide required data in short time without risking too much load on the network. Thus, the outlined approach is based on efficient federated SPARQL queries which only transport computation results across the network in contrast to full datasets (compute to data). Further potentials for streamlining performance are for example parallelized EDC contract negotiations and efficient delegations between suppliers.
-
-## Data Sovereignty
-
-One of the key requirements for dataspaces is to guarantee that data is only shared willingly and subject to specific terms and conditions of respective data providers. One core component to support definition and negotiation of contracts and policies is the Eclipse Dataspace Connector (EDC). Nevertheless, the way how data is processed via a semantic layer also contributes to data sovereignty. KA follows a strict compute to data approach. Thus, by design only computation results are shared instead of copying all data relevant for this computation (e.g. submit only weight information instead of geometry and material information). Furthermore, by utilizing data models based on ontologies definition of access rights can be made up to a high level of granularity (attribute level).
