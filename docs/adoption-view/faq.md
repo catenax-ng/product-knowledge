@@ -51,7 +51,17 @@ We do not introduce arbitrary (turing-equivalent, hence undecidable) ad-hoc comp
 
 Finally, we are investigating a form of differential privacy which introduces noise between your data source and its graph representation such that original values can be effectively hidden from the reporting output.
 
-#### Great Scalability
+### Easy Deployment
+
+#### Doesn't this place additional burdens to the dataspace participants?
+
+For data consumers, there is virtually nothing to do. All they have to care for is to add an Agent-Enabled data plane to their connector (or even use our Agent Plane as a full-blown replacement for the Http/AmazonS3 standard of Tractus-X).
+
+For smaller data and skill providers, there will be the possibility to host non-critical data directly through the storage facilities of the Agent Plane.
+
+For all others, they will employ techniques for data virtualization anyway to scale and shield their critical data. That is where the binding agents as one additional container/layer that is declaratively described (not: programmatically) come into play.
+
+### Great Scalability
 
 #### How could such a scheme be efficient at all
 
