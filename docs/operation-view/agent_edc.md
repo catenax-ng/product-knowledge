@@ -3,7 +3,7 @@ sidebar_position: 2
 title: Agent-Enabled Dataspace Connector
 ---
 
-For participating in Semantic-Web Driven Dataspace Applications following the Catena-X Knowledge Agents Standard, we recommend deploying an [Agent-Enabled Tractus-X EDC](https://github.com/eclipse-tractusx/knowledge-agents-edc/blob/main/docs/README.md](https://github.com/catenax-ng/tx-knowledge-agents-edc/blob/feature/CXAR-921-agent-plane-code/docs/README.md)
+For participating in Semantic-Web Driven Dataspace Applications following the Catena-X Knowledge Agents Standard, we recommend deploying an [Agent-Enabled Tractus-X EDC](https://github.com/catenax-ng/tx-knowledge-agents-edc/blob/feature/CXAR-921-agent-plane-code/docs/README.md)
 
 For more information see
 
