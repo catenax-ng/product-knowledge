@@ -53,6 +53,7 @@ const sidebars = {
                     collapsed: true,
                     items: [
                         'development-view/architecture',
+                        'development-view/Arc42',
                         {
                             type: 'category',
                             label: 'Layers & Modules',
@@ -67,7 +68,6 @@ const sidebars = {
                         },
                         'development-view/reference',
                         'development-view/build',
-                        'development-view/Arc42',
                         'development-view/compile',
                         {
                             type: 'category',
