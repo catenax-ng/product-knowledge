@@ -99,7 +99,7 @@ See chapter [Layers & Modules](modules)
  
 ## Runtime View
 
-[![Runtime View2](/img/Runtime_View2.png)](/img/Runtime_View3.png)
+[![Runtime View2](/img/Runtime_View3.png)](/img/Runtime_View3.png)
 
 Sequence of actions:
 
