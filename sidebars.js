@@ -38,7 +38,7 @@ const sidebars = {
                         {
                             type: 'link',
                             label: 'Catena-X Standard CX-0084',
-                            href: 'https://github.com/catenax-ng/product-catena-x-standardization/blob/CX-0084-FederatedQueriesInDataSpaces/standards/CX-0084-FederatedQueriesInDataSpaces/1.0.0/CX-0084-FederatedQueriesInDataSpaces-v1.0.0.md'
+                            href: 'https://github.com/catenax-ng/product-catena-x-standardization/blob/main/standards/CX-0084-FederatedQueriesInDataSpaces/1.0.0/CX-0084-FederatedQueriesInDataSpaces-v1.0.0.md'
                         },
                         'adoption-view/testbed',
                     ],
@@ -82,6 +82,7 @@ const sidebars = {
                                 'development-view/api/agent/skill/postSkill'
                             ],
                         }
+                     'development-view/Arc42',
                     ],
                 },
                 {
