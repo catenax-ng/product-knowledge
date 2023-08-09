@@ -67,7 +67,7 @@ const sidebars = {
                         },
                         'development-view/reference',
                         'development-view/build',
-                        'development-view/arc42',
+                        'development-view/Arc42',
                         'development-view/compile',
                         {
                             type: 'category',
