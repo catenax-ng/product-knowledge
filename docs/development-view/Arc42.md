@@ -95,13 +95,11 @@ See also [High-Level Architecture](architecture).
 
 See chapter [Layers & Modules](modules)
 
- [![Detailed_Architecture](/img/Detailed_Architecture.png)](/img/Detailed_Architecture.png)
+[![Architecture High-Level](/img/knowledge_agent_architecture_small.png)](/img/knowledge_agent_architecture.png)
  
 ## Runtime View
 
-[![Runtime View](/img/dataspace_layer.png)](/img/dataspace_layer.png)
-
-[![Runtime View2](/img/Runtime_View2.png)](/img/Runtime_View2.png)
+[![Runtime View2](/img/Runtime_View2.png)](/img/Runtime_View2.jpg)
 
 Sequence of actions:
 
