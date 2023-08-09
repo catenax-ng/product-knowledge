@@ -67,6 +67,7 @@ const sidebars = {
                         },
                         'development-view/reference',
                         'development-view/build',
+                        'development-view/arc42',
                         'development-view/compile',
                         {
                             type: 'category',
@@ -82,7 +83,7 @@ const sidebars = {
                                 'development-view/api/agent/skill/postSkill'
                             ],
                         }
-                     'development-view/Arc42',
+                
                     ],
                 },
                 {
