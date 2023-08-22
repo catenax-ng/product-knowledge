@@ -53,6 +53,7 @@ const sidebars = {
                     collapsed: true,
                     items: [
                         'development-view/architecture',
+                        'development-view/Development_Process',
                         'development-view/Arc42',
                         {
                             type: 'category',
