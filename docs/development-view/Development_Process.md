@@ -7,4 +7,4 @@ This document describes important aspects of knowledge agent development process
 
 ## Branching Strategy
 
-see (<https://github.com/catenax-ng/product-knowledge/blob/feature/ART3-382-documentation/docs/development-view/branching.mmd
+see <https://github.com/catenax-ng/product-knowledge/blob/feature/ART3-382-documentation/docs/development-view/branching.mmd>
