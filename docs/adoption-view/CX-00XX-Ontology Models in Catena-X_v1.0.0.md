@@ -53,7 +53,7 @@ Thus, the following fundamental principles should be considered for creating dat
 
 Ontology models can be seen as a sophisticated way of implementing these targets. The term [ontology](https://de.wikipedia.org/wiki/Ontologie) itself is rather fuzzy and addresses a whole branch of philosophy caring about the order of things and theoretical concepts. In computer science the definition of ontology is much more narrow and relates to the structure of classes, attributes and relations (see Figure 1).
 
-<img src="image2022-9-8_8-14-38.png" width="400" height="400">
+[![Ontology_Classification](/img/ontology_classification.png)](/img/ontology_classification.png)
 
 Figure 1: classification of terminology utilized in semantic context.
 
@@ -98,7 +98,7 @@ Ontology modelling is an iterative, continuous development process that consists
 * create relations,
 * create attributes.
 
-<img src="image2022-9-12_9-20-10.png" width="600" height="350">
+[![Ontology_Process](/img/ontology_process.png)](/img/ontology_process.png)
 
 Figure 2: Modelling Process
 
