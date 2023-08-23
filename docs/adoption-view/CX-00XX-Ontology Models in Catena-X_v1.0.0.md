@@ -149,9 +149,9 @@ The following questions/guidelines help to structure an ontology modelling works
     *  use a short, unambiguous domain name so that everyone can easily understand the meaning
     * use a specific domain name if helps to understand the context better
 * define turtle file name followed by 'ontology' in snake_case
-    * <domain> + '_ontology.ttl', e.g. 'vehicle_ontology.ttl'
+    * (domain) + '_ontology.ttl', e.g. 'vehicle_ontology.ttl'
 * specify title of ontology followed by 'Ontology' in title case with whitespaces
-    * <domain> + ' Ontology', e.g. 'Vehicle Ontology'
+    * (domain) + ' Ontology', e.g. 'Vehicle Ontology'
 * specify version, use three integers separated with two dots
 * specify author, full name(s) of main responsible(s) comma separated
 * specify contributor, full name(s) domain expert(s) comma separated
