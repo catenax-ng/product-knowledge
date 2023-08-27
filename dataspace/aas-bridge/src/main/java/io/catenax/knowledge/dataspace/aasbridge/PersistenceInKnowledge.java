@@ -16,7 +16,6 @@ import de.fraunhofer.iosb.ilt.faaast.service.typing.TypeInfo;
 import de.fraunhofer.iosb.ilt.faaast.service.util.Ensure;
 import io.adminshell.aas.v3.model.*;
 import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironment;
-import io.catenax.knowledge.dataspace.aasbridge.managers.IdentifiableKnowledgeManager;
 
 import java.util.List;
 import java.util.Set;
@@ -30,8 +29,6 @@ public class PersistenceInKnowledge implements Persistence<PersistenceInKnowledg
     AssetAdministrationShellEnvironment model;
     MappingExecutor executor;
 
-    IdentifiableKnowledgeManager manager;
-
     public PersistenceInKnowledge() {
     }
 
@@ -41,7 +38,6 @@ public class PersistenceInKnowledge implements Persistence<PersistenceInKnowledg
         Ensure.requireNonNull(persistenceInKnowledgeConfig, "config must be non-null");
         Ensure.requireNonNull(serviceContext, "context must be non-null");
         this.persistenceConfig = persistenceInKnowledgeConfig;
-        this.manager = new IdentifiableKnowledgeManager(persistenceInKnowledgeConfig);
         this.coreConfig = coreConfig;
         this.serviceContext = serviceContext;
         this.executor = new MappingExecutor(
@@ -58,7 +54,7 @@ public class PersistenceInKnowledge implements Persistence<PersistenceInKnowledg
         Ensure.requireNonNull(id, "id must be non-null");
         Ensure.requireNonNull(modifier, MSG_MODIFIER_NOT_NULL);
         Ensure.requireNonNull(type, "type must be non-null");
-        Identifiable result = manager.getIdentifiableById(id, type);
+        Identifiable result = executor.queryIdentifiableById(id, type);
         if (result == null) {
             throw new ResourceNotFoundException(id, type);
         }
@@ -81,13 +77,17 @@ public class PersistenceInKnowledge implements Persistence<PersistenceInKnowledg
     @Override
     public List<AssetAdministrationShell> get(String idShort, List<AssetIdentification> assetIds, QueryModifier modifier) {
         Ensure.requireNonNull(modifier, MSG_MODIFIER_NOT_NULL);
-        return QueryModifierHelper.applyQueryModifier(manager.getAASs(idShort, assetIds), modifier);
+        try {
+            return QueryModifierHelper.applyQueryModifier(executor.queryAllShells(idShort, assetIds), modifier);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public List<Submodel> get(String idShort, Reference semanticId, QueryModifier modifier) {
         Ensure.requireNonNull(modifier, MSG_MODIFIER_NOT_NULL);
-        return QueryModifierHelper.applyQueryModifier(manager.getSubmodels(idShort, semanticId), modifier);
+        return QueryModifierHelper.applyQueryModifier(executor.queryAllSubmodels(idShort, semanticId), modifier);
     }
 
     @Override

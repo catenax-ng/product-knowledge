@@ -145,7 +145,7 @@ services:
         PROVIDER_SPARQL_ENDPOINT_ARG: https://knowledge.dev.demo.catena-x.net/oem-edc-data/BPNL00000003COJN/api/agent
         #PROVIDER_AGENT_PLANE_ARG: http://provider-agent:8082/sparql
         PROVIDER_AGENT_PLANE_ARG: http://oem-provider-agent:8082/sparql
-    image: ghcr.io/catenax-ng/product-knowledge/aas-bridge:1.9.1-SNAPSHOT
+    #image: ghcr.io/catenax-ng/product-knowledge/aas-bridge:1.9.1-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8700:8080" # AAS-API

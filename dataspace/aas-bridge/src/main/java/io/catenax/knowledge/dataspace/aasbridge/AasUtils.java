@@ -47,9 +47,14 @@ public class AasUtils {
         }
     }
 
-    public static AssetAdministrationShellEnvironment mergeAasEnvs(List<AssetAdministrationShellEnvironment> aasEnvs) {
-        Set<AssetAdministrationShell> collect = aasEnvs.stream().flatMap(env -> env.getAssetAdministrationShells().stream()).collect(Collectors.toSet());
-        Map<String, List<AssetAdministrationShell>> collect1 = collect.stream().collect(Collectors.groupingBy(aas -> aas.getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue()));
+    public static AssetAdministrationShellEnvironment mergeAasEnvs(Set<AssetAdministrationShellEnvironment> aasEnvs) {
+        Set<AssetAdministrationShell> collect = aasEnvs.stream()
+                .flatMap(env -> env.getAssetAdministrationShells().stream())
+                .collect(Collectors.toSet());
+        Map<String, List<AssetAdministrationShell>> collect1 = collect.stream()
+                .collect(Collectors.groupingBy(aas ->
+                        // TODO: if gaid not available, match for any said-k-v-pair
+                        aas.getAssetInformation().getGlobalAssetId().getKeys().get(0).getValue()));
         List<AssetAdministrationShell> mergedShells = collect1.values().stream().map(group ->
                 group.stream().reduce((aas1, aas2) -> {
                     aas1.getSubmodels().addAll(aas2.getSubmodels());

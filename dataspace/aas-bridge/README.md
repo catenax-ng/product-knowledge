@@ -3,6 +3,8 @@
 The AAS-Bridge exposes information from the Knowledge Graph via the APIs of the Asset Administration Shell. It builds
 upon the FAAAST Framework and the AAS4J-Transformation-Library.
 
+Please note that this project is highly experimental, unstable and feature-incomplete.
+
 ### Configuration
 
 By default, the AAS-Bridge has four Mapping Configurations included - one for each submodel. A mapping configuration 

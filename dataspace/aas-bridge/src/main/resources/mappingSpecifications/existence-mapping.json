@@ -1,0 +1,76 @@
+{
+  "@header": {
+    "version": "0.0.1",
+    "aasVersion": "3.0RC01",
+    "@variables": {
+      "semanticId": "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned"
+    },
+    "@namespaces": {
+      "sparql": "http://www.w3.org/2005/sparql-results#",
+      "semanticId": "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned"
+    },
+    "@definitions": {
+      "genSubmodelId": {
+        "@concatenate": [
+          {
+            "@var": "semanticId"
+          },
+          "/",
+          {
+            "@xpath": "."
+          }
+        ]
+      }
+    }
+  },
+  "aasEnvironmentMapping": {
+    "assetAdministrationShells": [
+      {
+        "@foreach": {
+          "@xpath": "//sparql:result"
+        },
+        "assetInformation": {
+          "assetKind": "Instance",
+          "globalAssetId": {
+            "keys": [
+              {
+                "@bind": {
+                  "value": {
+                    "@xpath": "./sparql:binding[@name='id']/sparql:uri"
+                  }
+                },
+                "idType": "Custom"
+              }
+            ]
+          }
+        },
+        "idShort": "defaultAdminShell",
+        "identification": {
+          "@bind": {
+            "id": {
+              "@generate_uuid": {
+                "@xpath": "./sparql:binding[@name='id']/sparql:uri"
+              }
+            }
+          },
+          "idType": "Iri"
+        },
+        "submodels": [
+          {
+            "keys": [
+              {
+                "idType": "Iri",
+                "type": "Submodel",
+                "@bind": {
+                  "value": {
+                    "@def": "genSubmodelId"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+  }
+}

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.TestInstance;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,17 +22,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class AasUtilsTest {
 
     XmlDeserializer deser = new XmlDeserializer();
-    List<AssetAdministrationShellEnvironment> envs;
+    Set<AssetAdministrationShellEnvironment> envs;
 
     AssetAdministrationShellEnvironment merged;
 
     @BeforeAll
     void instantiate() throws IOException, DeserializationException {
 
-        envs = Arrays.asList(deser.read(fromResource("partAsPlanned.xml")),
+        envs = new HashSet<AssetAdministrationShellEnvironment>(Arrays.asList(deser.read(fromResource("partAsPlanned.xml")),
                 deser.read(fromResource("partSiteInformation.xml")),
                 deser.read(fromResource("singleLevelBomAsPlanned.xml")),
-                deser.read(fromResource("materialForRecycling.xml")));
+                deser.read(fromResource("materialForRecycling.xml"))));
 
         merged = AasUtils.mergeAasEnvs(envs);
     }

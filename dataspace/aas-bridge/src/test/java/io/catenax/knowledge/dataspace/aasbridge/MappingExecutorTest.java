@@ -1,5 +1,6 @@
 package io.catenax.knowledge.dataspace.aasbridge;
 
+import de.fraunhofer.iosb.ilt.faaast.service.model.asset.SpecificAssetIdentification;
 import io.adminshell.aas.v3.model.*;
 import io.adminshell.aas.v3.model.impl.DefaultProperty;
 import io.adminshell.aas.v3.model.impl.DefaultSubmodelElementCollection;
@@ -21,7 +22,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,6 +35,11 @@ class MappingExecutorTest {
     private final String MOCK_URL = "/oem-edc-data/BPNL00000003COJN/api/agent" +
             "?OemProviderAgent=" +
             URLEncoder.encode("http://oem-provider-agent:8082/sparql", StandardCharsets.ISO_8859_1);
+
+    private final URI DEV_LANDSCAPE = new URI("https://knowledge.dev.demo.catena-x.net/oem-provider-agent3/sparql");
+
+    MappingExecutorTest() throws URISyntaxException {
+    }
 
     @Test
     void executeMaterialForRecyclingTest() throws IOException, TransformationException {
@@ -98,7 +106,7 @@ class MappingExecutorTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"materialForRecycling", "partAsPlanned", "partSiteInformation", "singleLevelBomAsPlanned"})
-    void executeQuery(String aspectName) throws IOException, URISyntaxException, ExecutionException, InterruptedException {
+    void executeQueryTest(String aspectName) throws IOException, URISyntaxException, ExecutionException, InterruptedException {
         MockWebServer mockWebServer = instantiateMockServer(aspectName);
         MappingExecutor executor = new MappingExecutor(
                 new URI(mockWebServer.url(MOCK_URL).toString()),
@@ -108,9 +116,23 @@ class MappingExecutorTest {
                 AasUtils.loadConfigsFromResources());
 
         InputStream inputStream = executor.executeQuery(
-                        new String(MappingExecutor.class.getClassLoader().getResourceAsStream("selectQueries/" + aspectName + "-select.rq").readAllBytes())).get();
+                new String(MappingExecutor.class.getClassLoader().getResourceAsStream("selectQueries/" + aspectName + "-select.rq").readAllBytes())).get();
         String result = new String(inputStream.readAllBytes());
         assertEquals(result, getMockResponseBody(aspectName));
+    }
+
+    @Test
+    void queryAllShells() throws InterruptedException {
+
+        MappingExecutor ex = new MappingExecutor(DEV_LANDSCAPE, "ignored", 5, 4, AasUtils.loadConfigsFromResources());
+        List<AssetAdministrationShell> shells = ex.queryAllShells(
+                "probablyNotIgnoredAnymore", // TODO match with mapping specification. handler filters for this now.
+                Arrays.asList(new SpecificAssetIdentification.Builder()
+                        .key("ignoredAnyway")
+                        .value("urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca97")
+                        .build()));
+        shells.forEach(s -> assertTrue(s.getSubmodels().size() > 0));
+
     }
 
     private static AssetAdministrationShellEnvironment getTransformedAasEnv(String submodelIdShort) throws IOException, TransformationException {
@@ -120,7 +142,6 @@ class MappingExecutorTest {
         String s = new String(instream.readAllBytes());
         return transformer.execute(new ByteArrayInputStream(s.getBytes()), mapping);
     }
-
 
     private static void executeGenericTests(AssetAdministrationShellEnvironment env) {
         // each AAS only holds a single Submodel
@@ -194,5 +215,4 @@ class MappingExecutorTest {
                 .orElseThrow(()-> new RuntimeException("smcNotFound"));
 
     }
-
 }

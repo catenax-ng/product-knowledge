@@ -4,7 +4,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT ?catenaXId ?childCatenaXId ?childQuantity ?billOfMaterialUnit ?productionEndDate ?productionStartDate
 WHERE {
-  BIND(<%s> as ?catenaXId)
+  BIND(%s as ?catenaXId)
     ?catenaXId rdf:type cx:Part;
         cx:hasBillOfMaterial ?bom.
     ?bom cx:billOfMaterialQuantity ?childQuantity;

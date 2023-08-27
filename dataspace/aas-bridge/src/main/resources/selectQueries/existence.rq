@@ -1,0 +1,19 @@
+PREFIX cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?id ?hasPartSite ?hasPartAsPlanned ?hasRecycling ?hasBomAsPlanned WHERE {
+
+    OPTIONAL{?id cx:isProducedBy ?partSite.} #PartSiteInformation
+    OPTIONAL{?id rdf:type cx:Part;
+                cx:partSeries ?manufacturerPartId} #PartAsPlanned
+    OPTIONAL{?id cx:isMadeOf ?rMat.} #recycling
+    OPTIONAL{?id cx:hasBillOfMaterial ?bom.} #bomAsPlanned
+
+    BIND(bound(?partSite) AS ?hasPartSite)
+    BIND(bound(?manufacturerPartId) AS ?hasPartAsPlanned)
+    BIND(bound(?rMat) AS ?hasRecycling)
+    BIND(bound(?bom) AS ?hasBomAsPlanned)
+
+}
+ORDER BY DESC(?id)

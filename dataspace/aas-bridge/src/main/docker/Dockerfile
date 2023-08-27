@@ -29,7 +29,7 @@ ENV PROVIDER_CREDENTIAL_BASIC ${PROVIDER_CREDENTIAL_BASIC_ARG}
 ENV TIMEOUT_SECONDS 10
 
 RUN apk update && \
-     apk add openjdk11-jre-headless=11.0.19_p7-r0 --no-cache && \
+     apk add openjdk11-jre-headless=11.0.20_p8-r0 --no-cache && \
      rm -rf /var/cache/apk/*
 
 RUN addgroup --gid "$APP_GID" --system "$APP_USER"

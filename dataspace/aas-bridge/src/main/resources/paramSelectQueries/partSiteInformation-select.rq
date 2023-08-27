@@ -4,7 +4,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT ?catenaXId ?site ?function ?roleValidFrom ?roleValidTo WHERE {
 
-    BIND(<%s> AS ?catenaXId)
+    BIND(%s AS ?catenaXId)
     ?catenaXId cx:isProducedBy ?site.
     ?site cx:isMemberOf ?legal;
         cx:roleValidFrom ?roleValidFrom;
