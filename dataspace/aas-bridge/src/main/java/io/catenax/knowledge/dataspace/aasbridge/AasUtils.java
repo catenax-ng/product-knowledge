@@ -5,22 +5,27 @@ import io.adminshell.aas.v3.model.AssetAdministrationShellEnvironment;
 import io.adminshell.aas.v3.model.impl.DefaultAssetAdministrationShellEnvironment;
 import org.eclipse.digitaltwin.aas4j.mapping.MappingSpecificationParser;
 import org.eclipse.digitaltwin.aas4j.mapping.model.MappingSpecification;
+import org.reflections.Reflections;
+import org.reflections.scanners.ResourcesScanner;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class AasUtils {
 
     public static List<MappingConfiguration> loadConfigsFromResources() {
-        try {
-            return Files.walk(Path.of(System.getProperty("user.dir") + "/src/main/resources/paramSelectQueries"))
+
+        Reflections reflections = new Reflections(new ResourcesScanner());
+        Set<String> files = reflections.getResources(Pattern.compile(".*paramSelectQueries\\.rq"));
+        return files.stream()
                     .filter(obj -> !obj.endsWith("paramSelectQueries"))
+                .map(Path::of)
                     .map(getOnePath -> {
                         String nameInclSelect = getOnePath.getFileName().toString();
                         String mappingFileFolder = getOnePath.getParent().getParent().toString() + "/mappingSpecifications/";
@@ -42,9 +47,7 @@ public class AasUtils {
                     })
                     .collect(Collectors.toList());
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
     }
 
     public static AssetAdministrationShellEnvironment mergeAasEnvs(Set<AssetAdministrationShellEnvironment> aasEnvs) {
