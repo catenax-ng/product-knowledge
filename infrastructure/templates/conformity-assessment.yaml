@@ -21,7 +21,7 @@ metadata:
   name: conforming-agent
   namespace: {{ .Values.namespace }}
   annotations:
-    container.apparmor.security.beta.kubernetes.io/confirming-agent: default
+    container.apparmor.security.beta.kubernetes.io/conforming-agent: default
 spec:
   replicas: 1
   revisionHistoryLimit: 1
@@ -35,14 +35,14 @@ spec:
     spec:
       automountServiceAccountToken: false
       securityContext:
-        runAsUser: 10000
+        runAsUser: 10100
         runAsGroup: 30000
         fsGroup: 30000
         seccompProfile:
            type: RuntimeDefault
       containers:
         - name: conforming-agent
-          image: ghcr.io/catenax-ng/product-knowledge/conforming-agent:{{.Values.version}}
+          image: ghcr.io/catenax-ng/product-agents/conforming-agent:1.9.5-SNAPSHOT
           imagePullPolicy: Always
           securityContext:
             capabilities:
@@ -55,10 +55,10 @@ spec:
             - containerPort: 8080 # Sparql-Profiles
           resources:
            requests:
-            cpu: 0.2
+            cpu: 200m
             memory: "0.2Gi"
            limits:
-            cpu: 0.2
+            cpu: 200m
             memory: "0.2Gi"
           startupProbe:
             failureThreshold: 5

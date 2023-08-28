@@ -22,13 +22,6 @@ The following is a simple type of single-level Software-BOM for all official ope
 | * | * | Docker Engine | >=20.10.17 | Packaging + Provided | Apache License 2.0 |     |
 | * | * | [kubernetes](https://kubernetes.io/de/)/[helm](https://helm.sh/) | >=1.20/3.9 | Provided | Apache License 2.0 |     |
 | * | * | [Python](https://www.python.org/) | >=3.9 | Test + Packaging + Provided | Zero Clause BSD |     |
-| Ontology | Tools | [OWLApi](https://github.com/owlcs/owlapi) | >=5.1 | Compile + Test + Packaging | LGPL and Apache License |     |
-| Ontology | Tools | [OWL2VOWL](https://github.com/VisualDataWeb/OWL2VOWL) | >=0.3.7 | Compile + Test + Packaging | MIT License |     |
-| Ontology | Tools | [SLF4J](https://www.slf4j.org) | >=2.0.0 | Compile + Test + Packaging | MIT |     |
-| Ontology | Tools | [Junit Jupiter](https://junit.org) | >=5 | Test | MIT |     |
-| Ontology | Tools | [NodeJS](https://nodejs.org/en/) | >=14 | Compile + Packaging | MIT (Main) + Various Extensions | Only for Json2Sql|
-| Ontology | Tools | [Jackson](https://github.com/FasterXML/jackson) | >=2.12.6 | Compile + Test + Packaging | Apache License 2.0 |     |
-| Ontology | Tools | [RDFlib](https://rdflib.readthedocs.io/en/stable/) | >=6.2 | Compile + Test + Packaging | BSD-3 |     |
 | UX | * | [NodeJS](https://nodejs.org/en/) | >=14 | All | MIT (Main) + Various Extensions |     |
 | UX | * | [Typescript](https://www.typescriptlang.org/) | >=4.7 | Compile + Runtime | Apache License 2.0 |     |
 | UX | * | [JEST](https://jestjs.io/) | >=28.1 | Test | MIT |     |
@@ -50,6 +43,8 @@ The following is a simple type of single-level Software-BOM for all official ope
 | Dataspace | * | [Java Runtime Environment (JRE)](https://de.wikipedia.org/wiki/Java-Laufzeitumgebung) | >=11 | Test + Provided | * | License (GPL, BCL, ...) depends on choosen runtime. |
 | Dataspace | * | [Java Development Kit (JDK)](https://de.wikipedia.org/wiki/Java_Development_Kit) | >=11 | Compile + Packaging | * | License (GPL, BCL, ...) depends on choosen kit. |
 | Dataspace | * | [Junit Jupiter](https://junit.org) | >=5 | Test | MIT |     |
+| Dataspace | * | [Tractus-X EDC Extensions](https://github.com/catenax-ng/product-agents-edc) | >=1.9.5-SNAPSHOT | All | Apache License 2.0 |     |
+| Dataspace | * | [Tractus-X Agent Implementations](https://github.com/catenax-ng/product-agents) | >=1.9.5-SNAPSHOT | All | Apache License 2.0 |     |
 | Dataspace | AAS Bridge | [FAAST Service](https://github.com/FraunhoferIOSB/FAAAST-Service) | >=0.4.0 | All | Apache License 2.0 |
 | Dataspace | AAS Bridge | [Eclipse Semantic Modeling Framework](https://github.com/eclipse-esmf/esmf-sdk) | >=1.1.0-M5 | Compile | MPL 2.0 |
 | Dataspace | AAS Bridge | [AAS4J](https://github.com/eclipse-aas4j/aas4j) | >=1.2.0 | All | Apache License 2.0 |
@@ -66,12 +61,3 @@ The following is a simple type of single-level Software-BOM for all official ope
 | Dataspace | Mock>Prognosis | [Requests](https://github.com/psf/requests) | >=2.28.1 | All | Apache License 2.0 |     |
 | Dataspace | Virtualize>Dremio | [Dremio OSS](https://github.com/dremio/dremio-oss) | >=22.1.1 | Runtime | Apache License 2.0 |     |
 | Dataspace | Virtualize>Druid | [Apache Druid](https://druid.apache.org/) | >=24 | Runtime | Apache License 2.0 |     |
-| Dataspace | Agents>Provisioning | [Ontop VKP](https://ontop-vkg.org/) | >=4.2.1 | All | Apache License 2.0 |     |
-| Dataspace | Agents>Provisioning | [Apache Calcite/Avatica](https://calcite.apache.org/avatica/) | >=1.22 | All | Apache License 2.0 |     |
-| Dataspace | Agents>Provisioning | [H2 Database](http://h2database.com/) | >=2.1 | Runtime | Mozilla Public License (2.0) and Eclipse Public License (1.0) |     |
-| Dataspace | Agents>Provisioning | [Dremio JDBC](https://docs.dremio.com/software/drivers/jdbc/) | >=22.1.1 | All | Proprietary |     |
-| Dataspace | Agents>Remoting | [Eclipse RDF4J](https://rdf4j.org/) | >=3.7 | All | Eclipse Public License (1.0) |     |
-| Dataspace | Agents>Remoting | [SLF4J](https://www.slf4j.org) | >=2.0.0 | All | MIT |     |
-| Dataspace | Agents>Remoting | [Jackson](https://github.com/FasterXML/jackson) | >=2.13.4 | All | Apache License 2.0 |     |
-| Dataspace | Agents>Remoting | [Apache HttpComponents](https://hc.apache.org/) | >=4.5.13 | All | Apache License 2.0 |     |
-| Dataspace | EDC Extensions | [Tractus-X Knowledge Agents EDC Extensions](https://github.com/catenax-ng/product-agents-edc/blob/main/Dependencies.md) | >=1.9.1 | All | Apache License 2.0 |     |

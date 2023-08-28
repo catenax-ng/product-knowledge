@@ -1,135 +1,225 @@
 #
-# Rdf4j configuration for a health-specific remoting
+# Rdf4j configuration for a rul-specific remoting
 #
-@prefix rdf:        <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-@prefix rdfs:       <http://www.w3.org/2000/01/rdf-schema#>.
-@prefix rep:        <http://www.openrdf.org/config/repository#>.
-@prefix sr:         <http://www.openrdf.org/config/repository/sail#>.
-@prefix sail:       <http://www.openrdf.org/config/sail#>.
-@prefix sp:         <http://spinrdf.org/sp#>.
-@prefix xsd:        <http://www.w3.org/2001/XMLSchema#> .
-@prefix json:       <https://json-schema.org/draft/2020-12/schema#> .
-@prefix dcterms:    <http://purl.org/dc/terms/> .
-@prefix cx-fx:      <https://github.com/catenax-ng/product-knowledge/ontology/fx.ttl#>.
-@prefix cx-rt:      <urn:io.catenax.knowledge.agents.remoting#>.
-@prefix cx-common:   <https://catena-x.net/product-knowledge/ontology/common#>.
-@prefix cx-core:     <https://catena-x.net/product-knowledge/ontology/core#>.
-@prefix cx-vehicle:  <https://catena-x.net/product-knowledge/ontology/vehicle#>.
-@prefix cx-vinfo:    <https://catena-x.net/product-knowledge/ontology/vehicle-information#>.
-@prefix cx-part:     <https://catena-x.net/product-knowledge/ontology/part#>.
-@prefix cx-load:     <https://catena-x.net/product-knowledge/ontology/loadspectrum#>.
-@prefix cx-life:     <https://catena-x.net/product-knowledge/ontology/lifetime-prognosis#>.
+@prefix rdf:            <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs:           <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix rep:            <http://www.openrdf.org/config/repository#>.
+@prefix sr:             <http://www.openrdf.org/config/repository/sail#>.
+@prefix sail:           <http://www.openrdf.org/config/sail#>.
+@prefix sp:             <http://spinrdf.org/sp#>.
+@prefix xsd:            <http://www.w3.org/2001/XMLSchema#> .
+@prefix json:           <https://json-schema.org/draft/2020-12/schema#> .
+@prefix dcterms:        <http://purl.org/dc/terms/> .
+@prefix cx-fx:          <https://w3id.org/catenax/ontology/function#>.
+@prefix cx-common:      <https://w3id.org/catenax/ontology/common#>.
+@prefix cx-core:        <https://w3id.org/catenax/ontology/core#>.
+@prefix cx-vehicle:     <https://w3id.org/catenax/ontology/vehicle#>.
+@prefix cx-reliability: <https://w3id.org/catenax/ontology/reliability#>.
+@prefix cx-behaviour:   <https://w3id.org/catenax/ontology/behaviour#>.
 
 [] rdf:type rep:Repository ;
    rep:repositoryID "rul" ;
-   rdfs:label "Remainig Useful Life Functions" ;
+   rdfs:label "Remainig Useful Life Functions Repository" ;
    rep:repositoryImpl [
       rep:repositoryType "openrdf:SailRepository" ;
       sr:sailImpl [
-         sail:sailType "io.catenax.knowledge:Remoting" ;
-         cx-fx:supportsInvocation cx-life:LifetimePrognosis;
+         sail:sailType "org.eclipse.tractusx.agents:Remoting" ;
+         cx-fx:supportsInvocation cx-behaviour:RemainingUsefulLife;
+         cx-fx:callbackAddress <http://remoting-agent:8081/rdf4j-server/callback>;
       ]
    ].
 
-cx-life:LifetimePrognosis rdf:type cx-fx:Function;
-  dcterms:description "Lifetime prognosis is an evaluation function operating on a load collective."@en ;
-  dcterms:title "Lifetime Prognosis" ;
-  cx-fx:targetUri "http://service-backend:5005/api/rul";
-  cx-fx:invocationMethod "POST-JSON-MF";
-  cx-fx:input cx-life:loadSpectrumFile;
-  cx-fx:input cx-load:loadSpectrumMethod;
-  cx-fx:input cx-load:loadSpectrumUnit;
-  cx-fx:input cx-load:loadSpectrumId;
-  cx-fx:input cx-load:loadSpectrumChannels;
-  cx-fx:input cx-load:loadSpectrumClasses;
-  cx-fx:input cx-load:loadSpectrumValues;
-  cx-fx:input cx-vehicle:vehicleIdentificationNumber;
-  cx-fx:input cx-part:isProducedBy;
-  cx-fx:input cx-vinfo:vehicleCurrentMileage;
-  cx-fx:input cx-life:vehicleCurrentMileageUnit;
-  cx-fx:input cx-vinfo:vehicleRegistrationDate;
-  cx-fx:input cx-life:vehicleRegistrationDateFormat;
-  cx-fx:result cx-life:LifetimeResult.
+cx-behaviour:RemainingUsefulLife rdf:type cx-fx:Function;
+  dcterms:description "Remaining Useful Life is an asynchronous batch invocation."@en ;
+  dcterms:title "Remaining Useful Life" ;
+  cx-fx:targetUri "http://rul-backend:35553/api/v1/routine/notification";
+  cx-fx:invocationMethod "POST-JSON";
+ # cx-common:authenticationKey "Authorization";
+ # cx-common:authenticationCode "Basic Zm9vOmJhcg==";
+  cx-fx:invocationMethod "POST-JSON";
+  cx-fx:invocationIdProperty "header.notificationID,content.requestRefId";
+  cx-fx:callbackProperty "header.respondAssetId";
+  cx-fx:input cx-behaviour:notification;
+  cx-fx:input cx-behaviour:sender;
+  cx-fx:input cx-behaviour:senderConnector;
+  cx-fx:input cx-behaviour:recipient;
+  cx-fx:input cx-behaviour:recipientConnector;
+  cx-fx:input cx-behaviour:recipient;
+  cx-fx:input cx-behaviour:recipientConnector;
+  cx-fx:input cx-behaviour:severity;
+  cx-fx:input cx-behaviour:status;
+  cx-fx:input cx-behaviour:targetDate;
+  cx-fx:input cx-behaviour:timeStamp;
+  cx-fx:input cx-behaviour:classification;
+  cx-fx:input cx-behaviour:component;
+  cx-fx:input cx-behaviour:observationType;
+  cx-fx:input cx-behaviour:metadata;
+  cx-fx:input cx-behaviour:statusDate;
+  cx-fx:input cx-behaviour:statusOperatingHours;
+  cx-fx:input cx-behaviour:statusMileage;
+  cx-fx:input cx-behaviour:countingMethod;
+  cx-fx:input cx-behaviour:countingValue;
+  cx-fx:input cx-behaviour:countingUnit;
+  cx-fx:input cx-behaviour:headerChannels;
+  cx-fx:input cx-behaviour:bodyClasses;
+  cx-fx:input cx-behaviour:bodyCountsList;
+  cx-fx:result cx-behaviour:response.
 
-cx-life:LifetimeResult rdf:type cx-fx:Result;
-  dcterms:description "Lifetime Prognosis Result is a RUL projection."@en ;
-  dcterms:title "Lifetime Prognosis Result" ;
-  cx-fx:output cx-life:remainingDistance;
-  cx-fx:output cx-life:remainingTime.
+cx-behaviour:notification rdf:type cx-fx:Argument;
+  dcterms:description "A default notification output template."@en ;
+  dcterms:title "Notification Template";
+  cx-fx:argumentName ".";
+  cx-fx:dataType json:Object;
+  cx-fx:priority "-1"^^xsd:integer;
+  cx-fx:default "{ \"content\": { \"endurancePredictorInputs\": []}}"^^json:Object.
 
-cx-life:remainingDistance rdf:type cx-fx:ReturnValue;
-     dcterms:description "Remaining Distance is an integer-based prediction of kilometers."@en ;
-     dcterms:title "Remaining Distance" ;
-     cx-fx:valuePath "RUL.RUL.remainingDistance.Value";
-     cx-fx:dataType xsd:int.
+cx-behaviour:sender rdf:type cx-fx:Argument;
+  dcterms:description "Sender of the notification as a BPN."@en ;
+  dcterms:title "Notification Sender";
+  cx-fx:argumentName "header.senderBPN";
+  cx-fx:default "anonymous".
 
-cx-life:remainingTime rdf:type cx-fx:ReturnValue;
-     dcterms:description "Remaining Time is an integer-based prediction of years."@en ;
-     dcterms:title "Remaining Time" ;
-     cx-fx:valuePath "RUL.RUL.remainingTime.Value";
-     cx-fx:dataType xsd:int.
+cx-behaviour:senderConnector rdf:type cx-fx:Argument;
+  dcterms:description "Sender Address of the notification as a URL."@en ;
+  dcterms:title "Notification Sender Address";
+  cx-fx:argumentName "header.senderAddress";
+  cx-fx:default "unknown".
 
-cx-life:loadSpectrumFile rdf:type cx-fx:Argument;
-  dcterms:description "A Load Spectrum has a file description which is a json structure consisting of a 'Type' and a 'Version' ."@en ;
-  dcterms:title "Load Spectrum File";
-  cx-fx:argumentName "load_collective_file.File".
+cx-behaviour:recipient rdf:type cx-fx:Argument;
+  dcterms:description "Recipient of the notification as a BPN."@en ;
+  dcterms:title "Notification Recipient";
+  cx-fx:argumentName "header.recipientBPN";
+  cx-fx:default "anonymous".
 
-cx-load:loadSpectrumMethod rdf:type cx-fx:Argument;
-  dcterms:description "A Load Spectrum has a method with which the values are accumulated."@en ;
-  dcterms:title "Load Spectrum Method";
-  cx-fx:argumentName "load_collective_file.Header.CountingMethod".
+cx-behaviour:recipientConnector rdf:type cx-fx:Argument;
+  dcterms:description "Recipient Address of the notification as a URL."@en ;
+  dcterms:title "Notification Recipient Address";
+  cx-fx:argumentName "header.recipientAddress";
+  cx-fx:default "unknown".
 
-cx-load:loadSpectrumUnit rdf:type cx-fx:Argument;
-  dcterms:description "A Load Spectrum has a unit of the accumulated values."@en ;
-  dcterms:title "Load Spectrum Unit";
-  cx-fx:argumentName "load_collective_file.Header.CountingUnit".
+cx-behaviour:severity rdf:type cx-fx:Argument;
+  dcterms:description "Severity of the notification."@en ;
+  dcterms:title "Notification Severity";
+  cx-fx:argumentName "header.severity";
+  cx-fx:dataType xsd:string;
+  cx-fx:default "MINOR".
 
-cx-load:loadSpectrumId rdf:type cx-fx:Argument;
-  dcterms:description "A Load Spectrum has a an id which describes the measured system."@en ;
-  dcterms:title "Load Spectrum Id";
-  cx-fx:argumentName "load_collective_file.Metadata.Component".
+cx-behaviour:status rdf:type cx-fx:Argument;
+  dcterms:description "Status of the notification."@en ;
+  dcterms:title "Notification Status";
+  cx-fx:argumentName "header.status";
+  cx-fx:dataType xsd:string;
+  cx-fx:default "SENT".
 
-cx-load:loadSpectrumChannels rdf:type cx-fx:Argument;
-  dcterms:description "A Load Spectrum has a set of channels associated."@en ;
-  dcterms:title "Load Spectrum Channels";
-  cx-fx:argumentName "load_collective_file.Header.Channels".
+cx-behaviour:targetDate rdf:type cx-fx:Argument;
+  dcterms:description "Target Date of the notification."@en ;
+  dcterms:title "Notification Target Date";
+  cx-fx:dataType xsd:dateTime;
+  cx-fx:argumentName "header.targetDate".
 
-cx-load:loadSpectrumClasses rdf:type cx-fx:Argument;
-  dcterms:description "A Load Spectrum has a set of classes which determine the values inside the channle dimensions."@en ;
-  dcterms:title "Load Spectrum Classes";
-  cx-fx:argumentName "load_collective_file.Body.Classes".
+cx-behaviour:timeStamp rdf:type cx-fx:Argument;
+  dcterms:description "Timestamp of the notification."@en ;
+  dcterms:title "Notification Timestamp";
+  cx-fx:dataType xsd:dateTime;
+  cx-fx:argumentName "header.timeStamp".
 
-cx-load:loadSpectrumValues rdf:type cx-fx:Argument;
-  dcterms:description "A Load Spectrum has a set of values measured."@en ;
-  dcterms:title "Load Spectrum Values";
-  cx-fx:argumentName "load_collective_file.Body.Counts".
+cx-behaviour:classification rdf:type cx-fx:Argument;
+  dcterms:description "Classification of the notification."@en ;
+  dcterms:title "Notification Classification";
+  cx-fx:argumentName "header.classification";
+  cx-fx:dataType xsd:string;
+  cx-fx:default "RemainingUsefulLifePredictor".
 
-cx-vehicle:vehicleIdentificationNumber rdf:type cx-fx:Argument;
-  dcterms:description "A Load Spectrum has a vehicle id for which it was recorded."@en ;
-  dcterms:title "Load Spectrum VIN";
-  cx-fx:argumentName "load_collective_file.Metadata.VIN".
+cx-behaviour:component rdf:type cx-fx:Argument;
+  dcterms:description "Component of the Predicition."@en ;
+  dcterms:title "Predicted Component";
+  cx-fx:formsBatchGroup "true"^^xsd:boolean;
+  cx-fx:argumentName "content.endurancePredictorInputs.0.componentId,content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.targetComponentId".
 
-cx-part:isProducedBy rdf:type cx-fx:Argument;
-  dcterms:description "A Load Spectrum has an OEM which captures it."@en ;
-  dcterms:title "Load Spectrum OEM";
-  cx-fx:argumentName "load_collective_file.Metadata.OEM".
+cx-behaviour:observationType rdf:type cx-fx:Argument;
+  dcterms:description "The type of observation made."@en ;
+  dcterms:title "Observation Type";
+  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.metadata.componentDescription";
+  cx-fx:dataType xsd:string.
 
-cx-vinfo:vehicleCurrentMileage rdf:type cx-fx:Argument;
-  dcterms:description "A Load Spectrum was recorded at a particular mileage."@en ;
-  dcterms:title "Load Spectrum Mileage";
-  cx-fx:argumentName "load_collective_file.Metadata.Mileage.Value".
+cx-behaviour:metadata rdf:type cx-fx:Argument;
+  dcterms:description "Metadata of the Loadspectrum."@en ;
+  dcterms:title "Loadspectrum Metadata";
+  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}";
+  cx-fx:dataType json:Object;
+  cx-fx:priority "0"^^xsd:integer;
+  cx-fx:default "{ \"metadata\":{ \"projectDescription\": \"pnr_76543\", \"routeDescription\": \"logged\" }, \"bammId\": \"urn:bamm:io.openmanufacturing.digitaltwin:1.0.0#ClassifiedLoadSpectrum\" }"^^json:Object.
 
-cx-life:vehicleCurrentMileageUnit rdf:type cx-fx:Argument;
-  dcterms:description "the unit of the recording mileage."@en ;
-  dcterms:title "Load Spectrum Mileage Unit";
-  cx-fx:argumentName "load_collective_file.Metadata.Mileage.Unit".
+cx-behaviour:statusDate rdf:type cx-fx:Argument;
+  dcterms:description "Time of Recording."@en ;
+  dcterms:title "Loadspectrum Recording Time";
+  cx-fx:dataType xsd:dateTime;
+  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.metadata.status.date".
 
-cx-vinfo:vehicleRegistrationDate rdf:type cx-fx:Argument;
-  dcterms:description "A Load Spectrum was recorded by vehiclar that was registered at a particular date."@en ;
-  dcterms:title "Load Spectrum Registration Date";
-  cx-fx:argumentName "load_collective_file.Metadata.RegistrationDate.Value".
+cx-behaviour:statusOperatingHours rdf:type cx-fx:Argument;
+  dcterms:description "Operating Hours of Target Component at Time of Recording."@en ;
+  dcterms:title "Loadspectrum Operating Hours";
+  cx-fx:dataType xsd:float;
+  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.metadata.status.operatingHours".
 
-cx-life:vehicleRegistrationDateFormat rdf:type cx-fx:Argument;
-  dcterms:description "the unit of the registration date."@en ;
-  dcterms:title "Load Spectrum Registration Format";
-  cx-fx:argumentName "load_collective_file.Metadata.RegistrationDate.Unit".
+cx-behaviour:statusMileage rdf:type cx-fx:Argument;
+  dcterms:description "Mileage of Component at Time of Recording."@en ;
+  dcterms:title "Loadspectrum Mileage";
+  cx-fx:dataType xsd:int;
+  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.metadata.status.mileage".
+
+cx-behaviour:countingUnit rdf:type cx-fx:Argument;
+  dcterms:description "Counting Unit of Load Spectrum."@en ;
+  dcterms:title "Loadspectrum Counting Unit";
+  cx-fx:dataType xsd:string;
+  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.header.countingUnit".
+
+cx-behaviour:countingValue rdf:type cx-fx:Argument;
+  dcterms:description "Counting Value Name of Load Spectrum."@en ;
+  dcterms:title "Loadspectrum Counting Value";
+  cx-fx:dataType xsd:string;
+  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.header.countingValue,content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.body.counts.countsName".
+
+cx-behaviour:countingMethod rdf:type cx-fx:Argument;
+  dcterms:description "Counting Method of Load Spectrum."@en ;
+  dcterms:title "Loadspectrum Counting Method";
+  cx-fx:dataType xsd:string;
+  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.header.countingMethod".
+
+cx-behaviour:headerChannels rdf:type cx-fx:Argument;
+  dcterms:description "Channels of Load Spectrum."@en ;
+  dcterms:title "Loadspectrum Channels";
+  cx-fx:dataType json:Object;
+  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.header.channels".
+
+cx-behaviour:bodyClasses rdf:type cx-fx:Argument;
+  dcterms:description "Classes of Load Spectrum."@en ;
+  dcterms:title "Loadspectrum Classes";
+  cx-fx:dataType json:Object;
+  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.body.classes".
+
+cx-behaviour:bodyCountsList rdf:type cx-fx:Argument;
+  dcterms:description "Counts List of Load Spectrum."@en ;
+  dcterms:title "Loadspectrum Counts List";
+  cx-fx:dataType json:Object;
+  cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.body.counts.countsList".
+
+cx-behaviour:response rdf:type cx-fx:Result;
+  dcterms:description "The asynchronous notification response."@en ;
+  dcterms:title "Asynchronous notification response." ;
+  cx-fx:callbackProperty "header.referencedNotificationID";
+  cx-fx:outputProperty "content.endurancePredictorOutputs";
+  cx-fx:output cx-behaviour:remainingOperatingHours;
+  cx-fx:output cx-behaviour:remainingRunningDistance.
+
+cx-behaviour:remainingOperatingHours rdf:type cx-fx:ReturnValue;
+  dcterms:description "Predicted Operating Hours of Remaining Useful Life Response"@en ;
+  dcterms:title "Remaining Useful Life Operating Hours" ;
+  cx-fx:valuePath "0.remainingUsefulLife.remainingOperatingHours";
+  cx-fx:dataType xsd:float.
+
+cx-behaviour:remainingRunningDistance rdf:type cx-fx:ReturnValue;
+  dcterms:description "Predicted Distance of Remaining Useful Life Response"@en ;
+  dcterms:title "Remaining Useful Life Distance" ;
+  cx-fx:valuePath "0.remainingUsefulLife.remainingRunningDistance";
+  cx-fx:dataType xsd:int.

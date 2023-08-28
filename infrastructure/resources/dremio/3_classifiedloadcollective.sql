@@ -1,3 +1,29 @@
+DROP TABLE $scratch.CX_RUL_Analysis;
+CREATE TABLE $scratch.CX_RUL_Analysis AS (
+  SELECT
+    catenaXId,
+    targetComponentId,
+    MIN(metadata_status_date) as metadata_status_date_min,
+    MAX(metadata_status_date) as metadata_status_date_max,
+    AVG(metadata_status_operatingHours) as metadata_status_operatingHours_avg,
+    AVG(metadata_status_mileage) as metadata_status_mileage_avg
+    FROM (
+    SELECT
+        SUBSTR(JSON.catenaXId,10) as catenaXId,
+        SUBSTR(JSON.json.targetComponentID,10) as targetComponentId,
+        TO_TIMESTAMP(LEFT(JSON.json['metadata'].status['date'],10),'YYYY-MM-DD') as metadata_status_date,
+        CAST(JSON.json['metadata'].status.operatingHours AS DOUBLE) as metadata_status_operatingHours,
+        CAST(JSON.json['metadata'].status.mileage AS DOUBLE) as metadata_status_mileage
+    FROM (
+      SELECT
+        catenaXId,
+        FLATTEN("urn:bamm:io.openmanufacturing.digitaltwin:1.0.0#ClassifiedLoadSpectrum") AS json
+      FROM datalake."catenax-knowledge-agents"."20230124_testdata_new_bamm.ndjson"
+    ) JSON
+    WHERE JSON.json IS NOT NULL
+   ) GROUP BY catenaXId, targetComponentId
+);
+
 DROP TABLE $scratch.CX_RUL_LoadCollective;
 CREATE TABLE $scratch.CX_RUL_LoadCollective AS (
     SELECT
@@ -14,6 +40,7 @@ CREATE TABLE $scratch.CX_RUL_LoadCollective AS (
         JSON.json.header.countingMethod as header_countingMethod,
         CONVERT_TO(JSON.json.header.channels,'json') as header_channels,
         CONVERT_TO(JSON.json.body.counts.countsList,'json') as body_counts_countsList,
+        CONVERT_TO(JSON.json.body.counts,'json') as body_counts,
         CONVERT_TO(JSON.json.body.classes,'json') as body_classes
     FROM (
       SELECT
@@ -128,6 +155,18 @@ CREATE TABLE $scratch.CX_RUL_LoadCollective_Channels AS (
   ) channels
 );
 
+DROP VIEW "HI_TEST_OEM".CX_RUL_Analysis;
+CREATE VIEW "HI_TEST_OEM".CX_RUL_Analysis AS
+SELECT catenaXId,
+       targetComponentId,
+       TO_CHAR(metadata_status_date_min,'YYYY-MM-DD"T"HH:MI:SS.FFF"Z"') as metadata_status_date_min,
+       TO_CHAR(metadata_status_date_max,'YYYY-MM-DD"T"HH:MI:SS.FFF"Z"') as metadata_status_date_max,
+       metadata_status_operatingHours_avg,
+       CAST(metadata_status_mileage_avg AS INTEGER) as metadata_status_mileage_avg
+  FROM $scratch.CX_RUL_Analysis;
+
+ALTER TABLE $scratch.CX_RUL_Analysis ADD PRIMARY KEY (catenaXId,targetComponentId,metadata_status_date_min);
+
 
 DROP VIEW "HI_TEST_OEM".CX_RUL_LoadCollective;
 CREATE VIEW "HI_TEST_OEM".CX_RUL_LoadCollective AS
@@ -143,6 +182,7 @@ SELECT catenaXId,
        header_countingUnit,
        header_countingMethod,
        header_channels,
+       body_counts,
        body_counts_countsList,
        body_classes
   FROM $scratch.CX_RUL_LoadCollective;

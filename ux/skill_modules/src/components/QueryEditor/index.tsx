@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { Box } from '@mui/material';
 
-import CodeMirrorEditor from './CodeMirrorEditor';
 import { Tab, TabPanel, Tabs } from 'cx-portal-shared-components';
 import SupernaturlaEditor from './SupernaturalEditor';
-import MonacoEditor from './MonacoEditor';
 import { BindingSet } from '@catenax-ng/skill-framework/dist/src';
 import { DataList } from '../DataList';
 import SparqlEditor from './SparqlEditor/SparqlEditor';
@@ -88,10 +86,8 @@ SELECT ?site ?part ?partName ?vendor ?product ?productName ?part2 ?part3 ?part4 
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Yasgui Editor" {...a11yProps(0)} />
+          <Tab label="SPARQL Editor" {...a11yProps(0)} />
           <Tab label="Supernatural Editor" {...a11yProps(1)} />
-          <Tab label="Code Mirror" {...a11yProps(2)} />
-          <Tab label="Monaco Editor" {...a11yProps(3)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -99,12 +95,6 @@ SELECT ?site ?part ?partName ?vendor ?product ?productName ?part2 ?part3 ?part4 
       </TabPanel>
       <TabPanel value={value} index={1}>
         <SupernaturlaEditor />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <CodeMirrorEditor defaultCode={defaultCode} onSubmit={setResult} />
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        <MonacoEditor defaultCode={defaultCode} onSubmit={setResult} />
       </TabPanel>
       {result && <DataList search={'Sparql Query'} data={result} />}
     </Box>

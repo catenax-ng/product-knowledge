@@ -7,7 +7,7 @@
 
 @prefix : <urn:cx:Graph:local:Dataspace> .
 @prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .
-@prefix cx-common: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#> .
+@prefix cx-common: <https://w3id.org/catenax/ontology/common#> .
 @prefix cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#> .
 @prefix cx-telematics: <https://github.com/catenax-ng/product-knowledge/ontology/telematics.ttl#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -30,15 +30,19 @@ bpnl:BPNL00000003AYRE cx:hasBusinessPartnerNumber "BPNL00000003COJN"^^xsd:string
                       cx:isIssuerOfVehicleIdentificationNumber "WBAAL31029PZ00001"^^xsd:string;
                       cx:isIssuerOfVehicleIdentificationNumber "WBAAL31029PZ00002"^^xsd:string;
                       cx:isIssuerOfVehicleIdentificationNumber "WBAAL31029PZ00003"^^xsd:string;
-                      cx:hasConnector <edc://oem-control-plane:8282>.
+                      cx:hasConnector <edc://oem-control-plane:8282>;
+                      cx-common:hasConnector <edc://oem-control-plane:8282>.
+                      
 
 bpnl:BPNL00000003B2OM cx:hasBusinessPartnerNumber "BPNL00000003CPIY"^^xsd:string;
                       cx:hasBusinessPartnerNumber "BPNL00000003B2OM"^^xsd:string;
-                      cx:hasConnector <edc://tiera-control-plane:8282>.
+                      cx:hasConnector <edc://tiera-control-plane:8282>;
+                      cx-common:hasConnector <edc://tiera-control-plane:8282>.
 
 bpnl:BPNL00000003CQI9 cx:hasBusinessPartnerNumber "BPNL00000003CQI9"^^xsd:string;
                       cx:hasBusinessPartnerNumber "BPNL00000007OR16"^^xsd:string;
-                      cx:hasConnector <edc://consumer-control-plane:8282>.
+                      cx:hasConnector <edc://consumer-control-plane:8282>;
+                      cx-common:hasConnector <edc://consumer-control-plane:8282>.
 
 bpnl:BPNL00000003AXS3 cx-common:hasSite bpns:BPNS00000003AXS3.
 bpnl:BPNL00000003B0Q0 cx-common:hasSite bpns:BPNS00000003B0Q0.

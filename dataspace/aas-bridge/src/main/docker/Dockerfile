@@ -4,7 +4,7 @@
 # See authors file in the top folder
 # See license file in the top folder
 #
-FROM alpine:3.17.1 as otel
+FROM alpine:3.18.2 as otel
 
 ENV OTEL_AGENT_LOCATION "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v1.12.1/opentelemetry-javaagent.jar"
 
@@ -12,7 +12,7 @@ HEALTHCHECK NONE
 
 RUN wget ${OTEL_AGENT_LOCATION} -O /tmp/opentelemetry-javaagent.jar
 
-FROM alpine:3.17.1
+FROM alpine:3.18.2
 
 ARG JAR
 ARG LIB
@@ -29,7 +29,7 @@ ENV PROVIDER_CREDENTIAL_BASIC ${PROVIDER_CREDENTIAL_BASIC_ARG}
 ENV TIMEOUT_SECONDS 10
 
 RUN apk update && \
-     apk add openjdk11-jre-headless=11.0.20_p8-r0 --no-cache && \
+     apk add openjdk17-jre-headless=17.0.7_p7-r1 --no-cache && \
      rm -rf /var/cache/apk/*
 
 RUN addgroup --gid "$APP_GID" --system "$APP_USER"

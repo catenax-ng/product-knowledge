@@ -1,0 +1,50 @@
+[PrefixDeclaration]
+cx-common:          https://w3id.org/catenax/ontology/common#
+cx-core:            https://w3id.org/catenax/ontology/core#
+cx-vehicle:         https://w3id.org/catenax/ontology/vehicle#
+cx-reliability:     https://w3id.org/catenax/ontology/reliability#
+uuid:		        urn:uuid:
+bpnl:		        bpn:legal:
+owl:		        http://www.w3.org/2002/07/owl#
+rdf:		        http://www.w3.org/1999/02/22-rdf-syntax-ns#
+xml:		        http://www.w3.org/XML/1998/namespace
+xsd:		        http://www.w3.org/2001/XMLSchema#
+json:               https://json-schema.org/draft/2020-12/schema#
+obda:		        https://w3id.org/obda/vocabulary#
+rdfs:		        http://www.w3.org/2000/01/rdf-schema#
+oem:                urn:oem:
+
+[MappingDeclaration] @collection [[
+mappingId	vehicles
+target		<{vehicle_id}> rdf:type cx-vehicle:Vehicle ; cx-vehicle:vehicleIdentificationNumber {van}^^xsd:string; cx-vehicle:worldManufaturerId bpnl:{localIdentifiers_manufacturerId}; cx-vehicle:productionDate {production_date}^^xsd:date.
+source		SELECT vehicle_id, van, 'BPNL00000003AYRE' as localIdentifiers_manufacturerId, production_date FROM vehicles
+
+mappingId	partsvehicle
+target		<{gearbox_id}> cx-vehicle:isPartOf <{vehicle_id}> .
+source		SELECT vehicle_id, gearbox_id FROM vehicles
+
+mappingId	vehicleparts
+target		<{vehicle_id}> cx-vehicle:hasPart <{gearbox_id}> .
+source		SELECT vehicle_id, gearbox_id FROM vehicles
+
+mappingId	parts
+target		<{gearbox_id}> rdf:type cx-vehicle:Part ; cx-vehicle:id {gearbox_id}^^xsd:string; cx-vehicle:name {partTypeInformation_nameAtManufacturer}^^xsd:string; cx-vehicle:number {partTypeInformation_manufacturerPartId}^^xsd:string; cx-vehicle:supplier bpnl:{localIdentifiers_manufacturerId}; cx-vehicle:productionDate {production_date}^^xsd:date .
+source		SELECT gearbox_id, production_date, 'Differential Gear' as partTypeInformation_nameAtManufacturer, 'BPNL00000003B2OM' as localIdentifiers_manufacturerId, 'Dummy Gearbox' as partTypeInformation_manufacturerPartId FROM vehicles
+
+mappingId   partAnalysis
+target		oem:{newest_telematics_id} cx-reliability:analysedObject <{gearbox_id}>.
+source		SELECT gearbox_id, newest_telematics_id FROM vehicles
+
+mappingId   analysisInformation
+target      oem:{id} rdf:type cx-reliability:Analysis; cx-reliability:operatingHoursOfVehicle {metadata_status_operatingHours}^^xsd:float; cx-core:startDateTime {metadata_status_date}^^xsd:dateTime; cx-core:endDateTime {metadata_status_date}^^xsd:dateTime; cx-reliability:mileageOfVehicle {metadata_status_mileage}^^xsd:int.
+source		SELECT id, metadata_status_operatingHours, metadata_status_date, metadata_status_mileage FROM reading
+
+mappingId   analysisResult
+target		oem:{id} cx-reliability:result oem:{id}/{index}.
+source		SELECT id, index FROM loadspectra
+
+mappingId   loadspectrum
+target      oem:{id}/{index} rdf:type cx-reliability:LoadSpectrum; cx-core:id {metadata_componentDescription}^^xsd:string; cx-core:name {metadata_projectDescription}^^xsd:string; cx-reliability:description {metadata_routeDescription}^^xsd:string; cx-reliability:countingValue {body_counts_countsName}^^xsd:string; cx-reliability:countingUnit {header_countingUnit}^^xsd:string; cx-reliability:countingMethod {header_countingMethod}^^xsd:string; cx-reliability:channels {header_channels}^^json:Object; cx-reliability:classes {body_classes}^^json:Object; cx-reliability:values {body_counts_countsList}^^json:Object .
+source		SELECT id, index, metadata_componentDescription, metadata_projectDescription, metadata_routeDescription, header_countingUnit, header_countingMethod, header_channels, body_classes, body_counts_countsName,  body_counts_countsList FROM loadspectra
+
+]]  
