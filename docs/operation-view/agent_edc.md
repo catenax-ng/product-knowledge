@@ -11,4 +11,3 @@ For more information see
 * The [Implementation](../development-view/architecture) documentation
 * The [Deployment](deployment) overview
 * A [Data Sovereignity & Graph Policy](policy) discussion
-

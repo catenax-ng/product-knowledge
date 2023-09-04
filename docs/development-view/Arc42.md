@@ -25,6 +25,7 @@ See also the KIT [Introduction](../adoption-view/intro) section and The [High-Le
 ## Constraints
 
 The Knowledge Agents Architecture is based on the Catena-X Dataspace Architecture with a specific focus on the Eclipse Dataspace Connector (EDC). It integrates with Catena-X Portal/Core Services & Identity Management principles and supports the typical interaction models as required by Catena-X Use Cases, such as
+
 * Traceability with Focus on Low-Volume Bills-Of-Material Data and Deep Supply Chains with One-Up and One-Down Visibility
 * Behaviour Twin with Focus on High-Volume Telematics Data and Flat and Trustful Supply Chain  
 
@@ -34,27 +35,27 @@ Furthermore, on the vocabulary/script level it utilizes and extends well-defined
 
 The standard is relevant for the following roles:
 
-- Business Application Provider
-- Enablement Service Provider
-- Data Consumer
-- Data Provider
+* Business Application Provider
+* Enablement Service Provider
+* Data Consumer
+* Data Provider
 
 The following Catena-X stakeholders are affected by Knowledge Agent approach
 
-- **Business Application Provider:** Applications that use KA technology on behalf of a Dataspace Participant (e.g. a Fleet Monitor, an Incident Reporting Solution).
+* **Business Application Provider:** Applications that use KA technology on behalf of a Dataspace Participant (e.g. a Fleet Monitor, an Incident Reporting Solution).
 
-- **Enablement Service Provider:** Services to assist Dataspace Participants/Applications in processing data based on KA technology (e.g. a Graph Database, a Virtual Graph Binding Engine, an EDC Package).
+* **Enablement Service Provider:** Services to assist Dataspace Participants/Applications in processing data based on KA technology (e.g. a Graph Database, a Virtual Graph Binding Engine, an EDC Package).
 As a second path, Companies are addressed that want to provide compute resources (for example by a server or other KA-enabled Applications or Services) based on instances/configurations of KA-enabled EDC Packages, for example a Recycling Software Specialist
 
-- **Data Consumer:** Companies that want to use data and logic (for example by KA-enabled Applications or Services) based on instances/configurations of KA-enabled EDC Packages, such as a Recycling Company or a Tier-2 Automotive Supplier
-- **Data Provider:** Companies that want to provide data (for example by a backend database or other KA-enabled Applications or Services) based on instances/configurations of KA-enabled EDC Packages, for example an Automotive OEM. Companies that want to provide functions (for example by a REST endpoint or other KA-enabled Applications or Services) based on instances/configurations of KA-enabled EDC Packages, for example a Tier1 Sensor Device Supplier
+* **Data Consumer:** Companies that want to use data and logic (for example by KA-enabled Applications or Services) based on instances/configurations of KA-enabled EDC Packages, such as a Recycling Company or a Tier-2 Automotive Supplier
+* **Data Provider:** Companies that want to provide data (for example by a backend database or other KA-enabled Applications or Services) based on instances/configurations of KA-enabled EDC Packages, for example an Automotive OEM. Companies that want to provide functions (for example by a REST endpoint or other KA-enabled Applications or Services) based on instances/configurations of KA-enabled EDC Packages, for example a Tier1 Sensor Device Supplier
 
 Content-wise the following capabilities of Catena-X are addressed:
 
-- Query and Search (Basic Mechanism, Integration in User Experiences)
-- Services for making use of various federated data sources being part of a data space (Data & Function Provisioning, Logic Development & Provisioning)
-- Semantic Modelling
-- Publishing, Negotiation, Transfer Protocols and Policy Enforcement via IDS (EDC) connector
+* Query and Search (Basic Mechanism, Integration in User Experiences)
+* Services for making use of various federated data sources being part of a data space (Data & Function Provisioning, Logic Development & Provisioning)
+* Semantic Modelling
+* Publishing, Negotiation, Transfer Protocols and Policy Enforcement via IDS (EDC) connector
 
 ## Solution Strategy
 
@@ -96,7 +97,7 @@ See also [High-Level Architecture](architecture).
 See chapter [Layers & Modules](modules)
 
 [![Architecture High-Level](/img/knowledge_agent_architecture_small.png)](/img/knowledge_agent_architecture.png)
- 
+
 ## Runtime View
 
 [![Runtime View2](/img/Runtime_View3.png)](/img/Runtime_View3.png)
@@ -127,4 +128,3 @@ Sequence of actions:
 ## Deployment View
 
 See chapter [Deployment](../operation-view/deployment).
-
