@@ -1,0 +1,220 @@
+<mxfile host="app.diagrams.net" modified="2023-09-12T09:58:35.538Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="ux6Tx0kUKeNf1eqFZB5j" version="21.6.6" type="device">
+  <diagram name="Seite-1" id="B5Ve2tOyie5Xnh3pKuft">
+    <mxGraphModel dx="2261" dy="1990" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="5XGALUOJoBwrlct7O_8P-1" value="" style="group;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="-352.5" y="110" width="165" height="165" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-2" value="&amp;lt;Dataprovider&amp;gt;&lt;br&gt;Company A&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="5XGALUOJoBwrlct7O_8P-1">
+          <mxGeometry width="165" height="165" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-3" value="&amp;lt;Agent EDC&amp;gt;&lt;br&gt;Matchmaking Agent&lt;br&gt;agreements: Token[]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#d79b00;" vertex="1" parent="5XGALUOJoBwrlct7O_8P-1">
+          <mxGeometry x="23.5" y="96" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-4" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="430" y="110" width="383" height="370" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-5" value="&amp;lt;Dataprovider&amp;gt;&lt;br&gt;Company C&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;" style="whiteSpace=wrap;html=1;fillColor=#E1D5E7;strokeColor=#b85450;" vertex="1" parent="5XGALUOJoBwrlct7O_8P-4">
+          <mxGeometry width="380" height="370" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-6" value="&amp;lt;Agent EDC&amp;gt;&lt;br&gt;Provider Agent = Wrapper Extension&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="5XGALUOJoBwrlct7O_8P-4">
+          <mxGeometry x="34.35" y="77.49" width="241.3" height="172.51" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-7" value="8. bind" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="5XGALUOJoBwrlct7O_8P-4" source="5XGALUOJoBwrlct7O_8P-8" target="5XGALUOJoBwrlct7O_8P-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-8" value="&amp;lt;Dataplane EDC Extension&amp;gt;&lt;br&gt;(Federated) HTTP&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFD966;strokeColor=#82b366;" vertex="1" parent="5XGALUOJoBwrlct7O_8P-4">
+          <mxGeometry x="45.44" y="131.41" width="219.13" height="118.59" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.25;exitDx=0;exitDy=0;" edge="1" parent="5XGALUOJoBwrlct7O_8P-4" source="5XGALUOJoBwrlct7O_8P-8" target="5XGALUOJoBwrlct7O_8P-11">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="45" y="160" />
+              <mxPoint x="63" y="160" />
+              <mxPoint x="63" y="215" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-10" value="7. vaiidate" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="5XGALUOJoBwrlct7O_8P-9">
+          <mxGeometry x="0.0951" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-11" value="&amp;lt;Controlplane EDC&amp;gt;&lt;br&gt;Provider EDC&lt;br&gt;contracts: Contract[]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="5XGALUOJoBwrlct7O_8P-4">
+          <mxGeometry x="91.39" y="184.13" width="125.22" height="60.87" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-12" value="" style="group;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" connectable="0" parent="5XGALUOJoBwrlct7O_8P-4">
+          <mxGeometry x="283" y="76" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-13" value="&amp;lt;Datacatalog&amp;gt;&lt;br&gt;Federated Datacatalog&lt;br&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="5XGALUOJoBwrlct7O_8P-12">
+          <mxGeometry width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-14" value="Backend" style="shape=datastore;whiteSpace=wrap;html=1;fillColor=none;" vertex="1" parent="5XGALUOJoBwrlct7O_8P-4">
+          <mxGeometry x="157" y="280" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-15" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="40" y="60" width="227.5" height="225" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-16" value="&amp;lt;Dataconsumer&amp;gt;&lt;br&gt;Company X&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="5XGALUOJoBwrlct7O_8P-15">
+          <mxGeometry width="224.99999999999997" height="224.99999999999997" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-17" value="App" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="5XGALUOJoBwrlct7O_8P-15">
+          <mxGeometry x="59.75" y="60" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.998;entryY=0.427;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="5XGALUOJoBwrlct7O_8P-22" target="5XGALUOJoBwrlct7O_8P-44">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="300" y="210" />
+              <mxPoint x="300" y="-169" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-19" value="4. discovers federated catalog for knowledge/asset addresses&lt;br&gt;and reformulates the query with services and graphs" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="5XGALUOJoBwrlct7O_8P-18">
+          <mxGeometry x="0.0618" y="-4" relative="1" as="geometry">
+            <mxPoint y="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=-0.008;exitY=0.386;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;exitPerimeter=0;" edge="1" parent="1" source="5XGALUOJoBwrlct7O_8P-22" target="5XGALUOJoBwrlct7O_8P-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-21" value="5. negotiate an agreement: Token" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="5XGALUOJoBwrlct7O_8P-20">
+          <mxGeometry x="0.2325" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-22" value="&amp;lt;Agent EDC&amp;gt;&lt;br&gt;Matchmaking Agent&lt;br&gt;agreements: Token[]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="90" y="196" width="130" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-23" value="" style="group;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="72.5" y="420" width="165" height="165" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-24" value="&amp;lt;Dataprovider&amp;gt;&lt;br&gt;Company B&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="5XGALUOJoBwrlct7O_8P-23">
+          <mxGeometry width="165" height="165" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-25" value="&amp;lt;Agent EDC&amp;gt;&lt;br&gt;Provider Agent" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#d79b00;" vertex="1" parent="5XGALUOJoBwrlct7O_8P-23">
+          <mxGeometry x="22.5" y="94" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.75;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="5XGALUOJoBwrlct7O_8P-3" target="5XGALUOJoBwrlct7O_8P-25">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="160" y="270" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-27" value="8. request result from B&lt;br&gt;Agreement Token AB&lt;br&gt;+ Extended Execution Context 1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="5XGALUOJoBwrlct7O_8P-26">
+          <mxGeometry x="-0.075" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" target="5XGALUOJoBwrlct7O_8P-3">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="236" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="90" y="250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-29" value="&amp;nbsp;7. request result from A&lt;br&gt;Agreement Token XA&lt;br&gt;+ Execution Context 0" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="5XGALUOJoBwrlct7O_8P-28">
+          <mxGeometry x="-0.1109" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;" edge="1" parent="1" source="5XGALUOJoBwrlct7O_8P-22">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="220" y="236" as="sourcePoint" />
+            <mxPoint x="477" y="270" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="330" y="249" />
+              <mxPoint x="330" y="270" />
+              <mxPoint x="477" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-31" value="&amp;nbsp;6. request result from C&amp;nbsp;&lt;br&gt;Agreement Token XC&lt;br&gt;+ Execution Context 0" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="5XGALUOJoBwrlct7O_8P-30">
+          <mxGeometry x="0.0893" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="5XGALUOJoBwrlct7O_8P-17" target="5XGALUOJoBwrlct7O_8P-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-33" value="3. Execute Skill/Query" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="5XGALUOJoBwrlct7O_8P-32">
+          <mxGeometry x="-0.1342" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-34" value="&amp;nbsp;register DID&amp;nbsp;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="5XGALUOJoBwrlct7O_8P-37" target="5XGALUOJoBwrlct7O_8P-38">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="5XGALUOJoBwrlct7O_8P-37" target="5XGALUOJoBwrlct7O_8P-39">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-36" value="sends Veriable Credential" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="5XGALUOJoBwrlct7O_8P-35">
+          <mxGeometry x="0.284" relative="1" as="geometry">
+            <mxPoint x="-30" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-37" value="&amp;lt;SSI Issuer&amp;gt;&lt;br&gt;Certified Issuer CX" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-790" y="367" width="120" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-38" value="DLT Registry" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="-680" y="612" width="60" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-39" value="&amp;lt;SSI Holder&amp;gt;&lt;br&gt;Wallet Company X" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="-489.5" y="367" width="120" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="5XGALUOJoBwrlct7O_8P-3" target="5XGALUOJoBwrlct7O_8P-39">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-41" value="requests Verifiable Presentation" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="5XGALUOJoBwrlct7O_8P-40">
+          <mxGeometry x="0.2013" y="2" relative="1" as="geometry">
+            <mxPoint x="-2" y="45" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-42" value="verifies Verifiable Presentation" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.25;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="5XGALUOJoBwrlct7O_8P-3" target="5XGALUOJoBwrlct7O_8P-38">
+          <mxGeometry x="-0.4185" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-300" y="266" />
+              <mxPoint x="-300" y="652" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-43" value="" style="group;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="60" y="-240" width="165" height="165" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-44" value="&amp;lt;Datacatalog&amp;gt;&lt;br&gt;Federated Datacatalog&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="5XGALUOJoBwrlct7O_8P-43">
+          <mxGeometry width="165" height="165" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-45" value="local node" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="5XGALUOJoBwrlct7O_8P-43">
+          <mxGeometry x="53" y="70" width="60" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="5XGALUOJoBwrlct7O_8P-2" target="5XGALUOJoBwrlct7O_8P-44">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-270" y="-116" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-47" value="&amp;nbsp;1. publish Self Description of Knowledge to Data Catalog&amp;nbsp;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="5XGALUOJoBwrlct7O_8P-46">
+          <mxGeometry x="0.2988" y="-1" relative="1" as="geometry">
+            <mxPoint x="35" y="-5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-48" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1.005;entryY=0.124;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="5XGALUOJoBwrlct7O_8P-13" target="5XGALUOJoBwrlct7O_8P-44">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="730" y="-219" />
+            </Array>
+            <mxPoint x="570" y="110" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5XGALUOJoBwrlct7O_8P-49" value="2. synchronize public assets" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="5XGALUOJoBwrlct7O_8P-48">
+          <mxGeometry x="-0.4612" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
