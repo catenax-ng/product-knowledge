@@ -63,6 +63,7 @@ This standard gives fundamental guidelines to create ontology models for being u
 Semantics is the art and science of understanding what data means. In the context of Catena-X this topic has a significant importance in the sense that data provider and consumer need to have the same understanding what data needs to be shared (see also [FAIR data](https://en.wikipedia.org/wiki/FAIR_data)). In the knowledge agent approach, ontologies are used to describe the semantics of data. Ontologies are similar to data models or data schemas in which the semantics and structure of data are described. In addition, ontologies provide a high degree of semantic expressiveness, i.e. formal semantics. This means that there is a logical system behind the ontologies. This allows automatic inference on data like "p-123" is_a part and part is_a physical object => "p-123" is_a physical object. Such inference enables strong typing of data. This way the machine can understand the meaning of the vocabulary 'part', that it is a physical object and not a document part or a design model part. It could be that the same vocabularies are used for different things in different data models. The formal semantics of ontologies can prevent such misunderstandings in data caused by synonymity or homonymity, etc. and lead to better collaboration and interoperability between data space participants.
 
 In applying the ontology-based data modelling in Catena-X, the following fundamentals should be achieved:
+
 - Maximise Semantics
 - Reduce Complexity
 - Minimise Redundancy
@@ -99,7 +100,7 @@ Semantic Web Standards used in knowledge agent approach
 - [SKOS](https://www.w3.org/2004/02/skos/) for vocabularies,
 - [RML](https://rml.io/specs/rml/) & [R2RML](https://www.w3.org/TR/2012/REC-r2rml-20120927/) for mapping data source model to asset model to provide data in an asset,
 - [SHACL](https://www.w3.org/TR/shacl/) for data quality check and for describing which data is available in the asset and in which form,
-- [RDF](https://www.w3.org/TR/rdf12-concepts/) for description and exchange of graph data, 
+- [RDF](https://www.w3.org/TR/rdf12-concepts/) for description and exchange of graph data,
 - [Turtle](https://www.w3.org/TR/turtle/) for persisting,
 - [SPARQL](https://www.w3.org/TR/sparql11-query/) for querying data.
 
@@ -140,7 +141,7 @@ Model content MUST adhere to given guidelines in the [2.2 MODELLING GUIDELINES](
 |Instance |An instance is an object of a class |
 |Knowledge graph (KG) |A knowledge graph is a graph-structured database where knowledge is represented in the ontology and instances. There are two types of KGs: RDF (GraphDB, RDFox, AnzoGraph, Stardog) and Labeled Property Graphs (neo4j)|
 |Literal |A literal represents a data value, i.e. an element with a data type (string or integer), e.g. foaf:Person foaf:name "Max"|
-|Namespace|A namespace is the base URI: Example: http://www.w3.org/1999/02/22-rdf-syntax-ns# with the prefix rdf|
+|Namespace|A namespace is the base URI: Example: <http://www.w3.org/1999/02/22-rdf-syntax-ns># with the prefix rdf|
 |Ontology|An OWL ontology is a semantic data model based on [description logic](https://en.wikipedia.org/wiki/Description_logic) that consists of classes, relations, attributes for a specific domain of interest/discourse|
 |Relation |A relation represents how two individuals are connected/related, e.g. cx:Bob cx:knows cx:Tom. A relation is called 'owl:ObjectProperty' in OWL|
 |Triple|A triple is statement consisting of subject-predicate-object that is defined by RDF|
@@ -155,6 +156,7 @@ Model content MUST adhere to given guidelines in the [2.2 MODELLING GUIDELINES](
 <br>
 
 ### 2.1 Modelling Concept
+
 This section explains the concept of ontology-based data modelling of the knowledge agent approach. Furthermore, it is shown how the query of distributed data in dataspaces works on the basis of this concept.
 
 <br>
@@ -162,6 +164,7 @@ This section explains the concept of ontology-based data modelling of the knowle
 #### **2.1.1 Modelling with Ontologies**
 
 In the Knowledge Agent approach, the data is modelled with the Semantic Web Ontology language [OWL](https://www.w3.org/TR/2012/REC-owl2-primer-20121211/). This enables object-oriented modelling of domains with classes, attributes and relationships. Object-oriented modelling allows the modelling of a domain from general to specific by creating subclasses. The first step is to define the main classes that describe the domain. In the case of Catena-X, five main classes were defined.
+
 - Activity: This class comprises actions that are intentionally performed by instances of the actor over the course of the product life cycle and result in state changes in physical and conceptual objects.
 - Actor: This class comprises organization, device or people, either individually or in groups, who have the potential to perform intentional actions of kinds for which someone may be held responsible.
 - Physical object: This class includes objects of a material nature, which are documentation units and have physical boundaries.
@@ -177,7 +180,9 @@ In the Knowledge Agent approach, the data is modelled with the Semantic Web Onto
 <br>
 
 #### **2.1.2 Activity-centred Modelling**
+
 Activity-centred or event-based modelling is a well-known approach (see also [CIDOC-CRM](https://www.cidoc-crm.org/)). Not all information is directly assigned to an entity. The classes actor, place, physical object and conceptual object are connected through activities. Instead of assigning all information to the physical object. This distributed representation has several advantages:
+
 - The life cycles of products and documents are represented separately and clearly.
 - The activities have a start and end date so that the data can be queried chronologically.
 - The data can be viewed and queried from different perspectives.
@@ -196,12 +201,14 @@ Activity-centred or event-based modelling is a well-known approach (see also [CI
 <br>
 
 #### **2.1.3 Core and Domain Ontologies**
+
 The concept described above is the basic modelling pattern in Knowledge Agent. We call it the [core ontology](https://github.com/catenax-ng/product-ontology/blob/main/ontology/core_ontology.ttl). Based on this ontology, specific domain ontologies can be modelled. A domain ontology can be created based on subclasses (e.g. Manufacturing is SubClassOf Activity), subrelations (e.g. has Manufacturer is SubPropertyOf has Participant) and subattributes. The domain ontology has the same structure as the core ontology, but can be extended to include additional classes.
 
 Benefits of the basic modelling pattern:
-- Easy for domain experts to understand and create new domain ontologies. 
+
+- Easy for domain experts to understand and create new domain ontologies.
 - Data is represented in datasets using the same pattern.
-- Data can be queried with general queries such as 'Get All Actors' or specific queries such as 'Get Manufacturer'. 
+- Data can be queried with general queries such as 'Get All Actors' or specific queries such as 'Get Manufacturer'.
 
 <br>
 
@@ -212,7 +219,8 @@ Benefits of the basic modelling pattern:
 <br>
 
 #### **2.1.4 Data binding**
-In the ontology-based approach, the data is serialised in graph structure using the Resource Description Framework (see [RDF](https://www.w3.org/TR/rdf12-concepts/)). Each node, also called a resource, is uniquely identified by a [URI](https://www.w3.org/wiki/URI). The edges are called property in RDF Graph because each relation forms a [subject-predicate-object triple](https://www.w3.org/wiki/SubjectPredicateObject). The nodes can be linked to other nodes (so-called object property). The relations used are from the Domain Ontology. At the same time, nodes can be linked to literals (so-called datatype property). With the property rdf:type, the nodes can be instantiated with domain classes. 
+
+In the ontology-based approach, the data is serialised in graph structure using the Resource Description Framework (see [RDF](https://www.w3.org/TR/rdf12-concepts/)). Each node, also called a resource, is uniquely identified by a [URI](https://www.w3.org/wiki/URI). The edges are called property in RDF Graph because each relation forms a [subject-predicate-object triple](https://www.w3.org/wiki/SubjectPredicateObject). The nodes can be linked to other nodes (so-called object property). The relations used are from the Domain Ontology. At the same time, nodes can be linked to literals (so-called datatype property). With the property rdf:type, the nodes can be instantiated with domain classes.
 
 <br>
 <div align="center"  width="100%">
@@ -220,9 +228,10 @@ In the ontology-based approach, the data is serialised in graph structure using 
 </div>
 <br>
 
-The RDF graphs are stored in [RDF databases](https://www.w3.org/wiki/LargeTripleStores) (so-called triple store) and can be serialised in various formats such as xml, json, ttl, etc. Different data sources such as relational databases, XML, JSON and CSV files can be mapped to RDF graphs using standardised languages such as RML and R2RML. Based on the mapping, the data can be transformed or virtualised. Virtualisation allows the data to be processed as RDF graphs without transforming it and storing it in a different location. 
+The RDF graphs are stored in [RDF databases](https://www.w3.org/wiki/LargeTripleStores) (so-called triple store) and can be serialised in various formats such as xml, json, ttl, etc. Different data sources such as relational databases, XML, JSON and CSV files can be mapped to RDF graphs using standardised languages such as RML and R2RML. Based on the mapping, the data can be transformed or virtualised. Virtualisation allows the data to be processed as RDF graphs without transforming it and storing it in a different location.
 
 #### **2.1.5 Data Query**
+
 The RDF graphs can be accessed using the SPARQL query language via a SPARQL HTTP protocol. SPARQL allows the definition of complex instance relationships and the search for the defined patterns in the RDF graphs.
 
 General query example: Returns all physical objects and their name and activities.
@@ -275,6 +284,7 @@ Query result is the same as the first one:
 <br>
 
 #### **2.1.6 Federated Query**
+
 An important advantage of SPARQL is that multiple repositories can be accessed from a single query. This feature gives Catena-X the great advantage of being able to query distributed data in different assets at the same time.
 
 <br>
@@ -282,7 +292,6 @@ An important advantage of SPARQL is that multiple repositories can be accessed f
   <img src="images/example_2.jpg" alt="image" width="1000" height="auto" >
 </div>
 <br>
-
 
 Federated query example: Returns all vehicle names from BMW Asset and for the same vehicles the names of the diagnosis results from ADAC Asset.
 
@@ -336,7 +345,7 @@ This section defines modelling guidelines that help develop compliant domain ont
 
 In order to effectively develop useful and reusable ontologies, all of the following modelling guidelines must be followed.
 
-- G11 Define business requirments 
+- G11 Define business requirments
   - Who knows, produces, consumes the data?
   - State the business questions and define Asset queries
   - Define the source data needed for the asset.
@@ -392,17 +401,16 @@ In order to effectively develop useful and reusable ontologies, all of the follo
   - Specify the definition in English
   - Specify the range
 
-
 <br>
 
-#### **2.2.1 Technical Modelling Guidelines**
+#### **2.2.2 Technical Modelling Guidelines**
 
 All ontology models in Catena-X MUST comply with the following guidelines:
 
-- G21 Export Ontologie from editor as turtle file: (domain) + '_ontology.ttl', e.g. 'vehicle_ontology.ttl' 
+- G21 Export Ontologie from editor as turtle file: (domain) + '_ontology.ttl', e.g. 'vehicle_ontology.ttl'
 - G22 All classes, relations, attributes are uniquely defined in an ontology.
 - G23 Redundant definitions are resolved.
-- G24 Check for conflicts with Reasoner 
+- G24 Check for conflicts with Reasoner
 - G25 Scan your ontology with the [Ontology Pitfall Scanner](https://oops.linkeddata.es/webservice.html)
 - G26 Merge domain ontologies if necessary for the asset
 
@@ -412,17 +420,17 @@ All ontology models in Catena-X MUST comply with the following guidelines:
 
 All ontology models in Catena-X MUST comply with the following guidelines:
 
--  G31 General
-    - Avoid bad naming, consider interpretation and context
-    - Make names more specific if it has more than one interpretation
-    - Avoid omitting definitions or bad definitions
-    - Try to name examples, since it supports in the semantics
+- G31 General
+  - Avoid bad naming, consider interpretation and context
+  - Make names more specific if it has more than one interpretation
+  - Avoid omitting definitions or bad definitions
+  - Try to name examples, since it supports in the semantics
 
 - G32 Identifiers/URIs
-  -  Use only alphanumeric characters [A-z0-9] (IRI/URI standard)
-  -  Do not use acronyms or abbreviations allowed in URIs
-  -  Use PascalCase/UpperCamelCase for classes (RDF/OWL standard)
-  -  Use camelCase/lowerCamelCase for relations and attributes (RDF/OWL standard)
+  - Use only alphanumeric characters [A-z0-9] (IRI/URI standard)
+  - Do not use acronyms or abbreviations allowed in URIs
+  - Use PascalCase/UpperCamelCase for classes (RDF/OWL standard)
+  - Use camelCase/lowerCamelCase for relations and attributes (RDF/OWL standard)
 
 - G34 Naming Conventions
   - Use only alphanumeric characters with whitespaces [A-z0-9 ] + Umlaute (ÄäÖöÜüß)
@@ -459,11 +467,11 @@ All ontology models in Catena-X MUST comply with the following guidelines:
 
 ### 3.1 NORMATIVE REFERENCES
 
-```text
+~~~text
     [Optional] - Links to related Catena-X or external standards that need to be
     meet in order to fulfil this standard. If no external standards need to be
     met, leave empty.
-```
+~~~
 
 <br>
 
@@ -471,10 +479,10 @@ All ontology models in Catena-X MUST comply with the following guidelines:
 
 > _This section is non-normative_
 
-```text
+~~~text
     [Optional] – Links to further documentation that may help to understand the 
     standard but isn’t relevant for conformity assessment
-```
+~~~
 
 <br>
 
@@ -488,9 +496,9 @@ All ontology models in Catena-X MUST comply with the following guidelines:
 
 > _This section is non-normative_
 
-```text
+~~~text
     [OPTIONAL] Add figures here if necessary
-```
+~~~
 
 <br>
 
@@ -498,6 +506,6 @@ All ontology models in Catena-X MUST comply with the following guidelines:
 
 > _This section is non-normative_
 
-```text
+~~~text
     [OPTIONAL] Add Tables here here if necessary
-```
+~~~
