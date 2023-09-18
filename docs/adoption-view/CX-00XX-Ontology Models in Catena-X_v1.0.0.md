@@ -60,7 +60,7 @@ This standard gives fundamental guidelines to create ontology models for being u
 
 ## 1. INTRODUCTION
 
-Semantics is the art and science of understanding what data means. In the context of Catena-X this topic has a significant importance in the sense that data provider and consumer need to have the same understanding what data needs to be shared (see also [FAIR data](https://en.wikipedia.org/wiki/FAIR_data)). In the knowledge agent approach, ontologies are used to describe the semantics of data. Ontologies are similar to data models or data schemas in which the semantics and structure of data are described. In addition, ontologies provide a high degree of semantic expressiveness, i.e. formal semantics. This means that there is a logical system behind the ontologies. This allows automatic inference on data like "p-123" is_a part and part is_a physical object => "p-123" is_a physical object. Such inference enables strong typing of data. This way the machine can understand the meaning of the vocabulary 'part', that it is a physical object and not a document part or a design model part. It could be that the same vocabularies are used for different things in different data models. The formal semantics of ontologies can prevent such misunderstandings in data caused by synonymity or homonymity, etc. and lead to better collaboration and interoperability between data space participants.
+Semantics is the art and science of understanding what data means. In the context of Catena-X this topic has a significant importance in the sense that data provider and consumer need to have the same understanding what data needs to be shared (see also [FAIR data](https://en.wikipedia.org/wiki/FAIR_data)). In the knowledge agent approach, ontologies are used to describe the semantics of data. Ontologies are similar to data models or data schemas in which the semantics and structure of data are described. In addition, ontologies provide a high degree of semantic expressiveness, i.e. formal semantics. This means that there is a logical system behind the ontologies. This allows automatic inference on data like "p-123" is_a part and part is_a physical object => "p-123" is_a physical object. Such inference enables strong typing of data. This way the machine can understand the meaning of the vocabulary 'part', that it is a physical object and not a document part or a design model part. It could be that the same vocabularies are used for different things in different data models. The formal semantics of ontologies prevent such misunderstandings in data caused by synonymity or homonymity, etc. and lead to better collaboration and interoperability among data space participants. On the other hand, the ontology-based approach represents the underlying data in assets as a graph structure. This allows flexible querying of typed and linked data.
 
 In applying the ontology-based data modelling in Catena-X, the following fundamentals should be achieved:
 
@@ -92,7 +92,7 @@ Created ontology models can be utilized as semantic basis for the so called "kno
 
 ### 1.2 CONTEXT
 
-The knowledge agent approach uses the [Semantic Web standards](https://www.w3.org/2001/sw/wiki/Main_Page). The [Semantic Web](https://en.wikipedia.org/wiki/Semantic_Web) is the semantic extension of the Web. In the Web, the content of Web pages is exchanged in a document-based way (Web of Documents). This has the disadvantage that a direct access to a certain content of the documents is not possible. Therefore, a new concept was developed in which the contents of documents are decomposed into data and described by data models (Web of Data). At the same time, a query language was developed with which the desired content can be queried directly. In the Semantic Web, the data models are called ontologies, based on the philosophical meaning 'study of being', because the data on the Web is the digital representation of things in the real world. Semantic Web ontologies are formal languages in which data can be described unambiguously and without redundancy. This makes the ever-growing volumes of data on the web more manageable and usable to generate new knowledge. A good example is the [DBpedia project](https://en.wikipedia.org/wiki/DBpedia), which makes Wikipedia content available as data. In recent years, Semantic Web standards have been increasingly used in enterprises to create enterprise-wide [knowledge graphs](https://en.wikipedia.org/wiki/Knowledge_graph) to structure internal big data and make it queryable to create knowledge. This concept is implemented for Catena-X in the knowledge agent approach.
+The knowledge agent approach uses the [Semantic Web standards](https://www.w3.org/2001/sw/wiki/Main_Page). The [Semantic Web](https://en.wikipedia.org/wiki/Semantic_Web) is the semantic extension of the Web. In the Web, the content of Web pages is exchanged in a document-based way (Web of Documents). This has the disadvantage that a direct access to a certain content of the documents is not possible. Therefore, a new concept was developed in which the contents of documents are decomposed into data and described by data models (Web of Data). At the same time, a query language was developed with which the desired content can be queried directly. In the Semantic Web, the data models are called ontologies, based on the philosophical meaning 'study of being', because the data on the Web is the digital representation of things in the real world. Semantic Web ontologies are formal languages in which data can be described unambiguously and without redundancy. This makes the ever-growing volumes of data on the web more manageable and usable to generate new knowledge. A good example is the [DBpedia project](https://en.wikipedia.org/wiki/DBpedia), which makes Wikipedia content available as data. In recent years, Semantic Web standards have been increasingly used in enterprises to create enterprise-wide [knowledge graphs](https://en.wikipedia.org/wiki/Knowledge_graph) to structure internal big data and make it queryable to create knowledge. This concept is extended in the Knowledge Agent approach to realize data exchange across the Catena-X dataspace.
 
 Semantic Web Standards used in knowledge agent approach
 
@@ -202,7 +202,7 @@ Activity-centred or event-based modelling is a well-known approach (see also [CI
 
 #### **2.1.3 Core and Domain Ontologies**
 
-The concept described above is the basic modelling pattern in Knowledge Agent. We call it the [core ontology](https://github.com/catenax-ng/product-ontology/blob/main/ontology/core_ontology.ttl). Based on this ontology, specific domain ontologies can be modelled. A domain ontology can be created based on subclasses (e.g. Manufacturing is SubClassOf Activity), subrelations (e.g. has Manufacturer is SubPropertyOf has Participant) and subattributes. The domain ontology has the same structure as the core ontology, but can be extended to include additional classes.
+The concept described above is the basic modelling pattern in Knowledge Agent. We call it the [core ontology](https://github.com/catenax-ng/product-ontology/blob/main/ontology/core_ontology.ttl). Based on this ontology, specific domain ontologies can be modelled. A domain ontology can be created based on subclasses (e.g. Manufacturing is SubClassOf Activity), subrelations (e.g. has Manufacturer is SubPropertyOf has Participant) and subattributes. The domain ontology has the same structure as the core ontology, but can be extended to include additional classes. The Knowledge Agent approach uses OWL 2 QL for modeling. This is a subset of OWL 2 Full. The reason for this is that it includes most of the main features of conceptual models such as UML class diagrams and ER diagrams. It also provides polynomial time inference for large data sets.
 
 Benefits of the basic modelling pattern:
 
@@ -237,9 +237,9 @@ The RDF graphs can be accessed using the SPARQL query language via a SPARQL HTTP
 General query example: Returns all physical objects and their name and activities.
 
 ~~~s
-@prefix cx-core: <https://w3id.org/catenax/ontology/core#>
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-@prefix bmw: <https://www.bmw.de/catenax/data#>
+PREFIX cx: <https://w3id.org/catenax/ontology/core#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX exp: <http://www.example.com#>
 
 select ?activity ?physicalObject
 where {
@@ -254,16 +254,16 @@ Query result:
 
 | ?activity   | ?physicalObject |?name|
 | ----------- | ----------- | ----------- |
-|bmw:manufacturing_1|bmw:vehicle_1|"THE 1"|
+|exp:manufacturing_1|exp:vehicle_1|"Goggomobil"|
 
 <br/>
 
 Specific query example: Returns all vehicles and their name and manufacturing activities.
 
 ~~~s
-@prefix cx-core: <https://w3id.org/catenax/ontology/core#>
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-@prefix bmw: <https://www.bmw.de/catenax/data#>
+PREFIX cx: <https://w3id.org/catenax/ontology/core#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX exp: <http://www.example.com#>
 
 select ?activity ?physicalObject
 where {
@@ -280,7 +280,7 @@ Query result is the same as the first one:
 
 | ?activity   | ?physicalObject |?name|
 | ----------- | ----------- | ----------- |
-|bmw:manufacturing_1|bmw:vehicle_1|"THE 1"|
+|exp:manufacturing_1|exp:vehicle_1|"Goggomobil"|
 <br/>
 
 #### **2.1.6 Federated Query**
@@ -289,42 +289,44 @@ An important advantage of SPARQL is that multiple repositories can be accessed f
 
 <br/>
 <div align="center"  width="100%">
-  <img src="images/example_2.jpg" alt="image" width="1000" height="auto" />
+  <img src="images/example.jpg" alt="image" width="1000" height="auto" />
 </div>
 <br/>
 
-Federated query example: Returns all vehicle names from BMW Asset and for the same vehicles the names of the diagnosis results from ADAC Asset.
+Federated query example: Returns all vehicle names from OEM Asset and for the same vehicles the names of the diagnosis results from Service Asset.
 
 ~~~s
-@prefix cx-core: <https://w3id.org/catenax/ontology/core#>
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX cx: <https://w3id.org/catenax/ontology/core#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
-select ?vehicleName ?diagnosisResultName
+select ?vehicleName ?vehicleVin ?vehicleVin ?diagnosisResultName
 where {
-
-  # BMW Asset
-  SERVICE <https://www.bmw.de/catenax/asset_1> {
-
-    ?physicalObject rdf:type cx:Vehicle.
-    ?physicalObject cx:name ?vehicleName.
-
-    #ADAC Asset
-    SERVICE <https://www.adac.de/catenax/asset_1> {
-
-      ?physicalObject rdf:type cx:Vehicle.
-      ?activity cx:refersToConceptualObject ?conceptualObject.
-      ?conceptualObject cx:name ?diagnosisResultName.
-
+  
+  # OEM Asset
+  SERVICE <https://catena-x.net/asset/oem/asset_1> {
+    ?physicalObjectOEM rdf:type cx:Vehicle.
+    ?physicalObjectOEM cx:vin ?vehicleVin.
+    
+    #Service Asset
+    SERVICE <https://catena-x.net/asset/service/asset_2> {
+      ?physicalObjectService rdf:type cx:Vehicle.
+      ?physicalObjectService cx:vin ?vehicleVin.
+      ?physicalObjectService cx:name ?vehicleName.
+      ?activity rdf:type cx:Diagnosis.      
+      ?activity cx:refersToPhysicalObject ?physicalObjectService.
+      ?activity cx:refersToConceptualObject ?conceptualObject.
+      ?conceptualObject cx:name ?diagnosisResultName.
     }
-  }
+  }
 }
+
 ~~~
 
 Federated Query result:
 
-| ?vehicleName   | ?diagnosisResultName |
-| ----------- | ----------- |
-|"THE 1"|"Cylinder misfire"|
+| ?vehicleName   | ?vehicleVin | ?diagnosisResultName |
+| ----------- | ----------- | ----------- |
+|"Goggomobil"| "123" |"Cylinder misfire"|
 
 <br/>
 
@@ -343,7 +345,7 @@ This section defines modelling guidelines that help develop compliant domain ont
 
 #### **2.2.1 Content Modelling Guidelines**
 
-In order to effectively develop useful and reusable ontologies, all of the following modelling guidelines must be followed.
+In order to effectively develop useful and reusable ontologies, all of the following modelling guidelines SHOULD be followed.
 
 - G11 Define business requirments
   - Who knows, produces, consumes the data?
@@ -372,12 +374,11 @@ In order to effectively develop useful and reusable ontologies, all of the follo
   - Specify the (machine-readable) identifier in English
   - Use only noun or a phrase of nouns in lower case with whitespaces
   - Use generic terms here, so that everyone can easily understand the meaning
-  - Don't acronyms and abbreviations here
+  - Don't use acronyms and abbreviations here
   - Specify the (human-readable) name in English and German
   - Use only noun or a phrase of nouns in title case with whitespaces
   - Use business terms here, so that the business department can easily understand the meaning
   - Specify the definition in English, only short sentence
-  - Specify the synonyms in English and German
 - G15 Create Relations
   - Check & reuse if realtion already exists in core ontology, check also for the synonyms
   - Specify the (machine-readable) identifier in English
@@ -385,7 +386,6 @@ In order to effectively develop useful and reusable ontologies, all of the follo
   - Don't invent new relations, instead reuse existing relations
   - Specify the domain
   - Specify the range
-  - Specify the inverse relation
 - G16 Create Attributes
   - Check & reuse if attribute already exists in core ontology, check also for the synonyms
   - Specify the (machine-readable) identifier in English
@@ -396,7 +396,6 @@ In order to effectively develop useful and reusable ontologies, all of the follo
   - Don't use verbs in attribute identifiers
   - Specify the (human-readable) name in English and German
   - Use a noun or a phrase of nouns in title case with whitespaces (similar to column names)
-  - Use business terms here, so that the business department can easily understand the meaning
   - Don't use verbs in attribute names
   - Specify the definition in English
   - Specify the range
@@ -428,7 +427,7 @@ All ontology models in Catena-X MUST comply with the following guidelines:
 
 - G32 Identifiers/URIs
   - Use only alphanumeric characters [A-z0-9] (IRI/URI standard)
-  - Do not use acronyms or abbreviations allowed in URIs
+  - Don't use acronyms or abbreviations allowed in URIs
   - Use PascalCase/UpperCamelCase for classes (RDF/OWL standard)
   - Use camelCase/lowerCamelCase for relations and attributes (RDF/OWL standard)
 
@@ -471,7 +470,19 @@ All ontology models in Catena-X MUST comply with the following guidelines:
     [Optional] - Links to related Catena-X or external standards that need to be
     meet in order to fulfil this standard. If no external standards need to be
     met, leave empty.
+
+
 ~~~
+
+[OWL 2 QL Profile](https://www.w3.org/TR/owl2-profiles/#OWL_2_QL) <br>
+[SKOS](https://www.w3.org/2004/02/skos/)<br>
+[RML](https://rml.io/specs/rml/)<br>
+[R2RML](https://www.w3.org/TR/2012/REC-r2rml-20120927/)<br>
+[SHACL](https://www.w3.org/TR/shacl/)<br>
+[RDF](https://www.w3.org/TR/rdf12-concepts/)<br>
+[Turtle](https://www.w3.org/TR/turtle/) <br>
+[SPARQL](https://www.w3.org/TR/sparql11-query/)<br>
+[CX-0084-FederatedQueriesInDataSpaces-v1.0.0](https://github.com/catenax-ng/product-catena-x-standardization/blob/main/standards/CX-0084-FederatedQueriesInDataSpaces/1.0.0/CX-0084-FederatedQueriesInDataSpaces-v1.0.0.md)
 
 <br/>
 
