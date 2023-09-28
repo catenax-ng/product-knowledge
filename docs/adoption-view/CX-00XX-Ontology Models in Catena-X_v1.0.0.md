@@ -12,21 +12,21 @@
   - [1. INTRODUCTION](#1-introduction)
     - [1.1 AUDIENCE \& SCOPE](#11-audience--scope)
     - [1.2 CONTEXT](#12-context)
+      - [1.2.1 MODELLING CONCEPT](#121-modelling-concept)
+        - [Modelling with ontologies](#modelling-with-ontologies)
+        - [Activity-centred modelling](#activity-centred-modelling)
+        - [Core and domain ontologies](#core-and-domain-ontologies)
+        - [Data binding](#data-binding)
+        - [Data query](#data-query)
+        - [Federated query](#federated-query)
     - [1.4 CONFORMANCE](#14-conformance)
     - [1.5 PROOF OF CONFORMITY](#15-proof-of-conformity)
-    - [1.7 TERMINOLOGY](#17-terminology)
+    - [1.6 TERMINOLOGY](#17-terminology)
   - [2 MAIN CONTENT](#2-main-content)
-    - [2.1 MODELLING CONCEPT](#21-modelling-concept)
-      - [2.1.1 Modelling with ontologies](#211-modelling-with-ontologies)
-      - [2.1.2 Activity-centred modelling](#212-activity-centred-modelling)
-      - [2.1.3 Core and domain ontologies](#213-core-and-domain-ontologies)
-      - [2.1.4 Data binding](#214-data-binding)
-      - [2.1.5 Data query](#215-data-query)
-      - [2.1.6 Federated query](#216-federated-query)
-    - [2.2 MODELLING GUIDELINES](#22-modelling-guidelines)
-      - [2.2.1 Content modelling guidelines](#221-content-modelling-guidelines)
-      - [2.2.2 Technical modelling guidelines](#222-technical-modelling-guidelines)
-      - [2.2.3 Syntactical modelling guidelines](#223-syntactical-modelling-guidelines)
+    - [2.1 MODELLING GUIDELINES](#22-modelling-guidelines)
+      - [2.1.1 Content modelling guidelines](#211-content-modelling-guidelines)
+      - [2.1.2 Technical modelling guidelines](#212-technical-modelling-guidelines)
+      - [2.1.3 Syntactical modelling guidelines](#213-syntactical-modelling-guidelines)
   - [3 REFERENCES](#3-references)
     - [3.1 NORMATIVE REFERENCES](#31-normative-references)
     - [3.2 NON-NORMATIVE REFERENCES](#32-non-normative-references)
@@ -68,7 +68,7 @@ In applying the ontology-based data modelling in Catena-X, the following fundame
 - Reduce Complexity
 - Minimise Redundancy
 
-The ontology-based data modelling in Knowledge Agent Approach is explained in detail in section [2.1 MODELLING CONCEPT](#21-modelling-concept).
+The ontology-based data modelling in Knowledge Agent Approach is explained in detail in section [1.2.1 MODELLING CONCEPT](#121-modelling-concept).
 
 <br/>
 
@@ -106,62 +106,13 @@ Semantic Web Standards used in knowledge agent approach
 
 <br/>
 
-### 1.4 CONFORMANCE
-
-As well as sections marked as non-normative, all authoring guidelines, diagrams,
-examples, and notes in this specification are non-normative. Everything else in
-this specification is normative.
-
-The key words **MAY**, **MUST**, **MUST NOT**, **OPTIONAL**, **RECOMMENDED**,
-**REQUIRED**, **SHOULD** and **SHOULD NOT** in this document document are to be
-interpreted as described in BCP 14 [RFC2119] [RFC8174] when, and only when, they
-appear in all capitals, as shown here.
-
-<br/>
-
-### 1.5 PROOF OF CONFORMITY
-
-> _This section is normative_
-
-Model content MUST be modeled as described in the [2.1. MODELLING CONCEPT](#21-modelling-concept) section. Nevertheless, model content needs to be reviewed by Catena-X e.V and their given governance process. Thus, CAB (Conformity Assessment Bodies) will not review model content.
-
-Model content MUST adhere to given guidelines in the [2.2 MODELLING GUIDELINES](#22-modelling-guidelines) section. The individual guidelines are additionally defined as **MUST** or **RECOMMENDED**. Nevertheless, model syntax needs to be reviewed by Catena-X e.V and their given governance process. Thus, CAB (Conformity Assessment Bodies) will not review model content.
-
-<br/>
-
-### 1.7 TERMINOLOGY
-
-> _This section is non-normative_
-
-| Syntax      | Description |
-| ----------- | ----------- |
-| Attribute| An attribute represents a characteristic of an entity/class/individual, e.g. foaf:Person foaf:name "Max". An attribute is called 'owl:DatatypeProperty' in OWL     |
-| Class| A class is a set of individuals with shared structure/properties, i.e. kinds of things        |
-|Data Mapping |A data mapping connects the logical data model (ontology) with the underlying external physical data model (RDB schema)|
-|Instance |An instance is an object of a class |
-|Knowledge graph (KG) |A knowledge graph is a graph-structured database where knowledge is represented in the ontology and instances. There are two types of KGs: RDF (GraphDB, RDFox, AnzoGraph, Stardog) and Labeled Property Graphs (neo4j)|
-|Literal |A literal represents a data value, i.e. an element with a data type (string or integer), e.g. foaf:Person foaf:name "Max"|
-|Namespace|A namespace is the base URI: Example: <http://www.w3.org/1999/02/22-rdf-syntax-ns># with the prefix rdf|
-|Ontology|An OWL ontology is a semantic data model based on [description logic](https://en.wikipedia.org/wiki/Description_logic) that consists of classes, relations, attributes for a specific domain of interest/discourse|
-|Relation |A relation represents how two individuals are connected/related, e.g. cx:Bob cx:knows cx:Tom. A relation is called 'owl:ObjectProperty' in OWL|
-|Triple|A triple is statement consisting of subject-predicate-object that is defined by RDF|
-|Uniform Resource Identifier (URI)|An URI is an unique identifier for a (web) resource|
-
-<br/>
-
-## 2 MAIN CONTENT
-
-> _This section is normative_
-
-<br/>
-
-### 2.1 Modelling Concept
+#### 1.2.1 Modelling Concept
 
 This section explains the concept of ontology-based data modelling of the knowledge agent approach. Furthermore, it is shown how the query of distributed data in dataspaces works on the basis of this concept.
 
 <br/>
 
-#### **2.1.1 Modelling with Ontologies**
+##### **Modelling with Ontologies**
 
 In the Knowledge Agent approach, the data is modelled with the Semantic Web Ontology language [OWL](https://www.w3.org/TR/2012/REC-owl2-primer-20121211/). This enables object-oriented modelling of domains with classes, attributes and relationships. Object-oriented modelling allows the modelling of a domain from general to specific by creating subclasses. The first step is to define the main classes that describe the domain. In the case of Catena-X, five main classes were defined.
 
@@ -179,9 +130,9 @@ In the Knowledge Agent approach, the data is modelled with the Semantic Web Onto
 
 <br/>
 
-#### **2.1.2 Activity-centred Modelling**
+#### **Activity-centred Modelling**
 
-Activity-centred or event-based modelling is a well-known approach (see also [CIDOC-CRM](https://www.cidoc-crm.org/)). Not all information is directly assigned to an entity. The classes actor, place, physical object and conceptual object are connected through activities. Instead of assigning all information to the physical object. This distributed representation has several advantages:
+A well-known approach is the activity-centered or event-based modelling. The [CIDOC CRM](https://www.cidoc-crm.org/) ontology provides this idea and the main classes used. In this approach the classes actor, place, physical object and conceptual object are connected through activities. Instead of assigning all information to the physical object. This distributed representation has several advantages:
 
 - The life cycles of products and documents are represented separately and clearly.
 - The activities have a start and end date so that the data can be queried chronologically.
@@ -200,7 +151,7 @@ Activity-centred or event-based modelling is a well-known approach (see also [CI
 
 <br/>
 
-#### **2.1.3 Core and Domain Ontologies**
+#### **Core and Domain Ontologies**
 
 The concept described above is the basic modelling pattern in Knowledge Agent. We call it the [core ontology](https://github.com/catenax-ng/product-ontology/blob/main/ontology/core_ontology.ttl). Based on this ontology, specific domain ontologies can be modelled. A domain ontology can be created based on subclasses (e.g. Manufacturing is SubClassOf Activity), subrelations (e.g. has Manufacturer is SubPropertyOf has Participant) and subattributes. The domain ontology has the same structure as the core ontology, but can be extended to include additional classes. The Knowledge Agent approach uses OWL 2 QL for modeling. This is a subset of OWL 2 Full. The reason for this is that it includes most of the main features of conceptual models such as UML class diagrams and ER diagrams. It also provides polynomial time inference for large data sets.
 
@@ -218,7 +169,7 @@ Benefits of the basic modelling pattern:
 
 <br/>
 
-#### **2.1.4 Data binding**
+#### **Data binding**
 
 In the ontology-based approach, the data is serialised in graph structure using the Resource Description Framework (see [RDF](https://www.w3.org/TR/rdf12-concepts/)). Each node, also called a resource, is uniquely identified by a [URI](https://www.w3.org/wiki/URI). The edges are called property in RDF Graph because each relation forms a [subject-predicate-object triple](https://www.w3.org/wiki/SubjectPredicateObject). The nodes can be linked to other nodes (so-called object property). The relations used are from the Domain Ontology. At the same time, nodes can be linked to literals (so-called datatype property). With the property rdf:type, the nodes can be instantiated with domain classes.
 
@@ -230,7 +181,7 @@ In the ontology-based approach, the data is serialised in graph structure using 
 
 The RDF graphs are stored in [RDF databases](https://www.w3.org/wiki/LargeTripleStores) (so-called triple store) and can be serialised in various formats such as xml, json, ttl, etc. Different data sources such as relational databases, XML, JSON and CSV files can be mapped to RDF graphs using standardised languages such as RML and R2RML. Based on the mapping, the data can be transformed or virtualised. Virtualisation allows the data to be processed as RDF graphs without transforming it and storing it in a different location.
 
-#### **2.1.5 Data Query**
+#### **Data Query**
 
 The RDF graphs can be accessed using the SPARQL query language via a SPARQL HTTP protocol. SPARQL allows the definition of complex instance relationships and the search for the defined patterns in the RDF graphs.
 
@@ -283,7 +234,7 @@ Query result is the same as the first one:
 |exp:manufacturing_1|exp:vehicle_1|"Goggomobil"|
 <br/>
 
-#### **2.1.6 Federated Query**
+#### **Federated Query**
 
 An important advantage of SPARQL is that multiple repositories can be accessed from a single query. This feature gives Catena-X the great advantage of being able to query distributed data in different assets at the same time.
 
@@ -330,7 +281,51 @@ Federated Query result:
 
 <br/>
 
-### 2.2 Modelling Guidelines
+### 1.4 CONFORMANCE
+
+As well as sections marked as non-normative, all authoring guidelines, diagrams,
+examples, and notes in this specification are non-normative. Everything else in
+this specification is normative.
+
+The key words **MAY**, **MUST**, **MUST NOT**, **OPTIONAL**, **RECOMMENDED**,
+**REQUIRED**, **SHOULD** and **SHOULD NOT** in this document document are to be
+interpreted as described in BCP 14 [RFC2119] [RFC8174] when, and only when, they
+appear in all capitals, as shown here.
+
+<br/>
+
+### 1.5 PROOF OF CONFORMITY
+
+> _This section is normative_
+
+Model content MUST adhere to given guidelines in the [2.1 MODELLING GUIDELINES](#21-modelling-guidelines) section. The individual guidelines are additionally defined as **MUST** or **SHOULD**. Nevertheless, model syntax needs to be reviewed by Catena-X e.V and their given governance process. Thus, CAB (Conformity Assessment Bodies) will not review model content.
+
+<br/>
+
+### 1.7 TERMINOLOGY
+
+> _This section is non-normative_
+
+| Syntax      | Description |
+| ----------- | ----------- |
+| Attribute| An attribute represents a characteristic of an entity/class/individual, e.g. foaf:Person foaf:name "Max". An attribute is called 'owl:DatatypeProperty' in OWL     |
+| Class| A class is a set of individuals with shared structure/properties, i.e. kinds of things        |
+|Data Mapping |A data mapping connects the logical data model (ontology) with the underlying external physical data model (RDB schema)|
+|Instance |An instance is an object of a class |
+|Knowledge graph (KG) |A knowledge graph is a graph-structured database where knowledge is represented in the ontology and instances. There are two types of KGs: RDF and Labeled Property Graphs|
+|Literal |A literal represents a data value, i.e. an element with a data type (string or integer), e.g. foaf:Person foaf:name "Max"|
+|Namespace|A namespace is the base URI: Example: <http://www.w3.org/1999/02/22-rdf-syntax-ns># with the prefix rdf|
+|Ontology|An OWL ontology is a semantic data model based on [description logic](https://en.wikipedia.org/wiki/Description_logic) that consists of classes, relations, attributes for a specific domain of interest/discourse|
+|Relation |A relation represents how two individuals are connected/related, e.g. cx:Bob cx:knows cx:Tom. A relation is called 'owl:ObjectProperty' in OWL|
+|Triple|A triple is statement consisting of subject-predicate-object that is defined by RDF|
+|Uniform Resource Identifier (URI)|An URI is an unique identifier for a (web) resource|
+
+<br/>
+
+## 2 MAIN CONTENT
+
+> _This section is normative_
+### 2.1 Modelling Guidelines
 
 To facilitate the modelling process, a joint knowledge acquisition workshop with stakeholders (data producers, consumers, subject matter experts) is helpful. This workshop should have the following objectives:
 
@@ -343,118 +338,154 @@ This section defines modelling guidelines that help develop compliant domain ont
 
 <br/>
 
-#### **2.2.1 Content Modelling Guidelines**
+#### **2.1.1 Content Modelling Guidelines**
 
-In order to effectively develop useful and reusable ontologies, all of the following modelling guidelines SHOULD be followed.
-
-- G11 Define business requirments
-  - Who knows, produces, consumes the data?
-  - State the business questions and define Asset queries
-  - Define the source data needed for the asset.
-- G12 Model Scope and dependencies
-  - Identify the generic classes for source data from the Core Ontology.
-  - Identify the specific classes for source data from existing domain ontologies.
-  - Avoid ontology redundancy. Modularity and reuse are important design principles.
-  - Check if parts of the needs are covered in existing ontologies
-  - Consider also extending different ontologies in a new one (modularity)
-  - Define import dependency in ontologies
-- G13 Create Domain Ontology
-  - Import core ontology.
-  - Define domain, i.e. the ontology domain, e.g. 'Vehicle'
-  - Use a short, unambiguous domain name so that everyone can easily understand the meaning
-  - Use a specific domain name if helps to understand the context better
-  - Define turtle file name followed by 'ontology' in snake_case
-  - Specify title of ontology followed by 'Ontology' in title case with whitespaces (domain) + ' Ontology', e.g. 'Vehicle Ontology'
-  - Specify version, use three integers separated with two dots
-  - Specify author, full name(s) of main responsible(s) comma separated
-  - Specify contributor, full name(s) domain expert(s) comma separated
-  - Specify description, i.e. state business problem and business questions
-- G14 Create Classes
-  - Check & reuse if class already exists in core ontology, check also for the synonyms
-  - Specify the (machine-readable) identifier in English
-  - Use only noun or a phrase of nouns in lower case with whitespaces
-  - Use generic terms here, so that everyone can easily understand the meaning
-  - Don't use acronyms and abbreviations here
-  - Specify the (human-readable) name in English and German
-  - Use only noun or a phrase of nouns in title case with whitespaces
-  - Use business terms here, so that the business department can easily understand the meaning
-  - Specify the definition in English, only short sentence
-- G15 Create Relations
-  - Check & reuse if realtion already exists in core ontology, check also for the synonyms
-  - Specify the (machine-readable) identifier in English
-  - Use a complete verb phrase in lower case with whitespaces, e.g. 'is part of'
-  - Don't invent new relations, instead reuse existing relations
-  - Specify the domain
-  - Specify the range
-- G16 Create Attributes
-  - Check & reuse if attribute already exists in core ontology, check also for the synonyms
-  - Specify the (machine-readable) identifier in English
-  - Use a noun or a phrase of nouns in lower case with whitespaces (similar to column names)
-  - Use generic terms here, so that everyone can easily understand the meaning
-  - Use class name as specifier, if the attribute is specific to the class
-  - Don't use acronyms and abbreviations here
-  - Don't use verbs in attribute identifiers
-  - Specify the (human-readable) name in English and German
-  - Use a noun or a phrase of nouns in title case with whitespaces (similar to column names)
-  - Don't use verbs in attribute names
-  - Specify the definition in English
-  - Specify the range
+This section provides guidelines for effectively developing useful and reusable ontologies.
 
 <br/>
 
-#### **2.2.2 Technical Modelling Guidelines**
-
-All ontology models in Catena-X MUST comply with the following guidelines:
-
-- G21 Export Ontologie from editor as turtle file: (domain) + '_ontology.ttl', e.g. 'vehicle_ontology.ttl'
-- G22 All classes, relations, attributes are uniquely defined in an ontology.
-- G23 Redundant definitions are resolved.
-- G24 Check for conflicts with Reasoner
-- G25 Scan your ontology with the [Ontology Pitfall Scanner](https://oops.linkeddata.es/webservice.html)
-- G26 Merge domain ontologies if necessary for the asset
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Priority</th>
+    <th>Guideline</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>G11</td>
+    <td>SHOULD</td>
+    <td>Define business requirments</td>
+    <td> - Who knows, produces, consumes the data? <br/> - State the business questions and define Asset queries <br/> - Define the source data needed for the asset</td>
+  </tr>
+  <tr>
+    <td>G12</td>
+    <td>MUST</td>
+    <td>Model scope</td>
+    <td> - Identify the specific classes, attributes, and relationships for source data from existing domain ontologies. If none exist, create a new ontology or extend existing domain ontologies</td>
+  </tr>
+  <tr>
+    <td>G13</td>
+    <td>MUST</td>
+    <td>Create Domain Ontology</td>
+    <td> - Import the core ontology and develop the domain ontology based on the modelling concept (1.2.1 MODELLING CONCEPT) <br/> - Define import dependency in ontologies <br/> - Use a short, unambiguous domain name so that everyone can easily understand the meaning <br/> - Define turtle file name followed by 'ontology' in snake_case  <br/> - Specify title of ontology followed by 'Ontology' in title case with whitespaces (domain) + ' Ontology', e.g. 'Vehicle Ontology' <br/> - Specify version, use three integers separated with two dots <br/> - Specify author, full name(s) of main responsible(s) comma separated <br/> - Specify contributor, full name(s) domain expert(s) comma separated <br/> - Specify description, i.e. state business problem and business questions</td>
+  </tr>
+  <tr>
+    <td>G14</td>
+    <td>MUST</td>
+    <td>Create Classes</td>
+    <td>- Specify the (machine-readable) identifier in English <br/> - Use only noun or a phrase of nouns <br/> - Specify the (human-readable) name in English and German <br/> - Specify the definition in English, only short sentence  <br/> - Don't create subclasses unless the subclass has a specific attribute or relation. In this case, use taxonomies to type instances (see http://purl.org/dc/elements/1.1/type)</td>
+  </tr>
+  <tr>
+    <td>G15</td>
+    <td>MUST</td>
+    <td>Create Relations</td>
+    <td> - Specify the (machine-readable) identifier in English <br/> - Use a complete verb phrase (e.g. is part of, knows) <br/> - Specify the (human-readable) name in English and German <br/> - Specify the domain <br/> - Specify the range <br/> - Specify the definition in English, only short sentence</td>
+  </tr>
+  <tr>
+    <td>G16</td>
+    <td>MUST</td>
+    <td>Create Attributes</td>
+    <td> - Specify the (machine-readable) identifier in English <br/> - Use a noun or a phrase of nouns <br/> - Use class name as specifier, if the attribute is specific to the class <br/> - Specify the (human-readable) name in English and German <br/> - Specify the domain <br/> - Specify the range <br/> - Specify the definition in English, only short sentence</td>
+  </tr>
+</table>
 
 <br/>
 
-#### **2.2.3 Syntactical Modelling Guidelines**
+#### **2.1.2 Technical Modelling Guidelines**
 
-All ontology models in Catena-X MUST comply with the following guidelines:
+Technical modelling guidelines are necessary for the correct use of ontologies in assets.
 
-- G31 General
-  - Avoid bad naming, consider interpretation and context
-  - Make names more specific if it has more than one interpretation
-  - Avoid omitting definitions or bad definitions
-  - Try to name examples, since it supports in the semantics
+<br/>
 
-- G32 Identifiers/URIs
-  - Use only alphanumeric characters [A-z0-9] (IRI/URI standard)
-  - Don't use acronyms or abbreviations allowed in URIs
-  - Use PascalCase/UpperCamelCase for classes (RDF/OWL standard)
-  - Use camelCase/lowerCamelCase for relations and attributes (RDF/OWL standard)
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Priority</th>
+    <th>Guideline</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>G21</td>
+    <td>MUST</td>
+    <td>Ontology export</td>
+    <td> - Export Ontologie from editor as turtle file: (domain) + '_ontology.ttl', e.g. 'vehicle_ontology.ttl'</td>
+  </tr>
+  <tr>
+    <td>G22</td>
+    <td>MUST</td>
+    <td>Resolve redundancies</td>
+    <td> - All classes, relations, attributes are uniquely defined in an ontology</td>
+  </tr>
+  <tr>
+    <td>G23</td>
+    <td>MUST</td>
+    <td>Ontology consistency</td>
+    <td> - Check for conflicts with ontology reasoner</td>
+  </tr>
+  <tr>
+    <td>G24</td>
+    <td>SHOULD</td>
+    <td>Ontology quality</td>
+    <td> - Scan your ontology with the Ontology Pitfall Scanner (see https://oops.linkeddata.es/)</td>
+  </tr>
+  <tr>
+    <td>G25</td>
+    <td>MUST</td>
+    <td>Ontology use</td>
+    <td> - Merge domain ontologies if necessary for the assets</td>
+  </tr>
+</table>
 
-- G34 Naming Conventions
-  - Use only alphanumeric characters with whitespaces [A-z0-9 ] + Umlaute (ÄäÖöÜüß)
-  - Use acronyms or abbreviations if it helps the understanding of the data for the consumers
-  - Use title case with whitespaces for classes and attributes for better human-readability
-  - Use lower case with whitespaces for relations
+<br/>
 
-    |convention|identifier|name_en|name_de|
-    | ----------- | ----------- | ----------- | ----------- |
-    |language|English|English|German|
-    |readability|machine-readable|human-readable|human-readable|
-    |terms|generic terms|business terms|business terms|
-    |character range|[A-z0-9]|[A-z0-9 -]|[A-z0-9 -ÄäÖöÜüß]|
-    |separator|none|whitespace|whitespace|
-    |class case|PascalCase|Title Case|Title Case|
-    |relation case|camelCase|lower case|lower case|
-    |attribute case|camelCase|Title Case|Title Case|
-    |acronyms|no|yes|yes|
+#### **2.1.3 Syntactical Modelling Guidelines**
 
-- G35 Language
-  - Use short, meaningful, unambiguous names
-  - Note: natural language exhibits ambiguity, inaccuracy, uncertainty, vagueness
-  - Use both English and German names, since it improves the semantics
-  - Don't use vague terms, e.g. model, data, ...
-  - Use only US English terms and name British terms as synonyms, e.g. meter/metre
+Syntactic modeling guidelines increase comprehensibility and enable unified modeling of ontologies.
+
+<br/>
+
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Priority</th>
+    <th>Guideline</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>G31</td>
+    <td>SHOULD</td>
+    <td>General & Language</td>
+    <td> - Avoid bad naming, consider interpretation and context <br/> - Make names more specific if it has more than one interpretation <br/> - Try to name examples, since it supports in the semantics <br/> - Use short, meaningful, unambiguous names <br/> - Use both English and German names, since it improves the semantics <br/> - Avoid omitting definitions or bad definitions <br/> - Don't use vague terms, e.g. model, data, ... <br/> - Use only US English terms and name British terms as synonyms, e.g. meter/metre <br/> - Don't use acronyms and abbreviations <br/> - Note: natural language exhibits ambiguity, inaccuracy, uncertainty, vagueness</td>
+  </tr>
+  <tr>
+    <td>G32</td>
+    <td>MUST</td>
+    <td>Identifiers/URIs</td>
+    <td>- Use only alphanumeric characters [A-z0-9] (IRI/URI standard) <br/> - Use PascalCase/UpperCamelCase for classes (RDF/OWL standard) <br/> - Use camelCase/lowerCamelCase for relations and attributes (RDF/OWL standard) <br/> - Use the naming convention table (see below)</td>
+  </tr>
+  <tr>
+    <td>G33</td>
+    <td>MUST</td>
+    <td>Naming Conventions</td>
+    <td> - Use only alphanumeric characters with whitespaces [A-z0-9 ] + Umlaute (ÄäÖöÜüß) <br/> - Use title case with whitespaces for classes and attributes for better human-readability <br/> - Use lower case with whitespaces for relations <br/> - Use the naming convention table (see below)</td>
+  </tr>
+</table>
+
+<br/>
+
+**Naming convention table for identifiers and names:** 
+
+|convention|identifier|name_en|name_de|
+| ----------- | ----------- | ----------- | ----------- |
+|language|English|English|German|
+|readability|machine-readable|human-readable|human-readable|
+|terms|generic terms|business terms|business terms|
+|character range|[A-z0-9]|[A-z0-9 -]|[A-z0-9 -ÄäÖöÜüß]|
+|separator|none|whitespace|whitespace|
+|class case|PascalCase|Title Case|Title Case|
+|relation case|camelCase|lower case|lower case|
+|attribute case|camelCase|Title Case|Title Case|
+|acronyms|no|yes|yes|
 
 <br/>
 
