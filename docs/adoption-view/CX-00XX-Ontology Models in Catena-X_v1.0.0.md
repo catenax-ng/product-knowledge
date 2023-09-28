@@ -408,7 +408,7 @@ Technical modelling guidelines are necessary for the correct use of ontologies i
     <td>G21</td>
     <td>MUST</td>
     <td>Ontology export</td>
-    <td> - Export Ontologie from editor as turtle file: (domain) + '_ontology.ttl', e.g. 'vehicle_ontology.ttl'</td>
+    <td> - Export ontology from editor as turtle file: (domain) + '_ontology.ttl', e.g. 'vehicle_ontology.ttl'</td>
   </tr>
   <tr>
     <td>G22</td>
