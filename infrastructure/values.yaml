@@ -41,5 +41,419 @@ security:
   backendUser: ""
   backendPwd: ""
 
+tiera-remoting-agent:
+  repositories:
+    health: |-
+{{- .Files.Get "tiera/resources/rdf4j/repositories/health/config.ttl" | nindent 6 }}
+    prognosis: |-
+{{- .Files.Get "tiera/resources/rdf4j/repositories/prognosis/config.ttl" | nindent 4 }}
+    rul: |-
+{{- .Files.Get "tiera/resources/rdf4j/repositories/rul/config.ttl" | nindent 4 }}
 
+oem-provider-agent:
+  bindings:
+    # -- Reliability data new
+    rul: 
+      # -- Exposed Service Port for the binding
+      port: 8084
+      # -- Potential Ingress Path
+      path: (/|$)(.*)
+      # -- Settings for the binding including JDBC backend connections and meta-data directives, you should use secret references when putting passwords here
+      settings: |-
+          # Use the Data Virtualization backend
+          jdbc.url=jdbc\:dremio\:direct\=oem-backend\:31010
+          jdbc.driver=com.dremio.jdbc.Driver
+          jdbc.user={{ .Values.security.backendUser }}
+          jdbc.password={{ .Values.security.backendPwd }}
+          ontop.cardinalityMode=LOOSE
+          com.dremio.jdbc.Driver-metadataProvider = it.unibz.inf.ontop.dbschema.impl.KeyAwareDremioDBMetadataProvider
+          com.dremio.jdbc.Driver-schemas = HI_TEST_OEM, TRACE_TEST_OEM
+          com.dremio.jdbc.Driver-tables.HI_TEST_OEM = CX_RUL_SerialPartTypization_Vehicle,CX_RUL_SerialPartTypization_Component,CX_RUL_AssemblyPartRelationship,CX_RUL_LoadCollective
+          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_SerialPartTypization_Vehicle = UC_VEHICLE
+          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_SerialPartTypization_Component = UC_COMPONENT
+          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_AssemblyPartRelationship = UC_ASSEMBLY
+          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_LoadCollective = UC_LC
+          com.dremio.jdbc.Driver-constraint.UC_VEHICLE = catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_COMPONENT = catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_ASSEMBLY = childCatenaXId,catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_LC = catenaXId,targetComponentId,metadata_componentDescription
+          com.dremio.jdbc.Driver-foreign.HI_TEST_OEM.CX_RUL_AssemblyPartRelationship = FK_SERIAL_PARENT, FK_SERIAL_CHILD
+          com.dremio.jdbc.Driver-constraint.FK_SERIAL_PARENT = catenaXId:CX_RUL_SerialPartTypization_Vehicle+UC_VEHICLE
+          com.dremio.jdbc.Driver-constraint.FK_SERIAL_CHILD = childCatenaXId:CX_RUL_SerialPartTypization_Component+UC_COMPONENT
+          com.dremio.jdbc.Driver-foreign.HI_TEST_OEM.CX_RUL_LoadCollective = FK_LC_PART
+          com.dremio.jdbc.Driver-constraint.FK_LC_PART = catenaXId:CX_RUL_SerialPartTypization_Component+UC_COMPONENT
+          com.dremio.jdbc.Driver-tables.TRACE_TEST_OEM = CX_TRC_PartAsPlanned, CX_TRC_PartSiteInformationAsPlanned,CX_TRC_SingleLevelBomAsPlanned,CX_TRC_MaterialForRecycling,CX_TRC_MaterialForRecycling_Components,CX_TRC_SingleLevelUsageAsPlanned
+          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_PartAsPlanned = UC_PART
+          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_PartSiteInformationAsPlanned = UC_PARTSITE
+          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_SingleLevelBomAsPlanned = UC_SLBOM
+          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling = UC_PARTMATERIAL
+          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling_Components = UC_MATERIAL
+          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_SingleLevelUsageAsPlanned = UC_SLUSG
+          com.dremio.jdbc.Driver-constraint.UC_PART = catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_PARTSITE = catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_SLBOM = childCatenaXId,catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_PARTMATERIAL = catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_MATERIAL = catenaXId,component_material_name
+          com.dremio.jdbc.Driver-constraint.UC_SLUSG = catenaXId,parentCatenaXId
+          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_SingleLevelBomAsPlanned = FK_SLBOM_PARENT, FK_SLBOM_CHILD
+          com.dremio.jdbc.Driver-constraint.FK_SLBOM_PARENT = catenaXId:CX_TRC_PartAsPlanned+UC_PART
+          com.dremio.jdbc.Driver-constraint.FK_SLBOM_CHILD = childCatenaXId:CX_TRC_PartAsPlanned+UC_PART
+          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_SingleLevelUsageAsPlanned = FK_SLUSG_PARENT, FK_SLUSG_CHILD
+          com.dremio.jdbc.Driver-constraint.FK_SLUSG_PARENT = parentCatenaXId:CX_TRC_PartAsPlanned+UC_PART
+          com.dremio.jdbc.Driver-constraint.FK_SLUSG_CHILD = catenaXId:CX_TRC_PartAsPlanned+UC_PART
+          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_PartAsPlanned = FK_PARTSITE, FK_PARTMATERIAL
+          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_PartSiteInformationAsPlanned = FK_SITEPART
+          com.dremio.jdbc.Driver-constraint.FK_PARTSITE = catenaXId:CX_TRC_PartSiteInformationAsPlanned+UC_PARTSITE
+          com.dremio.jdbc.Driver-constraint.FK_SITEPART = catenaXId:CX_TRC_PartAsPlanned+UC_PART
+          com.dremio.jdbc.Driver-constraint.FK_PARTMATERIAL = catenaXId:CX_TRC_MaterialForRecycling+UC_PARTMATERIAL
+          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling = FK_MATERIALPART
+          com.dremio.jdbc.Driver-constraint.FK_MATERIALPART = catenaXId:CX_TRC_PartAsPlanned+UC_PART
+          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling_Components = FK_COMPONENTMATERIAL
+          com.dremio.jdbc.Driver-constraint.FK_COMPONENTMATERIAL = catenaXId,CX_TRC_MaterialForRecycling+UC_PARTMATERIAL
+        ontology: cx-ontology.xml
+        mapping: |-
+{{- .Files.Get "oem/resources/rul.obda" | nindent 10 }}
+    # -- Reliability data new
+    hi: 
+      # -- Exposed Service Port for the binding
+      port: 8081
+      # -- Potential Ingress Path
+      path: (/|$)(.*)
+      # -- Settings for the binding including JDBC backend connections and meta-data directives, you should use secret references when putting passwords here
+      settings: |-
+          # Use the Data Virtualization backend
+          jdbc.url=jdbc\:dremio\:direct\=oem-backend\:31010
+          jdbc.driver=com.dremio.jdbc.Driver
+          jdbc.user={{ .Values.security.backendUser }}
+          jdbc.password={{ .Values.security.backendPwd }}
+          ontop.cardinalityMode=LOOSE
+          com.dremio.jdbc.Driver-metadataProvider = it.unibz.inf.ontop.dbschema.impl.KeyAwareDremioDBMetadataProvider
+          com.dremio.jdbc.Driver-schemas = HI_TEST_OEM, TRACE_TEST_OEM
+          com.dremio.jdbc.Driver-tables.HI_TEST_OEM = CX_RUL_SerialPartTypization_Vehicle,CX_RUL_SerialPartTypization_Component,CX_RUL_AssemblyPartRelationship,CX_RUL_LoadCollective
+          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_SerialPartTypization_Vehicle = UC_VEHICLE
+          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_SerialPartTypization_Component = UC_COMPONENT
+          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_AssemblyPartRelationship = UC_ASSEMBLY
+          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_LoadCollective = UC_LC
+          com.dremio.jdbc.Driver-constraint.UC_VEHICLE = catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_COMPONENT = catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_ASSEMBLY = childCatenaXId,catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_LC = catenaXId,targetComponentId,metadata_componentDescription
+          com.dremio.jdbc.Driver-foreign.HI_TEST_OEM.CX_RUL_AssemblyPartRelationship = FK_SERIAL_PARENT, FK_SERIAL_CHILD
+          com.dremio.jdbc.Driver-constraint.FK_SERIAL_PARENT = catenaXId:CX_RUL_SerialPartTypization_Vehicle+UC_VEHICLE
+          com.dremio.jdbc.Driver-constraint.FK_SERIAL_CHILD = childCatenaXId:CX_RUL_SerialPartTypization_Component+UC_COMPONENT
+          com.dremio.jdbc.Driver-foreign.HI_TEST_OEM.CX_RUL_LoadCollective = FK_LC_PART
+          com.dremio.jdbc.Driver-constraint.FK_LC_PART = catenaXId:CX_RUL_SerialPartTypization_Component+UC_COMPONENT
+          com.dremio.jdbc.Driver-tables.TRACE_TEST_OEM = CX_TRC_PartAsPlanned, CX_TRC_PartSiteInformationAsPlanned,CX_TRC_SingleLevelBomAsPlanned,CX_TRC_MaterialForRecycling,CX_TRC_MaterialForRecycling_Components,CX_TRC_SingleLevelUsageAsPlanned
+          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_PartAsPlanned = UC_PART
+          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_PartSiteInformationAsPlanned = UC_PARTSITE
+          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_SingleLevelBomAsPlanned = UC_SLBOM
+          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling = UC_PARTMATERIAL
+          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling_Components = UC_MATERIAL
+          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_SingleLevelUsageAsPlanned = UC_SLUSG
+          com.dremio.jdbc.Driver-constraint.UC_PART = catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_PARTSITE = catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_SLBOM = childCatenaXId,catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_PARTMATERIAL = catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_MATERIAL = catenaXId,component_material_name
+          com.dremio.jdbc.Driver-constraint.UC_SLUSG = catenaXId,parentCatenaXId
+          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_SingleLevelBomAsPlanned = FK_SLBOM_PARENT, FK_SLBOM_CHILD
+          com.dremio.jdbc.Driver-constraint.FK_SLBOM_PARENT = catenaXId:CX_TRC_PartAsPlanned+UC_PART
+          com.dremio.jdbc.Driver-constraint.FK_SLBOM_CHILD = childCatenaXId:CX_TRC_PartAsPlanned+UC_PART
+          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_SingleLevelUsageAsPlanned = FK_SLUSG_PARENT, FK_SLUSG_CHILD
+          com.dremio.jdbc.Driver-constraint.FK_SLUSG_PARENT = parentCatenaXId:CX_TRC_PartAsPlanned+UC_PART
+          com.dremio.jdbc.Driver-constraint.FK_SLUSG_CHILD = catenaXId:CX_TRC_PartAsPlanned+UC_PART
+          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_PartAsPlanned = FK_PARTSITE, FK_PARTMATERIAL
+          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_PartSiteInformationAsPlanned = FK_SITEPART
+          com.dremio.jdbc.Driver-constraint.FK_PARTSITE = catenaXId:CX_TRC_PartSiteInformationAsPlanned+UC_PARTSITE
+          com.dremio.jdbc.Driver-constraint.FK_SITEPART = catenaXId:CX_TRC_PartAsPlanned+UC_PART
+          com.dremio.jdbc.Driver-constraint.FK_PARTMATERIAL = catenaXId:CX_TRC_MaterialForRecycling+UC_PARTMATERIAL
+          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling = FK_MATERIALPART
+          com.dremio.jdbc.Driver-constraint.FK_MATERIALPART = catenaXId:CX_TRC_PartAsPlanned+UC_PART
+          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling_Components = FK_COMPONENTMATERIAL
+          com.dremio.jdbc.Driver-constraint.FK_COMPONENTMATERIAL = catenaXId,CX_TRC_MaterialForRecycling+UC_PARTMATERIAL
+        ontology: cx-ontology.xml
+        mapping: |-
+{{- .Files.Get "oem/resources/hi.obda" | nindent 10 }}
+    # -- Reliability data new
+    trace: 
+      # -- Exposed Service Port for the binding
+      port: 8082
+      # -- Potential Ingress Path
+      path: (/|$)(.*)
+      # -- Settings for the binding including JDBC backend connections and meta-data directives, you should use secret references when putting passwords here
+      settings: |-
+          # Use the Data Virtualization backend
+          jdbc.url=jdbc\:dremio\:direct\=oem-backend\:31010
+          jdbc.driver=com.dremio.jdbc.Driver
+          jdbc.user={{ .Values.security.backendUser }}
+          jdbc.password={{ .Values.security.backendPwd }}
+          ontop.cardinalityMode=LOOSE
+          com.dremio.jdbc.Driver-metadataProvider = it.unibz.inf.ontop.dbschema.impl.KeyAwareDremioDBMetadataProvider
+          com.dremio.jdbc.Driver-schemas = HI_TEST_OEM, TRACE_TEST_OEM
+          com.dremio.jdbc.Driver-tables.HI_TEST_OEM = CX_RUL_SerialPartTypization_Vehicle,CX_RUL_SerialPartTypization_Component,CX_RUL_AssemblyPartRelationship,CX_RUL_LoadCollective
+          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_SerialPartTypization_Vehicle = UC_VEHICLE
+          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_SerialPartTypization_Component = UC_COMPONENT
+          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_AssemblyPartRelationship = UC_ASSEMBLY
+          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_LoadCollective = UC_LC
+          com.dremio.jdbc.Driver-constraint.UC_VEHICLE = catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_COMPONENT = catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_ASSEMBLY = childCatenaXId,catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_LC = catenaXId,targetComponentId,metadata_componentDescription
+          com.dremio.jdbc.Driver-foreign.HI_TEST_OEM.CX_RUL_AssemblyPartRelationship = FK_SERIAL_PARENT, FK_SERIAL_CHILD
+          com.dremio.jdbc.Driver-constraint.FK_SERIAL_PARENT = catenaXId:CX_RUL_SerialPartTypization_Vehicle+UC_VEHICLE
+          com.dremio.jdbc.Driver-constraint.FK_SERIAL_CHILD = childCatenaXId:CX_RUL_SerialPartTypization_Component+UC_COMPONENT
+          com.dremio.jdbc.Driver-foreign.HI_TEST_OEM.CX_RUL_LoadCollective = FK_LC_PART
+          com.dremio.jdbc.Driver-constraint.FK_LC_PART = catenaXId:CX_RUL_SerialPartTypization_Component+UC_COMPONENT
+          com.dremio.jdbc.Driver-tables.TRACE_TEST_OEM = CX_TRC_PartAsPlanned, CX_TRC_PartSiteInformationAsPlanned,CX_TRC_SingleLevelBomAsPlanned,CX_TRC_MaterialForRecycling,CX_TRC_MaterialForRecycling_Components,CX_TRC_SingleLevelUsageAsPlanned
+          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_PartAsPlanned = UC_PART
+          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_PartSiteInformationAsPlanned = UC_PARTSITE
+          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_SingleLevelBomAsPlanned = UC_SLBOM
+          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling = UC_PARTMATERIAL
+          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling_Components = UC_MATERIAL
+          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_SingleLevelUsageAsPlanned = UC_SLUSG
+          com.dremio.jdbc.Driver-constraint.UC_PART = catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_PARTSITE = catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_SLBOM = childCatenaXId,catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_PARTMATERIAL = catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_MATERIAL = catenaXId,component_material_name
+          com.dremio.jdbc.Driver-constraint.UC_SLUSG = catenaXId,parentCatenaXId
+          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_SingleLevelBomAsPlanned = FK_SLBOM_PARENT, FK_SLBOM_CHILD
+          com.dremio.jdbc.Driver-constraint.FK_SLBOM_PARENT = catenaXId:CX_TRC_PartAsPlanned+UC_PART
+          com.dremio.jdbc.Driver-constraint.FK_SLBOM_CHILD = childCatenaXId:CX_TRC_PartAsPlanned+UC_PART
+          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_SingleLevelUsageAsPlanned = FK_SLUSG_PARENT, FK_SLUSG_CHILD
+          com.dremio.jdbc.Driver-constraint.FK_SLUSG_PARENT = parentCatenaXId:CX_TRC_PartAsPlanned+UC_PART
+          com.dremio.jdbc.Driver-constraint.FK_SLUSG_CHILD = catenaXId:CX_TRC_PartAsPlanned+UC_PART
+          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_PartAsPlanned = FK_PARTSITE, FK_PARTMATERIAL
+          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_PartSiteInformationAsPlanned = FK_SITEPART
+          com.dremio.jdbc.Driver-constraint.FK_PARTSITE = catenaXId:CX_TRC_PartSiteInformationAsPlanned+UC_PARTSITE
+          com.dremio.jdbc.Driver-constraint.FK_SITEPART = catenaXId:CX_TRC_PartAsPlanned+UC_PART
+          com.dremio.jdbc.Driver-constraint.FK_PARTMATERIAL = catenaXId:CX_TRC_MaterialForRecycling+UC_PARTMATERIAL
+          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling = FK_MATERIALPART
+          com.dremio.jdbc.Driver-constraint.FK_MATERIALPART = catenaXId:CX_TRC_PartAsPlanned+UC_PART
+          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling_Components = FK_COMPONENTMATERIAL
+          com.dremio.jdbc.Driver-constraint.FK_COMPONENTMATERIAL = catenaXId,CX_TRC_MaterialForRecycling+UC_PARTMATERIAL
+        ontology: cx-ontology.xml
+        mapping: |-
+{{- .Files.Get "oem/resources/trace.obda" | nindent 10 }}
+    # -- Reliability data new
+    quality: 
+      # -- Exposed Service Port for the binding
+      port: 8083
+      # -- Potential Ingress Path
+      path: (/|$)(.*)
+      # -- Settings for the binding including JDBC backend connections and meta-data directives, you should use secret references when putting passwords here
+      settings: |-
+          # Use the Data Virtualization backend
+          jdbc.url=jdbc\:dremio\:direct\=oem-backend\:31010
+          jdbc.driver=com.dremio.jdbc.Driver
+          jdbc.user={{ .Values.security.backendUser }}
+          jdbc.password={{ .Values.security.backendPwd }}
+          ontop.cardinalityMode=LOOSE
+          com.dremio.jdbc.Driver-metadataProvider = it.unibz.inf.ontop.dbschema.impl.KeyAwareDremioDBMetadataProvider
+          com.dremio.jdbc.Driver-schemas = HI_TEST_OEM, TRACE_TEST_OEM
+          com.dremio.jdbc.Driver-tables.HI_TEST_OEM = CX_RUL_SerialPartTypization_Vehicle,CX_RUL_SerialPartTypization_Component,CX_RUL_AssemblyPartRelationship,CX_RUL_LoadCollective
+          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_SerialPartTypization_Vehicle = UC_VEHICLE
+          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_SerialPartTypization_Component = UC_COMPONENT
+          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_AssemblyPartRelationship = UC_ASSEMBLY
+          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_LoadCollective = UC_LC
+          com.dremio.jdbc.Driver-constraint.UC_VEHICLE = catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_COMPONENT = catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_ASSEMBLY = childCatenaXId,catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_LC = catenaXId,targetComponentId,metadata_componentDescription
+          com.dremio.jdbc.Driver-foreign.HI_TEST_OEM.CX_RUL_AssemblyPartRelationship = FK_SERIAL_PARENT, FK_SERIAL_CHILD
+          com.dremio.jdbc.Driver-constraint.FK_SERIAL_PARENT = catenaXId:CX_RUL_SerialPartTypization_Vehicle+UC_VEHICLE
+          com.dremio.jdbc.Driver-constraint.FK_SERIAL_CHILD = childCatenaXId:CX_RUL_SerialPartTypization_Component+UC_COMPONENT
+          com.dremio.jdbc.Driver-foreign.HI_TEST_OEM.CX_RUL_LoadCollective = FK_LC_PART
+          com.dremio.jdbc.Driver-constraint.FK_LC_PART = catenaXId:CX_RUL_SerialPartTypization_Component+UC_COMPONENT
+          com.dremio.jdbc.Driver-tables.TRACE_TEST_OEM = CX_TRC_PartAsPlanned, CX_TRC_PartSiteInformationAsPlanned,CX_TRC_SingleLevelBomAsPlanned,CX_TRC_MaterialForRecycling,CX_TRC_MaterialForRecycling_Components,CX_TRC_SingleLevelUsageAsPlanned
+          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_PartAsPlanned = UC_PART
+          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_PartSiteInformationAsPlanned = UC_PARTSITE
+          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_SingleLevelBomAsPlanned = UC_SLBOM
+          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling = UC_PARTMATERIAL
+          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling_Components = UC_MATERIAL
+          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_SingleLevelUsageAsPlanned = UC_SLUSG
+          com.dremio.jdbc.Driver-constraint.UC_PART = catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_PARTSITE = catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_SLBOM = childCatenaXId,catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_PARTMATERIAL = catenaXId
+          com.dremio.jdbc.Driver-constraint.UC_MATERIAL = catenaXId,component_material_name
+          com.dremio.jdbc.Driver-constraint.UC_SLUSG = catenaXId,parentCatenaXId
+          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_SingleLevelBomAsPlanned = FK_SLBOM_PARENT, FK_SLBOM_CHILD
+          com.dremio.jdbc.Driver-constraint.FK_SLBOM_PARENT = catenaXId:CX_TRC_PartAsPlanned+UC_PART
+          com.dremio.jdbc.Driver-constraint.FK_SLBOM_CHILD = childCatenaXId:CX_TRC_PartAsPlanned+UC_PART
+          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_SingleLevelUsageAsPlanned = FK_SLUSG_PARENT, FK_SLUSG_CHILD
+          com.dremio.jdbc.Driver-constraint.FK_SLUSG_PARENT = parentCatenaXId:CX_TRC_PartAsPlanned+UC_PART
+          com.dremio.jdbc.Driver-constraint.FK_SLUSG_CHILD = catenaXId:CX_TRC_PartAsPlanned+UC_PART
+          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_PartAsPlanned = FK_PARTSITE, FK_PARTMATERIAL
+          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_PartSiteInformationAsPlanned = FK_SITEPART
+          com.dremio.jdbc.Driver-constraint.FK_PARTSITE = catenaXId:CX_TRC_PartSiteInformationAsPlanned+UC_PARTSITE
+          com.dremio.jdbc.Driver-constraint.FK_SITEPART = catenaXId:CX_TRC_PartAsPlanned+UC_PART
+          com.dremio.jdbc.Driver-constraint.FK_PARTMATERIAL = catenaXId:CX_TRC_MaterialForRecycling+UC_PARTMATERIAL
+          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling = FK_MATERIALPART
+          com.dremio.jdbc.Driver-constraint.FK_MATERIALPART = catenaXId:CX_TRC_PartAsPlanned+UC_PART
+          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling_Components = FK_COMPONENTMATERIAL
+          com.dremio.jdbc.Driver-constraint.FK_COMPONENTMATERIAL = catenaXId,CX_TRC_MaterialForRecycling+UC_PARTMATERIAL
+        ontology: cx-ontology.xml
+        mapping: |-
+{{- .Files.Get "oem/resources/quality.obda" | nindent 10 }}
 
+tiera-connector:
+  participant:
+    id: BPNL00000003CPIY
+  nameOverride: tiera-connector
+  fullnameOverride: "tiera-connector"
+  vault: 
+    hashicorp: &hashicorp
+      enabled: true
+      url: {{ .Values.security.vaultUrl }}
+      token: {{ .Values.security.vaultToken }}
+      healthCheck:
+        enabled: false
+        standbyOk: true
+      paths:
+        secret: /v1/knowledge
+    secretNames:
+      transferProxyTokenSignerPrivateKey: supplier-key
+      transferProxyTokenSignerPublicKey: supplier-cert
+      transferProxyTokenEncryptionAesKey: supplier-symmetric-key
+  controlplane:
+    securityContext: &securityContext
+      readOnlyRootFilesystem: false
+    image: &image
+      pullPolicy: Always
+    ssi: &selfSovereignIdentity
+      miw:
+        # -- MIW URL
+        url: "https://managed-identity-wallets-new.int.demo.catena-x.net"
+        # -- The BPN of the issuer authority
+        authorityId: "BPNL00000003CRHK"
+      oauth:
+        # -- The URL (of KeyCloak), where access tokens can be obtained
+        tokenurl: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
+        client:
+          # -- The client ID for KeyCloak
+          id: "sa231"
+          # -- The alias under which the client secret is stored in the vault.
+          secretAlias: "miw_supplier_secret"    
+    endpoints: &edcControlPlaneEndpoints 
+      management:
+        authKey: {{ .Values.security.xApiKey }}
+        path: /tiera-edc-control/{{ .Values.dataspace.bpnTier1 }}/(management)(.*)
+      protocol:
+        path: /tiera-edc-control/{{ .Values.dataspace.bpnTier1 }}/(api/v1/dsp)(.*)
+    ## Ingress declaration to expose the network service.
+    ingresses:
+      - enabled: true
+        # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
+        hostname: {{ .Values.ingress.host }}
+        # -- EDC endpoints exposed by this ingress resource
+        endpoints:
+          - protocol
+          - management
+        # -- Enables TLS on the ingress resource
+        tls:
+          enabled: true
+  dataplanes:
+    dataplane:
+      securityContext: *securityContext
+      image: *image
+        repository: "ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-hashicorp"
+        tag: "1.10.5-SNAPSHOT"
+      configs: &agentConfigs
+        agent.ttl: |-
+{{- .Files.Get .Values.dataspace.config | nindent 4 }}
+        dataspace.ttl: |-
+{{- .Files.Get .Values.dataspace.ontology | nindent 4 }}
+      agent:
+        synchronization: 360000
+        connectors:
+          - http://tiera-connector-control-plane:8282
+          - https://{{ .Values.ingress.host}}/oem-edc-control/BPNL00000003COJN
+      endpoints:
+        public:
+          path: /tiera-edc-data/{{ .Values.dataspace.bpnTier1 }}/(data)(.*)
+        default:
+          path: /tiera-edc-data/{{ .Values.dataspace.bpnTier1 }}/(api)(.*)
+                    
+      ## Ingress declaration to expose the network service.
+      ingresses:
+        - enabled: true
+          hostname: {{ .Values.ingress.host }}
+          # -- EDC endpoints exposed by this ingress resource
+          endpoints:
+            - public
+            - default
+          # -- Enables TLS on the ingress resource
+          tls:
+            enabled: true
+    
+consumer-connector:
+  participant:
+    id: BPNL00000003CQI9
+  nameOverride: consumer-connector
+  fullnameOverride: "consumer-connector"
+  vault: 
+    hashicorp: *hashicorp
+    secretNames:
+      transferProxyTokenSignerPrivateKey: conumer-key
+      transferProxyTokenSignerPublicKey: consumer-cert
+      transferProxyTokenEncryptionAesKey: consumer-symmetric-key
+  controlplane:
+    securityContext: *securityContext
+    image: *image
+    ssi: *selfSovereignIdentity
+      oauth:
+        client:
+          # -- The client ID for KeyCloak
+          id: "sa228"
+          # -- The alias under which the client secret is stored in the vault.
+          secretAlias: "miw_consumer_secret"    
+    endpoints: &edcControlPlaneEndpoints 
+      management:
+        authKey: {{ .Values.security.xApiKey }}
+        path: /consumer-edc-control/{{ .Values.dataspace.bpnTier1 }}/(management)(.*)
+      protocol:
+        path: /consumer-edc-control/{{ .Values.dataspace.bpnTier1 }}/(api/v1/dsp)(.*)
+    ## Ingress declaration to expose the network service.
+    ingresses:
+      - enabled: true
+        # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
+        hostname: {{ .Values.ingress.host }}
+        # -- EDC endpoints exposed by this ingress resource
+        endpoints:
+          - protocol
+          - management
+        # -- Enables TLS on the ingress resource
+        tls:
+          enabled: true
+  dataplanes:
+    dataplane:
+      securityContext: *securityContext
+      image: *image
+        repository: "ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-hashicorp"
+        tag: "1.10.5-SNAPSHOT"
+      configs: *agentConfigs
+      agent:
+        synchronization: 360000
+        connectors:
+          - https://{{ .Values.ingress.host}}/oem-edc-control/BPNL00000003COJN
+          - https://{{ .Values.ingress.host}}/tiera-edc-control/BPNL00000003CPIY
+          - https://{{ .Values.ingress.host}}/consumer-edc-control/BPNL00000003CQI9    
+      endpoints:
+        public:
+          path: /consumer-edc-data/{{ .Values.dataspace.bpnTier1 }}/(data)(.*)
+        default:
+          path: /consumer-edc-data/{{ .Values.dataspace.bpnTier1 }}/(api)(.*)
+                    
+      ## Ingress declaration to expose the network service.
+      ingresses:
+        - enabled: true
+          hostname: {{ .Values.ingress.host }}
+          # -- EDC endpoints exposed by this ingress resource
+          endpoints:
+            - public
+            - default
+          # -- Enables TLS on the ingress resource
+          tls:
+            enabled: true
+    

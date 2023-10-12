@@ -4,4 +4,22 @@ name: knowledge-agents
 description: Knowledge Agents Kit Sample Dataspace
 home: https://github.com/catenax-ng/product-knowledge/infrastructure
 type: application
-version: 1.10.2-SNAPSHOT
+version: 1.10.5-SNAPSHOT
+
+dependencies:
+- name: agent-connector-memory
+  alias: consumer-connector
+  version: 1.10.5-SNAPSHOT
+  repository: https://catenax-ng.github.io/tx-knowledge-agents-edc
+- name: agent-connector-memory
+  alias: tiera-connector
+  version: 1.10.5-SNAPSHOT
+  repository: https://catenax-ng.github.io/tx-knowledge-agents-edc
+- name: provisioning-agent
+  alias: oem-provider-agent
+  version: 1.9.8
+  repository: https://eclipse-tractusx.github.io/charts/dev
+- name: remoting-agent
+  alias: tiera-remoting-agent
+  version: 1.9.8
+  repository: https://eclipse-tractusx.github.io/charts/dev
