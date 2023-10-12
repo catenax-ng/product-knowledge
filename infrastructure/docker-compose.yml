@@ -304,7 +304,7 @@ services:
   ###
   # Configures the oem control plane (provider)
   oem-control-plane:
-    image: tractusx/edc-controlplane-memory-hashicorp-vault:0.5.0-rc5
+    image: tractusx/edc-controlplane-memory-hashicorp-vault:0.5.1
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8090:8080" # API
@@ -329,7 +329,7 @@ services:
   ###
   # Configures the oem control plane (consumer)
   oem-control-plane2:
-    image: tractusx/edc-controlplane-memory-hashicorp-vault:0.5.0
+    image: tractusx/edc-controlplane-memory-hashicorp-vault:0.5.1
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8097:8080" # API
@@ -353,7 +353,7 @@ services:
   ###
   # Configures the OEM data plane
   oem-data-plane:
-    image: tractusx/agentplane-hashicorp:1.9.5-SNAPSHOT
+    image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-hashicorp:1.10.2-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8102:8082"  # API/sparql endpoint
@@ -382,7 +382,7 @@ services:
   ###
   # Configures the tiera control plane
   tiera-control-plane:
-    image: tractusx/edc-controlplane-memory-hashicorp-vault:0.5.0
+    image: tractusx/edc-controlplane-memory-hashicorp-vault:0.5.1
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8300:8080" # API
@@ -408,7 +408,7 @@ services:
   ###
   # Configures the supplier data plane
   tiera-data-plane:
-    image: tractusx/agentplane-hashicorp:1.9.5-SNAPSHOT
+    image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-hashicorp:1.10.5-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8400:8082"  # API/sparql endpoint
@@ -435,7 +435,7 @@ services:
   ###
   # Configures the consumer control plane
   consumer-control-plane:
-    image: tractusx/edc-controlplane-memory-hashicorp-vault:0.5.0
+    image: tractusx/edc-controlplane-memory-hashicorp-vault:0.5.1
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8500:8080" # API
@@ -460,7 +460,7 @@ services:
   ###
   # Configures the consumer data plane
   consumer-data-plane:
-    image: tractusx/agentplane-hashicorp:1.9.5-SNAPSHOT
+    image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-hashicorp:1.10.5-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8600:8082"  # API/sparql endpoint
