@@ -284,7 +284,8 @@ oem-provider-agent:
       endpoints:
         - rul
       tls:
-        enabled: true  bindings:
+        enabled: true  
+  bindings:
     # -- Reliability data new
     rul: 
       # -- Exposed Service Port for the binding
