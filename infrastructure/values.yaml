@@ -21,8 +21,8 @@ dataspace:
   config: resources/agent.ttl
 
 ingress:
-  host: knowledge.int.demo.catena-x.net
-  oemHost: knowledge-oem.int.demo.catena-x.net
+  host: &ingressHost knowledge.int.demo.catena-x.net
+  oemHost: &oemHost knowledge-oem.int.demo.catena-x.net
   issuer: letsencrypt-prod
 
 namespace: "product-knowledge"
@@ -34,21 +34,241 @@ security:
   backupsKey: ""
   backupsShare: ""
   authType: ""
-  xApiKey: ""
+  xApiKey: &xApiKey ""
   dapsUrl: "https://daps1.int.demo.catena-x.net"
-  vaultUrl: ""
-  vaultToken: ""
+  vaultUrl: &vaultUrl ""
+  vaultToken: &vaultToken ""
   backendUser: ""
   backendPwd: ""
 
 tiera-remoting-agent:
   repositories:
-    health: |-
-{{- .Files.Get "tiera/resources/rdf4j/repositories/health/config.ttl" | nindent 6 }}
-    prognosis: |-
-{{- .Files.Get "tiera/resources/rdf4j/repositories/prognosis/config.ttl" | nindent 4 }}
     rul: |-
-{{- .Files.Get "tiera/resources/rdf4j/repositories/rul/config.ttl" | nindent 4 }}
+      #
+      # Rdf4j configuration for a rul-specific remoting
+      #
+      @prefix rdf:            <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+      @prefix rdfs:           <http://www.w3.org/2000/01/rdf-schema#>.
+      @prefix rep:            <http://www.openrdf.org/config/repository#>.
+      @prefix sr:             <http://www.openrdf.org/config/repository/sail#>.
+      @prefix sail:           <http://www.openrdf.org/config/sail#>.
+      @prefix sp:             <http://spinrdf.org/sp#>.
+      @prefix xsd:            <http://www.w3.org/2001/XMLSchema#> .
+      @prefix json:           <https://json-schema.org/draft/2020-12/schema#> .
+      @prefix dcterms:        <http://purl.org/dc/terms/> .
+      @prefix cx-fx:          <https://w3id.org/catenax/ontology/function#>.
+      @prefix cx-common:      <https://w3id.org/catenax/ontology/common#>.
+      @prefix cx-core:        <https://w3id.org/catenax/ontology/core#>.
+      @prefix cx-vehicle:     <https://w3id.org/catenax/ontology/vehicle#>.
+      @prefix cx-reliability: <https://w3id.org/catenax/ontology/reliability#>.
+      @prefix cx-behaviour:   <https://w3id.org/catenax/ontology/behaviour#>.
+
+      [] rdf:type rep:Repository ;
+        rep:repositoryID "rul" ;
+        rdfs:label "Remainig Useful Life Functions Repository" ;
+        rep:repositoryImpl [
+            rep:repositoryType "openrdf:SailRepository" ;
+            sr:sailImpl [
+              sail:sailType "org.eclipse.tractusx.agents:Remoting" ;
+              cx-fx:supportsInvocation cx-behaviour:RemainingUsefulLife;
+              cx-fx:callbackAddress <http://tiera-remoting-agent:8081/rdf4j-server/callback>;
+            ]
+        ].
+
+      cx-behaviour:RemainingUsefulLife rdf:type cx-fx:Function;
+        dcterms:description "Remaining Useful Life is an asynchronous batch invocation."@en ;
+        dcterms:title "Remaining Useful Life" ;
+        cx-fx:targetUri "http://rul-backend:35553/api/v1/routine/notification";
+        cx-fx:invocationMethod "POST-JSON";
+      # cx-common:authenticationKey "Authorization";
+      # cx-common:authenticationCode "Basic Zm9vOmJhcg==";
+        cx-fx:invocationMethod "POST-JSON";
+        cx-fx:invocationIdProperty "header.notificationID,content.requestRefId";
+        cx-fx:callbackProperty "header.respondAssetId";
+        cx-fx:input cx-behaviour:notification;
+        cx-fx:input cx-behaviour:sender;
+        cx-fx:input cx-behaviour:senderConnector;
+        cx-fx:input cx-behaviour:recipient;
+        cx-fx:input cx-behaviour:recipientConnector;
+        cx-fx:input cx-behaviour:recipient;
+        cx-fx:input cx-behaviour:recipientConnector;
+        cx-fx:input cx-behaviour:severity;
+        cx-fx:input cx-behaviour:status;
+        cx-fx:input cx-behaviour:targetDate;
+        cx-fx:input cx-behaviour:timeStamp;
+        cx-fx:input cx-behaviour:classification;
+        cx-fx:input cx-behaviour:component;
+        cx-fx:input cx-behaviour:observationType;
+        cx-fx:input cx-behaviour:metadata;
+        cx-fx:input cx-behaviour:statusDate;
+        cx-fx:input cx-behaviour:statusOperatingHours;
+        cx-fx:input cx-behaviour:statusMileage;
+        cx-fx:input cx-behaviour:countingMethod;
+        cx-fx:input cx-behaviour:countingValue;
+        cx-fx:input cx-behaviour:countingUnit;
+        cx-fx:input cx-behaviour:headerChannels;
+        cx-fx:input cx-behaviour:bodyClasses;
+        cx-fx:input cx-behaviour:bodyCountsList;
+        cx-fx:result cx-behaviour:response.
+
+      cx-behaviour:notification rdf:type cx-fx:Argument;
+        dcterms:description "A default notification output template."@en ;
+        dcterms:title "Notification Template";
+        cx-fx:argumentName ".";
+        cx-fx:dataType json:Object;
+        cx-fx:priority "-1"^^xsd:integer;
+        cx-fx:default "{ \"content\": { \"endurancePredictorInputs\": []}}"^^json:Object.
+
+      cx-behaviour:sender rdf:type cx-fx:Argument;
+        dcterms:description "Sender of the notification as a BPN."@en ;
+        dcterms:title "Notification Sender";
+        cx-fx:argumentName "header.senderBPN";
+        cx-fx:default "anonymous".
+
+      cx-behaviour:senderConnector rdf:type cx-fx:Argument;
+        dcterms:description "Sender Address of the notification as a URL."@en ;
+        dcterms:title "Notification Sender Address";
+        cx-fx:argumentName "header.senderAddress";
+        cx-fx:default "unknown".
+
+      cx-behaviour:recipient rdf:type cx-fx:Argument;
+        dcterms:description "Recipient of the notification as a BPN."@en ;
+        dcterms:title "Notification Recipient";
+        cx-fx:argumentName "header.recipientBPN";
+        cx-fx:default "anonymous".
+
+      cx-behaviour:recipientConnector rdf:type cx-fx:Argument;
+        dcterms:description "Recipient Address of the notification as a URL."@en ;
+        dcterms:title "Notification Recipient Address";
+        cx-fx:argumentName "header.recipientAddress";
+        cx-fx:default "unknown".
+
+      cx-behaviour:severity rdf:type cx-fx:Argument;
+        dcterms:description "Severity of the notification."@en ;
+        dcterms:title "Notification Severity";
+        cx-fx:argumentName "header.severity";
+        cx-fx:dataType xsd:string;
+        cx-fx:default "MINOR".
+
+      cx-behaviour:status rdf:type cx-fx:Argument;
+        dcterms:description "Status of the notification."@en ;
+        dcterms:title "Notification Status";
+        cx-fx:argumentName "header.status";
+        cx-fx:dataType xsd:string;
+        cx-fx:default "SENT".
+
+      cx-behaviour:targetDate rdf:type cx-fx:Argument;
+        dcterms:description "Target Date of the notification."@en ;
+        dcterms:title "Notification Target Date";
+        cx-fx:dataType xsd:dateTime;
+        cx-fx:argumentName "header.targetDate".
+
+      cx-behaviour:timeStamp rdf:type cx-fx:Argument;
+        dcterms:description "Timestamp of the notification."@en ;
+        dcterms:title "Notification Timestamp";
+        cx-fx:dataType xsd:dateTime;
+        cx-fx:argumentName "header.timeStamp".
+
+      cx-behaviour:classification rdf:type cx-fx:Argument;
+        dcterms:description "Classification of the notification."@en ;
+        dcterms:title "Notification Classification";
+        cx-fx:argumentName "header.classification";
+        cx-fx:dataType xsd:string;
+        cx-fx:default "RemainingUsefulLifePredictor".
+
+      cx-behaviour:component rdf:type cx-fx:Argument;
+        dcterms:description "Component of the Predicition."@en ;
+        dcterms:title "Predicted Component";
+        cx-fx:formsBatchGroup "true"^^xsd:boolean;
+        cx-fx:argumentName "content.endurancePredictorInputs.0.componentId,content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.targetComponentId".
+
+      cx-behaviour:observationType rdf:type cx-fx:Argument;
+        dcterms:description "The type of observation made."@en ;
+        dcterms:title "Observation Type";
+        cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.metadata.componentDescription";
+        cx-fx:dataType xsd:string.
+
+      cx-behaviour:metadata rdf:type cx-fx:Argument;
+        dcterms:description "Metadata of the Loadspectrum."@en ;
+        dcterms:title "Loadspectrum Metadata";
+        cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}";
+        cx-fx:dataType json:Object;
+        cx-fx:priority "0"^^xsd:integer;
+        cx-fx:default "{ \"metadata\":{ \"projectDescription\": \"pnr_76543\", \"routeDescription\": \"logged\" }, \"bammId\": \"urn:bamm:io.openmanufacturing.digitaltwin:1.0.0#ClassifiedLoadSpectrum\" }"^^json:Object.
+
+      cx-behaviour:statusDate rdf:type cx-fx:Argument;
+        dcterms:description "Time of Recording."@en ;
+        dcterms:title "Loadspectrum Recording Time";
+        cx-fx:dataType xsd:dateTime;
+        cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.metadata.status.date".
+
+      cx-behaviour:statusOperatingHours rdf:type cx-fx:Argument;
+        dcterms:description "Operating Hours of Target Component at Time of Recording."@en ;
+        dcterms:title "Loadspectrum Operating Hours";
+        cx-fx:dataType xsd:float;
+        cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.metadata.status.operatingHours".
+
+      cx-behaviour:statusMileage rdf:type cx-fx:Argument;
+        dcterms:description "Mileage of Component at Time of Recording."@en ;
+        dcterms:title "Loadspectrum Mileage";
+        cx-fx:dataType xsd:int;
+        cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.metadata.status.mileage".
+
+      cx-behaviour:countingUnit rdf:type cx-fx:Argument;
+        dcterms:description "Counting Unit of Load Spectrum."@en ;
+        dcterms:title "Loadspectrum Counting Unit";
+        cx-fx:dataType xsd:string;
+        cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.header.countingUnit".
+
+      cx-behaviour:countingValue rdf:type cx-fx:Argument;
+        dcterms:description "Counting Value Name of Load Spectrum."@en ;
+        dcterms:title "Loadspectrum Counting Value";
+        cx-fx:dataType xsd:string;
+        cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.header.countingValue,content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.body.counts.countsName".
+
+      cx-behaviour:countingMethod rdf:type cx-fx:Argument;
+        dcterms:description "Counting Method of Load Spectrum."@en ;
+        dcterms:title "Loadspectrum Counting Method";
+        cx-fx:dataType xsd:string;
+        cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.header.countingMethod".
+
+      cx-behaviour:headerChannels rdf:type cx-fx:Argument;
+        dcterms:description "Channels of Load Spectrum."@en ;
+        dcterms:title "Loadspectrum Channels";
+        cx-fx:dataType json:Object;
+        cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.header.channels".
+
+      cx-behaviour:bodyClasses rdf:type cx-fx:Argument;
+        dcterms:description "Classes of Load Spectrum."@en ;
+        dcterms:title "Loadspectrum Classes";
+        cx-fx:dataType json:Object;
+        cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.body.classes".
+
+      cx-behaviour:bodyCountsList rdf:type cx-fx:Argument;
+        dcterms:description "Counts List of Load Spectrum."@en ;
+        dcterms:title "Loadspectrum Counts List";
+        cx-fx:dataType json:Object;
+        cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.body.counts.countsList".
+
+      cx-behaviour:response rdf:type cx-fx:Result;
+        dcterms:description "The asynchronous notification response."@en ;
+        dcterms:title "Asynchronous notification response." ;
+        cx-fx:callbackProperty "header.referencedNotificationID";
+        cx-fx:outputProperty "content.endurancePredictorOutputs";
+        cx-fx:output cx-behaviour:remainingOperatingHours;
+        cx-fx:output cx-behaviour:remainingRunningDistance.
+
+      cx-behaviour:remainingOperatingHours rdf:type cx-fx:ReturnValue;
+        dcterms:description "Predicted Operating Hours of Remaining Useful Life Response"@en ;
+        dcterms:title "Remaining Useful Life Operating Hours" ;
+        cx-fx:valuePath "0.remainingUsefulLife.remainingOperatingHours";
+        cx-fx:dataType xsd:float.
+
+      cx-behaviour:remainingRunningDistance rdf:type cx-fx:ReturnValue;
+        dcterms:description "Predicted Distance of Remaining Useful Life Response"@en ;
+        dcterms:title "Remaining Useful Life Distance" ;
+        cx-fx:valuePath "0.remainingUsefulLife.remainingRunningDistance";
+        cx-fx:dataType xsd:int.
 
 oem-provider-agent:
   bindings:
@@ -60,242 +280,107 @@ oem-provider-agent:
       path: (/|$)(.*)
       # -- Settings for the binding including JDBC backend connections and meta-data directives, you should use secret references when putting passwords here
       settings: |-
-          # Use the Data Virtualization backend
-          jdbc.url=jdbc\:dremio\:direct\=oem-backend\:31010
-          jdbc.driver=com.dremio.jdbc.Driver
-          jdbc.user={{ .Values.security.backendUser }}
-          jdbc.password={{ .Values.security.backendPwd }}
-          ontop.cardinalityMode=LOOSE
-          com.dremio.jdbc.Driver-metadataProvider = it.unibz.inf.ontop.dbschema.impl.KeyAwareDremioDBMetadataProvider
-          com.dremio.jdbc.Driver-schemas = HI_TEST_OEM, TRACE_TEST_OEM
-          com.dremio.jdbc.Driver-tables.HI_TEST_OEM = CX_RUL_SerialPartTypization_Vehicle,CX_RUL_SerialPartTypization_Component,CX_RUL_AssemblyPartRelationship,CX_RUL_LoadCollective
-          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_SerialPartTypization_Vehicle = UC_VEHICLE
-          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_SerialPartTypization_Component = UC_COMPONENT
-          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_AssemblyPartRelationship = UC_ASSEMBLY
-          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_LoadCollective = UC_LC
-          com.dremio.jdbc.Driver-constraint.UC_VEHICLE = catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_COMPONENT = catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_ASSEMBLY = childCatenaXId,catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_LC = catenaXId,targetComponentId,metadata_componentDescription
-          com.dremio.jdbc.Driver-foreign.HI_TEST_OEM.CX_RUL_AssemblyPartRelationship = FK_SERIAL_PARENT, FK_SERIAL_CHILD
-          com.dremio.jdbc.Driver-constraint.FK_SERIAL_PARENT = catenaXId:CX_RUL_SerialPartTypization_Vehicle+UC_VEHICLE
-          com.dremio.jdbc.Driver-constraint.FK_SERIAL_CHILD = childCatenaXId:CX_RUL_SerialPartTypization_Component+UC_COMPONENT
-          com.dremio.jdbc.Driver-foreign.HI_TEST_OEM.CX_RUL_LoadCollective = FK_LC_PART
-          com.dremio.jdbc.Driver-constraint.FK_LC_PART = catenaXId:CX_RUL_SerialPartTypization_Component+UC_COMPONENT
-          com.dremio.jdbc.Driver-tables.TRACE_TEST_OEM = CX_TRC_PartAsPlanned, CX_TRC_PartSiteInformationAsPlanned,CX_TRC_SingleLevelBomAsPlanned,CX_TRC_MaterialForRecycling,CX_TRC_MaterialForRecycling_Components,CX_TRC_SingleLevelUsageAsPlanned
-          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_PartAsPlanned = UC_PART
-          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_PartSiteInformationAsPlanned = UC_PARTSITE
-          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_SingleLevelBomAsPlanned = UC_SLBOM
-          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling = UC_PARTMATERIAL
-          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling_Components = UC_MATERIAL
-          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_SingleLevelUsageAsPlanned = UC_SLUSG
-          com.dremio.jdbc.Driver-constraint.UC_PART = catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_PARTSITE = catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_SLBOM = childCatenaXId,catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_PARTMATERIAL = catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_MATERIAL = catenaXId,component_material_name
-          com.dremio.jdbc.Driver-constraint.UC_SLUSG = catenaXId,parentCatenaXId
-          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_SingleLevelBomAsPlanned = FK_SLBOM_PARENT, FK_SLBOM_CHILD
-          com.dremio.jdbc.Driver-constraint.FK_SLBOM_PARENT = catenaXId:CX_TRC_PartAsPlanned+UC_PART
-          com.dremio.jdbc.Driver-constraint.FK_SLBOM_CHILD = childCatenaXId:CX_TRC_PartAsPlanned+UC_PART
-          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_SingleLevelUsageAsPlanned = FK_SLUSG_PARENT, FK_SLUSG_CHILD
-          com.dremio.jdbc.Driver-constraint.FK_SLUSG_PARENT = parentCatenaXId:CX_TRC_PartAsPlanned+UC_PART
-          com.dremio.jdbc.Driver-constraint.FK_SLUSG_CHILD = catenaXId:CX_TRC_PartAsPlanned+UC_PART
-          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_PartAsPlanned = FK_PARTSITE, FK_PARTMATERIAL
-          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_PartSiteInformationAsPlanned = FK_SITEPART
-          com.dremio.jdbc.Driver-constraint.FK_PARTSITE = catenaXId:CX_TRC_PartSiteInformationAsPlanned+UC_PARTSITE
-          com.dremio.jdbc.Driver-constraint.FK_SITEPART = catenaXId:CX_TRC_PartAsPlanned+UC_PART
-          com.dremio.jdbc.Driver-constraint.FK_PARTMATERIAL = catenaXId:CX_TRC_MaterialForRecycling+UC_PARTMATERIAL
-          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling = FK_MATERIALPART
-          com.dremio.jdbc.Driver-constraint.FK_MATERIALPART = catenaXId:CX_TRC_PartAsPlanned+UC_PART
-          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling_Components = FK_COMPONENTMATERIAL
-          com.dremio.jdbc.Driver-constraint.FK_COMPONENTMATERIAL = catenaXId,CX_TRC_MaterialForRecycling+UC_PARTMATERIAL
-        ontology: cx-ontology.xml
-        mapping: |-
-{{- .Files.Get "oem/resources/rul.obda" | nindent 10 }}
-    # -- Reliability data new
-    hi: 
-      # -- Exposed Service Port for the binding
-      port: 8081
-      # -- Potential Ingress Path
-      path: (/|$)(.*)
-      # -- Settings for the binding including JDBC backend connections and meta-data directives, you should use secret references when putting passwords here
-      settings: |-
-          # Use the Data Virtualization backend
-          jdbc.url=jdbc\:dremio\:direct\=oem-backend\:31010
-          jdbc.driver=com.dremio.jdbc.Driver
-          jdbc.user={{ .Values.security.backendUser }}
-          jdbc.password={{ .Values.security.backendPwd }}
-          ontop.cardinalityMode=LOOSE
-          com.dremio.jdbc.Driver-metadataProvider = it.unibz.inf.ontop.dbschema.impl.KeyAwareDremioDBMetadataProvider
-          com.dremio.jdbc.Driver-schemas = HI_TEST_OEM, TRACE_TEST_OEM
-          com.dremio.jdbc.Driver-tables.HI_TEST_OEM = CX_RUL_SerialPartTypization_Vehicle,CX_RUL_SerialPartTypization_Component,CX_RUL_AssemblyPartRelationship,CX_RUL_LoadCollective
-          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_SerialPartTypization_Vehicle = UC_VEHICLE
-          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_SerialPartTypization_Component = UC_COMPONENT
-          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_AssemblyPartRelationship = UC_ASSEMBLY
-          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_LoadCollective = UC_LC
-          com.dremio.jdbc.Driver-constraint.UC_VEHICLE = catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_COMPONENT = catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_ASSEMBLY = childCatenaXId,catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_LC = catenaXId,targetComponentId,metadata_componentDescription
-          com.dremio.jdbc.Driver-foreign.HI_TEST_OEM.CX_RUL_AssemblyPartRelationship = FK_SERIAL_PARENT, FK_SERIAL_CHILD
-          com.dremio.jdbc.Driver-constraint.FK_SERIAL_PARENT = catenaXId:CX_RUL_SerialPartTypization_Vehicle+UC_VEHICLE
-          com.dremio.jdbc.Driver-constraint.FK_SERIAL_CHILD = childCatenaXId:CX_RUL_SerialPartTypization_Component+UC_COMPONENT
-          com.dremio.jdbc.Driver-foreign.HI_TEST_OEM.CX_RUL_LoadCollective = FK_LC_PART
-          com.dremio.jdbc.Driver-constraint.FK_LC_PART = catenaXId:CX_RUL_SerialPartTypization_Component+UC_COMPONENT
-          com.dremio.jdbc.Driver-tables.TRACE_TEST_OEM = CX_TRC_PartAsPlanned, CX_TRC_PartSiteInformationAsPlanned,CX_TRC_SingleLevelBomAsPlanned,CX_TRC_MaterialForRecycling,CX_TRC_MaterialForRecycling_Components,CX_TRC_SingleLevelUsageAsPlanned
-          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_PartAsPlanned = UC_PART
-          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_PartSiteInformationAsPlanned = UC_PARTSITE
-          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_SingleLevelBomAsPlanned = UC_SLBOM
-          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling = UC_PARTMATERIAL
-          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling_Components = UC_MATERIAL
-          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_SingleLevelUsageAsPlanned = UC_SLUSG
-          com.dremio.jdbc.Driver-constraint.UC_PART = catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_PARTSITE = catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_SLBOM = childCatenaXId,catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_PARTMATERIAL = catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_MATERIAL = catenaXId,component_material_name
-          com.dremio.jdbc.Driver-constraint.UC_SLUSG = catenaXId,parentCatenaXId
-          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_SingleLevelBomAsPlanned = FK_SLBOM_PARENT, FK_SLBOM_CHILD
-          com.dremio.jdbc.Driver-constraint.FK_SLBOM_PARENT = catenaXId:CX_TRC_PartAsPlanned+UC_PART
-          com.dremio.jdbc.Driver-constraint.FK_SLBOM_CHILD = childCatenaXId:CX_TRC_PartAsPlanned+UC_PART
-          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_SingleLevelUsageAsPlanned = FK_SLUSG_PARENT, FK_SLUSG_CHILD
-          com.dremio.jdbc.Driver-constraint.FK_SLUSG_PARENT = parentCatenaXId:CX_TRC_PartAsPlanned+UC_PART
-          com.dremio.jdbc.Driver-constraint.FK_SLUSG_CHILD = catenaXId:CX_TRC_PartAsPlanned+UC_PART
-          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_PartAsPlanned = FK_PARTSITE, FK_PARTMATERIAL
-          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_PartSiteInformationAsPlanned = FK_SITEPART
-          com.dremio.jdbc.Driver-constraint.FK_PARTSITE = catenaXId:CX_TRC_PartSiteInformationAsPlanned+UC_PARTSITE
-          com.dremio.jdbc.Driver-constraint.FK_SITEPART = catenaXId:CX_TRC_PartAsPlanned+UC_PART
-          com.dremio.jdbc.Driver-constraint.FK_PARTMATERIAL = catenaXId:CX_TRC_MaterialForRecycling+UC_PARTMATERIAL
-          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling = FK_MATERIALPART
-          com.dremio.jdbc.Driver-constraint.FK_MATERIALPART = catenaXId:CX_TRC_PartAsPlanned+UC_PART
-          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling_Components = FK_COMPONENTMATERIAL
-          com.dremio.jdbc.Driver-constraint.FK_COMPONENTMATERIAL = catenaXId,CX_TRC_MaterialForRecycling+UC_PARTMATERIAL
-        ontology: cx-ontology.xml
-        mapping: |-
-{{- .Files.Get "oem/resources/hi.obda" | nindent 10 }}
-    # -- Reliability data new
-    trace: 
-      # -- Exposed Service Port for the binding
-      port: 8082
-      # -- Potential Ingress Path
-      path: (/|$)(.*)
-      # -- Settings for the binding including JDBC backend connections and meta-data directives, you should use secret references when putting passwords here
-      settings: |-
-          # Use the Data Virtualization backend
-          jdbc.url=jdbc\:dremio\:direct\=oem-backend\:31010
-          jdbc.driver=com.dremio.jdbc.Driver
-          jdbc.user={{ .Values.security.backendUser }}
-          jdbc.password={{ .Values.security.backendPwd }}
-          ontop.cardinalityMode=LOOSE
-          com.dremio.jdbc.Driver-metadataProvider = it.unibz.inf.ontop.dbschema.impl.KeyAwareDremioDBMetadataProvider
-          com.dremio.jdbc.Driver-schemas = HI_TEST_OEM, TRACE_TEST_OEM
-          com.dremio.jdbc.Driver-tables.HI_TEST_OEM = CX_RUL_SerialPartTypization_Vehicle,CX_RUL_SerialPartTypization_Component,CX_RUL_AssemblyPartRelationship,CX_RUL_LoadCollective
-          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_SerialPartTypization_Vehicle = UC_VEHICLE
-          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_SerialPartTypization_Component = UC_COMPONENT
-          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_AssemblyPartRelationship = UC_ASSEMBLY
-          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_LoadCollective = UC_LC
-          com.dremio.jdbc.Driver-constraint.UC_VEHICLE = catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_COMPONENT = catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_ASSEMBLY = childCatenaXId,catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_LC = catenaXId,targetComponentId,metadata_componentDescription
-          com.dremio.jdbc.Driver-foreign.HI_TEST_OEM.CX_RUL_AssemblyPartRelationship = FK_SERIAL_PARENT, FK_SERIAL_CHILD
-          com.dremio.jdbc.Driver-constraint.FK_SERIAL_PARENT = catenaXId:CX_RUL_SerialPartTypization_Vehicle+UC_VEHICLE
-          com.dremio.jdbc.Driver-constraint.FK_SERIAL_CHILD = childCatenaXId:CX_RUL_SerialPartTypization_Component+UC_COMPONENT
-          com.dremio.jdbc.Driver-foreign.HI_TEST_OEM.CX_RUL_LoadCollective = FK_LC_PART
-          com.dremio.jdbc.Driver-constraint.FK_LC_PART = catenaXId:CX_RUL_SerialPartTypization_Component+UC_COMPONENT
-          com.dremio.jdbc.Driver-tables.TRACE_TEST_OEM = CX_TRC_PartAsPlanned, CX_TRC_PartSiteInformationAsPlanned,CX_TRC_SingleLevelBomAsPlanned,CX_TRC_MaterialForRecycling,CX_TRC_MaterialForRecycling_Components,CX_TRC_SingleLevelUsageAsPlanned
-          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_PartAsPlanned = UC_PART
-          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_PartSiteInformationAsPlanned = UC_PARTSITE
-          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_SingleLevelBomAsPlanned = UC_SLBOM
-          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling = UC_PARTMATERIAL
-          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling_Components = UC_MATERIAL
-          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_SingleLevelUsageAsPlanned = UC_SLUSG
-          com.dremio.jdbc.Driver-constraint.UC_PART = catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_PARTSITE = catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_SLBOM = childCatenaXId,catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_PARTMATERIAL = catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_MATERIAL = catenaXId,component_material_name
-          com.dremio.jdbc.Driver-constraint.UC_SLUSG = catenaXId,parentCatenaXId
-          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_SingleLevelBomAsPlanned = FK_SLBOM_PARENT, FK_SLBOM_CHILD
-          com.dremio.jdbc.Driver-constraint.FK_SLBOM_PARENT = catenaXId:CX_TRC_PartAsPlanned+UC_PART
-          com.dremio.jdbc.Driver-constraint.FK_SLBOM_CHILD = childCatenaXId:CX_TRC_PartAsPlanned+UC_PART
-          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_SingleLevelUsageAsPlanned = FK_SLUSG_PARENT, FK_SLUSG_CHILD
-          com.dremio.jdbc.Driver-constraint.FK_SLUSG_PARENT = parentCatenaXId:CX_TRC_PartAsPlanned+UC_PART
-          com.dremio.jdbc.Driver-constraint.FK_SLUSG_CHILD = catenaXId:CX_TRC_PartAsPlanned+UC_PART
-          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_PartAsPlanned = FK_PARTSITE, FK_PARTMATERIAL
-          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_PartSiteInformationAsPlanned = FK_SITEPART
-          com.dremio.jdbc.Driver-constraint.FK_PARTSITE = catenaXId:CX_TRC_PartSiteInformationAsPlanned+UC_PARTSITE
-          com.dremio.jdbc.Driver-constraint.FK_SITEPART = catenaXId:CX_TRC_PartAsPlanned+UC_PART
-          com.dremio.jdbc.Driver-constraint.FK_PARTMATERIAL = catenaXId:CX_TRC_MaterialForRecycling+UC_PARTMATERIAL
-          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling = FK_MATERIALPART
-          com.dremio.jdbc.Driver-constraint.FK_MATERIALPART = catenaXId:CX_TRC_PartAsPlanned+UC_PART
-          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling_Components = FK_COMPONENTMATERIAL
-          com.dremio.jdbc.Driver-constraint.FK_COMPONENTMATERIAL = catenaXId,CX_TRC_MaterialForRecycling+UC_PARTMATERIAL
-        ontology: cx-ontology.xml
-        mapping: |-
-{{- .Files.Get "oem/resources/trace.obda" | nindent 10 }}
-    # -- Reliability data new
-    quality: 
-      # -- Exposed Service Port for the binding
-      port: 8083
-      # -- Potential Ingress Path
-      path: (/|$)(.*)
-      # -- Settings for the binding including JDBC backend connections and meta-data directives, you should use secret references when putting passwords here
-      settings: |-
-          # Use the Data Virtualization backend
-          jdbc.url=jdbc\:dremio\:direct\=oem-backend\:31010
-          jdbc.driver=com.dremio.jdbc.Driver
-          jdbc.user={{ .Values.security.backendUser }}
-          jdbc.password={{ .Values.security.backendPwd }}
-          ontop.cardinalityMode=LOOSE
-          com.dremio.jdbc.Driver-metadataProvider = it.unibz.inf.ontop.dbschema.impl.KeyAwareDremioDBMetadataProvider
-          com.dremio.jdbc.Driver-schemas = HI_TEST_OEM, TRACE_TEST_OEM
-          com.dremio.jdbc.Driver-tables.HI_TEST_OEM = CX_RUL_SerialPartTypization_Vehicle,CX_RUL_SerialPartTypization_Component,CX_RUL_AssemblyPartRelationship,CX_RUL_LoadCollective
-          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_SerialPartTypization_Vehicle = UC_VEHICLE
-          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_SerialPartTypization_Component = UC_COMPONENT
-          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_AssemblyPartRelationship = UC_ASSEMBLY
-          com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_LoadCollective = UC_LC
-          com.dremio.jdbc.Driver-constraint.UC_VEHICLE = catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_COMPONENT = catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_ASSEMBLY = childCatenaXId,catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_LC = catenaXId,targetComponentId,metadata_componentDescription
-          com.dremio.jdbc.Driver-foreign.HI_TEST_OEM.CX_RUL_AssemblyPartRelationship = FK_SERIAL_PARENT, FK_SERIAL_CHILD
-          com.dremio.jdbc.Driver-constraint.FK_SERIAL_PARENT = catenaXId:CX_RUL_SerialPartTypization_Vehicle+UC_VEHICLE
-          com.dremio.jdbc.Driver-constraint.FK_SERIAL_CHILD = childCatenaXId:CX_RUL_SerialPartTypization_Component+UC_COMPONENT
-          com.dremio.jdbc.Driver-foreign.HI_TEST_OEM.CX_RUL_LoadCollective = FK_LC_PART
-          com.dremio.jdbc.Driver-constraint.FK_LC_PART = catenaXId:CX_RUL_SerialPartTypization_Component+UC_COMPONENT
-          com.dremio.jdbc.Driver-tables.TRACE_TEST_OEM = CX_TRC_PartAsPlanned, CX_TRC_PartSiteInformationAsPlanned,CX_TRC_SingleLevelBomAsPlanned,CX_TRC_MaterialForRecycling,CX_TRC_MaterialForRecycling_Components,CX_TRC_SingleLevelUsageAsPlanned
-          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_PartAsPlanned = UC_PART
-          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_PartSiteInformationAsPlanned = UC_PARTSITE
-          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_SingleLevelBomAsPlanned = UC_SLBOM
-          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling = UC_PARTMATERIAL
-          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling_Components = UC_MATERIAL
-          com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_SingleLevelUsageAsPlanned = UC_SLUSG
-          com.dremio.jdbc.Driver-constraint.UC_PART = catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_PARTSITE = catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_SLBOM = childCatenaXId,catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_PARTMATERIAL = catenaXId
-          com.dremio.jdbc.Driver-constraint.UC_MATERIAL = catenaXId,component_material_name
-          com.dremio.jdbc.Driver-constraint.UC_SLUSG = catenaXId,parentCatenaXId
-          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_SingleLevelBomAsPlanned = FK_SLBOM_PARENT, FK_SLBOM_CHILD
-          com.dremio.jdbc.Driver-constraint.FK_SLBOM_PARENT = catenaXId:CX_TRC_PartAsPlanned+UC_PART
-          com.dremio.jdbc.Driver-constraint.FK_SLBOM_CHILD = childCatenaXId:CX_TRC_PartAsPlanned+UC_PART
-          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_SingleLevelUsageAsPlanned = FK_SLUSG_PARENT, FK_SLUSG_CHILD
-          com.dremio.jdbc.Driver-constraint.FK_SLUSG_PARENT = parentCatenaXId:CX_TRC_PartAsPlanned+UC_PART
-          com.dremio.jdbc.Driver-constraint.FK_SLUSG_CHILD = catenaXId:CX_TRC_PartAsPlanned+UC_PART
-          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_PartAsPlanned = FK_PARTSITE, FK_PARTMATERIAL
-          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_PartSiteInformationAsPlanned = FK_SITEPART
-          com.dremio.jdbc.Driver-constraint.FK_PARTSITE = catenaXId:CX_TRC_PartSiteInformationAsPlanned+UC_PARTSITE
-          com.dremio.jdbc.Driver-constraint.FK_SITEPART = catenaXId:CX_TRC_PartAsPlanned+UC_PART
-          com.dremio.jdbc.Driver-constraint.FK_PARTMATERIAL = catenaXId:CX_TRC_MaterialForRecycling+UC_PARTMATERIAL
-          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling = FK_MATERIALPART
-          com.dremio.jdbc.Driver-constraint.FK_MATERIALPART = catenaXId:CX_TRC_PartAsPlanned+UC_PART
-          com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling_Components = FK_COMPONENTMATERIAL
-          com.dremio.jdbc.Driver-constraint.FK_COMPONENTMATERIAL = catenaXId,CX_TRC_MaterialForRecycling+UC_PARTMATERIAL
-        ontology: cx-ontology.xml
-        mapping: |-
-{{- .Files.Get "oem/resources/quality.obda" | nindent 10 }}
+        # Use the Data Virtualization backend
+        jdbc.url=jdbc\:dremio\:direct\=oem-backend\:31010
+        jdbc.driver=com.dremio.jdbc.Driver
+        jdbc.user={{ .Values.security.backendUser }}
+        jdbc.password={{ .Values.security.backendPwd }}
+        ontop.cardinalityMode=LOOSE
+        com.dremio.jdbc.Driver-metadataProvider = it.unibz.inf.ontop.dbschema.impl.KeyAwareDremioDBMetadataProvider
+        com.dremio.jdbc.Driver-schemas = HI_TEST_OEM, TRACE_TEST_OEM
+        com.dremio.jdbc.Driver-tables.HI_TEST_OEM = CX_RUL_SerialPartTypization_Vehicle,CX_RUL_SerialPartTypization_Component,CX_RUL_AssemblyPartRelationship,CX_RUL_LoadCollective
+        com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_SerialPartTypization_Vehicle = UC_VEHICLE
+        com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_SerialPartTypization_Component = UC_COMPONENT
+        com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_AssemblyPartRelationship = UC_ASSEMBLY
+        com.dremio.jdbc.Driver-unique.HI_TEST_OEM.CX_RUL_LoadCollective = UC_LC
+        com.dremio.jdbc.Driver-constraint.UC_VEHICLE = catenaXId
+        com.dremio.jdbc.Driver-constraint.UC_COMPONENT = catenaXId
+        com.dremio.jdbc.Driver-constraint.UC_ASSEMBLY = childCatenaXId,catenaXId
+        com.dremio.jdbc.Driver-constraint.UC_LC = catenaXId,targetComponentId,metadata_componentDescription
+        com.dremio.jdbc.Driver-foreign.HI_TEST_OEM.CX_RUL_AssemblyPartRelationship = FK_SERIAL_PARENT, FK_SERIAL_CHILD
+        com.dremio.jdbc.Driver-constraint.FK_SERIAL_PARENT = catenaXId:CX_RUL_SerialPartTypization_Vehicle+UC_VEHICLE
+        com.dremio.jdbc.Driver-constraint.FK_SERIAL_CHILD = childCatenaXId:CX_RUL_SerialPartTypization_Component+UC_COMPONENT
+        com.dremio.jdbc.Driver-foreign.HI_TEST_OEM.CX_RUL_LoadCollective = FK_LC_PART
+        com.dremio.jdbc.Driver-constraint.FK_LC_PART = catenaXId:CX_RUL_SerialPartTypization_Component+UC_COMPONENT
+        com.dremio.jdbc.Driver-tables.TRACE_TEST_OEM = CX_TRC_PartAsPlanned, CX_TRC_PartSiteInformationAsPlanned,CX_TRC_SingleLevelBomAsPlanned,CX_TRC_MaterialForRecycling,CX_TRC_MaterialForRecycling_Components,CX_TRC_SingleLevelUsageAsPlanned
+        com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_PartAsPlanned = UC_PART
+        com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_PartSiteInformationAsPlanned = UC_PARTSITE
+        com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_SingleLevelBomAsPlanned = UC_SLBOM
+        com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling = UC_PARTMATERIAL
+        com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling_Components = UC_MATERIAL
+        com.dremio.jdbc.Driver-unique.TRACE_TEST_OEM.CX_TRC_SingleLevelUsageAsPlanned = UC_SLUSG
+        com.dremio.jdbc.Driver-constraint.UC_PART = catenaXId
+        com.dremio.jdbc.Driver-constraint.UC_PARTSITE = catenaXId
+        com.dremio.jdbc.Driver-constraint.UC_SLBOM = childCatenaXId,catenaXId
+        com.dremio.jdbc.Driver-constraint.UC_PARTMATERIAL = catenaXId
+        com.dremio.jdbc.Driver-constraint.UC_MATERIAL = catenaXId,component_material_name
+        com.dremio.jdbc.Driver-constraint.UC_SLUSG = catenaXId,parentCatenaXId
+        com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_SingleLevelBomAsPlanned = FK_SLBOM_PARENT, FK_SLBOM_CHILD
+        com.dremio.jdbc.Driver-constraint.FK_SLBOM_PARENT = catenaXId:CX_TRC_PartAsPlanned+UC_PART
+        com.dremio.jdbc.Driver-constraint.FK_SLBOM_CHILD = childCatenaXId:CX_TRC_PartAsPlanned+UC_PART
+        com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_SingleLevelUsageAsPlanned = FK_SLUSG_PARENT, FK_SLUSG_CHILD
+        com.dremio.jdbc.Driver-constraint.FK_SLUSG_PARENT = parentCatenaXId:CX_TRC_PartAsPlanned+UC_PART
+        com.dremio.jdbc.Driver-constraint.FK_SLUSG_CHILD = catenaXId:CX_TRC_PartAsPlanned+UC_PART
+        com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_PartAsPlanned = FK_PARTSITE, FK_PARTMATERIAL
+        com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_PartSiteInformationAsPlanned = FK_SITEPART
+        com.dremio.jdbc.Driver-constraint.FK_PARTSITE = catenaXId:CX_TRC_PartSiteInformationAsPlanned+UC_PARTSITE
+        com.dremio.jdbc.Driver-constraint.FK_SITEPART = catenaXId:CX_TRC_PartAsPlanned+UC_PART
+        com.dremio.jdbc.Driver-constraint.FK_PARTMATERIAL = catenaXId:CX_TRC_MaterialForRecycling+UC_PARTMATERIAL
+        com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling = FK_MATERIALPART
+        com.dremio.jdbc.Driver-constraint.FK_MATERIALPART = catenaXId:CX_TRC_PartAsPlanned+UC_PART
+        com.dremio.jdbc.Driver-foreign.TRACE_TEST_OEM.CX_TRC_MaterialForRecycling_Components = FK_COMPONENTMATERIAL
+        com.dremio.jdbc.Driver-constraint.FK_COMPONENTMATERIAL = catenaXId,CX_TRC_MaterialForRecycling+UC_PARTMATERIAL
+      ontology: cx-ontology.xml
+      mapping: |-
+        [PrefixDeclaration]
+        cx-common:          https://w3id.org/catenax/ontology/common#
+        cx-core:            https://w3id.org/catenax/ontology/core#
+        cx-vehicle:         https://w3id.org/catenax/ontology/vehicle#
+        cx-reliability:     https://w3id.org/catenax/ontology/reliability#
+        uuid:		        urn:uuid:
+        bpnl:		        bpn:legal:
+        owl:		        http://www.w3.org/2002/07/owl#
+        rdf:		        http://www.w3.org/1999/02/22-rdf-syntax-ns#
+        xml:		        http://www.w3.org/XML/1998/namespace
+        xsd:		        http://www.w3.org/2001/XMLSchema#
+        json:               https://json-schema.org/draft/2020-12/schema#
+        obda:		        https://w3id.org/obda/vocabulary#
+        rdfs:		        http://www.w3.org/2000/01/rdf-schema#
+
+        [MappingDeclaration] @collection [[
+        mappingId	vehicles
+        target		uuid:{catenaXId} rdf:type cx-vehicle:Vehicle ; cx-vehicle:vehicleIdentificationNumber {localIdentifiers_van}^^xsd:string; cx-vehicle:manufacturer bpnl:{localIdentifiers_manufacturerId}; cx-vehicle:productionDate {manufacturingInformation_date}^^xsd:date.
+        source		SELECT "catenaXId", "localIdentifiers_van", "localIdentifiers_manufacturerId", "manufacturingInformation_date" FROM "HI_TEST_OEM"."CX_RUL_SerialPartTypization_Vehicle" vehicles
+
+        mappingId	partsvehicle
+        target		uuid:{childCatenaXId} cx-vehicle:isPartOf uuid:{catenaXId} .
+        source		SELECT "catenaXId", "childCatenaXId" FROM  "HI_TEST_OEM"."CX_RUL_AssemblyPartRelationship" vehicleparts
+
+        mappingId	vehicleparts
+        target		uuid:{catenaXId} cx-vehicle:hasPart uuid:{childCatenaXId}.
+        source		SELECT "catenaXId", "childCatenaXId" FROM  "HI_TEST_OEM"."CX_RUL_AssemblyPartRelationship" vehicleparts
+
+        mappingId	parts
+        target		uuid:{catenaXId} rdf:type cx-vehicle:Part ; cx-vehicle:id {localIdentifiers_partInstanceId}^^xsd:string; cx-vehicle:name {partTypeInformation_nameAtManufacturer}^^xsd:string; cx-vehicle:number {partTypeInformation_manufacturerPartId}^^xsd:string; cx-vehicle:supplier bpnl:{localIdentifiers_manufacturerId}; cx-vehicle:productionDate {manufacturingInformation_date}^^xsd:date .
+        source		SELECT "catenaXId", "localIdentifiers_partInstanceId", "partTypeInformation_nameAtManufacturer", "partTypeInformation_manufacturerPartId", "localIdentifiers_manufacturerId", "manufacturingInformation_date" FROM "HI_TEST_OEM"."CX_RUL_SerialPartTypization_Component" parts 
+
+        mappingId   partAnalysis
+        target		uuid:{catenaXId}/{targetComponentId} cx-reliability:analysedObject uuid:{targetComponentId}.
+        source		SELECT "catenaXId", "targetComponentId" FROM "HI_TEST_OEM"."CX_RUL_Analysis" analysis
+
+        mappingId   analysisInformation
+        target      uuid:{catenaXId}/{targetComponentId} rdf:type cx-reliability:Analysis; cx-reliability:operatingHoursOfVehicle {metadata_status_operatingHours_avg}^^xsd:float; cx-core:startDateTime {metadata_status_date_min}^^xsd:dateTime; cx-core:endDateTime {metadata_status_date_max}^^xsd:dateTime; cx-reliability:mileageOfVehicle {metadata_status_mileage_avg}^^xsd:int.
+        source		SELECT "catenaXId", "targetComponentId", "metadata_status_operatingHours_avg", "metadata_status_date_min", "metadata_status_date_max", "metadata_status_mileage_avg" FROM "HI_TEST_OEM"."CX_RUL_Analysis" loadspectrum
+
+        mappingId   analysisResult
+        target		uuid:{catenaXId}/{targetComponentId} cx-reliability:result uuid:{catenaXId}/{targetComponentId}/{metadata_componentDescription} .
+        source		SELECT "catenaXId", "targetComponentId", "metadata_componentDescription" FROM "HI_TEST_OEM"."CX_RUL_LoadCollective" loadspectrum
+
+        mappingId   loadspectrum
+        target      uuid:{catenaXId}/{targetComponentId}/{metadata_componentDescription} rdf:type cx-reliability:LoadSpectrum; cx-core:id {metadata_componentDescription}^^xsd:string; cx-core:name {metadata_projectDescription}^^xsd:string; cx-reliability:description {metadata_routeDescription}^^xsd:string; cx-reliability:countingValue {header_countingValue}^^xsd:string; cx-reliability:countingUnit {header_countingUnit}^^xsd:string; cx-reliability:countingMethod {header_countingMethod}^^xsd:string; cx-reliability:channels {header_channels}^^json:Object; cx-reliability:classes {body_classes}^^json:Object; cx-reliability:values {body_counts_countsList}^^json:Object .
+        source		SELECT "catenaXId", "targetComponentId", "metadata_projectDescription", "metadata_componentDescription", "metadata_routeDescription", "metadata_status_date", "header_countingValue", "header_countingUnit", "header_countingMethod", "header_channels", "body_counts_countsList", "body_classes" FROM "HI_TEST_OEM"."CX_RUL_LoadCollective" loadspectrum
+
+        ]]
 
 tiera-connector:
   participant:
@@ -305,8 +390,8 @@ tiera-connector:
   vault: 
     hashicorp: &hashicorp
       enabled: true
-      url: {{ .Values.security.vaultUrl }}
-      token: {{ .Values.security.vaultToken }}
+      url: *vaultUrl 
+      token: *vaultToken
       healthCheck:
         enabled: false
         standbyOk: true
@@ -337,15 +422,15 @@ tiera-connector:
           secretAlias: "miw_supplier_secret"    
     endpoints: &edcControlPlaneEndpoints 
       management:
-        authKey: {{ .Values.security.xApiKey }}
-        path: /tiera-edc-control/{{ .Values.dataspace.bpnTier1 }}/(management)(.*)
+        authKey: *xApiKey
+        path: /tiera-edc-control/BPNL00000003CPIY/(management)(.*)
       protocol:
-        path: /tiera-edc-control/{{ .Values.dataspace.bpnTier1 }}/(api/v1/dsp)(.*)
+        path: /tiera-edc-control/BPNL00000003CPIY/(api/v1/dsp)(.*)
     ## Ingress declaration to expose the network service.
     ingresses:
       - enabled: true
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-        hostname: {{ .Values.ingress.host }}
+        hostname: *ingressHost
         # -- EDC endpoints exposed by this ingress resource
         endpoints:
           - protocol
@@ -356,29 +441,394 @@ tiera-connector:
   dataplanes:
     dataplane:
       securityContext: *securityContext
-      image: *image
+      image: 
         repository: "ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-hashicorp"
+        pullPolicy: Always
         tag: "1.10.5-SNAPSHOT"
       configs: &agentConfigs
-        agent.ttl: |-
-{{- .Files.Get .Values.dataspace.config | nindent 4 }}
         dataspace.ttl: |-
-{{- .Files.Get .Values.dataspace.ontology | nindent 4 }}
+          #################################################################
+          # Catena-X Agent Bootstrap in TTL/RDF/OWL FORMAT
+          # See copyright notice in the top folder
+          # See authors file in the top folder
+          # See license file in the top folder
+          #################################################################
+
+          @prefix : <urn:cx:Graph:local:Dataspace> .
+          @prefix cx: <https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#> .
+          @prefix cx-common: <https://w3id.org/catenax/ontology/common#> .
+          @prefix cx-diag: <https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#> .
+          @prefix cx-telematics: <https://github.com/catenax-ng/product-knowledge/ontology/telematics.ttl#> .
+          @prefix owl: <http://www.w3.org/2002/07/owl#> .
+          @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+          @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+          @prefix json: <https://json-schema.org/draft/2020-12/schema#> .
+          @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+          @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+          @prefix bpnl: <bpn:legal:> .
+          @prefix bpns: <bpn:site:> .
+          @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+          @prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+          @base <urn:cx:Graph:local:Dataspace> .
+
+          bpnl:BPNL00000003COJN owl:sameAs bpnl:BPNL00000003AYRE;
+                                owl:sameAs bpnl:BPNL00000003AVTH;
+                                owl:sameAs bpnl:BPNL00000003AZQP;
+                                cx:hasBusinessPartnerNumber "BPNL00000003COJN"^^xsd:string;
+                                cx:hasBusinessPartnerNumber "BPNL00000003AYRE"^^xsd:string;
+                                cx:hasBusinessPartnerNumber "BPNL00000003AVTH"^^xsd:string;
+                                cx:hasBusinessPartnerNumber "BPNL00000003AZQP"^^xsd:string;
+                                cx-common:id "BPNL00000003COJN"^^xsd:string;
+                                cx-common:id "BPNL00000003AYRE"^^xsd:string;
+                                cx-common:id "BPNL00000003AVTH"^^xsd:string;
+                                cx-common:id "BPNL00000003AZQP"^^xsd:string;
+                                cx:isIssuerOfVehicleIdentificationNumber "WBAAL31029PZ00001"^^xsd:string;
+                                cx:isIssuerOfVehicleIdentificationNumber "WBAAL31029PZ00002"^^xsd:string;
+                                cx:isIssuerOfVehicleIdentificationNumber "WBAAL31029PZ00003"^^xsd:string;
+                                cx:hasConnector <edcs://knowledge.int.demo.catena-x.net/oem-edc-control/BPNL00000003COJN>;
+                                cx-common:hasConnector <edcs://knowledge.int.demo.catena-x.net/oem-edc-control/BPNL00000003COJN>.
+                                
+
+          bpnl:BPNL00000003CPIY owl:sameAs bpnl:BPNL00000003B2OM;
+                                cx:hasBusinessPartnerNumber "BPNL00000003CPIY"^^xsd:string;
+                                cx:hasBusinessPartnerNumber "BPNL00000003B2OM"^^xsd:string;
+                                cx-common:id  "BPNL00000003CPIY"^^xsd:string;
+                                cx-common:id  "BPNL00000003B2OM"^^xsd:string;                      
+                                cx:hasConnector <edcs://knowledge.int.demo.catena-x.net/tiera-edc-control/BPNL00000003CPIY>;
+                                cx-common:hasConnector <edcs://knowledge.int.demo.catena-x.net/oem-edc-control/BPNL00000003COJN>.
+
+          bpnl:BPNL00000003CQI9 owl:sameAs bpnl:BPNL00000007OR16;
+                                owl:sameAs bpnl:BPNL00000002HCQ9;
+                                cx:hasBusinessPartnerNumber "BPNL00000003CQI9"^^xsd:string;
+                                cx:hasBusinessPartnerNumber "BPNL00000007OR16"^^xsd:string;
+                                cx:hasBusinessPartnerNumber "BPNL00000002HCQ9"^^xsd:string;
+                                cx-common:id "BPNL00000003CQI9"^^xsd:string;
+                                cx-common:id "BPNL00000007OR16"^^xsd:string;
+                                cx-common:id "BPNL00000002HCQ9"^^xsd:string;
+                                cx:hasConnector <edcs://knowledge.int.demo.catena-x.net/consumer-edc-control/BPNL00000003CQI9>;
+                                cx-common:hasConnector <edcs://knowledge.int.demo.catena-x.net/consumer-edc-control/BPNL00000003CQI9>.
+                                
+
+          bpnl:BPNL00000003AXS3 cx-common:hasSite bpns:BPNS00000003AXS3.
+          bpnl:BPNL00000003B0Q0 cx-common:hasSite bpns:BPNS00000003B0Q0.
+          bpnl:BPNL00000003B3NX cx-common:hasSite bpns:BPNS00000003B3NX.
+          bpnl:BPNL00000003AYRE cx-common:hasSite bpns:BPNS000004711DMY.
+          bpnl:BPNL00000003AZQP cx-common:hasSite bpns:BPNS000001111DMY.
+          bpnl:BPNL00000003B5MJ cx-common:hasSite bpns:BPNS00000003B5MJ.
+          bpnl:BPNL00000003AVTH cx-common:hasSite bpns:BPNS000000815DMY.
+          bpnl:BPNL00000003B2OM cx-common:hasSite bpns:BPNS00000003B2OM.
+          bpnl:BPNL00000003CSGV cx-common:hasSite bpns:BPNS000000000DQB.
+          bpnl:BPNL00000007OR16 cx-common:hasSite bpns:BPNS0000000002XY.
+          bpnl:BPNL00000003B2OM cx-common:hasSite bpns:BPNS0000000006V6.
+
+          bpnl:BPNL00000003B0Q0 cx-common:hasConnector <http://oem-provider-agent:8082/sparql>.
+          bpnl:BPNL00000003CSGV cx-common:hasConnector <http://oem-provider-agent:8082/sparql>.
+          bpnl:BPNL00000003AXS3 cx-common:hasConnector <http://oem-provider-agent:8082/sparql>.
+          bpnl:BPNL00000003AYRE cx-common:hasConnector <http://oem-provider-agent:8082/sparql>.
+          bpnl:BPNL00000003B2OM cx-common:hasConnector <http://oem-provider-agent:8082/sparql>.
+          bpnl:BPNL00000007OR16 cx-common:hasConnector <http://oem-provider-agent:8082/sparql>.
+          bpnl:BPNL00000003AVTH cx-common:hasConnector <http://oem-provider-agent:8082/sparql>.
+          bpnl:BPNL00000003AZQP cx-common:hasConnector <http://oem-provider-agent:8082/sparql>.
+
+          bpns:BPNS00000003AXS3 cx-common:hasGeoInformation <geo:BPNS00000003AXS3>.
+          bpns:BPNS00000003B0Q0 cx-common:hasGeoInformation <geo:BPNS00000003B0Q0>.
+          bpns:BPNS00000003B3NX cx-common:hasGeoInformation <geo:BPNS00000003B3NX>.
+          bpns:BPNS000004711DMY cx-common:hasGeoInformation <geo:BPNS000004711DMY>.
+          bpns:BPNS000001111DMY cx-common:hasGeoInformation <geo:BPNS000001111DMY>.
+          bpns:BPNS00000003B5MJ cx-common:hasGeoInformation <geo:BPNS00000003B5MJ>.
+          bpns:BPNS000000815DMY cx-common:hasGeoInformation <geo:BPNS000000815DMY>.
+          bpns:BPNS00000003B2OM cx-common:hasGeoInformation <geo:BPNS00000003B2OM>.
+          bpns:BPNS000000000DQB cx-common:hasGeoInformation <geo:BPNS000000000DQB>.
+          bpns:BPNS0000000002XY cx-common:hasGeoInformation <geo:BPNS0000000002XY>.
+          bpns:BPNS0000000006V6 cx-common:hasGeoInformation <geo:BPNS0000000006V6>.
+
+          <geo:BPNS00000003AXS3> cx-common:hasLatitude "35.62306268137165"^^xsd:double;
+                                cx-common:hasLongitude "139.7498516425976"^^xsd:double.
+          <geo:BPNS00000003B0Q0> cx-common:hasLatitude "12.992287272083951"^^xsd:double;
+                                cx-common:hasLongitude "74.84030406238573"^^xsd:double.
+          <geo:BPNS00000003B3NX> cx-common:hasLatitude "34.90316856022901"^^xsd:double;
+                                cx-common:hasLongitude "-82.10778890159467"^^xsd:double.
+          <geo:BPNS000004711DMY> cx-common:hasLatitude "48.648900476926926"^^xsd:double;
+                                cx-common:hasLongitude "12.465527980565177"^^xsd:double.
+          <geo:BPNS000001111DMY> cx-common:hasLatitude "-25.632334804928544"^^xsd:double;
+                                cx-common:hasLongitude "28.084500971267506"^^xsd:double.
+          <geo:BPNS000000815DMY> cx-common:hasLatitude "41.90277"^^xsd:double;
+                                cx-common:hasLongitude "-2.70559"^^xsd:double.
+
+          <geo:BPNS00000003B5MJ> cx-common:hasLatitude "-22.4775436688588"^^xsd:double;
+                                cx-common:hasLongitude "-47.024968046462206"^^xsd:double.
+          <geo:BPNS00000003B2OM> cx-common:hasLatitude "31.889668725991893"^^xsd:double;
+                                cx-common:hasLongitude "119.9591474486991"^^xsd:double.
+          <geo:BPNS0000000006V6> cx-common:hasLatitude "14.0590"^^xsd:double;
+                                cx-common:hasLongitude "80.13451"^^xsd:double.
+          <geo:BPNS0000000002XY> cx-common:hasLatitude "7.88710"^^xsd:double;
+                                cx-common:hasLongitude "89.3895"^^xsd:double.
+          <geo:BPNS000000000DQB> cx-common:hasLatitude "7.79778"^^xsd:double;
+                                cx-common:hasLongitude "98.34148"^^xsd:double.
+
+          <urn:cx:AnonymousVehicle#10000ZP92013LAABW> cx:isAnonymousVehicle "WBAAL31029PZ00001"^^xsd:string;
+                                                      cx:hasRegistration "{ \"Value\": 20220624,  \"Unit\": \"yyyymmdd\" }"^^json:Object;
+                                                      cx-telematics:latestMileageReceived "{ \"Value\": 6017, \"Unit\": \"km\" }"^^json:Object;
+                                                      cx-telematics:operatingTime "45667765"^^xsd:long;
+                                                      cx-telematics:latestMileage "82563.02"^^xsd:double;
+                                                      cx-telematics:latestDetailReceived <urn:cx:LoadCollective#10000ZP92013LAABW>.
+
+          <urn:cx:LoadCollective#10000ZP92013LAABW> cx-diag:hasPartType "engine control module"^^xsd:string;
+                                                    cx-diag:whenRecorded "2022-10-12T08:17:18.734Z"^^xsd:dateTime;
+                                                    cx-diag:hasAdaptionValues "[ 0.543534, 0.543535, 0.543536, 0.543537 ]"^^json:Object;
+                                                    cx-diag:hasLoadSpectrum "{ \"Temp_Oil-class\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \"Counts\": [7.234E+01, 2.345E+02, 6.654E+02, 5.983E+01, 4.321E+02, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 7.432E+02, 8.873E+02, 4.738E+01, 6.927E+01, 1.234E+02, 2.345E+02, 3.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+02, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+02, 6.927E+02] }"^^json:Object.
+
+          <urn:cx:AnonymousVehicle#20000ZP92013LAABW> cx:isAnonymousVehicle "WBAAL31029PZ00002"^^xsd:string;
+                                                      cx:hasRegistration "{ \"Value\": 20171206,  \"Unit\": \"yyyymmdd\" }"^^json:Object;
+                                                      cx-telematics:latestMileage "82563.02"^^xsd:double;
+                                                      cx-telematics:operatingTime "45667765"^^xsd:long;
+                                                      cx-telematics:latestMileageReceived "{ \"Value\": 82563, \"Unit\": \"km\" }"^^json:Object;
+                                                      cx-telematics:latestDetailReceived <urn:cx:LoadCollective#20000ZP92013LAABW>.
+
+          <urn:cx:LoadCollective#20000ZP92013LAABW> cx-diag:hasPartType "clutch"^^xsd:string;
+                                                    cx-diag:whenRecorded "2022-10-12T08:17:18.734Z"^^xsd:dateTime;
+                                                    cx-diag:hasAdaptionValues "[ 0.543534, 0.543535, 0.543536, 0.543537 ]"^^json:Object;
+                                                    cx-diag:hasLoadSpectrum "{ \"Temp_Oil-class\": [2, 3, 4, 6, 7, 8, 12, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51],  \"Counts\": [1.234E+01, 2.345E+02, 1.654E+02, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+01, 6.927E+01, 1.234E+01, 2.345E+02, 1.654E+02, 2.983E+01, 2.983E+01, 4.321E+01, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+01, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+01, 6.927E+01] }"^^json:Object.
+
+          <urn:cx:AnonymousVehicle#30000ZP92013LAABW> cx:isAnonymousVehicle "WBAAL31029PZ00003"^^xsd:string;
+                                                      cx:hasRegistration "{ \"Value\": 20130302,  \"Unit\": \"yyyymmdd\" }"^^json:Object;
+                                                      cx-telematics:latestMileage "82563.02"^^xsd:double;
+                                                      cx-telematics:operatingTime "45667765"^^xsd:long;
+                                                      cx-telematics:latestMileageReceived "{ \"Value\": 247332, \"Unit\": \"km\" }"^^json:Object;
+                                                      cx-telematics:latestDetailReceived <urn:cx:LoadCollective#30000ZP92013LAABW>.
+
+          <urn:cx:LoadCollective#30000ZP92013LAABW> cx-diag:hasPartType "wiring harness"^^xsd:string;
+                                                    cx-diag:whenRecorded "2022-10-12T08:17:18.734Z"^^xsd:dateTime;
+                                                    cx-diag:hasAdaptionValues "[ 0.543534, 0.543535, 0.543536, 0.543537 ]"^^json:Object;
+                                                    cx-diag:hasLoadSpectrum "{ \"Temp_Oil-class\": [1, 3, 4, 5, 7, 8, 12, 13, 17, 18, 20, 22, 23, 25, 28, 29, 31, 32, 33, 34, 36, 37, 38, 41, 42, 44, 45, 47, 48, 49, 50, 51],  \"Counts\": [1.234E+01, 2.345E+02, 1.654E+02, 2.983E+02, 4.321E+01, 3.876E+02, 5.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+02, 3.432E+02, 1.873E+02, 4.738E+01, 6.927E+01, 8.234E+01, 2.345E+02, 4.654E+02, 2.983E+01, 4.321E+01, 3.876E+02, 9.567E+01, 3.4456E+02, 4.556645E+02, 5.678E+01, 4.321E+02, 6.098E+01, 3.432E+02, 1.873E+02, 4.738E+01, 5.927E+01] }"^^json:Object.
+
+          <urn:cx:AnonymousSerializedPart#GB4711> cx:isComponentOf <urn:cx:AnonymousVehicle#10000ZP92013LAABW>;
+                                                  cx:hasPartType "engine control module"^^xsd:string;
+                                                  cx:hasSupplier bpnl:BPNL00000003B2OM;
+                                                  cx:hasName "Gear Box"^^xsd:string.
+
+          <urn:cx:AnonymousSerializedPart#GB4712> cx:isComponentOf <urn:cx:AnonymousVehicle#20000ZP92013LAABW>;
+                                                  cx:hasPartType "clutch"^^xsd:string;
+                                                  cx:hasSupplier bpnl:BPNL00000003B2OM;
+                                                  cx:hasName "Gear Oil"^^xsd:string.
+
+          <urn:cx:AnonymousSerializedPart#GB4713> cx:isComponentOf <urn:cx:AnonymousVehicle#30000ZP92013LAABW>;
+                                                  cx:hasPartType "wiring harness"^^xsd:string;
+                                                  cx:hasSupplier bpnl:BPNL00000003B2OM;
+                                                  cx:hasName "Wiring Harness"^^xsd:string.
+
+          <urn:cx:LoadCollective#30000ZP92013LAABW> cx-telematics:hasFile "{  \"Type\": \"ZF_load_collective\", \"Version\": \"1.7\"  }"^^json:Object;
+                                                    cx-telematics:hasAdaptionVersion "VER_AV_001"^^xsd:string;
+                                                    cx-telematics:hasHeader "{  \"CountingMethod\": \"ZF_TimeAtLevel\",    \"CountingUnit\": \"s\",    \"Channels\": [      {        \"Name\": \"Temp_Oil\",        \"Type\": \"Load\",        \"Unit\": \"degC\",        \"LowerLimit\": -40,        \"UpperLimit\": 220,        \"NumberOfBins\": 52      }  ]  }"^^json:Object.
+
+          <urn:cx:LoadCollective#20000ZP92013LAABW> cx-telematics:hasFile "{  \"Type\": \"ZF_load_collective\", \"Version\": \"1.7\"  }"^^json:Object;
+                                                    cx-telematics:hasAdaptionVersion "VER_AV_001"^^xsd:string;
+                                                    cx-telematics:hasHeader "{  \"CountingMethod\": \"ZF_TimeAtLevel\",    \"CountingUnit\": \"s\",    \"Channels\": [      {        \"Name\": \"Temp_Oil\",        \"Type\": \"Load\",        \"Unit\": \"degC\",        \"LowerLimit\": -40,        \"UpperLimit\": 220,        \"NumberOfBins\": 52      }  ]  }"^^json:Object.
+
+          <urn:cx:LoadCollective#10000ZP92013LAABW> cx-telematics:hasFile "{  \"Type\": \"ZF_load_collective\", \"Version\": \"1.7\"  }"^^json:Object;
+                                                    cx-telematics:hasAdaptionVersion "VER_AV_001"^^xsd:string;
+                                                    cx-telematics:hasHeader "{  \"CountingMethod\": \"ZF_TimeAtLevel\",    \"CountingUnit\": \"s\",    \"Channels\": [      {        \"Name\": \"Temp_Oil\",        \"Type\": \"Load\",        \"Unit\": \"degC\",        \"LowerLimit\": -40,        \"UpperLimit\": 220,        \"NumberOfBins\": 52      }  ]  }"^^json:Object.
+
+          cx-common:EngineeringMaterial a owl:Class ;
+              rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/material_ontology.ttl> ;
+              rdfs:seeAlso <https://de.wikipedia.org/wiki/Werkstoff>,
+                  <https://en.wikipedia.org/wiki/Factors_of_production> ;
+              rdfs:subClassOf [ a owl:Restriction ;
+                      owl:onProperty cx-common:isPartOf ;
+                      owl:someValuesFrom cx-common:Product ],
+                  [ a owl:Restriction ;
+                      owl:onProperty cx-common:contains ;
+                      owl:someValuesFrom cx-common:RawMaterial ],
+                  [ a owl:Restriction ;
+                      owl:onProperty cx-common:engineeringMaterialNumber ;
+                      owl:someValuesFrom xsd:string ],
+                  [ a owl:Restriction ;
+                      owl:onProperty cx-common:participatesIn ;
+                      owl:someValuesFrom cx-common:Process ],
+                  [ a owl:Restriction ;
+                      owl:onProperty cx-common:engineeringMaterialName ;
+                      owl:someValuesFrom xsd:string ],
+                  [ a owl:Restriction ;
+                      owl:onProperty cx-common:isMadeOf ;
+                      owl:someValuesFrom cx-common:RawMaterial ],
+                  cx-common:IntermediateProduct ;
+              skos:altLabel "engineered material"@en,
+                  "engineering material"@en,
+                  "technische Werkstoff"@en ;
+              skos:definition "A material that is used in the production of a product and becomes part of the product."@en ;
+              skos:example "aluminium alloy"@en ;
+              skos:prefLabel "Werkstoff"@de,
+                  "Engineering Material"@en .
+
+          cx-common:SemiconductorMaterial a owl:Class ;
+              rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/material_ontology.ttl> ;
+              rdfs:seeAlso <https://en.wikipedia.org/wiki/Semiconductor> ;
+              rdfs:subClassOf cx-common:EngineeringMaterial ;
+              skos:prefLabel "Halbleiter Material"@de,
+                  "Semiconductor Material"@en .
+
+          cx-common:CeramicMaterial a owl:Class ;
+              rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/material_ontology.ttl> ;
+              rdfs:subClassOf cx-common:EngineeringMaterial ;
+              skos:altLabel "anorganisch-nichtmetallischer Werkstoff"@de ;
+              skos:prefLabel "Keramisches Material"@de,
+                  "Ceramic Material"@en .
+
+          cx-common:CompositeMaterial a owl:Class ;
+              rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/material_ontology.ttl> ;
+              rdfs:seeAlso <https://en.wikipedia.org/wiki/Composite_material> ;
+              rdfs:subClassOf cx-common:EngineeringMaterial ;
+              skos:definition "mixture of materials"@en ;
+              skos:prefLabel "Verbundwerkstoff"@de,
+                  "Composite Material"@en .
+
+          cx-common:PolymerMaterial a owl:Class ;
+              rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/material_ontology.ttl> ;
+              rdfs:seeAlso <https://en.wikipedia.org/wiki/Plastic>,
+                  <https://en.wikipedia.org/wiki/Polymer> ;
+              rdfs:subClassOf cx-common:EngineeringMaterial ;
+              skos:prefLabel "Kunststoff"@de,
+                  "Polymer Material"@en .
+
+          cx-common:MetalMaterial a owl:Class ;
+              rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/material_ontology.ttl> ;
+              rdfs:seeAlso <https://en.wikipedia.org/wiki/Metal> ;
+              rdfs:subClassOf cx-common:EngineeringMaterial ;
+              skos:prefLabel "Metallmaterial"@de,
+                  "Metal Material"@en .
+
+          cx-common:HeavyMetal a owl:Class ;
+              rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/material_ontology.ttl> ;
+              rdfs:seeAlso <https://en.wikipedia.org/wiki/Heavy_metals> ;
+              rdfs:subClassOf cx-common:MetalMaterial ;
+              skos:definition "density above 5 g/cm³"@en ;
+              skos:prefLabel "Schwermetall"@de,
+                  "Heavy Metal"@en .
+
+          cx-common:LightMetal a owl:Class ;
+              rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/material_ontology.ttl> ;
+              rdfs:seeAlso <https://en.wikipedia.org/wiki/Light_metal> ;
+              rdfs:subClassOf cx-common:MetalMaterial ;
+              skos:definition "density below 5 g/cm³"@en ;
+              skos:prefLabel "Leichtmetall"@de,
+                  "Light Metal"@en .
+
+          cx-common:NativeMetal a owl:Class ;
+              rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/material_ontology.ttl> ;
+              rdfs:seeAlso <https://en.wikipedia.org/wiki/Native_metal> ;
+              rdfs:subClassOf cx-common:MetalMaterial ;
+              skos:prefLabel "Reinmetall"@de,
+                  "Native Metal"@en .
+
+          cx-common:Alloy a owl:Class ;
+              rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/material_ontology.ttl> ;
+              rdfs:seeAlso <https://en.wikipedia.org/wiki/Alloy> ;
+              rdfs:subClassOf cx-common:MetalMaterial ;
+              skos:prefLabel "Legierung"@de,
+                  "Alloy"@en .
+
+          cx-common:CathodeMaterial a owl:Class ;
+              rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/material_ontology.ttl> ;
+              rdfs:seeAlso <https://en.wikipedia.org/wiki/Cathode> ;
+              rdfs:subClassOf cx-common:Alloy ;
+              skos:prefLabel "Kathodenmaterial"@de,
+                  "Cathode Material"@en.
+
+          cx-common:MetalMaterial_Aluminium a cx-common:MetalMaterial ;
+              skos:altLabel "DIN EN 573" ;
+              skos:note "body"@en ;
+              skos:prefLabel "Aluminium"@en ;
+              skos:prefLabel "Aluminium"@de.
+
+          cx-common:MetalMaterial_Copper a cx-common:MetalMaterial ;
+              skos:altLabel "DIN EN 1173",
+                  "DIN EN 1412"@de ;
+              skos:note "electric"@en ;
+              skos:prefLabel "Copper"@en ;
+              skos:prefLabel "Kupfer"@de.
+
+          cx-common:MetalMaterial_Steel a cx-common:MetalMaterial ;
+              rdfs:seeAlso <https://en.wikipedia.org/wiki/Steel> ;
+              skos:altLabel "DIN EN 10027" ;
+              skos:note "body"@en ;
+              skos:prefLabel "Steel"@en ;
+              skos:prefLabel "Stahl"@de.
+
+          cx-common:CompositeMaterial_Carbon a cx-common:CompositeMaterial ;
+              skos:altLabel "DIN EN 14598" ;
+              skos:note "body"@en ;
+              skos:prefLabel "Carbon"@en ;
+              skos:prefLabel "Karbon"@de.
+
+          cx-common:OrganicMaterial a owl:Class ;
+              rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/material_ontology.ttl> ;
+              rdfs:seeAlso <https://en.wikipedia.org/wiki/Organic_matter> ;
+              rdfs:subClassOf cx-common:EngineeringMaterial ;
+              skos:altLabel "Organischer Werkstoff"@de ;
+              skos:example "fiber"@en,
+                  "paper"@en,
+                  "wood"@en ;
+              skos:prefLabel "Organisches Material"@de,
+                  "Organic Material"@en .
+
+          cx-common:OrganicMaterial_ArtificialLeather a cx-common:OrganicMaterial ;
+              rdfs:seeAlso <https://en.wikipedia.org/wiki/Artificial_leather> ;
+              skos:note "interior"@en ;
+              skos:prefLabel "Kunstleder"@de,
+                  "Artificial Leather"@en .
+
+          cx-common:OrganicMaterial_Leather a cx-common:OrganicMaterial ;
+              rdfs:seeAlso <https://en.wikipedia.org/wiki/Leather> ;
+              skos:note "interior"@en ;
+              skos:prefLabel "Leder"@de,
+                  "Leather"@en .
+
+          cx-common:OrganicMaterial_Rubber a cx-common:OrganicMaterial ;
+              skos:altLabel "DIN EN ISO 1629" ;
+              skos:note "interior"@en ;
+              skos:prefLabel "Natural Rubber"@en;
+              skos:prefLabel "Naturgummi"@de.
+
+          cx-common:PolymerMaterial_Plastic a cx-common:PolymerMaterial ;
+              skos:altLabel "DIN EN ISO 1043" ;
+              skos:note "interior"@en ;
+              skos:prefLabel "Plastic"@en ;
+              skos:prefLabel "Plastik"@de.
+
+          cx-common:PolymerMaterial_Rubber a cx-common:PolymerMaterial ;
+              skos:altLabel "DIN EN ISO 1629"@de ;
+              skos:note "interior"@en ;
+              skos:note "tires"@en ;
+              skos:prefLabel "Synthetic Rubber"@en;
+              skos:prefLabel "Synthetisches Gummi"@de.
+
+          cx-common:CathodeMaterial_LithiumNickelManganeseCobaltOxides a cx-common:CathodeMaterial ;
+              rdfs:seeAlso <https://en.wikipedia.org/wiki/Lithium_nickel_manganese_cobalt_oxides> ;
+              skos:note "battery"@en ;
+              skos:prefLabel "Lithium Nickel Manganese Cobalt Oxides"@en;
+              skos:prefLabel "Lithium-Nickel-Mangan-Kobalt Oxide"@de.
+
+          cx-common:CathodeMaterial_LeadDioxide a cx-common:CathodeMaterial ;
+              rdfs:seeAlso <https://en.wikipedia.org/wiki/Lead_dioxide> ;
+              skos:note "battery"@en ;
+              skos:prefLabel "Lead Dioxide"@en;
+              skos:prefLabel "Bleidioxid"@de.
       agent:
         synchronization: 360000
         connectors:
           - http://tiera-connector-control-plane:8282
-          - https://{{ .Values.ingress.host}}/oem-edc-control/BPNL00000003COJN
+          - https://*ingressHost/oem-edc-control/BPNL00000003COJN
       endpoints:
         public:
-          path: /tiera-edc-data/{{ .Values.dataspace.bpnTier1 }}/(data)(.*)
+          path: /tiera-edc-data/BPNL00000003CPIY/(data)(.*)
         default:
-          path: /tiera-edc-data/{{ .Values.dataspace.bpnTier1 }}/(api)(.*)
+          path: /tiera-edc-data/BPNL00000003CPIY/(api)(.*)
                     
       ## Ingress declaration to expose the network service.
       ingresses:
         - enabled: true
-          hostname: {{ .Values.ingress.host }}
+          hostname: *ingressHost
           # -- EDC endpoints exposed by this ingress resource
           endpoints:
             - public
@@ -400,25 +850,33 @@ consumer-connector:
       transferProxyTokenEncryptionAesKey: consumer-symmetric-key
   controlplane:
     securityContext: *securityContext
-    image: *image
-    ssi: *selfSovereignIdentity
+    image: 
+      pullPolicy: Always
+    ssi: 
+      miw:
+        # -- MIW URL
+        url: "https://managed-identity-wallets-new.int.demo.catena-x.net"
+        # -- The BPN of the issuer authority
+        authorityId: "BPNL00000003CRHK"
       oauth:
+        # -- The URL (of KeyCloak), where access tokens can be obtained
+        tokenurl: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
         client:
           # -- The client ID for KeyCloak
           id: "sa228"
           # -- The alias under which the client secret is stored in the vault.
-          secretAlias: "miw_consumer_secret"    
+          secretAlias: "miw_consumer_secret"
     endpoints: &edcControlPlaneEndpoints 
       management:
-        authKey: {{ .Values.security.xApiKey }}
-        path: /consumer-edc-control/{{ .Values.dataspace.bpnTier1 }}/(management)(.*)
+        authKey: *xApiKey
+        path: /consumer-edc-control/BPNL00000003CQI9/(management)(.*)
       protocol:
-        path: /consumer-edc-control/{{ .Values.dataspace.bpnTier1 }}/(api/v1/dsp)(.*)
+        path: /consumer-edc-control/BPNL00000003CQI9/(api/v1/dsp)(.*)
     ## Ingress declaration to expose the network service.
     ingresses:
       - enabled: true
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-        hostname: {{ .Values.ingress.host }}
+        hostname: *ingressHost
         # -- EDC endpoints exposed by this ingress resource
         endpoints:
           - protocol
@@ -429,26 +887,27 @@ consumer-connector:
   dataplanes:
     dataplane:
       securityContext: *securityContext
-      image: *image
+      image: 
         repository: "ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-hashicorp"
+        pullPolicy: Always
         tag: "1.10.5-SNAPSHOT"
       configs: *agentConfigs
       agent:
         synchronization: 360000
         connectors:
-          - https://{{ .Values.ingress.host}}/oem-edc-control/BPNL00000003COJN
-          - https://{{ .Values.ingress.host}}/tiera-edc-control/BPNL00000003CPIY
-          - https://{{ .Values.ingress.host}}/consumer-edc-control/BPNL00000003CQI9    
+          - https://*ingressHost/oem-edc-control/BPNL00000003COJN
+          - https://*ingressHost/tiera-edc-control/BPNL00000003CPIY
+          - https://*ingressHost/consumer-edc-control/BPNL00000003CQI9    
       endpoints:
         public:
-          path: /consumer-edc-data/{{ .Values.dataspace.bpnTier1 }}/(data)(.*)
+          path: /consumer-edc-data/BPNL00000003CQI9/(data)(.*)
         default:
-          path: /consumer-edc-data/{{ .Values.dataspace.bpnTier1 }}/(api)(.*)
+          path: /consumer-edc-data/BPNL00000003CQI9/(api)(.*)
                     
       ## Ingress declaration to expose the network service.
       ingresses:
         - enabled: true
-          hostname: {{ .Values.ingress.host }}
+          hostname: *ingressHost
           # -- EDC endpoints exposed by this ingress resource
           endpoints:
             - public
