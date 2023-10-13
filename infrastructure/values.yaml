@@ -294,7 +294,7 @@ oem-provider-agent:
       path: /oem-provider-agent5/(.*)
       # -- Settings for the binding including JDBC backend connections and meta-data directives, you should use secret references when putting passwords here
       settings: 
-        jdbc.url: "jdbc\:dremio\:direct\=oem-backend\:31010"
+        jdbc.url: "jdbc:dremio:direct=oem-backend:31010"
         jdbc.driver: "com.dremio.jdbc.Driver"
         jdbc.user: admin
         jdbc.password: foo42bar
