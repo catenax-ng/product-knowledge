@@ -278,7 +278,7 @@ oem-provider-agent:
       # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
       hostname: "knowledge.int.demo.catena-x.net"
       annotations:
-        nginx.ingress.kubernetes.io/rewrite-target: /$2
+        nginx.ingress.kubernetes.io/rewrite-target: /$1
         nginx.ingress.kubernetes.io/use-regex: "true"
       # -- Agent endpoints exposed by this ingress resource
       endpoints:
@@ -291,7 +291,7 @@ oem-provider-agent:
       # -- Exposed Service Port for the binding
       port: 8084
       # -- Potential Ingress Path
-      path: (/|$)oem-provider-agent5/(.*)
+      path: /oem-provider-agent5/(.*)
       # -- Settings for the binding including JDBC backend connections and meta-data directives, you should use secret references when putting passwords here
       settings: 
         jdbc.url: jdbc\:dremio\:direct\=oem-backend\:31010
