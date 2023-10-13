@@ -42,6 +42,7 @@ security:
   backendPwd: &backendPwd ""
 
 tiera-remoting-agent:
+  enabled: false
   repositories:
     rul: |-
       #
@@ -271,6 +272,7 @@ tiera-remoting-agent:
         cx-fx:dataType xsd:int.
 
 oem-provider-agent:
+  enabled: true
   bindings:
     # -- Reliability data new
     rul: 
@@ -382,6 +384,7 @@ oem-provider-agent:
         ]]
 
 tiera-connector:
+  enabled: false
   participant:
     id: BPNL00000003CPIY
   nameOverride: tiera-connector
@@ -837,6 +840,7 @@ tiera-connector:
             enabled: true
     
 consumer-connector:
+  enabled: false
   participant:
     id: BPNL00000003CQI9
   nameOverride: consumer-connector

@@ -11,19 +11,19 @@ dependencies:
   alias: consumer-connector
   version: 1.10.5-SNAPSHOT
   repository: https://catenax-ng.github.io/tx-knowledge-agents-edc
-  condition: false
+  condition: consumer-connector.enabled
 - name: agent-connector-memory
   alias: tiera-connector
   version: 1.10.5-SNAPSHOT
   repository: https://catenax-ng.github.io/tx-knowledge-agents-edc
-  condition: false
+  condition: tiera-connector.enabled
 - name: provisioning-agent
   alias: oem-provider-agent
   version: 1.9.8
   repository: https://eclipse-tractusx.github.io/charts/dev
-  condition: false
+  condition: oem-provider-agent.enabled
 - name: remoting-agent
   alias: tiera-remoting-agent
   version: 1.9.8
   repository: https://eclipse-tractusx.github.io/charts/dev
-  condition: false
+  condition: tiera-remoting-agent.enabled
