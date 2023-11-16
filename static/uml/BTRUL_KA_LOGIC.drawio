@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-09-25T14:26:21.014Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="BU0Rlta1vTFu_qmFmQ5h" version="21.8.2" type="device">
+<mxfile host="app.diagrams.net" modified="2023-11-14T11:27:45.592Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36" etag="-_jzUYUgOL76PS6oGZ01" version="22.1.0" type="device">
   <diagram name="Seite-1" id="kd2MvjXqS4WT8QNaqASN">
-    <mxGraphModel dx="1434" dy="1933" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1434" dy="1285" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -19,7 +19,7 @@
           <mxGeometry x="607" y="339.5" width="150" height="177.5" as="geometry" />
         </mxCell>
         <mxCell id="W-gK-uwAD6_eHePclnSL-2" value="Fleet Operator" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12" parent="1" vertex="1">
-          <mxGeometry x="370" y="10" width="200" height="180" as="geometry" />
+          <mxGeometry x="370" y="20" width="250" height="170" as="geometry" />
         </mxCell>
         <mxCell id="W-gK-uwAD6_eHePclnSL-3" value="Component Supplier S1" style="verticalAlign=top;align=right;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12" parent="1" vertex="1">
           <mxGeometry x="570" y="370" width="170" height="210" as="geometry" />
@@ -48,13 +48,13 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="W-gK-uwAD6_eHePclnSL-11" value="EDC" style="html=1;dropTarget=0;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
-          <mxGeometry x="485" y="131" width="40" height="35" as="geometry" />
+          <mxGeometry x="485" y="144" width="40" height="35" as="geometry" />
         </mxCell>
         <mxCell id="W-gK-uwAD6_eHePclnSL-12" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;startArrow=none;startFill=0;endArrow=none;endFill=0;dashed=1;" parent="1" source="W-gK-uwAD6_eHePclnSL-13" target="W-gK-uwAD6_eHePclnSL-11" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="W-gK-uwAD6_eHePclnSL-13" value="Agent" style="html=1;dropTarget=0;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
-          <mxGeometry x="413" y="131" width="70" height="35" as="geometry" />
+          <mxGeometry x="413" y="144" width="70" height="35" as="geometry" />
         </mxCell>
         <mxCell id="W-gK-uwAD6_eHePclnSL-18" value="EDC" style="html=1;dropTarget=0;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
           <mxGeometry x="320" y="408" width="55" height="35" as="geometry" />
@@ -86,10 +86,10 @@
             <mxPoint x="320" y="426" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="W-gK-uwAD6_eHePclnSL-29" value="6. Report/Order Behaviour Twin Results" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0;exitDx=0;exitDy=0;labelBackgroundColor=none;fontSize=14;startArrow=none;startFill=0;endArrow=classic;endFill=1;fontStyle=1;entryX=0.25;entryY=1;entryDx=0;entryDy=0;fontColor=#000000;fontFamily=Helvetica;" parent="1" source="W-gK-uwAD6_eHePclnSL-13" edge="1">
-          <mxGeometry x="-0.4771" y="-127" relative="1" as="geometry">
-            <mxPoint x="442.5" y="95" as="targetPoint" />
-            <mxPoint x="127" y="126" as="offset" />
+        <mxCell id="W-gK-uwAD6_eHePclnSL-29" value="6. Report/Sort Behaviour Twin Results" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0;exitDx=0;exitDy=0;labelBackgroundColor=none;fontSize=14;startArrow=none;startFill=0;endArrow=classic;endFill=1;fontStyle=1;entryX=0.25;entryY=1;entryDx=0;entryDy=0;fontColor=#000000;fontFamily=Helvetica;" parent="1" source="W-gK-uwAD6_eHePclnSL-13" edge="1">
+          <mxGeometry x="-0.7106" y="-137" relative="1" as="geometry">
+            <mxPoint x="442.5" y="108" as="targetPoint" />
+            <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="W-gK-uwAD6_eHePclnSL-39" value="Tier-X" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12;dashed=1;dashPattern=12 12;" parent="1" vertex="1">
@@ -114,7 +114,7 @@
         <mxCell id="W-gK-uwAD6_eHePclnSL-41" value="" style="html=1;dropTarget=0;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="699" y="230" width="35" height="35" as="geometry" />
         </mxCell>
-        <mxCell id="W-gK-uwAD6_eHePclnSL-42" value="&lt;b style=&quot;font-size: 14px;&quot;&gt;3. Delegate&amp;nbsp;&lt;br&gt;&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;curved=1;fontSize=14;startArrow=classic;startFill=1;endArrow=none;endFill=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="W-gK-uwAD6_eHePclnSL-21" target="W-gK-uwAD6_eHePclnSL-18" edge="1">
+        <mxCell id="W-gK-uwAD6_eHePclnSL-42" value="&lt;b style=&quot;font-size: 14px;&quot;&gt;3. Delegate To &lt;br&gt;Suppliers&lt;br&gt;&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;curved=1;fontSize=14;startArrow=classic;startFill=1;endArrow=none;endFill=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="W-gK-uwAD6_eHePclnSL-21" target="W-gK-uwAD6_eHePclnSL-18" edge="1">
           <mxGeometry x="-0.207" y="-30" relative="1" as="geometry">
             <mxPoint x="1" as="offset" />
             <Array as="points">
@@ -123,10 +123,10 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="9vBfcYl8E0RJBpWz1sZ_-4" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.99;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;startArrow=none;startFill=0;exitPerimeter=0;" parent="1" target="ITOlTNActnDJ-gH6PUd9-6" edge="1">
+        <mxCell id="9vBfcYl8E0RJBpWz1sZ_-4" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.99;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;startArrow=none;startFill=0;exitPerimeter=0;" parent="1" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="279.5" y="77.75" as="sourcePoint" />
-            <mxPoint x="415" y="77.5" as="targetPoint" />
+            <mxPoint x="385" y="76.9699999999998" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="9vBfcYl8E0RJBpWz1sZ_-6" value="OBDA/LTE Dongle" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="9vBfcYl8E0RJBpWz1sZ_-4" vertex="1" connectable="0">
@@ -146,7 +146,7 @@
             <mxPoint x="385" y="436" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="ITOlTNActnDJ-gH6PUd9-1" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://www.merkle-partner.de/fileadmin/_processed_/b/1/csm_stroemungssimulation-im-getriebebau_38c02e8dc9.jpg;" vertex="1" parent="1">
+        <mxCell id="ITOlTNActnDJ-gH6PUd9-1" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://www.merkle-partner.de/fileadmin/_processed_/b/1/csm_stroemungssimulation-im-getriebebau_38c02e8dc9.jpg;" parent="1" vertex="1">
           <mxGeometry x="590" y="480" width="126.31" height="90" as="geometry" />
         </mxCell>
         <mxCell id="W-gK-uwAD6_eHePclnSL-22" value="4. Perform Behaviour Twin&lt;br&gt;Simulation" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;startArrow=classic;startFill=1;fontSize=14;fontStyle=1" parent="1" source="W-gK-uwAD6_eHePclnSL-23" edge="1">
@@ -155,10 +155,10 @@
             <mxPoint x="60" y="-53" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="ITOlTNActnDJ-gH6PUd9-2" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://d33wubrfki0l68.cloudfront.net/5424d4e29e6947cf721e882a7cdda3fba6ddafc2/e63a2/wp-content/uploads/2022/05/bye-dongles-hello-telematics.jpg;" vertex="1" parent="1">
+        <mxCell id="ITOlTNActnDJ-gH6PUd9-2" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://d33wubrfki0l68.cloudfront.net/5424d4e29e6947cf721e882a7cdda3fba6ddafc2/e63a2/wp-content/uploads/2022/05/bye-dongles-hello-telematics.jpg;" parent="1" vertex="1">
           <mxGeometry x="53.849999999999994" y="-20" width="226.15" height="160" as="geometry" />
         </mxCell>
-        <mxCell id="9vBfcYl8E0RJBpWz1sZ_-8" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.48;exitY=1.086;exitDx=0;exitDy=0;startArrow=none;startFill=0;exitPerimeter=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" edge="1" target="W-gK-uwAD6_eHePclnSL-7">
+        <mxCell id="9vBfcYl8E0RJBpWz1sZ_-8" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.48;exitY=1.086;exitDx=0;exitDy=0;startArrow=none;startFill=0;exitPerimeter=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" target="W-gK-uwAD6_eHePclnSL-7" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="117.5" y="107.49900000000002" as="sourcePoint" />
             <mxPoint x="313.5" y="522.5" as="targetPoint" />
@@ -174,8 +174,8 @@
             <mxPoint x="89" y="-140" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="ITOlTNActnDJ-gH6PUd9-6" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://www.avrios.com/wp-content/uploads/2021/03/image-3.png;clipPath=inset(5.38% 5% 33.08% 2.67%);" vertex="1" parent="1">
-          <mxGeometry x="385" y="20" width="175.36" height="75.96" as="geometry" />
+        <mxCell id="rvWra_NiYXOCo6xLLUzV-1" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://assets-global.website-files.com/64dc8d510f76ea4971f53860/64f5e0ab3251a37c29735572_64f57f1949547455ec272b81_image-3-600x400.png;clipPath=inset(4% 0% 29% 0% round 5%);" vertex="1" parent="1">
+          <mxGeometry x="391.51" y="34" width="201.49" height="90" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
