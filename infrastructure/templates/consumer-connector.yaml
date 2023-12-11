@@ -111,7 +111,7 @@ spec:
         seccompProfile:
           type: RuntimeDefault
       containers:
-        - image: tractusx/edc-controlplane-memory-hashicorp-vault:0.5.0
+        - image: tractusx/edc-controlplane-memory-hashicorp-vault:0.5.3
           imagePullPolicy: Always
           name: consumer-control-plane
           securityContext:
@@ -305,9 +305,10 @@ data:
     edc.dataplane.token.validation.endpoint=http://consumer-control-plane:9999/control/token
     edc.core.retry.retries.max= 0
     cx.agent.controlplane.protocol=http://consumer-control-plane:8282
-    cx.agent.controlplane.management=http://consumer-control-plane:8181/management/v2
+    cx.agent.controlplane.management=http://consumer-control-plane:8181/management
     cx.agent.callback=http://consumer-data-plane:8187/callback/endpoint-data-reference
     cx.agent.skill.contract.default=Contract?consumer=Skill
+    cx.agent.edc.version=0.5.3
 
     ###
     # Chapter Agent Catalogue
@@ -355,7 +356,7 @@ spec:
         seccompProfile:
             type: RuntimeDefault
       containers:
-        - image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-hashicorp:{{ .Values.txVersion }}
+        - image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-hashicorp:1.11.16-SNAPSHOT
           imagePullPolicy: Always
           name: consumer-data-plane
           securityContext:
