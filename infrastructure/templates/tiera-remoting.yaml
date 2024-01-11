@@ -178,10 +178,10 @@ spec:
           resources:
            requests:
             cpu: 500m
-            memory: 256Mi
+            memory: 512Mi
            limits:
             cpu: 500m
-            memory: 256Mi
+            memory: 512Mi
           startupProbe:
             failureThreshold: 18
             httpGet:
@@ -191,7 +191,7 @@ spec:
               path: /
               port: 35553
               scheme: HTTP
-            initialDelaySeconds: 60
+            initialDelaySeconds: 30
             periodSeconds: 30
             successThreshold: 1
             timeoutSeconds: 5
