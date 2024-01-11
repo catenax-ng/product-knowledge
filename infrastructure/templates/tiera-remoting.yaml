@@ -187,7 +187,7 @@ spec:
             httpGet:
               httpHeaders:
                 - name: Authorization
-                  value: {{ printf "Basic %s" (printf "%s:%s" Values.security.backendUser .Values.security.backendPwd | b64enc) }}
+                  value: {{ printf "Basic %s" (printf "%s:%s" .Values.security.backendUser .Values.security.backendPwd | b64enc) }}
               path: /
               port: 35553
               scheme: HTTP
@@ -200,7 +200,7 @@ spec:
             httpGet:
               httpHeaders:
                 - name: Authorization
-                  value: {{ printf "Basic %s" (printf "%s:%s" Values.security.backendUser .Values.security.backendPwd | b64enc) }}
+                  value: {{ printf "Basic %s" (printf "%s:%s" .Values.security.backendUser .Values.security.backendPwd | b64enc) }}
               path: /
               port: 35553
               scheme: HTTP
@@ -212,7 +212,7 @@ spec:
             httpGet:
               httpHeaders:
                 - name: Authorization
-                  value: {{ printf "Basic %s" (printf "%s:%s" Values.security.backendUser .Values.security.backendPwd | b64enc) }}
+                  value: {{ printf "Basic %s" (printf "%s:%s" .Values.security.backendUser .Values.security.backendPwd | b64enc) }}
               path: /
               port: 35553
               scheme: HTTP
