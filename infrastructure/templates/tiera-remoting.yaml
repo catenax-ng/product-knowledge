@@ -87,6 +87,153 @@ spec:
   selector:
     app: service-backend
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tiera-remoting-config
+  namespace: {{ .Values.namespace }}
+data:
+  application.properties: |-
+    cloud.accessKey=
+    cloud.secretKey=  
+    edc.apiwrapper.username=
+    edc.apiwrapper.password=
+    security.api.username=
+    security.api.password=
+    rawdatadb.username={{ .Values.postgresql.auth.username }}
+    rawdatadb.password={{ .Values.postgresql.auth.password }}
+    ruldb.username={{ .Values.postgresql.auth.username }}
+    ruldb.password={{ .Values.postgresql.auth.password }}
+    server.port=35553
+    spring.application.name=rulbackendservice
+    spring.jpa.open-in-view=false
+    edc.apiwrapper.submodelPath=api/service
+    edc.apiwrapper.submodel=submodel
+    edc.apiwrapper.providerEdcUrlKey=provider-connector-url
+    security.api.endpoints.noauth.global=false
+    security.api.endpoints.noauth.callbacks=true
+    ruldb.drivername=org.postgresql.Driver
+    ruldb.show-sql=false
+    ruldb.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+    ruldb.hibernate.hbm2ddl.auto=update
+    ruldb.url=jdbc:postgresql://postgres/{{ .Values.postgresql.auth.database }}
+    rawdatadb.drivername=org.postgresql.Driver
+    rawdatadb.show-sql=false
+    rawdatadb.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+    rawdatadb.hibernate.hbm2ddl.auto=update
+    rawdatadb.url=jdbc:postgresql://postgres/postgres
+    cloud.endpoint=
+    cloud.region=
+    cloud.bucket=test
+    cloud.inputFile.bucketName=testbucket
+    cloud.inputFile.key=testfile
+    edc.apiwrapper.url=
+    requester.rulservice.classification=RemainingUsefulLifeResult
+    supplier.rulservice.endpoint=http://localhost:8898
+    supplier.rulservice.bpn=BPNL0000000DUMMY
+    supplier.rulservice.inputAssetId=urn:uuid:xxxx
+    supplier.rulservice.respondAssetId=urn:pilot:service:RemainingUsefulLifeResultNotification
+    supplier.rulservice.classification=RemainingUsefulLifePredictor
+    edc.bpn=BPNL0000000DUMMY
+    edc.endpoint=
+    spring.config.import=
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rul-backend
+  namespace: {{ .Values.namespace }}
+  annotations:
+    container.apparmor.security.beta.kubernetes.io/tiera-backend: default
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: rul-backend
+  template:
+    metadata:
+      labels:
+        app: rul-backend
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsUser: 10000
+        runAsGroup: 30000
+        fsGroup: 30000
+        seccompProfile:
+           type: RuntimeDefault
+      containers:
+        - name: rul-backend
+          image: ghcr.io/catenax-ng/product-oem-rul-backend:release
+          imagePullPolicy: Always
+          securityContext:
+            capabilities:
+              drop:
+                - all
+              add: ['NET_BIND_SERVICE']
+            allowPrivilegeEscalation: false
+          ports:
+            - containerPort: 35553 # API
+          resources:
+           requests:
+            cpu: 500m
+            memory: 256Mi
+           limits:
+            cpu: 500m
+            memory: 256Mi
+          startupProbe:
+            failureThreshold: 18
+            httpGet:
+              path: /
+              port: 35553
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 5
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 35553
+              scheme: HTTP
+            periodSeconds: 60
+            successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 35553
+              scheme: HTTP
+            periodSeconds: 300
+            successThreshold: 1
+            timeoutSeconds: 5        
+          env:
+          volumeMounts:
+            - name: tiera-remoting-config
+              mountPath: /opt/app/application-rulbackendservice.properties
+              subPath: application.properties
+              readOnly: true
+      volumes:
+        - name: tiera-remoting-config
+          configMap:
+            name: tiera-remoting-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rul-backend
+  namespace: {{ .Values.namespace }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 35553
+      targetPort: 35553
+  selector:
+    app: rul-backend
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -115,6 +262,13 @@ spec:
                 name: service-backend
                 port:
                   number: 5005
+          - path: /tiera-backend2(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: rul-backend
+                port:
+                  number: 35553
 ---
 apiVersion: v1
 kind: ConfigMap
