@@ -185,6 +185,9 @@ spec:
           startupProbe:
             failureThreshold: 18
             httpGet:
+              httpHeaders:
+                - name: Authorization
+                  value: {{ printf "Basic %s" (printf "%s:%s" Values.security.backendUser .Values.security.backendPwd | b64enc) }}
               path: /
               port: 35553
               scheme: HTTP
@@ -195,6 +198,9 @@ spec:
           livenessProbe:
             failureThreshold: 3
             httpGet:
+              httpHeaders:
+                - name: Authorization
+                  value: {{ printf "Basic %s" (printf "%s:%s" Values.security.backendUser .Values.security.backendPwd | b64enc) }}
               path: /
               port: 35553
               scheme: HTTP
@@ -204,6 +210,9 @@ spec:
           readinessProbe:
             failureThreshold: 3
             httpGet:
+              httpHeaders:
+                - name: Authorization
+                  value: {{ printf "Basic %s" (printf "%s:%s" Values.security.backendUser .Values.security.backendPwd | b64enc) }}
               path: /
               port: 35553
               scheme: HTTP
