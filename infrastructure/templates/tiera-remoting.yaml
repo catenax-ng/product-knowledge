@@ -264,14 +264,14 @@ spec:
     - host: {{ .Values.ingress.host }}
       http:
         paths:
-          - path: /tiera-backend(.*)
+          - path: /tiera-backend/?(.*)
             pathType: Prefix
             backend:
               service:
                 name: service-backend
                 port:
                   number: 5005
-          - path: /tiera-backend2(.*)
+          - path: /tiera-backend2/?(.*)
             pathType: Prefix
             backend:
               service:
