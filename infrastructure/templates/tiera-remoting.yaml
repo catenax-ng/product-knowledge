@@ -121,7 +121,7 @@ data:
     rawdatadb.show-sql=false
     rawdatadb.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
     rawdatadb.hibernate.hbm2ddl.auto=update
-    rawdatadb.url=jdbc:postgresql://postgresql/postgres
+    rawdatadb.url=jdbc:postgresql://postgresql/{{ .Values.postgresql.auth.database }}
     cloud.endpoint=
     cloud.region=
     cloud.bucket=test
