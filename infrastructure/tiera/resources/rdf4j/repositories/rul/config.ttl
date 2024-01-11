@@ -25,7 +25,7 @@
       sr:sailImpl [
          sail:sailType "org.eclipse.tractusx.agents:Remoting" ;
          cx-fx:supportsInvocation cx-behaviour:RemainingUsefulLife;
-         cx-fx:callbackAddress <http://remoting-agent:8081/rdf4j-server/callback>;
+         cx-fx:callbackAddress <http://tiera-remoting-agent:8081/rdf4j-server/callback>;
       ]
    ].
 
