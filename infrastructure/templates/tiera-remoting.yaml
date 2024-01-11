@@ -98,8 +98,8 @@ data:
     cloud.secretKey=  
     edc.apiwrapper.username=
     edc.apiwrapper.password=
-    security.api.username=
-    security.api.password=
+    security.api.username={{ .Values.security.backendUser }}
+    security.api.password={{ .Values.security.backendPwd }}
     rawdatadb.username={{ .Values.postgresql.auth.username }}
     rawdatadb.password={{ .Values.postgresql.auth.password }}
     ruldb.username={{ .Values.postgresql.auth.username }}
