@@ -116,7 +116,7 @@ data:
     ruldb.show-sql=false
     ruldb.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
     ruldb.hibernate.hbm2ddl.auto=update
-    ruldb.url=jdbc:postgresql://postgressql/{{ .Values.postgresql.auth.database }}
+    ruldb.url=jdbc:postgresql://postgresql/{{ .Values.postgresql.auth.database }}
     rawdatadb.drivername=org.postgresql.Driver
     rawdatadb.show-sql=false
     rawdatadb.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
