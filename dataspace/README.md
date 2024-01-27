@@ -8,7 +8,6 @@ It consists of
 
 - [Virtualization Engines Connecting Agents to Backends](virtualize)
 - [Mock Backends as Sample Sources for the Virtualization/Agents](mock)
-- [An Asset-Administration Shell (AAS) Facade driven by Agents](aas-bridge)
 
 Carved out external repositories
 

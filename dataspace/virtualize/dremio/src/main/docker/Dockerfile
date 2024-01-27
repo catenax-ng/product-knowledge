@@ -22,6 +22,7 @@ LABEL org.label-schema.description='Dremio OSS.'
 RUN export DEBIAN_FRONTEND=noninteractive && apt-get -y update && apt-get -y upgrade && apt-get -y install openjdk-8-jdk wget
 
 ARG DOWNLOAD_URL=https://download.dremio.com/community-server/22.1.1-202208230402290397-a7010f28/dremio-community-22.1.1-202208230402290397-a7010f28.tar.gz
+#ARG DOWNLOAD_URL=https://download.dremio.com/community-server/24.3.0-202312190021150029-52db2faf/dremio-community-24.3.0-202312190021150029-52db2faf.tar.gz
 RUN \
   mkdir -p /opt/dremio \
   && mkdir -p /var/lib/dremio \

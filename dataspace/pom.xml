@@ -13,7 +13,7 @@
     <parent>
         <groupId>io.catenax</groupId>
         <artifactId>knowledge</artifactId>
-        <version>1.10.2-SNAPSHOT</version>
+        <version>1.11.16-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>    
     </parent>
     <name>Catena-X Knowledge Agents Dataspace</name>
@@ -25,6 +25,5 @@
     <modules>
         <module>virtualize</module>
         <module>mock</module>
-        <module>aas-bridge</module>
     </modules>
 </project>
