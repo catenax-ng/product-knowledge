@@ -1,18 +1,21 @@
 # the chart version should coincide with the binary versions 
-version: 1.10.2-SNAPSHOT
+version: 1.11.16-SNAPSHOT
 # the version of the tractusx images
 txVersion: latest
 
 dataspace:
   bpnOem: BPNL00000003COJN
+  miwClientOem: sa149
   privateKeyAliasOem: "oem-daps-key"
   publicKeyAliasOem: "oem-daps-crt"
   dapsClientIdOem: ""
   bpnTier1: BPNL00000003CPIY
+  miwClientTier1: sa150
   privateKeyAliasTier1: "tier1-daps-key"
   publicKeyAliasTier1: "tier1-daps-crt"
   dapsClientIdTier1: ""
   bpnCustomer: BPNL00000003CQI9
+  miwClientCustomer: sa30
   privateKeyAliasCustomer: "customer-daps-key"
   publicKeyAliasCustomer: "customer-daps-crt"
   dapsClientIdCustomer: ""

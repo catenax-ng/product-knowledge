@@ -58,7 +58,7 @@ data:
     tx.ssi.miw.url=https://managed-identity-wallets-new.int.demo.catena-x.net
     tx.ssi.miw.authority.id=BPNL00000003CRHK
     tx.ssi.oauth.token.url=https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-    tx.ssi.oauth.client.id=sa228
+    tx.ssi.oauth.client.id={{ .Values.dataspace.miwClientCustomer }}
     tx.ssi.oauth.client.secret.alias=miw_consumer_secret
     tx.ssi.endpoint.audience=https://{{ .Values.ingress.host }}/consumer-edc-control/{{ .Values.dataspace.bpnCustomer }}/api/v1/dsp
     edc.dsp.callback.address=https://{{ .Values.ingress.host }}/consumer-edc-control/{{ .Values.dataspace.bpnCustomer }}/api/v1/dsp
