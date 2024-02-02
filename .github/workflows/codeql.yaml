@@ -68,18 +68,6 @@ jobs:
           npm run init:dev
           npm test
 
-      - if: success() || failure()
-        name: Test Report TypeScript
-        uses: dorny/test-reporter@v1
-        with:
-          name: 'TypeScript Test Report'
-          path: '**/reports/jest-*.xml'
-          reporter: jest-junit
-
-      # Scan Compiled and Iterpreted Languages
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
-
   analyze_java:
     name: Analyze Java
     runs-on: ubuntu-latest
@@ -132,15 +120,3 @@ jobs:
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - if: success() || failure()
-        name: Java Test Report
-        uses: dorny/test-reporter@v1
-        with:
-          name: Test Report Java
-          path: '**/surefire-reports/TEST-*.xml'
-          reporter: java-junit
-
-      # Scan Compiled and Iterpreted Languages
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
