@@ -50,14 +50,14 @@ postgresql:
     pullPolicy: Always
   auth:
     database: "backend"
-    username: &psqlUsername "backend-user"
-    password: &psqlPassword "backend-login"
+#    username: 
+#    password: 
 
   persistence:
     enabled: false
 
-  initdbUsername: *psqlUsername
-  initdbPassword: *psqlPassword
+#  initdbUsername: 
+#  initdbPassword: 
 
 
 
