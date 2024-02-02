@@ -1,38 +1,38 @@
 [PrefixDeclaration]
-cx:			https://github.com/catenax-ng/product-knowledge/ontology/cx.ttl#
-cx-diag:	https://github.com/catenax-ng/product-knowledge/ontology/diagnosis.ttl#
-owl:		http://www.w3.org/2002/07/owl#
-rdf:		http://www.w3.org/1999/02/22-rdf-syntax-ns#
-xml:		http://www.w3.org/XML/1998/namespace
-xsd:		http://www.w3.org/2001/XMLSchema#
-obda:		https://w3id.org/obda/vocabulary#
-rdfs:		http://www.w3.org/2000/01/rdf-schema#
+cx-common:          https://w3id.org/catenax/ontology/common#
+cx-core:            https://w3id.org/catenax/ontology/core#
+cx-vehicle:         https://w3id.org/catenax/ontology/vehicle#
+cx-reliability:     https://w3id.org/catenax/ontology/reliability#
+uuid:               urn:uuid:
+bpnl:               bpn:legal:
+owl:                http://www.w3.org/2002/07/owl#
+rdf:                http://www.w3.org/1999/02/22-rdf-syntax-ns#
+xml:                http://www.w3.org/XML/1998/namespace
+xsd:                http://www.w3.org/2001/XMLSchema#
+json:               https://json-schema.org/draft/2020-12/schema#
+obda:               https://w3id.org/obda/vocabulary#
+rdfs:               http://www.w3.org/2000/01/rdf-schema#
+oem:                urn:oem:
 
 [MappingDeclaration] @collection [[
-mappingId	dtc-meta
-target		cx:BusinessPartner/{bpnl} rdf:type cx:BusinessPartner ; cx:BPNL {bpnl}^^xsd:string . 
-source		SELECT distinct "bpnl" FROM "dtc"."meta"
+mappingId dtc-meta
+target    bpnl:{bpnl} rdf:type cx-common:BusinessPartner ; cx-core:id {bpnl}^^xsd:string .
+source    SELECT distinct "bpnl" FROM "dtc"."meta"
 
-mappingId	dtc-content
-target		cx-diag:DTC/{id} rdf:type cx-diag:DTC ; cx-diag:Code {code}^^xsd:string ; cx-diag:Description {description}^^xsd:string ; cx-diag:PossibleCauses {possible_causes}^^xsd:string ; cx-diag:Version {lock_version}^^xsd:long . 
-source		SELECT * FROM "dtc"."content"
+mappingId dtc-content
+target    oem:Analysis/{id} rdf:type cx-reliability:Analysis ; cx-core:id {code}^^xsd:string ; cx-core:name {description}^^xsd:string .
+source    SELECT * FROM "dtc"."content"
 
-mappingId	dtc-meta-content
-target		cx-diag:DTC/{id} cx:provisionedBy cx:BusinessPartner/{bpnl}. 
-source		SELECT "bpnl","id" FROM "dtc"."content"
+mappingId dtc-part
+target    oem:Part/{entityGuid} rdf:type cx-vehicle:Part ; cx-core:id {enDenomination}^^xsd:string ; cx-core:name {classification}^^xsd:string .
+source    SELECT * FROM "dtc"."part"
 
-mappingId	dtc-part
-target		cx-diag:DiagnosedPart/{entityGuid} rdf:type cx-diag:DTCPart ; cx-diag:EnDenomination {enDenomination}^^xsd:string ; cx-diag:Classification {classification}^^xsd:string ; cx-diag:Category {category}^^xsd:string.
-source		SELECT * FROM "dtc"."part"
+mappingId dtc-meta-part
+target    oem:Part/{entityGuid} cx-vehicle:manufacturer bpnl:{bpnl}.
+source    SELECT "bpnl","entityGuid" FROM "dtc"."part"
 
-mappingId	dtc-part-content
-target		cx-diag:DTC/{dtc_id} cx-diag:affects cx-diag:DiagnosedPart/{part_entityGuid}. 
-source		SELECT "part_entityGuid","dtc_id" FROM "dtc"."content_part"
-
-mappingId	dtc-meta-part
-target		cx-diag:DiagnosedPart/{entityGuid} cx:provisionedBy cx:BusinessPartner/{bpnl}. 
-source		SELECT "bpnl","entityGuid" FROM "dtc"."part"
-
+mappingId dtc-part-content
+target    oem:Analysis/{dtc_id} cx-reliability:analysedObject oem:Part/{part_entityGuid}.
+source    SELECT "part_entityGuid","dtc_id" FROM "dtc"."content_part"
 
 ]]
-
