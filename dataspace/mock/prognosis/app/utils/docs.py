@@ -22,3 +22,15 @@ CALCULATION_HI_DESCRIPTION = """ **Health Indicator**
 
   **status_url** : Result in json format will return in Response body.
 """
+CALCULATION_RUL2_DESCRIPTION = """ **Remaining Useful Life**
+
+**Request Schema:**
+
+ **rul_input** : Notification request input
+
+***Note***: *Request file should be in JSON format*
+
+**Response Schema:**
+
+  **status_url** : Result in json format will return in Response body.
+"""

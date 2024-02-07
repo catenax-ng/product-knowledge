@@ -1,31 +1,34 @@
 #
-# Rdf4j configuration for a health-specific remoting
+# Rdf4j configuration for a rul-specific remoting
 #
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
-@prefix rep: <http://www.openrdf.org/config/repository#>.
-@prefix sr: <http://www.openrdf.org/config/repository/sail#>.
-@prefix sail: <http://www.openrdf.org/config/sail#>.
-@prefix sp: <http://spinrdf.org/sp#>.
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix json: <https://json-schema.org/draft/2020-12/schema#> .
-@prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix cx-fx: <https://w3id.org/catenax/ontology/function#>.
-@prefix cx-health: <https://github.com/catenax-ng/product-knowledge/ontology/health.ttl#>.
-@prefix cx-rt: <urn:io.catenax.knowledge.agents.remoting#>.
+@prefix rdf:            <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs:           <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix rep:            <http://www.openrdf.org/config/repository#>.
+@prefix sr:             <http://www.openrdf.org/config/repository/sail#>.
+@prefix sail:           <http://www.openrdf.org/config/sail#>.
+@prefix sp:             <http://spinrdf.org/sp#>.
+@prefix xsd:            <http://www.w3.org/2001/XMLSchema#> .
+@prefix json:           <https://json-schema.org/draft/2020-12/schema#> .
+@prefix dcterms:        <http://purl.org/dc/terms/> .
+@prefix cx-fx:          <https://w3id.org/catenax/ontology/function#>.
+@prefix cx-common:      <https://w3id.org/catenax/ontology/common#>.
+@prefix cx-core:        <https://w3id.org/catenax/ontology/core#>.
+@prefix cx-vehicle:     <https://w3id.org/catenax/ontology/vehicle#>.
+@prefix cx-reliability: <https://w3id.org/catenax/ontology/reliability#>.
+@prefix cx-behaviour:   <https://w3id.org/catenax/ontology/behaviour#>.
 
 [] rdf:type rep:Repository ;
    rep:repositoryID "health" ;
-   rdfs:label "Health Prognosis Functions" ;
+   rdfs:label "Health Prognosis Functions Repository" ;
    rep:repositoryImpl [
       rep:repositoryType "openrdf:SailRepository" ;
       sr:sailImpl [
          sail:sailType "org.eclipse.tractusx.agents:Remoting" ;
-         cx-fx:supportsInvocation cx-health:HealthIndication;
+         cx-fx:supportsInvocation cx-behaviour:HealthIndication;
       ]
    ].
 
-cx-health:HealthIndication rdf:type cx-fx:Function;
+cx-behaviour:HealthIndication rdf:type cx-fx:Function;
   dcterms:description "Health Indication is an evaluation function operating on batches of load collectives and adaptive values."@en ;
   dcterms:title "Health Indication" ;
   cx-fx:targetUri "http://service-backend:5005/api/hi";
@@ -33,117 +36,117 @@ cx-health:HealthIndication rdf:type cx-fx:Function;
   cx-fx:batch "100"^^xsd:long;
   cx-fx:inputProperty "hi_input.healthIndicatorInputs";
   cx-fx:invocationIdProperty "requestRefId";
-  cx-fx:input cx-health:requestComponentId;
-  cx-fx:input cx-health:classifiedLoadCollectiveProjectDescription;
-  cx-fx:input cx-health:classifiedLoadCollectiveComponentDescription;
-  cx-fx:input cx-health:classifiedLoadCollectiveCountingValue;
-  cx-fx:input cx-health:classifiedLoadCollectiveCountingMethod;
-  cx-fx:input cx-health:classifiedLoadCollectiveCountingUnit;
-  cx-fx:input cx-health:classifiedLoadCollectiveChannels;
-  cx-fx:input cx-health:classifiedLoadCollectiveCounts;
-  cx-fx:input cx-health:classifiedLoadCollectiveClasses;
-  cx-fx:input cx-health:adaptionValueVersion;
-  cx-fx:input cx-health:adaptionValueTimestamp;
-  cx-fx:input cx-health:adaptionValueMileage;
-  cx-fx:input cx-health:adaptionValueOperatingTime;
-  cx-fx:input cx-health:adaptionValueList;
-  cx-fx:result cx-health:HealthIndicator.
+  cx-fx:input cx-behaviour:requestComponentId;
+  cx-fx:input cx-behaviour:classifiedLoadCollectiveProjectDescription;
+  cx-fx:input cx-behaviour:classifiedLoadCollectiveComponentDescription;
+  cx-fx:input cx-behaviour:classifiedLoadCollectiveCountingValue;
+  cx-fx:input cx-behaviour:classifiedLoadCollectiveCountingMethod;
+  cx-fx:input cx-behaviour:classifiedLoadCollectiveCountingUnit;
+  cx-fx:input cx-behaviour:classifiedLoadCollectiveChannels;
+  cx-fx:input cx-behaviour:classifiedLoadCollectiveCounts;
+  cx-fx:input cx-behaviour:classifiedLoadCollectiveClasses;
+  cx-fx:input cx-behaviour:adaptionValueVersion;
+  cx-fx:input cx-behaviour:adaptionValueTimestamp;
+  cx-fx:input cx-behaviour:adaptionValueMileage;
+  cx-fx:input cx-behaviour:adaptionValueOperatingTime;
+  cx-fx:input cx-behaviour:adaptionValueList;
+  cx-fx:result cx-behaviour:HealthIndicator.
 
-cx-health:HealthIndicator rdf:type cx-fx:Result;
+cx-behaviour:HealthIndicator rdf:type cx-fx:Result;
   dcterms:description "Health Indicator is part of a indicator batch."@en ;
   dcterms:title "Health Indicator" ;
   cx-fx:outputProperty "healthIndicatorOutputs";
   cx-fx:resultIdProperty "componentId";
-  cx-fx:correlationInput cx-health:requestComponentId;
-  cx-fx:output cx-health:indicatorVersion;
-  cx-fx:output cx-health:responseComponentId;
-  cx-fx:output cx-health:healthIndicatorValues.
+  cx-fx:correlationInput cx-behaviour:requestComponentId;
+  cx-fx:output cx-behaviour:indicatorVersion;
+  cx-fx:output cx-behaviour:responseComponentId;
+  cx-fx:output cx-behaviour:healthIndicatorValues.
 
-cx-health:requestComponentId rdf:type cx-fx:Argument;
+cx-behaviour:requestComponentId rdf:type cx-fx:Argument;
   dcterms:description "A Health Indicator Input relates to a component."@en ;
   dcterms:title "Health Indicator Component Id";
   cx-fx:argumentName "componentId".
 
-cx-health:classifiedLoadCollectiveProjectDescription rdf:type cx-fx:Argument;
+cx-behaviour:classifiedLoadCollectiveProjectDescription rdf:type cx-fx:Argument;
   dcterms:description "A Load Collective has a project description."@en ;
   dcterms:title "Classified Load Collective Project Description";
   cx-fx:mandatory "false"^^xsd:boolean;
   cx-fx:argumentName "classifiedLoadCollective.metadata.projectDescription".
 
-cx-health:classifiedLoadCollectiveComponentDescription rdf:type cx-fx:Argument;
+cx-behaviour:classifiedLoadCollectiveComponentDescription rdf:type cx-fx:Argument;
   dcterms:description "A Load Collective has a component description."@en ;
   dcterms:title "Classified Load Collective Component Description";
   cx-fx:argumentName "classifiedLoadCollective.metadata.componentDescription".
 
-cx-health:classifiedLoadCollectiveCountingValue rdf:type cx-fx:Argument;
+cx-behaviour:classifiedLoadCollectiveCountingValue rdf:type cx-fx:Argument;
   dcterms:description "A Load Collective has a value for the counting dimension."@en ;
   dcterms:title "Classified Load Collective Counting Value";
   cx-fx:mandatory "false"^^xsd:boolean;
   cx-fx:argumentName "classifiedLoadCollective.header.countingValue".
 
-cx-health:classifiedLoadCollectiveCountingUnit rdf:type cx-fx:Argument;
+cx-behaviour:classifiedLoadCollectiveCountingUnit rdf:type cx-fx:Argument;
   dcterms:description "A Load Collective has a unit for the counting dimension."@en ;
   dcterms:title "Classified Load Collective Counting Unit";
   cx-fx:argumentName "classifiedLoadCollective.header.countingUnit".
 
-cx-health:classifiedLoadCollectiveCountingMethod rdf:type cx-fx:Argument;
+cx-behaviour:classifiedLoadCollectiveCountingMethod rdf:type cx-fx:Argument;
   dcterms:description "A Load Collective has a method for the counting dimension."@en ;
   dcterms:title "Classified Load Collective Counting Method";
   cx-fx:argumentName "classifiedLoadCollective.header.countingMethod".
 
-cx-health:classifiedLoadCollectiveChannels rdf:type cx-fx:Argument;
+cx-behaviour:classifiedLoadCollectiveChannels rdf:type cx-fx:Argument;
   dcterms:description "A Load Collective has descriptors for all channels."@en ;
   dcterms:title "Classified Load Collective Channels";
   cx-fx:argumentName "classifiedLoadCollective.header.channels".
 
-cx-health:classifiedLoadCollectiveCounts rdf:type cx-fx:Argument;
+cx-behaviour:classifiedLoadCollectiveCounts rdf:type cx-fx:Argument;
   dcterms:description "A Load Collective has a body with the raw measurements."@en ;
   dcterms:title "Classified Load Collective Counts";
   cx-fx:argumentName "classifiedLoadCollective.body.counts".
 
-cx-health:classifiedLoadCollectiveClasses rdf:type cx-fx:Argument;
+cx-behaviour:classifiedLoadCollectiveClasses rdf:type cx-fx:Argument;
   dcterms:description "A Load Collective has a body with the class indices."@en ;
   dcterms:title "Classified Load Collective Classes";
   cx-fx:argumentName "classifiedLoadCollective.body.classes".
 
-cx-health:adaptionValueVersion rdf:type cx-fx:Argument;
+cx-behaviour:adaptionValueVersion rdf:type cx-fx:Argument;
   dcterms:description "A Health Indicator Adaption needs a version."@en ;
   dcterms:title "Adaption Value List Version";
   cx-fx:argumentName "adaptionValueList.version".
 
-cx-health:adaptionValueTimestamp rdf:type cx-fx:Argument;
+cx-behaviour:adaptionValueTimestamp rdf:type cx-fx:Argument;
   dcterms:description "A Health Indicator Adaption needs a timestamp."@en ;
   dcterms:title "Adaption Value List Timestamp";
   cx-fx:argumentName "adaptionValueList.timestamp".
 
-cx-health:adaptionValueMileage rdf:type cx-fx:Argument;
+cx-behaviour:adaptionValueMileage rdf:type cx-fx:Argument;
   dcterms:description "A Health Indicator Adaption needs a mileage of the embedding vehicle."@en ;
   dcterms:title "Adaption Value List Mileage";
   cx-fx:argumentName "adaptionValueList.mileage_km".
 
-cx-health:adaptionValueOperatingTime rdf:type cx-fx:Argument;
+cx-behaviour:adaptionValueOperatingTime rdf:type cx-fx:Argument;
   dcterms:description "A Health Indicator Adaption needs an operating time of the embedding vehicle."@en ;
   dcterms:title "Adaption Value List Operating Time";
   cx-fx:argumentName "adaptionValueList.operatingtime_s".
 
-cx-health:adaptionValueList rdf:type cx-fx:Argument;
+cx-behaviour:adaptionValueList rdf:type cx-fx:Argument;
   dcterms:description "A Health Indicator Adaption needs an array of adaption values."@en ;
   dcterms:title "Adaption Value List Values";
   cx-fx:argumentName "adaptionValueList.values".
 
-cx-health:indicatorVersion rdf:type cx-fx:ReturnValue;
+cx-behaviour:indicatorVersion rdf:type cx-fx:ReturnValue;
    dcterms:description "Version of the health indicator prognosis."@en ;
    dcterms:title "Health Indicator Prognosis Version" ;
    cx-fx:valuePath "version";
    cx-fx:dataType xsd:string.
 
-cx-health:responseComponentId rdf:type cx-fx:ReturnValue;
+cx-behaviour:responseComponentId rdf:type cx-fx:ReturnValue;
    dcterms:description "Component Id of the health indicator prognosis."@en ;
    dcterms:title "Health Indicator Prognosis Component Id" ;
    cx-fx:valuePath "componentId";
    cx-fx:dataType xsd:string.
 
-cx-health:healthIndicatorValues rdf:type cx-fx:ReturnValue;
+cx-behaviour:healthIndicatorValues rdf:type cx-fx:ReturnValue;
    dcterms:description "Health Indicator Values are percentages."@en ;
    dcterms:title "Health Indicator Values" ;
    cx-fx:valuePath "healthIndicatorValues";

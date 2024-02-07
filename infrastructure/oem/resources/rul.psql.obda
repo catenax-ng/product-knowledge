@@ -3,6 +3,7 @@ cx-common:          https://w3id.org/catenax/ontology/common#
 cx-core:            https://w3id.org/catenax/ontology/core#
 cx-vehicle:         https://w3id.org/catenax/ontology/vehicle#
 cx-reliability:     https://w3id.org/catenax/ontology/reliability#
+cx-taxo:            https://w3id.org/catenax/taxonomy#
 uuid:		        urn:uuid:
 bpnl:		        bpn:legal:
 owl:		        http://www.w3.org/2002/07/owl#
@@ -44,7 +45,7 @@ target		oem:{id} cx-reliability:result oem:{id}/{index}.
 source		SELECT id, index FROM loadspectra
 
 mappingId   loadspectrum
-target      oem:{id}/{index} rdf:type cx-reliability:LoadSpectrum; cx-core:id {metadata_componentDescription}^^xsd:string; cx-core:name {metadata_projectDescription}^^xsd:string; cx-reliability:description {metadata_routeDescription}^^xsd:string; cx-reliability:countingValue {body_counts_countsName}^^xsd:string; cx-reliability:countingUnit {header_countingUnit}^^xsd:string; cx-reliability:countingMethod {header_countingMethod}^^xsd:string; cx-reliability:channels {header_channels}^^json:Object; cx-reliability:classes {body_classes}^^json:Object; cx-reliability:values {body_counts_countsList}^^json:Object .
+target      oem:{id}/{index} rdf:type cx-reliability:LoadSpectrum; cx-core:id cx-taxo:{metadata_componentDescription}; cx-core:name {metadata_projectDescription}^^xsd:string; cx-reliability:description {metadata_routeDescription}^^xsd:string; cx-reliability:countingValue {body_counts_countsName}^^xsd:string; cx-reliability:countingUnit {header_countingUnit}^^xsd:string; cx-reliability:countingMethod {header_countingMethod}^^xsd:string; cx-reliability:channels {header_channels}^^json:Object; cx-reliability:classes {body_classes}^^json:Object; cx-reliability:values {body_counts_countsList}^^json:Object .
 source		SELECT id, index, metadata_componentDescription, metadata_projectDescription, metadata_routeDescription, header_countingUnit, header_countingMethod, header_channels, body_classes, body_counts_countsName,  body_counts_countsList FROM loadspectra
 
 ]]  

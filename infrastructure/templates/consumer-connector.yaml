@@ -356,7 +356,7 @@ spec:
         seccompProfile:
             type: RuntimeDefault
       containers:
-        - image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-hashicorp:1.11.16-SNAPSHOT
+        - image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-hashicorp:1.12.17-SNAPSHOT
           imagePullPolicy: Always
           name: consumer-data-plane
           securityContext:

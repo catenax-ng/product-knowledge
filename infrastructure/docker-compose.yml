@@ -111,7 +111,7 @@ services:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/virtualize/dremio
-    image: ghcr.io/catenax-ng/product-knowledge/virtualizer-dremio:1.10.2-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/virtualizer-dremio:1.12.17-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "9047:9047" # http
@@ -128,7 +128,7 @@ services:
   #  build:
   #    dockerfile: src/main/docker/Dockerfile
   #    context: ../dataspace/virtualize/druid
-  #  image: ghcr.io/catenax-ng/product-knowledge/virtualizer-druid:1.10.2-SNAPSHOT
+  #  image: ghcr.io/catenax-ng/product-knowledge/virtualizer-druid:1.12.17-SNAPSHOT
   #  platform: ${DOCKER_PLATFORM:-linux/amd64}
   #  ports:
   #    - "8888:8888" # http
@@ -144,7 +144,7 @@ services:
   #    build:
   #      dockerfile: src/main/docker/Dockerfile
   #      context: ../dataspace/agents/sparql-anything
-  #    image: ghcr.io/catenax-ng/product-knowledge/facadex-agent:1.10.2-SNAPSHOT
+  #    image: ghcr.io/catenax-ng/product-knowledge/facadex-agent:1.12.17-SNAPSHOT
   #    ports:
   #      - "3000:3000"
   #    volumes:
@@ -163,7 +163,7 @@ services:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/mock/prognosis
-    image: ghcr.io/catenax-ng/product-knowledge/prognosis:1.10.2-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/prognosis:1.12.17-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "5005:5005" # API
@@ -188,7 +188,7 @@ services:
   ###
   # A conformity-testing binding agent
   conforming-agent:
-    image: tractusx/conforming-agent:1
+    image: tractusx/conforming-agent:1.12.17-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     environment:
       # Uncomment to enable for debugging, please choose a different port for each endpoint
@@ -201,7 +201,7 @@ services:
   # A data provisioning agent
   #
   provider-agent:
-    image: tractusx/provisioning-agent:1
+    image: tractusx/provisioning-agent:1.12.17-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8080:8080" # sparql endpoint
@@ -212,24 +212,20 @@ services:
       - "4039:4042" # DEBUG
     environment:
       # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
-      ONTOP_PORT: 8080 8081 8084 8082 8083
+      ONTOP_PORT: "8080 8081 8084 8082 8083"
       # Uncomment to enable for debugging, please choose a different port for each endpoint
-      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040 -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4041 -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:4042 
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040 -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4041 -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4042 -Xnoagent
       # If you want to enable multiple ontologies, simply list them with spaces, like ONTOP_ONTOLOGY_FILE: /input/cx-ontology.xml /input/cx-ontology2.xml 
-      ONTOP_ONTOLOGY_FILE: /opt/ontop/input/cx-ontology.xml /opt/ontop/input/cx-ontology-minimal.ttl /opt/ontop/input/ontology.ttl /opt/ontop/input/cx-ontology-minimal.ttl /opt/ontop/input/cx-ontology.ttl
+      ONTOP_ONTOLOGY_FILE: /opt/ontop/input/cx-ontology.xml
       # If you want to enable multiple mappings, simply list them with spaces, like ONTOP_MAPPING_FILE: /input/dtc.obda /input/loadspectrum.obda 
-      ONTOP_MAPPING_FILE: /opt/ontop/input/dtc.obda /opt/ontop/input/hi.obda /opt/ontop/input/rul.psql.obda /opt/ontop/input/trace.obda /opt/ontop/input/quality.obda
+      ONTOP_MAPPING_FILE: /opt/ontop/input/rul.psql.obda /opt/ontop/input/trace.obda /opt/ontop/input/quality.obda
       # If you want to enable multiple settings, simply list them with spaces, like ONTOP_PROPERTIES_FILE: /input/settings.properties /input/settings.dremio.properties
       ONTOP_PROPERTIES_FILE: /opt/ontop/input/settings.local.properties /opt/ontop/input/settings.dremio.properties /opt/ontop/input/settings.psql.properties /opt/ontop/input/settings.dremio.properties /opt/ontop/input/settings.dremio.properties
       # If you want to enable multiple portals, simply list them with spaces, like ONTOP_PORTAL_FILE: /input/portal.toml /input/portal2.toml 
-      ONTOP_PORTAL_FILE: /opt/ontop/input/portal.toml /opt/ontop/input/portal.toml /opt/ontop/input/portal.toml /opt/ontop/input/portal.toml /opt/ontop/input/portal.toml
+      ONTOP_PORTAL_FILE: /opt/ontop/input/portal.toml 
       # If you want to enable different developer modes, simply list them with spaces, like NTOP_DEV_MODE: true false 
-      ONTOP_DEV_MODE: true true true true true
+      ONTOP_DEV_MODE: true
     volumes:
-      - ./resources/ontology.ttl:/opt/ontop/input/ontology.ttl
-      - ./resources/cx-ontology.xml:/opt/ontop/input/cx-ontology.xml
-      - ./resources/cx-ontology.ttl:/opt/ontop/input/cx-ontology.ttl
-      - ./resources/cx-ontology-minimal.ttl:/opt/ontop/input/cx-ontology-minimal.ttl
       - ./oem/resources/dtc.obda:/opt/ontop/input/dtc.obda
       - ./oem/resources/hi.obda:/opt/ontop/input/hi.obda
       - ./oem/resources/hi.psql.obda:/opt/ontop/input/hi.psql.obda
@@ -241,7 +237,6 @@ services:
       - ./oem/resources/settings.dremio.properties:/opt/ontop/input/settings.dremio.properties
       - ./oem/resources/settings.druid.properties:/opt/ontop/input/settings.druid.properties
       - ./oem/resources/settings.psql.properties:/opt/ontop/input/settings.psql.properties
-      - ./oem/resources/portal.toml:/opt/ontop/input/portal.toml
       - ./oem/resources/logback.xml:/opt/ontop/log/logback.xml
     depends_on:
       postgres:
@@ -252,7 +247,7 @@ services:
   ###
   # A function providing agent
   tiera-remoting-agent:
-    image: tractusx/remoting-agent:1
+    image: tractusx/remoting-agent:1.12.17-SNAPSHOT
     read_only: true
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
@@ -263,10 +258,10 @@ services:
       FOO: bar
       JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
     volumes:
-      - ./tiera/resources/tomcat/tmp:/usr/local/tomcat/temp
-      - ./tiera/resources/tomcat/conf:/usr/local/tomcat/conf/Catalina/localhost
-      - ./tiera/resources/tomcat/work:/usr/local/tomcat/work/Catalina/localhost
-      - ./tiera/resources/tomcat/logs:/usr/local/tomcat/logs
+      - ./tiera/resources/tomcat/tmp:/opt/tomcat/temp
+      - ./tiera/resources/tomcat/conf:/opt/tomcat/conf/Catalina/localhost
+      - ./tiera/resources/tomcat/work:/opt/tomcat/work/Catalina/localhost
+      - ./tiera/resources/tomcat/logs:/opt/tomcat/logs
       - ./tiera/resources/rdf4j/conf:/var/rdf4j/server/conf
       - ./tiera/resources/rdf4j/logs:/var/rdf4j/server/logs
       - ./tiera/resources/rdf4j/repositories:/var/rdf4j/server/repositories
@@ -353,7 +348,7 @@ services:
   ###
   # Configures the OEM data plane
   oem-data-plane:
-    image: tractusx/agentplane-hashicorp:1.11.16-SNAPSHOT
+    image: tractusx/agentplane-hashicorp:1.12.17-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8102:8082"  # API/sparql endpoint
@@ -408,7 +403,7 @@ services:
   ###
   # Configures the supplier data plane
   tiera-data-plane:
-    image: tractusx/agentplane-hashicorp:1.11.16-SNAPSHOT
+    image: tractusx/agentplane-hashicorp:1.12.17-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8400:8082"  # API/sparql endpoint
@@ -460,7 +455,7 @@ services:
   ###
   # Configures the consumer data plane
   consumer-data-plane:
-    image: tractusx/agentplane-hashicorp:1.11.16-SNAPSHOT
+    image: tractusx/agentplane-hashicorp:1.12.17-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8600:8082"  # API/sparql endpoint
@@ -496,7 +491,7 @@ services:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../ux
-    image: ghcr.io/catenax-ng/product-knowledge/ux:1.10.2-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/ux:1.12.17-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     environment:
       REACT_APP_SKILL_CONNECTOR_DATA: http://localhost:8500

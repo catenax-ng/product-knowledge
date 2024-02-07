@@ -29,4 +29,5 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
 EOSQL
 
 psql --username "$POSTGRES_USER" --dbname "rawdata" </tmp/data/20230126_rawdata_db_dump.sql
+psql --username "$POSTGRES_USER" --dbname "rawdata" </tmp/data/20230719_rawdata_reconfiguration.sql
 
