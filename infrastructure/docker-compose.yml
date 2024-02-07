@@ -111,7 +111,7 @@ services:
     build:
       dockerfile: src/main/docker/Dockerfile
       context: ../dataspace/virtualize/dremio
-    image: ghcr.io/catenax-ng/product-knowledge/virtualizer-dremio:1.10.2-SNAPSHOT
+    image: ghcr.io/catenax-ng/product-knowledge/virtualizer-dremio:1.11.16-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "9047:9047" # http
@@ -201,7 +201,7 @@ services:
   # A data provisioning agent
   #
   provider-agent:
-    image: tractusx/provisioning-agent:1
+    image: tractusx/provisioning-agent:1.11.16-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8080:8080" # sparql endpoint
@@ -214,21 +214,19 @@ services:
       # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
       ONTOP_PORT: 8080 8081 8084 8082 8083
       # Uncomment to enable for debugging, please choose a different port for each endpoint
-      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040 -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4041 -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:4042 
+      JAVA_TOOL_OPTIONS: ""
       # If you want to enable multiple ontologies, simply list them with spaces, like ONTOP_ONTOLOGY_FILE: /input/cx-ontology.xml /input/cx-ontology2.xml 
-      ONTOP_ONTOLOGY_FILE: /opt/ontop/input/cx-ontology.xml /opt/ontop/input/cx-ontology-minimal.ttl /opt/ontop/input/ontology.ttl /opt/ontop/input/cx-ontology-minimal.ttl /opt/ontop/input/cx-ontology.ttl
+      ONTOP_ONTOLOGY_FILE: /opt/ontop/input/cx-ontology-minimal.ttl
       # If you want to enable multiple mappings, simply list them with spaces, like ONTOP_MAPPING_FILE: /input/dtc.obda /input/loadspectrum.obda 
       ONTOP_MAPPING_FILE: /opt/ontop/input/dtc.obda /opt/ontop/input/hi.obda /opt/ontop/input/rul.psql.obda /opt/ontop/input/trace.obda /opt/ontop/input/quality.obda
       # If you want to enable multiple settings, simply list them with spaces, like ONTOP_PROPERTIES_FILE: /input/settings.properties /input/settings.dremio.properties
       ONTOP_PROPERTIES_FILE: /opt/ontop/input/settings.local.properties /opt/ontop/input/settings.dremio.properties /opt/ontop/input/settings.psql.properties /opt/ontop/input/settings.dremio.properties /opt/ontop/input/settings.dremio.properties
       # If you want to enable multiple portals, simply list them with spaces, like ONTOP_PORTAL_FILE: /input/portal.toml /input/portal2.toml 
-      ONTOP_PORTAL_FILE: /opt/ontop/input/portal.toml /opt/ontop/input/portal.toml /opt/ontop/input/portal.toml /opt/ontop/input/portal.toml /opt/ontop/input/portal.toml
+      ONTOP_PORTAL_FILE: /opt/ontop/input/portal.toml 
       # If you want to enable different developer modes, simply list them with spaces, like NTOP_DEV_MODE: true false 
-      ONTOP_DEV_MODE: true true true true true
+      ONTOP_DEV_MODE: false
     volumes:
       - ./resources/ontology.ttl:/opt/ontop/input/ontology.ttl
-      - ./resources/cx-ontology.xml:/opt/ontop/input/cx-ontology.xml
-      - ./resources/cx-ontology.ttl:/opt/ontop/input/cx-ontology.ttl
       - ./resources/cx-ontology-minimal.ttl:/opt/ontop/input/cx-ontology-minimal.ttl
       - ./oem/resources/dtc.obda:/opt/ontop/input/dtc.obda
       - ./oem/resources/hi.obda:/opt/ontop/input/hi.obda
