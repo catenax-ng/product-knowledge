@@ -42,7 +42,7 @@ spec:
            type: RuntimeDefault
       containers:
         - name: conforming-agent
-          image: tractusx/conforming-agent:{{ .Values.txVersion }}
+          image: tractusx/conforming-agent:1.11.16-SNAPSHOT
           imagePullPolicy: Always
           securityContext:
             capabilities:
