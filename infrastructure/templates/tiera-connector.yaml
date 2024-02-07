@@ -357,7 +357,7 @@ spec:
     spec:
       automountServiceAccountToken: false
       securityContext:
-        runAsUser: 10001
+        runAsUser: 10100
         runAsGroup: 30000
         fsGroup: 30000
         seccompProfile:
