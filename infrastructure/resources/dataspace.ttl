@@ -59,7 +59,11 @@ bpnl:BPNL00000003CQI9 owl:sameAs bpnl:BPNL00000007OR16;
                       cx-common:id "BPNL00000002HCQ9"^^xsd:string;
                       cx:hasConnector <edcs://knowledge.int.demo.catena-x.net/consumer-edc-control/BPNL00000003CQI9>;
                       cx-common:hasConnector <edcs://knowledge.int.demo.catena-x.net/consumer-edc-control/BPNL00000003CQI9>.
-                      
+
+bpnl:BPNL00000003AYRE cx:hasConnector <edcs://knowledge.int.demo.catena-x.net/oem-edc-control/BPNL00000003COJN>;
+                      cx-common:hasConnector <edcs://knowledge.int.demo.catena-x.net/oem-edc-control/BPNL00000003COJN>.
+bpnl:BPNL00000003B2OM cx:hasConnector <edcs://knowledge.int.demo.catena-x.net/tiera-edc-control/BPNL00000003CPIY>;
+                      cx-common:hasConnector <edcs://knowledge.int.demo.catena-x.net/oem-edc-control/BPNL00000003COJN>.
 
 bpnl:BPNL00000003AXS3 cx-common:hasSite bpns:BPNS00000003AXS3.
 bpnl:BPNL00000003B0Q0 cx-common:hasSite bpns:BPNS00000003B0Q0.
@@ -76,8 +80,6 @@ bpnl:BPNL00000003B2OM cx-common:hasSite bpns:BPNS0000000006V6.
 bpnl:BPNL00000003B0Q0 cx-common:hasConnector <http://oem-provider-agent:8082/sparql>.
 bpnl:BPNL00000003CSGV cx-common:hasConnector <http://oem-provider-agent:8082/sparql>.
 bpnl:BPNL00000003AXS3 cx-common:hasConnector <http://oem-provider-agent:8082/sparql>.
-bpnl:BPNL00000003AYRE cx-common:hasConnector <http://oem-provider-agent:8082/sparql>.
-bpnl:BPNL00000003B2OM cx-common:hasConnector <http://oem-provider-agent:8082/sparql>.
 bpnl:BPNL00000007OR16 cx-common:hasConnector <http://oem-provider-agent:8082/sparql>.
 bpnl:BPNL00000003AVTH cx-common:hasConnector <http://oem-provider-agent:8082/sparql>.
 bpnl:BPNL00000003AZQP cx-common:hasConnector <http://oem-provider-agent:8082/sparql>.
