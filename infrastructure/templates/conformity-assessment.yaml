@@ -42,7 +42,7 @@ spec:
            type: RuntimeDefault
       containers:
         - name: conforming-agent
-          image: tractusx/conforming-agent:{{ .Values.txVersion }}
+          image: ghcr.io/catenax-ng/tx-knowledge-agents/conforming-agent:1.12.17-SNAPSHOT
           imagePullPolicy: Always
           securityContext:
             capabilities:

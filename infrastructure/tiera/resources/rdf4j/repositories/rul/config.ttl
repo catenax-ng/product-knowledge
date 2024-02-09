@@ -32,7 +32,7 @@
 cx-behaviour:RemainingUsefulLife rdf:type cx-fx:Function;
   dcterms:description "Remaining Useful Life is an asynchronous batch invocation."@en ;
   dcterms:title "Remaining Useful Life" ;
-  cx-fx:targetUri "http://rul-backend:35553/api/v1/routine/notification";
+  cx-fx:targetUri "http://service-backend:5005/api/rul2";
   cx-fx:invocationMethod "POST-JSON";
 #  cx-common:authenticationKey "Authorization";
 #  cx-common:authenticationCode "Basic TOKEN";
@@ -63,7 +63,7 @@ cx-behaviour:RemainingUsefulLife rdf:type cx-fx:Function;
   cx-fx:input cx-behaviour:headerChannels;
   cx-fx:input cx-behaviour:bodyClasses;
   cx-fx:input cx-behaviour:bodyCountsList;
-  cx-fx:result cx-behaviour:response.
+  cx-fx:result cx-behaviour:RemainingUsefulLifeResult.
 
 cx-behaviour:notification rdf:type cx-fx:Argument;
   dcterms:description "A default notification output template."@en ;
@@ -139,6 +139,7 @@ cx-behaviour:component rdf:type cx-fx:Argument;
 cx-behaviour:observationType rdf:type cx-fx:Argument;
   dcterms:description "The type of observation made."@en ;
   dcterms:title "Observation Type";
+  cx-fx:strip <https://w3id.org/catenax/taxonomy#>;
   cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.metadata.componentDescription";
   cx-fx:dataType xsd:string.
 
@@ -204,7 +205,7 @@ cx-behaviour:bodyCountsList rdf:type cx-fx:Argument;
   cx-fx:dataType json:Object;
   cx-fx:argumentName "content.endurancePredictorInputs.0.classifiedLoadSpectrum{https://w3id.org/catenax/ontology/behaviour#observationType}.body.counts.countsList".
 
-cx-behaviour:response rdf:type cx-fx:Result;
+cx-behaviour:RemainingUsefulLifeResult rdf:type cx-fx:Result;
   dcterms:description "The asynchronous notification response."@en ;
   dcterms:title "Asynchronous notification response." ;
   cx-fx:callbackProperty "header.referencedNotificationID";

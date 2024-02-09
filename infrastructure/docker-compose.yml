@@ -1,5 +1,5 @@
 #-
-# Copyright (c) 2021,2023 Contributors to the Catena-X Association
+# Copyright (c) 2021, 2024 Contributors to the Catena-X Association
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -116,7 +116,6 @@ services:
     ports:
       - "9047:9047" # http
       - "31010:31010" # jdbc
-    profiles: ["backend"]
     volumes:
       - ./resources/dremio:/opt/dremio/data
       - ./resources/data:/opt/dremio/local/data/catenax-knowledge-agents
@@ -133,7 +132,6 @@ services:
   #  ports:
   #    - "8888:8888" # http
   #    - "8889:8082" # jdbc
-  #  profiles: ["backend"]
   #  volumes:
   #    - ./resources/druid.runtime.properties:/opt/druid/conf/druid/single-server/micro-quickstart/_common/common.runtime.properties
   #    - ./resources/data:/opt/druid/data
@@ -169,23 +167,6 @@ services:
       - "5005:5005" # API
 
   ###
-  # Another REST backend (asynchronozs)
-  rul-backend:
-    image: ghcr.io/catenax-ng/product-oem-rul-backend:release
-    platform: ${DOCKER_PLATFORM:-linux/amd64}
-    environment:
-      # Uncomment to enable for debugging, please choose a different port for each endpoint
-      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
-    ports:
-      - "8899:35553" # sparql endpoint
-#      - "4038:4040" # debug
-    volumes:
-      - ./tiera/resources/application.properties:/opt/app/application-rulbackendservice.properties
-    depends_on:
-      postgres:
-        condition: service_healthy
-
-  ###
   # A conformity-testing binding agent
   conforming-agent:
     image: tractusx/conforming-agent:1.12.17-SNAPSHOT
@@ -213,12 +194,12 @@ services:
     environment:
       # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
       ONTOP_PORT: "8080 8081 8084 8082 8083"
-      # Uncomment to enable for debugging, please choose a different port for each endpoint
-      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040 -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4041 -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4042 -Xnoagent
+      # Uncomment to enable for debugging, please choose a different port for each endpoint -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
+      JAVA_TOOL_OPTIONS: -Xnoagent
       # If you want to enable multiple ontologies, simply list them with spaces, like ONTOP_ONTOLOGY_FILE: /input/cx-ontology.xml /input/cx-ontology2.xml 
       ONTOP_ONTOLOGY_FILE: /opt/ontop/input/cx-ontology.xml
       # If you want to enable multiple mappings, simply list them with spaces, like ONTOP_MAPPING_FILE: /input/dtc.obda /input/loadspectrum.obda 
-      ONTOP_MAPPING_FILE: /opt/ontop/input/rul.psql.obda /opt/ontop/input/trace.obda /opt/ontop/input/quality.obda
+      ONTOP_MAPPING_FILE: /opt/ontop/input/dtc.obda /opt/ontop/input/hi.obda /opt/ontop/input/rul.psql.obda /opt/ontop/input/trace.obda /opt/ontop/input/quality.obda
       # If you want to enable multiple settings, simply list them with spaces, like ONTOP_PROPERTIES_FILE: /input/settings.properties /input/settings.dremio.properties
       ONTOP_PROPERTIES_FILE: /opt/ontop/input/settings.local.properties /opt/ontop/input/settings.dremio.properties /opt/ontop/input/settings.psql.properties /opt/ontop/input/settings.dremio.properties /opt/ontop/input/settings.dremio.properties
       # If you want to enable multiple portals, simply list them with spaces, like ONTOP_PORTAL_FILE: /input/portal.toml /input/portal2.toml 
@@ -266,8 +247,6 @@ services:
       - ./tiera/resources/rdf4j/logs:/var/rdf4j/server/logs
       - ./tiera/resources/rdf4j/repositories:/var/rdf4j/server/repositories
     depends_on:
-      rul-backend:
-        condition: service_started
       service-backend:
         condition: service_started
 

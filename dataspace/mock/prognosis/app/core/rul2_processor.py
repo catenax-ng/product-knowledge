@@ -206,20 +206,20 @@ class Rul2Service:
                         "componentId": input.get('componentId'),
                         "componentType": "GearBox",
                         "remainingUsefulLife": {
-                            "remainingOperatingHours": random.random()*5000.0,
-                            "remainingRunningDistance": random.random()*300000.0,
+                            "remainingOperatingHours": round(random.random()*50000.0)/10.0,
+                            "remainingRunningDistance":  round(random.random()*300000.0),
                             "determinationLoaddataSource": {
                                 "informationOriginLoadSpectrum": "loggedOEM",
                                 "informationLoadSpectrum": "loggedOEM"
                             } ,
                             "determinationStatus": {
                                 "date": "2023-02-19T09:42:14.213Z",
-                                "operatingHours": random.random()*100000.0,
-                                "mileage": random.random()*6000000.0
+                                "operatingHours": round(random.random()*1000000.0)/10.0,
+                                "mileage": round(random.random()*6000000.0)
                             },
                             "bammId": "urn:bamm:io.catenax.rul:1.0.0##RemainingUsefulLife"
                         }
-                    }
+                }
         return result
     
     def mock_response(self):
@@ -236,8 +236,10 @@ class Rul2Service:
             "message": "Accepted."
         }
 
+        responseHeader = self.notification.get('header')
+        responseHeader['referencedNotificationID']=responseHeader['notificationID']
         response = {
-            "header": self.notification.get('header'),
+            "header": responseHeader,
             "content": {
                 "requestRefId": self.requestRefId,
                 "componentType": "GearBox",

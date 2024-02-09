@@ -198,14 +198,23 @@ class Hi2Service:
 
     def compute_predictor(self, input):
         random.seed(hash(json.dumps(input,sort_keys=True)))
-        result=            {
+        result= {
                         "componentId": input.get('componentId'),
                         "componentType": "GearBox",
                         "healthIndicator": {
                             "healthIndicatorValues" : [random.random(),random.random()],
+                            "determinationLoaddataSource": {
+                                "informationOriginLoadSpectrum": "loggedOEM",
+                                "informationLoadSpectrum": "loggedOEM"
+                            } ,
+                            "determinationStatus": {
+                                "date": "2023-02-19T09:42:14.213Z",
+                                "operatingHours": round(random.random()*1000000.0)/10.0,
+                                "mileage": round(random.random()*6000000.0)
+                            },
                             "bammId": "urn:bamm:io.catenax.HI:1.0.0##HealthIndictaor"
                         }
-                        }
+                }
         return result
     
     def mock_response(self):
@@ -225,8 +234,10 @@ class Hi2Service:
         }
 
 
+        responseHeader = self.notification.get('header')
+        responseHeader['referencedNotificationID']=responseHeader['notificationID']
         response = {
-            "header": self.notification.get('header'),
+            "header": responseHeader,
             "content": {
                 "requestRefId": self.requestRefId,
                 "componentType": "GearBox",
