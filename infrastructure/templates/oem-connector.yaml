@@ -560,7 +560,7 @@ data:
     ###
     cx.agent.asset.file=dataspace.ttl
     cx.agent.dataspace.synchronization=360000
-    cx.agent.dataspace.remotes=http://oem-control-plane:8282,https://{{ .Values.ingress.host}}/tiera-edc-control/BPNL00000003CPIY
+    cx.agent.dataspace.remotes=https://{{ .Values.ingress.host}}/oem-edc-control/BPNL00000003COJN,https://{{ .Values.ingress.host}}/tiera-edc-control/BPNL00000003CPIY
   opentelemetry.properties: |-
     otel.javaagent.enabled=false
     otel.javaagent.debug=false
