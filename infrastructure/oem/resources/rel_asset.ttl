@@ -1,1 +1,50 @@
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n@prefix schema: <http://schema.org/> .\n@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n@prefix edc: <https://w3id.org/edc/v0.0.1/ns/> .\n@prefix cx-common: <https://w3id.org/catenax/ontology/common#> .\n@prefix cx-core: <https://w3id.org/catenax/ontology/core#> .\n@prefix cx-vehicle: <https://w3id.org/catenax/ontology/vehicle#> .\n@prefix cx-fx: <https://w3id.org/catenax/ontology/function#> .\n@prefix cx-behaviour: <https://w3id.org/catenax/ontology/behaviour#> .\n@prefix cx-reliability: <https://w3id.org/catenax/ontology/reliability#> .\n@prefix cx-sh: <https://w3id.org/catenax/ontology/schema#> .\n@prefix cx-taxo: <https://w3id.org/catenax/taxonomy#> .\n@prefix : <GraphAsset?oem=BehaviourTwinReliability#> .\n\n:LoadSpectrumShape a sh:NodeShape ;\n    sh:targetClass  cx-reliability:LoadSpectrum;\n    sh:property :observationOfShape, \n                :countingValueShape, \n                :countingUnitShape, \n                :countingMethodShape, \n                :channelsShape, \n                :classesShape, \n                :valuesShape.\n\n:observationOfShape a sh:PropertyShape;\n    sh:path cx-reliability:observationOf;\n    sh:in (cx-taxo:GearOil cx-taxo:GearSet cx-taxo:Clutch).\n\n:countingValueShape a sh:PropertyShape;\n    sh:path cx-reliability:countingValue.\n\n:countingUnitShape a sh:PropertyShape;\n    sh:path cx-reliability:countingUnit.\n\n:countingMethodShape a sh:PropertyShape;\n    sh:path cx-reliability:countingMethod.\n\n:countingMethodShape a sh:PropertyShape;\n    sh:path cx-reliability:countingMethod.\n\n:channelsShape a sh:PropertyShape;\n    sh:path cx-reliability:channels.\n\n:classesShape a sh:PropertyShape;\n    sh:path cx-reliability:classes.\n\n:valuesShape a sh:PropertyShape;\n    sh:path cx-reliability:values.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix edc: <https://w3id.org/edc/v0.0.1/ns/> .
+@prefix cx-common: <https://w3id.org/catenax/ontology/common#> .
+@prefix cx-core: <https://w3id.org/catenax/ontology/core#> .
+@prefix cx-vehicle: <https://w3id.org/catenax/ontology/vehicle#> .
+@prefix cx-fx: <https://w3id.org/catenax/ontology/function#> .
+@prefix cx-behaviour: <https://w3id.org/catenax/ontology/behaviour#> .
+@prefix cx-reliability: <https://w3id.org/catenax/ontology/reliability#> .
+@prefix cx-sh: <https://w3id.org/catenax/ontology/schema#> .
+@prefix cx-taxo: <https://w3id.org/catenax/taxonomy#> .
+@prefix : <https://w3id.org/catenax/taxonomy#GraphAsset?oem=BehaviourTwinReliability&shapeObject=> .
+
+:LoadSpectrumShape a sh:NodeShape ;
+    sh:targetClass  cx-reliability:LoadSpectrum;
+    sh:property :observationOfShape, 
+                :countingValueShape, 
+                :countingUnitShape, 
+                :countingMethodShape, 
+                :channelsShape, 
+                :classesShape, 
+                :valuesShape.
+
+:observationOfShape a sh:PropertyShape;
+    sh:path cx-reliability:observationOf;
+    sh:in (cx-taxo:GearOil cx-taxo:GearSet cx-taxo:Clutch).
+
+:countingValueShape a sh:PropertyShape;
+    sh:path cx-reliability:countingValue.
+
+:countingUnitShape a sh:PropertyShape;
+    sh:path cx-reliability:countingUnit.
+
+:countingMethodShape a sh:PropertyShape;
+    sh:path cx-reliability:countingMethod.
+
+:countingMethodShape a sh:PropertyShape;
+    sh:path cx-reliability:countingMethod.
+
+:channelsShape a sh:PropertyShape;
+    sh:path cx-reliability:channels.
+
+:classesShape a sh:PropertyShape;
+    sh:path cx-reliability:classes.
+
+:valuesShape a sh:PropertyShape;
+    sh:path cx-reliability:values.
