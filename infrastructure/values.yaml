@@ -1,5 +1,5 @@
 # the chart version should coincide with the binary versions 
-version: 1.12.19-SNAPSHOT
+version: 1.12.17-SNAPSHOT
 # the version of the tractusx images
 txVersion: latest
 
@@ -53,7 +53,7 @@ postgresql:
     initdb:
       scripts:
         my_initdb.sh: |
-          psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+          psql -v ON_ERROR_STOP=1 --username postgres --dbname postgres <<-EOSQL
             CREATE DATABASE oem;
             CREATE DATABASE oem2;
             CREATE DATABASE tiera;
@@ -74,6 +74,7 @@ postgresql:
             GRANT ALL ON SCHEMA public TO tiera_user;
             \c consumer
             GRANT ALL ON SCHEMA public TO consumer_user;
+          EOSQL
   image:
     pullPolicy: Always
   auth:
