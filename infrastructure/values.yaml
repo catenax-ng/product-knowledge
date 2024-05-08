@@ -52,8 +52,7 @@ postgresql:
   primary:
     initdb:
       scripts:
-        my_initdb.sh: |
-          psql -v ON_ERROR_STOP=1 --username postgres --dbname postgres <<-EOSQL
+        my_initdb.sql: |
             CREATE DATABASE oem;
             CREATE DATABASE oem2;
             CREATE DATABASE tiera;
@@ -74,7 +73,6 @@ postgresql:
             GRANT ALL ON SCHEMA public TO tiera_user;
             \c consumer
             GRANT ALL ON SCHEMA public TO consumer_user;
-          EOSQL
   image:
     pullPolicy: Always
   auth:
