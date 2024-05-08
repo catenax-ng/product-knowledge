@@ -49,10 +49,14 @@ security:
 
 postgresql:
   fullnameOverride: "postgresql"
+  auth:
+    username: postgres
+    password: postgres
   primary:
     initdb:
       scripts:
-        my_initdb.sql: |
+        my_initdb.: |
+          psql -v ON_ERROR_STOP=1 --username postgres --dbname postgres <<-EOSQL
             CREATE DATABASE oem;
             CREATE DATABASE oem2;
             CREATE DATABASE tiera;
@@ -73,6 +77,7 @@ postgresql:
             GRANT ALL ON SCHEMA public TO tiera_user;
             \c consumer
             GRANT ALL ON SCHEMA public TO consumer_user;
+          EOSQL
   image:
     pullPolicy: Always
   auth:
