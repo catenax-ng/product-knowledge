@@ -99,42 +99,42 @@ data:
     edc.datasource.asset.name=asset
     edc.datasource.asset.user=consumer_user
     edc.datasource.asset.password=sacred
-    edc.datasource.asset.url=jdbc:postgresql://postgres:5432/consumer
+    edc.datasource.asset.url=jdbc:postgresql://postgresql:5432/consumer
 
     edc.datasource.contractdefinition.name=contractdefinition
     edc.datasource.contractdefinition.user=consumer_user
     edc.datasource.contractdefinition.password=sacred
-    edc.datasource.contractdefinition.url=jdbc:postgresql://postgres:5432/consumer
+    edc.datasource.contractdefinition.url=jdbc:postgresql://postgresql:5432/consumer
 
     edc.datasource.contractnegotiation.name=contractnegotiation
     edc.datasource.contractnegotiation.user=consumer_user
     edc.datasource.contractnegotiation.password=sacred
-    edc.datasource.contractnegotiation.url=jdbc:postgresql://postgres:5432/consumer
+    edc.datasource.contractnegotiation.url=jdbc:postgresql://postgresql:5432/consumer
 
     edc.datasource.policy.name=policy
     edc.datasource.policy.user=consumer_user
     edc.datasource.policy.password=sacred
-    edc.datasource.policy.url=jdbc:postgresql://postgres:5432/consumer
+    edc.datasource.policy.url=jdbc:postgresql://postgresql:5432/consumer
 
     edc.datasource.policy-monitor.name=policy-monitor
     edc.datasource.policy-monitor.user=consumer_user
     edc.datasource.policy-monitor.password=sacred
-    edc.datasource.policy-monitor.url=jdbc:postgresql://postgres:5432/consumer
+    edc.datasource.policy-monitor.url=jdbc:postgresql://postgresql:5432/consumer
 
     edc.datasource.transferprocess.name=transferprocess
     edc.datasource.transferprocess.user=consumer_user
     edc.datasource.transferprocess.password=sacred
-    edc.datasource.transferprocess.url=jdbc:postgresql://postgres:5432/consumer
+    edc.datasource.transferprocess.url=jdbc:postgresql://postgresql:5432/consumer
 
     edc.datasource.bpn.name=bpn
     edc.datasource.bpn.user=consumer_user
     edc.datasource.bpn.password=sacred
-    edc.datasource.bpn.url=jdbc:postgresql://postgres:5432/consumer
+    edc.datasource.bpn.url=jdbc:postgresql://postgresql:5432/consumer
 
     edc.datasource.edr.name=edr
     edc.datasource.edr.user=consumer_user
     edc.datasource.edr.password=sacred
-    edc.datasource.edr.url=jdbc:postgresql://postgres:5432/consumer
+    edc.datasource.edr.url=jdbc:postgresql://postgresql:5432/consumer
   opentelemetry.properties: |-
     otel.javaagent.enabled=false
     otel.javaagent.debug=false
@@ -425,17 +425,17 @@ data:
     edc.datasource.edr.name=edr
     edc.datasource.edr.user=consumer_user
     edc.datasource.edr.password=sacred
-    edc.datasource.edr.url=jdbc:postgresql://postgres:5432/consumer
+    edc.datasource.edr.url=jdbc:postgresql://postgresql:5432/consumer
 
     edc.datasource.dataplane.name=edr
     edc.datasource.dataplane.user=consumer_user
     edc.datasource.dataplane.password=sacred
-    edc.datasource.dataplane.url=jdbc:postgresql://postgres:5432/consumer
+    edc.datasource.dataplane.url=jdbc:postgresql://postgresql:5432/consumer
 
     edc.datasource.accesstokendata.name=edr
     edc.datasource.accesstokendata.user=consumer_user
     edc.datasource.accesstokendata.password=sacred
-    edc.datasource.accesstokendata.url=jdbc:postgresql://postgres:5432/consumer
+    edc.datasource.accesstokendata.url=jdbc:postgresql://postgresql:5432/consumer
   opentelemetry.properties: |-
     otel.javaagent.enabled=false
     otel.javaagent.debug=false

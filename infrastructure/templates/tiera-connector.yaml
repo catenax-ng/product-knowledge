@@ -98,42 +98,42 @@ data:
     edc.datasource.asset.name=asset
     edc.datasource.asset.user=tiera_user
     edc.datasource.asset.password=sacred
-    edc.datasource.asset.url=jdbc:postgresql://postgres:5432/tiera
+    edc.datasource.asset.url=jdbc:postgresql://postgresql:5432/tiera
 
     edc.datasource.contractdefinition.name=contractdefinition
     edc.datasource.contractdefinition.user=tiera_user
     edc.datasource.contractdefinition.password=sacred
-    edc.datasource.contractdefinition.url=jdbc:postgresql://postgres:5432/tiera
+    edc.datasource.contractdefinition.url=jdbc:postgresql://postgresql:5432/tiera
 
     edc.datasource.contractnegotiation.name=contractnegotiation
     edc.datasource.contractnegotiation.user=tiera_user
     edc.datasource.contractnegotiation.password=sacred
-    edc.datasource.contractnegotiation.url=jdbc:postgresql://postgres:5432/tiera
+    edc.datasource.contractnegotiation.url=jdbc:postgresql://postgresql:5432/tiera
 
     edc.datasource.policy.name=policy
     edc.datasource.policy.user=tiera_user
     edc.datasource.policy.password=sacred
-    edc.datasource.policy.url=jdbc:postgresql://postgres:5432/tiera
+    edc.datasource.policy.url=jdbc:postgresql://postgresql:5432/tiera
 
     edc.datasource.policy-monitor.name=policy-monitor
     edc.datasource.policy-monitor.user=tiera_user
     edc.datasource.policy-monitor.password=sacred
-    edc.datasource.policy-monitor.url=jdbc:postgresql://postgres:5432/tiera
+    edc.datasource.policy-monitor.url=jdbc:postgresql://postgresql:5432/tiera
 
     edc.datasource.transferprocess.name=transferprocess
     edc.datasource.transferprocess.user=tiera_user
     edc.datasource.transferprocess.password=sacred
-    edc.datasource.transferprocess.url=jdbc:postgresql://postgres:5432/tiera
+    edc.datasource.transferprocess.url=jdbc:postgresql://postgresql:5432/tiera
 
     edc.datasource.bpn.name=bpn
     edc.datasource.bpn.user=tiera_user
     edc.datasource.bpn.password=sacred
-    edc.datasource.bpn.url=jdbc:postgresql://postgres:5432/tiera
+    edc.datasource.bpn.url=jdbc:postgresql://postgresql:5432/tiera
 
     edc.datasource.edr.name=edr
     edc.datasource.edr.user=tiera_user
     edc.datasource.edr.password=sacred
-    edc.datasource.edr.url=jdbc:postgresql://postgres:5432/tiera
+    edc.datasource.edr.url=jdbc:postgresql://postgresql:5432/tiera
   opentelemetry.properties: |-
     otel.javaagent.enabled=false
     otel.javaagent.debug=false
@@ -432,17 +432,17 @@ data:
     edc.datasource.edr.name=edr
     edc.datasource.edr.user=tiera_user
     edc.datasource.edr.password=sacred
-    edc.datasource.edr.url=jdbc:postgresql://postgres:5432/tiera
+    edc.datasource.edr.url=jdbc:postgresql://postgresql:5432/tiera
 
     edc.datasource.dataplane.name=edr
     edc.datasource.dataplane.user=tiera_user
     edc.datasource.dataplane.password=sacred
-    edc.datasource.dataplane.url=jdbc:postgresql://postgres:5432/tiera
+    edc.datasource.dataplane.url=jdbc:postgresql://postgresql:5432/tiera
 
     edc.datasource.accesstokendata.name=edr
     edc.datasource.accesstokendata.user=tiera_user
     edc.datasource.accesstokendata.password=sacred
-    edc.datasource.accesstokendata.url=jdbc:postgresql://postgres:5432/tiera
+    edc.datasource.accesstokendata.url=jdbc:postgresql://postgresql:5432/tiera
   opentelemetry.properties: |-
     otel.javaagent.enabled=false
     otel.javaagent.debug=false

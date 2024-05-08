@@ -99,42 +99,42 @@ data:
     edc.datasource.asset.name=asset
     edc.datasource.asset.user=oem_user
     edc.datasource.asset.password=sacred
-    edc.datasource.asset.url=jdbc:postgresql://postgres:5432/oem
+    edc.datasource.asset.url=jdbc:postgresql://postgresql:5432/oem
 
     edc.datasource.contractdefinition.name=contractdefinition
     edc.datasource.contractdefinition.user=oem_user
     edc.datasource.contractdefinition.password=sacred
-    edc.datasource.contractdefinition.url=jdbc:postgresql://postgres:5432/oem
+    edc.datasource.contractdefinition.url=jdbc:postgresql://postgresql:5432/oem
 
     edc.datasource.contractnegotiation.name=contractnegotiation
     edc.datasource.contractnegotiation.user=oem_user
     edc.datasource.contractnegotiation.password=sacred
-    edc.datasource.contractnegotiation.url=jdbc:postgresql://postgres:5432/oem
+    edc.datasource.contractnegotiation.url=jdbc:postgresql://postgresql:5432/oem
 
     edc.datasource.policy.name=policy
     edc.datasource.policy.user=oem_user
     edc.datasource.policy.password=sacred
-    edc.datasource.policy.url=jdbc:postgresql://postgres:5432/oem
+    edc.datasource.policy.url=jdbc:postgresql://postgresql:5432/oem
 
     edc.datasource.policy-monitor.name=policy-monitor
     edc.datasource.policy-monitor.user=oem_user
     edc.datasource.policy-monitor.password=sacred
-    edc.datasource.policy-monitor.url=jdbc:postgresql://postgres:5432/oem
+    edc.datasource.policy-monitor.url=jdbc:postgresql://postgresql:5432/oem
 
     edc.datasource.transferprocess.name=transferprocess
     edc.datasource.transferprocess.user=oem_user
     edc.datasource.transferprocess.password=sacred
-    edc.datasource.transferprocess.url=jdbc:postgresql://postgres:5432/oem
+    edc.datasource.transferprocess.url=jdbc:postgresql://postgresql:5432/oem
 
     edc.datasource.bpn.name=bpn
     edc.datasource.bpn.user=oem_user
     edc.datasource.bpn.password=sacred
-    edc.datasource.bpn.url=jdbc:postgresql://postgres:5432/oem
+    edc.datasource.bpn.url=jdbc:postgresql://postgresql:5432/oem
 
     edc.datasource.edr.name=edr
     edc.datasource.edr.user=oem_user
     edc.datasource.edr.password=sacred
-    edc.datasource.edr.url=jdbc:postgresql://postgres:5432/oem
+    edc.datasource.edr.url=jdbc:postgresql://postgresql:5432/oem
 
   configuration2.properties: |-
     ###############################################
@@ -230,42 +230,42 @@ data:
     edc.datasource.asset.name=asset
     edc.datasource.asset.user=oem2_user
     edc.datasource.asset.password=sacred
-    edc.datasource.asset.url=jdbc:postgresql://postgres:5432/oem2
+    edc.datasource.asset.url=jdbc:postgresql://postgresql:5432/oem2
 
     edc.datasource.contractdefinition.name=contractdefinition
     edc.datasource.contractdefinition.user=oem2_user
     edc.datasource.contractdefinition.password=sacred
-    edc.datasource.contractdefinition.url=jdbc:postgresql://postgres:5432/oem2
+    edc.datasource.contractdefinition.url=jdbc:postgresql://postgresql:5432/oem2
 
     edc.datasource.contractnegotiation.name=contractnegotiation
     edc.datasource.contractnegotiation.user=oem2_user
     edc.datasource.contractnegotiation.password=sacred
-    edc.datasource.contractnegotiation.url=jdbc:postgresql://postgres:5432/oem2
+    edc.datasource.contractnegotiation.url=jdbc:postgresql://postgresql:5432/oem2
 
     edc.datasource.policy.name=policy
     edc.datasource.policy.user=oem2_user
     edc.datasource.policy.password=sacred
-    edc.datasource.policy.url=jdbc:postgresql://postgres:5432/oem2
+    edc.datasource.policy.url=jdbc:postgresql://postgresql:5432/oem2
 
     edc.datasource.policy-monitor.name=policy-monitor
     edc.datasource.policy-monitor.user=oem2_user
     edc.datasource.policy-monitor.password=sacred
-    edc.datasource.policy-monitor.url=jdbc:postgresql://postgres:5432/oem2
+    edc.datasource.policy-monitor.url=jdbc:postgresql://postgresql:5432/oem2
 
     edc.datasource.transferprocess.name=transferprocess
     edc.datasource.transferprocess.user=oem2_user
     edc.datasource.transferprocess.password=sacred
-    edc.datasource.transferprocess.url=jdbc:postgresql://postgres:5432/oem2
+    edc.datasource.transferprocess.url=jdbc:postgresql://postgresql:5432/oem2
 
     edc.datasource.bpn.name=bpn
     edc.datasource.bpn.user=oem2_user
     edc.datasource.bpn.password=sacred
-    edc.datasource.bpn.url=jdbc:postgresql://postgres:5432/oem2
+    edc.datasource.bpn.url=jdbc:postgresql://postgresql:5432/oem2
 
     edc.datasource.edr.name=edr
     edc.datasource.edr.user=oem2_user
     edc.datasource.edr.password=sacred
-    edc.datasource.edr.url=jdbc:postgresql://postgres:5432/oem2
+    edc.datasource.edr.url=jdbc:postgresql://postgresql:5432/oem2
 
   opentelemetry.properties: |-
     otel.javaagent.enabled=false
@@ -741,17 +741,17 @@ data:
     edc.datasource.edr.name=edr
     edc.datasource.edr.user=oem_user
     edc.datasource.edr.password=sacred
-    edc.datasource.edr.url=jdbc:postgresql://postgres:5432/oem
+    edc.datasource.edr.url=jdbc:postgresql://postgresql:5432/oem
 
     edc.datasource.dataplane.name=edr
     edc.datasource.dataplane.user=oem_user
     edc.datasource.dataplane.password=sacred
-    edc.datasource.dataplane.url=jdbc:postgresql://postgres:5432/oem
+    edc.datasource.dataplane.url=jdbc:postgresql://postgresql:5432/oem
 
     edc.datasource.accesstokendata.name=edr
     edc.datasource.accesstokendata.user=oem_user
     edc.datasource.accesstokendata.password=sacred
-    edc.datasource.accesstokendata.url=jdbc:postgresql://postgres:5432/oem
+    edc.datasource.accesstokendata.url=jdbc:postgresql://postgresql:5432/oem
   opentelemetry.properties: |-
     otel.javaagent.enabled=false
     otel.javaagent.debug=false
