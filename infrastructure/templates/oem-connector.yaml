@@ -15,34 +15,35 @@ data:
 
     edc.fs.config=/connector-config/configuration.properties
     edc.hostname={{ .Values.ingress.host }}
+    
     edc.participant.id={{ .Values.dataspace.bpnOem }}
+    edc.iam.issuer.id=did:web:portal-backend.int.demo.catena-x.net:api:administration:staticdata:did:{{ .Values.dataspace.bpnOem }}
     
     ###
     # Chapter Web Server / Ports
     ###
 
+    edc.api.auth.key={{ .Values.security.xApiKey }}
     web.http.default.port=8080
     web.http.default.path=/api
-    web.http.management.port=8181
+    web.http.management.port=8081
     web.http.management.path=/management
-    web.http.control.port=9999
+    web.http.control.port=8083
     web.http.control.path=/control
-    web.http.protocol.port=8282
+    web.http.signaling.port=8087
+    web.http.signaling.path=/api/signaling
+    web.http.protocol.port=8084
     web.http.protocol.path=/api/v1/dsp
-    web.http.metrics.port=9998
-    web.http.metrics.path=/metrics
+    web.http.public.port=8086
+    web.http.public.path=/api/public
+    tx.dpf.consumer.proxy.port=8088
+      
+    edc.dataplane.token.validation.endpoint=http://oem-control-plane:8083/control/token
     
     ###
     # Chapter Security
     ###
 
-    edc.transfer.proxy.token.signer.privatekey.alias=oem-key
-    edc.transfer.proxy.token.verifier.publickey.alias=oem-cert
-
-    edc.data.encryption.algorithm=AES
-    edc.data.encryption.keys.alias=oem-symmetric-key
-    edc.api.auth.key={{ .Values.security.xApiKey }}
-    
     edc.vault.hashicorp.url={{ .Values.security.vaultUrl }}
     edc.vault.hashicorp.token={{ .Values.security.vaultToken }}
     edc.vault.hashicorp.timeout.seconds=30
@@ -51,31 +52,88 @@ data:
     edc.vault.hashicorp.api.secret.path=/v1/knowledge
     edc.vault.hashicorp.api.health.check.path=/v1/sys/health
 
+    edc.vault.name=tsyidsconnectors
+
     ###
-    # Chapter Trust & Dataspace
+    # Chapter Dataspace Protocol
     ###
 
-    tx.ssi.miw.url=https://managed-identity-wallets-new.int.demo.catena-x.net
-    tx.ssi.miw.authority.id=BPNL00000003CRHK
-    tx.ssi.oauth.token.url=https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-    tx.ssi.oauth.client.id={{ .Values.dataspace.miwClientOem }}
-    tx.ssi.oauth.client.secret.alias=miw_oem_secret
-    tx.ssi.endpoint.audience=https://{{ .Values.ingress.host }}/oem-edc-control/{{ .Values.dataspace.bpnOem }}/api/v1/dsp
     edc.dsp.callback.address=https://{{ .Values.ingress.host }}/oem-edc-control/{{ .Values.dataspace.bpnOem }}/api/v1/dsp
-    
-    edc.transfer.proxy.endpoint=https://{{ .Values.ingress.host }}/oem-edc-data/{{ .Values.dataspace.bpnOem }}
-    edc.transfer.send.retry.limit=0
+    edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
+    edc.oauth.provider.audience=https://{{ .Values.ingress.host }}/oem-edc-control/{{ .Values.dataspace.bpnOem }}/api/v1/dsp
+
     edc.negotiation.consumer.send.retry.limit=0
     edc.negotiation.provider.send.retry.limit=0
-    
+
+    ###
+    # Chapter SSI
+    ###
+
+    edc.iam.trusted-issuer.catena.id=did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
+    edc.iam.sts.oauth.token.url=https://bpnl00000003cojn-knowledge--agents--manufacturer--ag.authentication.eu10.hana.ondemand.com/oauth/token
+    edc.iam.sts.oauth.client.id={{ .Values.dataspace.miwClientOem }}
+    edc.iam.sts.oauth.client.secret.alias=sts-oem-secret
+    edc.iam.sts.dim.url=https://dis-integration-service-prod.eu10.dim.cloud.sap/api/v2.0.0/iatp/catena-x-portal
+    tx.iam.iatp.bdrs.server.url=https://bpn-did-resolution-service.int.demo.catena-x.net/api/directory
+    tx.iam.iatp.bdrs.cache.validity=600
+        
     ###
     # Chapter Data Planes
     ###
+    edc.dataplane.selector.agentplane.url=http://oem-data-plane:8087/api/signaling/v1/dataflows
+    edc.dataplane.selector.agentplane.sourcetypes=cx-common:Protocol?w3c:http:SPARQL,cx-common:Protocol?w3c:http:SKILL,HttpData,AmazonS3,AzureStorage
+    edc.dataplane.selector.agentplane.transfertypes=HttpData-PULL,HttpData-PUSH,AmazonS3-PUSH,AzureStorage-PUSH
+    edc.dataplane.selector.agentplane.destinationtypes=HttpData,HttpProxy,AmazonS3,AzureStorage
+    edc.dataplane.selector.agentplane.properties={ "publicApiUrl": "https://{{ .Values.ingress.host }}/oem-edc-data/{{ .Values.dataspace.bpnOem }}/api/public/" }
 
-    edc.dataplane.selector.agentplane.url=http://oem-data-plane:8082/
-    edc.dataplane.selector.agentplane.sourcetypes=cx-common:Protocol?w3c:http:SPARQL,cx-common:Protocol?w3c:http:SKILL,HttpData,AmazonS3
-    edc.dataplane.selector.agentplane.destinationtypes=HttpProxy,AmazonS3
-    edc.dataplane.selector.agentplane.properties={ "publicApiUrl": "https://{{ .Values.ingress.host }}/oem-edc-data/{{ .Values.dataspace.bpnOem }}/data/" }  
+    edc.dataplane.token.expiry=360
+    edc.dataplane.token.expiry.tolerance=10
+
+    edc.transfer.send.retry.limit=0
+    
+    ###
+    # Chapter Persistence
+    ###
+
+    edc.datasource.asset.name=asset
+    edc.datasource.asset.user=oem_user
+    edc.datasource.asset.password=sacred
+    edc.datasource.asset.url=jdbc:postgresql://postgres:5432/oem
+
+    edc.datasource.contractdefinition.name=contractdefinition
+    edc.datasource.contractdefinition.user=oem_user
+    edc.datasource.contractdefinition.password=sacred
+    edc.datasource.contractdefinition.url=jdbc:postgresql://postgres:5432/oem
+
+    edc.datasource.contractnegotiation.name=contractnegotiation
+    edc.datasource.contractnegotiation.user=oem_user
+    edc.datasource.contractnegotiation.password=sacred
+    edc.datasource.contractnegotiation.url=jdbc:postgresql://postgres:5432/oem
+
+    edc.datasource.policy.name=policy
+    edc.datasource.policy.user=oem_user
+    edc.datasource.policy.password=sacred
+    edc.datasource.policy.url=jdbc:postgresql://postgres:5432/oem
+
+    edc.datasource.policy-monitor.name=policy-monitor
+    edc.datasource.policy-monitor.user=oem_user
+    edc.datasource.policy-monitor.password=sacred
+    edc.datasource.policy-monitor.url=jdbc:postgresql://postgres:5432/oem
+
+    edc.datasource.transferprocess.name=transferprocess
+    edc.datasource.transferprocess.user=oem_user
+    edc.datasource.transferprocess.password=sacred
+    edc.datasource.transferprocess.url=jdbc:postgresql://postgres:5432/oem
+
+    edc.datasource.bpn.name=bpn
+    edc.datasource.bpn.user=oem_user
+    edc.datasource.bpn.password=sacred
+    edc.datasource.bpn.url=jdbc:postgresql://postgres:5432/oem
+
+    edc.datasource.edr.name=edr
+    edc.datasource.edr.user=oem_user
+    edc.datasource.edr.password=sacred
+    edc.datasource.edr.url=jdbc:postgresql://postgres:5432/oem
   configuration2.properties: |-
     ###############################################
     # LOCAL EDC CONTROL PLANE CONFIG (OEM CONSUMER)
@@ -85,36 +143,37 @@ data:
     # Chapter General Settings
     ###
 
-    edc.fs.config=/connector-config/configuration2.properties
+    edc.fs.config=/connector-config/configuration.properties
     edc.hostname={{ .Values.ingress.host }}
-    edc.participant.id=BPNL00000003COJN
-
+    
+    edc.participant.id={{ .Values.dataspace.bpnOem }}
+    edc.iam.issuer.id=did:web:portal-backend.int.demo.catena-x.net:api:administration:staticdata:did:{{ .Values.dataspace.bpnOem }}
+    
     ###
     # Chapter Web Server / Ports
     ###
 
+    edc.api.auth.key={{ .Values.security.xApiKey }}
     web.http.default.port=8080
     web.http.default.path=/api
-    web.http.management.port=8181
+    web.http.management.port=8081
     web.http.management.path=/management
-    web.http.control.port=9999
+    web.http.control.port=8083
     web.http.control.path=/control
-    web.http.protocol.port=8282
+    web.http.signaling.port=8087
+    web.http.signaling.path=/api/signaling
+    web.http.protocol.port=8084
     web.http.protocol.path=/api/v1/dsp
-    web.http.metrics.port=9998
-    web.http.metrics.path=/metrics
+    web.http.public.port=8086
+    web.http.public.path=/api/public
+    tx.dpf.consumer.proxy.port=8088
+      
+    edc.dataplane.token.validation.endpoint=http://oem-control-plane2:8083/control/token
     
     ###
     # Chapter Security
     ###
 
-    edc.transfer.proxy.token.signer.privatekey.alias=oem-key
-    edc.transfer.proxy.token.verifier.publickey.alias=oem-cert
-
-    edc.data.encryption.algorithm=AES
-    edc.data.encryption.keys.alias=oem-symmetric-key
-    edc.api.auth.key={{ .Values.security.xApiKey }}
-    
     edc.vault.hashicorp.url={{ .Values.security.vaultUrl }}
     edc.vault.hashicorp.token={{ .Values.security.vaultToken }}
     edc.vault.hashicorp.timeout.seconds=30
@@ -122,32 +181,89 @@ data:
     edc.vault.hashicorp.health.check.standby.ok=false
     edc.vault.hashicorp.api.secret.path=/v1/knowledge
     edc.vault.hashicorp.api.health.check.path=/v1/sys/health
-    
+
+    edc.vault.name=tsyidsconnectors
+        
     ###
-    # Chapter Trust & Dataspace
+    # Chapter Dataspace Protocol
     ###
 
-    tx.ssi.miw.url=https://managed-identity-wallets-new.int.demo.catena-x.net
-    tx.ssi.miw.authority.id=BPNL00000003CRHK
-    tx.ssi.oauth.token.url=https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-    tx.ssi.oauth.client.id={{ .Values.dataspace.miwClientOem }}
-    tx.ssi.oauth.client.secret.alias=miw_oem_secret
-    tx.ssi.endpoint.audience=https://{{ .Values.ingress.host }}/oem-edc-control2/{{ .Values.dataspace.bpnOem }}/api/v1/dsp
     edc.dsp.callback.address=https://{{ .Values.ingress.host }}/oem-edc-control2/{{ .Values.dataspace.bpnOem }}/api/v1/dsp
-    
-    edc.transfer.proxy.endpoint=https://{{ .Values.ingress.host }}/oem-edc-data/{{ .Values.dataspace.bpnOem }}
-    edc.transfer.send.retry.limit=0
+    edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
+    edc.oauth.provider.audience=https://{{ .Values.ingress.host }}/oem-edc-control2/{{ .Values.dataspace.bpnOem }}/api/v1/dsp
+
     edc.negotiation.consumer.send.retry.limit=0
     edc.negotiation.provider.send.retry.limit=0
 
     ###
+    # Chapter SSI
+    ###
+
+    edc.iam.trusted-issuer.catena.id=did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
+    edc.iam.sts.oauth.token.url=https://bpnl00000003cojn-knowledge--agents--manufacturer--ag.authentication.eu10.hana.ondemand.com/oauth/token
+    edc.iam.sts.oauth.client.id={{ .Values.dataspace.miwClientOem }}
+    edc.iam.sts.oauth.client.secret.alias=sts-oem-secret
+    edc.iam.sts.dim.url=https://dis-integration-service-prod.eu10.dim.cloud.sap/api/v2.0.0/iatp/catena-x-portal
+    tx.iam.iatp.bdrs.server.url=https://bpn-did-resolution-service.int.demo.catena-x.net/api/directory
+    tx.iam.iatp.bdrs.cache.validity=600
+        
+    ###
     # Chapter Data Planes
     ###
-    
-    edc.dataplane.selector.agentplane.url=http://oem-data-plane:8082/
-    edc.dataplane.selector.agentplane.sourcetypes=cx-common:Protocol?w3c:http:SPARQL,cx-common:Protocol?w3c:http:SKILL,HttpData,AmazonS3
-    edc.dataplane.selector.agentplane.destinationtypes=HttpProxy,AmazonS3
-    edc.dataplane.selector.agentplane.properties={ "publicApiUrl": "https://{{ .Values.ingress.host }}/oem-edc-data/{{ .Values.dataspace.bpnOem }}/data/" }
+    edc.dataplane.selector.agentplane.url=http://oem-data-plane:8087/api/signaling/v1/dataflows
+    edc.dataplane.selector.agentplane.sourcetypes=cx-common:Protocol?w3c:http:SPARQL,cx-common:Protocol?w3c:http:SKILL,HttpData,AmazonS3,AzureStorage
+    edc.dataplane.selector.agentplane.transfertypes=HttpData-PULL,HttpData-PUSH,AmazonS3-PUSH,AzureStorage-PUSH
+    edc.dataplane.selector.agentplane.destinationtypes=HttpData,HttpProxy,AmazonS3,AzureStorage
+    edc.dataplane.selector.agentplane.properties={ "publicApiUrl": "https://{{ .Values.ingress.host }}/oem-edc-data/{{ .Values.dataspace.bpnOem }}/api/public/" }
+
+    edc.dataplane.token.expiry=360
+    edc.dataplane.token.expiry.tolerance=10
+
+    edc.transfer.send.retry.limit=0
+
+    ###
+    # Chapter Persistence
+    ###
+
+    edc.datasource.asset.name=asset
+    edc.datasource.asset.user=oem2_user
+    edc.datasource.asset.password=sacred
+    edc.datasource.asset.url=jdbc:postgresql://postgres:5432/oem2
+
+    edc.datasource.contractdefinition.name=contractdefinition
+    edc.datasource.contractdefinition.user=oem2_user
+    edc.datasource.contractdefinition.password=sacred
+    edc.datasource.contractdefinition.url=jdbc:postgresql://postgres:5432/oem2
+
+    edc.datasource.contractnegotiation.name=contractnegotiation
+    edc.datasource.contractnegotiation.user=oem2_user
+    edc.datasource.contractnegotiation.password=sacred
+    edc.datasource.contractnegotiation.url=jdbc:postgresql://postgres:5432/oem2
+
+    edc.datasource.policy.name=policy
+    edc.datasource.policy.user=oem2_user
+    edc.datasource.policy.password=sacred
+    edc.datasource.policy.url=jdbc:postgresql://postgres:5432/oem2
+
+    edc.datasource.policy-monitor.name=policy-monitor
+    edc.datasource.policy-monitor.user=oem2_user
+    edc.datasource.policy-monitor.password=sacred
+    edc.datasource.policy-monitor.url=jdbc:postgresql://postgres:5432/oem2
+
+    edc.datasource.transferprocess.name=transferprocess
+    edc.datasource.transferprocess.user=oem2_user
+    edc.datasource.transferprocess.password=sacred
+    edc.datasource.transferprocess.url=jdbc:postgresql://postgres:5432/oem2
+
+    edc.datasource.bpn.name=bpn
+    edc.datasource.bpn.user=oem2_user
+    edc.datasource.bpn.password=sacred
+    edc.datasource.bpn.url=jdbc:postgresql://postgres:5432/oem2
+
+    edc.datasource.edr.name=edr
+    edc.datasource.edr.user=oem2_user
+    edc.datasource.edr.password=sacred
+    edc.datasource.edr.url=jdbc:postgresql://postgres:5432/oem2
   opentelemetry.properties: |-
     otel.javaagent.enabled=false
     otel.javaagent.debug=false
@@ -183,7 +299,7 @@ spec:
         seccompProfile:
             type: RuntimeDefault
       containers:
-        - image: tractusx/edc-controlplane-memory-hashicorp-vault:0.5.3
+        - image: tractusx/edc-controlplane-postgresql-azure-vault:0.7.0
           imagePullPolicy: Always
           name: oem-control-plane
           securityContext:
@@ -195,13 +311,21 @@ spec:
             readOnlyRootFilesystem: false
           ports:
             - containerPort: 8080 # API
-            - containerPort: 8181 # MANAGEMENT
-            - containerPort: 8282 # PROTOCOL
-            - containerPort: 9999 # CONTROL
-            - containerPort: 9998 # METRICS
+            - containerPort: 8081 # MANAGEMENT
+            - containerPort: 8083 # CONTROL
+            - containerPort: 8087 # SIGNALING
+            - containerPort: 8084 # PROTOCOL
+            - containerPort: 8086 # PUBLIC
+            - containerPort: 8088 # PROXY
           env:
             - name:  EDC_FS_CONFIG
               value: /connector-config/configuration.properties
+            - name: AZURE_CLIENT_ID
+              value: {{ .Values.security.vaultClient }}
+            - name: AZURE_CLIENT_SECRET
+              value: {{ .Values.security.vaultSecret }}
+            - name: AZURE_TENANT_ID
+              value: {{ .Values.security.vaultTenant }}
           resources:
            requests:
             cpu: 500m
@@ -269,18 +393,24 @@ spec:
     - port: 8080
       name: api
       targetPort: 8080
-    - port: 8181
+    - port: 8081
       name: management
-      targetPort: 8181
-    - port: 8282
-      name: protocol
-      targetPort: 8282
-    - port: 9999
+      targetPort: 8081
+    - port: 8083
       name: control
-      targetPort: 9999
-    - port: 9998
-      name: metrics
-      targetPort: 9998
+      targetPort: 8083
+    - port: 8087
+      name: signaling
+      targetPort: 8087
+    - port: 8084
+      name: protocol
+      targetPort: 8084
+    - port: 8086
+      name: public
+      targetPort: 8086
+    - port: 8088
+      name: proxy
+      targetPort: 8088
   selector:
     app: oem-control-plane
 ---
@@ -311,14 +441,14 @@ spec:
               service:
                 name: oem-control-plane
                 port:
-                  number: 8181
+                  number: 8081
           - path: /oem-edc-control/{{ .Values.dataspace.bpnOem }}/(api/v1/dsp)(.*)
             pathType: Prefix
             backend:
               service:
                 name: oem-control-plane
                 port:
-                  number: 8282
+                  number: 8084
           - path: /oem-edc-control/{{ .Values.dataspace.bpnOem }}/(api/check)(.*)
             pathType: Prefix
             backend:
@@ -351,7 +481,7 @@ spec:
         seccompProfile:
             type: RuntimeDefault
       containers:
-        - image: tractusx/edc-controlplane-memory-hashicorp-vault:0.5.3
+        - image: tractusx/edc-controlplane-postgresql-azure-vault:0.7.0
           imagePullPolicy: Always
           name: oem-control-plane2
           securityContext:
@@ -363,13 +493,21 @@ spec:
             readOnlyRootFilesystem: false
           ports:
             - containerPort: 8080 # API
-            - containerPort: 8181 # MANAGEMENT
-            - containerPort: 8282 # PROTOCOL
-            - containerPort: 9999 # CONTROL
-            - containerPort: 9998 # METRICS
+            - containerPort: 8081 # MANAGEMENT
+            - containerPort: 8083 # CONTROL
+            - containerPort: 8087 # SIGNALING
+            - containerPort: 8084 # PROTOCOL
+            - containerPort: 8086 # PUBLIC
+            - containerPort: 8088 # PROXY
           env:
             - name:  EDC_FS_CONFIG
               value: /connector-config/configuration2.properties
+            - name: AZURE_CLIENT_ID
+              value: {{ .Values.security.vaultClient }}
+            - name: AZURE_CLIENT_SECRET
+              value: {{ .Values.security.vaultSecret }}
+            - name: AZURE_TENANT_ID
+              value: {{ .Values.security.vaultTenant }}
           resources:
            requests:
             cpu: 500m
@@ -437,18 +575,24 @@ spec:
     - port: 8080
       name: api
       targetPort: 8080
-    - port: 8181
+    - port: 8081
       name: management
-      targetPort: 8181
-    - port: 8282
-      name: protocol
-      targetPort: 8282
-    - port: 9999
+      targetPort: 8081
+    - port: 8083
       name: control
-      targetPort: 9999
-    - port: 9998
-      name: metrics
-      targetPort: 9998
+      targetPort: 8083
+    - port: 8087
+      name: signaling
+      targetPort: 8087
+    - port: 8084
+      name: protocol
+      targetPort: 8084
+    - port: 8086
+      name: public
+      targetPort: 8086
+    - port: 8088
+      name: proxy
+      targetPort: 8088
   selector:
     app: oem-control-plane2
 ---
@@ -479,14 +623,14 @@ spec:
               service:
                 name: oem-control-plane2
                 port:
-                  number: 8181
+                  number: 8081
           - path: /oem-edc-control2/{{ .Values.dataspace.bpnOem }}/(api/v1/dsp)(.*)
             pathType: Prefix
             backend:
               service:
                 name: oem-control-plane2
                 port:
-                  number: 8282
+                  number: 8084
           - path: /oem-edc-control2/{{ .Values.dataspace.bpnOem }}/(api/check)(.*)
             pathType: Prefix
             backend:
@@ -510,26 +654,36 @@ data:
     # Chapter General Settings
     ###
 
-    edc.participant.id=BPNL00000003COJN
+    edc.fs.config=/connector-config/configuration.properties
+    edc.hostname={{ .Values.ingress.host }}
+    
+    edc.participant.id={{ .Values.dataspace.bpnOem }}
+    edc.iam.issuer.id=did:web:portal-backend.int.demo.catena-x.net:api:administration:staticdata:did:{{ .Values.dataspace.bpnOem }}
 
     ###
     # Chapter Web Server / Ports
     ###
 
-    web.http.default.port=8082
+    edc.api.auth.key={{ .Values.security.xApiKey }}
+    web.http.default.port=8080
     web.http.default.path=/api
-    web.http.public.port=8185
-    web.http.public.path=/data
+    web.http.public.port=8081
+    web.http.public.path=/api/public
+    web.http.signaling.port=8083
+    web.http.signaling.path=/api/signaling
+
     web.http.callback.port=8187
     web.http.callback.path=/callback
-    web.http.control.port=9999
-    web.http.control.path=/api/dataplane/control
-    
+
+    # We setup a combined validation endpoint for two control planes
+    edc.dataplane.token.validation.endpoint=http://oem-data-plane:8080/api/validation
+    edc.dataplane.token.validation.endpoints.provider=http://oem-control-plane:8083/control/token
+    edc.dataplane.token.validation.endpoints.consumer=http://oem-control-plane2:8083/control/token
+
     ###
     # Chapter Security
     ###
 
-    edc.api.auth.key={{ .Values.security.xApiKey }}
     edc.vault.hashicorp.url={{ .Values.security.vaultUrl }}
     edc.vault.hashicorp.token={{ .Values.security.vaultToken }}
     edc.vault.hashicorp.timeout.seconds=30
@@ -537,31 +691,65 @@ data:
     edc.vault.hashicorp.health.check.standby.ok=false
     edc.vault.hashicorp.api.secret.path=/v1/knowledge
     edc.vault.hashicorp.api.health.check.path=/v1/sys/health
+
+    edc.vault.name=tsyidsconnectors
+
+    edc.transfer.proxy.token.signer.privatekey.alias=oem-daps-key
+    edc.transfer.proxy.token.verifier.publickey.alias=oem-daps-cert
     
+    ###
+    # Chapter SSI
+    ###
+
+    edc.iam.trusted-issuer.catena.id=did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
+    edc.iam.sts.oauth.token.url=https://bpnl00000003cojn-knowledge--agents--manufacturer--ag.authentication.eu10.hana.ondemand.com/oauth/token
+    edc.iam.sts.oauth.client.id={{ .Values.dataspace.miwClientOem }}
+    edc.iam.sts.oauth.client.secret.alias=sts-oem-secret
+    edc.iam.sts.dim.url=https://dis-integration-service-prod.eu10.dim.cloud.sap/api/v2.0.0/iatp/catena-x-portal
+    tx.iam.iatp.bdrs.server.url=https://bpn-did-resolution-service.int.demo.catena-x.net/api/directory
+    tx.iam.iatp.bdrs.cache.validity=600
+
     ### 
     # Chapter Trust & Dataspace
     ###
 
-    # We setup a combined validation endpoint for two control planes
-    edc.dataplane.token.validation.endpoint=http://oem-data-plane:8082/api/validation
-    edc.dataplane.token.validation.endpoints.provider=http://oem-control-plane:9999/control/token
-    edc.dataplane.token.validation.endpoints.consumer=http://oem-control-plane2:9999/control/token
+    edc.dataplane.api.public.baseurl=https://{{ .Values.ingress.host }}/oem-edc-data/{{ .Values.dataspace.bpnOem }}/api/public/
 
-    edc.core.retry.retries.max= 0
-    cx.agent.controlplane.protocol=http://oem-control-plane2:8282
-    cx.agent.controlplane.management=http://oem-control-plane2:8181/management
-    cx.agent.controlplane.management.provider=http://oem-control-plane:8181/management
-    cx.agent.callback=http://oem-data-plane:8187/callback/endpoint-data-reference
+    edc.dataplane.token.expiry=360
+    edc.dataplane.token.expiry.tolerance=10
+
+    cx.agent.controlplane.protocol=http://oem-control-plane2:8084
+    cx.agent.controlplane.management=http://oem-control-plane2:8081/management
+    cx.agent.controlplane.management.provider=http://oem-control-plane:8081/management
+    cx.agent.callback=http://oem-data-plane:8187/callback/transfer-process-started
     cx.agent.skill.contract.default=Contract?oem=Skill
-    cx.agent.edc.version=0.5.3
 
     ###
     # Chapter Agent Catalogue
     ###
     cx.agent.asset.file=dataspace.ttl
     cx.agent.dataspace.synchronization=360000
-    cx.agent.dataspace.remotes=https://{{ .Values.ingress.host}}/oem-edc-control/BPNL00000003COJN,https://{{ .Values.ingress.host}}/tiera-edc-control/BPNL00000003CPIY
-  opentelemetry.properties: |-
+    cx.agent.dataspace.remotes=BPNL00000003COJN=https://{{ .Values.ingress.host}}/oem-edc-control/{{ .Values.dataspace.bpnOem }},BPNL00000003CPIY=https://{{ .Values.ingress.host}}/tiera-edc-control/{{ .Values.dataspace.bpnTier1 }}
+  
+    ###
+    # Chapter Persistence
+    ###
+
+    edc.datasource.edr.name=edr
+    edc.datasource.edr.user=oem_user
+    edc.datasource.edr.password=sacred
+    edc.datasource.edr.url=jdbc:postgresql://postgres:5432/oem
+
+    edc.datasource.dataplane.name=edr
+    edc.datasource.dataplane.user=oem_user
+    edc.datasource.dataplane.password=sacred
+    edc.datasource.dataplane.url=jdbc:postgresql://postgres:5432/oem
+
+    edc.datasource.accesstokendata.name=edr
+    edc.datasource.accesstokendata.user=oem_user
+    edc.datasource.accesstokendata.password=sacred
+    edc.datasource.accesstokendata.url=jdbc:postgresql://postgres:5432/oem
+opentelemetry.properties: |-
     otel.javaagent.enabled=false
     otel.javaagent.debug=false
   logging.properties: |-

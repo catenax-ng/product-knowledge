@@ -1,5 +1,5 @@
 # the chart version should coincide with the binary versions 
-version: 1.12.17-SNAPSHOT
+version: 1.12.19-SNAPSHOT
 # the version of the tractusx images
 txVersion: latest
 
@@ -43,9 +43,37 @@ security:
   vaultToken: ""
   backendUser: ""
   backendPwd: ""
+  vaultClient: ""
+  vaultTenant: ""
+  vaultSecret: ""
 
 postgresql:
   fullnameOverride: "postgresql"
+  primary:
+    initdb:
+      scripts:
+        my_initdb.sh: |
+          psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+            CREATE DATABASE oem;
+            CREATE DATABASE oem2;
+            CREATE DATABASE tiera;
+            CREATE DATABASE consumer;
+            CREATE USER oem_user WITH ENCRYPTED PASSWORD 'sacred';
+            CREATE USER oem2_user WITH ENCRYPTED PASSWORD 'sacred';
+            CREATE USER tiera_user WITH ENCRYPTED PASSWORD 'sacred';
+            CREATE USER consumer_user WITH ENCRYPTED PASSWORD 'sacred';
+            GRANT ALL PRIVILEGES ON DATABASE oem TO oem_user;
+            GRANT ALL PRIVILEGES ON DATABASE oem2 TO oem2_user;
+            GRANT ALL PRIVILEGES ON DATABASE tiera TO tiera_user;
+            GRANT ALL PRIVILEGES ON DATABASE consumer TO consumer_user;
+            \c oem
+            GRANT ALL ON SCHEMA public TO oem_user;
+            \c oem2
+            GRANT ALL ON SCHEMA public TO oem2_user;
+            \c tiera
+            GRANT ALL ON SCHEMA public TO tiera_user;
+            \c consumer
+            GRANT ALL ON SCHEMA public TO consumer_user;
   image:
     pullPolicy: Always
   auth:
