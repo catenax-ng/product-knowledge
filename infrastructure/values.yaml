@@ -53,7 +53,7 @@ postgresql:
     initdb:
       scripts:
         my_initdb.sh: |
-          export PG
+          export PGPASSWORD="postgres" 
           psql -v ON_ERROR_STOP=1 --username postgres --dbname postgres <<-EOSQL
             CREATE DATABASE backend;
             CREATE DATABASE oem;
@@ -83,9 +83,12 @@ postgresql:
           EOSQL
   image:
     pullPolicy: Always
-
   persistence:
     enabled: false
+  auth:
+    username: "postgres"
+    password: "postgres"
+    database: "postgres"
 
 #  initdbUsername: 
 #  initdbPassword: 
