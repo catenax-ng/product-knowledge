@@ -49,26 +49,29 @@ security:
 
 postgresql:
   fullnameOverride: "postgresql"
-  auth:
-    username: postgres
-    password: postgres
   primary:
     initdb:
       scripts:
-        my_initdb.: |
+        my_initdb.sh: |
+          export PG
           psql -v ON_ERROR_STOP=1 --username postgres --dbname postgres <<-EOSQL
+            CREATE DATABASE backend;
             CREATE DATABASE oem;
             CREATE DATABASE oem2;
             CREATE DATABASE tiera;
             CREATE DATABASE consumer;
+            CREATE USER backend_user WITH ENCRYPTED PASSWORD 'backend_login';
             CREATE USER oem_user WITH ENCRYPTED PASSWORD 'sacred';
             CREATE USER oem2_user WITH ENCRYPTED PASSWORD 'sacred';
             CREATE USER tiera_user WITH ENCRYPTED PASSWORD 'sacred';
             CREATE USER consumer_user WITH ENCRYPTED PASSWORD 'sacred';
+            GRANT ALL PRIVILEGES ON DATABASE backend TO backend_user;
             GRANT ALL PRIVILEGES ON DATABASE oem TO oem_user;
             GRANT ALL PRIVILEGES ON DATABASE oem2 TO oem2_user;
             GRANT ALL PRIVILEGES ON DATABASE tiera TO tiera_user;
             GRANT ALL PRIVILEGES ON DATABASE consumer TO consumer_user;
+            \c backend
+            GRANT ALL ON SCHEMA public TO backend_user;
             \c oem
             GRANT ALL ON SCHEMA public TO oem_user;
             \c oem2
@@ -80,10 +83,6 @@ postgresql:
           EOSQL
   image:
     pullPolicy: Always
-  auth:
-    database: "backend"
-#    username: 
-#    password: 
 
   persistence:
     enabled: false
