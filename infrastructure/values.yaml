@@ -159,7 +159,7 @@ consumer-connector:
       EDC_DATAPLANE_SELECTOR_AGENTPLANE_SOURCETYPES: cx-common:Protocol?w3c:http:SPARQL,cx-common:Protocol?w3c:http:SKILL
       EDC_DATAPLANE_SELECTOR_AGENTPLANE_TRANSFERTYPES: HttpData-PULL
       EDC_DATAPLANE_SELECTOR_AGENTPLANE_DESTINATIONTYPES: HttpProxy
-      EDC_DATAPLANE_SELECTOR_AGENTPLANE_PROPERTIES: { "publicApiUrl": "https://consumer-agent.knowledge.int.demo.catena-x.net/api/public/" }
+      EDC_DATAPLANE_SELECTOR_AGENTPLANE_PROPERTIES: '{ \"publicApiUrl\": \"https://consumer-agent.knowledge.int.demo.catena-x.net/api/public/\" }'
       EDC_VAULT_URL_OVERRIDE: "https://tsyidsconnectors.vault.azure.net/"
       EDC_VAULT_URL_OVERRIDE_UNSAFE: false
   dataplane:
