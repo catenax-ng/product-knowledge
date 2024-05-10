@@ -14,7 +14,15 @@ dataspace:
   privateKeyAliasTier1: "tier1-daps-key"
   publicKeyAliasTier1: "tier1-daps-crt"
   dapsClientIdTier1: ""
-  bpnCustomer: BPNL00000003CQI9
+  bpnCustomer: &customerBpn BPNL00000003CQI9
+  didCustomer: &customerDid did:web:portal-backend.int.demo.catena-x.net:api:administration:staticdata:did:BPNL00000003CQI9
+  oauthCustomer: &customerOauth https://bpnl00000003cqi9-knowledge--agents--consumer--ltd.authentication.eu10.hana.ondemand.com/oauth/token
+  clientCustomer: &customerOauthClient sb-ccdbb0a7-ab0f-4e78-b5eb-95d3a5d5ed2b!b458165|ica-production-dim-prod-eu10-004-prod-dis-cloud-approuter!b174292
+  secretCustomer: &customerOauthSecret sts-consumer-secret
+  dbCustomerUrl: &customerDbUrl "jdbc:postgresql://postgresql:5432/consumer"
+  dbCustomerName: &customerDbName "consumer"
+  dbCustomerUser: &customerDbUser "consumer_user"
+  dbCustomerPass: &customerDbPass "sacred"
   miwClientCustomer: sa30
   privateKeyAliasCustomer: "customer-daps-key"
   publicKeyAliasCustomer: "customer-daps-crt"
@@ -26,7 +34,9 @@ dataspace:
 ingress:
   host: knowledge.int.demo.catena-x.net
   oemHost: knowledge-oem.int.demo.catena-x.net
-  issuer: letsencrypt-prod
+  customerConnectorHost: &customerConnectorHost consumer-connector.knowledge.int.demo.catena-x.net
+  customerAgentHost: &customerAgentHost consumer-agent.knowledge.int.demo.catena-x.net
+  issuer: &clusterIssuer letsencrypt-prod
 
 namespace: "product-knowledge"
 
@@ -37,7 +47,7 @@ security:
   backupsKey: ""
   backupsShare: ""
   authType: ""
-  xApiKey: ""
+  xApiKey: &customerApiKey "foo"
   dapsUrl: "https://daps1.int.demo.catena-x.net"
   vaultUrl: ""
   vaultToken: ""
@@ -46,6 +56,14 @@ security:
   vaultClient: ""
   vaultTenant: ""
   vaultSecret: ""
+  tokenKey: &customerTokenKey customer-daps-key
+  tokenCert: &customerTokenCert customer-daps-cert
+  
+vault: &azureVault
+  name: tsyidsconnectors
+  client: "dummy"
+  tenant: "tenant"
+  secret: "mysecret"
 
 postgresql:
   fullnameOverride: "postgresql"
@@ -93,7 +111,111 @@ postgresql:
 #  initdbUsername: 
 #  initdbPassword: 
 
+consumer-connector:
+  install:
+    postgresql: false
+  participant:
+    id: *customerBpn
+  iatp:
+    id: *customerDid
+    trustedIssuers:
+     - did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
+    sts:
+      dim:
+        url: https://dis-integration-service-prod.eu10.dim.cloud.sap/api/v2.0.0/iatp/catena-x-portal
+      oauth:
+        token_url: *customerOauth
+        client:
+          id: *customerOauthClient
+          secret_alias: *customerOauthSecret
+  postgresql:
+    jdbcUrl: *customerDbUrl
+    auth:
+      database: *customerDbName
+      username: *customerDbUser
+      password: *customerDbPass
+  vault: 
+    azure: *azureVault
+  controlplane: &consumerControlPlane
+    endpoints:
+      management:
+        authKey: *customerApiKey
+    bdrs:
+      server:
+        url: https://bpn-did-resolution-service.int.demo.catena-x.net/api/directory
+    ingresses:
+     - enabled: true
+       hostname: *customerConnectorHost
+       endpoints:
+         - protocol
+         - management
+         - api
+       tls:
+        enabled: true
+       certManager:
+        clusterIssuer: *clusterIssuer
+    env:
+      EDC_DATAPLANE_SELECTOR_AGENTPLANE_URL: http://consumer-data-plane:8087/api/signaling/v1/dataflows
+      EDC_DATAPLANE_SELECTOR_AGENTPLANE_SOURCETYPES: cx-common:Protocol?w3c:http:SPARQL,cx-common:Protocol?w3c:http:SKILL
+      EDC_DATAPLANE_SELECTOR_AGENTPLANE_TRANSFERTYPES: HttpData-PULL
+      EDC_DATAPLANE_SELECTOR_AGENTPLANE_DESTINATIONTYPES: HttpProxy
+      EDC_DATAPLANE_SELECTOR_AGENTPLANE_PROPERTIES: { "publicApiUrl": "https://consumer-agent.knowledge.int.demo.catena-x.net/api/public/" }
+  dataplane:
+    token:
+      signer:
+        privatekey_alias: *customerTokenKey
+      verifier:
+        publickey_alias: *customerTokenCert
 
+consumer-agent-plane:
+  url: 
+    public: ""
+  participant:
+    id: *customerBpn
+  iatp:
+    id: *customerDid
+    trustedIssuers:
+     - did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
+    sts:
+      dim:
+        url: https://dis-integration-service-prod.eu10.dim.cloud.sap/api/v2.0.0/iatp/catena-x-portal
+      oauth:
+        token_url: *customerOauth
+        client:
+          id: *customerOauthClient
+          secret_alias: *customerOauthSecret
+  postgresql:
+    jdbcUrl: *customerDbUrl
+    auth:
+      database: *customerDbName
+      username: *customerDbUser
+      password: *customerDbPass
+  vault: 
+    azure: *azureVault
+  controlplane: *consumerControlPlane
+  token:
+    signer:
+      privatekey_alias: *customerTokenKey
+    verifier:
+      publickey_alias: *customerTokenCert
+  auth: {}
+  ingresses:
+   - enabled: true
+     hostname: *customerAgentHost
+     endpoints:
+      - public
+      - api
+     tls:
+      enabled: true
+     certManager:
+      clusterIssuer: *clusterIssuer
+  agent:
+    synchronization: 360000
+    connectors: 
+      BPNL00000003COJN: https://knowledge.int.demo.catena-x.net/oem-edc-control/BPNL00000003COJN
+      BPNL00000003CQI9: https://consumer-connector.int.demo.catena-x.net
+
+  
 
 
 

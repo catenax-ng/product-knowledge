@@ -9,14 +9,14 @@ dependencies:
     - name: postgresql
       version: ">=12.1"
       repository: https://charts.bitnami.com/bitnami
-#    - name: tractusx-connector
-#      alias: consumer-connector
-#      repository: https://eclipse-tractusx.github.io/charts/dev
-#      version: 0.7.0
-#   - name: agent-plane
-#      alias: consumer-agent-plane
-#      version: "1.12.19-SNAPSHOT"
-#      repository: https://catenax-ng.github.io/tx-knowledge-agents-edc
+    - name: tractusx-connector-azure-vault
+      alias: consumer-connector
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 0.7.1
+    - name: agent-plane-azure-vault
+      alias: consumer-agent-plane
+      version: "1.12.19-SNAPSHOT"
+      repository: https://catenax-ng.github.io/tx-knowledge-agents-edc
 #    - name: matchmaking-agent
 #      alias: consumer-agent
 #      version: "1.12.19-SNAPSHOT"
