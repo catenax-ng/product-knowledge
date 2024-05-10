@@ -168,6 +168,9 @@ consumer-connector:
         privatekey_alias: *customerTokenKey
       verifier:
         publickey_alias: *customerTokenCert
+    env:
+      EDC_VAULT_URL_OVERRIDE: "https://tsyidsconnectors.vault.azure.net/"
+      EDC_VAULT_URL_OVERRIDE_UNSAFE: false
 
 consumer-agent-plane:
   url: 
