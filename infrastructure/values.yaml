@@ -5,12 +5,12 @@ txVersion: latest
 
 dataspace:
   bpnOem: BPNL00000003COJN
-  miwClientOem: sa149
+  miwClientOem: sb-168e5a6e-353a-40ca-bf2d-7b615bb21cb4!b457995|ica-production-dim-prod-eu10-004-prod-dis-cloud-approuter!b174292
   privateKeyAliasOem: "oem-daps-key"
   publicKeyAliasOem: "oem-daps-crt"
   dapsClientIdOem: ""
   bpnTier1: BPNL00000003CPIY
-  miwClientTier1: sa150
+  miwClientTier1: sb-ee866292-fec1-4359-9066-72d874d177b9!b458141|ica-production-dim-prod-eu10-004-prod-dis-cloud-approuter!b174292
   privateKeyAliasTier1: "tier1-daps-key"
   publicKeyAliasTier1: "tier1-daps-crt"
   dapsClientIdTier1: ""
@@ -219,8 +219,8 @@ consumer-agent-plane:
   agent:
     synchronization: 360000
     connectors: 
-      BPNL00000003COJN: https://knowledge.int.demo.catena-x.net/oem-edc-control/BPNL00000003COJN
-      BPNL00000003CQI9: https://consumer-connector.int.demo.catena-x.net
+      BPNL00000003COJN: https://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN
+      BPNL00000003CQI9: https://consumer-connector.dev.demo.catena-x.net
 
   
 

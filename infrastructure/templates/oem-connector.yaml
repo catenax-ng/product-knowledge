@@ -756,7 +756,7 @@ data:
     otel.javaagent.enabled=false
     otel.javaagent.debug=false
   logging.properties: |-
-    .level=FINE
+    .level=INFO
     org.eclipse.dataspaceconnector.level=ALL
     handlers=java.util.logging.ConsoleHandler
     java.util.logging.ConsoleHandler.formatter=java.util.logging.SimpleFormatter
