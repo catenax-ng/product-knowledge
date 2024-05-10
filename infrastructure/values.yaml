@@ -32,10 +32,10 @@ dataspace:
   config: resources/agent.ttl
 
 ingress:
-  host: knowledge.int.demo.catena-x.net
-  oemHost: knowledge-oem.int.demo.catena-x.net
-  customerConnectorHost: &customerConnectorHost consumer-connector.knowledge.int.demo.catena-x.net
-  customerAgentHost: &customerAgentHost consumer-agent.knowledge.int.demo.catena-x.net
+  host: knowledge.dev.demo.catena-x.net
+  oemHost: knowledge-oem.dev.demo.catena-x.net
+  customerConnectorHost: &customerConnectorHost consumer-connector.knowledge.dev.demo.catena-x.net
+  customerAgentHost: &customerAgentHost consumer-agent.knowledge.dev.demo.catena-x.net
   issuer: &clusterIssuer letsencrypt-prod
 
 namespace: "product-knowledge"
@@ -155,11 +155,11 @@ consumer-connector:
        certManager:
         clusterIssuer: *clusterIssuer
     env:
-      EDC_DATAPLANE_SELECTOR_AGENTPLANE_URL: http://consumer-data-plane:8087/api/signaling/v1/dataflows
+      EDC_DATAPLANE_SELECTOR_AGENTPLANE_URL: http:/hey-catena-dev-consumer-agent-plane-agentplane:8087/api/signaling/v1/dataflows
       EDC_DATAPLANE_SELECTOR_AGENTPLANE_SOURCETYPES: cx-common:Protocol?w3c:http:SPARQL,cx-common:Protocol?w3c:http:SKILL
       EDC_DATAPLANE_SELECTOR_AGENTPLANE_TRANSFERTYPES: HttpData-PULL
       EDC_DATAPLANE_SELECTOR_AGENTPLANE_DESTINATIONTYPES: HttpProxy
-      EDC_DATAPLANE_SELECTOR_AGENTPLANE_PROPERTIES: '{ "publicApiUrl": "https://consumer-agent.knowledge.int.demo.catena-x.net/api/public/" }'
+      EDC_DATAPLANE_SELECTOR_AGENTPLANE_PROPERTIES: '{ "publicApiUrl": "https://consumer-agent.knowledge.dev.demo.catena-x.net/api/public/" }'
       EDC_VAULT_URL_OVERRIDE: "https://tsyidsconnectors.vault.azure.net/"
       EDC_VAULT_URL_OVERRIDE_UNSAFE: false
   dataplane:
