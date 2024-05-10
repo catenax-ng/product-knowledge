@@ -791,7 +791,7 @@ spec:
         seccompProfile:
           type: RuntimeDefault
       containers:
-        - image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-hashicorp:1.12.17-SNAPSHOT
+        - image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-azure-vault:1.12.19-SNAPSHOT
           imagePullPolicy: Always
           name: oem-data-plane
           securityContext:
@@ -802,13 +802,19 @@ spec:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: false
           ports:
-            - containerPort: 8082 # API
-            - containerPort: 8185 # PUBLIC
-            - containerPort: 8187 # AGREEMENT CALLBACK
-            - containerPort: 9999 # CONTROL
+            - containerPort: 8080 # API
+            - containerPort: 8081 # PUBLIC
+            - containerPort: 8083 # SIGNALING
+            - containerPort: 8187 # CALLBACK
           env:
             - name:  EDC_FS_CONFIG
               value: /connector-config/configuration.properties
+            - name: AZURE_CLIENT_ID
+              value: {{ .Values.security.vaultClient }}
+            - name: AZURE_CLIENT_SECRET
+              value: {{ .Values.security.vaultSecret }}
+            - name: AZURE_TENANT_ID
+              value: {{ .Values.security.vaultTenant }}
           resources:
             requests:
               cpu: 500m
@@ -820,7 +826,7 @@ spec:
             failureThreshold: 17
             httpGet:
               path: /api/check/startup
-              port: 8082
+              port: 8080
               scheme: HTTP
             initialDelaySeconds: 90
             periodSeconds: 30
@@ -830,7 +836,7 @@ spec:
             failureThreshold: 4
             httpGet:
               path: /api/check/liveness
-              port: 8082
+              port: 8080
               scheme: HTTP
             periodSeconds: 60
             successThreshold: 1
@@ -839,7 +845,7 @@ spec:
             failureThreshold: 2
             httpGet:
               path: /api/check/readiness
-              port: 8082
+              port: 8080
               scheme: HTTP
             periodSeconds: 30
             successThreshold: 1
@@ -881,18 +887,18 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 8082
+    - port: 8080
       name: api
-      targetPort: 8082
-    - port: 8185
+      targetPort: 8080
+    - port: 8081
       name: public
-      targetPort: 8185
+      targetPort: 8081
+    - port: 8083
+      name: signaling
+      targetPort: 8083
     - port: 8187
       name: callback
       targetPort: 8187
-    - port: 9999
-      name: control
-      targetPort: 9999
   selector:
     app: oem-data-plane
 ---
@@ -917,18 +923,18 @@ spec:
     - host: {{ .Values.ingress.host }}
       http:
         paths:
-          - path: /oem-edc-data/{{ .Values.dataspace.bpnOem }}/(data)(.*)
+          - path: /oem-edc-data/{{ .Values.dataspace.bpnOem }}/(api/public)(.*)
             pathType: Prefix
             backend:
               service:
                 name: oem-data-plane
                 port:
-                  number: 8185
+                  number: 8081
           - path: /oem-edc-data/{{ .Values.dataspace.bpnOem }}/(api)(.*)
             pathType: Prefix
             backend:
               service:
                 name: oem-data-plane
                 port:
-                  number: 8082
+                  number: 8080
 
