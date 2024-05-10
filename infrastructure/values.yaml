@@ -162,6 +162,7 @@ consumer-connector:
       EDC_DATAPLANE_SELECTOR_AGENTPLANE_PROPERTIES: '{ "publicApiUrl": "https://consumer-agent.knowledge.dev.demo.catena-x.net/api/public/" }'
       EDC_VAULT_URL_OVERRIDE: "https://tsyidsconnectors.vault.azure.net/"
       EDC_VAULT_URL_OVERRIDE_UNSAFE: false
+      EDC_IAM_TRUSTED-ISSUER_0-ISSUER_ID: did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
   dataplane:
     token:
       signer:
@@ -171,6 +172,7 @@ consumer-connector:
     env:
       EDC_VAULT_URL_OVERRIDE: "https://tsyidsconnectors.vault.azure.net/"
       EDC_VAULT_URL_OVERRIDE_UNSAFE: false
+      EDC_IAM_TRUSTED-ISSUER_0-ISSUER_ID: did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
 
 consumer-agent-plane:
   image:
