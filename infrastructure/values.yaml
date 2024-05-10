@@ -201,6 +201,7 @@ consumer-agent-plane:
       password: *customerDbPass
   vault: 
     azure: *azureVault
+  connector: consumer-connector
   controlplane: *consumerControlPlane
   token:
     signer:
