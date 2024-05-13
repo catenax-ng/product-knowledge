@@ -214,7 +214,7 @@ consumer-agent-plane:
      hostname: *customerAgentHost
      endpoints:
       - public
-      - api
+      - default
      tls:
       enabled: true
      certManager:
