@@ -45,62 +45,44 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./resources/psql/db.sh:/docker-entrypoint-initdb.d/init-database.sh
       - ./resources/psql/seed.sh:/opt/seed.sh
+      - ./resources/psql/is_db_ready.sh:/is_db_ready.sh
       - ./resources/data:/tmp/data
     env_file:
       - resources/env.docker
     ports:
       - "5432:5432"
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      test: ["CMD-SHELL", "sh /is_db_ready.sh" ]
       interval: 5s
-      timeout: 30s
-      retries: 10
+      timeout: 5s
+      retries: 50
 
-  # The managed wallet identity for self-sovereign identities, note: after initial setup, you may need to create additional wallets
-  miw:
-    image: tractusx/managed-identity-wallet:latest
-    platform: linux/amd64
-    container_name: miw
-    env_file:
-      - resources/env.docker
-#    environment:
-      # Uncomment to enable for debugging, please choose a different port for each endpoint
-#      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
+  # vault by hashicorp
+  vault:
+    image: hashicorp/vault:latest
+    container_name: vault
     ports:
-      - "8000:8000"
-#      - "8090:8090"
-#      - "5005:5005"
-#      - "4040:4040"
-    depends_on:
-      postgres:
-        condition: service_healthy
-      keycloak:
-        condition: service_started
-
-  # An identity provider for sign-on
-  keycloak:
-    image: quay.io/keycloak/keycloak:21.1
-    environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
-      KC_HOSTNAME: keycloak
-      KC_HEALTH_ENABLED: true
-      KC_HOSTNAME_PORT: 6060
-    command:
-      - start-dev
-      - --http-port=6060
-      - --import-realm
+      - "8201:8201"
+    cap_add:
+      - IPC_LOCK
     volumes:
-      - ./resources/keycloak/miw_test_realm.json:/opt/keycloak/data/import/miw_test_realm.json
-      - ./resources/keycloak/health-check.sh:/opt/keycloak/health-check.sh
-    ports:
-      - "6060:6060"
-    healthcheck:
-      test: "timeout 10s bash -c ':> /dev/tcp/127.0.0.1/6060' || exit 1"
-      interval: 10s
-      timeout: 10s
-      retries: 15
+      - ./resources/vault:/data
+    command: server -dev -config /data/config.json -dev-root-token-id="root" 
 
+  # vault initialization routing
+  vault-init:
+    image: hashicorp/vault:latest
+    container_name: vault-init
+    environment:
+      VAULT_ADDR: 'http://vault:8201'
+      VAULT_TOKEN: 'root'
+    volumes:
+      - ./resources/vault:/data
+    command: /data/setup.sh
+    depends_on:
+      vault:
+        condition: service_started
+        
   ###
   # Backend Services
   ###
@@ -169,7 +151,8 @@ services:
   ###
   # A conformity-testing binding agent
   conforming-agent:
-    image: tractusx/conforming-agent:1.12.17-SNAPSHOT
+    image: ghcr.io/catenax-ng/tx-knowledge-agents/conforming-agent:1.12.19-SNAPSHOT
+#    image: tractusx/conforming-agent:1.12.19-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     environment:
       # Uncomment to enable for debugging, please choose a different port for each endpoint
@@ -182,7 +165,8 @@ services:
   # A data provisioning agent
   #
   provider-agent:
-    image: tractusx/provisioning-agent:1.12.17-SNAPSHOT
+    image: ghcr.io/catenax-ng/tx-knowledge-agents/provisioning-agent:1.12.19-SNAPSHOT
+#    image: tractusx/provisioning-agent:1.12.19-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8080:8080" # sparql endpoint
@@ -228,7 +212,8 @@ services:
   ###
   # A function providing agent
   tiera-remoting-agent:
-    image: tractusx/remoting-agent:1.12.17-SNAPSHOT
+    image: ghcr.io/catenax-ng/tx-knowledge-agents/remoting-agent:1.12.19-SNAPSHOT
+#    image: tractusx/remoting-agent:1.12.19-SNAPSHOT
     read_only: true
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
@@ -252,21 +237,21 @@ services:
 
   ###
   # Bridge from provising agent to AAS API
-  aas-bridge:
-    image: ghcr.io/catenax-ng/tx-knowledge-agents-aas-bridge/aas-bridge:0.10.2-SNAPSHOT
-    platform: ${DOCKER_PLATFORM:-linux/amd64}
-    ports:
-      - "8700:8080" # AAS-API
-      - "4048:4040" # DEBUG
-    environment:
-      PROVIDER_SPARQL_ENDPOINT: http://provider-agent:8082/sparql
+#  aas-bridge:
+#    image: ghcr.io/catenax-ng/tx-knowledge-agents-aas-bridge/aas-bridge:0.10.2-SNAPSHOT
+#    platform: ${DOCKER_PLATFORM:-linux/amd64}
+#    ports:
+#      - "8700:8080" # AAS-API
+#      - "4048:4040" # DEBUG
+#    environment:
+#      PROVIDER_SPARQL_ENDPOINT: http://provider-agent:8082/sparql
       #PROVIDER_SPARQL_ENDPOINT: http://oem-data-plane:8082/api/agent
       #PROVIDER_AGENT_PLANE: http://provider-agent:8082/sparql
       #PROVIDER_SPARQL_ENDPOINT: https://knowledge.dev.demo.catena-x.net/oem-provider-agent3/sparql
-      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
-      TIMEOUT_SECONDS: 30
-    volumes:
-      - ./resources/opentelemetry.properties:/app/opentelemetry.properties
+#      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
+#      TIMEOUT_SECONDS: 30
+#    volumes:
+#      - ./resources/opentelemetry.properties:/app/opentelemetry.properties
     #depends_on:
     #  provider-agent:
     #    condition: service_started
@@ -278,16 +263,21 @@ services:
   ###
   # Configures the oem control plane (provider)
   oem-control-plane:
-    image: tractusx/edc-controlplane-memory-hashicorp-vault:0.5.3
+#    image: tractusx/edc-controlplane-postgresql-hashicorp-vault:0.7.0
+    image: tractusx/edc-controlplane-postgresql-azure-vault:0.7.0
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8090:8080" # API
-      - "8091:8181" # PUBLIC
-      - "8093:8282" # DPS
-      - "8094:9998" # METRICS
-      - "8095:9999" # CONTROL
+      - "8091:8081" # MANAGEMENT
+      - "8093:8083" # CONTROL
+      - "8094:8084" # DSP
+      - "8095:0886" # PUBLIC
       - "4040:4040" # DEBUG
     environment:
+      # Azure auth
+      AZURE_CLIENT_ID:     ${AZURE_CLIENT_ID}
+      AZURE_CLIENT_SECRET:     ${AZURE_CLIENT_SECRET}
+      AZURE_TENANT_ID:     ${AZURE_TENANT_ID}
       # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
       EDC_FS_CONFIG: /app/configuration.properties
       # Uncomment to enable for debugging, please choose a different port for each endpoint
@@ -297,21 +287,30 @@ services:
       - ./resources/opentelemetry.properties:/app/opentelemetry.properties
       - ./resources/logging.properties:/app/logging.properties
     depends_on:
-      miw:
+      postgres:
+        condition: service_healthy
+      vault:
         condition: service_started
+      vault-init:
+        condition: service_completed_successfully
 
   ###
   # Configures the oem control plane (consumer)
   oem-control-plane2:
-    image: tractusx/edc-controlplane-memory-hashicorp-vault:0.5.3
+#    image: tractusx/edc-controlplane-postgresql-hashicorp-vault:0.7.0
+    image: tractusx/edc-controlplane-postgresql-azure-vault:0.7.0
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8097:8080" # API
-      - "8098:8181" # PUBLIC
-      - "8100:8282" # DPS
-      - "8101:8081" # OBSERVABILITY
+      - "8098:8081" # MANAGEMENT
+      - "8100:8084" # DSP
+      - "8101:8086" # PUBLIC
       - "4047:4040" # DEBUG
     environment:
+      # Azure auth
+      AZURE_CLIENT_ID:     ${AZURE_CLIENT_ID}
+      AZURE_CLIENT_SECRET:     ${AZURE_CLIENT_SECRET}
+      AZURE_TENANT_ID:     ${AZURE_TENANT_ID}
       # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
       EDC_FS_CONFIG: /app/configuration.properties      
       # Uncomment to enable for debugging, please choose a different port for each endpoint
@@ -321,21 +320,30 @@ services:
       - ./resources/opentelemetry.properties:/app/opentelemetry.properties
       - ./resources/logging.properties:/app/logging.properties
     depends_on:
-      miw:
+      postgres:
+        condition: service_healthy
+      vault:
         condition: service_started
-
+      vault-init:
+        condition: service_completed_successfully
   ###
   # Configures the OEM data plane
   oem-data-plane:
-    image: tractusx/agentplane-hashicorp:1.12.17-SNAPSHOT
+#    image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-hashicorp:1.12.19-SNAPSHOT
+    image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-azure-vault:1.12.19-SNAPSHOT
+#    image: tractusx/agentplane-hashicorp:1.12.19-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
-      - "8102:8082"  # API/sparql endpoint
+      - "8102:8080"  # API/sparql endpoint
       - "8103:8185"  # PUBLIC
       - "8104:8187"  # AGREEMENT CALLBACK
       - "8105:9999" # CONTROL
       - "4041:4040"  # DEBUG
     environment:
+      # Azure auth
+      AZURE_CLIENT_ID:     ${AZURE_CLIENT_ID}
+      AZURE_CLIENT_SECRET:     ${AZURE_CLIENT_SECRET}
+      AZURE_TENANT_ID:     ${AZURE_TENANT_ID}
       # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
       EDC_FS_CONFIG: /app/configuration.properties
       # Uncomment to enable for debugging, please choose a different port for each endpoint
@@ -346,6 +354,12 @@ services:
       - ./resources/opentelemetry.properties:/app/opentelemetry.properties
       - ./resources/logging.properties:/app/logging.properties
     depends_on:
+      postgres:
+        condition: service_healthy
+      vault:
+        condition: service_started
+      vault-init:
+        condition: service_completed_successfully
       oem-control-plane:
         condition: service_started
       oem-control-plane2:
@@ -354,19 +368,23 @@ services:
         condition: service_started
 
   ###
-  # Configures the tiera control plane
+  # Configures the tiera control plane (runtime)
   tiera-control-plane:
-    image: tractusx/edc-controlplane-memory-hashicorp-vault:0.5.3
+#    image: tractusx/edc-controlplane-postgresql-hashicorp-vault:0.7.0
+    image: tractusx/edc-controlplane-postgresql-azure-vault:0.7.0
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8300:8080" # API
-      - "8301:8181" # PUBLIC
-      - "8303:8282" # PROTOCOL
-      - "8304:9998" # METRICS
-      - "8305:9999" # CONTROL
-      - "8306:8081" # Observability
+      - "8301:8081" # MANAGEMENT
+      - "8303:8083" # CONTROL
+      - "8304:8084" # DSP
+      - "8305:8086" # PUNLIC
       - "4043:4040" # DEBUG
     environment:
+      # Azure auth
+      AZURE_CLIENT_ID:     ${AZURE_CLIENT_ID}
+      AZURE_CLIENT_SECRET:     ${AZURE_CLIENT_SECRET}
+      AZURE_TENANT_ID:     ${AZURE_TENANT_ID}
       # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
       EDC_FS_CONFIG: /app/configuration.properties
       # Uncomment to enable for debugging, please choose a different port for each endpoint
@@ -376,21 +394,31 @@ services:
       - ./resources/opentelemetry.properties:/app/opentelemetry.properties
       - ./resources/logging.properties:/app/logging.properties
     depends_on:
-      miw:
+      postgres:
+        condition: service_healthy
+      vault:
         condition: service_started
+      vault-init:
+        condition: service_completed_successfully
 
   ###
   # Configures the supplier data plane
   tiera-data-plane:
-    image: tractusx/agentplane-hashicorp:1.12.17-SNAPSHOT
+#    image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-hashicorp:1.12.19-SNAPSHOT
+    image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-azure-vault:1.12.19-SNAPSHOT
+#    image: tractusx/agentplane-hashicorp:1.12.19-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
-      - "8400:8082"  # API/sparql endpoint
+      - "8400:8080"  # API/sparql endpoint
       - "8401:8185"  # PUBLIC
-      - "8402:8186"  # AGREEMENT CALLBACK
+      - "8402:8187"  # AGREEMENT CALLBACK
       - "8403:9999" # CONTROL
       - "4044:4040"  # DEBUG
     environment:
+      # Azure auth
+      AZURE_CLIENT_ID:     ${AZURE_CLIENT_ID}
+      AZURE_CLIENT_SECRET:     ${AZURE_CLIENT_SECRET}
+      AZURE_TENANT_ID:     ${AZURE_TENANT_ID}
       # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
       EDC_FS_CONFIG: /app/configuration.properties
       # Uncomment to enable for debugging, please choose a different port for each endpoint
@@ -401,6 +429,12 @@ services:
       - ./resources/opentelemetry.properties:/app/opentelemetry.properties
       - ./resources/logging.properties:/app/logging.properties
     depends_on:
+      postgres:
+        condition: service_healthy
+      vault:
+        condition: service_started
+      vault-init:
+        condition: service_completed_successfully
       tiera-control-plane:
         condition: service_started
       oem-control-plane:
@@ -409,16 +443,21 @@ services:
   ###
   # Configures the consumer control plane
   consumer-control-plane:
-    image: tractusx/edc-controlplane-memory-hashicorp-vault:0.5.3
+    image: tractusx/edc-controlplane-postgresql-azure-vault:0.7.0
+#    image: tractusx/edc-controlplane-postgresql-hashicorp-vault:0.7.0
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8500:8080" # API
-      - "8501:8181" # PUBLIC
-      - "8503:8282" # PROTOCOL
-      - "8504:9998" # METRICS
-      - "8505:9999" # CONTROL
+      - "8501:8081" # MANAGEMENT
+      - "8503:8083" # CONTROL
+      - "8504:8084" # PROTOCOL
+      - "8505:8086" # PUNLIC
       - "4045:4040" # DEBUG
     environment:
+      # Azure auth
+      AZURE_CLIENT_ID:     ${AZURE_CLIENT_ID}
+      AZURE_CLIENT_SECRET:     ${AZURE_CLIENT_SECRET}
+      AZURE_TENANT_ID:     ${AZURE_TENANT_ID}
       # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
       EDC_FS_CONFIG: /app/configuration.properties
       # Uncomment to enable for debugging, please choose a different port for each endpoint
@@ -428,21 +467,31 @@ services:
       - ./resources/opentelemetry.properties:/app/opentelemetry.properties
       - ./resources/logging.properties:/app/logging.properties
     depends_on:
-      miw:
+      postgres:
+        condition: service_healthy
+      vault:
         condition: service_started
+      vault-init:
+        condition: service_completed_successfully
 
   ###
   # Configures the consumer data plane
   consumer-data-plane:
-    image: tractusx/agentplane-hashicorp:1.12.17-SNAPSHOT
+    image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-azure-vault:1.12.19-SNAPSHOT
+#    image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-hashicorp:1.12.19-SNAPSHOT
+#    image: tractusx/agentplane-hashicorp:1.12.19-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
-      - "8600:8082"  # API/sparql endpoint
+      - "8600:8080"  # API/sparql endpoint
       - "8601:8185"  # PUBLIC
       - "8602:8187"  # AGREEMENT CALLBACK
       - "8603:9999" # CONTROL
       - "4046:4040"  # DEBUG
     environment:
+      # Azure auth
+      AZURE_CLIENT_ID:     ${AZURE_CLIENT_ID}
+      AZURE_CLIENT_SECRET:     ${AZURE_CLIENT_SECRET}
+      AZURE_TENANT_ID:     ${AZURE_TENANT_ID}
       # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
       EDC_FS_CONFIG: /app/configuration.properties      
       # Uncomment to enable for debugging, please choose a different port for each endpoint
@@ -453,6 +502,12 @@ services:
       - ./resources/opentelemetry.properties:/app/opentelemetry.properties
       - ./resources/logging.properties:/app/logging.properties
     depends_on:
+      postgres:
+        condition: service_healthy
+      vault:
+        condition: service_started
+      vault-init:
+        condition: service_completed_successfully
       consumer-control-plane:
         condition: service_started
       tiera-control-plane:
@@ -461,29 +516,34 @@ services:
         condition: service_started
 
   ###
-  # Application/UX/Portal Section
-  ###
-
-  ###
-  # The skill gym over the consumer
-  consumer-frontend:
-    build:
-      dockerfile: src/main/docker/Dockerfile
-      context: ../ux
-    image: ghcr.io/catenax-ng/product-knowledge/ux:1.12.17-SNAPSHOT
+  # Configures the consumer matchmaking agent
+  consumer-agent:
+    image: ghcr.io/catenax-ng/tx-knowledge-agents/matchmaking-agent:1.12.19-SNAPSHOT
+#    image: tractusx/agentplane-hashicorp:1.12.19-SNAPSHOT
     platform: ${DOCKER_PLATFORM:-linux/amd64}
-    environment:
-      REACT_APP_SKILL_CONNECTOR_DATA: http://localhost:8500
-      REACT_APP_SKILL_CONNECTOR_CONTROL: http://localhost:8600
-      REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_KEY: X-Api-Key
-      REACT_APP_SKILL_CONNECTOR_AUTH_HEADER_VALUE: foo
-      REACT_APP_SKILL_BACKEND: http://localhost:3000/webvowl/index.html
-      REACT_APP_SKILL_GITHUB_ONTOLOGYHUB: https://api.github.com/repos/catenax-ng/product-knowledge/contents/ontology
-      REACT_APP_FOLDER: /consumer-frontend
     ports:
-      - "3000:8080"  # http
+      - "8604:8080"  # Agent Source
+      - "8605:8187"  # AGREEMENT CALLBACK
+      - "8606:8082"  # Public Sparql
+      - "4048:4040"  # DEBUG
+    environment:
+      # If you want to enable multiple endpoints, simply list them with spaces, like ONTOP_PORT: 8080 8082
+      EDC_FS_CONFIG: /app/configuration.properties      
+      # Uncomment to enable for debugging, please choose a different port for each endpoint
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:4040
+    volumes:
+      - ./consumer/resources/matchmaking.properties:/app/configuration.properties
+      - ./resources/dataspace_local.ttl:/app/dataspace.ttl
+      - ./resources/opentelemetry.properties:/app/opentelemetry.properties
+      - ./resources/logging.properties:/app/logging.properties
     depends_on:
+      consumer-control-plane:
+        condition: service_started
       consumer-data-plane:
+        condition: service_started
+      tiera-control-plane:
+        condition: service_started
+      oem-control-plane:
         condition: service_started
 
 ###
