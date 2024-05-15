@@ -80,7 +80,7 @@ data:
     ###
     # Chapter Data Planes
     ###
-    edc.dataplane.selector.agentplane.url=http://tiera-data-plane:8087/api/signaling/v1/dataflows
+    edc.dataplane.selector.agentplane.url=http://tiera-data-plane:8083/api/signaling/v1/dataflows
     edc.dataplane.selector.agentplane.sourcetypes=cx-common:Protocol?w3c:http:SPARQL,cx-common:Protocol?w3c:http:SKILL,HttpData,AmazonS3,AzureStorage
     edc.dataplane.selector.agentplane.transfertypes=HttpData-PULL,HttpData-PUSH,AmazonS3-PUSH,AzureStorage-PUSH
     edc.dataplane.selector.agentplane.destinationtypes=HttpData,HttpProxy,AmazonS3,AzureStorage
