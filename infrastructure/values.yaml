@@ -224,6 +224,9 @@ consumer-agent-plane:
     connectors: 
       BPNL00000003COJN: https://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN
       BPNL00000003CQI9: https://consumer-connector.knowledge.dev.demo.catena-x.net
+    services:
+      # -- A regular expression which outgoing service URLs must match (unless overwritten by a specific asset property)
+      allow: '(https|(edcs?))://.*'
 
   
 
