@@ -232,7 +232,7 @@ consumer-agent-plane:
 
 consumer-agent:
   image:
-    registry: ghcr.io/catenax-ng
+    registry: ghcr.io/catenax-ng/
     repository: tx-knowledge-agents/matchmaking-agent
   url: 
     public: ""
