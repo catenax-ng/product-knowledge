@@ -263,9 +263,9 @@ data:
     edc.datasource.bpn.url=jdbc:postgresql://postgresql:5432/oem2
 
     edc.datasource.edr.name=edr
-    edc.datasource.edr.user=oem2_user
+    edc.datasource.edr.user=oem_user
     edc.datasource.edr.password=sacred
-    edc.datasource.edr.url=jdbc:postgresql://postgresql:5432/oem2
+    edc.datasource.edr.url=jdbc:postgresql://postgresql:5432/oem
 
   opentelemetry.properties: |-
     otel.javaagent.enabled=false
