@@ -381,7 +381,7 @@ data:
     edc.vault.name=tsyidsconnectors
 
     edc.transfer.proxy.token.signer.privatekey.alias=tier1-daps-key
-    edc.transfer.proxy.token.verifier.publickey.alias=tier1-daps-cert
+    edc.transfer.proxy.token.verifier.publickey.alias=tier1-daps-crt
 
     # Configure a flexible (JWT-based) Application-Side Authentication
     tractusx.auth.agent.type=jwt
