@@ -17,8 +17,8 @@ dependencies:
       alias: consumer-agent-plane
       version: "1.12.19-SNAPSHOT"
       repository: https://catenax-ng.github.io/tx-knowledge-agents-edc
-#    - name: matchmaking-agent
-#      alias: consumer-agent
-#      version: "1.12.19-SNAPSHOT"
-#      repository: https://catenax-ng.github.io/tx-knowledge-agents
+    - name: matchmaking-agent
+      alias: consumer-agent
+      version: "1.12.19-SNAPSHOT"
+      repository: https://catenax-ng.github.io/tx-knowledge-agents
 

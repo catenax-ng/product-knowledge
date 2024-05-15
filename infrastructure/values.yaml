@@ -111,123 +111,161 @@ postgresql:
 #  initdbUsername: 
 #  initdbPassword: 
 
-consumer-connector:
-  install:
-    postgresql: false
-  participant:
-    id: *customerBpn
-  iatp:
-    id: *customerDid
-    trustedIssuers:
-     - did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
-    sts:
-      dim:
-        url: https://dis-integration-service-prod.eu10.dim.cloud.sap/api/v2.0.0/iatp/catena-x-portal
-      oauth:
-        token_url: *customerOauth
-        client:
-          id: *customerOauthClient
-          secret_alias: *customerOauthSecret
-  postgresql:
-    jdbcUrl: *customerDbUrl
-    auth:
-      database: *customerDbName
-      username: *customerDbUser
-      password: *customerDbPass
-  vault: 
-    azure: *azureVault
-  controlplane: &consumerControlPlane
-    endpoints:
-      management:
-        authKey: *customerApiKey
-    bdrs:
-      server:
-        url: https://bpn-did-resolution-service.int.demo.catena-x.net/api/directory
-    ingresses:
-     - enabled: true
-       hostname: *customerConnectorHost
-       endpoints:
-         - protocol
-         - management
-         - api
-       tls:
-        enabled: true
-       certManager:
-        clusterIssuer: *clusterIssuer
-    env:
-      EDC_DATAPLANE_SELECTOR_AGENTPLANE_URL: http:/hey-catena-dev-consumer-agent-plane-agentplane:8087/api/signaling/v1/dataflows
-      EDC_DATAPLANE_SELECTOR_AGENTPLANE_SOURCETYPES: cx-common:Protocol?w3c:http:SPARQL,cx-common:Protocol?w3c:http:SKILL
-      EDC_DATAPLANE_SELECTOR_AGENTPLANE_TRANSFERTYPES: HttpData-PULL
-      EDC_DATAPLANE_SELECTOR_AGENTPLANE_DESTINATIONTYPES: HttpProxy
-      EDC_DATAPLANE_SELECTOR_AGENTPLANE_PROPERTIES: '{ "publicApiUrl": "https://consumer-agent.knowledge.dev.demo.catena-x.net/api/public/" }'
-      EDC_VAULT_URL_OVERRIDE: "https://tsyidsconnectors.vault.azure.net/"
-      EDC_VAULT_URL_OVERRIDE_UNSAFE: false
-      EDC_IAM_TRUSTED-ISSUER_0-ISSUER_ID: did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
-  dataplane:
+  consumer-connector:
+    install:
+      postgresql: false
+    participant:
+      id: *customerBpn
+    iatp:
+      id: *customerDid
+      trustedIssuers:
+      - did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
+      sts:
+        dim:
+          url: https://dis-integration-service-prod.eu10.dim.cloud.sap/api/v2.0.0/iatp/catena-x-portal
+        oauth:
+          token_url: *customerOauth
+          client:
+            id: *customerOauthClient
+            secret_alias: *customerOauthSecret
+    postgresql:
+      jdbcUrl: *customerDbUrl
+      auth:
+        database: *customerDbName
+        username: *customerDbUser
+        password: *customerDbPass
+    vault: 
+      azure: *azureVault
+    controlplane: &consumerControlPlane
+      endpoints:
+        management:
+          authKey: *customerApiKey
+      bdrs:
+        server:
+          url: https://bpn-did-resolution-service.int.demo.catena-x.net/api/directory
+      ingresses:
+      - enabled: true
+        hostname: *customerConnectorHost
+        endpoints:
+          - protocol
+          - management
+          - api
+        tls:
+          enabled: true
+        certManager:
+          clusterIssuer: *clusterIssuer
+      env:
+        EDC_DATAPLANE_SELECTOR_AGENTPLANE_URL: http:/hey-catena-dev-consumer-agent-plane-agentplane:8087/api/signaling/v1/dataflows
+        EDC_DATAPLANE_SELECTOR_AGENTPLANE_SOURCETYPES: cx-common:Protocol?w3c:http:SPARQL,cx-common:Protocol?w3c:http:SKILL
+        EDC_DATAPLANE_SELECTOR_AGENTPLANE_TRANSFERTYPES: HttpData-PULL
+        EDC_DATAPLANE_SELECTOR_AGENTPLANE_DESTINATIONTYPES: HttpProxy
+        EDC_DATAPLANE_SELECTOR_AGENTPLANE_PROPERTIES: '{ "publicApiUrl": "https://consumer-agent.knowledge.dev.demo.catena-x.net/api/public/" }'
+        EDC_VAULT_URL_OVERRIDE: "https://tsyidsconnectors.vault.azure.net/"
+        EDC_VAULT_URL_OVERRIDE_UNSAFE: false
+        EDC_IAM_TRUSTED-ISSUER_0-ISSUER_ID: did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
+    dataplane:
+      token:
+        signer:
+          privatekey_alias: *customerTokenKey
+        verifier:
+          publickey_alias: *customerTokenCert
+      env:
+        EDC_VAULT_URL_OVERRIDE: "https://tsyidsconnectors.vault.azure.net/"
+        EDC_VAULT_URL_OVERRIDE_UNSAFE: false
+        EDC_IAM_TRUSTED-ISSUER_0-ISSUER_ID: did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
+
+  consumer-agent-plane:
+    image:
+      repository: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-azure-vault
+    url: 
+      public: ""
+    participant:
+      id: *customerBpn
+    iatp:
+      id: *customerDid
+      trustedIssuers:
+      - did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
+      sts:
+        dim:
+          url: https://dis-integration-service-prod.eu10.dim.cloud.sap/api/v2.0.0/iatp/catena-x-portal
+        oauth:
+          token_url: *customerOauth
+          client:
+            id: *customerOauthClient
+            secret_alias: *customerOauthSecret
+    postgresql:
+      jdbcUrl: *customerDbUrl
+      auth:
+        database: *customerDbName
+        username: *customerDbUser
+        password: *customerDbPass
+    vault: 
+      azure: *azureVault
+    connector: consumer-connector
+    controlplane: *consumerControlPlane
     token:
       signer:
         privatekey_alias: *customerTokenKey
       verifier:
         publickey_alias: *customerTokenCert
-    env:
-      EDC_VAULT_URL_OVERRIDE: "https://tsyidsconnectors.vault.azure.net/"
-      EDC_VAULT_URL_OVERRIDE_UNSAFE: false
-      EDC_IAM_TRUSTED-ISSUER_0-ISSUER_ID: did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
+    auth: {}
+    ingresses:
+    - enabled: true
+      hostname: *customerAgentHost
+      annotations:
+        nginx.org/mergeable-ingress-type: master
+      endpoints:
+        - public
+        - default
+      tls:
+        enabled: true
+      certManager:
+        clusterIssuer: *clusterIssuer
+    agent:
+      synchronization: 360000
+      connectors: 
+        BPNL00000003COJN: https://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN
+        BPNL00000003CQI9: https://consumer-connector.knowledge.dev.demo.catena-x.net
+      services:
+        # -- A regular expression which outgoing service URLs must match (unless overwritten by a specific asset property)
+        allow: '(https|(edcs?))://.*'
 
-consumer-agent-plane:
-  image:
-    repository: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-azure-vault
-  url: 
-    public: ""
-  participant:
-    id: *customerBpn
-  iatp:
-    id: *customerDid
-    trustedIssuers:
-     - did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
-    sts:
-      dim:
-        url: https://dis-integration-service-prod.eu10.dim.cloud.sap/api/v2.0.0/iatp/catena-x-portal
-      oauth:
-        token_url: *customerOauth
-        client:
-          id: *customerOauthClient
-          secret_alias: *customerOauthSecret
-  postgresql:
-    jdbcUrl: *customerDbUrl
-    auth:
-      database: *customerDbName
-      username: *customerDbUser
-      password: *customerDbPass
-  vault: 
-    azure: *azureVault
-  connector: consumer-connector
-  controlplane: *consumerControlPlane
-  token:
-    signer:
-      privatekey_alias: *customerTokenKey
-    verifier:
-      publickey_alias: *customerTokenCert
-  auth: {}
-  ingresses:
-   - enabled: true
-     hostname: *customerAgentHost
-     endpoints:
-      - public
-      - default
-     tls:
-      enabled: true
-     certManager:
-      clusterIssuer: *clusterIssuer
-  agent:
-    synchronization: 360000
-    connectors: 
-      BPNL00000003COJN: https://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN
-      BPNL00000003CQI9: https://consumer-connector.knowledge.dev.demo.catena-x.net
-    services:
-      # -- A regular expression which outgoing service URLs must match (unless overwritten by a specific asset property)
-      allow: '(https|(edcs?))://.*'
-
+  consumer-agent:
+    image:
+      registry: ghcr.io/catenax-ng
+      repository: tx-knowledge-agents/matchmaking-agent
+    url: 
+      public: ""
+    participant:
+      id: *customerBpn
+    connector: consumer-connector
+    controlplane: *consumerControlPlane
+    ingresses:
+    - enabled: true
+      hostname: *customerAgentHost
+      annotations:
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.org/mergeable-ingress-type: minion
+      endpoints:
+        - default
+      tls:
+        enabled: false
+      certManager:
+        clusterIssuer: *clusterIssuer
+    agent:
+      endpoints:
+        default:
+          # -- The path mapping the "default" api is going to be exposed by
+          path: "/matchmaking/api"
+          # -- An optional regex path match (whose match groups could be used in an nginx-annotation of the ingress)
+          regex: /matchmaking/(.*)
+      synchronization: 360000
+      connectors: 
+        BPNL00000003COJN: https://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN
+        BPNL00000003CQI9: https://consumer-connector.knowledge.dev.demo.catena-x.net
+      services:
+        # -- A regular expression which outgoing service URLs must match (unless overwritten by a specific asset property)
+        allow: '(https|(edcs?))://.*'
   
 
 
