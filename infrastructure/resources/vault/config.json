@@ -1,0 +1,16 @@
+{    
+  "ui": "true",                                
+  "listener":  {                     
+    "tcp":  {                        
+      "address":  "0.0.0.0:8201",  
+      "tls_disable":  "true"         
+    }                                
+  },                                 
+  "backend": {                       
+    "inmem": {            
+    }                                
+  },                                 
+  "default_lease_ttl": "168h",       
+  "max_lease_ttl": "0h",
+  "api_addr": "http://0.0.0.0:8200"
+}  

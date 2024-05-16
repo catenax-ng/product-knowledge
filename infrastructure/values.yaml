@@ -221,6 +221,32 @@ consumer-agent-plane:
       enabled: true
     certManager:
       clusterIssuer: *clusterIssuer
+  configs:
+    # -- An example of an empty graph in ttl syntax
+    dataspace.ttl: |
+      #################################################################
+      # Catena-X Agent Bootstrap Graph in TTL/RDF/OWL FORMAT
+      #################################################################
+      @prefix : <GraphAsset?local=Dataspace> .
+      @prefix cx-common: <https://w3id.org/catenax/ontology/common#> .
+      @prefix owl: <http://www.w3.org/2002/07/owl#> .
+      @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+      @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+      @prefix json: <https://json-schema.org/draft/2020-12/schema#> .
+      @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+      @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+      @prefix bpnl: <bpn:legal:> .
+      @prefix bpns: <bpn:site:> .
+      @base <GraphAsset?local=Dataspace> .
+      
+      bpnl:BPNL00000003COJN owl:sameAs bpnl:BPNL00000003AYRE;
+                      owl:sameAs bpnl:BPNL00000003AVTH;
+                      owl:sameAs bpnl:BPNL00000003AZQP;
+                      cx-common:id "BPNL00000003COJN"^^xsd:string;
+                      cx-common:id "BPNL00000003AYRE"^^xsd:string;
+                      cx-common:id "BPNL00000003AVTH"^^xsd:string;
+                      cx-common:id "BPNL00000003AZQP"^^xsd:string;
+                      cx-common:hasConnector <edcs://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN>.
   agent:
     synchronization: 360000
     connectors: 
@@ -252,6 +278,32 @@ consumer-agent:
       enabled: false
     certManager:
       clusterIssuer: *clusterIssuer
+  configs:
+    # -- An example of an empty graph in ttl syntax
+    dataspace.ttl: |
+      #################################################################
+      # Catena-X Agent Bootstrap Graph in TTL/RDF/OWL FORMAT
+      #################################################################
+      @prefix : <GraphAsset?local=Dataspace> .
+      @prefix cx-common: <https://w3id.org/catenax/ontology/common#> .
+      @prefix owl: <http://www.w3.org/2002/07/owl#> .
+      @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+      @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+      @prefix json: <https://json-schema.org/draft/2020-12/schema#> .
+      @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+      @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+      @prefix bpnl: <bpn:legal:> .
+      @prefix bpns: <bpn:site:> .
+      @base <GraphAsset?local=Dataspace> .
+      
+      bpnl:BPNL00000003COJN owl:sameAs bpnl:BPNL00000003AYRE;
+                      owl:sameAs bpnl:BPNL00000003AVTH;
+                      owl:sameAs bpnl:BPNL00000003AZQP;
+                      cx-common:id "BPNL00000003COJN"^^xsd:string;
+                      cx-common:id "BPNL00000003AYRE"^^xsd:string;
+                      cx-common:id "BPNL00000003AVTH"^^xsd:string;
+                      cx-common:id "BPNL00000003AZQP"^^xsd:string;
+                      cx-common:hasConnector <edcs://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN>.
   agent:
     endpoints:
       default:
