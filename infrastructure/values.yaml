@@ -205,9 +205,9 @@ consumer-agent-plane:
   controlplane: *consumerControlPlane
   token:
     signer:
-      privatekey_alias: *customerTokenKey
+      privatekey_alias: oem-daps-key
     verifier:
-      publickey_alias: *customerTokenCert
+      publickey_alias: oem-daps-crt
   auth: {}
   ingresses:
   - enabled: true
