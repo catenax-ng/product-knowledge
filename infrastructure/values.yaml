@@ -57,7 +57,7 @@ security:
   vaultTenant: ""
   vaultSecret: ""
   tokenKey: &customerTokenKey customer-daps-key
-  tokenCert: &customerTokenCert customer-daps-cert
+  tokenCert: &customerTokenCert customer-daps-crt
   
 vault: &azureVault
   name: tsyidsconnectors
