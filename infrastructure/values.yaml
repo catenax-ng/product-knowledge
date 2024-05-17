@@ -155,7 +155,7 @@ consumer-connector:
       certManager:
         clusterIssuer: *clusterIssuer
     env:
-      EDC_DATAPLANE_SELECTOR_AGENTPLANE_URL: http:/hey-catena-dev-consumer-agent-plane-agentplane:8087/api/signaling/v1/dataflows
+      EDC_DATAPLANE_SELECTOR_AGENTPLANE_URL: http:/hey-catena-dev-consumer-agent-plane-agentplane:8083/api/signaling/v1/dataflows
       EDC_DATAPLANE_SELECTOR_AGENTPLANE_SOURCETYPES: cx-common:Protocol?w3c:http:SPARQL,cx-common:Protocol?w3c:http:SKILL
       EDC_DATAPLANE_SELECTOR_AGENTPLANE_TRANSFERTYPES: HttpData-PULL
       EDC_DATAPLANE_SELECTOR_AGENTPLANE_DESTINATIONTYPES: HttpProxy
