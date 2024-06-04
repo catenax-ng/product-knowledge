@@ -1,5 +1,5 @@
 # the chart version should coincide with the binary versions 
-version: 1.12.17-SNAPSHOT
+version: 1.12.19-SNAPSHOT
 # the version of the tractusx images
 txVersion: latest
 
@@ -319,6 +319,14 @@ consumer-agent:
       # -- A regular expression which outgoing service URLs must match (unless overwritten by a specific asset property)
       allow: '(https|(edcs?))://.*'
 
-
+aas-bridge:
+  image:
+    registry: ghcr.io/catenax-ng/
+    repository: tx-knowledge-agents-aas-bridge/aas-bridge
+    tag: 0.13.6-SNAPSHOT
+  aas:
+    persistence:
+      # -- The default sparql server is embedded
+      sparql: http://oem-provider-agent:8082/sparql
 
 

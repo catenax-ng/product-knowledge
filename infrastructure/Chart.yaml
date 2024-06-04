@@ -8,6 +8,7 @@ version: 1.12.19-SNAPSHOT
 dependencies:
     - name: postgresql
       version: "15.2.12"
+      version: "15.2.12"
       repository: https://charts.bitnami.com/bitnami
     - name: tractusx-connector-azure-vault
       alias: consumer-connector
@@ -21,4 +22,7 @@ dependencies:
       alias: consumer-agent
       version: "1.12.19-SNAPSHOT"
       repository: https://catenax-ng.github.io/tx-knowledge-agents
+    - name: aas-bridge
+      version: "0.13.6-SNAPSHOT"
+      repository: https://catenax-ng.github.io/tx-knowledge-agents-aas-bridge
 
