@@ -338,11 +338,11 @@ aas-bridge:
     hostname: *oemAasHost
     annotations:
       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+#      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+#      nginx.ingress.kubernetes.io/ssl-redirect: "true"
     endpoints:
       - default
     tls:
-      enabled: false
+      enabled: true
     certManager:
       clusterIssuer: *clusterIssuer
