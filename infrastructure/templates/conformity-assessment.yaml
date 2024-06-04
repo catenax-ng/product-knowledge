@@ -42,7 +42,7 @@ spec:
            type: RuntimeDefault
       containers:
         - name: conforming-agent
-          image: docker.io/tractus-x/knowledge-agents/conforming-agent:1.12.19
+          image: docker.io/tractusx/knowledge-agents/conforming-agent:1.12.19
           imagePullPolicy: Always
           securityContext:
             capabilities:
