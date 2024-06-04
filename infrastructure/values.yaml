@@ -5,16 +5,24 @@ txVersion: latest
 
 dataspace:
   bpnOem: BPNL00000003COJN
-  miwClientOem: sa149
+  miwClientOem: sb-168e5a6e-353a-40ca-bf2d-7b615bb21cb4!b457995|ica-production-dim-prod-eu10-004-prod-dis-cloud-approuter!b174292
   privateKeyAliasOem: "oem-daps-key"
   publicKeyAliasOem: "oem-daps-crt"
   dapsClientIdOem: ""
   bpnTier1: BPNL00000003CPIY
-  miwClientTier1: sa150
+  miwClientTier1: sb-ee866292-fec1-4359-9066-72d874d177b9!b458141|ica-production-dim-prod-eu10-004-prod-dis-cloud-approuter!b174292
   privateKeyAliasTier1: "tier1-daps-key"
   publicKeyAliasTier1: "tier1-daps-crt"
   dapsClientIdTier1: ""
-  bpnCustomer: BPNL00000003CQI9
+  bpnCustomer: &customerBpn BPNL00000003CQI9
+  didCustomer: &customerDid did:web:portal-backend.int.demo.catena-x.net:api:administration:staticdata:did:BPNL00000003CQI9
+  oauthCustomer: &customerOauth https://bpnl00000003cqi9-knowledge--agents--consumer--ltd.authentication.eu10.hana.ondemand.com/oauth/token
+  clientCustomer: &customerOauthClient sb-ccdbb0a7-ab0f-4e78-b5eb-95d3a5d5ed2b!b458165|ica-production-dim-prod-eu10-004-prod-dis-cloud-approuter!b174292
+  secretCustomer: &customerOauthSecret sts-consumer-secret
+  dbCustomerUrl: &customerDbUrl "jdbc:postgresql://postgresql:5432/consumer"
+  dbCustomerName: &customerDbName "consumer"
+  dbCustomerUser: &customerDbUser "consumer_user"
+  dbCustomerPass: &customerDbPass "sacred"
   miwClientCustomer: sa30
   privateKeyAliasCustomer: "customer-daps-key"
   publicKeyAliasCustomer: "customer-daps-crt"
@@ -24,9 +32,11 @@ dataspace:
   config: resources/agent.ttl
 
 ingress:
-  host: knowledge.int.demo.catena-x.net
-  oemHost: knowledge-oem.int.demo.catena-x.net
-  issuer: letsencrypt-prod
+  host: knowledge.dev.demo.catena-x.net
+  oemHost: knowledge-oem.dev.demo.catena-x.net
+  customerConnectorHost: &customerConnectorHost consumer-connector.knowledge.dev.demo.catena-x.net
+  customerAgentHost: &customerAgentHost consumer-agent.knowledge.dev.demo.catena-x.net
+  issuer: &clusterIssuer letsencrypt-prod
 
 namespace: "product-knowledge"
 
@@ -37,28 +47,277 @@ security:
   backupsKey: ""
   backupsShare: ""
   authType: ""
-  xApiKey: ""
+  xApiKey: &customerApiKey "foo"
   dapsUrl: "https://daps1.int.demo.catena-x.net"
   vaultUrl: ""
   vaultToken: ""
   backendUser: ""
   backendPwd: ""
+  vaultClient: ""
+  vaultTenant: ""
+  vaultSecret: ""
+  tokenKey: &customerTokenKey customer-daps-key
+  tokenCert: &customerTokenCert customer-daps-crt
+  
+vault: &azureVault
+  name: tsyidsconnectors
+  client: "dummy"
+  tenant: "tenant"
+  secret: "mysecret"
 
 postgresql:
   fullnameOverride: "postgresql"
+  primary:
+    initdb:
+      scripts:
+        my_initdb.sh: |
+          export PGPASSWORD="postgres" 
+          psql -v ON_ERROR_STOP=1 --username postgres --dbname postgres <<-EOSQL
+            CREATE DATABASE backend;
+            CREATE DATABASE oem;
+            CREATE DATABASE oem2;
+            CREATE DATABASE tiera;
+            CREATE DATABASE consumer;
+            CREATE USER backend_user WITH ENCRYPTED PASSWORD 'backend_login';
+            CREATE USER oem_user WITH ENCRYPTED PASSWORD 'sacred';
+            CREATE USER oem2_user WITH ENCRYPTED PASSWORD 'sacred';
+            CREATE USER tiera_user WITH ENCRYPTED PASSWORD 'sacred';
+            CREATE USER consumer_user WITH ENCRYPTED PASSWORD 'sacred';
+            GRANT ALL PRIVILEGES ON DATABASE backend TO backend_user;
+            GRANT ALL PRIVILEGES ON DATABASE oem TO oem_user;
+            GRANT ALL PRIVILEGES ON DATABASE oem2 TO oem2_user;
+            GRANT ALL PRIVILEGES ON DATABASE tiera TO tiera_user;
+            GRANT ALL PRIVILEGES ON DATABASE consumer TO consumer_user;
+            \c backend
+            GRANT ALL ON SCHEMA public TO backend_user;
+            \c oem
+            GRANT ALL ON SCHEMA public TO oem_user;
+            \c oem2
+            GRANT ALL ON SCHEMA public TO oem2_user;
+            \c tiera
+            GRANT ALL ON SCHEMA public TO tiera_user;
+            \c consumer
+            GRANT ALL ON SCHEMA public TO consumer_user;
+          EOSQL
   image:
     pullPolicy: Always
-  auth:
-    database: "backend"
-#    username: 
-#    password: 
-
   persistence:
     enabled: false
+  auth:
+    username: "postgres"
+    password: "postgres"
+    database: "postgres"
 
 #  initdbUsername: 
 #  initdbPassword: 
 
+consumer-connector:
+  install:
+    postgresql: false
+  participant:
+    id: *customerBpn
+  iatp:
+    id: *customerDid
+    trustedIssuers:
+    - did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
+    sts:
+      dim:
+        url: https://dis-integration-service-prod.eu10.dim.cloud.sap/api/v2.0.0/iatp/catena-x-portal
+      oauth:
+        token_url: *customerOauth
+        client:
+          id: *customerOauthClient
+          secret_alias: *customerOauthSecret
+  postgresql:
+    jdbcUrl: *customerDbUrl
+    auth:
+      database: *customerDbName
+      username: *customerDbUser
+      password: *customerDbPass
+  vault: 
+    azure: *azureVault
+  controlplane: &consumerControlPlane
+    endpoints:
+      management:
+        authKey: *customerApiKey
+    bdrs:
+      server:
+        url: https://bpn-did-resolution-service.int.demo.catena-x.net/api/directory
+    ingresses:
+    - enabled: true
+      hostname: *customerConnectorHost
+      endpoints:
+        - protocol
+        - management
+        - api
+      tls:
+        enabled: true
+      certManager:
+        clusterIssuer: *clusterIssuer
+    env:
+      EDC_DATAPLANE_SELECTOR_AGENTPLANE_URL: http:/hey-catena-dev-consumer-agent-plane-agentplane:8083/api/signaling/v1/dataflows
+      EDC_DATAPLANE_SELECTOR_AGENTPLANE_SOURCETYPES: cx-common:Protocol?w3c:http:SPARQL,cx-common:Protocol?w3c:http:SKILL
+      EDC_DATAPLANE_SELECTOR_AGENTPLANE_TRANSFERTYPES: HttpData-PULL
+      EDC_DATAPLANE_SELECTOR_AGENTPLANE_DESTINATIONTYPES: HttpProxy
+      EDC_DATAPLANE_SELECTOR_AGENTPLANE_PROPERTIES: '{ "publicApiUrl": "https://consumer-agent.knowledge.dev.demo.catena-x.net/api/public/" }'
+      EDC_VAULT_URL_OVERRIDE: "https://tsyidsconnectors.vault.azure.net/"
+      EDC_VAULT_URL_OVERRIDE_UNSAFE: false
+      EDC_IAM_TRUSTED-ISSUER_0-ISSUER_ID: did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
+  dataplane:
+    token:
+      signer:
+        privatekey_alias: *customerTokenKey
+      verifier:
+        publickey_alias: *customerTokenCert
+    env:
+      EDC_VAULT_URL_OVERRIDE: "https://tsyidsconnectors.vault.azure.net/"
+      EDC_VAULT_URL_OVERRIDE_UNSAFE: false
+      EDC_IAM_TRUSTED-ISSUER_0-ISSUER_ID: did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
+
+consumer-agent-plane:
+  image:
+    repository: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-azure-vault
+  url: 
+    public: ""
+  participant:
+    id: *customerBpn
+  iatp:
+    id: *customerDid
+    trustedIssuers:
+    - did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:2f45795c-d6cc-4038-96c9-63cedc0cd266:holder-iatp
+    sts:
+      dim:
+        url: https://dis-integration-service-prod.eu10.dim.cloud.sap/api/v2.0.0/iatp/catena-x-portal
+      oauth:
+        token_url: *customerOauth
+        client:
+          id: *customerOauthClient
+          secret_alias: *customerOauthSecret
+  postgresql:
+    jdbcUrl: *customerDbUrl
+    auth:
+      database: *customerDbName
+      username: *customerDbUser
+      password: *customerDbPass
+  vault: 
+    azure: *azureVault
+  connector: consumer-connector
+  controlplane: *consumerControlPlane
+  token:
+    signer:
+      privatekey_alias: oem-daps-key
+    verifier:
+      publickey_alias: oem-daps-crt
+  auth: {}
+  ingresses:
+  - enabled: true
+    hostname: *customerAgentHost
+    annotations:
+      nginx.org/mergeable-ingress-type: master
+    endpoints:
+      - public
+      - default
+    tls:
+      enabled: true
+    certManager:
+      clusterIssuer: *clusterIssuer
+  configs:
+    # -- An example of an empty graph in ttl syntax
+    dataspace.ttl: |
+      #################################################################
+      # Catena-X Agent Bootstrap Graph in TTL/RDF/OWL FORMAT
+      #################################################################
+      @prefix : <GraphAsset?local=Dataspace> .
+      @prefix cx-common: <https://w3id.org/catenax/ontology/common#> .
+      @prefix owl: <http://www.w3.org/2002/07/owl#> .
+      @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+      @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+      @prefix json: <https://json-schema.org/draft/2020-12/schema#> .
+      @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+      @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+      @prefix bpnl: <bpn:legal:> .
+      @prefix bpns: <bpn:site:> .
+      @base <GraphAsset?local=Dataspace> .
+      
+      bpnl:BPNL00000003COJN owl:sameAs bpnl:BPNL00000003AYRE;
+                      owl:sameAs bpnl:BPNL00000003AVTH;
+                      owl:sameAs bpnl:BPNL00000003AZQP;
+                      cx-common:id "BPNL00000003COJN"^^xsd:string;
+                      cx-common:id "BPNL00000003AYRE"^^xsd:string;
+                      cx-common:id "BPNL00000003AVTH"^^xsd:string;
+                      cx-common:id "BPNL00000003AZQP"^^xsd:string;
+                      cx-common:hasConnector <edcs://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN>.
+  agent:
+    synchronization: 360000
+    connectors: 
+      BPNL00000003COJN: https://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN
+      BPNL00000003CQI9: https://consumer-connector.knowledge.dev.demo.catena-x.net
+    services:
+      # -- A regular expression which outgoing service URLs must match (unless overwritten by a specific asset property)
+      allow: '(https|(edcs?))://.*'
+
+consumer-agent:
+  image:
+    registry: ghcr.io/catenax-ng/
+    repository: tx-knowledge-agents/matchmaking-agent
+  url: 
+    public: ""
+  participant:
+    id: *customerBpn
+  connector: consumer-connector
+  controlplane: *consumerControlPlane
+  ingresses:
+  - enabled: true
+    hostname: *customerAgentHost
+    annotations:
+      nginx.ingress.kubernetes.io/use-regex: "true"
+      nginx.org/mergeable-ingress-type: minion
+    endpoints:
+      - default
+    tls:
+      enabled: false
+    certManager:
+      clusterIssuer: *clusterIssuer
+  configs:
+    # -- An example of an empty graph in ttl syntax
+    dataspace.ttl: |
+      #################################################################
+      # Catena-X Agent Bootstrap Graph in TTL/RDF/OWL FORMAT
+      #################################################################
+      @prefix : <GraphAsset?local=Dataspace> .
+      @prefix cx-common: <https://w3id.org/catenax/ontology/common#> .
+      @prefix owl: <http://www.w3.org/2002/07/owl#> .
+      @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+      @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+      @prefix json: <https://json-schema.org/draft/2020-12/schema#> .
+      @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+      @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+      @prefix bpnl: <bpn:legal:> .
+      @prefix bpns: <bpn:site:> .
+      @base <GraphAsset?local=Dataspace> .
+      
+      bpnl:BPNL00000003COJN owl:sameAs bpnl:BPNL00000003AYRE;
+                      owl:sameAs bpnl:BPNL00000003AVTH;
+                      owl:sameAs bpnl:BPNL00000003AZQP;
+                      cx-common:id "BPNL00000003COJN"^^xsd:string;
+                      cx-common:id "BPNL00000003AYRE"^^xsd:string;
+                      cx-common:id "BPNL00000003AVTH"^^xsd:string;
+                      cx-common:id "BPNL00000003AZQP"^^xsd:string;
+                      cx-common:hasConnector <edcs://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN>.
+  agent:
+    endpoints:
+      default:
+        # -- The path mapping the "default" api is going to be exposed by
+        path: "/matchmaking/api"
+        # -- An optional regex path match (whose match groups could be used in an nginx-annotation of the ingress)
+        regex: /matchmaking/(.*)
+    synchronization: 360000
+    connectors: 
+      BPNL00000003COJN: https://knowledge.dev.demo.catena-x.net/oem-edc-control/BPNL00000003COJN
+      BPNL00000003CQI9: https://consumer-connector.knowledge.dev.demo.catena-x.net
+    services:
+      # -- A regular expression which outgoing service URLs must match (unless overwritten by a specific asset property)
+      allow: '(https|(edcs?))://.*'
 
 
 

@@ -26,6 +26,26 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
     GRANT ALL PRIVILEGES ON DATABASE $POSTGRES_DB_NAME_MIW TO $POSTGRES_USERNAME_MIW;
     \c $POSTGRES_DB_NAME_MIW
     GRANT ALL ON SCHEMA public TO $POSTGRES_USERNAME_MIW;
+    CREATE DATABASE oem;
+    CREATE DATABASE oem2;
+    CREATE DATABASE tiera;
+    CREATE DATABASE consumer;
+    CREATE USER oem_user WITH ENCRYPTED PASSWORD '$SACRED';
+    CREATE USER oem2_user WITH ENCRYPTED PASSWORD '$SACRED';
+    CREATE USER tiera_user WITH ENCRYPTED PASSWORD '$SACRED';
+    CREATE USER consumer_user WITH ENCRYPTED PASSWORD '$SACRED';
+    GRANT ALL PRIVILEGES ON DATABASE oem TO oem_user;
+    GRANT ALL PRIVILEGES ON DATABASE oem2 TO oem2_user;
+    GRANT ALL PRIVILEGES ON DATABASE tiera TO tiera_user;
+    GRANT ALL PRIVILEGES ON DATABASE consumer TO consumer_user;
+    \c oem
+    GRANT ALL ON SCHEMA public TO oem_user;
+    \c oem2
+    GRANT ALL ON SCHEMA public TO oem2_user;
+    \c tiera
+    GRANT ALL ON SCHEMA public TO tiera_user;
+    \c consumer
+    GRANT ALL ON SCHEMA public TO consumer_user;
 EOSQL
 
 psql --username "$POSTGRES_USER" --dbname "rawdata" </tmp/data/20230126_rawdata_db_dump.sql

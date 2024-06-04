@@ -4,9 +4,21 @@ name: knowledge-agents
 description: Knowledge Agents Kit Sample Dataspace
 home: https://github.com/catenax-ng/product-knowledge/infrastructure
 type: application
-version: 1.12.17-SNAPSHOT
+version: 1.12.19-SNAPSHOT
 dependencies:
     - name: postgresql
-      version: ">=12.1"
+      version: "15.2.12"
       repository: https://charts.bitnami.com/bitnami
+    - name: tractusx-connector-azure-vault
+      alias: consumer-connector
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 0.7.0
+    - name: agent-plane-azure-vault
+      alias: consumer-agent-plane
+      version: "1.12.19-SNAPSHOT"
+      repository: https://catenax-ng.github.io/tx-knowledge-agents-edc
+    - name: matchmaking-agent
+      alias: consumer-agent
+      version: "1.12.19-SNAPSHOT"
+      repository: https://catenax-ng.github.io/tx-knowledge-agents
 
