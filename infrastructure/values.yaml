@@ -331,8 +331,7 @@ aas-bridge:
       sparql: http://oem-provider-agent:8082/sparql
   endpoints:
     default:
-      mapping:
-        regex: ""
+      regex: ""
   ingresses:
   - enabled: true
     hostname: *oemAasHost
