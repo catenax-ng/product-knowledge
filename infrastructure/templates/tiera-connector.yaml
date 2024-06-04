@@ -482,7 +482,7 @@ spec:
         seccompProfile:
             type: RuntimeDefault
       containers:
-        - image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-azure-vault:1.12.19
+        - image: docker.io/tractus-x/knowledge-agents-edc/agentplane-azure-vault:1.12.19
           imagePullPolicy: Always
           name: tiera-data-plane
           securityContext:
