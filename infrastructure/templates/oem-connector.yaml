@@ -791,7 +791,7 @@ spec:
         seccompProfile:
           type: RuntimeDefault
       containers:
-        - image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-azure-vault:1.12.19-SNAPSHOT
+        - image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-azure-vault:1.12.19
           imagePullPolicy: Always
           name: oem-data-plane
           securityContext:

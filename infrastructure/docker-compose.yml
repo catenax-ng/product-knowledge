@@ -151,8 +151,8 @@ services:
   ###
   # A conformity-testing binding agent
   conforming-agent:
-    image: ghcr.io/catenax-ng/tx-knowledge-agents/conforming-agent:1.12.19-SNAPSHOT
-#    image: tractusx/conforming-agent:1.12.19-SNAPSHOT
+    image: ghcr.io/catenax-ng/tx-knowledge-agents/conforming-agent:1.12.19
+#    image: tractusx/conforming-agent:1.12.19
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     environment:
       # Uncomment to enable for debugging, please choose a different port for each endpoint
@@ -165,8 +165,8 @@ services:
   # A data provisioning agent
   #
   provider-agent:
-    image: ghcr.io/catenax-ng/tx-knowledge-agents/provisioning-agent:1.12.19-SNAPSHOT
-#    image: tractusx/provisioning-agent:1.12.19-SNAPSHOT
+    image: ghcr.io/catenax-ng/tx-knowledge-agents/provisioning-agent:1.12.19
+#    image: tractusx/provisioning-agent:1.12.19
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8080:8080" # sparql endpoint
@@ -212,8 +212,8 @@ services:
   ###
   # A function providing agent
   tiera-remoting-agent:
-    image: ghcr.io/catenax-ng/tx-knowledge-agents/remoting-agent:1.12.19-SNAPSHOT
-#    image: tractusx/remoting-agent:1.12.19-SNAPSHOT
+    image: ghcr.io/catenax-ng/tx-knowledge-agents/remoting-agent:1.12.19
+#    image: tractusx/remoting-agent:1.12.19
     read_only: true
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
@@ -329,9 +329,9 @@ services:
   ###
   # Configures the OEM data plane
   oem-data-plane:
-#    image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-hashicorp:1.12.19-SNAPSHOT
-    image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-azure-vault:1.12.19-SNAPSHOT
-#    image: tractusx/agentplane-hashicorp:1.12.19-SNAPSHOT
+#    image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-hashicorp:1.12.19
+    image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-azure-vault:1.12.19
+#    image: tractusx/agentplane-hashicorp:1.12.19
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8102:8080"  # API/sparql endpoint
@@ -404,9 +404,9 @@ services:
   ###
   # Configures the supplier data plane
   tiera-data-plane:
-#    image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-hashicorp:1.12.19-SNAPSHOT
-    image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-azure-vault:1.12.19-SNAPSHOT
-#    image: tractusx/agentplane-hashicorp:1.12.19-SNAPSHOT
+#    image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-hashicorp:1.12.19
+    image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-azure-vault:1.12.19
+#    image: tractusx/agentplane-hashicorp:1.12.19
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8400:8080"  # API/sparql endpoint
@@ -477,9 +477,9 @@ services:
   ###
   # Configures the consumer data plane
   consumer-data-plane:
-    image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-azure-vault:1.12.19-SNAPSHOT
-#    image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-hashicorp:1.12.19-SNAPSHOT
-#    image: tractusx/agentplane-hashicorp:1.12.19-SNAPSHOT
+    image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-azure-vault:1.12.19
+#    image: ghcr.io/catenax-ng/tx-knowledge-agents-edc/agentplane-hashicorp:1.12.19
+#    image: tractusx/agentplane-hashicorp:1.12.19
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8600:8080"  # API/sparql endpoint
@@ -518,8 +518,8 @@ services:
   ###
   # Configures the consumer matchmaking agent
   consumer-agent:
-    image: ghcr.io/catenax-ng/tx-knowledge-agents/matchmaking-agent:1.12.19-SNAPSHOT
-#    image: tractusx/agentplane-hashicorp:1.12.19-SNAPSHOT
+    image: ghcr.io/catenax-ng/tx-knowledge-agents/matchmaking-agent:1.12.19
+#    image: tractusx/agentplane-hashicorp:1.12.19
     platform: ${DOCKER_PLATFORM:-linux/amd64}
     ports:
       - "8604:8080"  # Agent Source

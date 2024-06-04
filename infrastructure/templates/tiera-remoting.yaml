@@ -156,7 +156,7 @@ spec:
            type: RuntimeDefault
       containers:
         - name: tiera-remoting-agent
-          image: ghcr.io/catenax-ng/tx-knowledge-agents/remoting-agent:1.12.19-SNAPSHOT
+          image: ghcr.io/catenax-ng/tx-knowledge-agents/remoting-agent:1.12.19
           imagePullPolicy: Always
           securityContext:
             capabilities:
