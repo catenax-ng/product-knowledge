@@ -112,7 +112,7 @@ spec:
            type: RuntimeDefault
       containers:
         - name: oem-provider-agent
-          image: tractusx/knowledge-agents/provisioning-agent:1.12.19
+          image: tractusx/provisioning-agent:1.12.19
           imagePullPolicy: Always
           securityContext:
             capabilities:
