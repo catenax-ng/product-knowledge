@@ -55,13 +55,15 @@ some of the docker images need a certain amount of memory and horsepower.
 These are the further sub-modules of the Agents Kit 
 
 - [Dataspace](dataspace/README.md) hosts reference implementations of the Gaia-X/IDS Dataspace extensions (Agents) for both Providers and Consumers, such as AAS-Bridge and Data Virtualization Engines.
-- [UX](ux/README.md) hosts User Experience components and a sample portal/development environment for developing and executing semantically-driven logic and apps.
 - [Infrastructure](infrastructure/README.md) hosts "Infrastructure as Code" manifests and resources for easy deployment of above artifacts including a sample dataspace.
 
 Carved out external repositories
 - [Ontology](https://github.com/catenax-ng/product-ontology) hosts the CX domain ontologies (including the fully merged CX ontology and tooling) describing the semantics of the Catena-X Dataspace.
 - [Tractus-X Knowledge Agents EDC Extensions (KA-EDC)](http://github.com/catenax-ng/product-agents-edc) for enabled Semantic Web protocols over the Dataspace.
 - [Tractus-X Knowledge Agents Reference Implementations (KA)](http://github.com/catenax-ng/product-agents) which implement Semantic Web queries and semantics.
+
+Obsolete submodules:
+- UX hosted User Experience components and a sample portal/development environment for developing and executing semantically-driven logic and apps.
 
 Besides the markdown documentation including this file, we have some helper folders
 
@@ -84,7 +86,6 @@ And some related scripts and settings
   - [Localhost](cx_ka.localhost.postman_environment.json) contains API endpoints and secrets for interacting with the local deployment of the sample dataspace.
   - [Development](cx_ka.development.postman_environment.json) contains API endpoints and (emptied) secrets for interacting with the development deployment of the sample dataspace. Please contact the CX association to get the actual secrets.
   - [Localhost](cx_ka.integration.postman_environment.json) contains API endpoints and (emptied) secrets for interacting with the integration deployment of the sample dataspace. Please contact the CX association to get the actual secrets.
-- [Conda Environment](environment.yaml) for setting up python.
 
 ## Build
 

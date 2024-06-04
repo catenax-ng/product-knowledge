@@ -55,19 +55,6 @@ jobs:
 
       # Not sure this is needed
 
-      # Autobuild other compiled languages  
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Build TypeScript via NPM
-        run: |
-          cd ux
-          npm install -g jest
-          npm run init:dev
-          npm test
-
   analyze_java:
     name: Analyze Java
     runs-on: ubuntu-latest
