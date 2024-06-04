@@ -329,6 +329,10 @@ aas-bridge:
     persistence:
       # -- The default sparql server is embedded
       sparql: http://oem-provider-agent:8082/sparql
+  endpoints:
+    default:
+      mapping:
+        regex: ""
   ingresses:
   - enabled: true
     hostname: *oemAasHost
