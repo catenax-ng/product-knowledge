@@ -37,6 +37,7 @@ ingress:
   customerConnectorHost: &customerConnectorHost consumer-connector.knowledge.dev.demo.catena-x.net
   customerAgentHost: &customerAgentHost consumer-agent.knowledge.dev.demo.catena-x.net
   issuer: &clusterIssuer letsencrypt-prod
+  oemAasHost: &oemAasHost oem-aas-bridge.knowledge.dev.demo.catena-x.net
 
 namespace: "product-knowledge"
 
@@ -328,5 +329,16 @@ aas-bridge:
     persistence:
       # -- The default sparql server is embedded
       sparql: http://oem-provider-agent:8082/sparql
-
-
+  ingresses:
+  - enabled: true
+    hostname: *oemAasHost
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    endpoints:
+      - default
+    tls:
+      enabled: false
+    certManager:
+      clusterIssuer: *clusterIssuer
