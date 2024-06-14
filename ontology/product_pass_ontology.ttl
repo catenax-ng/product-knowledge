@@ -1,0 +1,647 @@
+@prefix cx: <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/cx_ontology.ttl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+cx:cityName a owl:DatatypeProperty ;
+    rdfs:domain cx:PostalAddress ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:name ;
+    skos:prefLabel "Stradtname"@de,
+        "city name"@en .
+
+cx:commodityCode a owl:DatatypeProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf cx:integer ;
+    skos:altLabel "HS code; TARIC"@en ;
+    skos:definition "A commodity code is a sequence of numbers made up of six, eight or ten digits which are used within the European Union  countries or outside the territory of member states."@en ;
+    skos:prefLabel "Warennummer"@de,
+        "commodity code"@en .
+
+cx:concentration a owl:DatatypeProperty ;
+    rdfs:domain cx:SubstanceOfConcern ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:double ;
+    rdfs:subPropertyOf cx:numeric ;
+    skos:prefLabel "Konzentration"@de,
+        "concentration"@en .
+
+cx:correspondsTo a owl:ObjectProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range cx:Passport ;
+    skos:prefLabel "corresponds to"@en .
+
+cx:countryCode a owl:DatatypeProperty ;
+    rdfs:domain cx:PostalAddress ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:code ;
+    skos:prefLabel "Ländercode"@de,
+        "country code"@en .
+
+cx:countryName a owl:DatatypeProperty ;
+    rdfs:domain cx:PostalAddress ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:name ;
+    skos:prefLabel "Landesname"@de,
+        "country name"@en .
+
+cx:datePlacedOnMarket a owl:DatatypeProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:dateTime ;
+    rdfs:subPropertyOf cx:date ;
+    skos:prefLabel "Datum des Inverkehrbringens"@de,
+        "date placed on market"@en .
+
+cx:declarationOfConformity a owl:DatatypeProperty ;
+    rdfs:domain cx:Vehicle ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Konformitätserklärung"@de,
+        "declaration of conformity"@en .
+
+cx:diameter a owl:DatatypeProperty ;
+    rdfs:domain cx:PhysicalDimension ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:double ;
+    rdfs:subPropertyOf cx:numeric ;
+    skos:prefLabel "Durchmesser"@de,
+        "diameter"@en .
+
+cx:eori a owl:DatatypeProperty ;
+    rdfs:domain cx:Company ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    skos:definition "Economic Operators Registration and Identification Number. Companies and persons who wish to trade must use the EORI number as an identification number in all trade procedures."@en ;
+    skos:prefLabel "Economic Operator Registration and Identification Number"@en .
+
+cx:expectedLifetime a owl:DatatypeProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf cx:integer ;
+    skos:definition "Expected lifetime in cycles, kilometers, months e.g."@en ;
+    skos:prefLabel "Erwartete Lebensdauer"@de,
+        "expected lifetime"@en .
+
+cx:expectedLifetimeUnit a owl:DatatypeProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Erwartete Lebensdauer Einheit"@de,
+        "expected lifetime unit"@en .
+
+cx:faxNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:ContactInformation ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:number ;
+    skos:prefLabel "Faxnummer"@de,
+        "fax number"@en .
+
+cx:globalTradeIdentificationNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:number ;
+    skos:altLabel "global trade item number"@en ;
+    skos:definition "A Global Trade Item Number  is a unique and internationally recognized identifier for a product. When a GTIN is available, it will appear next to the barcode on your product's packaging or book cover."@en ;
+    skos:prefLabel "Globale Handelsidentifikationsnummer"@de,
+        "global trade identification number"@en .
+
+cx:has a owl:ObjectProperty ;
+    rdfs:domain cx:Package ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range cx:PhysicalDimension ;
+    skos:prefLabel "has"@en .
+
+cx:hasPackaging a owl:ObjectProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range cx:Instruction ;
+    skos:prefLabel "has packaging"@en .
+
+cx:height a owl:DatatypeProperty ;
+    rdfs:domain cx:PhysicalDimension ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:double ;
+    rdfs:subPropertyOf cx:numeric ;
+    skos:prefLabel "Höhe"@de,
+        "height"@en .
+
+cx:identification a owl:DatatypeProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    skos:altLabel "Seriennummer"@de,
+        "serial number"@en ;
+    skos:prefLabel "Identifikation"@de,
+        "identification"@en .
+
+cx:isDescribedBy a owl:ObjectProperty ;
+    rdfs:domain cx:Package ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range cx:Instruction ;
+    skos:prefLabel "is described by"@en .
+
+cx:isManufacturedBy a owl:ObjectProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range cx:Company ;
+    skos:prefLabel "is manufactured by"@en .
+
+cx:isPackagedIn a owl:ObjectProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range cx:Package ;
+    skos:prefLabel "is packaged in"@en .
+
+cx:isPartOf a owl:ObjectProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range cx:Vehicle ;
+    skos:prefLabel "is part of"@en .
+
+cx:isProducedIn a owl:ObjectProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range cx:Facility ;
+    skos:prefLabel "is produced in"@en .
+
+cx:isRelatedTo a owl:ObjectProperty ;
+    rdfs:domain cx:Facility ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range cx:Company ;
+    skos:prefLabel "is related to"@en .
+
+cx:issuedBy a owl:ObjectProperty ;
+    rdfs:domain cx:Passport ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range cx:Person ;
+    skos:prefLabel "issued by"@en .
+
+cx:issuedDate a owl:DatatypeProperty ;
+    rdfs:domain cx:Passport ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:timestamp ;
+    rdfs:subPropertyOf cx:date ;
+    skos:prefLabel "Aussstellungsdatum"@de,
+        "issued date"@en .
+
+cx:length a owl:DatatypeProperty ;
+    rdfs:domain cx:PhysicalDimension ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:double ;
+    rdfs:subPropertyOf cx:numeric ;
+    skos:prefLabel "Länge"@de,
+        "length"@en .
+
+cx:location a owl:DatatypeProperty ;
+    rdfs:domain cx:SubstanceOfConcern ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Ort"@de,
+        "location"@en .
+
+cx:mailAddress a owl:DatatypeProperty ;
+    rdfs:domain cx:ContactInformation ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Mail-Adresse"@de,
+        "mail address"@en .
+
+cx:manufacturingDate a owl:DatatypeProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:dateTime ;
+    rdfs:subPropertyOf cx:date ;
+    skos:prefLabel "Herstellungsdatum"@de,
+        "manufacturing date"@en .
+
+cx:materialAmount a owl:DatatypeProperty ;
+    rdfs:domain cx:RecyclateMaterial ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:double ;
+    rdfs:subPropertyOf cx:numeric ;
+    skos:definition "The amount of material recovered from waste  present in the product in percent."@en ;
+    skos:note "unit:percent"@en ;
+    skos:prefLabel "Materialmenge"@de,
+        "material amount"@en .
+
+cx:materialName a owl:DatatypeProperty ;
+    rdfs:domain cx:RecyclateMaterial ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:double ;
+    rdfs:subPropertyOf cx:numeric ;
+    skos:definition "The name of material recovered from waste  present in the product."@en ;
+    skos:note "cobalt, lithium, nickel and lead are a minimum."@en ;
+    skos:prefLabel "Materialname"@de,
+        "material name"@en .
+
+cx:peroid a owl:DatatypeProperty ;
+    rdfs:domain cx:Passport ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf cx:integer ;
+    skos:definition "Period the passport should be avaiable."@en ;
+    skos:prefLabel "Zeitraum"@de,
+        "peroid"@en .
+
+cx:phoneNumber a owl:DatatypeProperty ;
+    rdfs:domain cx:ContactInformation ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:number ;
+    skos:prefLabel "Telefonnummer"@de,
+        "phone number"@en .
+
+cx:remanufacturingStatus a owl:DatatypeProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    skos:definition "First life, second life categorisation."@en ;
+    skos:prefLabel "Wiederaufbereitungsstatus"@de,
+        "remanufacturing status"@en .
+
+cx:stateName a owl:DatatypeProperty ;
+    rdfs:domain cx:PostalAddress ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:name ;
+    skos:prefLabel "Name des Bundeslandes"@de,
+        "state name"@en .
+
+cx:status a owl:DatatypeProperty ;
+    rdfs:domain cx:Passport ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Status"@de,
+        "status"@en .
+
+cx:streetName a owl:DatatypeProperty ;
+    rdfs:domain cx:PostalAddress ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:name ;
+    skos:prefLabel "Straßenname"@de,
+        "street name"@en .
+
+cx:version a owl:DatatypeProperty ;
+    rdfs:domain cx:Passport ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Version"@de,
+        "version"@en .
+
+cx:warrantyPeriod a owl:DatatypeProperty ;
+    rdfs:domain cx:Part ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf cx:integer ;
+    skos:definition "Coomercial warranty period in months."@en ;
+    skos:prefLabel "Garantiezeit"@de,
+        "warranty period"@en .
+
+cx:website a owl:DatatypeProperty ;
+    rdfs:domain cx:ContactInformation ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "Website"@de,
+        "website"@en .
+
+cx:weight a owl:DatatypeProperty ;
+    rdfs:domain cx:PhysicalDimension ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:double ;
+    rdfs:subPropertyOf cx:numeric ;
+    skos:prefLabel "Gewicht"@de,
+        "weight"@en .
+
+cx:width a owl:DatatypeProperty ;
+    rdfs:domain cx:PhysicalDimension ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:double ;
+    rdfs:subPropertyOf cx:numeric ;
+    skos:prefLabel "Breite"@de,
+        "width"@en .
+
+cx:zipCode a owl:DatatypeProperty ;
+    rdfs:domain cx:PostalAddress ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf cx:integer ;
+    skos:prefLabel "Postleitzahl"@de,
+        "zip code"@en .
+
+cx:Person a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    skos:prefLabel "Person"@en .
+
+cx:description a owl:DatatypeProperty ;
+    rdfs:domain cx:Instruction ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:description ;
+    skos:prefLabel "Beschreibung"@de,
+        "description"@en .
+
+cx:hasDisassembly a owl:ObjectProperty ;
+    rdfs:domain cx:Part,
+        cx:SubstanceOfConcern ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range cx:Instruction ;
+    skos:prefLabel "has disassembly"@en .
+
+cx:hasSafety a owl:ObjectProperty ;
+    rdfs:domain cx:Part,
+        cx:SubstanceOfConcern ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range cx:Instruction ;
+    skos:prefLabel "has safety"@en .
+
+cx:Vehicle a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cx:declarationOfConformity ;
+            owl:someValuesFrom xsd:string ] ;
+    skos:prefLabel "Vehicle"@en .
+
+cx:type a owl:DatatypeProperty ;
+    rdfs:domain cx:Instruction,
+        cx:Part ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:integer,
+        xsd:string ;
+    rdfs:subPropertyOf cx:integer,
+        cx:type ;
+    skos:prefLabel "Typ"@de,
+        "type"@en .
+
+cx:Facility a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cx:isRelatedTo ;
+            owl:someValuesFrom cx:Company ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:hasA ;
+            owl:someValuesFrom cx:ContactInformation ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:hasA ;
+            owl:someValuesFrom cx:PostalAddress ] ;
+    skos:prefLabel "Werk"@de,
+        "facility"@en .
+
+cx:Package a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cx:isDescribedBy ;
+            owl:someValuesFrom cx:Instruction ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:has ;
+            owl:someValuesFrom cx:PhysicalDimension ] ;
+    skos:prefLabel "Verpackung"@de,
+        "package"@en .
+
+cx:RecyclateMaterial a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cx:materialName ;
+            owl:someValuesFrom xsd:double ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:materialAmount ;
+            owl:someValuesFrom xsd:double ],
+        cx:Material ;
+    skos:prefLabel "Rezyklat"@de,
+        "recyclate material"@en .
+
+cx:number a owl:DatatypeProperty ;
+    rdfs:domain cx:PostalAddress ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf cx:number ;
+    skos:prefLabel "Nummer"@de,
+        "number"@en .
+
+cx:Company a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cx:hasA ;
+            owl:someValuesFrom cx:ContactInformation ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:eori ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:hasA ;
+            owl:someValuesFrom cx:PostalAddress ] ;
+    skos:prefLabel "Unternehmen"@de,
+        "company"@en .
+
+cx:SubstanceOfConcern a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cx:hasDisassembly ;
+            owl:someValuesFrom cx:Instruction ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:hasSafety ;
+            owl:someValuesFrom cx:Instruction ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:concentration ;
+            owl:someValuesFrom xsd:double ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:location ;
+            owl:someValuesFrom xsd:string ],
+        cx:Material ;
+    skos:prefLabel "Bedenklicher Stoff"@de,
+        "substance of concern"@en .
+
+cx:ContactInformation a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cx:phoneNumber ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:faxNumber ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:mailAddress ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:website ;
+            owl:someValuesFrom xsd:string ] ;
+    skos:prefLabel "Kontaktinformationen"@de,
+        "contact information"@en .
+
+cx:Passport a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cx:version ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:peroid ;
+            owl:someValuesFrom xsd:integer ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:issuedDate ;
+            owl:someValuesFrom xsd:timestamp ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:issuedBy ;
+            owl:someValuesFrom cx:Person ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:status ;
+            owl:someValuesFrom xsd:string ] ;
+    skos:prefLabel "Ausweis"@de,
+        "passport"@en .
+
+cx:hasA a owl:ObjectProperty ;
+    rdfs:domain cx:Company,
+        cx:Facility,
+        cx:Part ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:range cx:ContactInformation,
+        cx:PhysicalDimension,
+        cx:PostalAddress,
+        cx:RecyclateMaterial,
+        cx:SubstanceOfConcern ;
+    skos:prefLabel "has a"@en .
+
+cx:PhysicalDimension a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cx:width ;
+            owl:someValuesFrom xsd:double ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:weight ;
+            owl:someValuesFrom xsd:double ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:length ;
+            owl:someValuesFrom xsd:double ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:diameter ;
+            owl:someValuesFrom xsd:double ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:height ;
+            owl:someValuesFrom xsd:double ] ;
+    skos:prefLabel "Physikalische Dimensionen"@de,
+        "physical dimension"@en .
+
+cx:PostalAddress a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cx:cityName ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:streetName ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:number ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:countryCode ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:stateName ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:countryName ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:zipCode ;
+            owl:someValuesFrom xsd:integer ] ;
+    skos:prefLabel "Postalische Adresse"@de,
+        "postal address"@en .
+
+cx:Instruction a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cx:description ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:type ;
+            owl:someValuesFrom xsd:string ] ;
+    skos:prefLabel "Anweisung"@de,
+        "instruction"@en .
+
+cx:Part a owl:Class ;
+    rdfs:isDefinedBy <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cx:datePlacedOnMarket ;
+            owl:someValuesFrom xsd:dateTime ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:expectedLifetime ;
+            owl:someValuesFrom xsd:integer ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:isPartOf ;
+            owl:someValuesFrom cx:Vehicle ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:manufacturingDate ;
+            owl:someValuesFrom xsd:dateTime ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:isProducedIn ;
+            owl:someValuesFrom cx:Facility ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:hasSafety ;
+            owl:someValuesFrom cx:Instruction ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:type ;
+            owl:someValuesFrom xsd:integer ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:identification ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:hasA ;
+            owl:someValuesFrom cx:PhysicalDimension ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:commodityCode ;
+            owl:someValuesFrom xsd:integer ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:isPackagedIn ;
+            owl:someValuesFrom cx:Package ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:remanufacturingStatus ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:warrantyPeriod ;
+            owl:someValuesFrom xsd:integer ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:globalTradeIdentificationNumber ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:hasA ;
+            owl:someValuesFrom cx:RecyclateMaterial ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:hasA ;
+            owl:someValuesFrom cx:SubstanceOfConcern ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:hasPackaging ;
+            owl:someValuesFrom cx:Instruction ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:isManufacturedBy ;
+            owl:someValuesFrom cx:Company ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:expectedLifetimeUnit ;
+            owl:someValuesFrom xsd:string ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:hasDisassembly ;
+            owl:someValuesFrom cx:Instruction ],
+        [ a owl:Restriction ;
+            owl:onProperty cx:correspondsTo ;
+            owl:someValuesFrom cx:Passport ] ;
+    skos:prefLabel "Bauteil"@de,
+        "part"@en .
+
+<https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/product_pass_ontology.ttl> a owl:Ontology ;
+    dc:creator "Carolin Tröster" ;
+    dc:date "2023-04-20"^^xsd:date ;
+    dc:title "Product Pass Ontology" ;
+    owl:imports <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/material_ontology.ttl>,
+        <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/part_ontology.ttl>,
+        <https://raw.githubusercontent.com/catenax-ng/product-knowledge/main/ontology/vehicle_ontology.ttl> ;
+    owl:versionInfo "1.0.0" .
+
